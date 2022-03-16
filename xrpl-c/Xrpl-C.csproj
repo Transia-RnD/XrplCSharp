@@ -1,0 +1,74 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>xrpl_c</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Ripple-Address-Codec\" />
+    <None Remove="Ripple-Binary-Codec\" />
+    <None Remove="Ripple-Keypairs\" />
+    <None Remove="Xrpl\" />
+    <None Remove="Ripple-Binary-Codec\Binary\" />
+    <None Remove="Ripple-Binary-Codec\Enums\" />
+    <None Remove="Ripple-Binary-Codec\Hashing\" />
+    <None Remove="Ripple-Binary-Codec\Ledger\" />
+    <None Remove="Ripple-Binary-Codec\Properties\" />
+    <None Remove="Ripple-Binary-Codec\ShaMapTree\" />
+    <None Remove="Ripple-Binary-Codec\Transactions\" />
+    <None Remove="Ripple-Binary-Codec\Types\" />
+    <None Remove="Ripple-Binary-Codec\Util\" />
+    <None Remove="Ripple-Keypairs\Ed25519\" />
+    <None Remove="Ripple-Keypairs\K256\" />
+    <None Remove="Ripple-Keypairs\Properties\" />
+    <None Remove="Ripple-Keypairs\RIPEMD160\" />
+    <None Remove="Ripple-Keypairs\Utils\" />
+    <None Remove="Newtonsoft.Json" />
+    <None Remove="BouncyCastle" />
+    <None Remove="Chaos.NaCl" />
+    <None Remove="Xrpl\Wallet\" />
+    <None Remove="Xrpl\Client\" />
+    <None Remove="Xrpl\Client\Exceptions\" />
+    <None Remove="Xrpl\Client\Extensions\" />
+    <None Remove="Xrpl\Client\Json\" />
+    <None Remove="Xrpl\Client\Model\" />
+    <None Remove="Xrpl\Client\Requests\" />
+    <None Remove="Xrpl\Client\Responses\" />
+    <None Remove="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Ripple-Address-Codec\" />
+    <Folder Include="Ripple-Binary-Codec\" />
+    <Folder Include="Ripple-Keypairs\" />
+    <Folder Include="Xrpl\" />
+    <Folder Include="Ripple-Binary-Codec\Binary\" />
+    <Folder Include="Ripple-Binary-Codec\Enums\" />
+    <Folder Include="Ripple-Binary-Codec\Hashing\" />
+    <Folder Include="Ripple-Binary-Codec\Ledger\" />
+    <Folder Include="Ripple-Binary-Codec\Properties\" />
+    <Folder Include="Ripple-Binary-Codec\ShaMapTree\" />
+    <Folder Include="Ripple-Binary-Codec\Transactions\" />
+    <Folder Include="Ripple-Binary-Codec\Types\" />
+    <Folder Include="Ripple-Binary-Codec\Util\" />
+    <Folder Include="Ripple-Keypairs\Ed25519\" />
+    <Folder Include="Ripple-Keypairs\K256\" />
+    <Folder Include="Ripple-Keypairs\Properties\" />
+    <Folder Include="Ripple-Keypairs\RIPEMD160\" />
+    <Folder Include="Ripple-Keypairs\Utils\" />
+    <Folder Include="Xrpl\Wallet\" />
+    <Folder Include="Xrpl\Client\" />
+    <Folder Include="Xrpl\Client\Exceptions\" />
+    <Folder Include="Xrpl\Client\Extensions\" />
+    <Folder Include="Xrpl\Client\Json\" />
+    <Folder Include="Xrpl\Client\Model\" />
+    <Folder Include="Xrpl\Client\Requests\" />
+    <Folder Include="Xrpl\Client\Responses\" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="BouncyCastle" Version="1.8.9" />
+    <PackageReference Include="Chaos.NaCl" Version="1.0.0" />
+  </ItemGroup>
+</Project>

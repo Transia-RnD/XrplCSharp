@@ -1,0 +1,69 @@
+﻿{
+  "account": "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V",
+  "ledger_index_max": 5306536,
+  "ledger_index_min": 5294487,
+  "transactions": [
+    {
+      "meta": {
+        "AffectedNodes": [
+          {
+            "ModifiedNode": {
+              "FinalFields": {
+                "Account": "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT",
+                "Balance": "10013190000",
+                "Flags": 0,
+                "OwnerCount": 0,
+                "Sequence": 2
+              },
+              "LedgerEntryType": "AccountRoot",
+              "LedgerIndex": "98430F87624433A745D429635D1B2B982EF22AC7E4112ACF43DA97AEF258DC76",
+              "PreviousFields": {
+                "Balance": "10012190000"
+              },
+              "PreviousTxnID": "AB8953C6EFD2EBDD5D6314CE0DAFF4CA5B180AE1792B47468ECA5EC5AED28CA4",
+              "PreviousTxnLgrSeq": 5053270
+            }
+          },
+          {
+            "ModifiedNode": {
+              "FinalFields": {
+                "Account": "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V",
+                "Balance": "9986629990",
+                "Flags": 0,
+                "OwnerCount": 1,
+                "Sequence": 19
+              },
+              "LedgerEntryType": "AccountRoot",
+              "LedgerIndex": "CECECAD86B8E831AA8DB7C8AE259D7D5C1B85C6A5FB9A4341CF560DFB8242F10",
+              "PreviousFields": {
+                "Balance": "9987630000",
+                "Sequence": 18
+              },
+              "PreviousTxnID": "AB8953C6EFD2EBDD5D6314CE0DAFF4CA5B180AE1792B47468ECA5EC5AED28CA4",
+              "PreviousTxnLgrSeq": 5053270
+            }
+          }
+        ],
+        "TransactionIndex": 0,
+        "TransactionResult": "tesSUCCESS",
+        "delivered_amount": "1000000"
+      },
+      "tx": {
+        "Account": "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V",
+        "Amount": "1000000",
+        "Destination": "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT",
+        "Fee": "10",
+        "Flags": 2147483648,
+        "Sequence": 18,
+        "SigningPubKey": "024B1C46885AD9DEEE7A413026D74BA6161C2F68FA9BD621022CF34CA00FB6FAEC",
+        "TransactionType": "Payment",
+        "TxnSignature": "304502210097BFE6F7F9442985EDD367C32FCB3439461E3339DD2DE8E63F20E3C543DF48800220649A4CB98E1A12BA3195736ABB1BB04672CE0AB67C57E5C5C1173A79D8B780A2",
+        "date": 567631592,
+        "hash": "A2FEF72CC345A83343EDB0B27FF27E96D5BDB16E1B83E22BE5C776AD29AEF2FA",
+        "inLedger": 5306442,
+        "ledger_index": 5306442
+      },
+      "validated": true
+    }
+  ]
+}
