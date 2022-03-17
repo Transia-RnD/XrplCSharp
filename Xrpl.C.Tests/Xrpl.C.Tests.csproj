@@ -1,0 +1,86 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>xrpl_c_tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Ripple-Address-Codec-Tests\" />
+    <None Remove="Ripple-Binary-Codec-Tests\" />
+    <None Remove="Ripple-Keypairs-Tests\" />
+    <None Remove="Xrpl-Tests\" />
+    <None Remove="Xrpl-Tests\Wallet-Tests\" />
+    <None Remove="Xrpl-Tests\Client-Tests\" />
+    <None Remove="Microsoft.NET.Test.Sdk" />
+    <None Remove="MSTest.TestFramework" />
+    <None Remove="MSTest.TestAdapter" />
+    <None Remove="Flurl.Http" />
+    <None Remove="Newtonsoft.Json" />
+    <None Remove="Ripple-Binary-Codec-Tests\Properties\" />
+    <None Remove="Ripple-Binary-Codec-Tests\Transactions\" />
+    <None Remove="Ripple-Keypairs-Tests\Properties\" />
+    <None Remove="Xrpl-Tests\Client-Tests\Properties\" />
+    <None Remove="Xrpl-Tests\Client-Tests\TestData\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Ripple.Address.Codec.Tests\" />
+    <Folder Include="Ripple.Binary.Codec.Tests\" />
+    <Folder Include="Ripple.Keypairs.Tests\" />
+    <Folder Include="Xrpl.Tests\" />
+    <Folder Include="Xrpl.Tests\Wallet.Tests\" />
+    <Folder Include="Xrpl.Tests\Client.Tests\" />
+    <Folder Include="Ripple.Binary.Codec.Tests\Properties\" />
+    <Folder Include="Ripple.Binary.Codec.Tests\Transactions\" />
+    <Folder Include="Ripple.Keypairs.Tests\Properties\" />
+    <Folder Include="Xrpl.Tests\Client.Tests\Properties\" />
+    <Folder Include="Xrpl.Tests\Client.Tests\TestData\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
+    <PackageReference Include="Flurl.Http" Version="3.2.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\xrpl-c\Xrpl.C.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Ripple-Binary-Codec-Tests\Properties\Resources.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Ripple-Binary-Codec-Tests\Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Ripple-Keypairs-Tests\Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Xrpl-Tests\Client-Tests\Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Ripple.Binary.Codec.Tests\Properties\Resources.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Ripple.Keypairs.Tests\Properties\Resources.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Xrpl.Tests\Client.Tests\Properties\Resources.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Ripple.Binary.Codec.Tests\Properties\Resources.Designer.cs" />
+    <Compile Update="Ripple.Keypairs.Tests\Properties\Resources.Designer.cs" />
+    <Compile Update="Xrpl.Tests\Client.Tests\Properties\Resources.Designer.cs" />
+  </ItemGroup>
+</Project>

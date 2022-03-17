@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.810.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrpl-c", "xrpl-c\xrpl-c.csproj", "{06B5272A-3A5C-4E3C-9198-7B9C0B455375}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrpl.C", "xrpl-c\Xrpl.C.csproj", "{06B5272A-3A5C-4E3C-9198-7B9C0B455375}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xrpl-c-tests", "xrpl-c-tests\xrpl-c-tests.csproj", "{016A5A97-6683-43F9-95BC-1A2123306EB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrpl.C.Tests", "xrpl-c-tests\Xrpl.C.Tests.csproj", "{016A5A97-6683-43F9-95BC-1A2123306EB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
