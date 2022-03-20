@@ -269,19 +269,19 @@ namespace Xrpl.Client.Tests
         [TestMethod]
         public async Task CanDeleteTrust()
         {
-            AccountInfo accountInfo = await client.AccountInfo("rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7");
+            AccountInfo accountInfo = await client.AccountInfo("r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs");
 
             ITrustSetTransaction trustSet = new TrustSetTransaction();
             trustSet.Flags = TrustSetFlags.tfSetNoRipple;
-            trustSet.Account = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
-            trustSet.LimitAmount = new Currency {ValueAsNumber = 0, Issuer = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7", CurrencyCode = "XYZ"};
+            trustSet.Account = "r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs";
+            trustSet.LimitAmount = new Currency {Value = "0", Issuer = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7", CurrencyCode = "XYZ"};
             trustSet.QualityIn = 0;
             trustSet.QualityOut = 0;
             trustSet.Sequence = accountInfo.AccountData.Sequence;
             trustSet.Fee = new Currency {Value = "12"};
 
             var json = trustSet.ToJson();
-            TxSigner signer = TxSigner.FromSecret("shqqJc2dqXzB6dEhLDBrVRBPkUQVd");
+            TxSigner signer = TxSigner.FromSecret("sEdTd6ponfrJs5FE9w1unefuYYjb7ue");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
@@ -294,31 +294,31 @@ namespace Xrpl.Client.Tests
 
         }
 
-        [TestMethod]
-        public async Task CanReleaseEscrow()
-        {
-            AccountInfo accountInfo = await client.AccountInfo("rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7");
+        //[TestMethod]
+        //public async Task CanReleaseEscrow()
+        //{
+        //    AccountInfo accountInfo = await client.AccountInfo("r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs");
 
-            IEscrowFinishTransaction escrowFinishTransaction = new EscrowFinishTransaction();
-            escrowFinishTransaction.Account = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
-            escrowFinishTransaction.Owner = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
-            escrowFinishTransaction.OfferSequence = 10;
-            escrowFinishTransaction.Fee = new Currency{Value = "15"};
-            escrowFinishTransaction.Sequence = accountInfo.AccountData.Sequence;
+        //    IEscrowFinishTransaction escrowFinishTransaction = new EscrowFinishTransaction();
+        //    escrowFinishTransaction.Account = "r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs";
+        //    escrowFinishTransaction.Owner = "r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs";
+        //    escrowFinishTransaction.OfferSequence = 10;
+        //    escrowFinishTransaction.Fee = new Currency{Value = "15"};
+        //    escrowFinishTransaction.Sequence = accountInfo.AccountData.Sequence;
 
-            var json = escrowFinishTransaction.ToJson();
-            TxSigner signer = TxSigner.FromSecret("shqqJc2dqXzB6dEhLDBrVRBPkUQVd");
-            SignedTx signedTx = signer.SignJson(JObject.Parse(json));
+        //    var json = escrowFinishTransaction.ToJson();
+        //    TxSigner signer = TxSigner.FromSecret("sEdTd6ponfrJs5FE9w1unefuYYjb7ue");
+        //    SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
-            SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+        //    SubmitBlobRequest request = new SubmitBlobRequest();
+        //    request.TransactionBlob = signedTx.TxBlob;
 
-            Submit result = await client.SubmitTransactionBlob(request);
-            Assert.IsNotNull(result);
-            Assert.AreEqual("tesSUCCESS", result.EngineResult);
-            Assert.IsNotNull(result.Transaction.Hash);
+        //    Submit result = await client.SubmitTransactionBlob(request);
+        //    Assert.IsNotNull(result);
+        //    Assert.AreEqual("tesSUCCESS", result.EngineResult);
+        //    Assert.IsNotNull(result.Transaction.Hash);
 
-        }
+        //}
 
         [TestMethod]
         public async Task CanCreateEscrow()
@@ -349,33 +349,33 @@ namespace Xrpl.Client.Tests
             Assert.IsNotNull(result.Transaction.Hash);
         }
 
-        [TestMethod]
-        public async Task CanFinishEscrow()
-        {
-            IRippleClient rippleClient = new RippleClient("wss://s.altnet.rippletest.net:51233");
-            rippleClient.Connect();
+        //[TestMethod]
+        //public async Task CanFinishEscrow()
+        //{
+        //    IRippleClient rippleClient = new RippleClient("wss://s.altnet.rippletest.net:51233");
+        //    rippleClient.Connect();
 
-            AccountInfo accountInfo = await rippleClient.AccountInfo("rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7");
+        //    AccountInfo accountInfo = await rippleClient.AccountInfo("r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs");
 
-            IEscrowFinishTransaction finishTransaction = new EscrowFinishTransaction();
-            finishTransaction.Account = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
-            finishTransaction.Owner = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
-            finishTransaction.OfferSequence = 29;
-            finishTransaction.Fee = new Currency { Value = "11" };
-            finishTransaction.Sequence = accountInfo.AccountData.Sequence;
+        //    IEscrowFinishTransaction finishTransaction = new EscrowFinishTransaction();
+        //    finishTransaction.Account = "r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs";
+        //    finishTransaction.Owner = "r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs";
+        //    finishTransaction.OfferSequence = 29;
+        //    finishTransaction.Fee = new Currency { Value = "11" };
+        //    finishTransaction.Sequence = accountInfo.AccountData.Sequence;
 
-            var json = finishTransaction.ToJson();
-            TxSigner signer = TxSigner.FromSecret("shqqJc2dqXzB6dEhLDBrVRBPkUQVd");
-            SignedTx signedTx = signer.SignJson(JObject.Parse(json));
+        //    var json = finishTransaction.ToJson();
+        //    TxSigner signer = TxSigner.FromSecret("sEdTd6ponfrJs5FE9w1unefuYYjb7ue");
+        //    SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
-            SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+        //    SubmitBlobRequest request = new SubmitBlobRequest();
+        //    request.TransactionBlob = signedTx.TxBlob;
 
-            Submit result = await rippleClient.SubmitTransactionBlob(request);
-            Assert.IsNotNull(result);
-            Assert.AreEqual("tesSUCCESS", result.EngineResult);
-            Assert.IsNotNull(result.Transaction.Hash);
-        }
+        //    Submit result = await rippleClient.SubmitTransactionBlob(request);
+        //    Assert.IsNotNull(result);
+        //    Assert.AreEqual("tesSUCCESS", result.EngineResult);
+        //    Assert.IsNotNull(result.Transaction.Hash);
+        //}
 
         // NFT Functions
 
