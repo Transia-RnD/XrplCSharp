@@ -456,7 +456,6 @@ namespace Xrpl.Client.Tests
 
         }
 
-        [TestMethod]
         public async Task CanSetSellOfferOnToken()
         {
 
@@ -485,7 +484,6 @@ namespace Xrpl.Client.Tests
 
         }
 
-        [TestMethod]
         public async Task CanSetBuyOfferOnToken()
         {
 
@@ -513,7 +511,6 @@ namespace Xrpl.Client.Tests
 
         }
 
-        [TestMethod]
         public async Task CanCancelOfferOnToken()
         {
 
@@ -539,7 +536,6 @@ namespace Xrpl.Client.Tests
 
         }
 
-        [TestMethod]
         public async Task CanAcceptOfferOnToken()
         {
 
