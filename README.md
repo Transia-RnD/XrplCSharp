@@ -105,32 +105,34 @@ Debug.WriteLine(signer);
 # classic_address: rG5ZvYsK5BPi9f1Nb8mhFGDTNMJhEhufn6
 ```
 
-To create a wallet from a Testnet faucet:
+<!-- To create a wallet from a Testnet faucet:
 
 ```csharp
 test_wallet = SOON
 test_account = test_wallet.classic_address
 Debug.WriteLine(test_account);
 # Classic address: rEQB2hhp3rg7sHj6L8YyR4GG47Cb7pfcuw
-```
+``` -->
 
-#### `Xrpl.Core.Keypairs`
+#### `Ripple.Keypairs`
 
-Use the [`xrpl.core.keypairs`](https://xrpl-c.readthedocs.io/en/stable/source/xrpl.core.keypairs.html#module-xrpl.core.keypairs) module to generate seeds and derive keypairs and addresses from those seed values.
+Use the [`Ripple.Keypairs`](https://xrpl-c.readthedocs.io/en/stable/source/xrpl.core.keypairs.html#module-xrpl.core.keypairs) module to generate seeds and derive keypairs and addresses from those seed values.
 
 Here's an example of how to generate a `seed` value and derive an [XRP Ledger "classic" address](https://xrpl.org/cryptographic-keys.html#account-id-and-address) from that seed.
 
 
 ```csharp
-from xrpl.core import keypairs
-seed = keypairs.generate_seed()
-public, private = keypairs.derive_keypair(seed)
-test_account = keypairs.derive_classic_address(public)
+using Ripple.Keypairs;
+Seed seed = Seed.FromRandom();
+KeyPair pair = seed.KeyPair();
+string public = pair.Id();
+string private = seed.ToString();
+Debug.WriteLine("Here's the public key:");
 print("Here's the public key:")
-print(public)
-print("Here's the private key:")
-print(private)
-print("Store this in a secure place!")
+Debug.WriteLine(public);
+Debug.WriteLine("Here's the private key:");
+Debug.WriteLine(private);
+Debug.WriteLine("Store this in a secure place!");
 # Here's the public key:
 # ED3CC1BBD0952A60088E89FA502921895FC81FBD79CAE9109A8FE2D23659AD5D56
 # Here's the private key:
@@ -138,65 +140,64 @@ print("Store this in a secure place!")
 # Store this in a secure place!
 ```
 
-**Note:** You can use `xrpl.core.keypairs.sign` to sign transactions but `xrpl-py` also provides explicit methods for safely signing and submitting transactions. See [Transaction Signing](#transaction-signing) and [XRPL Transaction Methods](https://xrpl-py.readthedocs.io/en/stable/source/xrpl.transaction.html#module-xrpl.transaction) for more information.
+**Note:** You can use `Ripple.Keypairs` to sign transactions but `xrpl.c` also provides explicit methods for safely signing and submitting transactions. See [Transaction Signing](#transaction-signing) and [XRPL Transaction Methods](https://xrpl.c.readthedocs.io/en/stable/source/xrpl.transaction.html#module-xrpl.transaction) for more information.
 
 
 ### Serialize and sign transactions
 
-To securely submit transactions to the XRP Ledger, you need to first serialize data from JSON and other formats into the [XRP Ledger's canonical format](https://xrpl.org/serialization.html), then to [authorize the transaction](https://xrpl.org/transaction-basics.html#authorizing-transactions) by digitally [signing it](https://xrpl-py.readthedocs.io/en/stable/source/xrpl.core.keypairs.html?highlight=sign#xrpl.core.keypairs.sign) with the account's private key. The `xrpl-py` library provides several methods to simplify this process.
+To securely submit transactions to the XRP Ledger, you need to first serialize data from JSON and other formats into the [XRP Ledger's canonical format](https://xrpl.org/serialization.html), then to [authorize the transaction](https://xrpl.org/transaction-basics.html#authorizing-transactions) by digitally [signing it](https://xrpl.c.readthedocs.io/en/stable/source/xrpl.core.keypairs.html?highlight=sign#xrpl.core.keypairs.sign) with the account's private key. The `xrpl.c` library provides several methods to simplify this process.
 
 
-Use the [`xrpl.transaction`](https://xrpl-py.readthedocs.io/en/stable/source/xrpl.transaction.html) module to sign and submit transactions. The module offers three ways to do this:
+Use the [`xrpl.transaction`](https://xrpl.c.readthedocs.io/en/stable/source/xrpl.transaction.html) module to sign and submit transactions. The module offers three ways to do this:
 
-* [`safe_sign_and_submit_transaction`](https://xrpl-py.readthedocs.io/en/stable/source/xrpl.transaction.html#xrpl.transaction.safe_sign_and_submit_transaction) — Signs a transaction locally, then submits it to the XRP Ledger. This method does not implement [reliable transaction submission](https://xrpl.org/reliable-transaction-submission.html#reliable-transaction-submission) best practices, so only use it for development or testing purposes.
+* [`safe_sign_and_submit_transaction`](https://xrpl.c.readthedocs.io/en/stable/source/xrpl.transaction.html#xrpl.transaction.safe_sign_and_submit_transaction) — Signs a transaction locally, then submits it to the XRP Ledger. This method does not implement [reliable transaction submission](https://xrpl.org/reliable-transaction-submission.html#reliable-transaction-submission) best practices, so only use it for development or testing purposes.
 
-* [`safe_sign_transaction`](https://xrpl-py.readthedocs.io/en/stable/source/xrpl.transaction.html#xrpl.transaction.safe_sign_transaction) — Signs a transaction locally. This method **does  not** submit the transaction to the XRP Ledger.
+* [`safe_sign_transaction`](https://xrpl.c.readthedocs.io/en/stable/source/xrpl.transaction.html#xrpl.transaction.safe_sign_transaction) — Signs a transaction locally. This method **does  not** submit the transaction to the XRP Ledger.
 
-* [`send_reliable_submission`](https://xrpl-py.readthedocs.io/en/stable/source/xrpl.transaction.html#xrpl.transaction.send_reliable_submission) — An implementation of the [reliable transaction submission guidelines](https://xrpl.org/reliable-transaction-submission.html#reliable-transaction-submission), this method submits a signed transaction to the XRP Ledger and then verifies that it has been included in a validated ledger (or has failed to do so). Use this method to submit transactions for production purposes.
+* [`send_reliable_submission`](https://xrpl.c.readthedocs.io/en/stable/source/xrpl.transaction.html#xrpl.transaction.send_reliable_submission) — An implementation of the [reliable transaction submission guidelines](https://xrpl.org/reliable-transaction-submission.html#reliable-transaction-submission), this method submits a signed transaction to the XRP Ledger and then verifies that it has been included in a validated ledger (or has failed to do so). Use this method to submit transactions for production purposes.
 
 
 ```csharp
-from xrpl.models.transactions import Payment
-from xrpl.transaction import safe_sign_transaction, send_reliable_submission
-from xrpl.ledger import get_latest_validated_ledger_sequence
-from xrpl.account import get_next_valid_seq_number
+using Xrpl.Client.Model.Account;
+using Xrpl.Client.Requests.Account;
+using Xrpl.Client.Model.Transaction;
 
-current_validated_ledger = get_latest_validated_ledger_sequence(client)
-test_wallet.sequence = get_next_valid_seq_number(test_wallet.classic_address, client)
+AccountInfo accountInfo = await client.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
 
 # prepare the transaction
 # the amount is expressed in drops, not XRP
 # see https://xrpl.org/basic-data-types.html#specifying-currency-amounts
-my_tx_payment = Payment(
-    account=test_wallet.classic_address,
-    amount="2200000",
-    destination="rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe",
-    last_ledger_sequence=current_validated_ledger + 20,
-    sequence=test_wallet.sequence,
-    fee="10",
-)
+IPaymentTransaction paymentTransaction = new PaymentTransaction();
+paymentTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
+paymentTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
+paymentTransaction.Amount = new Currency { ValueAsXrp = 1 };
+paymentTransaction.Sequence = accountInfo.AccountData.Sequence;
+
 # sign the transaction
-my_tx_payment_signed = safe_sign_transaction(my_tx_payment,test_wallet)
+TxSigner signer = TxSigner.FromSecret("xxxxxxx");  //secret is not sent to server, offline signing only
+SignedTx signedTx = signer.SignJson(JObject.Parse(paymentTransaction.ToJson()));
 
 # submit the transaction
-tx_response = send_reliable_submission(my_tx_payment_signed, client)
+SubmitBlobRequest request = new SubmitBlobRequest();
+request.TransactionBlob = signedTx.TxBlob;
+
+Submit result = await client.SubmitTransactionBlob(request);
 ```
 
 #### Get fee from the XRP Ledger
 
 
-In most cases, you can specify the minimum [transaction cost](https://xrpl.org/transaction-cost.html#current-transaction-cost) of `"10"` for the `fee` field unless you have a strong reason not to. But if you want to get the [current load-balanced transaction cost](https://xrpl.org/transaction-cost.html#current-transaction-cost) from the network, you can use the `get_fee` function:
+In most cases, you can specify the minimum [transaction cost](https://xrpl.org/transaction-cost.html#current-transaction-cost) of `"10"` for the `fee` field unless you have a strong reason not to. But if you want to get the [current load-balanced transaction cost](https://xrpl.org/transaction-cost.html#current-transaction-cost) from the network, you can use the `Fees` function:
 
 ```csharp
-from xrpl.ledger import get_fee
-fee = get_fee(client)
-print(fee)
+Fee fee = await client.Fees();
+Debug.WriteLine(fee);
 # 10
 ```
 
-#### Auto-filled fields
+<!-- #### Auto-filled fields
 
-The `xrpl-py` library automatically populates the `fee`, `sequence` and `last_ledger_sequence` fields when you create transactions. In the example above, you could omit those fields and let the library fill them in for you.
+The `xrpl.c` library automatically populates the `fee`, `sequence` and `last_ledger_sequence` fields when you create transactions. In the example above, you could omit those fields and let the library fill them in for you.
 
 ```csharp
 from xrpl.models.transactions import Payment
@@ -238,7 +239,7 @@ print(my_tx_payment_signed)
 
 # submit the transaction
 tx_response = send_reliable_submission(my_tx_payment_signed, client)
-```
+``` -->
 
 
 <!-- ### Subscribe to ledger updates
@@ -303,52 +304,3 @@ The `xrpl.c` library is licensed under the ISC License. See [LICENSE] for more i
 
 [CONTRIBUTING.md]: CONTRIBUTING.md
 [LICENSE]: LICENSE
-
-
-
-
-```csharp
-IRippleClient client = new RippleClient("wss://s.altnet.rippletest.net:51233");
-client.Connect();
-
-IPaymentTransaction paymentTransaction = new PaymentTransaction();
-paymentTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
-paymentTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
-paymentTransaction.Amount = new Currency { CurrencyCode = "XRP", Value = "100000" };
-
-SubmitRequest request = new SubmitRequest();
-request.Transaction = paymentTransaction;
-request.Offline = false;
-request.Secret = "xxxxxxx";
-
-Submit result = await client.SubmitTransaction(request);
-
-client.Disconnect();
-```
-
-### Send A Payment using Offline Signing
-
-TxSigner is a class from [ripple-netcore](https://github.com/chriswill/ripple-netcore), mentioned above.
-
-```csharp
-IRippleClient client = new RippleClient("wss://s.altnet.rippletest.net:51233");
-client.Connect();
-
-AccountInfo accountInfo = await client.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
-
-IPaymentTransaction paymentTransaction = new PaymentTransaction();
-paymentTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
-paymentTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
-paymentTransaction.Amount = new Currency { ValueAsXrp = 1 };
-paymentTransaction.Sequence = accountInfo.AccountData.Sequence;
-
-TxSigner signer = TxSigner.FromSecret("xxxxxxx");  //secret is not sent to server, offline signing only
-SignedTx signedTx = signer.SignJson(JObject.Parse(paymentTransaction.ToJson()));
-
-SubmitBlobRequest request = new SubmitBlobRequest();
-request.TransactionBlob = signedTx.TxBlob;
-
-Submit result = await client.SubmitTransactionBlob(request);
-
-client.Disconnect();
-```

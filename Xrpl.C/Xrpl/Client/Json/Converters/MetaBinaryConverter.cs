@@ -18,6 +18,7 @@ namespace Xrpl.Client.Json.Converters
             if (reader.TokenType == JsonToken.Null)
                 return null;
             Meta meta = new Meta();
+            meta = serializer.Deserialize<Meta>(reader);
             if (reader.TokenType == JsonToken.String)
             {
                 meta.MetaBlob = reader.Value.ToString();

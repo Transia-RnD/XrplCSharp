@@ -43,7 +43,7 @@ namespace Ripple.Binary.Codec.ShaMapTree
 
         public static TransactionResult FromJson(JToken obj)
         {
-            return new TransactionResult(obj, obj["metaData"]);
+            return new TransactionResult(obj, obj["meta"]);
         }
 
         public Hash256 Hash()

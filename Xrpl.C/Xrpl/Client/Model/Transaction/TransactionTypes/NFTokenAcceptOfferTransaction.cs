@@ -12,8 +12,6 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
             TransactionType = TransactionType.NFTokenAcceptOffer;
         }
 
-        //public string Account { get; set; } // INHEIRTED FROM COMMON
-
         public string TokenID { get; set; }
     }
 }

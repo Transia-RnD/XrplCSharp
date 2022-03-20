@@ -76,6 +76,7 @@ namespace Ripple.Binary.Codec.Enums
         public static readonly LedgerEntryTypeField LedgerEntryType = new LedgerEntryTypeField(nameof(LedgerEntryType), 1);
         public static readonly TransactionTypeField TransactionType = new TransactionTypeField(nameof(TransactionType), 2);
         public static readonly Uint16Field SignerWeight = new Uint16Field(nameof(SignerWeight), 3);
+        public static readonly Uint16Field TransferFee = new Uint16Field(nameof(TransferFee), 4);
 
         public static readonly Uint32Field Flags = new Uint32Field(nameof(Flags), 2);
         public static readonly Uint32Field SourceTag = new Uint32Field(nameof(SourceTag), 3);
@@ -134,7 +135,6 @@ namespace Ripple.Binary.Codec.Enums
         public static readonly Uint64Field HighNode = new Uint64Field(nameof(HighNode), 8);
 
         public static readonly Hash128Field EmailHash = new Hash128Field(nameof(EmailHash), 1);
-
         public static readonly Hash256Field LedgerHash = new Hash256Field(nameof(LedgerHash), 1);
         public static readonly Hash256Field ParentHash = new Hash256Field(nameof(ParentHash), 2);
         public static readonly Hash256Field TransactionHash = new Hash256Field(nameof(TransactionHash), 3);
@@ -161,6 +161,7 @@ namespace Ripple.Binary.Codec.Enums
         public static readonly Hash256Field hash = new Hash256Field(nameof(hash), 257);
         // ReSharper disable once InconsistentNaming
         public static readonly Hash256Field index = new Hash256Field(nameof(index), 258);
+        public static readonly Hash256Field TokenID = new Hash256Field(nameof(TokenID), 10);
 
         public static readonly AmountField Amount = new AmountField(nameof(Amount), 1);
         public static readonly AmountField Balance = new AmountField(nameof(Balance), 2);
@@ -192,7 +193,7 @@ namespace Ripple.Binary.Codec.Enums
 
         // ReSharper disable once RedundantArgumentNameForLiteralExpression
         public static readonly BlobField TxnSignature = new BlobField(nameof(TxnSignature), 4, isSigningField:false);
-        public static readonly BlobField Generator = new BlobField(nameof(Generator), 5);
+        public static readonly BlobField URI = new BlobField(nameof(URI), 5);
         public static readonly BlobField Signature = new BlobField(nameof(Signature), 6);
         public static readonly BlobField Domain = new BlobField(nameof(Domain), 7);
         public static readonly BlobField FundCode = new BlobField(nameof(FundCode), 8);

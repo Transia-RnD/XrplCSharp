@@ -43,7 +43,7 @@ namespace Xrpl.Client.Responses.Transaction.TransactionTypes
         [JsonProperty("TxnSignature")]
         public string TransactionSignature { get; set; }
 
-        [JsonProperty("metaData")]
+        [JsonProperty("meta")]
         public Meta Meta { get; set; }
 
         public string ToJson()

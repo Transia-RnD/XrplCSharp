@@ -50,7 +50,7 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
         [JsonProperty("TxnSignature")]
         public string TransactionSignature { get; set; }
 
-        [JsonProperty("metaData")]
+        [JsonProperty("meta")]
         public Meta Meta { get; set; }      
 
         public string ToJson()
@@ -134,6 +134,8 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
         public Currency LowLimit { get; set; }
 
         public string LowNode { get; set; }
+
+        public List<NonFungibleToken> NonFungibleTokens { get; set; }
     }
 
     public class PreviousFields
@@ -151,6 +153,13 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
         public NodeInfo DeletedNode { get; set; }
 
         public NodeInfo ModifiedNode { get; set; }
+    }
+
+    public class NonFungibleToken
+    {
+        public string TokenID { get; set; }
+
+        public string URI { get; set; }
     }
 
     public class NodeInfo

@@ -3987,7 +3987,7 @@
    "transactions" : [
       {
          "Flags" : 0,
-         "metaData" : {
+         "meta" : {
             "TransactionIndex" : 0,
             "TransactionResult" : "tesSUCCESS",
             "AffectedNodes" : [

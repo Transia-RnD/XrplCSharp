@@ -16,9 +16,9 @@ namespace Xrpl.Client.Tests
     public class AccountTests
     {
         private static string account;
-        private static string xls20Account = "rYTGjwGcbGRgxrdL3jBy62jnWtdV8UUmh";
+        private static string xls20Account = "rUBarUhzvWdPEM7cJJdYzCAXvX6i5EDEVS";
 
-        //private static string tokenid = "";
+        private static string tokenid = "000900007A91B8433CA1328487EF1415E531D4EE20F5952C0000099B00000000";
 
         private static IRippleClient client;
         private static IRippleClient xls20client;
@@ -73,15 +73,15 @@ namespace Xrpl.Client.Tests
         public async Task CanGetAccountLines()
         {
             var accountLines = await client.AccountLines(account);
-            Assert.IsNotNull(accountLines);           
+            Assert.IsNotNull(accountLines);
         }
 
-        //[TestMethod]
-        //public async Task CanGetAccountNFTs()
-        //{
-        //    AccountNFTs accountNfts = await xls20client.AccountNFTs(xls20Account);
-        //    Assert.AreNotEqual(accountNfts.NFTs.Count, 0);
-        //}
+        [TestMethod]
+        public async Task CanGetAccountNFTs()
+        {
+            AccountNFTs accountNfts = await xls20client.AccountNFTs(xls20Account);
+            Assert.IsNotNull(accountNfts);
+        }
 
         [TestMethod]
         public async Task CanGetAccountOffers()
@@ -90,19 +90,19 @@ namespace Xrpl.Client.Tests
             Assert.IsNotNull(accountOffers);
         }
 
-        //[TestMethod]
-        //public async Task CanGetNFTBuyOffers()
-        //{
-        //    var nftBuyOffers = await xls20client.NFTBuyOffers(tokenid);
-        //    Assert.IsNotNull(nftBuyOffers);
-        //}
+        [TestMethod]
+        public async Task CanGetNFTBuyOffers()
+        {
+            var nftBuyOffers = await xls20client.NFTBuyOffers(tokenid);
+            Assert.IsNotNull(nftBuyOffers);
+        }
 
-        //[TestMethod]
-        //public async Task CanGetNFTSellOffers()
-        //{
-        //    var nftSellOffers = await xls20client.NFTSellOffers(tokenid);
-        //    Assert.IsNotNull(nftSellOffers);
-        //}
+        [TestMethod]
+        public async Task CanGetNFTSellOffers()
+        {
+            var nftSellOffers = await xls20client.NFTSellOffers(tokenid);
+            Assert.IsNotNull(nftSellOffers);
+        }
 
         [TestMethod]
         public async Task CanGetAccountObjects()

@@ -128,6 +128,33 @@ namespace Ripple.Binary.Codec.Transactions
                 {                    
                     [Field.OfferSequence] = Requirement.Required
                 },
+                [TransactionType.NFTokenMint] = new TxFormat
+                {
+                    [Field.TokenTaxon] = Requirement.Required,
+                    [Field.Issuer] = Requirement.Optional,
+                    [Field.TransferFee] = Requirement.Optional,
+                    [Field.URI] = Requirement.Optional
+                },
+                [TransactionType.NFTokenBurn] = new TxFormat
+                {
+                    [Field.TokenID] = Requirement.Required
+                },
+                [TransactionType.NFTokenCreateOffer] = new TxFormat
+                {
+                    [Field.TokenID] = Requirement.Required,
+                    [Field.Amount] = Requirement.Required,
+                    [Field.Owner] = Requirement.Optional,
+                    [Field.Destination] = Requirement.Optional,
+                    [Field.Expiration] = Requirement.Optional
+                },
+                [TransactionType.NFTokenCancelOffer] = new TxFormat
+                {
+                    [Field.TokenOffers] = Requirement.Required
+                },
+                [TransactionType.NFTokenAcceptOffer] = new TxFormat
+                {
+                    [Field.TokenID] = Requirement.Required
+                },
                 [TransactionType.SetRegularKey] = new TxFormat
                 {
                     [Field.RegularKey] = Requirement.Optional

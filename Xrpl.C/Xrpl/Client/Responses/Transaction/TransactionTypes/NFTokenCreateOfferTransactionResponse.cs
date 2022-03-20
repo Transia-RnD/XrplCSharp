@@ -16,7 +16,8 @@ namespace Xrpl.Client.Responses.Transaction.TransactionTypes
 
         public string TokenID { get; set; }
 
-        public string Amount { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount { get; set; }
 
         public string Owner { get; set; }
 
