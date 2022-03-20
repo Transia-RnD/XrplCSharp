@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>xrpl_c</RootNamespace>
     <PackOnBuild>true</PackOnBuild>
     <Authors>Chris WIll, Denis Angell</Authors>
@@ -50,6 +50,7 @@
     <None Remove="Properties\" />
     <None Remove="Portable.BouncyCastle" />
     <None Remove="Chaos.NaCl.Standard" />
+    <None Remove="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Ripple.Address.Codec\" />
@@ -84,5 +85,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
     <PackageReference Include="Chaos.NaCl.Standard" Version="1.0.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
 </Project>
