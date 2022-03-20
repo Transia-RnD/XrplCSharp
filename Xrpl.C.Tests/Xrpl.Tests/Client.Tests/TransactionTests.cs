@@ -457,33 +457,6 @@ namespace Xrpl.Client.Tests
 
         }
 
-        public async Task CanMintToken()
-        {
-
-            AccountInfo accountInfo = await xls20client.AccountInfo("rUBarUhzvWdPEM7cJJdYzCAXvX6i5EDEVS");
-
-            INFTokenMintTransaction mintToken = new NFTokenMintTransaction();
-            mintToken.Sequence = accountInfo.AccountData.Sequence;
-            mintToken.TokenTaxon = 0;
-            mintToken.URI = "697066733a2f2f516d516a447644686648634d7955674441784b696734416f4d547453354a72736670694545704661334639515274";
-            mintToken.Account = "rUBarUhzvWdPEM7cJJdYzCAXvX6i5EDEVS";
-
-            var json = mintToken.ToJson();
-            TxSigner signer = TxSigner.FromSecret("shMg6csovdC3GzZKrYkmKze9P3K5n");
-            System.Diagnostics.Debug.WriteLine(signer.ToString());
-            SignedTx signedTx = signer.SignJson(JObject.Parse(json));
-
-            SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
-
-            Submit result = await xls20client.SubmitTransactionBlob(request);
-            Assert.IsNotNull(result);
-            Assert.AreEqual("tesSUCCESS", result.EngineResult);
-            Assert.IsNotNull(result.Transaction.Hash);
-            tokenID = "000000007A91B8433CA1328487EF1415E531D4EE20F5952C16E5DA9C00000002";
-
-        }
-
         [TestMethod]
         public async Task CanSetSellOfferOnToken()
         {
