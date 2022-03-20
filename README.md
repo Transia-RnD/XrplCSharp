@@ -307,7 +307,7 @@ The `xrpl.c` library is licensed under the ISC License. See [LICENSE] for more i
 
 ## Repository Credit
 
-The credit of this repository goes to Chris Will.
+The credit of this repository goes to Chris Williams.
 
 https://github.com/chriswill
 
