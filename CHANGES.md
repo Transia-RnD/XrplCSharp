@@ -1,4 +1,8 @@
 # Changes
 
-### 1.0.0 3/20/2022
+### 1.0.0 3/19/2022
 * Initial publication of Nuget package.
+
+
+### 1.0.0 3/20/2022
+* NFT Support.
