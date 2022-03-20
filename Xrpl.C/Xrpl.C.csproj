@@ -5,6 +5,9 @@
     <RootNamespace>xrpl_c</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
     <None Remove="Ripple-Address-Codec\" />
     <None Remove="Ripple-Binary-Codec\" />
@@ -36,6 +39,7 @@
     <None Remove="Xrpl\Client\Requests\" />
     <None Remove="Xrpl\Client\Responses\" />
     <None Remove="Properties\" />
+    <None Remove="Portable.BouncyCastle" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Ripple.Address.Codec\" />
@@ -68,7 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="BouncyCastle" Version="1.8.9" />
     <PackageReference Include="Chaos.NaCl" Version="1.0.0" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
   </ItemGroup>
 </Project>

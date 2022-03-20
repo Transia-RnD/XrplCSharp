@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrpl.C", "Xrpl.C\Xrpl.C.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrpl.C.Tests", "Xrpl.C.Tests\Xrpl.C.Tests.csproj", "{016A5A97-6683-43F9-95BC-1A2123306EB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chaos.NaCl", "..\ripple-netcore\src\Chaos.NaCl\Chaos.NaCl.csproj", "{1C0694C6-D932-4AEA-8811-5F48E87A4D0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{016A5A97-6683-43F9-95BC-1A2123306EB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{016A5A97-6683-43F9-95BC-1A2123306EB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{016A5A97-6683-43F9-95BC-1A2123306EB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C0694C6-D932-4AEA-8811-5F48E87A4D0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C0694C6-D932-4AEA-8811-5F48E87A4D0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C0694C6-D932-4AEA-8811-5F48E87A4D0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C0694C6-D932-4AEA-8811-5F48E87A4D0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
