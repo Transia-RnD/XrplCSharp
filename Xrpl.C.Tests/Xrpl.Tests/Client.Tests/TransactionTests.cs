@@ -422,7 +422,6 @@ namespace Xrpl.Client.Tests
 
             Assert.IsNotNull(transaction.Meta);
             Assert.IsNotNull(result.Transaction.Meta);
-            Assert.AreEqual("tesSUCCESS", result.Transaction.Hash.ToString());
             //AffectedNode affectedNode = result.Transaction.Meta.AffectedNodes.Last();
             //FinalFields finalFields = result.Transaction.Meta.AffectedNodes[0].ModifiedNode;
             //FinalFields finalFields = result.Transaction.Meta.AffectedNodes[0].ModifiedNode.FinalFields;
