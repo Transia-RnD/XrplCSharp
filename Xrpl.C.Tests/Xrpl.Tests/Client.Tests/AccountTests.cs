@@ -16,9 +16,9 @@ namespace Xrpl.Client.Tests
     public class AccountTests
     {
         private static string account;
-        private static string xls20Account = "rUBarUhzvWdPEM7cJJdYzCAXvX6i5EDEVS";
+        private static string xls20Account = "rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb";
 
-        private static string tokenid = "000900007A91B8433CA1328487EF1415E531D4EE20F5952C0000099B00000000";
+        private static string tokenid = "00090000751F85F13C661A20C610A2C32EBB48CE5819784E0000099B00000000";
 
         private static IRippleClient client;
         private static IRippleClient xls20client;

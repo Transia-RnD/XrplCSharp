@@ -392,16 +392,16 @@ namespace Xrpl.Client.Tests
         public async Task CanMintToken()
         {
 
-            AccountInfo accountInfo = await xls20client.AccountInfo("rUBarUhzvWdPEM7cJJdYzCAXvX6i5EDEVS");
+            AccountInfo accountInfo = await xls20client.AccountInfo("rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb");
 
             INFTokenMintTransaction mintToken = new NFTokenMintTransaction();
             mintToken.Sequence = accountInfo.AccountData.Sequence;
             mintToken.TokenTaxon = 0;
             mintToken.URI = "697066733a2f2f516d516a447644686648634d7955674441784b696734416f4d547453354a72736670694545704661334639515274";
-            mintToken.Account = "rUBarUhzvWdPEM7cJJdYzCAXvX6i5EDEVS";
+            mintToken.Account = "rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb";
 
             var json = mintToken.ToJson();
-            TxSigner signer = TxSigner.FromSecret("shMg6csovdC3GzZKrYkmKze9P3K5n");
+            TxSigner signer = TxSigner.FromSecret("sEdV9rGxpFHK4zbpMYUVrZ86zv1Lmwn");
             System.Diagnostics.Debug.WriteLine(signer.ToString());
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
@@ -435,15 +435,15 @@ namespace Xrpl.Client.Tests
         public async Task CanBurnToken()
         {
 
-            AccountInfo accountInfo = await xls20client.AccountInfo("rUBarUhzvWdPEM7cJJdYzCAXvX6i5EDEVS");
+            AccountInfo accountInfo = await xls20client.AccountInfo("rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb");
 
             INFTokenBurnTransaction mintBurn = new NFTokenBurnTransaction();
             mintBurn.Sequence = accountInfo.AccountData.Sequence;
             mintBurn.TokenID = "000000007A91B8433CA1328487EF1415E531D4EE20F5952C44B17C9E00000003";
-            mintBurn.Account = "rUBarUhzvWdPEM7cJJdYzCAXvX6i5EDEVS";
+            mintBurn.Account = "rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb";
 
             var json = mintBurn.ToJson();
-            TxSigner signer = TxSigner.FromSecret("shMg6csovdC3GzZKrYkmKze9P3K5n");
+            TxSigner signer = TxSigner.FromSecret("sEdV9rGxpFHK4zbpMYUVrZ86zv1Lmwn");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
@@ -459,7 +459,7 @@ namespace Xrpl.Client.Tests
         public async Task CanSetSellOfferOnToken()
         {
 
-            AccountInfo accountInfo = await xls20client.AccountInfo("rUBarUhzvWdPEM7cJJdYzCAXvX6i5EDEVS");
+            AccountInfo accountInfo = await xls20client.AccountInfo("rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb");
 
             INFTokenCreateOfferTransaction offerCreate = new NFTokenCreateOfferTransaction();
             offerCreate.Sequence = accountInfo.AccountData.Sequence;
@@ -467,11 +467,11 @@ namespace Xrpl.Client.Tests
             offerCreate.Amount = new Currency { ValueAsXrp = 20 };
             offerCreate.Destination = "rJpMn8yEHeWSQ6w581dJsk8Z2jhCUEWbwD";
             offerCreate.Expiration = DateTime.UtcNow.AddHours(1);
-            offerCreate.Account = "rUBarUhzvWdPEM7cJJdYzCAXvX6i5EDEVS";
+            offerCreate.Account = "rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb";
             offerCreate.Flags = NFTokenCreateOfferFlags.tfSellToken;
 
             var json = offerCreate.ToJson();
-            TxSigner signer = TxSigner.FromSecret("shMg6csovdC3GzZKrYkmKze9P3K5n");
+            TxSigner signer = TxSigner.FromSecret("sEdV9rGxpFHK4zbpMYUVrZ86zv1Lmwn");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
@@ -493,7 +493,7 @@ namespace Xrpl.Client.Tests
             offerCreate.Sequence = accountInfo.AccountData.Sequence;
             offerCreate.TokenID = "000900007A91B8433CA1328487EF1415E531D4EE20F5952C0000099B00000000";
             offerCreate.Amount = new Currency { ValueAsXrp = 20 };
-            offerCreate.Owner = "rUBarUhzvWdPEM7cJJdYzCAXvX6i5EDEVS";
+            offerCreate.Owner = "rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb";
             offerCreate.Expiration = DateTime.UtcNow.AddHours(1);
             offerCreate.Account = "rJpMn8yEHeWSQ6w581dJsk8Z2jhCUEWbwD";
 
@@ -539,15 +539,15 @@ namespace Xrpl.Client.Tests
         public async Task CanAcceptOfferOnToken()
         {
 
-            AccountInfo accountInfo = await xls20client.AccountInfo("rUBarUhzvWdPEM7cJJdYzCAXvX6i5EDEVS");
+            AccountInfo accountInfo = await xls20client.AccountInfo("rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb");
 
             INFTokenAcceptOfferTransaction offerAccept = new NFTokenAcceptOfferTransaction();
             offerAccept.Sequence = accountInfo.AccountData.Sequence;
             offerAccept.TokenID = "000900007A91B8433CA1328487EF1415E531D4EE20F5952C0000099B00000000";
-            offerAccept.Account = "rUBarUhzvWdPEM7cJJdYzCAXvX6i5EDEVS";
+            offerAccept.Account = "rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb";
 
             var json = offerAccept.ToJson();
-            TxSigner signer = TxSigner.FromSecret("shMg6csovdC3GzZKrYkmKze9P3K5n");
+            TxSigner signer = TxSigner.FromSecret("sEdV9rGxpFHK4zbpMYUVrZ86zv1Lmwn");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();

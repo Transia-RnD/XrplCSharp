@@ -13,8 +13,8 @@ namespace Xrpl.Client.Tests
     {
         private static IRippleClient client;
 
-        private static string serverUrl = "wss://s1.ripple.com:443";
-        //private static string serverUrl = "wss://s.altnet.rippletest.net:51233";
+        //private static string serverUrl = "wss://s1.ripple.com:443";
+        private static string serverUrl = "wss://s.altnet.rippletest.net:51233";
 
         [ClassInitialize]
         public static void MyClassInitialize(TestContext testContext)
