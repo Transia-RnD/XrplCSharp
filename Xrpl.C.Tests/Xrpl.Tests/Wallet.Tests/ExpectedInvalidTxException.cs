@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Xrpl.Wallet.Tests
@@ -15,7 +16,7 @@ namespace Xrpl.Wallet.Tests
         public string ExpectedExceptionMessage { get; private set; }
         public string WrongExceptionTypeMessage { get; private set; }
 
-        public ExpectedInvalidTxException() : this("Transaction is not valid.\r\nParameter name: tx", "No exception was thrown.")
+        public ExpectedInvalidTxException() : this("Transaction is not valid. (Parameter 'tx')", "No exception was thrown.")
         {
         }
 
@@ -38,6 +39,7 @@ namespace Xrpl.Wallet.Tests
             Assert.IsInstanceOfType(exception, typeof(InvalidTxException), WrongExceptionTypeMessage);
 
             if(ExpectedExceptionMessage != null)
+                Debug.WriteLine(exception.Message);
                 Assert.AreEqual(ExpectedExceptionMessage, exception.Message, "Wrong exception message.");
         }
     }

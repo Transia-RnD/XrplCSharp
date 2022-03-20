@@ -76,12 +76,12 @@ namespace Xrpl.Client.Tests
             Assert.IsNotNull(accountLines);           
         }
 
-        [TestMethod]
-        public async Task CanGetAccountNFTs()
-        {
-            AccountNFTs accountNfts = await xls20client.AccountNFTs(xls20Account);
-            Assert.AreNotEqual(accountNfts.NFTs.Count, 0);
-        }
+        //[TestMethod]
+        //public async Task CanGetAccountNFTs()
+        //{
+        //    AccountNFTs accountNfts = await xls20client.AccountNFTs(xls20Account);
+        //    Assert.AreNotEqual(accountNfts.NFTs.Count, 0);
+        //}
 
         [TestMethod]
         public async Task CanGetAccountOffers()

@@ -96,32 +96,32 @@ namespace Xrpl.Client.Tests
         {
             IPaymentTransaction paymentTransaction = new PaymentTransaction();
             paymentTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
-            paymentTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
+            paymentTransaction.Destination = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
             paymentTransaction.Amount = new Currency{ ValueAsXrp = 1 };
 
-            const string expectedResult = "{\"Amount\":\"1000000\",\"Destination\":\"rEqtEHKbinqm18wQSQGstmqg9SFpUELasT\",\"Flags\":2147483648,\"Account\":\"rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V\",\"TransactionType\":\"Payment\"}";
+            const string expectedResult = "{\"Amount\":\"1000000\",\"Destination\":\"rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7\",\"Account\":\"rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V\",\"Fee\":\"10\",\"TransactionType\":\"Payment\"}";
             
             Assert.AreEqual(expectedResult, paymentTransaction.ToJson());            
         }
 
-        [TestMethod]
-        public async Task CanSignAndSubmitPaymentTransaction()
-        {
-            IPaymentTransaction paymentTransaction = new PaymentTransaction();
-            paymentTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
-            paymentTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
-            paymentTransaction.Amount = new Currency { ValueAsXrp = 1 };
+        //[TestMethod]
+        //public async Task CanSignAndSubmitPaymentTransaction()
+        //{
+        //    IPaymentTransaction paymentTransaction = new PaymentTransaction();
+        //    paymentTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
+        //    paymentTransaction.Destination = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
+        //    paymentTransaction.Amount = new Currency { ValueAsXrp = 1 };
 
-            SubmitRequest request = new SubmitRequest();
-            request.Transaction = paymentTransaction;
-            request.Offline = false;
-            request.Secret = "xxxxxxx";
+        //    SubmitRequest request = new SubmitRequest();
+        //    request.Transaction = paymentTransaction;
+        //    //request.Offline = false;
+        //    request.Secret = "shqqJc2dqXzB6dEhLDBrVRBPkUQVd";
 
-            Submit result = await client.SubmitTransaction(request);
-            Assert.IsNotNull(result);
-            Assert.AreEqual("tesSUCCESS", result.EngineResult);            
-            Assert.IsNotNull(result.Transaction.Hash);           
-        }
+        //    Submit result = await client.SubmitTransaction(request);
+        //    Assert.IsNotNull(result);
+        //    Assert.AreEqual("tesSUCCESS", result.EngineResult);            
+        //    Assert.IsNotNull(result.Transaction.Hash);           
+        //}
 
         [TestMethod]
         public async Task CanSubmitPaymentTransaction()
@@ -129,17 +129,17 @@ namespace Xrpl.Client.Tests
             IRippleClient rippleClient = new RippleClient("wss://s.altnet.rippletest.net:51233");
             rippleClient.Connect();
 
-            AccountInfo accountInfo = await rippleClient.AccountInfo("rEqtEHKbinqm18wQSQGstmqg9SFpUELasT");
+            AccountInfo accountInfo = await rippleClient.AccountInfo("rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7");
 
             IPaymentTransaction paymentTransaction = new PaymentTransaction();
-            paymentTransaction.Account = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
+            paymentTransaction.Account = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
             paymentTransaction.Destination = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
             paymentTransaction.Amount = new Currency { ValueAsXrp = 20};
             paymentTransaction.Sequence = accountInfo.AccountData.Sequence;
             paymentTransaction.Fee = new Currency{Value = "15"};
 
             var json = paymentTransaction.ToJson();
-            TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+            TxSigner signer = TxSigner.FromSecret("shqqJc2dqXzB6dEhLDBrVRBPkUQVd");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
@@ -154,15 +154,15 @@ namespace Xrpl.Client.Tests
         [TestMethod]
         public async Task CanEstablishTrust()
         {
-            AccountInfo accountInfo = await client.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
+            AccountInfo accountInfo = await client.AccountInfo("r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs");
 
             ITrustSetTransaction trustSet = new TrustSetTransaction();
-            trustSet.LimitAmount = new Currency{CurrencyCode = "XYZ", Issuer = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT", Value = "1000000"};
-            trustSet.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
+            trustSet.LimitAmount = new Currency{CurrencyCode = "XYZ", Issuer = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7", Value = "1000000"};
+            trustSet.Account = "r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs";
             trustSet.Sequence = accountInfo.AccountData.Sequence;
 
             var json = trustSet.ToJson();
-            TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+            TxSigner signer = TxSigner.FromSecret("sEdTd6ponfrJs5FE9w1unefuYYjb7ue");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
@@ -203,17 +203,17 @@ namespace Xrpl.Client.Tests
         public async Task CanSetOffer()
         {
 
-            AccountInfo accountInfo = await client.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
+            AccountInfo accountInfo = await client.AccountInfo("r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs");
 
             IOfferCreateTransaction offerCreate = new OfferCreateTransaction();
             offerCreate.Sequence = accountInfo.AccountData.Sequence;
             offerCreate.TakerGets = new Currency {ValueAsXrp = 10};
-            offerCreate.TakerPays = new Currency{CurrencyCode = "XYZ", Issuer = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT", Value = "10"};
+            offerCreate.TakerPays = new Currency{CurrencyCode = "XYZ", Issuer = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7", Value = "10"};
             offerCreate.Expiration = DateTime.UtcNow.AddHours(1);
-            offerCreate.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
+            offerCreate.Account = "r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs";
 
             var json = offerCreate.ToJson();
-            TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+            TxSigner signer = TxSigner.FromSecret("sEdTd6ponfrJs5FE9w1unefuYYjb7ue");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
@@ -232,7 +232,7 @@ namespace Xrpl.Client.Tests
             BookOffersRequest request = new BookOffersRequest();
            
             request.TakerGets = new Currency();
-            request.TakerPays = new Currency { CurrencyCode = "XYZ", Issuer = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT" };
+            request.TakerPays = new Currency { CurrencyCode = "XYZ", Issuer = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7" };
 
             request.Limit = 10;
 
@@ -244,17 +244,17 @@ namespace Xrpl.Client.Tests
         [TestMethod]
         public async Task CanFillOrder()
         {
-            AccountInfo accountInfo = await client.AccountInfo("rEqtEHKbinqm18wQSQGstmqg9SFpUELasT");
+            AccountInfo accountInfo = await client.AccountInfo("rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7");
 
             IOfferCreateTransaction offerCreate = new OfferCreateTransaction();
             offerCreate.Sequence = accountInfo.AccountData.Sequence;
-            offerCreate.TakerGets = new Currency { CurrencyCode = "XYZ", Issuer = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT", Value = "10" };
+            offerCreate.TakerGets = new Currency { CurrencyCode = "XYZ", Issuer = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7", Value = "10" };
             offerCreate.TakerPays = new Currency { ValueAsXrp = 10 };
             offerCreate.Expiration = DateTime.UtcNow.AddHours(1);
-            offerCreate.Account = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
+            offerCreate.Account = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
 
             var json = offerCreate.ToJson();
-            TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+            TxSigner signer = TxSigner.FromSecret("shqqJc2dqXzB6dEhLDBrVRBPkUQVd");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
@@ -269,19 +269,19 @@ namespace Xrpl.Client.Tests
         [TestMethod]
         public async Task CanDeleteTrust()
         {
-            AccountInfo accountInfo = await client.AccountInfo("rho3u4kXc5q3chQFKfn9S1ZqUCya1xT3t4");
+            AccountInfo accountInfo = await client.AccountInfo("rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7");
 
             ITrustSetTransaction trustSet = new TrustSetTransaction();
             trustSet.Flags = TrustSetFlags.tfSetNoRipple;
-            trustSet.Account = "rho3u4kXc5q3chQFKfn9S1ZqUCya1xT3t4";
-            trustSet.LimitAmount = new Currency {ValueAsNumber = 0, Issuer = "rDLXQ8KEBn3Aw313bGzhEemx8cCPpGha3d", CurrencyCode = "PHP"};
+            trustSet.Account = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
+            trustSet.LimitAmount = new Currency {ValueAsNumber = 0, Issuer = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7", CurrencyCode = "XYZ"};
             trustSet.QualityIn = 0;
             trustSet.QualityOut = 0;
             trustSet.Sequence = accountInfo.AccountData.Sequence;
             trustSet.Fee = new Currency {Value = "12"};
 
             var json = trustSet.ToJson();
-            TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+            TxSigner signer = TxSigner.FromSecret("shqqJc2dqXzB6dEhLDBrVRBPkUQVd");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
@@ -297,15 +297,17 @@ namespace Xrpl.Client.Tests
         [TestMethod]
         public async Task CanReleaseEscrow()
         {
+            AccountInfo accountInfo = await client.AccountInfo("rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7");
+
             IEscrowFinishTransaction escrowFinishTransaction = new EscrowFinishTransaction();
-            escrowFinishTransaction.Account = "rho3u4kXc5q3chQFKfn9S1ZqUCya1xT3t4";
-            escrowFinishTransaction.Owner = "r9NpyVfLfUG8hatuCCHKzosyDtKnBdsEN3";
+            escrowFinishTransaction.Account = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
+            escrowFinishTransaction.Owner = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
             escrowFinishTransaction.OfferSequence = 10;
             escrowFinishTransaction.Fee = new Currency{Value = "15"};
-            //escrowFinishTransaction.Flags = TransactionFlags.tfFullyCanonicalSig;
+            escrowFinishTransaction.Sequence = accountInfo.AccountData.Sequence;
 
             var json = escrowFinishTransaction.ToJson();
-            TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+            TxSigner signer = TxSigner.FromSecret("shqqJc2dqXzB6dEhLDBrVRBPkUQVd");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
@@ -324,18 +326,18 @@ namespace Xrpl.Client.Tests
             IRippleClient rippleClient = new RippleClient("wss://s.altnet.rippletest.net:51233");
             rippleClient.Connect();
 
-            AccountInfo accountInfo = await rippleClient.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
+            AccountInfo accountInfo = await rippleClient.AccountInfo("r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs");
 
             IEscrowCreateTransaction createTransaction = new EscrowCreateTransaction();
             createTransaction.Amount = new Currency{ValueAsXrp = 10};
-            createTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
+            createTransaction.Account = "r9qDbw1k9JLxC6RigiN9faAcaQrJisyZhs";
             createTransaction.FinishAfter = DateTime.UtcNow.AddMinutes(1);
-            createTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
+            createTransaction.Destination = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
             createTransaction.Fee = new Currency{Value = "11"};
             createTransaction.Sequence = accountInfo.AccountData.Sequence;
 
             var json = createTransaction.ToJson();
-            TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+            TxSigner signer = TxSigner.FromSecret("sEdTd6ponfrJs5FE9w1unefuYYjb7ue");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
@@ -353,18 +355,17 @@ namespace Xrpl.Client.Tests
             IRippleClient rippleClient = new RippleClient("wss://s.altnet.rippletest.net:51233");
             rippleClient.Connect();
 
-            AccountInfo accountInfo = await rippleClient.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
+            AccountInfo accountInfo = await rippleClient.AccountInfo("rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7");
 
             IEscrowFinishTransaction finishTransaction = new EscrowFinishTransaction();
-            finishTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
-            finishTransaction.Owner = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
+            finishTransaction.Account = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
+            finishTransaction.Owner = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
             finishTransaction.OfferSequence = 29;
             finishTransaction.Fee = new Currency { Value = "11" };
-            //finishTransaction.Flags = TransactionFlags.tfFullyCanonicalSig;
             finishTransaction.Sequence = accountInfo.AccountData.Sequence;
 
             var json = finishTransaction.ToJson();
-            TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+            TxSigner signer = TxSigner.FromSecret("shqqJc2dqXzB6dEhLDBrVRBPkUQVd");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
@@ -425,7 +426,7 @@ namespace Xrpl.Client.Tests
         //    mintBurn.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
 
         //    var json = mintBurn.ToJson();
-        //    TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+        //    TxSigner signer = TxSigner.FromSecret("shqqJc2dqXzB6dEhLDBrVRBPkUQVd");
         //    SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
         //    SubmitBlobRequest request = new SubmitBlobRequest();
@@ -449,12 +450,12 @@ namespace Xrpl.Client.Tests
         //    offerCreate.TokenID = "1";
         //    offerCreate.Amount = "100";
         //    offerCreate.Owner = "";
-        //    offerCreate.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
+        //    offerCreate.Destination = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7";
         //    offerCreate.Expiration = DateTime.UtcNow.AddHours(1);
         //    offerCreate.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
 
         //    var json = offerCreate.ToJson();
-        //    TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+        //    TxSigner signer = TxSigner.FromSecret("shqqJc2dqXzB6dEhLDBrVRBPkUQVd");
         //    SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
         //    SubmitBlobRequest request = new SubmitBlobRequest();
@@ -476,12 +477,12 @@ namespace Xrpl.Client.Tests
         //    IOfferCreateTransaction offerCreate = new OfferCreateTransaction();
         //    offerCreate.Sequence = accountInfo.AccountData.Sequence;
         //    offerCreate.TakerGets = new Currency { ValueAsXrp = 10 };
-        //    offerCreate.TakerPays = new Currency { CurrencyCode = "XYZ", Issuer = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT", Value = "10" };
+        //    offerCreate.TakerPays = new Currency { CurrencyCode = "XYZ", Issuer = "rv2pHEbfVtU4UA5ES8CKD2RckEqhWwfL7", Value = "10" };
         //    offerCreate.Expiration = DateTime.UtcNow.AddHours(1);
         //    offerCreate.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
 
         //    var json = offerCreate.ToJson();
-        //    TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+        //    TxSigner signer = TxSigner.FromSecret("shqqJc2dqXzB6dEhLDBrVRBPkUQVd");
         //    SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
         //    SubmitBlobRequest request = new SubmitBlobRequest();
