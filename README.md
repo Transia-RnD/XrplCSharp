@@ -2,7 +2,66 @@
 
 # xrpl.c
 
+* This library would not be possible without Chris Williams.
+
 A pure C# implementation for interacting with the XRP Ledger, the `xrpl.c` library simplifies the hardest parts of XRP Ledger interaction, like serialization and transaction signing, by providing native C# methods and models for [XRP Ledger transactions](https://xrpl.org/transaction-formats.html) and core server [API](https://xrpl.org/api-conventions.html) ([`rippled`](https://github.com/ripple/rippled)) objects.
+
+## Migration from RippleDotNet & ripple-netcore
+
+From RippleDotNet
+
+```
+using RippleDotNet;
+using RippleDotNet.Model.Account;
+using RippleDotNet.Requests.Account;
+```
+
+To xrpl.c
+
+```
+using Xrpl.Client;
+using Xrpl.Client.Model.Account;
+using Xrpl.Client.Requests.Account;
+```
+
+From Ripple.Core
+
+```
+using Ripple.Core.Types;
+```
+
+To xrpl.c
+
+```
+using Ripple.Binary.Codec.Types;
+```
+
+
+From Ripple.Signing
+
+```
+using Ripple.Signing;
+```
+
+To xrpl.c
+
+```
+using Xrpl.Wallet;
+```
+
+
+From Ripple.TxSigning
+
+```
+using Ripple.TxSigning;
+```
+
+To xrpl.c
+
+```
+using Ripple.Keypairs;
+```
+
 
 
 
@@ -14,8 +73,9 @@ client.Connect();
 
 # create a wallet on the testnet
 using Xrpl.Wallet;
+using System.Diagnostics;
 // test_wallet = SOON
-print(test_wallet)
+Debug.WriteLine(testWallet);
 public_key: ED3CC1BBD0952A60088E89FA502921895FC81FBD79CAE9109A8FE2D23659AD5D56
 private_key: -HIDDEN-
 classic_address: rBtXmAdEYcno9LWRnAGfT9qBxCeDvuVRZo
@@ -98,6 +158,7 @@ To create a wallet from a seed (in this case, the value generated using [`Xrpl.K
 
 ```csharp
 using Xrpl.Wallet;
+using System.Diagnostics;
 TxSigner signer = TxSigner.FromSecret(seed);
 Debug.WriteLine(signer);
 # pub_key: ED46949E414A3D6D758D347BAEC9340DC78F7397FEE893132AAF5D56E4D7DE77B0
@@ -123,6 +184,7 @@ Here's an example of how to generate a `seed` value and derive an [XRP Ledger "c
 
 ```csharp
 using Ripple.Keypairs;
+using System.Diagnostics;
 Seed seed = Seed.FromRandom();
 KeyPair pair = seed.KeyPair();
 string public = pair.Id();
@@ -190,6 +252,7 @@ Submit result = await client.SubmitTransactionBlob(request);
 In most cases, you can specify the minimum [transaction cost](https://xrpl.org/transaction-cost.html#current-transaction-cost) of `"10"` for the `fee` field unless you have a strong reason not to. But if you want to get the [current load-balanced transaction cost](https://xrpl.org/transaction-cost.html#current-transaction-cost) from the network, you can use the `Fees` function:
 
 ```csharp
+using System.Diagnostics;
 Fee fee = await client.Fees();
 Debug.WriteLine(fee);
 # 10
