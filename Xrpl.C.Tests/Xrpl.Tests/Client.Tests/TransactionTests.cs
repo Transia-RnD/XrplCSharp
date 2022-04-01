@@ -384,9 +384,14 @@ namespace Xrpl.Client.Tests
         [TestMethod]
         public async Task NFTokenTests()
         {
-            //await CanMintToken();
+            await CanMintToken();
             //await CanBurnToken();
 
+        }
+
+        public string GetLastTokenID(Meta meta)
+        {
+            return meta.AffectedNodes.Last().ModifiedNode.FinalFields.NonFungibleTokens.Last().NonFungibleToken.TokenID;
         }
 
         public async Task CanMintToken()
@@ -413,23 +418,13 @@ namespace Xrpl.Client.Tests
             Assert.AreEqual("tesSUCCESS", result.EngineResult);
             Assert.IsNotNull(result.Transaction.Hash);
 
+            System.Threading.Thread.Sleep(5000);
             ITransactionResponseCommon transaction = await xls20client.Transaction(result.Transaction.Hash.ToString());
-
             string something = JsonConvert.SerializeObject(transaction);
             Debug.WriteLine(something);
-            //Debug.WriteLine(result.Transaction.ToJson());
-
 
             Assert.IsNotNull(transaction.Meta);
-            Assert.IsNotNull(result.Transaction.Meta);
-            //AffectedNode affectedNode = result.Transaction.Meta.AffectedNodes.Last();
-            //FinalFields finalFields = result.Transaction.Meta.AffectedNodes[0].ModifiedNode;
-            //FinalFields finalFields = result.Transaction.Meta.AffectedNodes[0].ModifiedNode.FinalFields;
-            //NonFungibleToken token = result.Transaction.Meta.AffectedNodes[0].ModifiedNode.FinalFields.NonFungibleTokens.Last();
-
-            //Debug.WriteLine(token.TokenID.ToString());
-            //List<NonFungibleTokens> NonFungibleTokens = result.Transaction.Meta.AffectedNodes[0].ModifiedNode.FinalFields;
-            //result.Transaction.Meta.AffectedNodes[0].ModifiedNode.FinalFields["NonFungibleTokens"].Last();
+            Assert.IsNotNull(GetLastTokenID(transaction.Meta));
         }
 
         public async Task CanBurnToken()

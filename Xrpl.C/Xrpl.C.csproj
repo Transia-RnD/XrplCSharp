@@ -5,7 +5,7 @@
     <!-- <TargetFramework>net5.0</TargetFramework> -->
     <RootNamespace>xrpl_c</RootNamespace>
     <PackOnBuild>true</PackOnBuild>
-    <Authors>Chris WIll, Denis Angell</Authors>
+    <Authors>Chris Will, Denis Angell</Authors>
     <Owners>Xrpl Foundation</Owners>
     <Description>A C# library to interact with the XRP Ledger (XRPL) blockchain</Description>
     <PackageId>xrpl.c</PackageId>

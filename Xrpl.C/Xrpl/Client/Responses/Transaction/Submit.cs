@@ -2,6 +2,7 @@
 using Xrpl.Client.Responses.Transaction.Interfaces;
 using Xrpl.Client.Responses.Transaction.TransactionTypes;
 
+using System.Diagnostics;
 
 namespace Xrpl.Client.Responses.Transaction
 {
@@ -22,7 +23,7 @@ namespace Xrpl.Client.Responses.Transaction
         [JsonProperty("tx_json")]
         public dynamic TransactionJson { get; set; }
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public ITransactionResponseCommon Transaction => JsonConvert.DeserializeObject<TransactionResponseCommon>(TransactionJson.ToString());
     }
 }
