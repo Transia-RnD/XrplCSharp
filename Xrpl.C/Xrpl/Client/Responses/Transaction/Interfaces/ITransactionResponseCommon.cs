@@ -13,6 +13,9 @@ namespace Xrpl.Client.Responses.Transaction.Interfaces
         uint? LastLedgerSequence { get; set; }
         List<Memo> Memos { get; set; }
         Meta Meta { get; set; }
+        uint? date { get; set; }
+        uint? inLedger { get; set; }
+        uint? ledger_index { get; set; }
         uint? Sequence { get; set; }
         List<Signer> Signers { get; set; }
         string SigningPublicKey { get; set; }

@@ -420,6 +420,8 @@ namespace Xrpl.Client.Tests
 
             System.Threading.Thread.Sleep(5000);
             ITransactionResponseCommon transaction = await xls20client.Transaction(result.Transaction.Hash.ToString());
+            string something = JsonConvert.SerializeObject(transaction);
+            Debug.WriteLine(something);
 
             Assert.IsNotNull(transaction.Meta);
             Assert.IsNotNull(GetLastTokenID(transaction.Meta));

@@ -18,8 +18,17 @@ namespace Xrpl.Client.Tests
         {
             var transaction = Encoding.ASCII.GetString(Resources.Transaction);
             ITransactionResponseCommon responseCommon = JsonConvert.DeserializeObject<TransactionResponseCommon>(transaction);
-            Debug.WriteLine(responseCommon.Meta.TransactionResult.ToString());
+            Assert.AreEqual(responseCommon.date.ToString(), "701933800");
+            Assert.AreEqual(responseCommon.inLedger.ToString(), "810019");
+            Assert.AreEqual(responseCommon.ledger_index.ToString(), "810019");
+            Assert.AreEqual(responseCommon.Meta.AffectedNodes[0].CreatedNode.LedgerEntryType.ToString(), "NFTokenPage");
+            Assert.AreEqual(responseCommon.Meta.AffectedNodes[0].CreatedNode.LedgerIndex.ToString(), "5C5024773DF0C8D708C71D8218F7C59588EB2B1EFFFFFFFFFFFFFFFFFFFFFFFF");
+            Assert.AreEqual(responseCommon.Meta.AffectedNodes[0].CreatedNode.NewFields.NonFungibleTokens[0].NonFungibleToken.TokenID, "000900005C5024773DF0C8D708C71D8218F7C59588EB2B1E0000099B00000000");
+            
             Assert.IsNotNull(responseCommon.Meta);
+            Assert.AreEqual(responseCommon.Validated, true);
+            Assert.AreEqual(responseCommon.Meta.TransactionIndex.ToString(), "0");
+            Assert.AreEqual(responseCommon.Meta.TransactionResult.ToString(), "tesSUCCESS");
             Assert.IsNotNull(responseCommon);
         }
 

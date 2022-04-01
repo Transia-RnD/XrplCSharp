@@ -1,128 +1,5 @@
 # Contributing
 
-## Set up your dev environment
-
-If you want to contribute code to `xrpl.c`, the following sections describe how to set up your developer environment.
-
-### Set up C# environment
-
-To make it easy to manage your C# environment with `xrpl.c`, including switching between versions, install `pyenv` and follow these steps:
-
-* Install [`pyenv`](https://github.com/pyenv/pyenv):
-
-        brew install pyenv
-
-    For other installation options, see the [`pyenv` README](https://github.com/pyenv/pyenv#installation).
-
-* Use `pyenv` to install the optimized version for `xrpl.c` (currently 3.9.1):
-
-        pyenv install 3.9.1
-
-* Set the [global](https://github.com/pyenv/pyenv/blob/master/COMMANDS.md#pyenv-global) version of Python with `pyenv`:
-
-        pyenv global 3.9.1
-
-### Set up shell environment
-
-To enable autocompletion and other functionality from your shell, add `pyenv` to your environment.
-
-These steps assume that you're using a [Zsh](http://zsh.sourceforge.net/) shell. For other shells, see the [`pyenv` README](https://github.com/pyenv/pyenv#basic-github-checkout).
-
-
-* Add `pyenv init` to your Zsh shell:
-
-        echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.zshrc
-
-* Source or restart your terminal:
-
-        . ~/.zshrc
-
-### Manage dependencies and virtual environments
-
-To simplify managing library dependencies and the virtual environment, `xrpl.c` uses [`poetry`](https://python-poetry.org/docs).
-
-* [Install `poetry`](https://python-poetry.org/docs/#osx-linux-bashonwindows-install-instructions):
-
-        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-        poetry install
-
-### Set up `pre-commit` hooks
-
-To run linting and other checks, `xrpl.c` uses [`pre-commit`](https://pre-commit.com/).
-
-**Note:** You only need to install `pre-commit` if you want to contribute code to `xrpl.c`.
-
-
-* Install `pre-commit`:
-
-        pip3 install pre-commit
-        pre-commit install
-
-### Run the linter
-
-To run the linter:
-
-```bash
-poetry run flake8 ./xrpl
-```
-
-### Running Tests
-
-#### Unit Tests
-
-```bash
-poetry run python3 -m unittest discover tests/unit
-```
-
-#### Integration Tests
-
-To run integration tests, you'll need a standalone rippled node running with WS port `6006` and JSON RPC port `5005`. You can run a docker container for this:
-```bash
-docker run -p 5005:5005 -p 6006:6006 -it natenichols/rippled-standalone:latest
-```
-
-To actually run the tests:
-
-```bash
-poetry run python3 -m unittest discover tests/integration
-```
-
-#### Running tests with different Python versions
-
-To switch your python version before running tests:
-
-```bash
-pyenv local 3.9
-poetry env use python3.9
-poetry install
-```
-Replace `python3.9` with whatever version of Python you want to use (you must have it installed with `pyenv` for it to work).
-
-
-### Generate reference docs
-
-You can see the complete reference documentation at [`xrpl.c` docs](https://xrpl.c.readthedocs.io/en/latest/index.html). You can also generate them locally using `poetry` and `sphinx`:
-
-```bash
-# Go to the docs/ folder
-cd docs/
-
-# Build the docs
-poetry run sphinx-apidoc -o source/ ../xrpl
-poetry run make html
-```
-
-To see the output:
-
-```bash
-# Go to docs/_build/html/
-cd docs/_build/html/
-
-# Open the index file to view it in a browser:
-open _build/html/index.html
-```
-
-
 ## Release process
 
 ### Editing the Code
@@ -137,7 +14,7 @@ open _build/html/index.html
 ### Release
 
 1. Run integration tests on `master`, using [Github Actions](https://github.com/XRPLF/xrpl.c/actions/workflows/integration_test.yml), which runs them on all 3 versions of Python.
-2. Create a branch off master that properly increments the version in `pyproject.toml` and updates the `CHANGELOG` appropriately. We follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+2. Create a branch off master that properly increments the version in `Xrpl.C.csproj` and updates the `CHANGELOG` appropriately. We follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 3. Merge this branch into `master`.
 4. Run integration tests on `master` again just in case.
 5. Create a new Github release/tag off of this branch.
@@ -148,7 +25,7 @@ open _build/html/index.html
     4. Make sure that this local installation works as intended, and that changes are reflected properly.
 7. Run `poetry publish --dry-run` and make sure everything looks good.
 8. Publish the update by running `poetry publish`.
-    * This will require entering PyPI login info.
+    * This will require entering Nuget login info.
 9. Send an email to [xrpl-announce](https://groups.google.com/g/xrpl-announce).
 
 ## Mailing Lists

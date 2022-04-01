@@ -46,6 +46,15 @@ namespace Xrpl.Client.Responses.Transaction.TransactionTypes
         [JsonProperty("meta")]
         public Meta Meta { get; set; }
 
+        [JsonProperty("date")]
+        public uint? date { get; set; }
+
+        [JsonProperty("inLedger")]
+        public uint? inLedger { get; set; }
+
+        [JsonProperty("ledger_index")]
+        public uint? ledger_index { get; set; }
+
         public string ToJson()
         {
             JsonSerializerSettings serializerSettings = new JsonSerializerSettings();

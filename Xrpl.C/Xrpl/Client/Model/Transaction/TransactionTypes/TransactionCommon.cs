@@ -51,7 +51,16 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
         public string TransactionSignature { get; set; }
 
         [JsonProperty("meta")]
-        public Meta Meta { get; set; }      
+        public Meta Meta { get; set; }
+
+        [JsonProperty("date")]
+        public uint? date { get; set; }
+
+        [JsonProperty("inLedger")]
+        public uint? inLedger { get; set; }
+
+        [JsonProperty("ledger_index")]
+        public uint? ledger_index { get; set; }
 
         public string ToJson()
         {
