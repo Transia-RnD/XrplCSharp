@@ -1,0 +1,102 @@
+﻿{
+  "Account": "rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb",
+  "Fee": "10",
+  "Flags": 2147483648,
+  "Sequence": 541477,
+  "SigningPubKey": "EDC6CAACB395B196BE841090B1CCE37C31769FDB5D97F9B0C66D160C928B7C2B31",
+  "TokenTaxon": 0,
+  "TransactionType": "NFTokenMint",
+  "TxnSignature": "BF588D65C56FF48EEE42525606BCE540F69B9BAD1E9C626F41006CBA2825181E04EECE627593AAEDE5BE66E6F791A06A5305EDFA691C3507015A659A22B01F0B",
+  "URI": "697066733A2F2F516D516A447644686648634D7955674441784B696734416F4D547453354A72736670694545704661334639515274",
+  "date": 702091780,
+  "hash": "3F137F4306A745BD78B354516429015BBC22665D938C4B7CCA1663F19026E07E",
+  "inLedger": 862501,
+  "ledger_index": 862501,
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb",
+            "Balance": "999999950",
+            "Flags": 0,
+            "MintedTokens": 4,
+            "OwnerCount": 2,
+            "Sequence": 541478
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "2E52AB98F46AA669086A962C7E4182A34FFE9B55C5F2981C9FB197118C67153E",
+          "PreviousFields": {
+            "Balance": "999999960",
+            "MintedTokens": 3,
+            "Sequence": 541477
+          },
+          "PreviousTxnID": "F1F8FDE5291EFEB24CC6C42E411D4072A08E3D8FEF26BC12D3D1C2359CE73DEA",
+          "PreviousTxnLgrSeq": 857625
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Flags": 0,
+            "NonFungibleTokens": [
+              {
+                "NonFungibleToken": {
+                  "TokenID": "00090000751F85F13C661A20C610A2C32EBB48CE5819784E0000099B00000000",
+                  "URI": "697066733A2F2F516D516A447644686648634D7955674441784B696734416F4D547453354A72736670694545704661334639515274"
+                }
+              },
+              {
+                "NonFungibleToken": {
+                  "TokenID": "00000000751F85F13C661A20C610A2C32EBB48CE5819784E16E5DA9C00000001",
+                  "URI": "697066733A2F2F516D516A447644686648634D7955674441784B696734416F4D547453354A72736670694545704661334639515274"
+                }
+              },
+              {
+                "NonFungibleToken": {
+                  "TokenID": "00000000751F85F13C661A20C610A2C32EBB48CE5819784E2DCBAB9D00000002",
+                  "URI": "697066733A2F2F516D516A447644686648634D7955674441784B696734416F4D547453354A72736670694545704661334639515274"
+                }
+              },
+              {
+                "NonFungibleToken": {
+                  "TokenID": "00000000751F85F13C661A20C610A2C32EBB48CE5819784E44B17C9E00000003",
+                  "URI": "697066733A2F2F516D516A447644686648634D7955674441784B696734416F4D547453354A72736670694545704661334639515274"
+                }
+              }
+            ]
+          },
+          "LedgerEntryType": "NFTokenPage",
+          "LedgerIndex": "751F85F13C661A20C610A2C32EBB48CE5819784EFFFFFFFFFFFFFFFFFFFFFFFF",
+          "PreviousFields": {
+            "NonFungibleTokens": [
+              {
+                "NonFungibleToken": {
+                  "TokenID": "00090000751F85F13C661A20C610A2C32EBB48CE5819784E0000099B00000000",
+                  "URI": "697066733A2F2F516D516A447644686648634D7955674441784B696734416F4D547453354A72736670694545704661334639515274"
+                }
+              },
+              {
+                "NonFungibleToken": {
+                  "TokenID": "00000000751F85F13C661A20C610A2C32EBB48CE5819784E16E5DA9C00000001",
+                  "URI": "697066733A2F2F516D516A447644686648634D7955674441784B696734416F4D547453354A72736670694545704661334639515274"
+                }
+              },
+              {
+                "NonFungibleToken": {
+                  "TokenID": "00000000751F85F13C661A20C610A2C32EBB48CE5819784E2DCBAB9D00000002",
+                  "URI": "697066733A2F2F516D516A447644686648634D7955674441784B696734416F4D547453354A72736670694545704661334639515274"
+                }
+              }
+            ]
+          },
+          "PreviousTxnID": "F1F8FDE5291EFEB24CC6C42E411D4072A08E3D8FEF26BC12D3D1C2359CE73DEA",
+          "PreviousTxnLgrSeq": 857625
+        }
+      }
+    ],
+    "TransactionIndex": 0,
+    "TransactionResult": "tesSUCCESS"
+  },
+  "validated": true
+}

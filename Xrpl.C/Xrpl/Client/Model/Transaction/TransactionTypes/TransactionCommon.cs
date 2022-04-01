@@ -113,17 +113,25 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
         public Currency DeliveredAmount { get; set; }
     }
 
-    public class FinalFields
+    public class FieldInfo
     {
+        [JsonProperty("Account")]
         public string Account { get; set; }
 
+        [JsonProperty("Balance")]
         public object Balance { get; set; }
 
+        [JsonProperty("Flags")]
         public int Flags { get; set; }
 
+        [JsonProperty("OwnerCount")]
         public int OwnerCount { get; set; }
 
+        [JsonProperty("Sequence")]
         public int Sequence { get; set; }
+        
+        [JsonProperty("MintedTokens")]
+        public int MintedTokens { get; set; }
 
         [JsonConverter(typeof(CurrencyConverter))]
         public Currency HighLimit { get; set; }
@@ -135,7 +143,7 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
 
         public string LowNode { get; set; }
 
-        public List<NonFungibleToken> NonFungibleTokens { get; set; }
+        public List<INonFungibleToken> NonFungibleTokens { get; set; }
     }
 
     public class PreviousFields
@@ -153,6 +161,11 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
         public NodeInfo DeletedNode { get; set; }
 
         public NodeInfo ModifiedNode { get; set; }
+    }
+
+    public class INonFungibleToken
+    {
+        public NonFungibleToken NonFungibleToken { get; set; }
     }
 
     public class NonFungibleToken
@@ -175,9 +188,11 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
         [JsonProperty("PreviousTxnLgrSeq")]
         public uint? PreviousTransactionLedgerSequence { get; set; }
 
-        public dynamic FinalFields { get; set; }
+        [JsonProperty("FinalFields")]
+        public FieldInfo FinalFields { get; set; }
 
-        public dynamic NewFields { get; set; }
+        [JsonProperty("NewFields")]
+        public FieldInfo NewFields { get; set; }
 
         public dynamic PreviousFields { get; set; }
     }

@@ -22,7 +22,7 @@ namespace Xrpl.Client.Model.Transaction
         [JsonProperty("tx_json")]
         public dynamic TransactionJson { get; set; }
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public ITransactionResponseCommon Transaction => JsonConvert.DeserializeObject<TransactionResponseCommon>(TransactionJson.ToString());
     }
 }

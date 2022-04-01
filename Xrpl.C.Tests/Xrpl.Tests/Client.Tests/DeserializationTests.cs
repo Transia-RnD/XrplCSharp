@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Xrpl.Client.Responses.Transaction;
@@ -16,7 +17,9 @@ namespace Xrpl.Client.Tests
         public void CanDeserializeTransaction()
         {
             var transaction = Encoding.ASCII.GetString(Resources.Transaction);
-            ITransactionResponseCommon responseCommon = JsonConvert.DeserializeObject<TransactionResponseCommon>(transaction);            
+            ITransactionResponseCommon responseCommon = JsonConvert.DeserializeObject<TransactionResponseCommon>(transaction);
+            Debug.WriteLine(responseCommon.Meta.TransactionResult.ToString());
+            Assert.IsNotNull(responseCommon.Meta);
             Assert.IsNotNull(responseCommon);
         }
 

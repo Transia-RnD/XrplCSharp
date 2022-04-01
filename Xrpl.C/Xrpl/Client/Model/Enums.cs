@@ -39,7 +39,8 @@ namespace Xrpl.Client.Model
         Offer,
         PayChannel,
         RippleState,
-        SignerList
+        SignerList,
+        NFTokenPage
     }
 
     [Flags]
