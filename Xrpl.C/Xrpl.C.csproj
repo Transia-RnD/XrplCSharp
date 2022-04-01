@@ -10,10 +10,10 @@
     <Description>A C# library to interact with the XRP Ledger (XRPL) blockchain</Description>
     <PackageId>xrpl.c</PackageId>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <PackageLicenseUrl>https://github.com/CASL-AE/Xrpl.C/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/CASL-AE/Xrpl.C</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Transia-RnD/xrpl.c/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Transia-RnD/xrpl.c</PackageProjectUrl>
     <Title>XRPL.C</Title>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.0.2</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
