@@ -11,7 +11,7 @@ namespace Xrpl.Client.Model.Account
         [JsonProperty("offers")]
         public List<NFTOffer> Offers { get; set; }
 
-        [JsonProperty("tokenid")]
+        [JsonProperty("nft_id")]
         public string TokenID { get; set; }
     }
 

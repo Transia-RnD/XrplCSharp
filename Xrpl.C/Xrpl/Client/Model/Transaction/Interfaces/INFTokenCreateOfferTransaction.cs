@@ -6,7 +6,7 @@ namespace Xrpl.Client.Model.Transaction.Interfaces
     {
         DateTime? Expiration { get; set; }
         new NFTokenCreateOfferFlags? Flags { get; set; }
-        string TokenID { get; set; }
+        string NFTokenID { get; set; }
         Currency Amount { get; set; }
         string Owner { get; set; }
         string Destination { get; set; }

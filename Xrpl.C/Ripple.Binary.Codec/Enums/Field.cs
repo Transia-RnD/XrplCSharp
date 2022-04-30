@@ -121,7 +121,7 @@ namespace Ripple.Binary.Codec.Enums
         public static readonly Uint32Field SettleDelay = new Uint32Field(nameof(SettleDelay), 39);
         public static readonly Uint32Field TicketCount = new Uint32Field(nameof(TicketCount), 40);
         public static readonly Uint32Field TicketSequence = new Uint32Field(nameof(TicketSequence), 41);
-        public static readonly Uint32Field TokenTaxon = new Uint32Field(nameof(TokenTaxon), 42);
+        public static readonly Uint32Field NFTokenTaxon = new Uint32Field(nameof(NFTokenTaxon), 42);
         public static readonly Uint32Field MintedTokens = new Uint32Field(nameof(MintedTokens), 43);
         public static readonly Uint32Field BurnedTokens = new Uint32Field(nameof(BurnedTokens), 44);
 
@@ -161,7 +161,9 @@ namespace Ripple.Binary.Codec.Enums
         public static readonly Hash256Field hash = new Hash256Field(nameof(hash), 257);
         // ReSharper disable once InconsistentNaming
         public static readonly Hash256Field index = new Hash256Field(nameof(index), 258);
-        public static readonly Hash256Field TokenID = new Hash256Field(nameof(TokenID), 10);
+        public static readonly Hash256Field NFTokenID = new Hash256Field(nameof(NFTokenID), 10);
+        public static readonly Hash256Field NFTokenBuyOffer = new Hash256Field(nameof(NFTokenBuyOffer), 28);
+        public static readonly Hash256Field NFTokenSellOffer = new Hash256Field(nameof(NFTokenSellOffer), 29);
 
         public static readonly AmountField Amount = new AmountField(nameof(Amount), 1);
         public static readonly AmountField Balance = new AmountField(nameof(Balance), 2);
@@ -255,7 +257,7 @@ namespace Ripple.Binary.Codec.Enums
         public static readonly Vector256Field Indexes = new Vector256Field(nameof(Indexes), 1);
         public static readonly Vector256Field Hashes = new Vector256Field(nameof(Hashes), 2);
         public static readonly Vector256Field Features = new Vector256Field(nameof(Features), 3);
-        public static readonly Vector256Field TokenOffers = new Vector256Field(nameof(TokenOffers), 4);
+        public static readonly Vector256Field NFTokenOffers = new Vector256Field(nameof(NFTokenOffers), 4);
 
         public static readonly Field Transaction = new Field(nameof(Transaction), 1, FieldType.Transaction);
         public static readonly Field LedgerEntry = new Field(nameof(LedgerEntry), 1, FieldType.LedgerEntry);

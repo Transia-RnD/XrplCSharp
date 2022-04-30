@@ -5,6 +5,6 @@ namespace Xrpl.Client.Responses.Transaction.TransactionTypes
 {
     public class NFTokenCancelOfferTransactionResponse : TransactionResponseCommon, INFTokenCancelOfferTransaction
     {
-        public string[] TokenOffers { get; set; }
+        public string[] NFTokenOffers { get; set; }
     }
 }

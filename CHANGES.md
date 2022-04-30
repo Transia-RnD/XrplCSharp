@@ -6,3 +6,6 @@
 
 ### 1.0.1 3/20/2022
 * NFT Support.
+
+### 1.0.2 4/1/2022
+* Fix Missing Meta on Tx Response.

@@ -4,13 +4,13 @@ namespace Xrpl.Client.Requests.Account
 {
     public class NFTSellOffersRequest : BaseLedgerRequest
     {
-        public NFTSellOffersRequest(string tokenid)
+        public NFTSellOffersRequest(string nft_id)
         {
-            TokenID = tokenid;
+            NFTokenID = nft_id;
             Command = "nft_sell_offers";
         }
 
-        [JsonProperty("tokenid")]
-        public string TokenID { get; set; }
+        [JsonProperty("nft_id")]
+        public string NFTokenID { get; set; }
     }
 }

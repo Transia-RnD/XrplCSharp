@@ -34,11 +34,11 @@ namespace Xrpl.Client.Model.Account
         [JsonProperty("issuer")]
         public string Issuer { get; set; }
 
-        [JsonProperty("tokenid")]
-        public string TokenID { get; set; }
+        [JsonProperty("nft_id")]
+        public string NFTokenID { get; set; }
 
         [JsonProperty("token_taxon")]
-        public uint TokenTaxon { get; set; }
+        public uint NFTokenTaxon { get; set; }
 
         [JsonProperty("uri")]
         public string URI { get; set; }

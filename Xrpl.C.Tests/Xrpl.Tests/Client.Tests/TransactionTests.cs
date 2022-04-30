@@ -389,9 +389,9 @@ namespace Xrpl.Client.Tests
 
         }
 
-        public string GetLastTokenID(Meta meta)
+        public string GetLastNFTokenID(Meta meta)
         {
-            return meta.AffectedNodes.Last().ModifiedNode.FinalFields.NonFungibleTokens.Last().NonFungibleToken.TokenID;
+            return meta.AffectedNodes.Last().ModifiedNode.FinalFields.NonFungibleTokens.Last().NonFungibleToken.NFTokenID;
         }
 
         public async Task CanMintToken()
@@ -401,7 +401,7 @@ namespace Xrpl.Client.Tests
 
             INFTokenMintTransaction mintToken = new NFTokenMintTransaction();
             mintToken.Sequence = accountInfo.AccountData.Sequence;
-            mintToken.TokenTaxon = 0;
+            mintToken.NFTokenTaxon = 0;
             mintToken.URI = "697066733a2f2f516d516a447644686648634d7955674441784b696734416f4d547453354a72736670694545704661334639515274";
             mintToken.Account = "rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb";
 
@@ -424,7 +424,7 @@ namespace Xrpl.Client.Tests
             Debug.WriteLine(something);
 
             Assert.IsNotNull(transaction.Meta);
-            Assert.IsNotNull(GetLastTokenID(transaction.Meta));
+            Assert.IsNotNull(GetLastNFTokenID(transaction.Meta));
         }
 
         public async Task CanBurnToken()
@@ -434,7 +434,7 @@ namespace Xrpl.Client.Tests
 
             INFTokenBurnTransaction mintBurn = new NFTokenBurnTransaction();
             mintBurn.Sequence = accountInfo.AccountData.Sequence;
-            mintBurn.TokenID = "000000007A91B8433CA1328487EF1415E531D4EE20F5952C44B17C9E00000003";
+            mintBurn.NFTokenID = "000000007A91B8433CA1328487EF1415E531D4EE20F5952C44B17C9E00000003";
             mintBurn.Account = "rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb";
 
             var json = mintBurn.ToJson();
@@ -451,14 +451,14 @@ namespace Xrpl.Client.Tests
 
         }
 
-        public async Task CanSetSellOfferOnToken()
+        public async Task CanSetNFTokenSellOfferOnToken()
         {
 
             AccountInfo accountInfo = await xls20client.AccountInfo("rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb");
 
             INFTokenCreateOfferTransaction offerCreate = new NFTokenCreateOfferTransaction();
             offerCreate.Sequence = accountInfo.AccountData.Sequence;
-            offerCreate.TokenID = "000900007A91B8433CA1328487EF1415E531D4EE20F5952C0000099B00000000";
+            offerCreate.NFTokenID = "000900007A91B8433CA1328487EF1415E531D4EE20F5952C0000099B00000000";
             offerCreate.Amount = new Currency { ValueAsXrp = 20 };
             offerCreate.Destination = "rJpMn8yEHeWSQ6w581dJsk8Z2jhCUEWbwD";
             offerCreate.Expiration = DateTime.UtcNow.AddHours(1);
@@ -486,7 +486,7 @@ namespace Xrpl.Client.Tests
 
             INFTokenCreateOfferTransaction offerCreate = new NFTokenCreateOfferTransaction();
             offerCreate.Sequence = accountInfo.AccountData.Sequence;
-            offerCreate.TokenID = "000900007A91B8433CA1328487EF1415E531D4EE20F5952C0000099B00000000";
+            offerCreate.NFTokenID = "000900007A91B8433CA1328487EF1415E531D4EE20F5952C0000099B00000000";
             offerCreate.Amount = new Currency { ValueAsXrp = 20 };
             offerCreate.Owner = "rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb";
             offerCreate.Expiration = DateTime.UtcNow.AddHours(1);
@@ -514,7 +514,7 @@ namespace Xrpl.Client.Tests
             INFTokenCancelOfferTransaction offerCreate = new NFTokenCancelOfferTransaction();
             offerCreate.Sequence = accountInfo.AccountData.Sequence;
             string[] tokenOffers = { "000900007A91B8433CA1328487EF1415E531D4EE20F5952C0000099B00000000" };
-            offerCreate.TokenOffers = tokenOffers;
+            offerCreate.NFTokenOffers = tokenOffers;
             offerCreate.Account = "rJpMn8yEHeWSQ6w581dJsk8Z2jhCUEWbwD";
 
             var json = offerCreate.ToJson();
@@ -538,7 +538,7 @@ namespace Xrpl.Client.Tests
 
             INFTokenAcceptOfferTransaction offerAccept = new NFTokenAcceptOfferTransaction();
             offerAccept.Sequence = accountInfo.AccountData.Sequence;
-            offerAccept.TokenID = "000900007A91B8433CA1328487EF1415E531D4EE20F5952C0000099B00000000";
+            offerAccept.NFTokenID = "000900007A91B8433CA1328487EF1415E531D4EE20F5952C0000099B00000000";
             offerAccept.Account = "rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb";
 
             var json = offerAccept.ToJson();

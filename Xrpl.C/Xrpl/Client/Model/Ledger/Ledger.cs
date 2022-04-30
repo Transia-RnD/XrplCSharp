@@ -11,7 +11,7 @@ namespace Xrpl.Client.Model.Ledger
     {
         [JsonProperty("ledger")]
         [JsonConverter(typeof(LedgerBinaryConverter))]
-        public LedgerEntity LedgerEntity { get; set; }
+        public object LedgerEntity { get; set; }
 
         [JsonProperty("queue_data")]
         public List<QueuedTransaction> QueueData { get; set; }
@@ -29,7 +29,7 @@ namespace Xrpl.Client.Model.Ledger
         public string LedgerData { get; set; }
 
         [JsonProperty("transactions")]
-        public List<BinaryTransaction> Transactions { get; set; }
+        public List<string> Transactions { get; set; }
     }
 
     public class LedgerEntity : BaseLedgerEntity

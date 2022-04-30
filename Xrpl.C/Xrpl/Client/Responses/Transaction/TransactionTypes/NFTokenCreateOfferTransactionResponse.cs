@@ -14,7 +14,7 @@ namespace Xrpl.Client.Responses.Transaction.TransactionTypes
 
         public new NFTokenCreateOfferFlags? Flags { get; set; }
 
-        public string TokenID { get; set; }
+        public string NFTokenID { get; set; }
 
         [JsonConverter(typeof(CurrencyConverter))]
         public Currency Amount { get; set; }

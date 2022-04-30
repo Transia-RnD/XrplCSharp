@@ -23,7 +23,7 @@ namespace Xrpl.Client.Tests
             Assert.AreEqual(responseCommon.ledger_index.ToString(), "810019");
             Assert.AreEqual(responseCommon.Meta.AffectedNodes[0].CreatedNode.LedgerEntryType.ToString(), "NFTokenPage");
             Assert.AreEqual(responseCommon.Meta.AffectedNodes[0].CreatedNode.LedgerIndex.ToString(), "5C5024773DF0C8D708C71D8218F7C59588EB2B1EFFFFFFFFFFFFFFFFFFFFFFFF");
-            Assert.AreEqual(responseCommon.Meta.AffectedNodes[0].CreatedNode.NewFields.NonFungibleTokens[0].NonFungibleToken.TokenID, "000900005C5024773DF0C8D708C71D8218F7C59588EB2B1E0000099B00000000");
+            Assert.AreEqual(responseCommon.Meta.AffectedNodes[0].CreatedNode.NewFields.NonFungibleTokens[0].NonFungibleToken.NFTokenID, "000900005C5024773DF0C8D708C71D8218F7C59588EB2B1E0000099B00000000");
             
             Assert.IsNotNull(responseCommon.Meta);
             Assert.AreEqual(responseCommon.Validated, true);

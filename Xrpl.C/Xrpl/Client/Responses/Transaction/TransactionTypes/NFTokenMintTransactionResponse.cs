@@ -11,7 +11,7 @@ namespace Xrpl.Client.Responses.Transaction.TransactionTypes
     {
         public new NFTokenMintFlags? Flags { get; set; }
 
-        public uint TokenTaxon { get; set; }
+        public uint NFTokenTaxon { get; set; }
 
         public string Issuer { get; set; }
 

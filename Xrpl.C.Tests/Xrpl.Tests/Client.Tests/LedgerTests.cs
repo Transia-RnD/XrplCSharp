@@ -3,8 +3,11 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ripple.Binary.Codec.Types;
 using Xrpl.Client.Model;
+using Xrpl.Client.Model.Ledger;
 using Xrpl.Client.Requests.Ledger;
 using System.Collections.Generic;
+
+using Xrpl.Client.Responses.Transaction.Interfaces;
 
 namespace Xrpl.Client.Tests
 {
@@ -13,8 +16,8 @@ namespace Xrpl.Client.Tests
     {
         private static IRippleClient client;
 
-        //private static string serverUrl = "wss://s1.ripple.com:443";
-        private static string serverUrl = "wss://s.altnet.rippletest.net:51233";
+        private static string serverUrl = "wss://s1.ripple.com:443";
+        //private static string serverUrl = "wss://s.altnet.rippletest.net:51233";
 
         [ClassInitialize]
         public static void MyClassInitialize(TestContext testContext)
@@ -28,11 +31,23 @@ namespace Xrpl.Client.Tests
         {
             var request = new LedgerRequest { LedgerIndex = new LedgerIndex(LedgerIndexType.Validated), Transactions = true, Expand = true };
             var ledger = await client.Ledger(request);
+            Assert.IsNotNull(ledger);
+        }
 
-            Assert.AreNotEqual(ledger.LedgerEntity.Transactions.Count, 0);
-            for (int i = 0; i < ledger.LedgerEntity.Transactions.Count; ++i)
+        [TestMethod]
+        public async Task CanGetLedgerAsBinary()
+        {
+            var request = new LedgerRequest { LedgerIndex = new LedgerIndex(LedgerIndexType.Validated), Transactions = true, Binary = true };
+            var ledger = await client.Ledger(request);
+            LedgerBinaryEntity entity = (LedgerBinaryEntity)ledger.LedgerEntity;
+
+            for (int i = 0; i < entity.Transactions.Count; ++i)
             {
-                Assert.IsNotNull(ledger.LedgerEntity.Transactions[i].Transaction);
+                Console.WriteLine(entity.Transactions[i].ToString());
+                string TransactionHash = entity.Transactions[i].ToString();
+                IBaseTransactionResponse transaction = await client.Transaction(TransactionHash);
+                Console.WriteLine(transaction);
+                Assert.IsNotNull(transaction);
             }
             Assert.IsNotNull(ledger);
         }

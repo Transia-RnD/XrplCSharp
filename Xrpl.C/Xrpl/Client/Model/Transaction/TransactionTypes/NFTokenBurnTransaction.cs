@@ -14,6 +14,6 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
 
         //public string Account { get; set; } // INHEIRTED FROM COMMON
 
-        public string TokenID { get; set; }
+        public string NFTokenID { get; set; }
     }
 }

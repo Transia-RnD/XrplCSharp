@@ -18,7 +18,7 @@ namespace Xrpl.Client.Tests
         private static string account;
         private static string xls20Account = "rBgHF5VQF74Gi2yFVppDbD9tL9radvkLmb";
 
-        private static string tokenid = "00090000751F85F13C661A20C610A2C32EBB48CE5819784E0000099B00000000";
+        private static string nft_id = "00090000751F85F13C661A20C610A2C32EBB48CE5819784E0000099B00000000";
 
         private static IRippleClient client;
         private static IRippleClient xls20client;
@@ -93,15 +93,15 @@ namespace Xrpl.Client.Tests
         [TestMethod]
         public async Task CanGetNFTBuyOffers()
         {
-            var nftBuyOffers = await xls20client.NFTBuyOffers(tokenid);
+            var nftBuyOffers = await xls20client.NFTBuyOffers(nft_id);
             Assert.IsNotNull(nftBuyOffers);
         }
 
         [TestMethod]
-        public async Task CanGetNFTSellOffers()
+        public async Task CanGetNFTNFTokenSellOffers()
         {
-            var nftSellOffers = await xls20client.NFTSellOffers(tokenid);
-            Assert.IsNotNull(nftSellOffers);
+            var nftNFTokenSellOffers = await xls20client.NFTSellOffers(nft_id);
+            Assert.IsNotNull(nftNFTokenSellOffers);
         }
 
         [TestMethod]

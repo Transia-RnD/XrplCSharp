@@ -9,6 +9,6 @@ namespace Xrpl.Client.Responses.Transaction.TransactionTypes
 {
     public class NFTokenBurnTransactionResponse : TransactionResponseCommon, INFTokenBurnTransaction
     {
-        public string TokenID { get; set; }
+        public string NFTokenID { get; set; }
     }
 }

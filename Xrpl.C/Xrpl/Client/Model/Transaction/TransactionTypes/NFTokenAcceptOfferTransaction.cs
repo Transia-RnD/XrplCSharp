@@ -12,6 +12,9 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
             TransactionType = TransactionType.NFTokenAcceptOffer;
         }
 
-        public string TokenID { get; set; }
+        public string NFTokenID { get; set; }
+
+        public string NFTokenSellOffer { get; set; }
+        public string NFTokenBuyOffer { get; set; }
     }
 }

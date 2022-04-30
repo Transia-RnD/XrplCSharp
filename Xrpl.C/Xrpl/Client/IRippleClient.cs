@@ -66,11 +66,11 @@ namespace Xrpl.Client
 
         Task<AccountOffers> AccountOffers(AccountOffersRequest request);
 
-        Task<NFTBuyOffers> NFTBuyOffers(string tokenid);
+        Task<NFTBuyOffers> NFTBuyOffers(string nft_id);
 
         Task<NFTBuyOffers> NFTBuyOffers(NFTBuyOffersRequest request);
 
-        Task<NFTSellOffers> NFTSellOffers(string tokenid);
+        Task<NFTSellOffers> NFTSellOffers(string nft_id);
 
         Task<NFTSellOffers> NFTSellOffers(NFTSellOffersRequest request);
 
@@ -319,9 +319,9 @@ namespace Xrpl.Client
             return task.Task;
         }
 
-        public Task<NFTBuyOffers> NFTBuyOffers(string tokenid)
+        public Task<NFTBuyOffers> NFTBuyOffers(string nft_id)
         {
-            NFTBuyOffersRequest request = new NFTBuyOffersRequest(tokenid);
+            NFTBuyOffersRequest request = new NFTBuyOffersRequest(nft_id);
             return NFTBuyOffers(request);
         }
 
@@ -341,9 +341,9 @@ namespace Xrpl.Client
             return task.Task;
         }
 
-        public Task<NFTSellOffers> NFTSellOffers(string tokenid)
+        public Task<NFTSellOffers> NFTSellOffers(string nft_id)
         {
-            NFTSellOffersRequest request = new NFTSellOffersRequest(tokenid);
+            NFTSellOffersRequest request = new NFTSellOffersRequest(nft_id);
             return NFTSellOffers(request);
         }
 

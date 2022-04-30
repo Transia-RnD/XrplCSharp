@@ -179,7 +179,7 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
 
     public class NonFungibleToken
     {
-        public string TokenID { get; set; }
+        public string NFTokenID { get; set; }
 
         public string URI { get; set; }
     }

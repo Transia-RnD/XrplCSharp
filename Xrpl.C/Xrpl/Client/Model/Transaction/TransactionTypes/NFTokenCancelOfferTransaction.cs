@@ -12,6 +12,6 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
             TransactionType = TransactionType.NFTokenCancelOffer;
         }
 
-        public string[] TokenOffers { get; set; }
+        public string[] NFTokenOffers { get; set; }
     }
 }

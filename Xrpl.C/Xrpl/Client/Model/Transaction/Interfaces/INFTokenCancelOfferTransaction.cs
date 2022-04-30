@@ -2,6 +2,6 @@
 {
     public interface INFTokenCancelOfferTransaction : ITransactionCommon
     {
-        string[] TokenOffers { get; set; }
+        string[] NFTokenOffers { get; set; }
     }
 }

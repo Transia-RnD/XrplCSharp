@@ -9,7 +9,7 @@ namespace Xrpl.Client.Responses.Transaction.TransactionTypes
 {
     public class NFTokenAcceptOfferTransactionResponse : TransactionResponseCommon, INFTokenAcceptOfferTransaction
     {
-        public string TokenID { get; set; }
+        public string NFTokenID { get; set; }
 
     }
 }
