@@ -152,7 +152,7 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
 
         public string LowNode { get; set; }
 
-        public List<INonFungibleToken> NonFungibleTokens { get; set; }
+        public List<INFToken> NFTokens { get; set; }
     }
 
     public class PreviousFields
@@ -172,12 +172,12 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
         public NodeInfo ModifiedNode { get; set; }
     }
 
-    public class INonFungibleToken
+    public class INFToken
     {
-        public NonFungibleToken NonFungibleToken { get; set; }
+        public NFToken NFToken { get; set; }
     }
 
-    public class NonFungibleToken
+    public class NFToken
     {
         public string NFTokenID { get; set; }
 

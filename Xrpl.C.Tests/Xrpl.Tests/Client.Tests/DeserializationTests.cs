@@ -18,12 +18,12 @@ namespace Xrpl.Client.Tests
         {
             var transaction = Encoding.ASCII.GetString(Resources.Transaction);
             ITransactionResponseCommon responseCommon = JsonConvert.DeserializeObject<TransactionResponseCommon>(transaction);
-            Assert.AreEqual(responseCommon.date.ToString(), "701933800");
-            Assert.AreEqual(responseCommon.inLedger.ToString(), "810019");
-            Assert.AreEqual(responseCommon.ledger_index.ToString(), "810019");
-            Assert.AreEqual(responseCommon.Meta.AffectedNodes[0].CreatedNode.LedgerEntryType.ToString(), "NFTokenPage");
-            Assert.AreEqual(responseCommon.Meta.AffectedNodes[0].CreatedNode.LedgerIndex.ToString(), "5C5024773DF0C8D708C71D8218F7C59588EB2B1EFFFFFFFFFFFFFFFFFFFFFFFF");
-            Assert.AreEqual(responseCommon.Meta.AffectedNodes[0].CreatedNode.NewFields.NonFungibleTokens[0].NonFungibleToken.NFTokenID, "000900005C5024773DF0C8D708C71D8218F7C59588EB2B1E0000099B00000000");
+            Assert.AreEqual(responseCommon.date.ToString(), "706918490");
+            Assert.AreEqual(responseCommon.inLedger.ToString(), "2465631");
+            Assert.AreEqual(responseCommon.ledger_index.ToString(), "2465631");
+            Assert.AreEqual(responseCommon.Meta.AffectedNodes[1].ModifiedNode.LedgerEntryType.ToString(), "NFTokenPage");
+            Assert.AreEqual(responseCommon.Meta.AffectedNodes[1].ModifiedNode.LedgerIndex.ToString(), "751F85F13C661A20C610A2C32EBB48CE5819784EFFFFFFFFFFFFFFFFFFFFFFFF");
+            Assert.AreEqual(responseCommon.Meta.AffectedNodes[1].ModifiedNode.FinalFields.NFTokens[0].NFToken.NFTokenID, "00090000751F85F13C661A20C610A2C32EBB48CE5819784E0000099B00000000");
             
             Assert.IsNotNull(responseCommon.Meta);
             Assert.AreEqual(responseCommon.Validated, true);
