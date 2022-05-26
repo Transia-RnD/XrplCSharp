@@ -9,3 +9,6 @@
 
 ### 1.0.2 4/1/2022
 * Fix Missing Meta on Tx Response.
+
+### 1.0.3 5/26/2022
+* Add NFT Type/Name Change
