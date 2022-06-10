@@ -384,7 +384,7 @@ namespace Xrpl.Client.Tests
         [TestMethod]
         public async Task NFTokenTests()
         {
-            await CanMintToken();
+            //await CanMintToken();
             //await CanBurnToken();
             //await CanSetNFTokenSellOfferOnToken();
             //await CanSetBuyOfferOnToken();
