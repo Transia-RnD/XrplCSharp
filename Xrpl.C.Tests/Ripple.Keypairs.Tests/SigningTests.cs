@@ -65,7 +65,7 @@ namespace Ripple.Keypairs.Tests
             var keypair = Seed.FromPassPhrase("niq").SetEd25519().KeyPair();
             var channelEncoded = ChannelUtils.EncodeChannel(
                 "931E6B6C278DB7AC0A61CD92AEA5373E8DF59E5836E6D0D1ECAA53D38C3C4E1E",
-                Amount.ToString()
+                (long)Amount.ValueAsNumber
             );
             Assert.IsNotNull(channelEncoded);
             Assert.AreEqual(channelEncoded.Length, CHANNEL_DATA_BYTES.Length);
