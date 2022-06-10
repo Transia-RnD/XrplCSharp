@@ -1,5 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Utilities.Encoders;
+using System.Text;
+using System.Diagnostics;
+using Currency = Xrpl.Client.Model.Currency;
+using System.Collections;
+using System;
+using Ripple.Binary.Codec.Util;
 
 namespace Ripple.Keypairs.Tests
 {
@@ -9,6 +15,76 @@ namespace Ripple.Keypairs.Tests
     public class SigningTests
     {
         readonly byte[] _message = { 0xb, 0xe, 0xe, 0xf };
+        readonly Currency Amount = new Currency { ValueAsXrp = 1 };
+        public byte[] CHANNEL_SIG_BYTES = { 190, 50, 164, 198, 141, 107, 164, 120, 114, 100, 238, 231, 96, 222, 255, 180, 240, 90, 218, 201, 153, 186, 243, 172, 99, 244, 233, 245, 66, 223, 7, 250, 231, 131, 253, 112, 112, 113, 135, 151, 116, 160, 34, 232, 122, 106, 136, 73, 182, 102, 182, 221, 170, 34, 54, 23, 133, 34, 77, 54, 183, 203, 196, 6 };
+        public byte[] CHANNEL_DATA_BYTES = { 67, 76, 77, 0, 147, 30, 107, 108, 39, 141, 183, 172, 10, 97, 205, 146, 174, 165, 55, 62, 141, 245, 158, 88, 54, 230, 208, 209, 236, 170, 83, 211, 140, 60, 78, 30, 0, 0, 0, 0, 0, 15, 66, 64 };
+
+        //public byte[] EncodeChannel(string channelHex, string amount)
+        //{
+        //    byte[] HASH_CHANNEL_SIGN = { 0x43, 0x4C, 0x4D, 0x00 };
+        //    byte[] HEX_CHANNEL_SIGN = { 147, 30, 107, 108, 39, 141, 183, 172, 10, 97, 205, 146, 174, 165, 55, 62, 141, 245, 158, 88, 54, 230, 208, 209, 236, 170, 83, 211, 140, 60, 78, 30 };
+        //    byte[] HASH_AMOUNT_SIGN = { 0, 0, 0, 0, 0, 15, 66, 64 };
+        //    byte[] channelArray = Convert.FromHexString(channelHex);
+        //    byte[] rv = new byte[HASH_CHANNEL_SIGN.Length + channelArray.Length + HASH_AMOUNT_SIGN.Length];
+        //    System.Buffer.BlockCopy(HASH_CHANNEL_SIGN, 0, rv, 0, HASH_CHANNEL_SIGN.Length);
+        //    System.Buffer.BlockCopy(channelArray, 0, rv, HASH_CHANNEL_SIGN.Length, channelArray.Length);
+        //    System.Buffer.BlockCopy(HASH_AMOUNT_SIGN, 0, rv, HASH_CHANNEL_SIGN.Length + channelArray.Length, HASH_AMOUNT_SIGN.Length);
+        //    return rv;
+        //}
+
+        public static byte[] GetBytes(byte[] data, int start, int end)
+        {
+            byte[] copy = new byte[end - start];
+            System.Buffer.BlockCopy(data, start, copy, 0, copy.Length);
+            return copy;
+        }
+
+        [TestMethod]
+        public void DecodeChannelHash()
+        {
+            byte[] HASH_CHANNEL_SIGN = { 0x43, 0x4C, 0x4D, 0x00 };
+            byte[] newBytes = GetBytes(CHANNEL_DATA_BYTES, 0, 4);
+            Assert.AreEqual(HASH_CHANNEL_SIGN.Length, newBytes.Length);
+        }
+
+        [TestMethod]
+        public void DecodeChannelHex()
+        {
+            byte[] HEX_CHANNEL_SIGN = { 147, 30, 107, 108, 39, 141, 183, 172, 10, 97, 205, 146, 174, 165, 55, 62, 141, 245, 158, 88, 54, 230, 208, 209, 236, 170, 83, 211, 140, 60, 78, 30 };
+            byte[] newBytes = GetBytes(CHANNEL_DATA_BYTES, 4, 36);
+            Assert.AreEqual(HEX_CHANNEL_SIGN.Length, newBytes.Length);
+        }
+
+        [TestMethod]
+        public void DecodeChannelAmount()
+        {
+            byte[] AMOUNT_CHANNEL_SIGN = { 0, 0, 0, 0, 0, 15, 66, 64 };
+            byte[] newBytes = GetBytes(CHANNEL_DATA_BYTES, 36, CHANNEL_DATA_BYTES.Length);
+            Assert.AreEqual(AMOUNT_CHANNEL_SIGN.Length, newBytes.Length);
+        }
+
+        [TestMethod]
+        public void ConvertChannelAmount()
+        {
+            byte[] AMOUNT_CHANNEL_SIGN = { 0, 0, 0, 0, 0, 15, 66, 64 };
+            Array.Reverse(AMOUNT_CHANNEL_SIGN);
+            long value = BitConverter.ToInt64(AMOUNT_CHANNEL_SIGN, 0);
+            Assert.AreEqual(value, 1000000);
+        }
+
+        [TestMethod]
+        public void ChannelEncodeAndSign()
+        {
+            var keypair = Seed.FromPassPhrase("niq").SetEd25519().KeyPair();
+            var channelEncoded = ChannelUtils.EncodeChannel(
+                "931E6B6C278DB7AC0A61CD92AEA5373E8DF59E5836E6D0D1ECAA53D38C3C4E1E",
+                Amount.ToString()
+            );
+            Assert.IsNotNull(channelEncoded);
+            Assert.AreEqual(channelEncoded.Length, CHANNEL_DATA_BYTES.Length);
+            var sig = keypair.Sign(channelEncoded);
+            Assert.IsTrue(keypair.Verify(channelEncoded, sig));
+        }
 
         [TestMethod]
         public void K256SanityTest()

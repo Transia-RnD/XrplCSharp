@@ -695,5 +695,19 @@ namespace Ripple.Binary.Codec.Util
             return BitConverter.ToUInt64(value.Reverse().ToArray(), value.Length - sizeof(UInt64) - startIndex);
         }
     }
-
+    public static class ChannelUtils
+    {
+        public static byte[] EncodeChannel(string channelHex, string amount)
+        {
+            byte[] HASH_CHANNEL_SIGN = { 0x43, 0x4C, 0x4D, 0x00 };
+            byte[] HEX_CHANNEL_SIGN = { 147, 30, 107, 108, 39, 141, 183, 172, 10, 97, 205, 146, 174, 165, 55, 62, 141, 245, 158, 88, 54, 230, 208, 209, 236, 170, 83, 211, 140, 60, 78, 30 };
+            byte[] HASH_AMOUNT_SIGN = { 0, 0, 0, 0, 0, 15, 66, 64 };
+            byte[] channelArray = Convert.FromHexString(channelHex);
+            byte[] rv = new byte[HASH_CHANNEL_SIGN.Length + channelArray.Length + HASH_AMOUNT_SIGN.Length];
+            System.Buffer.BlockCopy(HASH_CHANNEL_SIGN, 0, rv, 0, HASH_CHANNEL_SIGN.Length);
+            System.Buffer.BlockCopy(channelArray, 0, rv, HASH_CHANNEL_SIGN.Length, channelArray.Length);
+            System.Buffer.BlockCopy(HASH_AMOUNT_SIGN, 0, rv, HASH_CHANNEL_SIGN.Length + channelArray.Length, HASH_AMOUNT_SIGN.Length);
+            return rv;
+        }
+    }
 }
