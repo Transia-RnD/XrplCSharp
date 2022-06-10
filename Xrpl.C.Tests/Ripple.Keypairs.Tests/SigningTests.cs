@@ -149,4 +149,3 @@ namespace Ripple.Keypairs.Tests
         }
     }
 }
-
