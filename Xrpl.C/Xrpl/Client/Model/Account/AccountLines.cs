@@ -8,7 +8,7 @@ namespace Xrpl.Client.Model.Account
         [JsonProperty("account")]
         public string Account { get; set; }
 
-        [JsonProperty("account_nfts")]
+        [JsonProperty("lines")]
         public List<TrustLine> TrustLines { get; set; }
 
         [JsonProperty("ledger_current_index")]

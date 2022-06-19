@@ -17,7 +17,7 @@ namespace Xrpl.Client.Requests.Account
         public string Peer { get; set; }
 
         [JsonProperty("limit")]
-        public int Limit { get; set; }
+        public int Limit { get; set; } = 10;
 
         [JsonProperty("marker")]
         public object Marker { get; set; }
