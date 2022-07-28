@@ -62,7 +62,7 @@ namespace Xrpl.Client
         /// <returns>An <see cref="Model.Account.AccountLines"/> response.</returns>
         Task<AccountLines> AccountLines(AccountLinesRequest request);
 
-        Task<AccountOffers> AccountOffers(string account, uint Limit);
+        Task<AccountOffers> AccountOffers(string account);
 
         Task<AccountOffers> AccountOffers(AccountOffersRequest request);
 
@@ -297,9 +297,9 @@ namespace Xrpl.Client
             return task.Task;
         }
 
-        public Task<AccountOffers> AccountOffers(string account, uint Limit)
+        public Task<AccountOffers> AccountOffers(string account)
         {
-            AccountOffersRequest request = new AccountOffersRequest(account,Limit);
+            AccountOffersRequest request = new AccountOffersRequest(account);
             return AccountOffers(request);
         }
 

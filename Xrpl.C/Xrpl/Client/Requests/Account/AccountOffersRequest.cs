@@ -4,11 +4,10 @@ namespace Xrpl.Client.Requests.Account
 {
     public class AccountOffersRequest : BaseLedgerRequest
     {
-        public AccountOffersRequest(string account, uint limit)
+        public AccountOffersRequest(string account)
         {
             Account = account;
             Command = "account_offers";
-            Limit = limit;
         }
 
         [JsonProperty("account")]
