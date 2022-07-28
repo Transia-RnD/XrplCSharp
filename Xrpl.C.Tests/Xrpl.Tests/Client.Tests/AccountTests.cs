@@ -86,7 +86,7 @@ namespace Xrpl.Client.Tests
         [TestMethod]
         public async Task CanGetAccountOffers()
         {
-            var accountOffers = await client.AccountOffers(account);
+            var accountOffers = await client.AccountOffers(account,100);
             Assert.IsNotNull(accountOffers);
         }
 
