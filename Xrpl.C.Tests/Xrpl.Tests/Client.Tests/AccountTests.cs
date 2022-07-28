@@ -86,7 +86,15 @@ namespace Xrpl.Client.Tests
         [TestMethod]
         public async Task CanGetAccountOffers()
         {
-            var accountOffers = await client.AccountOffers(account);
+            AccountOffers accountOffers = await client.AccountOffers("rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn");
+            Assert.IsNotNull(accountOffers);
+        }
+
+        [TestMethod]
+        public async Task CanGetAccountOffersRequest()
+        {
+            AccountOffersRequest offersRequest = new AccountOffersRequest(account) { Limit = 100 };
+            var accountOffers = await client.AccountOffers(offersRequest);
             Assert.IsNotNull(accountOffers);
         }
 
