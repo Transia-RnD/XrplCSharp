@@ -121,7 +121,10 @@ namespace Ripple.Binary.Codec.Types
 
         public decimal DecimalValue()
         {
-            return decimal.Parse(Value.ToString());
+            if (string.IsNullOrWhiteSpace(Value.ToString()))
+                return 0;
+            var can_parse = decimal.TryParse(Value.ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out var result);
+            return !can_parse ? 0 : result;
         }
 
         public static Amount operator * (Amount a, decimal b)

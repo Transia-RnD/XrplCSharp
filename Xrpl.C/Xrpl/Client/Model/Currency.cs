@@ -41,8 +41,11 @@ namespace Xrpl.Client.Model
             {
                 if (CurrencyCode != "XRP" || string.IsNullOrEmpty(Value))
                     return null;
-                decimal val = decimal.Parse(Value);
-                return val / 1000000;
+                if (string.IsNullOrWhiteSpace(Value))
+                    return 0;
+                var can_parse = decimal.TryParse(Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var val);
+
+                return !can_parse ? 0 : val / 1000000;
             }
             set
             {
