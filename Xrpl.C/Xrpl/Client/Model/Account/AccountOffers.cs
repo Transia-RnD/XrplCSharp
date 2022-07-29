@@ -43,7 +43,7 @@ namespace Xrpl.Client.Model.Account
         public Currency TakerPays { get; set; }
 
         [JsonProperty("quality")]
-        public double Quality { get; set; }
+        public string Quality { get; set; }
 
         [JsonProperty("expiration")]
         [JsonConverter(typeof(RippleDateTimeConverter))]
