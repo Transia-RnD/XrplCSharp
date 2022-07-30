@@ -24,7 +24,7 @@ namespace Xrpl.Client.Model
         [JsonIgnore]
         public decimal ValueAsNumber
         {
-            get => string.IsNullOrEmpty(Value) ? 0 : decimal.Parse(Value);
+            get => string.IsNullOrEmpty(Value) ? 0 : decimal.Parse(Value, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint);
             set => Value = value.ToString(CurrencyCode == "XRP" ? "G0" : "G15", CultureInfo.InvariantCulture);
         }
 
