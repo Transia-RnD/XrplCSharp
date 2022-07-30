@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 using System.Globalization;
+using Xrpl.Client.Extensions;
 
 namespace Xrpl.Client.Model
 {
@@ -13,6 +14,9 @@ namespace Xrpl.Client.Model
 
         [JsonProperty("currency")]
         public string CurrencyCode { get; set; }
+        [JsonIgnore]
+        public string CurrencyHexName => CurrencyCode is { Length: > 0 } row ? row.Length > 3 ? row.FromHexString().Trim('\0') : row : string.Empty;
+
 
         [JsonProperty("value")]
         public string Value { get; set; }
