@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+
+using Ripple.Binary.Codec.Binary;
+
 using System.Globalization;
 using System.Linq;
-using Newtonsoft.Json.Linq;
-using Ripple.Binary.Codec.Binary;
 
 namespace Ripple.Binary.Codec.Types
 {
@@ -16,8 +17,8 @@ namespace Ripple.Binary.Codec.Types
         public const int MaximumIouPrecision = 16;
 
         public Amount(AmountValue value,
-                      Currency currency=null,
-                      AccountId issuer=null)
+                      Currency currency = null,
+                      AccountId issuer = null)
         {
             Currency = currency ?? Currency.Xrp;
             Issuer = issuer ?? (Currency.IsNative ?
@@ -26,12 +27,12 @@ namespace Ripple.Binary.Codec.Types
             Value = value;
         }
 
-        public Amount(string v="0", Currency c=null, AccountId i=null) :
+        public Amount(string v = "0", Currency c = null, AccountId i = null) :
                       this(AmountValue.FromString(v, c == null || c.IsNative), c, i)
         {
         }
 
-        public Amount(decimal value, Currency currency, AccountId issuer=null) :
+        public Amount(decimal value, Currency currency, AccountId issuer = null) :
             this(value.ToString(CultureInfo.InvariantCulture), currency, issuer)
         {
         }
@@ -85,7 +86,7 @@ namespace Ripple.Binary.Codec.Types
                     if (token.Children().Count() > 3)
                         throw new InvalidJsonException("Amount object has too many properties.");
 
-                    if(valueToken.Type != JTokenType.String)
+                    if (valueToken.Type != JTokenType.String)
                         throw new InvalidJsonException("Property `value` must be string.");
 
                     if (currencyToken.Type != JTokenType.String)
@@ -110,7 +111,7 @@ namespace Ripple.Binary.Codec.Types
             return new Amount(v);
         }
 
-        public static Amount FromParser(BinaryParser parser, int? hint=null)
+        public static Amount FromParser(BinaryParser parser, int? hint = null)
         {
             var value = AmountValue.FromParser(parser);
             if (!value.IsIou) return new Amount(value);
@@ -119,22 +120,16 @@ namespace Ripple.Binary.Codec.Types
             return new Amount(value, curr, issuer);
         }
 
-        public decimal DecimalValue()
-        {
-            if (string.IsNullOrWhiteSpace(Value.ToString()))
-                return 0;
-            var can_parse = decimal.TryParse(Value.ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out var result);
-            return !can_parse ? 0 : result;
-        }
+        public decimal DecimalValue() => string.IsNullOrWhiteSpace(Value.ToString()) ? 0 : decimal.Parse(Value.ToString(), NumberStyles.Float, CultureInfo.InvariantCulture);
 
-        public static Amount operator * (Amount a, decimal b)
+        public static Amount operator *(Amount a, decimal b)
         {
             return new Amount(
-                (a.DecimalValue() * b).ToString(CultureInfo.InvariantCulture), 
+                (a.DecimalValue() * b).ToString(CultureInfo.InvariantCulture),
                               a.Currency, a.Issuer);
         }
 
-        public static bool operator < (decimal a, Amount b)
+        public static bool operator <(decimal a, Amount b)
         {
             return a < b.DecimalValue();
         }

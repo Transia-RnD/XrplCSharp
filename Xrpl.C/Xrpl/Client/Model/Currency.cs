@@ -1,7 +1,6 @@
-﻿using System.Dynamic;
+﻿using Newtonsoft.Json;
+
 using System.Globalization;
-using Newtonsoft.Json;
-using Xrpl.Client.Json.Converters;
 
 namespace Xrpl.Client.Model
 {
@@ -24,13 +23,7 @@ namespace Xrpl.Client.Model
         [JsonIgnore]
         public decimal ValueAsNumber
         {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(Value))
-                    return 0;
-                var can_parse = decimal.TryParse(Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var result);
-                return !can_parse ? 0 : result;
-            }
+            get => string.IsNullOrWhiteSpace(Value) ? 0 : decimal.Parse(Value, NumberStyles.Float, CultureInfo.InvariantCulture);
             set => Value = value.ToString(CurrencyCode == "XRP" ? "G0" : "G15", CultureInfo.InvariantCulture);
         }
 
@@ -41,11 +34,8 @@ namespace Xrpl.Client.Model
             {
                 if (CurrencyCode != "XRP" || string.IsNullOrEmpty(Value))
                     return null;
-                if (string.IsNullOrWhiteSpace(Value))
-                    return 0;
-                var can_parse = decimal.TryParse(Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var val);
-
-                return !can_parse ? 0 : val / 1000000;
+                var val = string.IsNullOrWhiteSpace(Value) ? 0 : decimal.Parse(Value, NumberStyles.Float, CultureInfo.InvariantCulture);
+                return val / 1000000;
             }
             set
             {

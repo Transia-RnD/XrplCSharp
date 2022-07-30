@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+
+using System.Collections.Generic;
 using System.Globalization;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Xrpl.Client.Extensions;
 
 namespace Xrpl.Client.Model.Account
 {
@@ -36,49 +37,25 @@ namespace Xrpl.Client.Model.Account
         public string Balance { get; set; }
 
         [JsonIgnore]
-        public decimal BalanceAsNumber
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(Balance))
-                    return 0;
-                var can_parse = decimal.TryParse(Balance, NumberStyles.Float, CultureInfo.InvariantCulture, out var result);
-                return !can_parse ? 0 : result;
-            }
-        }
+        public decimal BalanceAsNumber => string.IsNullOrWhiteSpace(Balance) ? 0 : decimal.Parse(Balance, NumberStyles.Float, CultureInfo.InvariantCulture);
 
         [JsonProperty("currency")]
         public string Currency { get; set; }
+
+        [JsonIgnore]
+        public string CurrencyHexName => Currency is { Length: > 0 } row ? row.Length > 3 ? row.FromHexString().Trim('\0') : row : string.Empty;
 
         [JsonProperty("limit")]
         public string Limit { get; set; }
 
         [JsonIgnore]
-        public decimal LimitAsNumber
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(Limit))
-                    return 0;
-                var can_parse = decimal.TryParse(Limit, NumberStyles.Float, CultureInfo.InvariantCulture, out var result);
-                return !can_parse ? 0 : result;
-            }
-        }
+        public decimal LimitAsNumber => string.IsNullOrWhiteSpace(Limit) ? 0 : decimal.Parse(Limit, NumberStyles.Float, CultureInfo.InvariantCulture);
 
         [JsonProperty("limit_peer")]
         public string LimitPeer { get; set; }
 
         [JsonIgnore]
-        public decimal LimitPeerAsNumber
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(LimitPeer))
-                    return 0;
-                var can_parse = decimal.TryParse(LimitPeer, NumberStyles.Float, CultureInfo.InvariantCulture, out var result);
-                return !can_parse ? 0 : result;
-            }
-        }
+        public decimal LimitPeerAsNumber => string.IsNullOrWhiteSpace(LimitPeer) ? 0 : decimal.Parse(LimitPeer, NumberStyles.Float, CultureInfo.InvariantCulture);
 
         [JsonProperty("quality_in")]
         public uint QualityIn { get; set; }
