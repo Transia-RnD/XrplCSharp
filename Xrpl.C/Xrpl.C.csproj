@@ -58,7 +58,6 @@
     <Folder Include="Ripple.Address.Codec\" />
     <Folder Include="Ripple.Binary.Codec\" />
     <Folder Include="Ripple.Keypairs\" />
-    <Folder Include="Xrpl\" />
     <Folder Include="Ripple.Binary.Codec\Binary\" />
     <Folder Include="Ripple.Binary.Codec\Enums\" />
     <Folder Include="Ripple.Binary.Codec\Hashing\" />
@@ -74,11 +73,9 @@
     <Folder Include="Ripple.Keypairs\RIPEMD160\" />
     <Folder Include="Ripple.Keypairs\Utils\" />
     <Folder Include="Xrpl\Wallet\" />
-    <Folder Include="Xrpl\Client\" />
     <Folder Include="Xrpl\Client\Exceptions\" />
     <Folder Include="Xrpl\Client\Extensions\" />
     <Folder Include="Xrpl\Client\Json\" />
-    <Folder Include="Xrpl\Client\Model\" />
     <Folder Include="Xrpl\Client\Requests\" />
     <Folder Include="Xrpl\Client\Responses\" />
     <Folder Include="Properties\" />

@@ -1,6 +1,7 @@
-﻿using Xrpl.Client.Model;
-using Xrpl.Client.Model.Transaction.Interfaces;
+﻿using Xrpl.Client.Model.Transaction.Interfaces;
 using Xrpl.Client.Responses.Transaction.Interfaces;
+
+using xrpl_c.Xrpl.Client.Model.Enums;
 
 namespace Xrpl.Client.Responses.Transaction.TransactionTypes
 {

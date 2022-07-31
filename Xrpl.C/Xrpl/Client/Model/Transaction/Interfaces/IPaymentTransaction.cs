@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using xrpl_c.Xrpl.Client.Model.Enums;
+
 namespace Xrpl.Client.Model.Transaction.Interfaces
 {
     public interface IPaymentTransaction : ITransactionCommon

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Xrpl.Client.Model;
+
+using xrpl_c.Xrpl.Client.Model.Enums;
 
 namespace Xrpl.Client.Requests.Ledger
 {

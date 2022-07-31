@@ -1,4 +1,6 @@
-﻿namespace Xrpl.Client.Model
+﻿using xrpl_c.Xrpl.Client.Model.Enums;
+
+namespace Xrpl.Client.Model
 {
     public class LedgerIndex
     {

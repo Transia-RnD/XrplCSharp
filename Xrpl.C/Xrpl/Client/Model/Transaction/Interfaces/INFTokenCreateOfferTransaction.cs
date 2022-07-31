@@ -1,5 +1,7 @@
 ﻿using System;
 
+using xrpl_c.Xrpl.Client.Model.Enums;
+
 namespace Xrpl.Client.Model.Transaction.Interfaces
 {
     public interface INFTokenCreateOfferTransaction : ITransactionCommon

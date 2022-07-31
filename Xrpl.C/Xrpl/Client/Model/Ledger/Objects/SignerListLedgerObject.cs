@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+
 using Newtonsoft.Json;
+
+using xrpl_c.Xrpl.Client.Model.Enums;
 
 namespace Xrpl.Client.Model.Ledger.Objects
 {

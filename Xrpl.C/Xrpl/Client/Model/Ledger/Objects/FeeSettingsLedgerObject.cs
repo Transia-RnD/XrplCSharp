@@ -1,4 +1,6 @@
-﻿namespace Xrpl.Client.Model.Ledger.Objects
+﻿using xrpl_c.Xrpl.Client.Model.Enums;
+
+namespace Xrpl.Client.Model.Ledger.Objects
 {
     public class FeeSettingsLedgerObject : BaseRippleLedgerObject
     {

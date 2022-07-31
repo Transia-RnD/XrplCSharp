@@ -8,6 +8,7 @@ using Xrpl.Client.Requests.Ledger;
 using System.Collections.Generic;
 
 using Xrpl.Client.Responses.Transaction.Interfaces;
+using xrpl_c.Xrpl.Client.Model.Enums;
 
 namespace Xrpl.Client.Tests
 {

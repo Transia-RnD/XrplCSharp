@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+
 using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Model;
 using Xrpl.Client.Model.Transaction.Interfaces;
 using Xrpl.Client.Model.Transaction.TransactionTypes;
 using Xrpl.Client.Responses.Transaction.Interfaces;
+
+using xrpl_c.Xrpl.Client.Model.Enums;
 
 namespace Xrpl.Client.Responses.Transaction.TransactionTypes
 {
@@ -48,6 +52,10 @@ namespace Xrpl.Client.Responses.Transaction.TransactionTypes
 
         [JsonProperty("date")]
         public uint? date { get; set; }
+
+        /// <summary> UTC DateTime Format </summary>
+        [JsonIgnore]
+        public DateTime? DateTime => date is null ? null : new DateTime(2000, 01, 01).AddSeconds(date.Value);
 
         [JsonProperty("inLedger")]
         public uint? inLedger { get; set; }

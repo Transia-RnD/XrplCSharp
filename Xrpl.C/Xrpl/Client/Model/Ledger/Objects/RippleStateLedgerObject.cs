@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 
+using xrpl_c.Xrpl.Client.Model.Enums;
+
 namespace Xrpl.Client.Model.Ledger.Objects
 {
     public class RippleStateLedgerObject : BaseRippleLedgerObject

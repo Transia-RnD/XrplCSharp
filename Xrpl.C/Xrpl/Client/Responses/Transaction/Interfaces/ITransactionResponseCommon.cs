@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+
 using Xrpl.Client.Model;
 using Xrpl.Client.Model.Transaction.TransactionTypes;
+
+using xrpl_c.Xrpl.Client.Model.Enums;
 
 namespace Xrpl.Client.Responses.Transaction.Interfaces
 {

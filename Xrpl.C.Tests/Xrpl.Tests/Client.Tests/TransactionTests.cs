@@ -9,7 +9,6 @@ using Ripple.Binary.Codec.Types;
 using Xrpl.Wallet;
 using Xrpl.Client.Extensions;
 using Xrpl.Client.Json.Converters;
-using Xrpl.Client.Model;
 using Xrpl.Client.Model.Account;
 using Xrpl.Client.Model.Transaction;
 using Xrpl.Client.Model.Transaction.Interfaces;
@@ -20,6 +19,7 @@ using Xrpl.Client.Responses.Transaction.Interfaces;
 using Currency = Xrpl.Client.Model.Currency;
 
 using Xrpl.Client.Responses.Transaction.TransactionTypes;
+using xrpl_c.Xrpl.Client.Model.Enums;
 
 namespace Xrpl.Client.Tests
 {

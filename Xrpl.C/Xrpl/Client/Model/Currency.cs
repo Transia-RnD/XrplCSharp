@@ -16,6 +16,8 @@ namespace Xrpl.Client.Model
         public string CurrencyCode { get; set; }
         [JsonIgnore]
         public string CurrencyHexName => CurrencyCode is { Length: > 0 } row ? row.Length > 3 ? row.FromHexString().Trim('\0') : row : string.Empty;
+        [JsonIgnore]
+        public string CurrencyInfo => CurrencyCode == "XRP" ? $"{ValueAsXrp} {CurrencyHexName}" : $"{ValueAsNumber} {CurrencyHexName}";
 
 
         [JsonProperty("value")]
