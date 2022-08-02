@@ -24,6 +24,8 @@ namespace Xrpl.Client.Extensions
 
         public static string FromHexString(this string input)
         {
+            if( string.IsNullOrWhiteSpace(input))
+                return null;
             byte[] bytes = Enumerable.Range(0, input.Length)
                 .Where(x => x % 2 == 0)
                 .Select(x => Convert.ToByte(input.Substring(x, 2), 16))
