@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
-using Xrpl.Client.Model.Transaction.TransactionTypes;
+using Xrpl.Client.Models.Transactions;
 
 namespace Xrpl.Client.Json.Converters
 {
