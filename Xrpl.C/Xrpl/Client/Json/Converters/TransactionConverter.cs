@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xrpl.Client.Models.Transactions;
 
+using xrpl_c.Xrpl.Client.Models.Transaction;
+
 namespace Xrpl.Client.Json.Converters
 {
     public class TransactionConverter : JsonConverter
@@ -61,6 +63,8 @@ namespace Xrpl.Client.Json.Converters
                     return new SetFeeTransactionResponse();
                 case "AccountDelete":
                     return new AccountDeleteTransactionResponse();
+                case "TicketCreate":
+                    return new TicketCreateTransactionResponse();
             }
             throw new Exception("Can't create transaction type" + transactionType);
         }

@@ -25,7 +25,8 @@ namespace Xrpl.Client.Models.Enums
         NFTokenBurn,
         NFTokenCreateOffer,
         NFTokenCancelOffer,
-        NFTokenAcceptOffer
+        NFTokenAcceptOffer,
+        TicketCreate
     }
 
     public enum LedgerEntryType
@@ -40,7 +41,8 @@ namespace Xrpl.Client.Models.Enums
         PayChannel,
         RippleState,
         SignerList,
-        NFTokenPage
+        NFTokenPage,
+        Ticket
     }
 
     public enum StreamType
