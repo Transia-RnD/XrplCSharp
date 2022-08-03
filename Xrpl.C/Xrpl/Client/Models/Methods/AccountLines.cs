@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using Xrpl.Client.Extensions;
 
 namespace Xrpl.Client.Models.Methods
 {
@@ -37,6 +38,8 @@ namespace Xrpl.Client.Models.Methods
 
         [JsonProperty("currency")]
         public string Currency { get; set; }
+        [JsonIgnore]
+        public string CurrencyValidName => Currency is { Length: > 0 } row ? row.Length > 3 ? row.FromHexString().Trim('\0') : row : string.Empty;
 
         [JsonProperty("limit")]
         public string Limit { get; set; }
