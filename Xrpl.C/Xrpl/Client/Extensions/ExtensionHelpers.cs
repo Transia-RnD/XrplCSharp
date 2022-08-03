@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Org.BouncyCastle.Utilities.Encoders;
+
+using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -16,7 +19,7 @@ namespace Xrpl.Client.Extensions
             foreach (char letter in values)
             {
                 int value = Convert.ToInt32(letter);
-                sb.Append(string.Format("{0:X}", value));                
+                sb.Append($"{value:X}");                
             }
 
             return sb.ToString();
@@ -29,6 +32,16 @@ namespace Xrpl.Client.Extensions
                 .Select(x => Convert.ToByte(input.Substring(x, 2), 16))
                 .ToArray();
             return HttpUtility.HtmlEncode(Encoding.ASCII.GetString(bytes));
+        }
+        public static string FromHexUtf8String(this string hex)
+        {
+            var buffer = new byte[hex.Length / 2];
+            for (var i = 0; i < hex.Length; i += 2)
+            {
+                var hexadecimal = hex.Substring(i, 2);
+                buffer[i / 2] = byte.Parse(hexadecimal, NumberStyles.HexNumber);
+            }
+            return Encoding.UTF8.GetString(buffer);
         }
     }
 }
