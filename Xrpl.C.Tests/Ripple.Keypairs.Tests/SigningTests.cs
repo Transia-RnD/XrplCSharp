@@ -1,11 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Utilities.Encoders;
-using System.Text;
-using System.Diagnostics;
-using Currency = Xrpl.Client.Model.Currency;
-using System.Collections;
-using System;
 using Ripple.Binary.Codec.Util;
+using Xrpl.Client.Json.Converters;
+using Xrpl.Client.Models.Methods;
+using Xrpl.Client.Models.Transactions;
+using Xrpl.Client.Models.Common;
+using Xrpl.Client.Models.Enums;
 
 namespace Ripple.Keypairs.Tests
 {

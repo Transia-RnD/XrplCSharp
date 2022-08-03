@@ -1,9 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Xrpl.Client.Model.Transaction.TransactionTypes;
-using Xrpl.Client.Responses.Transaction.Interfaces;
-using Xrpl.Client.Responses.Transaction.TransactionTypes;
+using Xrpl.Client.Models.Transactions;
 
 namespace Xrpl.Client.Json.Converters
 {
