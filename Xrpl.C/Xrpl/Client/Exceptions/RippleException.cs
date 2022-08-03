@@ -8,6 +8,7 @@ namespace Xrpl.Client.Exceptions
     {
         public RippleException() { }
 
-        public RippleException(string message) : base(message){ }
+        public RippleException(string message) : base(message) { }
+        public RippleException(string message, Exception? InnerException) : base(message, InnerException) { }
     }
 }

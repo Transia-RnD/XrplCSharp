@@ -3,7 +3,9 @@ using System.Collections.Concurrent;
 using System.Dynamic;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
+
 using Newtonsoft.Json;
+
 using Xrpl.Client.Exceptions;
 using Xrpl.Client.Models.Ledger;
 using Xrpl.Client.Models.Methods;
@@ -137,10 +139,10 @@ namespace Xrpl.Client
             serializerSettings = new JsonSerializerSettings();
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;
             serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            
+
             client = WebSocketClient.Create(url);
             client.OnMessageReceived(MessageReceived);
-            client.OnConnectionError(Error);        
+            client.OnConnectionError(Error);
         }
 
         public void Connect()
@@ -194,9 +196,9 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(object);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
-            
+
             client.SendMessage(command);
             return task.Task;
         }
@@ -238,7 +240,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountCurrencies);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -260,7 +262,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountInfo);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -282,7 +284,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountLines);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -304,7 +306,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountOffers);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -370,7 +372,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountObjects);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -414,7 +416,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountTransactions);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -436,7 +438,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(NoRippleCheck);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -458,7 +460,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(GatewayBalances);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -530,7 +532,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(ServerInfo);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -549,7 +551,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(Fee);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -565,7 +567,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(ChannelAuthorize);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -581,7 +583,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(ChannelVerify);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -597,7 +599,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(Submit);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -613,7 +615,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(Submit);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -629,7 +631,7 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(BookOffers);
-            
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -705,7 +707,7 @@ namespace Xrpl.Client
 
         private void Error(Exception ex, WebSocketClient client)
         {
-            throw new Exception(ex.Message, ex);            
+            throw new Exception(ex.Message, ex);
         }
 
         private void MessageReceived(string s, WebSocketClient client)
@@ -743,11 +745,11 @@ namespace Xrpl.Client
                 var taskInfoResult = tasks.TryGetValue(response.Id, out var taskInfo);
                 var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("SetException", new Type[] { typeof(Exception) }, null);
 
-                RippleException exception = new RippleException(response.Error);
+                RippleException exception = new RippleException(response.Error ?? e.Message, e);
                 setException.Invoke(taskInfo.TaskCompletionResult, new[] { exception });
 
                 tasks.TryRemove(response.Id, out taskInfo);
-            }                  
+            }
         }
     }
 }
