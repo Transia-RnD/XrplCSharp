@@ -101,10 +101,10 @@ namespace Xrpl.Client.Model.Transaction.TransactionTypes
         [JsonIgnore]
         public string MemoTypeAsText => MemoType.FromHexString();
 
-        public string MemoWithSmiles => MemoHexWithSmyles(MemoData);
+        public string MemoDataAsTextUTF8 => MemoHexAsTextUTF8(MemoData);
 
-        /// <summary> Memo string With smiles </summary>
-        public static string MemoHexWithSmyles(string hex)
+        /// <summary> Memo as UTF8 </summary>
+        public static string MemoHexAsTextUTF8(string hex)
         {
             var buffer = new byte[hex.Length / 2];
             for (int i = 0; i < hex.Length; i += 2)

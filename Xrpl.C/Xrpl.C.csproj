@@ -77,7 +77,6 @@
     <Folder Include="Xrpl\Client\Extensions\" />
     <Folder Include="Xrpl\Client\Json\" />
     <Folder Include="Xrpl\Client\Requests\" />
-    <Folder Include="Xrpl\Client\Responses\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>

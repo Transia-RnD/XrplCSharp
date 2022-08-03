@@ -63,6 +63,8 @@ namespace Xrpl.Client.Json.Converters
                     return new SetFeeTransactionResponse();
                 case "AccountDelete":
                     return new AccountDeleteTransactionResponse();
+                case "TicketCreate":
+                    return new TicketCreateCreateTransactionResponse();
             }
             throw new Exception("Can't create transaction type" + transactionType);
         }

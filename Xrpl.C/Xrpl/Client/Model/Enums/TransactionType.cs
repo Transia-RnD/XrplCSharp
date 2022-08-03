@@ -22,6 +22,7 @@
         NFTokenBurn,
         NFTokenCreateOffer,
         NFTokenCancelOffer,
-        NFTokenAcceptOffer
+        NFTokenAcceptOffer,
+        TicketCreate
     }
 }

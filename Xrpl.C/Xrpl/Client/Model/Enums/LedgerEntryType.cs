@@ -12,6 +12,7 @@
         PayChannel,
         RippleState,
         SignerList,
-        NFTokenPage
+        NFTokenPage,
+        Ticket
     }
 }
