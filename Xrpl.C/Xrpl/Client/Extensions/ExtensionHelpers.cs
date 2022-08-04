@@ -16,7 +16,7 @@ namespace Xrpl.Client.Extensions
             foreach (char letter in values)
             {
                 int value = Convert.ToInt32(letter);
-                sb.Append(string.Format("{0:X}", value));                
+                sb.Append($"{value:X}");
             }
 
             return sb.ToString();
@@ -28,7 +28,7 @@ namespace Xrpl.Client.Extensions
                 .Where(x => x % 2 == 0)
                 .Select(x => Convert.ToByte(input.Substring(x, 2), 16))
                 .ToArray();
-            return HttpUtility.HtmlEncode(Encoding.ASCII.GetString(bytes));
+            return HttpUtility.HtmlEncode(Encoding.UTF8.GetString(bytes));
         }
     }
 }

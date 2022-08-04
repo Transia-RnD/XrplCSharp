@@ -743,7 +743,7 @@ namespace Xrpl.Client
                 var taskInfoResult = tasks.TryGetValue(response.Id, out var taskInfo);
                 var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("SetException", new Type[] { typeof(Exception) }, null);
 
-                RippleException exception = new RippleException(response.Error);
+                RippleException exception = new RippleException(response.Error ?? e.Message, e);
                 setException.Invoke(taskInfo.TaskCompletionResult, new[] { exception });
 
                 tasks.TryRemove(response.Id, out taskInfo);

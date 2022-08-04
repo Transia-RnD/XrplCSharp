@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using Newtonsoft.Json;
 
 namespace Xrpl.Client.Models.Methods
@@ -33,7 +34,7 @@ namespace Xrpl.Client.Models.Methods
         public string Balance { get; set; }
 
         [JsonIgnore]
-        public decimal BalanceAsNumber => decimal.Parse(Balance);
+        public decimal BalanceAsNumber => decimal.Parse(Balance, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 
         [JsonProperty("currency")]
         public string Currency { get; set; }
@@ -42,13 +43,13 @@ namespace Xrpl.Client.Models.Methods
         public string Limit { get; set; }
 
         [JsonIgnore]
-        public decimal LimitAsNumber => decimal.Parse(Limit);
+        public decimal LimitAsNumber => decimal.Parse(Limit, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 
         [JsonProperty("limit_peer")]
         public string LimitPeer { get; set; }
 
         [JsonIgnore]
-        public decimal LimitPeerAsNumber => decimal.Parse(LimitPeer);
+        public decimal LimitPeerAsNumber => decimal.Parse(LimitPeer, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 
         [JsonProperty("quality_in")]
         public uint QualityIn { get; set; }
