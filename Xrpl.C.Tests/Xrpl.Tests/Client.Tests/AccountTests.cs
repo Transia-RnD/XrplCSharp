@@ -8,6 +8,7 @@ using Xrpl.Client.Model;
 using Xrpl.Client.Model.Account;
 using Xrpl.Client.Requests.Account;
 using System;
+using System.Diagnostics;
 
 
 namespace Xrpl.Client.Tests
@@ -167,6 +168,21 @@ namespace Xrpl.Client.Tests
         public async Task CanGetGatewayBalances()
         {
             var balances = await client.GatewayBalances(account);
+            foreach (var currency in balances.Assets)
+            {
+                string issuer = currency.Key;
+
+                foreach (var c in currency.Value)
+                {
+                    Debug.WriteLine(c);
+                    //    var cur = (string)c.currency;
+                    //    var value = (string)c.value;
+                    //    var result = new Currency() { CurrencyCode = cur.Length > 3 ? cur.FromHexString().Trim('\0') : cur, Issuer = issuer, Value = value };
+
+                    //    Debug.WriteLine(result.Issuer, result.CurrencyCode, result.Value, result.ValueAsNumber);
+
+                }
+            }
             Assert.IsNotNull(balances);
         }
 

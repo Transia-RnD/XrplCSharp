@@ -6,7 +6,7 @@ namespace Ripple.Address.Codec.Tests
     using static AddressCodec;
 
     [TestClass]
-    public class AddressTests
+    public class AddressCodecTests
     {
         [TestMethod]
         public void NodePublicTest()

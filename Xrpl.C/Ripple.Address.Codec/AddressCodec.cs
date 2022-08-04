@@ -4,6 +4,30 @@ namespace Ripple.Address.Codec
 {
     public class AddressCodec
     {
+
+        private const uint MAX_32_BIT_UNSIGNED_INT = 4294967295;
+        //public static string ClassicAddressToXAddress(string classicAddress, uint tag, bool isTest)
+        //{
+        //    byte[] accountId = XrplCodec.DecodeAccountID(accountId: classicAddress);
+        //    return EncodeXAddress(accountId, tag, isTest);
+        //}
+
+        //public static string EncodeXAddress(byte[] accountId, uint tag, bool isTest)
+        //{
+        //    if (accountId.Length != 20)
+        //    {
+        //        // RIPEMD160 is 160 bits = 20 bytes
+        //        throw new Error('Account ID must be 20 bytes');
+        //    }
+        //    if (tag > MAX_32_BIT_UNSIGNED_INT)
+        //    {
+        //        throw new Error('Invalid tag');
+        //    }
+        //    uint theTag = tag || 0;
+        //    byte[] flags = tag == null ? 0 : 1;
+        //    Buffer.BlockCopy
+        //}
+
         public const string Alphabet = "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz";
 
         // ReSharper disable RedundantArgumentNameForLiteralExpression, RedundantArgumentName
