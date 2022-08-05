@@ -13,10 +13,7 @@ namespace Xrpl.Client.Models.Ledger
     public class LOOffer : BaseRippleLO
     {
         
-        public LOOffer()
-        {
-            LedgerEntryType = LedgerEntryType.Offer;
-        }
+        public LOOffer() => LedgerEntryType = LedgerEntryType.Offer;
 
         public string Account { get; set; }
 

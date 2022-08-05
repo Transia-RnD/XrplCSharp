@@ -25,15 +25,9 @@ namespace Ripple.Keypairs
             _keyType = version;
         }
 
-        public override string ToString()
-        {
-            return EncodeSeed(_seedBytes, _keyType);
-        }
+        public override string ToString() => EncodeSeed(_seedBytes, _keyType);
 
-        public byte[] Bytes()
-        {
-            return _seedBytes;
-        }
+        public byte[] Bytes() => _seedBytes;
 
         public Seed SetEd25519()
         {
@@ -46,15 +40,9 @@ namespace Ripple.Keypairs
             return this;
         }
 
-        public IKeyPair KeyPair()
-        {
-            return KeyPair(0);
-        }
+        public IKeyPair KeyPair() => KeyPair(0);
 
-        public IKeyPair RootKeyPair()
-        {
-            return KeyPair(-1);
-        }
+        public IKeyPair RootKeyPair() => KeyPair(-1);
 
         public IKeyPair KeyPair(int pairIndex)
         {
@@ -81,19 +69,14 @@ namespace Ripple.Keypairs
             return new Seed(seed.Type, seed.Bytes);
         }
 
-        public static Seed FromPassPhrase(string passPhrase)
-        {
-            return new Seed(PassPhraseToSeedBytes(passPhrase));
-        }
+        public static Seed FromPassPhrase(string passPhrase) => new Seed(PassPhraseToSeedBytes(passPhrase));
 
         public static Seed FromRandom()
         {
-            using (var rng = RandomNumberGenerator.Create())
-            { 
-                var seed = new byte[16];
-                rng.GetBytes(seed);
-                return new Seed(seed);
-            }
+            using var rng = RandomNumberGenerator.Create();
+            var seed = new byte[16];
+            rng.GetBytes(seed);
+            return new Seed(seed);
         }
 
         private static byte[] PassPhraseToSeedBytes(string phrase)

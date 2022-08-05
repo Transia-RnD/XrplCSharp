@@ -5,27 +5,20 @@ namespace Ripple.Binary.Codec.Enums
 {
     public class Enumeration<T> : IEnumerable<T> where T : EnumItem
     {
-        private readonly Dictionary<string, T> _byText = new Dictionary<string, T>();
-        private readonly Dictionary<int, T> _byOrdinal
-            = new Dictionary<int, T>();
-        private readonly List<T> _byDefinitionOrder = new List<T>(); 
+        private readonly Dictionary<string, T> _byText = new();
+        private readonly Dictionary<int, T> _byOrdinal = new();
+        private readonly List<T> _byDefinitionOrder = new(); 
 
         public T this[string name]
         {
-            get
-            {
-                return _byText[name];
-            }
-            set { _byText[name] = value; }
+            get => _byText[name];
+            set => _byText[name] = value;
         }
 
         public T this[int name]
         {
-            get
-            {
-                return _byOrdinal[name];
-            }
-            set { _byOrdinal[name] = value; }
+            get => _byOrdinal[name];
+            set => _byOrdinal[name] = value;
         }
 
         public virtual T AddEnum(T T)

@@ -8,14 +8,8 @@ namespace System.Security.Cryptography
 {
     public abstract class RIPEMD160 : HashAlgorithm
     {
-        public new static RIPEMD160 Create()
-        {
-            return new RIPEMD160Managed();
-        }
+        public new static RIPEMD160 Create() => new RIPEMD160Managed();
 
-        public new static RIPEMD160 Create(string hashname)
-        {
-            return new RIPEMD160Managed();            
-        }
+        public new static RIPEMD160 Create(string hashname) => new RIPEMD160Managed();
     }
 }

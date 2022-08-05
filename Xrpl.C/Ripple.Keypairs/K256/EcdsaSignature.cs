@@ -20,14 +20,11 @@ namespace Ripple.Keypairs.K256
         /// Constructs a signature with the given components. </summary>
         public EcdsaSignature(BigInteger r, BigInteger s)
         {
-            this.R = r;
-            this.S = s;
+            R = r;
+            S = s;
         }
 
-        public static bool IsStrictlyCanonical(byte[] sig)
-        {
-            return CheckIsCanonical(sig, true);
-        }
+        public static bool IsStrictlyCanonical(byte[] sig) => CheckIsCanonical(sig, true);
 
         public static bool CheckIsCanonical(byte[] sig, bool strict)
         {
@@ -41,9 +38,9 @@ namespace Ripple.Keypairs.K256
             // 1 <= lenR <= 33
             // 1 <= lenS <= 33
 
-            int sigLen = sig.Length;
+            var sigLen = sig.Length;
 
-            if ((sigLen < 8) || (sigLen > 72))
+            if (sigLen is < 8 or > 72)
             {
                 return false;
             }
@@ -56,14 +53,14 @@ namespace Ripple.Keypairs.K256
             // Find R and check its length
             int rPos = 4, rLen = sig[rPos - 1];
 
-            if ((rLen < 1) || (rLen > 33) || ((rLen + 7) > sigLen))
+            if (rLen is < 1 or > 33 || ((rLen + 7) > sigLen))
             {
                 return false;
             }
 
             // Find S and check its length
             int sPos = rLen + 6, sLen = sig[sPos - 1];
-            if ((sLen < 1) || (sLen > 33) || ((rLen + sLen + 6) != sigLen))
+            if (sLen is < 1 or > 33 || ((rLen + sLen + 6) != sigLen))
             {
                 return false;
             }
@@ -103,15 +100,15 @@ namespace Ripple.Keypairs.K256
                 return false; // S is padded
             }
 
-            byte[] rBytes = new byte[rLen];
-            byte[] bytes = new byte[sLen];
+            var rBytes = new byte[rLen];
+            var bytes = new byte[sLen];
 
             Array.Copy(sig, rPos, rBytes, 0, rLen);
             Array.Copy(sig, sPos, bytes, 0, sLen);
 
-            BigInteger r = new BigInteger(1, rBytes), s = new BigInteger(1, bytes);
+            BigInteger r = new(1, rBytes), s = new(1, bytes);
 
-            BigInteger order = Secp256K1.Order();
+            var order = Secp256K1.Order();
 
             if (r.CompareTo(order) != -1 || s.CompareTo(order) != -1)
             {
@@ -141,15 +138,15 @@ namespace Ripple.Keypairs.K256
 
         public static EcdsaSignature DecodeFromDer(byte[] bytes)
         {
-            Asn1InputStream decoder = new Asn1InputStream(bytes);
+            var decoder = new Asn1InputStream(bytes);
             DerInteger r, s;
             try
             {
-                DerSequence seq = (DerSequence)decoder.ReadObject();
+                var seq = (DerSequence)decoder.ReadObject();
                 r = (DerInteger) seq[0];
                 s = (DerInteger) seq[1];
             }
-            catch (System.InvalidCastException)
+            catch (InvalidCastException)
             {
                 return null;
             }
@@ -165,8 +162,8 @@ namespace Ripple.Keypairs.K256
         protected internal MemoryStream DerByteStream()
         {
             // Usually 70-72 bytes.
-            MemoryStream bos = new MemoryStream(72);
-            DerSequenceGenerator seq = new DerSequenceGenerator(bos);
+            var bos = new MemoryStream(72);
+            var seq = new DerSequenceGenerator(bos);
             seq.AddObject(new DerInteger(R));
             seq.AddObject(new DerInteger(S));
             seq.Close();

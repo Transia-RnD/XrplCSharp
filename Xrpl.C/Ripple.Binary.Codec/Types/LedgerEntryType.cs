@@ -6,12 +6,9 @@ namespace Ripple.Binary.Codec.Types
     public class LedgerEntryType : SerializedEnumItem<ushort>
     {
         public class Enumeration : SerializedEnumeration<LedgerEntryType, ushort>{}
-        public static Enumeration Values = new Enumeration();
+        public static Enumeration Values = new();
         private LedgerEntryType(string name, int ordinal) : base(name, ordinal){}
-        private static LedgerEntryType Add(string reference, int ordinal)
-        {
-            return Values.AddEnum(new LedgerEntryType(reference, ordinal));
-        }
+        private static LedgerEntryType Add(string reference, int ordinal) => Values.AddEnum(new LedgerEntryType(reference, ordinal));
         public static readonly LedgerEntryType Invalid = Add(nameof(Invalid), -1);
         public static readonly LedgerEntryType AccountRoot = Add(nameof(AccountRoot), 'a');
         public static readonly LedgerEntryType DirectoryNode = Add(nameof(DirectoryNode), 'd');
@@ -25,9 +22,6 @@ namespace Ripple.Binary.Codec.Types
         public static readonly LedgerEntryType Ticket = Add(nameof(Ticket), 'T');
         public static readonly LedgerEntryType SignerList = Add(nameof(SignerList), 'S');
 
-        public static LedgerEntryType FromJson(JToken jToken)
-        {
-            return Values.FromJson(jToken);
-        }
+        public static LedgerEntryType FromJson(JToken jToken) => Values.FromJson(jToken);
     }
 }

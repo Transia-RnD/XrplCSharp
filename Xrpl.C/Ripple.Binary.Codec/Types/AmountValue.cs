@@ -75,7 +75,7 @@ namespace Ripple.Binary.Codec.Types
         public static readonly ulong MaxMantissa = Ul("9999,9999,9999,9999");
 
         public const string IllegalOfferMantissaString = "1000000000000000100";
-        public static readonly IouValue IllegalOffer = new IouValue(ulong.Parse(IllegalOfferMantissaString),
+        public static readonly IouValue IllegalOffer = new(ulong.Parse(IllegalOfferMantissaString),
                 0,
                 false,
                 17,
@@ -208,7 +208,7 @@ namespace Ripple.Binary.Codec.Types
                 mantissa /= 10;
                 exponent += 1;
             }
-            if (exponent > MaxExponent || exponent < MinExponent)
+            if (exponent is > MaxExponent or < MinExponent)
             {
                 throw new PrecisionException();
             }
@@ -242,10 +242,7 @@ namespace Ripple.Binary.Codec.Types
 
         public override bool IsIou => true;
 
-        public byte[] MantissaBytes()
-        {
-            return Bits.GetBytes(Mantissa);
-        }
+        public byte[] MantissaBytes() => Bits.GetBytes(Mantissa);
     }
 
     internal class NativeValue : AmountValue

@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Ripple.Binary.Codec.Types
+﻿namespace Ripple.Binary.Codec.Types
 {
     public class UnissuedAmount
     {
@@ -13,14 +11,8 @@ namespace Ripple.Binary.Codec.Types
             _currency = currency;
         }
 
-        public static Amount operator / (UnissuedAmount ui, AccountId issuer)
-        {
-            return new Amount(ui._value, ui._currency, issuer);
-        }
+        public static Amount operator / (UnissuedAmount ui, AccountId issuer) => new Amount(ui._value, ui._currency, issuer);
 
-        public static implicit operator Amount(UnissuedAmount a)
-        {
-            return new Amount(a._value, a._currency);
-        }
+        public static implicit operator Amount(UnissuedAmount a) => new Amount(a._value, a._currency);
     }
 }

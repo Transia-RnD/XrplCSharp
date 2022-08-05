@@ -24,23 +24,13 @@ namespace Ripple.Binary.Codec.Types
             Type = SynthesizeType();
         }
 
-        public static PathHop FromJson(JToken json)
-        {
-            return new PathHop(json["account"], json["issuer"], json["currency"]);
-        }
+        public static PathHop FromJson(JToken json) => new PathHop(json["account"], json["issuer"], json["currency"]);
 
-        public bool HasIssuer()
-        {
-            return Issuer != null;
-        }
-        public bool HasCurrency()
-        {
-            return Currency != null;
-        }
-        public bool HasAccount()
-        {
-            return Account != null;
-        }
+        public bool HasIssuer() => Issuer != null;
+
+        public bool HasCurrency() => Currency != null;
+
+        public bool HasAccount() => Account != null;
 
         public int SynthesizeType()
         {
@@ -157,10 +147,7 @@ namespace Ripple.Binary.Codec.Types
             return array;
         }
 
-        public static PathSet FromJson(JToken token)
-        {
-            return new PathSet(token.Select(Path.FromJson));
-        }
+        public static PathSet FromJson(JToken token) => new PathSet(token.Select(Path.FromJson));
 
         public static PathSet FromParser(BinaryParser parser, int? hint=null)
         {
@@ -168,7 +155,7 @@ namespace Ripple.Binary.Codec.Types
             Path path = null;
             while (!parser.End())
             {
-                byte type = parser.ReadOne();
+                var type = parser.ReadOne();
                 if (type == PathsetEndByte)
                 {
                     break;

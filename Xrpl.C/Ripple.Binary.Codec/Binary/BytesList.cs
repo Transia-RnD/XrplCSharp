@@ -7,21 +7,18 @@ namespace Ripple.Binary.Codec.Binary
 {
     public class BytesList : IBytesSink
     {
-        private readonly List<byte[]> _buffer = new List<byte[]>();
+        private readonly List<byte[]> _buffer = new();
         private int _len;
 
         public void Add(BytesList bl)
         {
-            foreach (byte[] bytes in bl.RawList())
+            foreach (var bytes in bl.RawList())
             {
                 Put(bytes);
             }
         }
 
-        public void Put(byte aByte)
-        {
-            Put(new[] { aByte });
-        }
+        public void Put(byte aByte) => Put(new[] { aByte });
 
         public void Put(byte[] bytes)
         {
@@ -61,16 +58,13 @@ namespace Ripple.Binary.Codec.Binary
             return builder.ToString();
         }
 
-        public int BytesLength()
-        {
-            return _len;
-        }
+        public int BytesLength() => _len;
 
         // ReSharper disable once UnusedMethodReturnValue.Local
         private int AddBytes(byte[] bytes, int destPos)
         {
 
-            foreach (byte[] buf in _buffer)
+            foreach (var buf in _buffer)
             {
                 Array.Copy(buf, 0, bytes, destPos, buf.Length);
                 destPos += buf.Length;
@@ -78,9 +72,6 @@ namespace Ripple.Binary.Codec.Binary
             return destPos;
         }
 
-        public List<byte[]> RawList()
-        {
-            return _buffer;
-        }
+        public List<byte[]> RawList() => _buffer;
     }
 }

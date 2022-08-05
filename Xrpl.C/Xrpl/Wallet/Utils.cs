@@ -11,10 +11,8 @@ namespace Xrpl.Wallet
             return B16.Encode(hash);
         }
 
-        public static byte[] TransactionIdBytes(byte[] txBlob)
-        {
-            return Sha512.Half(input: txBlob,
-                               prefix: (uint) HashPrefix.TransactionId);
-        }
+        public static byte[] TransactionIdBytes(byte[] txBlob) =>
+            Sha512.Half(input: txBlob,
+                prefix: (uint) HashPrefix.TransactionId);
     }
 }

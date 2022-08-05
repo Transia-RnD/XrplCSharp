@@ -12,10 +12,7 @@ namespace Xrpl.Client
 
         public bool RemoveUponCompletion { get; set; }
 
-        public TaskInfo()
-        {
-            RemoveUponCompletion = true;
-        }
+        public TaskInfo() => RemoveUponCompletion = true;
     }
     
 }

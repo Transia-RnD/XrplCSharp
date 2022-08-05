@@ -5,16 +5,11 @@ namespace Ripple.Binary.Codec.Types
     public class EngineResult : SerializedEnumItem<byte>
     {
         public class EngineResultValues : SerializedEnumeration<EngineResult, byte>{}
-        public static EngineResultValues Values = new EngineResultValues();
+        public static EngineResultValues Values = new();
         private readonly string _description;
-        public EngineResult(string name, int ordinal, string description) : base(name, ordinal)
-        {
-            _description = description;
-        }
-        private static EngineResult Add(string name, int ordinal, string description)
-        {
-            return Values.AddEnum(new EngineResult(name, ordinal, description));
-        }
+        public EngineResult(string name, int ordinal, string description) : base(name, ordinal) => _description = description;
+        private static EngineResult Add(string name, int ordinal, string description) => Values.AddEnum(new EngineResult(name, ordinal, description));
+
         // ReSharper disable InconsistentNaming
         public static readonly EngineResult telLOCAL_ERROR = Add(nameof(telLOCAL_ERROR), -399, "Local failure.");
         public static readonly EngineResult telBAD_DOMAIN = Add(nameof(telBAD_DOMAIN), -398, "Domain too long.");

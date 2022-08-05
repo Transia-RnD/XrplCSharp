@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using Ripple.Binary.Codec.Enums;
 
 namespace Ripple.Binary.Codec.Binary
@@ -8,15 +7,9 @@ namespace Ripple.Binary.Codec.Binary
     {
         private readonly IBytesSink _sink;
 
-        public BinarySerializer(IBytesSink sink)
-        {
-            _sink = sink;
-        }
+        public BinarySerializer(IBytesSink sink) => _sink = sink;
 
-        public void Put(byte[] n)
-        {
-            _sink.Put(n);
-        }
+        public void Put(byte[] n) => _sink.Put(n);
 
         public void AddLengthEncoded(byte[] n)
         {
@@ -29,27 +22,24 @@ namespace Ripple.Binary.Codec.Binary
             // TODO: bytes
             var lenBytes = new byte[4];
 
-            if (length <= 192)
+            switch (length)
             {
-                lenBytes[0] = (byte)length;
-                return TakeSome(lenBytes, 1);
+                case <= 192:
+                    lenBytes[0] = (byte)length;
+                    return TakeSome(lenBytes, 1);
+                case <= 12480:
+                    length -= 193;
+                    lenBytes[0] = (byte)(193u + (length >> 8));
+                    lenBytes[1] = (byte)(length & 0xff);
+                    return TakeSome(lenBytes, 2);
+                case <= 918745:
+                    length -= 12481;
+                    lenBytes[0] = (byte)(241u + (length >> 16));
+                    lenBytes[1] = (byte)((length >> 8) & 0xff);
+                    lenBytes[2] = (byte)(length & 0xff);
+                    return TakeSome(lenBytes, 3);
+                default: throw new InvalidOperationException($"length must <= 918745, was {length}");
             }
-            if (length <= 12480)
-            {
-                length -= 193;
-                lenBytes[0] = (byte)(193u + (length >> 8));
-                lenBytes[1] = (byte)(length & 0xff);
-                return TakeSome(lenBytes, 2);
-            }
-            if (length <= 918745)
-            {
-                length -= 12481;
-                lenBytes[0] = (byte)(241u + (length >> 16));
-                lenBytes[1] = (byte)((length >> 8) & 0xff);
-                lenBytes[2] = (byte)(length & 0xff);
-                return TakeSome(lenBytes, 3);
-            }
-            throw new InvalidOperationException($"length must <= 918745, was {length}");
         }
 
         private static byte[] TakeSome(byte[] buffer, int n)
@@ -61,7 +51,7 @@ namespace Ripple.Binary.Codec.Binary
 
         public void Add(BytesList bl)
         {
-            foreach (byte[] bytes in bl.RawList())
+            foreach (var bytes in bl.RawList())
             {
                 _sink.Put(bytes);
             }
@@ -79,10 +69,7 @@ namespace Ripple.Binary.Codec.Binary
             return n.Length;
         }
 
-        public void Put(byte type)
-        {
-            _sink.Put(type);
-        }
+        public void Put(byte type) => _sink.Put(type);
 
         public void AddLengthEncoded(BytesList bytes)
         {

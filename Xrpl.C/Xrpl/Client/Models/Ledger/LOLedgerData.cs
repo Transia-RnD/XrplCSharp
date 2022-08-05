@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Xrpl.Client.Models.Ledger;
 
 namespace Xrpl.Client.Models.Ledger
 {

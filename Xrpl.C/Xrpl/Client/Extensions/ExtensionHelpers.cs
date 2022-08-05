@@ -1,10 +1,6 @@
-﻿using Org.BouncyCastle.Utilities.Encoders;
-
-using System;
+﻿using System;
 using System.Globalization;
-using System.Linq;
 using System.Text;
-using System.Web;
 
 namespace Xrpl.Client.Extensions
 {
@@ -12,13 +8,13 @@ namespace Xrpl.Client.Extensions
     {
         public static string ToHex(this string input)
         {
-            char[] values = input.ToCharArray();
+            var values = input.ToCharArray();
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
-            foreach (char letter in values)
+            foreach (var letter in values)
             {
-                int value = Convert.ToInt32(letter);
+                var value = Convert.ToInt32(letter);
                 sb.Append($"{value:X}");                
             }
 

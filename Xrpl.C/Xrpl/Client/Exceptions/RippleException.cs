@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿#nullable enable
+using System;
 
 namespace Xrpl.Client.Exceptions
 {

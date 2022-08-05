@@ -11,14 +11,14 @@ namespace Xrpl.Client.Json.Converters
         {
             if (value is Currency)
             {
-                Currency currency = (Currency) value;
+                var currency = (Currency) value;
                 if (currency.CurrencyCode == "XRP")
                 {
                     writer.WriteValue(currency.Value);
                 }
                 else
                 {
-                    JToken t = JToken.FromObject(value);
+                    var t = JToken.FromObject(value);
                     t.WriteTo(writer);
                 }
             }
@@ -31,30 +31,23 @@ namespace Xrpl.Client.Json.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
             JsonSerializer serializer)
         {
-            if (reader.TokenType == JsonToken.Null)
-                return null;
-
-            if (reader.TokenType == JsonToken.String)
+            switch (reader.TokenType)
             {
-                Currency currency = new Currency();
-                currency.CurrencyCode = "XRP";
-                currency.Value = reader.Value.ToString();
-                return currency;
+                case JsonToken.Null: return null;
+                case JsonToken.String:
+                {
+                    var currency = new Currency
+                    {
+                        CurrencyCode = "XRP",
+                        Value = reader.Value.ToString()
+                    };
+                    return currency;
+                }
+                case JsonToken.StartObject: return serializer.Deserialize<Currency>(reader);
+                default: throw new NotSupportedException("Cannot convert value " + objectType);
             }
-
-            if (reader.TokenType == JsonToken.StartObject)
-            {
-                return serializer.Deserialize<Currency>(reader);
-            }
-
-            throw new NotSupportedException("Cannot convert value " + objectType);
         }
 
-        public override bool CanConvert(Type objectType)
-        {
-            if (objectType == typeof(Currency))
-                return true;
-            return false;
-        }
+        public override bool CanConvert(Type objectType) => objectType == typeof(Currency);
     }
 }

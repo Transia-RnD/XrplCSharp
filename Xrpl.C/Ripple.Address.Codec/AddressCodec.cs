@@ -1,5 +1,3 @@
-using System;
-
 namespace Ripple.Address.Codec
 {
     public class AddressCodec
@@ -25,10 +23,7 @@ namespace Ripple.Address.Codec
                                                 .And("ed25519", Ed25519Seed);
         // ReSharper restore RedundantArgumentNameForLiteralExpression, RedundantArgumentName
         private static readonly B58 B58;
-        static AddressCodec()
-        {
-            B58 = new B58(Alphabet);
-        }
+        static AddressCodec() => B58 = new B58(Alphabet);
 
         public class DecodedSeed
         {
@@ -48,74 +43,32 @@ namespace Ripple.Address.Codec
             return new DecodedSeed(decoded.Type, decoded.Payload);
         }
 
-        public static string EncodeSeed(byte[] bytes, string type)
-        {
-            return B58.Encode(bytes, type, AnySeed);
-        }
+        public static string EncodeSeed(byte[] bytes, string type) => B58.Encode(bytes, type, AnySeed);
 
-        public static byte[] DecodeK256Seed(string seed)
-        {
-            return B58.Decode(seed, K256Seed);
-        }
+        public static byte[] DecodeK256Seed(string seed) => B58.Decode(seed, K256Seed);
 
-        public static string EncodeK256Seed(byte[] bytes)
-        {
-            return B58.Encode(bytes, K256Seed);
-        }
+        public static string EncodeK256Seed(byte[] bytes) => B58.Encode(bytes, K256Seed);
 
-        public static byte[] DecodeEdSeed(string base58)
-        {
-            return B58.Decode(base58, Ed25519Seed);
-        }
+        public static byte[] DecodeEdSeed(string base58) => B58.Decode(base58, Ed25519Seed);
 
-        public static string EncodeEdSeed(byte[] bytes)
-        {
-            return B58.Encode(bytes, Ed25519Seed);
-        }
+        public static string EncodeEdSeed(byte[] bytes) => B58.Encode(bytes, Ed25519Seed);
 
-        public static string EncodeAddress(byte[] bytes)
-        {
-            return B58.Encode(bytes, AccountId);
-        }
+        public static string EncodeAddress(byte[] bytes) => B58.Encode(bytes, AccountId);
 
-        public static string EncodeNodePublic(byte[] bytes)
-        {
-            return B58.Encode(bytes, NodePublic);
-        }
+        public static string EncodeNodePublic(byte[] bytes) => B58.Encode(bytes, NodePublic);
 
-        public static byte[] DecodeNodePublic(string publicKey)
-        {
-            return B58.Decode(publicKey, NodePublic);
-        }
+        public static byte[] DecodeNodePublic(string publicKey) => B58.Decode(publicKey, NodePublic);
 
-        public static byte[] DecodeAddress(string address)
-        {
-            return B58.Decode(address, AccountId);
-        }
+        public static byte[] DecodeAddress(string address) => B58.Decode(address, AccountId);
 
-        public static bool IsValidAddress(string address)
-        {
-            return B58.IsValid(address, AccountId);
-        }
+        public static bool IsValidAddress(string address) => B58.IsValid(address, AccountId);
 
-        public static bool IsValidNodePublic(string nodePublic)
-        {
-            return B58.IsValid(nodePublic, NodePublic);
-        }
+        public static bool IsValidNodePublic(string nodePublic) => B58.IsValid(nodePublic, NodePublic);
 
-        public static bool IsValidSeed(string seed)
-        {
-            return B58.IsValid(seed, AnySeed);
-        }
+        public static bool IsValidSeed(string seed) => B58.IsValid(seed, AnySeed);
 
-        public static bool IsValidEdSeed(string edSeed)
-        {
-            return B58.IsValid(edSeed, Ed25519Seed);
-        }
+        public static bool IsValidEdSeed(string edSeed) => B58.IsValid(edSeed, Ed25519Seed);
 
-        public static bool IsValidK256Seed(string k256Seed)
-        {
-            return B58.IsValid(k256Seed, K256Seed);
-        }
+        public static bool IsValidK256Seed(string k256Seed) => B58.IsValid(k256Seed, K256Seed);
     }
 }

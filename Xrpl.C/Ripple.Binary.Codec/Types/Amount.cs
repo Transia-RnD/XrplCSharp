@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Ripple.Binary.Codec.Binary;
@@ -39,11 +38,9 @@ namespace Ripple.Binary.Codec.Types
         public void ToBytes(IBytesSink sink)
         {
             sink.Put(Value.ToBytes());
-            if (!IsNative)
-            {
-                Currency.ToBytes(sink);
-                Issuer.ToBytes(sink);
-            }
+            if (IsNative) return;
+            Currency.ToBytes(sink);
+            Issuer.ToBytes(sink);
         }
 
         public JToken ToJson()
@@ -100,15 +97,9 @@ namespace Ripple.Binary.Codec.Types
             }
         }
 
-        public static implicit operator Amount(ulong a)
-        {
-            return new Amount(a.ToString("D"));
-        }
+        public static implicit operator Amount(ulong a) => new(a.ToString("D"));
 
-        public static implicit operator Amount(string v)
-        {
-            return new Amount(v);
-        }
+        public static implicit operator Amount(string v) => new(v);
 
         public static Amount FromParser(BinaryParser parser, int? hint=null)
         {
@@ -119,31 +110,16 @@ namespace Ripple.Binary.Codec.Types
             return new Amount(value, curr, issuer);
         }
 
-        public decimal DecimalValue()
-        {
-            return decimal.Parse(Value.ToString());
-        }
+        public decimal DecimalValue() => decimal.Parse(Value.ToString());
 
-        public static Amount operator * (Amount a, decimal b)
-        {
-            return new Amount(
-                (a.DecimalValue() * b).ToString(CultureInfo.InvariantCulture), 
-                              a.Currency, a.Issuer);
-        }
+        public static Amount operator * (Amount a, decimal b) =>
+            new((a.DecimalValue() * b).ToString(CultureInfo.InvariantCulture), 
+                a.Currency, a.Issuer);
 
-        public static bool operator < (decimal a, Amount b)
-        {
-            return a < b.DecimalValue();
-        }
+        public static bool operator < (decimal a, Amount b) => a < b.DecimalValue();
 
-        public static bool operator >(decimal a, Amount b)
-        {
-            return a > b.DecimalValue();
-        }
+        public static bool operator >(decimal a, Amount b) => a > b.DecimalValue();
 
-        public Amount NewValue(decimal @decimal)
-        {
-            return new Amount(@decimal, Currency, Issuer);
-        }
+        public Amount NewValue(decimal @decimal) => new(@decimal, Currency, Issuer);
     }
 }

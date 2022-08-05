@@ -23,7 +23,7 @@ namespace Ripple.Binary.Codec.Binary
 
         public override byte[] Read(int n)
         {
-            byte[] ret = new byte[n];
+            var ret = new byte[n];
             Array.Copy(Bytes, Cursor, ret, 0, n);
             Cursor += n;
             return ret;

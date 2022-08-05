@@ -2,8 +2,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xrpl.Client.Models.Ledger;
-using Xrpl.Client.Models.Common;
-
 
 
 namespace Xrpl.Client.Json.Converters
@@ -17,39 +15,27 @@ namespace Xrpl.Client.Json.Converters
 
         public BaseRippleLO Create(Type objectType, JObject jObject)
         {
-            string ledgerEntryType = jObject.Property("LedgerEntryType").Value.ToString();
-            switch (ledgerEntryType)
+            var ledgerEntryType = jObject.Property("LedgerEntryType").Value.ToString();
+            return ledgerEntryType switch
             {
-                case "AccountRoot":
-                    return new LOAccountRoot();
-                case "Amendments":
-                    return new LOAmendments();
-                case "DirectoryNode":
-                    return new LODirectoryNode();
-                case "Escrow":
-                    return new LOEscrow();
-                case "FeeSettings":
-                    return new LOFeeSettings();
-                case "LedgerHashes":
-                    return new LOLedgerHashes();
-                case "Offer":
-                    return new LOOffer();
-                case "PayChannel":
-                    return new LOPayChannel();
-                case "RippleState":
-                    return new LORippleState();
-                case "SignerList":
-                    return new LOSignerList();
-                // case "Ticket":
-                //     return new LOTicket();
-            }
-            throw new Exception("Can't create ledger type" + ledgerEntryType);
+                "AccountRoot" => new LOAccountRoot(),
+                "Amendments" => new LOAmendments(),
+                "DirectoryNode" => new LODirectoryNode(),
+                "Escrow" => new LOEscrow(),
+                "FeeSettings" => new LOFeeSettings(),
+                "LedgerHashes" => new LOLedgerHashes(),
+                "Offer" => new LOOffer(),
+                "PayChannel" => new LOPayChannel(),
+                "RippleState" => new LORippleState(),
+                "SignerList" => new LOSignerList(),
+                _ => throw new Exception("Can't create ledger type" + ledgerEntryType)
+            };
         }
 
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            JObject jObject = JObject.Load(reader);
+            var jObject = JObject.Load(reader);
             var target = Create(objectType, jObject);
             serializer.Populate(jObject.CreateReader(), target);
             return target;

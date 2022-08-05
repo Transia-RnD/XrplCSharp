@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 using Xrpl.Client.Models.Transactions;
 
@@ -17,22 +15,17 @@ namespace Xrpl.Client.Json.Converters
         {
             if (reader.TokenType == JsonToken.Null)
                 return null;
-            Meta meta = new Meta();
-            meta = serializer.Deserialize<Meta>(reader);
-            if (reader.TokenType == JsonToken.String)
+            var meta = serializer.Deserialize<Meta>(reader);
+            switch (reader.TokenType)
             {
-                meta.MetaBlob = reader.Value.ToString();
-            }
-            else if (reader.TokenType == JsonToken.StartObject)
-            {
-                meta = serializer.Deserialize<Meta>(reader);
+                case JsonToken.String: meta.MetaBlob = reader.Value.ToString();
+                    break;
+                case JsonToken.StartObject: meta = serializer.Deserialize<Meta>(reader);
+                    break;
             }
             return meta;
         }
 
-        public override bool CanConvert(Type objectType)
-        {
-            return true;
-        }
+        public override bool CanConvert(Type objectType) => true;
     }
 }

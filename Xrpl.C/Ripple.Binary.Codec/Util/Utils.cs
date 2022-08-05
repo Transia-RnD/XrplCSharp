@@ -62,19 +62,9 @@ namespace Ripple.Binary.Codec.Util
         /// Returns:
         ///     An array of bytes with length 1.
         ///</summary>
-        public static byte[] GetBytes(bool value)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.GetBytes(value);
-            }
-            return BitConverter.GetBytes(value).Reverse().ToArray();
-        }
+        public static byte[] GetBytes(bool value) => IsLittleEndian ? BitConverter.GetBytes(value) : BitConverter.GetBytes(value).Reverse().ToArray();
 
-        public static byte[] GetBytes(byte value)
-        {
-            return new[] {value};
-        }
+        public static byte[] GetBytes(byte value) => new[] {value};
 
         ///
         /// <summary>
@@ -87,14 +77,7 @@ namespace Ripple.Binary.Codec.Util
         /// Returns:
         ///     An array of bytes with length 2.
         ///</summary>
-        public static byte[] GetBytes(char value)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.GetBytes(value);
-            }
-            return BitConverter.GetBytes(value).Reverse().ToArray();
-        }
+        public static byte[] GetBytes(char value) => IsLittleEndian ? BitConverter.GetBytes(value) : BitConverter.GetBytes(value).Reverse().ToArray();
 
         ///
         /// <summary>
@@ -108,14 +91,7 @@ namespace Ripple.Binary.Codec.Util
         /// Returns:
         ///     An array of bytes with length 8.
         ///</summary>
-        public static byte[] GetBytes(double value)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.GetBytes(value);
-            }
-            return BitConverter.GetBytes(value).Reverse().ToArray();
-        }
+        public static byte[] GetBytes(double value) => IsLittleEndian ? BitConverter.GetBytes(value) : BitConverter.GetBytes(value).Reverse().ToArray();
 
         ///
         /// <summary>
@@ -129,14 +105,7 @@ namespace Ripple.Binary.Codec.Util
         /// Returns:
         ///     An array of bytes with length 4.
         ///</summary>
-        public static byte[] GetBytes(float value)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.GetBytes(value);
-            }
-            return BitConverter.GetBytes(value).Reverse().ToArray();
-        }
+        public static byte[] GetBytes(float value) => IsLittleEndian ? BitConverter.GetBytes(value) : BitConverter.GetBytes(value).Reverse().ToArray();
 
         ///
         /// <summary>
@@ -149,14 +118,7 @@ namespace Ripple.Binary.Codec.Util
         /// Returns:
         ///     An array of bytes with length 4.
         ///</summary>
-        public static byte[] GetBytes(int value)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.GetBytes(value);
-            }
-            return BitConverter.GetBytes(value).Reverse().ToArray();
-        }
+        public static byte[] GetBytes(int value) => IsLittleEndian ? BitConverter.GetBytes(value) : BitConverter.GetBytes(value).Reverse().ToArray();
 
         ///
         /// <summary>
@@ -169,14 +131,7 @@ namespace Ripple.Binary.Codec.Util
         /// Returns:
         ///     An array of bytes with length 8.
         ///</summary>
-        public static byte[] GetBytes(long value)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.GetBytes(value);
-            }
-            return BitConverter.GetBytes(value).Reverse().ToArray();
-        }
+        public static byte[] GetBytes(long value) => IsLittleEndian ? BitConverter.GetBytes(value) : BitConverter.GetBytes(value).Reverse().ToArray();
 
         ///
         /// <summary>
@@ -189,14 +144,7 @@ namespace Ripple.Binary.Codec.Util
         /// Returns:
         ///     An array of bytes with length 2.
         ///</summary>
-        public static byte[] GetBytes(short value)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.GetBytes(value);
-            }
-            return BitConverter.GetBytes(value).Reverse().ToArray();
-        }
+        public static byte[] GetBytes(short value) => IsLittleEndian ? BitConverter.GetBytes(value) : BitConverter.GetBytes(value).Reverse().ToArray();
 
         ///
         /// <summary>
@@ -210,14 +158,7 @@ namespace Ripple.Binary.Codec.Util
         ///     An array of bytes with length 4.
         ///</summary>
         
-        public static byte[] GetBytes(uint value)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.GetBytes(value);
-            }
-            return BitConverter.GetBytes(value).Reverse().ToArray();
-        }
+        public static byte[] GetBytes(uint value) => IsLittleEndian ? BitConverter.GetBytes(value) : BitConverter.GetBytes(value).Reverse().ToArray();
 
         ///
         /// <summary>
@@ -231,14 +172,7 @@ namespace Ripple.Binary.Codec.Util
         ///     An array of bytes with length 8.
         ///</summary>
         
-        public static byte[] GetBytes(ulong value)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.GetBytes(value);
-            }
-            return BitConverter.GetBytes(value).Reverse().ToArray();
-        }
+        public static byte[] GetBytes(ulong value) => IsLittleEndian ? BitConverter.GetBytes(value) : BitConverter.GetBytes(value).Reverse().ToArray();
 
         ///
         /// <summary>
@@ -251,14 +185,7 @@ namespace Ripple.Binary.Codec.Util
         /// Returns:
         ///     An array of bytes with length 2.
         ///</summary>
-        public static byte[] GetBytes(ushort value)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.GetBytes(value);
-            }
-            return BitConverter.GetBytes(value).Reverse().ToArray();
-        }
+        public static byte[] GetBytes(ushort value) => IsLittleEndian ? BitConverter.GetBytes(value) : BitConverter.GetBytes(value).Reverse().ToArray();
 
         ///
         /// <summary>
@@ -375,14 +302,7 @@ namespace Ripple.Binary.Codec.Util
         ///   System.ArgumentOutOfRangeException:
         ///     startIndex is less than zero or greater than the length of value minus 1.
         ///</summary>
-        public static short ToInt16(byte[] value, int startIndex)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.ToInt16(value, startIndex);
-            }
-            return BitConverter.ToInt16(value.Reverse().ToArray(), value.Length - sizeof(Int16) - startIndex);
-        }
+        public static short ToInt16(byte[] value, int startIndex) => IsLittleEndian ? BitConverter.ToInt16(value, startIndex) : BitConverter.ToInt16(value.Reverse().ToArray(), value.Length - sizeof(Int16) - startIndex);
 
         ///
         /// <summary>
@@ -410,14 +330,7 @@ namespace Ripple.Binary.Codec.Util
         ///   System.ArgumentOutOfRangeException:
         ///     startIndex is less than zero or greater than the length of value minus 1.
         ///</summary>
-        public static int ToInt32(byte[] value, int startIndex)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.ToInt32(value, startIndex);
-            }
-            return BitConverter.ToInt32(value.Reverse().ToArray(), value.Length - sizeof(Int32) - startIndex);
-        }
+        public static int ToInt32(byte[] value, int startIndex) => IsLittleEndian ? BitConverter.ToInt32(value, startIndex) : BitConverter.ToInt32(value.Reverse().ToArray(), value.Length - sizeof(Int32) - startIndex);
 
         ///
         /// <summary>
@@ -445,14 +358,7 @@ namespace Ripple.Binary.Codec.Util
         ///   System.ArgumentOutOfRangeException:
         ///     startIndex is less than zero or greater than the length of value minus 1.
         ///</summary>
-        public static long ToInt64(byte[] value, int startIndex)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.ToInt64(value, startIndex);
-            }
-            return BitConverter.ToInt64(value.Reverse().ToArray(), value.Length - sizeof(Int64) - startIndex);
-        }
+        public static long ToInt64(byte[] value, int startIndex) => IsLittleEndian ? BitConverter.ToInt64(value, startIndex) : BitConverter.ToInt64(value.Reverse().ToArray(), value.Length - sizeof(Int64) - startIndex);
 
         ///
         /// <summary>
@@ -481,14 +387,7 @@ namespace Ripple.Binary.Codec.Util
         ///   System.ArgumentOutOfRangeException:
         ///     startIndex is less than zero or greater than the length of value minus 1.
         ///</summary>
-        public static float ToSingle(byte[] value, int startIndex)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.ToSingle(value, startIndex);
-            }
-            return BitConverter.ToSingle(value.Reverse().ToArray(), value.Length - sizeof(Single) - startIndex);
-        }
+        public static float ToSingle(byte[] value, int startIndex) => IsLittleEndian ? BitConverter.ToSingle(value, startIndex) : BitConverter.ToSingle(value.Reverse().ToArray(), value.Length - sizeof(Single) - startIndex);
 
         ///
         /// <summary>
@@ -507,14 +406,7 @@ namespace Ripple.Binary.Codec.Util
         ///   System.ArgumentNullException:
         ///     value is null.
         ///</summary>
-        public static string ToString(byte[] value)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.ToString(value);
-            }
-            return BitConverter.ToString(value.Reverse().ToArray());
-        }
+        public static string ToString(byte[] value) => BitConverter.ToString(IsLittleEndian ? value : value.Reverse().ToArray());
 
         ///
         /// <summary>
@@ -540,14 +432,7 @@ namespace Ripple.Binary.Codec.Util
         ///   System.ArgumentOutOfRangeException:
         ///     startIndex is less than zero or greater than the length of value minus 1.
         ///</summary>
-        public static string ToString(byte[] value, int startIndex)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.ToString(value, startIndex);
-            }
-            return BitConverter.ToString(value.Reverse().ToArray(), startIndex);
-        }
+        public static string ToString(byte[] value, int startIndex) => BitConverter.ToString(IsLittleEndian ? value : value.Reverse().ToArray(), startIndex);
 
         ///
         /// <summary>
@@ -582,14 +467,7 @@ namespace Ripple.Binary.Codec.Util
         ///     value; that is, the startIndex parameter is greater than the length of value
         ///     minus the length parameter.
         ///</summary>
-        public static string ToString(byte[] value, int startIndex, int length)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.ToString(value, startIndex, length);
-            }
-            return BitConverter.ToString(value.Reverse().ToArray(), startIndex, length);
-        }
+        public static string ToString(byte[] value, int startIndex, int length) => BitConverter.ToString(IsLittleEndian ? value : value.Reverse().ToArray(), startIndex, length);
 
         ///
         /// <summary>
@@ -616,14 +494,7 @@ namespace Ripple.Binary.Codec.Util
         ///   System.ArgumentOutOfRangeException:
         ///     startIndex is less than zero or greater than the length of value minus 1.
         ///</summary>
-        public static ushort ToUInt16(byte[] value, int startIndex)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.ToUInt16(value, startIndex);
-            }
-            return BitConverter.ToUInt16(value.Reverse().ToArray(), value.Length - sizeof(UInt16) - startIndex);
-        }
+        public static ushort ToUInt16(byte[] value, int startIndex) => IsLittleEndian ? BitConverter.ToUInt16(value, startIndex) : BitConverter.ToUInt16(value.Reverse().ToArray(), value.Length - sizeof(UInt16) - startIndex);
 
         ///
         /// <summary>
@@ -651,14 +522,7 @@ namespace Ripple.Binary.Codec.Util
         ///   System.ArgumentOutOfRangeException:
         ///     startIndex is less than zero or greater than the length of value minus 1.
         ///</summary>
-        public static uint ToUInt32(byte[] value, int startIndex)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.ToUInt32(value, startIndex);
-            }
-            return BitConverter.ToUInt32(value.Reverse().ToArray(), value.Length - sizeof(UInt32) - startIndex);
-        }
+        public static uint ToUInt32(byte[] value, int startIndex) => IsLittleEndian ? BitConverter.ToUInt32(value, startIndex) : BitConverter.ToUInt32(value.Reverse().ToArray(), value.Length - sizeof(UInt32) - startIndex);
 
         ///
         /// <summary>
@@ -686,27 +550,20 @@ namespace Ripple.Binary.Codec.Util
         ///   System.ArgumentOutOfRangeException:
         ///     startIndex is less than zero or greater than the length of value minus 1.
         ///</summary>
-        public static ulong ToUInt64(byte[] value, int startIndex)
-        {
-            if (IsLittleEndian)
-            {
-                return BitConverter.ToUInt64(value, startIndex);
-            }
-            return BitConverter.ToUInt64(value.Reverse().ToArray(), value.Length - sizeof(UInt64) - startIndex);
-        }
+        public static ulong ToUInt64(byte[] value, int startIndex) => IsLittleEndian ? BitConverter.ToUInt64(value, startIndex) : BitConverter.ToUInt64(value.Reverse().ToArray(), value.Length - sizeof(UInt64) - startIndex);
     }
     public static class ChannelUtils
     {
         public static byte[] EncodeChannel(string channelHex, long amount)
         {
             byte[] HASH_CHANNEL_SIGN = { 0x43, 0x4C, 0x4D, 0x00 };
-            byte[] AMOUNT_HEX_ARRAY = Bits.GetBytes(amount);
-            byte[] CHANNEL_HEX_ARRAY = Convert.FromHexString(channelHex);
+            var AMOUNT_HEX_ARRAY = Bits.GetBytes(amount);
+            var CHANNEL_HEX_ARRAY = Convert.FromHexString(channelHex);
 
-            byte[] rv = new byte[HASH_CHANNEL_SIGN.Length + CHANNEL_HEX_ARRAY.Length + AMOUNT_HEX_ARRAY.Length];
-            System.Buffer.BlockCopy(HASH_CHANNEL_SIGN, 0, rv, 0, HASH_CHANNEL_SIGN.Length);
-            System.Buffer.BlockCopy(CHANNEL_HEX_ARRAY, 0, rv, HASH_CHANNEL_SIGN.Length, CHANNEL_HEX_ARRAY.Length);
-            System.Buffer.BlockCopy(AMOUNT_HEX_ARRAY, 0, rv, HASH_CHANNEL_SIGN.Length + CHANNEL_HEX_ARRAY.Length, AMOUNT_HEX_ARRAY.Length);
+            var rv = new byte[HASH_CHANNEL_SIGN.Length + CHANNEL_HEX_ARRAY.Length + AMOUNT_HEX_ARRAY.Length];
+            Buffer.BlockCopy(HASH_CHANNEL_SIGN, 0, rv, 0, HASH_CHANNEL_SIGN.Length);
+            Buffer.BlockCopy(CHANNEL_HEX_ARRAY, 0, rv, HASH_CHANNEL_SIGN.Length, CHANNEL_HEX_ARRAY.Length);
+            Buffer.BlockCopy(AMOUNT_HEX_ARRAY, 0, rv, HASH_CHANNEL_SIGN.Length + CHANNEL_HEX_ARRAY.Length, AMOUNT_HEX_ARRAY.Length);
             return rv;
         }
     }

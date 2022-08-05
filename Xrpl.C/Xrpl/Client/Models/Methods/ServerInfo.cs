@@ -131,7 +131,7 @@ namespace Xrpl.Client.Models.Methods
             {
                 if (string.IsNullOrEmpty(DurationMs))
                     return TimeSpan.Zero;
-                long ms = long.Parse(DurationMs);
+                var ms = long.Parse(DurationMs);
                 return TimeSpan.FromMilliseconds(ms);
             }
         }

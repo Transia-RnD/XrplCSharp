@@ -1,6 +1,4 @@
-﻿
-using Xrpl.Client.Json.Converters;
-using Xrpl.Client.Models.Enums;
+﻿using Xrpl.Client.Models.Enums;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/ledger/FeeSettings.ts
@@ -9,10 +7,7 @@ namespace Xrpl.Client.Models.Ledger
 {
     public class LOFeeSettings : BaseRippleLO
     {
-        public LOFeeSettings()
-        {
-            LedgerEntryType = LedgerEntryType.FeeSettings;
-        }
+        public LOFeeSettings() => LedgerEntryType = LedgerEntryType.FeeSettings;
 
         public uint Flags { get; set; }
 

@@ -29,7 +29,7 @@ namespace Ripple.Keypairs.K256
         private void InitSigner(BigInteger priv)
         {
             _signer = new ECDSASigner(new HMacDsaKCalculator(new Sha256Digest()));
-            ECPrivateKeyParameters privKey = new ECPrivateKeyParameters(priv, Secp256K1.Parameters());
+            var privKey = new ECPrivateKeyParameters(priv, Secp256K1.Parameters());
             _signer.Init(true, privKey);
         }
 
@@ -39,25 +39,16 @@ namespace Ripple.Keypairs.K256
             return this;
         }
 
-        public BigInteger Priv()
-        {
-            return _privKey;
-        }
+        public BigInteger Priv() => _privKey;
 
-        public byte[] Sign(byte[] message)
-        {
-            return SignHash(Sha512.Half(message));
-        }
+        public byte[] Sign(byte[] message) => SignHash(Sha512.Half(message));
 
-        private byte[] SignHash(byte[] bytes)
-        {
-            return CreateEcdsaSignature(bytes).EncodeToDer();
-        }
+        private byte[] SignHash(byte[] bytes) => CreateEcdsaSignature(bytes).EncodeToDer();
 
         private EcdsaSignature CreateEcdsaSignature(byte[] hash)
         {
 
-            BigInteger[] sigs = _signer.GenerateSignature(hash);
+            var sigs = _signer.GenerateSignature(hash);
             var r = sigs[0];
             var s = sigs[1];
 
@@ -70,14 +61,9 @@ namespace Ripple.Keypairs.K256
             return new EcdsaSignature(r, s);
         }
 
-        public string Id()
-        {
-            if (_isNodeKey)
-            {
-                return Ripple.Address.Codec.AddressCodec.EncodeNodePublic(CanonicalPubBytes());
-            }
-            return Ripple.Address.Codec.AddressCodec.EncodeAddress(this.PubKeyHash());
-        }
+        public string Id() => _isNodeKey 
+            ? Address.Codec.AddressCodec.EncodeNodePublic(CanonicalPubBytes())
+            : Address.Codec.AddressCodec.EncodeAddress(this.PubKeyHash());
     }
 
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Enums;
 
 
@@ -9,10 +8,7 @@ namespace Xrpl.Client.Models.Ledger
 {
     public class LOLedgerHashes : BaseRippleLO
     {
-        public LOLedgerHashes()
-        {
-            LedgerEntryType = LedgerEntryType.LedgerHashes;
-        }
+        public LOLedgerHashes() => LedgerEntryType = LedgerEntryType.LedgerHashes;
 
         public uint FirstLedgerSequence { get; set; }
 

@@ -15,13 +15,13 @@ namespace Ripple.Binary.Codec
     {
         public static string ToHex(this ISerializedType st)
         {
-            BytesList list = new BytesList();
+            var list = new BytesList();
             st.ToBytes(list);
             return list.BytesHex();
         }
         public static string ToDebuggedHex(this ISerializedType st)
         {
-            BytesList list = new BytesList();
+            var list = new BytesList();
             st.ToBytes(list);
             return list.RawList().Aggregate("", (a, b) => a + ',' + B16.Encode(b));
         }

@@ -10,7 +10,7 @@ namespace Xrpl.Client.Json.Converters
         {
             if (value is LedgerIndex)
             {
-                LedgerIndex ledgerIndex = (LedgerIndex) value;
+                var ledgerIndex = (LedgerIndex) value;
                 if (ledgerIndex.Index.HasValue)
                 {
                     writer.WriteValue(ledgerIndex.Index.Value);
@@ -31,11 +31,6 @@ namespace Xrpl.Client.Json.Converters
             throw new NotImplementedException();
         }
 
-        public override bool CanConvert(Type objectType)
-        {
-            if (objectType == typeof(LedgerIndex))
-                return true;
-            return false;
-        }
+        public override bool CanConvert(Type objectType) => objectType == typeof(LedgerIndex);
     }
 }

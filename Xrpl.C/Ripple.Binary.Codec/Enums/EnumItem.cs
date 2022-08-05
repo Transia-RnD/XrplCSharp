@@ -11,28 +11,13 @@ namespace Ripple.Binary.Codec.Enums
             Ordinal = ordinal;
             Name = name;
         }
-        public int CompareTo(EnumItem other)
-        {
-            return Math.Sign(Ordinal - other.Ordinal);
-        }
-        public override string ToString()
-        {
-            return Name;
-        }
+        public int CompareTo(EnumItem other) => Math.Sign(Ordinal - other.Ordinal);
+        public override string ToString() => Name;
 
-        public static implicit operator int(EnumItem item)
-        {
-            return item.Ordinal;
-        }
+        public static implicit operator int(EnumItem item) => item.Ordinal;
 
-        public static implicit operator string(EnumItem item)
-        {
-            return item.Name;
-        }
+        public static implicit operator string(EnumItem item) => item.Name;
 
-        public override int GetHashCode()
-        {
-            return Ordinal;
-        }
+        public override int GetHashCode() => Ordinal;
     }
 }

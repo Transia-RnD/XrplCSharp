@@ -13,10 +13,7 @@ namespace Ripple.Binary.Codec.Types
     {
         protected internal readonly SortedDictionary<Field, ISerializedType> Fields;
 
-        public StObject()
-        {
-            Fields = new SortedDictionary<Field, ISerializedType>();
-        }
+        public StObject() => Fields = new SortedDictionary<Field, ISerializedType>();
 
         internal class BuildFrom
         {
@@ -34,20 +31,20 @@ namespace Ripple.Binary.Codec.Types
         {
             var d2 = new Dictionary<FieldType, BuildFrom>
             {
-                [FieldType.StObject] = new BuildFrom(FromJson, FromParser),
-                [FieldType.StArray] = new BuildFrom(StArray.FromJson, StArray.FromParser),
-                [FieldType.Uint8] = new BuildFrom(Uint8.FromJson, Uint8.FromParser),
-                [FieldType.Uint32] = new BuildFrom(Uint32.FromJson, Uint32.FromParser),
-                [FieldType.Uint64] = new BuildFrom(Uint64.FromJson, Uint64.FromParser),
-                [FieldType.Uint16] = new BuildFrom(Uint16.FromJson, Uint16.FromParser),
-                [FieldType.Amount] = new BuildFrom(Amount.FromJson, Amount.FromParser),
-                [FieldType.Hash128] = new BuildFrom(Hash128.FromJson, Hash128.FromParser),
-                [FieldType.Hash256] = new BuildFrom(Hash256.FromJson, Hash256.FromParser),
-                [FieldType.Hash160] = new BuildFrom(Hash160.FromJson, Hash160.FromParser),
-                [FieldType.AccountId] = new BuildFrom(AccountId.FromJson, AccountId.FromParser),
-                [FieldType.Blob] = new BuildFrom(Blob.FromJson, Blob.FromParser),
-                [FieldType.PathSet] = new BuildFrom(PathSet.FromJson, PathSet.FromParser),
-                [FieldType.Vector256] = new BuildFrom(Vector256.FromJson, Vector256.FromParser),
+                [FieldType.StObject] = new(FromJson, FromParser),
+                [FieldType.StArray] = new(StArray.FromJson, StArray.FromParser),
+                [FieldType.Uint8] = new(Uint8.FromJson, Uint8.FromParser),
+                [FieldType.Uint32] = new(Uint32.FromJson, Uint32.FromParser),
+                [FieldType.Uint64] = new(Uint64.FromJson, Uint64.FromParser),
+                [FieldType.Uint16] = new(Uint16.FromJson, Uint16.FromParser),
+                [FieldType.Amount] = new(Amount.FromJson, Amount.FromParser),
+                [FieldType.Hash128] = new(Hash128.FromJson, Hash128.FromParser),
+                [FieldType.Hash256] = new(Hash256.FromJson, Hash256.FromParser),
+                [FieldType.Hash160] = new(Hash160.FromJson, Hash160.FromParser),
+                [FieldType.AccountId] = new(AccountId.FromJson, AccountId.FromParser),
+                [FieldType.Blob] = new(Blob.FromJson, Blob.FromParser),
+                [FieldType.PathSet] = new(PathSet.FromJson, PathSet.FromParser),
+                [FieldType.Vector256] = new(Vector256.FromJson, Vector256.FromParser),
             };
             foreach (var field in Field.Values.Where(
                         field => d2.ContainsKey(field.Type)))
@@ -95,10 +92,7 @@ namespace Ripple.Binary.Codec.Types
             return so;
         }
 
-        public static StObject FromJson(JToken token)
-        {
-            return FromJson(token, false);
-        }
+        public static StObject FromJson(JToken token) => FromJson(token, false);
 
         public static StObject FromJson(JToken token, bool strict)
         {
@@ -108,45 +102,35 @@ namespace Ripple.Binary.Codec.Types
             }
 
             var so = new StObject();
-            foreach (var pair in (JObject) token)
+            foreach (var (key, j_token) in (JObject) token)
             {
-                if (!Field.Values.Has(pair.Key))
+                if (!Field.Values.Has(key))
                 {
                     if (strict)
                     {
-                        throw new InvalidJsonException($"unknown field {pair.Key}");
+                        throw new InvalidJsonException($"unknown field {key}");
                     }
                     continue;
                 }
-                var fieldForType = Field.Values[pair.Key];
-                var jsonForField = pair.Value;
+                var fieldForType = Field.Values[key];
                 ISerializedType st;
                 try
                 {
-                    st = fieldForType.FromJson(jsonForField);
+                    st = fieldForType.FromJson(j_token);
                 }
-                catch (Exception e) when (e is InvalidOperationException ||
-                                          e is FormatException ||
-                                          e is OverflowException ||
-                                          e is PrecisionException)
+                catch (Exception e) when (e is InvalidOperationException or FormatException or OverflowException or PrecisionException)
                 {
                     throw new InvalidJsonException($"Can't decode `{fieldForType}` " +
-                                          $"from `{jsonForField}`", e);
+                                          $"from `{j_token}`", e);
                 }
                 so.Fields[fieldForType] = st;
             }
             return so;
         }
 
-        public void ToBytes(IBytesSink to)
-        {
-            ToBytes(to, null);
-        }
+        public void ToBytes(IBytesSink to) => ToBytes(to, null);
 
-        public JToken ToJson()
-        {
-            return ToJsonObject();
-        }
+        public JToken ToJson() => ToJsonObject();
 
         public JObject ToJsonObject()
         {
@@ -168,20 +152,11 @@ namespace Ripple.Binary.Codec.Types
             }
         }
 
-        public static implicit operator StObject(JToken v)
-        {
-            return FromJson(v);
-        }
+        public static implicit operator StObject(JToken v) => FromJson(v);
 
-        public static StObject FromHex(string s)
-        {
-            return FromParser(new BufferParser(s));
-        }
+        public static StObject FromHex(string s) => FromParser(new BufferParser(s));
 
-        public bool Has(Field field)
-        {
-            return Fields.ContainsKey(field);
-        }
+        public bool Has(Field field) => Fields.ContainsKey(field);
 
         public byte[] SigningData()
         {
@@ -199,88 +174,88 @@ namespace Ripple.Binary.Codec.Types
         }
         public AccountId this[AccountIdField f]
         {
-            get { return (AccountId)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (AccountId)Fields[f];
+            set => Fields[f] = value;
         }
         public Amount this[AmountField f]
         {
-            get { return (Amount)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (Amount)Fields[f];
+            set => Fields[f] = value;
         }
         public Blob this[BlobField f]
         {
-            get { return (Blob)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (Blob)Fields[f];
+            set => Fields[f] = value;
         }
         public Hash128 this[Hash128Field f]
         {
-            get { return (Hash128)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (Hash128)Fields[f];
+            set => Fields[f] = value;
         }
         public Hash160 this[Hash160Field f]
         {
-            get { return (Hash160)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (Hash160)Fields[f];
+            set => Fields[f] = value;
         }
         public Hash256 this[Hash256Field f]
         {
-            get { return (Hash256)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (Hash256)Fields[f];
+            set => Fields[f] = value;
         }
         public PathSet this[PathSetField f]
         {
-            get { return (PathSet)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (PathSet)Fields[f];
+            set => Fields[f] = value;
         }
         public StArray this[StArrayField f]
         {
-            get { return (StArray)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (StArray)Fields[f];
+            set => Fields[f] = value;
         }
         public StObject this[StObjectField f]
         {
-            get { return (StObject)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (StObject)Fields[f];
+            set => Fields[f] = value;
         }
         public Uint16 this[Uint16Field f]
         {
-            get { return (Uint16)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (Uint16)Fields[f];
+            set => Fields[f] = value;
         }
         public LedgerEntryType this[LedgerEntryTypeField f]
         {
-            get { return (LedgerEntryType)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (LedgerEntryType)Fields[f];
+            set => Fields[f] = value;
         }
         public TransactionType this[TransactionTypeField f]
         {
-            get { return (TransactionType)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (TransactionType)Fields[f];
+            set => Fields[f] = value;
         }
         public Uint32 this[Uint32Field f]
         {
-            get { return (Uint32)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (Uint32)Fields[f];
+            set => Fields[f] = value;
         }
         public Uint64 this[Uint64Field f]
         {
-            get { return (Uint64)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (Uint64)Fields[f];
+            set => Fields[f] = value;
         }
         public Uint8 this[Uint8Field f]
         {
-            get { return (Uint8)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (Uint8)Fields[f];
+            set => Fields[f] = value;
         }
         public EngineResult this[EngineResultField f]
         {
-            get { return (EngineResult)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (EngineResult)Fields[f];
+            set => Fields[f] = value;
         }
         public Vector256 this[Vector256Field f]
         {
-            get { return (Vector256)Fields[f]; }
-            set { Fields[f] = value; }
+            get => (Vector256)Fields[f];
+            set => Fields[f] = value;
         }
 
         public StObject SetFlag(uint flags)
@@ -296,9 +271,6 @@ namespace Ripple.Binary.Codec.Types
 
     internal static class Extensions
     {
-        internal static byte[] Bytes(this HashPrefix hp)
-        {
-            return Bits.GetBytes((uint)hp);
-        }
+        internal static byte[] Bytes(this HashPrefix hp) => Bits.GetBytes((uint)hp);
     }
 }

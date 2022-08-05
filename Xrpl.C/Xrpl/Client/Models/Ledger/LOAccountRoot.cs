@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 using Xrpl.Client.Json.Converters;
-using Xrpl.Client.Models.Ledger;
 using Xrpl.Client.Models.Enums;
 using Xrpl.Client.Models.Common;
 
@@ -25,10 +22,7 @@ namespace Xrpl.Client.Models.Ledger
     }
     public class LOAccountRoot : BaseRippleLO
     {
-        public LOAccountRoot()
-        {
-            LedgerEntryType = LedgerEntryType.AccountRoot;
-        }
+        public LOAccountRoot() => LedgerEntryType = LedgerEntryType.AccountRoot;
 
         public string Account { get; set; }
 

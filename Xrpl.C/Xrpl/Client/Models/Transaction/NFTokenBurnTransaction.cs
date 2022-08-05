@@ -1,7 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-using Xrpl.Client.Json.Converters;
-using Xrpl.Client.Models.Enums;
+﻿using Xrpl.Client.Models.Enums;
 
 namespace Xrpl.Client.Models.Transactions
 {

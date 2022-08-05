@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using Ripple.Binary.Codec.Binary;
 using Ripple.Binary.Codec.Util;
@@ -9,42 +8,20 @@ namespace Ripple.Binary.Codec.Types
     public class Blob : ISerializedType
     {
         public readonly byte[] Buffer;
-        private Blob(byte[] decode)
-        {
-            this.Buffer = decode;
-        }
-        public static Blob FromHex(string value)
-        {
-            return B16.Decode(value);
-        }
-        public static implicit operator Blob(byte[] value)
-        {
-            return new Blob(value);
-        }
-        public static implicit operator Blob(JToken token)
-        {
-            return FromJson(token);
-        }
+        private Blob(byte[] decode) => Buffer = decode;
+        public static Blob FromHex(string value) => B16.Decode(value);
 
-        public static Blob FromJson(JToken token)
-        {
-            return FromHex(token.ToString());
-        }
+        public static implicit operator Blob(byte[] value) => new(value);
 
-        public void ToBytes(IBytesSink sink)
-        {
-            sink.Put(Buffer);
-        }
+        public static implicit operator Blob(JToken token) => FromJson(token);
 
-        public JToken ToJson()
-        {
-            return ToString();
-        }
+        public static Blob FromJson(JToken token) => FromHex(token.ToString());
 
-        public override string ToString()
-        {
-            return B16.Encode(Buffer);
-        }
+        public void ToBytes(IBytesSink sink) => sink.Put(Buffer);
+
+        public JToken ToJson() => ToString();
+
+        public override string ToString() => B16.Encode(Buffer);
 
         public static Blob FromParser(BinaryParser parser, int? hint=null)
         {
@@ -52,14 +29,8 @@ namespace Ripple.Binary.Codec.Types
             return parser.Read((int) hint);
         }
 
-        public static Blob FromString(string blob, System.Text.Encoding encoding)
-        {
-            return new Blob(encoding.GetBytes(blob));
-        }
+        public static Blob FromString(string blob, System.Text.Encoding encoding) => new Blob(encoding.GetBytes(blob));
 
-        public static Blob FromAscii(string blob)
-        {
-            return FromString(blob, System.Text.Encoding.ASCII);
-        }
+        public static Blob FromAscii(string blob) => FromString(blob, System.Text.Encoding.ASCII);
     }
 }

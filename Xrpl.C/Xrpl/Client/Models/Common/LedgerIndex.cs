@@ -4,15 +4,9 @@ namespace Xrpl.Client.Models.Common
 {
     public class LedgerIndex
     {
-        public LedgerIndex(uint index)
-        {
-            Index = index;
-        }
+        public LedgerIndex(uint index) => Index = index;
 
-        public LedgerIndex(LedgerIndexType ledgerIndexType)
-        {
-            LedgerIndexType = ledgerIndexType;
-        }
+        public LedgerIndex(LedgerIndexType ledgerIndexType) => LedgerIndexType = ledgerIndexType;
 
         public uint? Index { get; set; }
 

@@ -10,28 +10,16 @@ namespace Ripple.Binary.Codec.Enums
         where TOrd : struct, IConvertible
     {
         protected readonly byte[] Bytes; 
-        public void ToBytes(IBytesSink sink)
-        {
-            sink.Put(Bytes);
-        }
+        public void ToBytes(IBytesSink sink) => sink.Put(Bytes);
 
-        public JToken ToJson()
-        {
-            return ToString();
-        }
+        public JToken ToJson() => ToString();
 
-        protected SerializedEnumItem(string name, int ordinal) : base(name, ordinal)
-        {
-            var width = Marshal.SizeOf(default(TOrd));
-            switch (width)
+        protected SerializedEnumItem(string name, int ordinal) : base(name, ordinal) 
+            => Bytes = Marshal.SizeOf(default(TOrd)) switch
             {
-                case 1:
-                    Bytes = new[] { (byte)ordinal };
-                    break;
-                case 2:
-                    Bytes = Bits.GetBytes((ushort) ordinal);
-                    break;
-            }
-        }
+                1 => new[] { (byte)ordinal },
+                2 => Bits.GetBytes((ushort)ordinal),
+                _ => Bytes
+            };
     }
 }

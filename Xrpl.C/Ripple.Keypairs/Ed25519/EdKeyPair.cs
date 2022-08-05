@@ -16,10 +16,7 @@ namespace Ripple.Keypairs.Ed25519
             ComputeCanonicalPub();
         }
 
-        public byte[] CanonicalPubBytes()
-        {
-            return _canonicalisedPubBytes;
-        }
+        public byte[] CanonicalPubBytes() => _canonicalisedPubBytes;
 
         private void ComputeCanonicalPub()
         {
@@ -29,28 +26,17 @@ namespace Ripple.Keypairs.Ed25519
                        1, _pubBytes.Length);
         }
 
-        public byte[] Sign(byte[] message)
-        {
-            return Chaos.NaCl.Ed25519.Sign(message, _privBytes);
-        }
+        public byte[] Sign(byte[] message) => Chaos.NaCl.Ed25519.Sign(message, _privBytes);
 
-        public bool Verify(byte[] message, byte[] signature)
-        {
-            return Chaos.NaCl.Ed25519.Verify(signature, message, _pubBytes);
-        }
+        public bool Verify(byte[] message, byte[] signature) => Chaos.NaCl.Ed25519.Verify(signature, message, _pubBytes);
 
         internal static IKeyPair From128Seed(byte[] seed)
         {
             var edSecret = Sha512.Half(seed);
-            byte[] publicKey;
-            byte[] expandedPrivateKey;
-            Chaos.NaCl.Ed25519.KeyPairFromSeed(out publicKey, out expandedPrivateKey, edSecret);
+            Chaos.NaCl.Ed25519.KeyPairFromSeed(out var publicKey, out var expandedPrivateKey, edSecret);
             return new EdKeyPair(publicKey, expandedPrivateKey);
         }
 
-        public string Id()
-        {
-            return Ripple.Address.Codec.AddressCodec.EncodeAddress(this.PubKeyHash());
-        }
+        public string Id() => Address.Codec.AddressCodec.EncodeAddress(this.PubKeyHash());
     }
 }

@@ -9,12 +9,9 @@ namespace Ripple.Binary.Codec.Types
     {
         public readonly string IsoCode;
         public readonly bool IsNative;
-        public static readonly Currency Xrp = new Currency(new byte[20]);
+        public static readonly Currency Xrp = new(new byte[20]);
 
-        public Currency(byte[] buffer) : base(buffer)
-        {
-            IsoCode = GetCurrencyCodeFromTlcBytes(buffer, out IsNative);
-        }
+        public Currency(byte[] buffer) : base(buffer) => IsoCode = GetCurrencyCodeFromTlcBytes(buffer, out IsNative);
 
         public static string GetCurrencyCodeFromTlcBytes(byte[] bytes, out bool isNative)
         {
@@ -26,7 +23,7 @@ namespace Ripple.Binary.Codec.Types
             {
                 allZero = allZero && bytes[i] == 0;
                 zeroInNonCurrencyBytes = zeroInNonCurrencyBytes && 
-                    (i == 12 || i == 13 || i == 14 || bytes[i] == 0); 
+                    (i is 12 or 13 or 14 || bytes[i] == 0); 
             }
             if (allZero)
             {
@@ -42,10 +39,7 @@ namespace Ripple.Binary.Codec.Types
             return null;
         }
 
-        private static char CharFrom(byte[] bytes, int i)
-        {
-            return (char)bytes[i];
-        }
+        private static char CharFrom(byte[] bytes, int i) => (char)bytes[i];
 
         private static string IsoCodeFromBytesAndOffset(byte[] bytes, int offset)
         {
@@ -55,10 +49,7 @@ namespace Ripple.Binary.Codec.Types
             return "" + a + b + c;
         }
 
-        public new static Currency FromJson(JToken token)
-        {
-            return token == null ? null : FromString(token.ToString());
-        }
+        public new static Currency FromJson(JToken token) => token == null ? null : FromString(token.ToString());
 
         public static Currency FromString(string str)
         {
@@ -67,17 +58,12 @@ namespace Ripple.Binary.Codec.Types
                 return Xrp;
             }
             // ReSharper disable once SwitchStatementMissingSomeCases
-            switch (str.Length)
+            return str.Length switch
             {
-                case 40:
-                    return new Currency(B16.Decode(str));
-                case 3:
-                    return new Currency(EncodeCurrency(str));
-            }
-            throw new InvalidOperationException(
-                "Currency must either be a 3 letter iso code " +
-                "or a 20 byte hash encoded in hexadecimal"
-            );
+                40 => new Currency(B16.Decode(str)),
+                3 => new Currency(EncodeCurrency(str)),
+                _ => throw new InvalidOperationException("Currency must either be a 3 letter iso code " + "or a 20 byte hash encoded in hexadecimal")
+            };
         }
 
         /*
@@ -86,39 +72,25 @@ namespace Ripple.Binary.Codec.Types
         * */
         public static byte[] EncodeCurrency(string currencyCode)
         {
-            byte[] currencyBytes = new byte[20];
+            var currencyBytes = new byte[20];
             currencyBytes[12] = (byte)char.ConvertToUtf32(currencyCode, 0);
             currencyBytes[13] = (byte)char.ConvertToUtf32(currencyCode, 1);
             currencyBytes[14] = (byte)char.ConvertToUtf32(currencyCode, 2);
             return currencyBytes;
         }
 
-        public static implicit operator Currency(string v)
-        {
-            return FromString(v);
-        }
-        public static implicit operator Currency(JToken v)
-        {
-            return FromJson(v);
-        }
-        public static implicit operator JToken(Currency v)
-        {
-            return v.ToString();
-        }
+        public static implicit operator Currency(string v) => FromString(v);
+
+        public static implicit operator Currency(JToken v) => FromJson(v);
+
+        public static implicit operator JToken(Currency v) => v.ToString();
 
         public override string ToString()
         {
-            if (IsoCode != null)
-            {
-                return IsoCode;
-            }
-            return base.ToString();
+            return IsoCode ?? base.ToString();
         }
 
-        public new static Currency FromParser(BinaryParser parser, int? hint = null)
-        {
-            return new Currency(parser.Read(20));
-        }
+        public new static Currency FromParser(BinaryParser parser, int? hint = null) => new Currency(parser.Read(20));
 
         public static UnissuedAmount operator /(decimal v, Currency c)
         {
@@ -129,10 +101,7 @@ namespace Ripple.Binary.Codec.Types
             return new UnissuedAmount(v, c);
         }
 
-        public static Issue operator /(Currency c, AccountId ac)
-        {
-            return new Issue();
-        }
+        public static Issue operator /(Currency c, AccountId ac) => new Issue();
     }
 
     public class Issue

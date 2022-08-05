@@ -31,19 +31,13 @@ namespace Ripple.Binary.Codec.Types
             return arr;
         }
 
-        public static Vector256 FromJson(JToken token)
-        {
-            return new Vector256(token.Select(Hash256.FromJson));
-        }
+        public static Vector256 FromJson(JToken token) => new Vector256(token.Select(Hash256.FromJson));
 
         public static Vector256 FromParser(BinaryParser parser, int? hint=null)
         {
             var vec = new Vector256();
-            if (hint == null)
-            {
-                hint = parser.Size - parser.Pos();
-            }
-            for (int i = 0; i < hint / 32; i++)
+            hint ??= parser.Size - parser.Pos();
+            for (var i = 0; i < hint / 32; i++)
             {
                 vec.Add(Hash256.FromParser(parser));
             }

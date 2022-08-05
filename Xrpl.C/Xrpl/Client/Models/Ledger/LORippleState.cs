@@ -22,10 +22,7 @@ namespace Xrpl.Client.Models.Ledger
     }
     public class LORippleState : BaseRippleLO
     {
-        public LORippleState()
-        {
-            LedgerEntryType = LedgerEntryType.RippleState;
-        }
+        public LORippleState() => LedgerEntryType = LedgerEntryType.RippleState;
 
         public RippleStateFlags Flags { get; set; }
 

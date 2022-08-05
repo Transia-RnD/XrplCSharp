@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Enums;
@@ -17,10 +16,7 @@ namespace Xrpl.Client.Models.Ledger
 
     public class LOAmendments : BaseRippleLO
     {
-        public LOAmendments()
-        {
-            LedgerEntryType = LedgerEntryType.Amendments;
-        }
+        public LOAmendments() => LedgerEntryType = LedgerEntryType.Amendments;
 
         public List<Majority> Majorities { get; set; }
 

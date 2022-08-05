@@ -15,10 +15,7 @@ namespace Xrpl.Wallet
 
         private readonly IKeyPair _keyPair;
 
-        private TxSigner(IKeyPair keyPair)
-        {
-            _keyPair = keyPair;
-        }
+        private TxSigner(IKeyPair keyPair) => _keyPair = keyPair;
         private TxSigner(string secret) :
             this(Seed.FromBase58(secret).KeyPair())
         {
@@ -44,20 +41,11 @@ namespace Xrpl.Wallet
             return SignStObject(so);
         }
 
-        public static TxSigner FromKeyPair(IKeyPair keyPair)
-        {
-            return new TxSigner(keyPair);
-        }
+        public static TxSigner FromKeyPair(IKeyPair keyPair) => new TxSigner(keyPair);
 
-        public static TxSigner FromSecret(string secret)
-        {
-            return new TxSigner(secret);
-        }
+        public static TxSigner FromSecret(string secret) => new TxSigner(secret);
 
-        public static SignedTx SignJson(JObject tx, string secret)
-        {
-            return FromSecret(secret).SignJson(tx);
-        }
+        public static SignedTx SignJson(JObject tx, string secret) => FromSecret(secret).SignJson(tx);
 
         public SignedTx SignStObject(StObject tx)
         {

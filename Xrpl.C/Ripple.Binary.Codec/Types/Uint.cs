@@ -9,17 +9,11 @@ namespace Ripple.Binary.Codec.Types
     {
         public readonly T Value;
 
-        protected Uint(T value)
-        {
-            Value = value;
-        }
+        protected Uint(T value) => Value = value;
 
         public void ToBytes(IBytesSink sink) => sink.Put(ToBytes());
         public virtual JToken ToJson() => Convert.ToUInt32(Value);
-        public override string ToString()
-        {
-            return Value.ToString(CultureInfo.InvariantCulture);
-        }
+        public override string ToString() => Value.ToString(CultureInfo.InvariantCulture);
         public abstract byte[] ToBytes();
     }
 }

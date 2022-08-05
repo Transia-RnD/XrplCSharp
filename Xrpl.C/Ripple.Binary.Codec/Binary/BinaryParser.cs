@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using Ripple.Binary.Codec.Enums;
 
 namespace Ripple.Binary.Codec.Binary
@@ -24,7 +23,7 @@ namespace Ripple.Binary.Codec.Binary
             {
                 throw new InvalidOperationException(
                     "Couldn't parse field from " +
-                    $"{fieldCode.ToString("x")}");
+                    $"{fieldCode:x}");
             }
 
             return field;
@@ -54,34 +53,31 @@ namespace Ripple.Binary.Codec.Binary
             var b1 = ReadOneInt();
             int result;
 
-            if (b1 <= 192)
+            switch (b1)
             {
-                result = b1;
-            }
-            else if (b1 <= 240)
-            {
-                var b2 = ReadOneInt();
-                result = 193 + (b1 - 193) * 256 + b2;
-            }
-            else if (b1 <= 254)
-            {
-                var b2 = ReadOneInt();
-                var b3 = ReadOneInt();
-                result = 12481 + (b1 - 241) * 65536 + b2 * 256 + b3;
-            }
-            else
-            {
-                throw new InvalidOperationException(
-                    "Invalid variable length indicator");
+                case <= 192: result = b1;
+                    break;
+                case <= 240:
+                {
+                    var b2 = ReadOneInt();
+                    result = 193 + (b1 - 193) * 256 + b2;
+                    break;
+                }
+                case <= 254:
+                {
+                    var b2 = ReadOneInt();
+                    var b3 = ReadOneInt();
+                    result = 12481 + (b1 - 241) * 65536 + b2 * 256 + b3;
+                    break;
+                }
+                default:
+                    throw new InvalidOperationException(
+                        "Invalid variable length indicator");
             }
 
             return result;
         }
 
-        public bool End(int? customEnd)
-        {
-            return Cursor >= Size ||
-                   (customEnd != null && Cursor >= customEnd);
-        }
+        public bool End(int? customEnd) => Cursor >= Size || Cursor >= customEnd;
     }
 }

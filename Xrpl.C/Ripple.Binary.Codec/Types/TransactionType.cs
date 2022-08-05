@@ -5,14 +5,11 @@ namespace Ripple.Binary.Codec.Types
     public class TransactionType : SerializedEnumItem<ushort>
     {
         public class Enumeration : SerializedEnumeration<TransactionType, ushort>{}
-        public static Enumeration Values = new Enumeration();
+        public static Enumeration Values = new();
         private TransactionType(string reference, int ordinal) : base(reference, ordinal){}
 
-        private static TransactionType Add(string name, int ordinal)
-        {
-            return Values.AddEnum(new TransactionType(name, ordinal));
-        }
-        
+        private static TransactionType Add(string name, int ordinal) => Values.AddEnum(new TransactionType(name, ordinal));
+
         //https://github.com/ripple/rippled/blob/112a863e7346793234c973e97818ced4c6e36867/src/ripple/protocol/TxFormats.h
 
         public static readonly TransactionType Invalid = Add(nameof(Invalid), -1);

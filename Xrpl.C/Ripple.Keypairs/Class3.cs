@@ -1,8 +1,7 @@
-﻿using System;
-
-namespace xrpl_c
+﻿namespace xrpl_c
 {
     public class Class3
     {
     }
+    //todo wtf?
 }

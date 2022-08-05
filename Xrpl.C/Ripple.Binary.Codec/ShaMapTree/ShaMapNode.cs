@@ -11,27 +11,15 @@ namespace Ripple.Binary.Codec.ShaMapTree
         public abstract bool IsLeaf { get; }
         public abstract bool IsInner { get; }
 
-        public ShaMapLeaf AsLeaf()
-        {
-            return (ShaMapLeaf)this;
-        }
+        public ShaMapLeaf AsLeaf() => (ShaMapLeaf)this;
 
-        public ShaMapInner AsInner()
-        {
-            return (ShaMapInner)this;
-        }
+        public ShaMapInner AsInner() => (ShaMapInner)this;
 
         internal abstract HashPrefix Prefix();
         public abstract void ToBytesSink(IBytesSink sink);
 
-        public void Invalidate()
-        {
-            CachedHash = null;
-        }
-        public virtual Hash256 Hash()
-        {
-            return CachedHash ?? (CachedHash = CreateHash());
-        }
+        public void Invalidate() => CachedHash = null;
+        public virtual Hash256 Hash() => CachedHash ??= CreateHash();
 
         public Hash256 CreateHash()
         {

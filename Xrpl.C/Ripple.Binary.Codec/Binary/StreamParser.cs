@@ -15,7 +15,7 @@ namespace Ripple.Binary.Codec.Binary
 
         public override byte[] Read(int n)
         {
-            byte[] ret = new byte[n];
+            var ret = new byte[n];
             var read = _stream.Read(ret, 0, n);
             if (read != n)
             {
@@ -25,14 +25,7 @@ namespace Ripple.Binary.Codec.Binary
             return ret;
         }
 
-        public override byte ReadOne()
-        {
-            return Read(1)[0];
-        }
-
-        public override void Skip(int n)
-        {
-            Read(n);
-        }
+        public override byte ReadOne() => Read(1)[0];
+        public override void Skip(int n) => Read(n);
     }
 }

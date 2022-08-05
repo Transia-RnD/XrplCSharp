@@ -9,35 +9,17 @@ namespace Ripple.Binary.Codec.ShaMapTree
     {
         public readonly StObject Entry;
 
-        public LedgerEntry(StObject entry)
-        {
-            Entry = entry;
-        }
+        public LedgerEntry(StObject entry) => Entry = entry;
 
-        public void ToBytes(IBytesSink sink)
-        {
-            Entry.ToBytes(sink);
-        }
+        public void ToBytes(IBytesSink sink) => Entry.ToBytes(sink);
 
-        public IShaMapItem<LedgerEntry> Copy()
-        {
-            return this;
-        }
+        public IShaMapItem<LedgerEntry> Copy() => this;
 
-        public LedgerEntry Value()
-        {
-            return this;
-        }
+        public LedgerEntry Value() => this;
 
-        public HashPrefix Prefix()
-        {
-            return HashPrefix.LeafNode;
-        }
+        public HashPrefix Prefix() => HashPrefix.LeafNode;
 
-        public Hash256 Index()
-        {
-            return (Hash256)Entry[Field.index];
-        }
+        public Hash256 Index() => Entry[Field.index];
     }
     public static class LedgerEntryReader
     {

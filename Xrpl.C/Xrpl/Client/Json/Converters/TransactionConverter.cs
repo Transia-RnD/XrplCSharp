@@ -48,8 +48,8 @@ namespace Xrpl.Client.Json.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            JObject jObject = JObject.Load(reader);
-            ITransactionResponseCommon transactionCommon = Create(objectType, jObject);
+            var jObject = JObject.Load(reader);
+            var transactionCommon = Create(objectType, jObject);
             serializer.Populate(jObject.CreateReader(), transactionCommon);
             return transactionCommon;            
         }

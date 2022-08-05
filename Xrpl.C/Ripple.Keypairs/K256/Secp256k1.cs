@@ -17,24 +17,12 @@ namespace Ripple.Keypairs.K256
                 x9Params.Curve, x9Params.G, x9Params.N, x9Params.H);
         }
 
-        public static ECDomainParameters Parameters()
-        {
-            return EcParams;
-        }
+        public static ECDomainParameters Parameters() => EcParams;
 
-        public static BigInteger Order()
-        {
-            return EcParams.N;
-        }
+        public static BigInteger Order() => EcParams.N;
 
-        public static Org.BouncyCastle.Math.EC.ECCurve Curve()
-        {
-            return EcParams.Curve;
-        }
+        public static Org.BouncyCastle.Math.EC.ECCurve Curve() => EcParams.Curve;
 
-        public static ECPoint BasePoint()
-        {
-            return EcParams.G;
-        }
+        public static ECPoint BasePoint() => EcParams.G;
     }
 }

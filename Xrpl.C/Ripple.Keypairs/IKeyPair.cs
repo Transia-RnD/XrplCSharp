@@ -1,5 +1,4 @@
-﻿using Org.BouncyCastle.Utilities.Encoders;
-using Ripple.Keypairs.Utils;
+﻿using Ripple.Keypairs.Utils;
 
 namespace Ripple.Keypairs
 {
@@ -15,9 +14,6 @@ namespace Ripple.Keypairs
 
     public static class KeyPairExtensions
     {
-        public static byte[] PubKeyHash(this IKeyPair pair)
-        {
-            return HashUtils.PublicKeyHash(pair.CanonicalPubBytes());
-        }
+        public static byte[] PubKeyHash(this IKeyPair pair) => HashUtils.PublicKeyHash(pair.CanonicalPubBytes());
     }
 }

@@ -10,10 +10,7 @@ namespace Xrpl.Client.Models.Ledger
 {
     public class LOPayChannel : BaseRippleLO
     {
-        public LOPayChannel()
-        {
-            LedgerEntryType = LedgerEntryType.PayChannel;
-        }
+        public LOPayChannel() => LedgerEntryType = LedgerEntryType.PayChannel;
 
         public uint Flags { get; set; }
 

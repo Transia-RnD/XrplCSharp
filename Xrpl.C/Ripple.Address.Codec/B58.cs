@@ -58,15 +58,11 @@ namespace Ripple.Address.Codec
                 var expectedVerLen = version.VersionBytes.Length;
                 var expectedTotLen = expectedPayloadLen + expectedVerLen;
                 var payloadEnd = buffer.Length - 4;
-                if (expectedTotLen == payloadEnd)
-                {
-                    var actualVersion = CopyOfRange(buffer, 0, expectedVerLen);
-                    if (ArrayEquals(actualVersion, version.VersionBytes))
-                    {
-                        var payload = CopyOfRange(buffer, actualVersion.Length, payloadEnd);
-                        return new Decoded(version.VersionBytes, payload, versionName);
-                    }
-                }
+                if (expectedTotLen != payloadEnd) continue;
+                var actualVersion = CopyOfRange(buffer, 0, expectedVerLen);
+                if (!ArrayEquals(actualVersion, version.VersionBytes)) continue;
+                var payload = CopyOfRange(buffer, actualVersion.Length, payloadEnd);
+                return new Decoded(version.VersionBytes, payload, versionName);
             }
             throw new EncodingFormatException("No version matched amongst " +
                                 $"{string.Join(", ", versions.NamesArray)}");
@@ -76,15 +72,15 @@ namespace Ripple.Address.Codec
         {
             if (input.Length == 0)
             {
-                return new byte[0];
+                return Array.Empty<byte>();
             }
-            byte[] input58 = new byte[input.Length];
+            var input58 = new byte[input.Length];
             // Transform the String to a base58 byte sequence
-            for (int i = 0; i < input.Length; ++i)
+            for (var i = 0; i < input.Length; ++i)
             {
-                char c = input[i];
+                var c = input[i];
 
-                int digit58 = -1;
+                var digit58 = -1;
                 if (c >= 0 && c < 128)
                 {
                     digit58 = _mIndexes[c];
@@ -144,23 +140,23 @@ namespace Ripple.Address.Codec
         {
             if (input.Length == 0)
             {
-                return new byte[0];
+                return Array.Empty<byte>();
             }
             input = CopyOfRange(input, 0, input.Length);
             // Count leading zeroes.
-            int zeroCount = 0;
+            var zeroCount = 0;
             while (zeroCount < input.Length && input[zeroCount] == 0)
             {
                 ++zeroCount;
             }
             // The actual encoding.
-            byte[] temp = new byte[input.Length * 2];
-            int j = temp.Length;
+            var temp = new byte[input.Length * 2];
+            var j = temp.Length;
 
-            int startAt = zeroCount;
+            var startAt = zeroCount;
             while (startAt < input.Length)
             {
-                byte mod = DivMod58(input, startAt);
+                var mod = DivMod58(input, startAt);
                 if (input[startAt] == 0)
                 {
                     ++startAt;
@@ -183,18 +179,15 @@ namespace Ripple.Address.Codec
             return output;
         }
 
-        public byte[] EncodeToBytesChecked(byte[] input, int version)
-        {
-            return EncodeToBytesChecked(input, new[] { (byte)version });
-        }
+        public byte[] EncodeToBytesChecked(byte[] input, int version) => EncodeToBytesChecked(input, new[] { (byte)version });
 
         public byte[] EncodeToBytesChecked(byte[] input, byte[] version)
         {
-            byte[] buffer = new byte[input.Length + version.Length];
+            var buffer = new byte[input.Length + version.Length];
             Array.Copy(version, 0, buffer, 0, version.Length);
             Array.Copy(input, 0, buffer, version.Length, input.Length);
-            byte[] checkSum = CopyOfRange(HashUtils.DoubleDigest(buffer), 0, 4);
-            byte[] output = new byte[buffer.Length + checkSum.Length];
+            var checkSum = CopyOfRange(HashUtils.DoubleDigest(buffer), 0, 4);
+            var output = new byte[buffer.Length + checkSum.Length];
             Array.Copy(buffer, 0, output, 0, buffer.Length);
             Array.Copy(checkSum, 0, output, buffer.Length, checkSum.Length);
             return EncodeToBytes(output);
@@ -202,30 +195,24 @@ namespace Ripple.Address.Codec
 
         public string EncodeToString(byte[] input)
         {
-            byte[] output = EncodeToBytes(input);
+            var output = EncodeToBytes(input);
             return Encoding.ASCII.GetString(output);
         }
 
-        public string EncodeToStringChecked(byte[] input, int version)
-        {
-            return EncodeToStringChecked(input, new[] { (byte)version });
-        }
+        public string EncodeToStringChecked(byte[] input, int version) => EncodeToStringChecked(input, new[] { (byte)version });
 
-        public string EncodeToStringChecked(byte[] input, byte[] version)
-        {
-            return Encoding.ASCII.GetString(EncodeToBytesChecked(input, version));
-        }
+        public string EncodeToStringChecked(byte[] input, byte[] version) => Encoding.ASCII.GetString(EncodeToBytesChecked(input, version));
 
         public byte[] FindPrefix(int payLoadLength, string desiredPrefix)
         {
-            int totalLength = payLoadLength + 4; // for the checksum
-            double chars = Math.Log(Math.Pow(256, totalLength)) / Math.Log(58);
-            int requiredChars = (int)Math.Ceiling(chars + 0.2D);
+            var totalLength = payLoadLength + 4; // for the checksum
+            var chars = Math.Log(Math.Pow(256, totalLength)) / Math.Log(58);
+            var requiredChars = (int)Math.Ceiling(chars + 0.2D);
             // Mess with this to see stability tests fail
-            int charPos = (_mAlphabet.Length / 2) - 1;
-            char padding = _mAlphabet[(charPos)];
-            string template = desiredPrefix + Repeat(requiredChars, padding);
-            byte[] decoded = Decode(template);
+            var charPos = (_mAlphabet.Length / 2) - 1;
+            var padding = _mAlphabet[(charPos)];
+            var template = desiredPrefix + Repeat(requiredChars, padding);
+            var decoded = Decode(template);
             return CopyOfRange(decoded, 0, decoded.Length - totalLength);
         }
 
@@ -319,8 +306,8 @@ namespace Ripple.Address.Codec
 
         private static string Repeat(int times, char repeated)
         {
-            char[] chars = new char[times];
-            for (int i = 0; i < times; i++)
+            var chars = new char[times];
+            for (var i = 0; i < times; i++)
             {
                 chars[i] = repeated;
             }
@@ -331,11 +318,11 @@ namespace Ripple.Address.Codec
         {
             _mIndexes = new int[128];
 
-            for (int i = 0; i < _mIndexes.Length; i++)
+            for (var i = 0; i < _mIndexes.Length; i++)
             {
                 _mIndexes[i] = -1;
             }
-            for (int i = 0; i < _mAlphabet.Length; i++)
+            for (var i = 0; i < _mAlphabet.Length; i++)
             {
                 _mIndexes[_mAlphabet[i]] = i;
             }
@@ -343,15 +330,15 @@ namespace Ripple.Address.Codec
 
         private byte[] DecodeAndCheck(string input)
         {
-            byte[] buffer = Decode(input);
+            var buffer = Decode(input);
             if (buffer.Length < 4)
             {
                 throw new EncodingFormatException("Input too short");
             }
 
-            byte[] toHash = CopyOfRange(buffer, 0, buffer.Length - 4);
-            byte[] hashed = CopyOfRange(HashUtils.DoubleDigest(toHash), 0, 4);
-            byte[] checksum = CopyOfRange(buffer, buffer.Length - 4, buffer.Length);
+            var toHash = CopyOfRange(buffer, 0, buffer.Length - 4);
+            var hashed = CopyOfRange(HashUtils.DoubleDigest(toHash), 0, 4);
+            var checksum = CopyOfRange(buffer, buffer.Length - 4, buffer.Length);
 
             if (!ArrayEquals(checksum, hashed))
             {
@@ -360,10 +347,7 @@ namespace Ripple.Address.Codec
             return buffer;
         }
 
-        private void SetAlphabet(string alphabet)
-        {
-            _mAlphabet = alphabet.ToCharArray();
-        }
+        private void SetAlphabet(string alphabet)=> _mAlphabet = alphabet.ToCharArray();
 
         public class Decoded
         {
@@ -389,15 +373,9 @@ namespace Ripple.Address.Codec
                 ExpectedLength = expectedLength;
             }
 
-            public static B58.Version With(byte versionByte, int expectedLength)
-            {
-                return With(new []{ versionByte}, expectedLength);
-            }
+            public static Version With(byte versionByte, int expectedLength) => With(new []{ versionByte}, expectedLength);
 
-            public static B58.Version With(byte[] versionBytes, int expectedLength)
-            {
-                return new B58.Version(versionBytes, expectedLength);
-            }
+            public static Version With(byte[] versionBytes, int expectedLength) => new(versionBytes, expectedLength);
         }
 
         public class Versions
@@ -410,17 +388,12 @@ namespace Ripple.Address.Codec
                 NamesArray = namesArray;
             }
 
-            public static Versions With(string typeName, Version version)
-            {
-                return new Versions(new[] { version }, new[] { typeName });
-            }
+            public static Versions With(string typeName, Version version) => new(new[] { version }, new[] { typeName });
 
-            public Versions And(string typeName, Version version)
-            {
-                return new Versions(
+            public Versions And(string typeName, Version version) =>
+                new(
                     new[] { version }.Concat(VersionsArray).ToArray(),
                     new[] { typeName }.Concat(NamesArray).ToArray());
-            }
 
             public Version Find(string sought)
             {
@@ -459,10 +432,7 @@ namespace Ripple.Address.Codec
 
     internal class HashUtils
     {
-        internal static byte[] DoubleDigest(byte[] buffer)
-        {
-            return Sha256(Sha256(buffer));
-        }
+        internal static byte[] DoubleDigest(byte[] buffer) => Sha256(Sha256(buffer));
 
         internal static byte[] Sha256(byte[] buffer)
         {

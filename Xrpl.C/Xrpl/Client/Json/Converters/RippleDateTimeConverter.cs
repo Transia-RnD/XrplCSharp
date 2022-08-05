@@ -7,43 +7,44 @@ namespace Xrpl.Client.Json.Converters
 {
     public class RippleDateTimeConverter : DateTimeConverterBase
     {
-        private static DateTime RippleStartTime = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        private static DateTime RippleStartTime = new(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value is DateTime)
+            if (value is DateTime date_time)
             {
-                long totalSeconds = (long)((DateTime)value - RippleStartTime).TotalSeconds;
+                var totalSeconds = (long)(date_time - RippleStartTime).TotalSeconds;
                 writer.WriteValue(totalSeconds);                
             }
             else
             {
-                throw new ArgumentException("value  provided is not a DateTime", "value");
+                throw new ArgumentException("value  provided is not a DateTime", nameof(value));
             }
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            if (reader.TokenType == JsonToken.Null)
-                return null;
-
-            if (reader.TokenType == JsonToken.String || reader.TokenType == JsonToken.Integer)
+            switch (reader.TokenType)
             {
-                double totalSeconds;
-
-                try
+                case JsonToken.Null: return null;
+                case JsonToken.String:
+                case JsonToken.Integer:
                 {
-                    totalSeconds = Convert.ToDouble(reader.Value, CultureInfo.InvariantCulture);
-                }
-                catch
-                {
-                    throw new Exception("Invalid double value.");
-                }
+                    double totalSeconds;
 
-                return RippleStartTime.AddSeconds(totalSeconds);
+                    try
+                    {
+                        totalSeconds = Convert.ToDouble(reader.Value, CultureInfo.InvariantCulture);
+                    }
+                    catch
+                    {
+                        throw new Exception("Invalid double value.");
+                    }
+
+                    return RippleStartTime.AddSeconds(totalSeconds);
+                }
+                default: throw new Exception("Invalid token. Expected string");
             }
-
-            throw new Exception("Invalid token. Expected string");            
         }
     }
 }

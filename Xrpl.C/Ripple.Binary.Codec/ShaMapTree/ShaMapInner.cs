@@ -37,10 +37,7 @@ namespace Ripple.Binary.Codec.ShaMapTree
             return copy;
         }
 
-        protected internal virtual ShaMapInner MakeInnerOfSameClass(int depth)
-        {
-            return new ShaMapInner(true, depth, Version);
-        }
+        protected internal virtual ShaMapInner MakeInnerOfSameClass(int depth) => new(true, depth, Version);
 
         protected internal ShaMapInner MakeInnerChild()
         {
@@ -135,25 +132,13 @@ namespace Ripple.Binary.Codec.ShaMapTree
             return true;
         }
 
-        public IShaMapItem<object> GetItem(Hash256 index)
-        {
-            return GetLeaf(index)?.Item;
-        }
+        public IShaMapItem<object> GetItem(Hash256 index) => GetLeaf(index)?.Item;
 
-        public bool AddItem(Hash256 index, IShaMapItem<object> item)
-        {
-            return AddLeaf(new ShaMapLeaf(index, item));
-        }
+        public bool AddItem(Hash256 index, IShaMapItem<object> item) => AddLeaf(new ShaMapLeaf(index, item));
 
-        public bool UpdateItem(Hash256 index, IShaMapItem<object> item)
-        {
-            return UpdateLeaf(new ShaMapLeaf(index, item));
-        }
+        public bool UpdateItem(Hash256 index, IShaMapItem<object> item) => UpdateLeaf(new ShaMapLeaf(index, item));
 
-        public bool HasLeaf(Hash256 index)
-        {
-            return PathToIndex(index).HasMatchedLeaf();
-        }
+        public bool HasLeaf(Hash256 index) => PathToIndex(index).HasMatchedLeaf();
 
         public ShaMapLeaf GetLeaf(Hash256 index)
         {
@@ -183,10 +168,7 @@ namespace Ripple.Binary.Codec.ShaMapTree
             return true;
         }
 
-        public PathToIndex PathToIndex(Hash256 index)
-        {
-            return new PathToIndex(this, index);
-        }
+        public PathToIndex PathToIndex(Hash256 index) => new(this, index);
 
         /// <summary>
         /// This should only be called on the deepest inners, as it
@@ -212,43 +194,21 @@ namespace Ripple.Binary.Codec.ShaMapTree
             }
         }
 
-        protected internal void SetBranch(Hash256 index, ShaMapNode node)
-        {
-            SetBranch(SelectBranch(index), node);
-        }
+        protected internal void SetBranch(Hash256 index, ShaMapNode node) => SetBranch(SelectBranch(index), node);
 
-        protected internal ShaMapNode GetBranch(Hash256 index)
-        {
-            return GetBranch(index.Nibblet(Depth));
-        }
+        protected internal ShaMapNode GetBranch(Hash256 index) => GetBranch(index.Nibblet(Depth));
 
-        public ShaMapNode GetBranch(int i)
-        {
-            return Branches[i];
-        }
+        public ShaMapNode GetBranch(int i) => Branches[i];
 
-        public ShaMapNode Branch(int i)
-        {
-            return Branches[i];
-        }
+        public ShaMapNode Branch(int i) => Branches[i];
 
-        protected internal int SelectBranch(Hash256 index)
-        {
-            return index.Nibblet(Depth);
-        }
+        protected internal int SelectBranch(Hash256 index) => index.Nibblet(Depth);
 
-        public bool HasLeaf(int i)
-        {
-            return Branches[i].IsLeaf;
-        }
-        public bool HasInner(int i)
-        {
-            return Branches[i].IsInner;
-        }
-        public bool HasNone(int i)
-        {
-            return Branches[i] == null;
-        }
+        public bool HasLeaf(int i) => Branches[i].IsLeaf;
+
+        public bool HasInner(int i) => Branches[i].IsInner;
+
+        public bool HasNone(int i) => Branches[i] == null;
 
         private void SetBranch(int slot, ShaMapNode node)
         {
@@ -262,18 +222,12 @@ namespace Ripple.Binary.Codec.ShaMapTree
             Branches[slot] = null;
             SlotBits = SlotBits & ~(1 << slot);
         }
-        public bool Empty()
-        {
-            return SlotBits == 0;
-        }
+        public bool Empty() => SlotBits == 0;
 
         public override bool IsInner => true;
         public override bool IsLeaf => false;
 
-        internal override HashPrefix Prefix()
-        {
-            return HashPrefix.InnerNode;
-        }
+        internal override HashPrefix Prefix() => HashPrefix.InnerNode;
 
         public override void ToBytesSink(IBytesSink sink)
         {
@@ -292,32 +246,24 @@ namespace Ripple.Binary.Codec.ShaMapTree
 
         public override Hash256 Hash()
         {
-            if (Empty())
-            {
-                // empty inners have a hash of all Zero
-                // it's only valid for a root node to be empty
-                // any other inner node, must contain at least a
-                // single leaf
-                Debug.Assert(Depth == 0);
-                return Hash256.Zero;
-            }
+            if (!Empty()) return base.Hash();
+            // empty inners have a hash of all Zero
+            // it's only valid for a root node to be empty
+            // any other inner node, must contain at least a
+            // single leaf
+            Debug.Assert(Depth == 0);
+            return Hash256.Zero;
             // hash the hashPrefix() and toBytesSink
-            return base.Hash();
         }
 
         public ShaMapLeaf GetLeafForUpdating(Hash256 leaf)
         {
             var path = PathToIndex(leaf);
-            if (path.HasMatchedLeaf())
-            {
-                return path.InvalidatedPossiblyCopiedLeafForUpdating();
-            }
-            return null;
+            return path.HasMatchedLeaf() 
+                ? path.InvalidatedPossiblyCopiedLeafForUpdating()
+                : null;
         }
 
-        public int BranchCount()
-        {
-            return Branches.Count(branch => branch != null);
-        }
+        public int BranchCount() => Branches.Count(branch => branch != null);
     }
 }

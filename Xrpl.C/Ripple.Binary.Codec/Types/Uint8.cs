@@ -9,23 +9,12 @@ namespace Ripple.Binary.Codec.Types
         {
         }
 
-        public override byte[] ToBytes()
-        {
-            return new [] {Value};
-        }
+        public override byte[] ToBytes() => new [] {Value};
 
-        public static Uint8 FromJson(JToken token)
-        {
-            return (byte) token;
-        }
-        public static implicit operator Uint8(byte v)
-        {
-            return new Uint8(v);
-        }
+        public static Uint8 FromJson(JToken token) => (byte) token;
 
-        public static Uint8 FromParser(BinaryParser parser, int? hint=null)
-        {
-            return parser.ReadOne();
-        }
+        public static implicit operator Uint8(byte v) => new Uint8(v);
+
+        public static Uint8 FromParser(BinaryParser parser, int? hint=null) => parser.ReadOne();
     }
 }

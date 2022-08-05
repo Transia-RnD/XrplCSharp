@@ -40,10 +40,7 @@ namespace Ripple.Binary.Codec.ShaMapTree
             Compare(A, B);
         }
 
-        public ShaMapDiff Inverted()
-        {
-            return new ShaMapDiff(B, A, added: Deleted, deleted: Added, modified: Modified);
-        }
+        public ShaMapDiff Inverted() => new(B, A, added: Deleted, deleted: Added, modified: Modified);
 
         public void Apply(ShaMap sa)
         {
@@ -93,78 +90,85 @@ namespace Ripple.Binary.Codec.ShaMapTree
                     bool aleaf = aChild.IsLeaf,
                          bLeaf = bChild.IsLeaf;
 
-                    if (aleaf && bLeaf)
+                    switch (aleaf)
                     {
-                        var la = aChild.AsLeaf();
-                        var lb = bChild.AsLeaf();
-                        if (la.Index.Equals(lb.Index))
+                        case true when bLeaf:
                         {
-                            Modified.Add(la.Index);
-                        }
-                        else
-                        {
-                            Deleted.Add(la.Index);
-                            Added.Add(lb.Index);
-                        }
-                    }
-                    else if (aleaf)
-                    { //&& bInner
-                        var la = aChild.AsLeaf();
-                        var ib = bChild.AsInner();
-                        TrackAdded(ib);
-
-                        if (ib.HasLeaf(la.Index))
-                        {
-                            // because trackAdded would have added it
-                            Added.Remove(la.Index);
-                            var leaf = ib.GetLeaf(la.Index);
-                            if (!leaf.Hash().Equals(la.Hash()))
+                            var la = aChild.AsLeaf();
+                            var lb = bChild.AsLeaf();
+                            if (la.Index.Equals(lb.Index))
                             {
                                 Modified.Add(la.Index);
                             }
-                        }
-                        else
-                        {
-                            Deleted.Add(la.Index);
-                        }
-                    }
-                    else if (bLeaf)
-                    { //&& aInner
-                        var lb = bChild.AsLeaf();
-                        var ia = aChild.AsInner();
-                        TrackRemoved(ia);
-
-                        if (ia.HasLeaf(lb.Index))
-                        {
-                            // because trackRemoved would have deleted it
-                            Deleted.Remove(lb.Index);
-                            var leaf = ia.GetLeaf(lb.Index);
-                            if (!leaf.Hash().Equals(lb.Hash()))
+                            else
                             {
-                                Modified.Add(lb.Index);
+                                Deleted.Add(la.Index);
+                                Added.Add(lb.Index);
                             }
+
+                            break;
                         }
-                        else
+                        case true:
                         {
-                            Added.Add(lb.Index);
+                            //&& bInner
+                            var la = aChild.AsLeaf();
+                            var ib = bChild.AsInner();
+                            TrackAdded(ib);
+
+                            if (ib.HasLeaf(la.Index))
+                            {
+                                // because trackAdded would have added it
+                                Added.Remove(la.Index);
+                                var leaf = ib.GetLeaf(la.Index);
+                                if (!leaf.Hash().Equals(la.Hash()))
+                                {
+                                    Modified.Add(la.Index);
+                                }
+                            }
+                            else
+                            {
+                                Deleted.Add(la.Index);
+                            }
+
+                            break;
                         }
-                    }
-                    else //if (aInner && bInner)
-                    {
-                        Compare(aChild.AsInner(), bChild.AsInner());
+                        default:
+                        {
+                            if (bLeaf)
+                            { //&& aInner
+                                var lb = bChild.AsLeaf();
+                                var ia = aChild.AsInner();
+                                TrackRemoved(ia);
+
+                                if (ia.HasLeaf(lb.Index))
+                                {
+                                    // because trackRemoved would have deleted it
+                                    Deleted.Remove(lb.Index);
+                                    var leaf = ia.GetLeaf(lb.Index);
+                                    if (!leaf.Hash().Equals(lb.Hash()))
+                                    {
+                                        Modified.Add(lb.Index);
+                                    }
+                                }
+                                else
+                                {
+                                    Added.Add(lb.Index);
+                                }
+                            }
+                            else //if (aInner && bInner)
+                            {
+                                Compare(aChild.AsInner(), bChild.AsInner());
+                            }
+
+                            break;
+                        }
                     }
                 }
             }
         }
-        private void TrackRemoved(ShaMapNode child)
-        {
-            child.WalkAnyLeaves(leaf => Deleted.Add(leaf.Index));
-        }
+        private void TrackRemoved(ShaMapNode child) => child.WalkAnyLeaves(leaf => Deleted.Add(leaf.Index));
 
-        private void TrackAdded(ShaMapNode child)
-        {
-            child.WalkAnyLeaves(leaf => Added.Add(leaf.Index));
-        }
+        private void TrackAdded(ShaMapNode child) => child.WalkAnyLeaves(leaf => Added.Add(leaf.Index));
     }
 
 }

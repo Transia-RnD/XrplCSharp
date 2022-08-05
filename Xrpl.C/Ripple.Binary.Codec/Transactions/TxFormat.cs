@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json.Schema;
 using Ripple.Binary.Codec.Enums;
 using Ripple.Binary.Codec.Types;
 
@@ -99,7 +97,7 @@ namespace Ripple.Binary.Codec.Transactions
         {
             Formats = new Dictionary<TransactionType, TxFormat>
             {
-                [TransactionType.AccountSet] = new TxFormat
+                [TransactionType.AccountSet] = new()
                 {
                     [Field.EmailHash] = Requirement.Optional,
                     [Field.WalletLocator] = Requirement.Optional,
@@ -111,35 +109,35 @@ namespace Ripple.Binary.Codec.Transactions
                     [Field.ClearFlag] = Requirement.Optional,
                     [Field.TickSize] = Requirement.Optional
                 },
-                [TransactionType.TrustSet] = new TxFormat
+                [TransactionType.TrustSet] = new()
                 {
                     [Field.LimitAmount] = Requirement.Optional,
                     [Field.QualityIn] = Requirement.Optional,
                     [Field.QualityOut] = Requirement.Optional
                 },
-                [TransactionType.OfferCreate] = new TxFormat
+                [TransactionType.OfferCreate] = new()
                 {                    
                     [Field.TakerPays] = Requirement.Required,
                     [Field.TakerGets] = Requirement.Required,
                     [Field.Expiration] = Requirement.Optional,
                     [Field.OfferSequence] = Requirement.Optional
                 },
-                [TransactionType.OfferCancel] = new TxFormat
+                [TransactionType.OfferCancel] = new()
                 {                    
                     [Field.OfferSequence] = Requirement.Required
                 },
-                [TransactionType.NFTokenMint] = new TxFormat
+                [TransactionType.NFTokenMint] = new()
                 {
                     [Field.NFTokenTaxon] = Requirement.Required,
                     [Field.Issuer] = Requirement.Optional,
                     [Field.TransferFee] = Requirement.Optional,
                     [Field.URI] = Requirement.Optional
                 },
-                [TransactionType.NFTokenBurn] = new TxFormat
+                [TransactionType.NFTokenBurn] = new()
                 {
                     [Field.NFTokenID] = Requirement.Required
                 },
-                [TransactionType.NFTokenCreateOffer] = new TxFormat
+                [TransactionType.NFTokenCreateOffer] = new()
                 {
                     [Field.NFTokenID] = Requirement.Required,
                     [Field.Amount] = Requirement.Required,
@@ -147,19 +145,19 @@ namespace Ripple.Binary.Codec.Transactions
                     [Field.Destination] = Requirement.Optional,
                     [Field.Expiration] = Requirement.Optional
                 },
-                [TransactionType.NFTokenCancelOffer] = new TxFormat
+                [TransactionType.NFTokenCancelOffer] = new()
                 {
                     [Field.NFTokenOffers] = Requirement.Required
                 },
-                [TransactionType.NFTokenAcceptOffer] = new TxFormat
+                [TransactionType.NFTokenAcceptOffer] = new()
                 {
                     [Field.NFTokenID] = Requirement.Required
                 },
-                [TransactionType.SetRegularKey] = new TxFormat
+                [TransactionType.SetRegularKey] = new()
                 {
                     [Field.RegularKey] = Requirement.Optional
                 },
-                [TransactionType.Payment] = new TxFormat
+                [TransactionType.Payment] = new()
                 {                    
                     [Field.Destination] = Requirement.Required,
                     [Field.Amount] = Requirement.Required,
@@ -170,7 +168,7 @@ namespace Ripple.Binary.Codec.Transactions
                     [Field.DeliverMin] = Requirement.Optional
                 },
 
-                [TransactionType.EscrowCreate] = new TxFormat
+                [TransactionType.EscrowCreate] = new()
                 {
                     [Field.Amount] = Requirement.Required,
                     [Field.Destination] = Requirement.Required,
@@ -179,24 +177,24 @@ namespace Ripple.Binary.Codec.Transactions
                     [Field.FinishAfter] = Requirement.Optional,                    
                     [Field.DestinationTag] = Requirement.Optional,                    
                 },
-                [TransactionType.EscrowCancel] = new TxFormat
+                [TransactionType.EscrowCancel] = new()
                 {
                     [Field.Owner] = Requirement.Required,
                     [Field.OfferSequence] = Requirement.Required
                 },
-                [TransactionType.EscrowFinish] = new TxFormat
+                [TransactionType.EscrowFinish] = new()
                 {
                     [Field.Owner] = Requirement.Required,
                     [Field.OfferSequence] = Requirement.Required,
                     [Field.Condition] = Requirement.Optional,
                     [Field.Fulfillment] = Requirement.Optional
                 },
-                [TransactionType.EnableAmendment] = new TxFormat
+                [TransactionType.EnableAmendment] = new()
                 {
                     [Field.LedgerSequence] = Requirement.Optional,
                     [Field.Amendment] = Requirement.Required
                 },
-                [TransactionType.SetFee] = new TxFormat
+                [TransactionType.SetFee] = new()
                 {
                     [Field.LedgerSequence] = Requirement.Optional,
                     [Field.BaseFee] = Requirement.Required,
@@ -204,23 +202,23 @@ namespace Ripple.Binary.Codec.Transactions
                     [Field.ReserveBase] = Requirement.Required,
                     [Field.ReserveIncrement] = Requirement.Required
                 },  
-                [TransactionType.TicketCreate] = new TxFormat
+                [TransactionType.TicketCreate] = new()
                 {
                     [Field.Target] = Requirement.Optional,
                     [Field.Expiration] = Requirement.Optional
                 },
-                [TransactionType.TicketCancel] = new TxFormat
+                [TransactionType.TicketCancel] = new()
                 {
                     [Field.TicketID] = Requirement.Required
                 },
                 // The SignerEntries are optional because a SignerList is deleted by
                 // setting the SignerQuorum to zero and omitting SignerEntries.
-                [TransactionType.SignerListSet] = new TxFormat
+                [TransactionType.SignerListSet] = new()
                 {
                     [Field.SignerQuorum] = Requirement.Required,
                     [Field.SignerEntries] = Requirement.Optional
                 },
-                [TransactionType.PaymentChannelCreate] = new TxFormat()
+                [TransactionType.PaymentChannelCreate] = new()
                 {
                     [Field.Destination] = Requirement.Required,
                     [Field.Amount] = Requirement.Required,
@@ -229,13 +227,13 @@ namespace Ripple.Binary.Codec.Transactions
                     [Field.CancelAfter] = Requirement.Optional,
                     [Field.DestinationTag] = Requirement.Optional
                 },
-                [TransactionType.PaymentChannelFund] = new TxFormat()
+                [TransactionType.PaymentChannelFund] = new()
                 {
                     [Field.Channel] = Requirement.Required,
                     [Field.Amount] = Requirement.Required,
                     [Field.Expiration] = Requirement.Optional
                 },
-                [TransactionType.PaymentChannelClaim] = new TxFormat()
+                [TransactionType.PaymentChannelClaim] = new()
                 {
                     [Field.Channel] = Requirement.Required,
                     [Field.Amount] = Requirement.Optional,

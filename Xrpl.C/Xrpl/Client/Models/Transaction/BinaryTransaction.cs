@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Xrpl.Client.Models.Transactions;
 
 namespace Xrpl.Client.Models.Transactions
 {

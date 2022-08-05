@@ -34,10 +34,7 @@ namespace Ripple.Binary.Codec.Types
             return arr;
         }
 
-        public static StArray FromJson(JToken token)
-        {
-            return new StArray(token.Select(StObject.FromJson));
-        }
+        public static StArray FromJson(JToken token) => new StArray(token.Select(StObject.FromJson));
 
         public static StArray FromParser(BinaryParser parser, int? hint = null)
         {

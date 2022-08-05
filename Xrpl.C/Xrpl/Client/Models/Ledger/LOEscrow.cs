@@ -10,10 +10,7 @@ namespace Xrpl.Client.Models.Ledger
 {
     public class LOEscrow : BaseRippleLO
     {
-        public LOEscrow()
-        {
-            LedgerEntryType = LedgerEntryType.Escrow;
-        }
+        public LOEscrow() => LedgerEntryType = LedgerEntryType.Escrow;
 
         public string Account { get; set; }
 

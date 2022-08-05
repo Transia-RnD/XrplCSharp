@@ -16,7 +16,7 @@ namespace Xrpl.Client
 
         private ClientWebSocket _ws;
         private readonly Uri _uri;
-        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
         private readonly CancellationToken _cancellationToken;
 
         private Action<WebSocketClient> _onConnected;
@@ -36,10 +36,7 @@ namespace Xrpl.Client
         /// </summary>
         /// <param name="uri">The URI of the WebSocket server.</param>
         /// <returns>Instance of the created WebSocketWrapper</returns>
-        internal static WebSocketClient Create(string uri)
-        {
-            return new WebSocketClient(uri);
-        }
+        internal static WebSocketClient Create(string uri) => new WebSocketClient(uri);
 
         /// <summary>
         /// Connects to the WebSocket server.
@@ -70,16 +67,7 @@ namespace Xrpl.Client
         /// <summary>
         /// Get the current state of the WebSocket client.
         /// </summary>
-        internal WebSocketState State
-        {
-            get
-            {
-                if (_ws == null)
-                    return WebSocketState.None;
-
-                return _ws.State;
-            }
-        }
+        internal WebSocketState State => _ws?.State ?? WebSocketState.None;
 
         /// <summary>
         /// Set the Action to call when the connection has been established.
@@ -140,19 +128,12 @@ namespace Xrpl.Client
         /// Send a byte array to the WebSocket server.
         /// </summary>
         /// <param name="data">The data to send</param>
-        internal void SendMessage(byte[] data)
-        {
-            SendMessageAsync(data);
-        }
-
+        internal void SendMessage(byte[] data) => SendMessageAsync(data);
         /// <summary>
         /// Send a UTF8 string to the WebSocket server.
         /// </summary>
         /// <param name="message">The message to send</param>
-        internal void SendMessage(string message)
-        {
-            SendMessage(Encoding.UTF8.GetBytes(message));
-        }
+        internal void SendMessage(string message) => SendMessage(Encoding.UTF8.GetBytes(message));
 
         private async void SendMessageAsync(byte[] message)
         {
@@ -196,14 +177,12 @@ namespace Xrpl.Client
 
         private async void DisconnectAsync()
         {
-            if (_ws != null)
-            {
-                if (_ws.State != WebSocketState.Open)
-                    await _ws.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
-                _ws.Dispose();
-                _ws = null;
-                CallOnDisconnected();
-            }
+            if (_ws == null) return;
+            if (_ws.State != WebSocketState.Open)
+                await _ws.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+            _ws.Dispose();
+            _ws = null;
+            CallOnDisconnected();
         }
 
         private async void StartListen()
@@ -214,7 +193,7 @@ namespace Xrpl.Client
             {
                 while (_ws.State == WebSocketState.Open)
                 {
-                    byte[] byteResult = new byte[0];
+                    var byteResult = Array.Empty<byte>();
 
                     WebSocketReceiveResult result;
                     do

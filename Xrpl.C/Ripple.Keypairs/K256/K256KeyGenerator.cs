@@ -29,7 +29,7 @@ namespace Ripple.Keypairs.K256
             BigInteger privateGen,
             uint accountNumber)
         {
-            ECPoint publicGen = ComputePublicGenerator(privateGen);
+            var publicGen = ComputePublicGenerator(privateGen);
             return ComputeScalar(publicGen.GetEncoded(true), accountNumber)
                             .Add(privateGen).Mod(Secp256K1.Order());
         }
@@ -39,17 +39,14 @@ namespace Ripple.Keypairs.K256
         /// <returns> the corresponding public key is the public generator
         ///         (aka public root key, master public key).
         /// </returns>
-        public static ECPoint ComputePublicGenerator(BigInteger privateGen)
-        {
-            return ComputePublicKey(privateGen);
-        }
+        public static ECPoint ComputePublicGenerator(BigInteger privateGen) => ComputePublicKey(privateGen);
 
         public static byte[] ComputePublicKey(byte[] publicGenBytes, uint accountNumber)
         {
-            ECPoint rootPubPoint = Secp256K1.Curve().DecodePoint(publicGenBytes);
-            BigInteger scalar = ComputeScalar(publicGenBytes, accountNumber);
-            ECPoint point = Secp256K1.BasePoint().Multiply(scalar);
-            ECPoint offset = rootPubPoint.Add(point);
+            var rootPubPoint = Secp256K1.Curve().DecodePoint(publicGenBytes);
+            var scalar = ComputeScalar(publicGenBytes, accountNumber);
+            var point = Secp256K1.BasePoint().Multiply(scalar);
+            var offset = rootPubPoint.Add(point);
             return offset.GetEncoded(true);
         }
 
@@ -68,7 +65,7 @@ namespace Ripple.Keypairs.K256
                     sha512.AddU32(discriminator.Value);
                 }
                 sha512.AddU32(i);
-                byte[] keyBytes = sha512.Finish256();
+                var keyBytes = sha512.Finish256();
                 key = Misc.UBigInt(keyBytes);
                 if (key.CompareTo(BigInteger.Zero) == 1 &&
                     key.CompareTo(Secp256K1.Order()) == -1)
@@ -82,9 +79,6 @@ namespace Ripple.Keypairs.K256
         ///
         /// <param name="secretKey"> secret point on the curve as BigInteger </param>
         /// <returns> corresponding public point </returns>
-        public static ECPoint ComputePublicKey(BigInteger secretKey)
-        {
-            return Secp256K1.BasePoint().Multiply(secretKey);
-        }
+        public static ECPoint ComputePublicKey(BigInteger secretKey) => Secp256K1.BasePoint().Multiply(secretKey);
     }
 }

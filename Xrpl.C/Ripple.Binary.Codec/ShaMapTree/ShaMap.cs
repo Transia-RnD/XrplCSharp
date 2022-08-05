@@ -7,10 +7,7 @@ namespace Ripple.Binary.Codec.ShaMapTree
     internal class Versioner
     {
         private int _value;
-        public int IncrementAndGet()
-        {
-            return ++_value;
-        }
+        public int IncrementAndGet() => ++_value;
     }
 
     public class ShaMap : ShaMapInner
@@ -26,10 +23,8 @@ namespace Ripple.Binary.Codec.ShaMapTree
         {
 
         }
-        protected internal override ShaMapInner MakeInnerOfSameClass(int depth)
-        {
-            return new ShaMap(true, depth);
-        }
+        protected internal override ShaMapInner MakeInnerOfSameClass(int depth) => new ShaMap(true, depth);
+
         public virtual ShaMap Copy()
         {
             Version = _copies.IncrementAndGet();
@@ -50,25 +45,13 @@ namespace Ripple.Binary.Codec.ShaMapTree
             
         }
 
-        public bool Add(LedgerEntry entry)
-        {
-            return AddItem(entry.Index(), entry);
-        }
+        public bool Add(LedgerEntry entry) => AddItem(entry.Index(), entry);
 
-        public bool Update(LedgerEntry readLedgerEntry)
-        {
-            return UpdateItem(readLedgerEntry.Index(), readLedgerEntry);
-        }
+        public bool Update(LedgerEntry readLedgerEntry) => UpdateItem(readLedgerEntry.Index(), readLedgerEntry);
 
-        protected internal override ShaMapInner MakeInnerOfSameClass(int depth)
-        {
-            return new AccountState(true, depth);
-        }
+        protected internal override ShaMapInner MakeInnerOfSameClass(int depth) => new AccountState(true, depth);
 
-        public new AccountState Copy()
-        {
-            return (AccountState) base.Copy();
-        }
+        public new AccountState Copy() => (AccountState) base.Copy();
 
         public static AccountState FromJson(JToken jToken, bool normalise=false)
         {
@@ -88,9 +71,6 @@ namespace Ripple.Binary.Codec.ShaMapTree
 
     public class TransactionTree : ShaMap
     {
-        public bool Add(TransactionResult tx)
-        {
-            return AddItem(tx.Hash(), tx);
-        }
+        public bool Add(TransactionResult tx) => AddItem(tx.Hash(), tx);
     }
 }

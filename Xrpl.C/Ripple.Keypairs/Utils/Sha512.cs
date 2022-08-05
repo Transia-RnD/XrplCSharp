@@ -7,15 +7,9 @@ namespace Ripple.Keypairs.Utils
     {
         private readonly Sha512Digest _digest;
 
-        public Sha512()
-        {
-            _digest = new Sha512Digest();
-        }
+        public Sha512() => _digest = new Sha512Digest();
 
-        public Sha512(byte[] start) : this()
-        {
-            Add(start);
-        }
+        public Sha512(byte[] start) : this() => Add(start);
 
         public Sha512 Add(byte[] bytes)
         {
@@ -34,37 +28,26 @@ namespace Ripple.Keypairs.Utils
 
         private byte[] FinishTaking(int size)
         {
-            byte[] finished = Finish();
+            var finished = Finish();
 
-            byte[] hash = new byte[size];
+            var hash = new byte[size];
             Array.Copy(finished, 0, hash, 0, size);
             return hash;
         }
 
         public byte[] Finish()
         {
-            byte[] finished = new byte[64];
+            var finished = new byte[64];
             _digest.DoFinal(finished, 0);
             return finished;
         }
 
-        public byte[] Finish128()
-        {
-            return FinishTaking(16);
-        }
+        public byte[] Finish128() => FinishTaking(16);
 
-        public byte[] Finish256()
-        {
-            return FinishTaking(32);
-        }
+        public byte[] Finish256() => FinishTaking(32);
 
-        public static byte[] Half(byte[] input)
-        {
-            return new Sha512(input).Finish256();
-        }
-        public static byte[] Quarter(byte[] input)
-        {
-            return new Sha512(input).Finish128();
-        }
+        public static byte[] Half(byte[] input) => new Sha512(input).Finish256();
+
+        public static byte[] Quarter(byte[] input) => new Sha512(input).Finish128();
     }
 }

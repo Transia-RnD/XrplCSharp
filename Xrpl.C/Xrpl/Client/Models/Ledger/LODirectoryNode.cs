@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Enums;
 
 
@@ -10,10 +9,7 @@ namespace Xrpl.Client.Models.Ledger
     public class LODirectoryNode : BaseRippleLO
     {
 
-        public LODirectoryNode()
-        {
-            LedgerEntryType = LedgerEntryType.DirectoryNode;
-        }
+        public LODirectoryNode() => LedgerEntryType = LedgerEntryType.DirectoryNode;
 
         public uint Flags { get; set; }
 

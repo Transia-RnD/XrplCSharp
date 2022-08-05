@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -10,7 +9,7 @@ namespace Xrpl.Client.Json.Converters
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            JToken t = JToken.FromObject(value);
+            var t = JToken.FromObject(value);
             if (t.Type != JTokenType.Object)
             {
                 t.WriteTo(writer);
@@ -21,42 +20,27 @@ namespace Xrpl.Client.Json.Converters
             }
 
 
-            if (value is string)
+            switch (value)
             {
-                writer.WriteValue(value);
-            } else if (value is List<string>)
-            {
-                
-            } else if (value is Array)
-            {
-                
+                case string: writer.WriteValue(value);
+                    break;
+                case List<string>: break;
+                case Array: break;
             }
             throw new Exception("Cannot write value");
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            if (reader.TokenType == JsonToken.Null)
-                return null;
-
-            if (reader.TokenType == JsonToken.String)
+            return reader.TokenType switch
             {
-                return reader.Value;
-            }
-
-            if (reader.TokenType == JsonToken.StartObject)
-            {
-                return serializer.Deserialize<List<string>>(reader);
-            }
-
-            throw new Exception("Cannot convert value");
+                JsonToken.Null => null,
+                JsonToken.String => reader.Value,
+                JsonToken.StartObject => serializer.Deserialize<List<string>>(reader),
+                _ => throw new Exception("Cannot convert value")
+            };
         }
 
-        public override bool CanConvert(Type objectType)
-        {
-            if (objectType == typeof(string) || objectType == typeof(List<string>) || objectType == typeof(Array))
-                return true;
-            return false;
-        }
+        public override bool CanConvert(Type objectType) => objectType == typeof(string) || objectType == typeof(List<string>) || objectType == typeof(Array);
     }
 }

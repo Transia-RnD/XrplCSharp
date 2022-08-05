@@ -19,10 +19,7 @@ namespace Ripple.Binary.Codec.ShaMapTree
         public override bool IsLeaf => true;
         public override bool IsInner => false;
 
-        internal override HashPrefix Prefix()
-        {
-            return Item.Prefix();
-        }
+        internal override HashPrefix Prefix() => Item.Prefix();
 
         public override void ToBytesSink(IBytesSink sink)
         {
@@ -30,9 +27,6 @@ namespace Ripple.Binary.Codec.ShaMapTree
             Index.ToBytes(sink);
         }
 
-        public ShaMapLeaf Copy()
-        {
-            return new ShaMapLeaf(Index, Item.Copy());
-        }
+        public ShaMapLeaf Copy() => new(Index, Item.Copy());
     }
 }

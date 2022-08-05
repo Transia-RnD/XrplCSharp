@@ -14,7 +14,7 @@ namespace Xrpl.Client.Json.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            HashOrTransaction hashOrTransaction = new HashOrTransaction();
+            var hashOrTransaction = new HashOrTransaction();
 
 
             if (reader.TokenType == JsonToken.String)
@@ -29,9 +29,6 @@ namespace Xrpl.Client.Json.Converters
             return hashOrTransaction;
         }
 
-        public override bool CanConvert(Type objectType)
-        {
-            return true;
-        }
+        public override bool CanConvert(Type objectType) => true;
     }
 }

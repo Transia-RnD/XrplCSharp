@@ -14,15 +14,9 @@ namespace Ripple.Binary.Codec.Hashing
             _digest.Initialize();
         }
 
-        public Sha512(byte[] start) : this()
-        {
-            Add(start);
-        }
+        public Sha512(byte[] start) : this() => Add(start);
 
-        public Sha512(uint prefix) : this()
-        {
-            AddU32(prefix);
-        }
+        public Sha512(uint prefix) : this() => AddU32(prefix);
 
         public Sha512 Add(byte[] bytes)
         {
@@ -30,10 +24,7 @@ namespace Ripple.Binary.Codec.Hashing
             return this;
         }
 
-        public Sha512 Add(byte one)
-        {
-            return Add(new[] {one});
-        }
+        public Sha512 Add(byte one) => Add(new[] {one});
 
         public Sha512 AddU32(uint i)
         {
@@ -57,21 +48,16 @@ namespace Ripple.Binary.Codec.Hashing
 
         public byte[] Finish()
         {
-            _digest.TransformFinalBlock(new byte[0], 0, 0);
+            _digest.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
             var hash =_digest.Hash;
             _digest.Dispose();
             return hash;
         }
 
-        public byte[] Finish128()
-        {
-            return FinishTaking(16);
-        }
+        public byte[] Finish128() => FinishTaking(16);
 
-        public byte[] Finish256()
-        {
-            return FinishTaking(32);
-        }
+        public byte[] Finish256() => FinishTaking(32);
+
         public static byte[] Half(byte[] input, uint? prefix = null)
         {
             var hasher = new Sha512();
@@ -82,19 +68,10 @@ namespace Ripple.Binary.Codec.Hashing
             hasher.Add(input);
             return hasher.Finish256();
         }
-        public static byte[] Quarter(byte[] input)
-        {
-            return new Sha512(input).Finish128();
-        }
+        public static byte[] Quarter(byte[] input) => new Sha512(input).Finish128();
 
-        public void Put(byte aByte)
-        {
-            Add(aByte);
-        }
+        public void Put(byte aByte) => Add(aByte);
 
-        public void Put(byte[] bytes)
-        {
-            Add(bytes);
-        }
+        public void Put(byte[] bytes) => Add(bytes);
     }
 }

@@ -65,9 +65,11 @@ namespace Xrpl.Client.Models.Transactions
 
         public string ToJson()
         {
-            JsonSerializerSettings serializerSettings = new JsonSerializerSettings();
-            serializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            var serializerSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            };
 
             return JsonConvert.SerializeObject(this, serializerSettings);
         }
@@ -303,9 +305,11 @@ namespace Xrpl.Client.Models.Transactions
 
         public string ToJson()
         {
-            JsonSerializerSettings serializerSettings = new JsonSerializerSettings();
-            serializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            var serializerSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            };
 
             return JsonConvert.SerializeObject(this, serializerSettings);
         }

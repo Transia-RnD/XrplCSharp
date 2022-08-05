@@ -18,14 +18,11 @@ namespace Ripple.Keypairs.K256
             SetVerifier(pub);
         }
 
-        public byte[] CanonicalPubBytes()
-        {
-            return PubKeyBytes;
-        }
+        public byte[] CanonicalPubBytes() => PubKeyBytes;
 
         public bool Verify(byte[] message, byte[] signature)
         {
-            byte[] hash = Sha512.Half(message);
+            var hash = Sha512.Half(message);
             return VerifyHash(hash, signature);
         }
 
@@ -38,7 +35,7 @@ namespace Ripple.Keypairs.K256
         protected void SetVerifier(ECPoint pub)
         {
             Verifier = new ECDsaSigner();
-            ECPublicKeyParameters parameters = new ECPublicKeyParameters(
+            var parameters = new ECPublicKeyParameters(
                 pub, Secp256K1.Parameters());
             Verifier.Init(false, parameters);
         }

@@ -8,10 +8,7 @@ namespace Xrpl.Client.Models.Ledger
 {
     public class LOSignerList : BaseRippleLO
     {
-        public LOSignerList()
-        {
-            LedgerEntryType = LedgerEntryType.SignerList;
-        }
+        public LOSignerList() => LedgerEntryType = LedgerEntryType.SignerList;
 
         public uint Flags { get; set; }
 

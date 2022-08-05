@@ -11,9 +11,7 @@
 //   https://homes.esat.kuleuven.be/~bosselae/ripemd160.html) the legal license
 //   status of this code is not clear. 
 
-using System;
 using System.Linq;
-using System.Text;
 
 namespace System.Security.Cryptography
 {
@@ -28,36 +26,18 @@ namespace System.Security.Cryptography
                 (Convert.ToUInt32(buffer[0 + offset]));
         }
 
-        static uint RotateLeft(uint value, int bits)
-        {
-            return (value << bits) | (value >> (32 - bits));
-        }
+        static uint RotateLeft(uint value, int bits) => (value << bits) | (value >> (32 - bits));
 
         /* the five basic functions F(), G() and H() */
-        static uint F(uint x, uint y, uint z)
-        {
-            return x ^ y ^ z;
-        }
+        static uint F(uint x, uint y, uint z) => x ^ y ^ z;
 
-        static uint G(uint x, uint y, uint z)
-        {
-            return (x & y) | (~x & z);
-        }
+        static uint G(uint x, uint y, uint z) => (x & y) | (~x & z);
 
-        static uint H(uint x, uint y, uint z)
-        {
-            return (x | ~y) ^ z;
-        }
+        static uint H(uint x, uint y, uint z) => (x | ~y) ^ z;
 
-        static uint I(uint x, uint y, uint z)
-        {
-            return (x & z) | (y & ~z);
-        }
+        static uint I(uint x, uint y, uint z) => (x & z) | (y & ~z);
 
-        static uint J(uint x, uint y, uint z)
-        {
-            return x ^ (y | ~z);
-        }
+        static uint J(uint x, uint y, uint z) => x ^ (y | ~z);
 
         /* the ten basic operations FF() through III() */
 
@@ -134,7 +114,7 @@ namespace System.Security.Cryptography
         }
 
         /// initializes MDbuffer to "magic constants"
-        static public void MDinit(ref uint[] MDbuf)
+        public static void MDinit(ref uint[] MDbuf)
         {
             MDbuf[0] = (uint)0x67452301;
             MDbuf[1] = (uint)0xefcdab89;
@@ -145,18 +125,18 @@ namespace System.Security.Cryptography
 
         ///  the compression function.
         ///  transforms MDbuf using message bytes X[0] through X[15]
-        static public void compress(ref uint[] MDbuf, uint[] X)
+        public static void compress(ref uint[] MDbuf, uint[] X)
         {
-            uint aa = MDbuf[0];
-            uint bb = MDbuf[1];
-            uint cc = MDbuf[2];
-            uint dd = MDbuf[3];
-            uint ee = MDbuf[4];
-            uint aaa = MDbuf[0];
-            uint bbb = MDbuf[1];
-            uint ccc = MDbuf[2];
-            uint ddd = MDbuf[3];
-            uint eee = MDbuf[4];
+            var aa = MDbuf[0];
+            var bb = MDbuf[1];
+            var cc = MDbuf[2];
+            var dd = MDbuf[3];
+            var ee = MDbuf[4];
+            var aaa = MDbuf[0];
+            var bbb = MDbuf[1];
+            var ccc = MDbuf[2];
+            var ddd = MDbuf[3];
+            var eee = MDbuf[4];
 
             /* round 1 */
             FF(ref aa, bb, ref cc, dd, ee, X[0], 11);
@@ -386,10 +366,7 @@ namespace System.Security.Cryptography
         int UnhashedBufferLength = 0;
         long HashedLength = 0;
 
-        public RIPEMD160Managed()
-        {
-            Initialize();
-        }
+        public RIPEMD160Managed() => Initialize();
 
         protected override void HashCore (byte[] array, int ibStart, int cbSize)
         {

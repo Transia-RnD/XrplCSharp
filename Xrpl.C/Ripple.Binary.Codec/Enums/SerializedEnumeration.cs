@@ -10,27 +10,17 @@ namespace Ripple.Binary.Codec.Enums
         where TEnum : SerializedEnumItem<TOrd>
         where TOrd : struct, IConvertible
     {
-        protected SerializedEnumeration()
-        {
-            Width = Marshal.SizeOf(default(TOrd));
-        }
+        protected SerializedEnumeration() => Width = Marshal.SizeOf(default(TOrd));
 
         public int Width { get;}
 
-        public TEnum FromParser(BinaryParser parser, int? hint = null)
-        {
-            return this[ReadOrdinal(parser)];
-        }
+        public TEnum FromParser(BinaryParser parser, int? hint = null) => this[ReadOrdinal(parser)];
 
-        public TEnum FromJson(JToken value)
-        {
-            return value.Type == JTokenType.String ? 
-                this[value.ToString()] : this[(int) value];
-        }
+        public TEnum FromJson(JToken value) 
+            => value.Type == JTokenType.String 
+                ? this[value.ToString()] 
+                : this[(int) value];
 
-        public int ReadOrdinal(BinaryParser parser)
-        {
-            return parser.Read(Width).Aggregate(0, (a, b) => (a >> 8) + b);
-        }
+        public int ReadOrdinal(BinaryParser parser) => parser.Read(Width).Aggregate(0, (a, b) => (a >> 8) + b);
     }
 }

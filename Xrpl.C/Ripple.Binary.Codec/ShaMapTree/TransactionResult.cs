@@ -26,30 +26,15 @@ namespace Ripple.Binary.Codec.ShaMapTree
             ser.AddLengthEncoded(Meta);
         }
 
-        public IShaMapItem<TransactionResult> Copy()
-        {
-            return this;
-        }
+        public IShaMapItem<TransactionResult> Copy() => this;
 
-        public TransactionResult Value()
-        {
-            return this;
-        }
+        public TransactionResult Value() => this;
 
-        public HashPrefix Prefix()
-        {
-            return HashPrefix.TxNode;
-        }
+        public HashPrefix Prefix() => HashPrefix.TxNode;
 
-        public static TransactionResult FromJson(JToken obj)
-        {
-            return new TransactionResult(obj, obj["meta"]);
-        }
+        public static TransactionResult FromJson(JToken obj) => new(obj, obj["meta"]);
 
-        public Hash256 Hash()
-        {
-            return (Hash256)Tx[Field.hash];
-        }
+        public Hash256 Hash() => Tx[Field.hash];
     }
 
     public static class TransactionResultReader

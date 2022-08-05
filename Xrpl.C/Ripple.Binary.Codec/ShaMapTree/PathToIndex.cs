@@ -14,28 +14,15 @@ namespace Ripple.Binary.Codec.ShaMapTree
         private ShaMapInner[] _dirtied;
         private bool _matched;
 
-        public bool HasLeaf()
-        {
-            return Leaf != null;
-        }
-        public bool LeafMatchedIndex()
-        {
-            return _matched;
-        }
-        public bool CopyLeafOnUpdate()
-        {
-            return Leaf.Version != _dirtied[0].Version;
-        }
+        public bool HasLeaf() => Leaf != null;
 
-        internal int Size()
-        {
-            return _inners.Count;
-        }
+        public bool LeafMatchedIndex() => _matched;
 
-        public ShaMapInner Top()
-        {
-            return _dirtied[_dirtied.Length - 1];
-        }
+        public bool CopyLeafOnUpdate() => Leaf.Version != _dirtied[0].Version;
+
+        internal int Size() => _inners.Count;
+
+        public ShaMapInner Top() => _dirtied[^1];
 
         // returns the
         public ShaMapInner DirtyOrCopyInners()
@@ -45,7 +32,7 @@ namespace Ripple.Binary.Codec.ShaMapTree
                 var ix = 0;
                 // We want to make a uniformly accessed array of the inners
                 _dirtied = new ShaMapInner[_inners.Count];
-                IEnumerator<ShaMapInner> it = _inners.GetEnumerator();
+                using IEnumerator<ShaMapInner> it = _inners.GetEnumerator();
                 var top = it.Current;
                 _dirtied[ix++] = top;
                 top.Invalidate();
@@ -75,10 +62,7 @@ namespace Ripple.Binary.Codec.ShaMapTree
             return _inners.Last.Value;
         }
 
-        public bool HasMatchedLeaf()
-        {
-            return HasLeaf() && LeafMatchedIndex();
-        }
+        public bool HasMatchedLeaf() => HasLeaf() && LeafMatchedIndex();
 
         public void CollapseOnlyLeafChildInners()
         {
@@ -107,16 +91,13 @@ namespace Ripple.Binary.Codec.ShaMapTree
             IEnumerator<ShaMapInner> descending = _inners.GetEnumerator();
             while (descending.MoveNext())
             {
-                ShaMapInner next = descending.Current;
+                var next = descending.Current;
                 _dirtied[ix++] = next;
                 next.Invalidate();
             }
         }
 
-        private bool MaybeCopyOnWrite()
-        {
-            return _inners.Last().DoCoW;
-        }
+        private bool MaybeCopyOnWrite() => _inners.Last().DoCoW;
 
         public PathToIndex(ShaMapInner root, Hash256 index)
         {

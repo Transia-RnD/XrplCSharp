@@ -7,26 +7,15 @@ namespace Ripple.Binary.Codec.Types
 {
     public class Hash256 : Hash
     {
-        public static readonly Hash256 Zero = new Hash256(new byte[32]);
+        public static readonly Hash256 Zero = new(new byte[32]);
 
-        public Hash256(byte[] buffer) : base(buffer)
-        {
+        public Hash256(byte[] buffer) : base(buffer) => 
             Contract.Assert(buffer.Length == 32, "buffer should be 32 bytes");
-        }
-        public static Hash256 FromJson(JToken token)
-        {
-            return FromHex((string) token);
-        }
+        public static Hash256 FromJson(JToken token) => FromHex((string) token);
 
-        public static Hash256 FromHex(string token)
-        {
-            return new Hash256(B16.Decode(token));
-        }
+        public static Hash256 FromHex(string token) => new Hash256(B16.Decode(token));
 
-        public static Hash256 FromParser(BinaryParser parser, int? hint = null)
-        {
-            return new Hash256(parser.Read(32));
-        }
+        public static Hash256 FromParser(BinaryParser parser, int? hint = null) => new Hash256(parser.Read(32));
 
         public int Nibblet(int depth)
         {
