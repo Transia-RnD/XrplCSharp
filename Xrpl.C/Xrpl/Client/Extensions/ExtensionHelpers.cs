@@ -29,16 +29,6 @@ namespace Xrpl.Client.Extensions
         {
             if (string.IsNullOrWhiteSpace(input))
                 return null;
-            byte[] bytes = Enumerable.Range(0, input.Length)
-                .Where(x => x % 2 == 0)
-                .Select(x => Convert.ToByte(input.Substring(x, 2), 16))
-                .ToArray();
-            return HttpUtility.HtmlEncode(Encoding.ASCII.GetString(bytes));
-        }
-        public static string FromHexUtf8String(this string input)
-        {
-            if (string.IsNullOrWhiteSpace(input))
-                return null;
             var buffer = new byte[input.Length / 2];
             for (var i = 0; i < input.Length; i += 2)
             {
