@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
-namespace System.Linq
+namespace Xrpl.Client.Extensions
 {
     public static class EnumerableExtensions
     {
