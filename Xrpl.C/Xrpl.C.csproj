@@ -72,7 +72,6 @@
     <Folder Include="Ripple.Keypairs\Utils\" />
     <Folder Include="Xrpl\Wallet\" />
     <Folder Include="Xrpl\Client\Exceptions\" />
-    <Folder Include="Xrpl\Client\Extensions\" />
     <Folder Include="Xrpl\Client\Json\" />
     <Folder Include="Properties\" />
   </ItemGroup>
