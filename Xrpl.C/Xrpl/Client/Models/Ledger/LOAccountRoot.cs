@@ -12,7 +12,7 @@ using Xrpl.Client.Models.Common;
 namespace Xrpl.Client.Models.Ledger
 {
     [Flags]
-    public enum AccountRootFlags
+    public enum AccountRootFlags : uint
     {
         lsfPasswordSpent = 65536,
         lsfRequireDestTag = 131072,

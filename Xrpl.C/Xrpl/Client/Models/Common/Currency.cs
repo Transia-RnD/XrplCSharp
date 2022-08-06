@@ -1,6 +1,8 @@
 ﻿using System.Dynamic;
 using System.Globalization;
 using Newtonsoft.Json;
+
+using Xrpl.Client.Extensions;
 using Xrpl.Client.Json.Converters;
 
 namespace Xrpl.Client.Models.Common
@@ -14,6 +16,8 @@ namespace Xrpl.Client.Models.Common
 
         [JsonProperty("currency")]
         public string CurrencyCode { get; set; }
+        [JsonIgnore]
+        public string CurrencyValidName => CurrencyCode is { Length: > 0 } row ? row.Length > 3 ? row.FromHexString().Trim('\0') : row : string.Empty;
 
         [JsonProperty("value")]
         public string Value { get; set; }
@@ -24,7 +28,7 @@ namespace Xrpl.Client.Models.Common
         [JsonIgnore]
         public decimal ValueAsNumber
         {
-            get => string.IsNullOrEmpty(Value) ? 0 : decimal.Parse(Value);
+            get => string.IsNullOrEmpty(Value) ? 0 : decimal.Parse(Value, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
             set => Value = value.ToString(CurrencyCode == "XRP" ? "G0" : "G15", CultureInfo.InvariantCulture);
         }
 
@@ -35,7 +39,7 @@ namespace Xrpl.Client.Models.Common
             {
                 if (CurrencyCode != "XRP" || string.IsNullOrEmpty(Value))
                     return null;
-                decimal val = decimal.Parse(Value);
+                decimal val = decimal.Parse(Value, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
                 return val / 1000000;
             }
             set
