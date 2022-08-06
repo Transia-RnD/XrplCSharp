@@ -20,6 +20,6 @@ namespace Ripple.Binary.Codec.Types
 
         public override JToken ToJson() => ToString();
 
-        public static Uint64 FromParser(BinaryParser parser, int? hint = null) => Bits.ToUInt64(parser.Read(8), 0); //todo hint for what?
+        public static Uint64 FromParser(BinaryParser parser, int? hint = null) => Bits.ToUInt64(parser.Read(8), 0);
     }
 }
