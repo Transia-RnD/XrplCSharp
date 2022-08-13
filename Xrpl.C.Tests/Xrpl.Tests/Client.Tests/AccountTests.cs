@@ -86,7 +86,15 @@ namespace Xrpl.Client.Tests
         [TestMethod]
         public async Task CanGetAccountOffers()
         {
-            var accountOffers = await client.AccountOffers(account);
+            AccountOffers accountOffers = await client.AccountOffers("rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn");
+            Assert.IsNotNull(accountOffers);
+        }
+
+        [TestMethod]
+        public async Task CanGetAccountOffersRequest()
+        {
+            AccountOffersRequest offersRequest = new AccountOffersRequest(account) { Limit = 100 };
+            var accountOffers = await client.AccountOffers(offersRequest);
             Assert.IsNotNull(accountOffers);
         }
 
@@ -159,6 +167,21 @@ namespace Xrpl.Client.Tests
         public async Task CanGetGatewayBalances()
         {
             var balances = await client.GatewayBalances(account);
+            foreach (var currency in balances.Assets)
+            {
+                string issuer = currency.Key;
+
+                foreach (var c in currency.Value)
+                {
+                    Debug.WriteLine(c);
+                    //    var cur = (string)c.currency;
+                    //    var value = (string)c.value;
+                    //    var result = new Currency() { CurrencyCode = cur.Length > 3 ? cur.FromHexString().Trim('\0') : cur, Issuer = issuer, Value = value };
+
+                    //    Debug.WriteLine(result.Issuer, result.CurrencyCode, result.Value, result.ValueAsNumber);
+
+                }
+            }
             Assert.IsNotNull(balances);
         }
 
