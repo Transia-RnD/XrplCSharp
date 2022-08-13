@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Xrpl.Client.Model.Ledger;
+using Xrpl.Client.Models.Ledger;
 
 namespace Xrpl.Client.Json.Converters
 {

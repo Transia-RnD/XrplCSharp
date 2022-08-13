@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ripple.Binary.Codec.Types;
-using Xrpl.Client.Model;
-using Xrpl.Client.Model.Ledger;
-using Xrpl.Client.Requests.Ledger;
-using System.Collections.Generic;
-
-using Xrpl.Client.Responses.Transaction.Interfaces;
+using Xrpl.Client.Models.Methods;
+using Xrpl.Client.Models.Ledger;
+using Xrpl.Client.Models.Transactions;
+using Xrpl.Client.Models.Common;
+using Xrpl.Client.Models.Enums;
 
 namespace Xrpl.Client.Tests
 {

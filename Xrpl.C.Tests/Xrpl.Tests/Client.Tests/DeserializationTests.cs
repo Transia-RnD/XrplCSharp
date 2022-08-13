@@ -2,9 +2,10 @@
 using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using Xrpl.Client.Responses.Transaction;
-using Xrpl.Client.Responses.Transaction.Interfaces;
-using Xrpl.Client.Responses.Transaction.TransactionTypes;
+using Xrpl.Client.Models.Methods;
+using Xrpl.Client.Models.Transactions;
+using Xrpl.Client.Models.Common;
+using Xrpl.Client.Models.Enums;
 using Xrpl.Tests.Client.Tests.Properties;
 
 namespace Xrpl.Client.Tests

@@ -5,21 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Ripple.Binary.Codec.Types;
 using Xrpl.Wallet;
 using Xrpl.Client.Extensions;
 using Xrpl.Client.Json.Converters;
-using Xrpl.Client.Model;
-using Xrpl.Client.Model.Account;
-using Xrpl.Client.Model.Transaction;
-using Xrpl.Client.Model.Transaction.Interfaces;
-using Xrpl.Client.Model.Transaction.TransactionTypes;
-using Xrpl.Client.Requests.Ledger;
-using Xrpl.Client.Requests.Transaction;
-using Xrpl.Client.Responses.Transaction.Interfaces;
-using Currency = Xrpl.Client.Model.Currency;
-
-using Xrpl.Client.Responses.Transaction.TransactionTypes;
+using Xrpl.Client.Models.Methods;
+using Xrpl.Client.Models.Transactions;
+using Xrpl.Client.Models.Common;
+using Xrpl.Client.Models.Enums;
 
 namespace Xrpl.Client.Tests
 {

@@ -4,11 +4,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Ripple.Binary.Codec.Types;
-using Xrpl.Client.Model;
-using Xrpl.Client.Model.Account;
-using Xrpl.Client.Requests.Account;
-using System;
-using System.Diagnostics;
+using Xrpl.Client.Models.Methods;
+using Xrpl.Client.Models.Transactions;
+using Xrpl.Client.Models.Common;
+using Xrpl.Client.Models.Enums;
 
 
 namespace Xrpl.Client.Tests
