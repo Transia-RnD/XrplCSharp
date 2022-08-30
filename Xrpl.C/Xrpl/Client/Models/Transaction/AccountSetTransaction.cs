@@ -3,7 +3,7 @@ using Xrpl.Client.Models.Enums;
 
 namespace Xrpl.Client.Models.Transactions
 {
-    public enum AccountSetFlags
+    public enum AccountSetTfFlags
     {
         asfRequireDest = 1,
         asfRequireAuth = 2,
@@ -14,6 +14,19 @@ namespace Xrpl.Client.Models.Transactions
         asfGlobalFreeze = 7,
         asfDefaultRipple = 8
     }
+
+    //public interface IAccountSetFlags
+    //{
+    //    uint asfRequireDest { get; set; }
+    //    uint asfRequireAuth { get; set; }
+    //    uint asfDisallowXRP { get; set; }
+    //    uint asfDisableMaster { get; set; }
+    //    uint asfAccountTxnID { get; set; }
+    //    uint asfNoFreeze { get; set; }
+    //    uint asfGlobalFreeze { get; set; }
+    //    uint asfDefaultRipple { get; set; }
+    //}
+
     public class AccountSetTransaction : TransactionCommon, IAccountSetTransaction
     {
         public AccountSetTransaction()

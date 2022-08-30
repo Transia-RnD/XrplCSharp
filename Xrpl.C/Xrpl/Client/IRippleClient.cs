@@ -3,26 +3,42 @@ using System.Collections.Concurrent;
 using System.Dynamic;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
-
+using System.Transactions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 using Xrpl.Client.Exceptions;
 using Xrpl.Client.Models.Ledger;
 using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Transactions;
+using Xrpl.Sugar;
+using Xrpl.Wallet;
 
 using BookOffers = Xrpl.Client.Models.Transactions.BookOffers;
 using ChannelAuthorize = Xrpl.Client.Models.Transactions.ChannelAuthorize;
 using ChannelVerify = Xrpl.Client.Models.Transactions.ChannelVerify;
 using Submit = Xrpl.Client.Models.Transactions.Submit;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/client/index.ts
+
 namespace Xrpl.Client
 {
     public interface IRippleClient
     {
+
+        // New Functions matching XRPLF
+
+        Task<JToken> Autofill(JToken tx);
+
+        Task<Submit> Submit(IRippleClient client, JToken tx, rWallet wallet);
+
+        Task<uint> GetLedgerIndex();
+
         void Connect();
 
         void Disconnect();
+
+        Task<object> AnyRequest(RippleRequest request);
 
         Task<object> Subscribe();
 
@@ -116,6 +132,8 @@ namespace Xrpl.Client
 
         Task<Submit> SubmitTransaction(SubmitRequest request);
 
+        Task<Submit> SubmitTransaction(SubmitRequest request, rWallet wallet);
+
         Task<BookOffers> BookOffers(BookOffersRequest request);
 
         Task<LOLedger> Ledger(LedgerRequest request);
@@ -145,6 +163,20 @@ namespace Xrpl.Client
             client.OnConnectionError(Error);
         }
 
+        // ---------------------------------------------------------------
+        public Task<JToken> Autofill(JToken tx)
+        {
+            return AutofillSugar.Autofill(this, tx, null);
+        }
+        public Task<Submit> Submit(IRippleClient client, JToken tx, rWallet wallet)
+        {
+            return SubmitSugar.Submit(client, tx, true, false, wallet);
+        }
+        public Task<uint> GetLedgerIndex()
+        {
+            return GetLedgerSugar.GetLedgerIndex(this);
+        }
+
         public void Connect()
         {
             client.OnMessageReceived(MessageReceived);
@@ -158,6 +190,23 @@ namespace Xrpl.Client
         public void Disconnect()
         {
             client.Disconnect();
+        }
+
+        public Task<object> AnyRequest(RippleRequest request)
+        {
+
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<object> task = new TaskCompletionSource<object>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(RippleRequest);
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
         }
 
         public Task<object> Subscribe()
@@ -591,6 +640,22 @@ namespace Xrpl.Client
         }
 
         public Task<Submit> SubmitTransactionBlob(SubmitBlobRequest request)
+        {
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<Submit> task = new TaskCompletionSource<Submit>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(Submit);
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<Submit> SubmitTransaction(SubmitRequest request, rWallet wallet)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
             TaskCompletionSource<Submit> task = new TaskCompletionSource<Submit>();

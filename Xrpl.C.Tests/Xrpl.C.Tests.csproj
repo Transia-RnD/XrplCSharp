@@ -23,6 +23,8 @@
     <None Remove="Ripple-Keypairs-Tests\Properties\" />
     <None Remove="Xrpl-Tests\Client-Tests\Properties\" />
     <None Remove="Xrpl-Tests\Client-Tests\TestData\" />
+    <None Remove="Ripple.Binary.Codec.Tests\Fixtures\" />
+    <None Remove="Xrpl.Tests\Client.Tests\Integration\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Ripple.Address.Codec.Tests\" />
@@ -31,11 +33,11 @@
     <Folder Include="Xrpl.Tests\" />
     <Folder Include="Xrpl.Tests\Wallet.Tests\" />
     <Folder Include="Xrpl.Tests\Client.Tests\" />
-    <Folder Include="Ripple.Binary.Codec.Tests\Properties\" />
-    <Folder Include="Ripple.Binary.Codec.Tests\Transactions\" />
     <Folder Include="Ripple.Keypairs.Tests\Properties\" />
     <Folder Include="Xrpl.Tests\Client.Tests\Properties\" />
     <Folder Include="Xrpl.Tests\Client.Tests\TestData\" />
+    <Folder Include="Ripple.Binary.Codec.Tests\Fixtures\" />
+    <Folder Include="Xrpl.Tests\Client.Tests\Integration\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
@@ -63,11 +65,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Ripple.Binary.Codec.Tests\Properties\Resources.resx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Ripple.Keypairs.Tests\Properties\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -78,5 +75,8 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" />
   </ItemGroup>
 </Project>

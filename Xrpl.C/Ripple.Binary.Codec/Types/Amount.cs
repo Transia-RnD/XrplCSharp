@@ -4,6 +4,8 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using Ripple.Binary.Codec.Binary;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/amount.ts
+
 namespace Ripple.Binary.Codec.Types
 {
     public class Amount : ISerializedType
@@ -15,14 +17,10 @@ namespace Ripple.Binary.Codec.Types
 
         public const int MaximumIouPrecision = 16;
 
-        public Amount(AmountValue value,
-                      Currency currency=null,
-                      AccountId issuer=null)
+        public Amount(AmountValue value, Currency currency=null, AccountId issuer=null)
         {
             Currency = currency ?? Currency.Xrp;
-            Issuer = issuer ?? (Currency.IsNative ?
-                                    AccountId.Zero :
-                                    AccountId.Neutral);
+            Issuer = issuer ?? (Currency.IsNative ? AccountId.Zero : AccountId.Neutral);
             Value = value;
         }
 

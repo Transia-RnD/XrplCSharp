@@ -1,4 +1,5 @@
 using System;
+using Ripple.Address.Codec;
 using Sha512 = Ripple.Keypairs.Utils.Sha512;
 
 namespace Ripple.Keypairs.Ed25519
@@ -50,7 +51,7 @@ namespace Ripple.Keypairs.Ed25519
 
         public string Id()
         {
-            return Ripple.Address.Codec.AddressCodec.EncodeAddress(this.PubKeyHash());
+            return XrplCodec.EncodeAddress(this.PubKeyHash());
         }
     }
 }

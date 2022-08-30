@@ -1,4 +1,5 @@
 ﻿using Org.BouncyCastle.Math;
+using Ripple.Address.Codec;
 using Ripple.Keypairs.Utils;
 
 namespace Ripple.Keypairs.K256
@@ -74,9 +75,9 @@ namespace Ripple.Keypairs.K256
         {
             if (_isNodeKey)
             {
-                return Ripple.Address.Codec.AddressCodec.EncodeNodePublic(CanonicalPubBytes());
+                return XrplCodec.EncodeNodePublic(CanonicalPubBytes());
             }
-            return Ripple.Address.Codec.AddressCodec.EncodeAddress(this.PubKeyHash());
+            return XrplCodec.EncodeAddress(this.PubKeyHash());
         }
     }
 

@@ -139,7 +139,7 @@ namespace Xrpl.Client.Tests
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+            request.TxBlob = signedTx.TxBlob;
 
             Submit result = await rippleClient.SubmitTransactionBlob(request);
             Assert.IsNotNull(result);
@@ -162,7 +162,7 @@ namespace Xrpl.Client.Tests
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+            request.TxBlob = signedTx.TxBlob;
 
             Submit result = await client.SubmitTransactionBlob(request);
             Assert.IsNotNull(result);
@@ -213,7 +213,7 @@ namespace Xrpl.Client.Tests
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+            request.TxBlob = signedTx.TxBlob;
 
             Submit result = await client.SubmitTransactionBlob(request);
             Assert.IsNotNull(result);
@@ -254,7 +254,7 @@ namespace Xrpl.Client.Tests
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+            request.TxBlob = signedTx.TxBlob;
 
             Submit result = await client.SubmitTransactionBlob(request);
             Assert.IsNotNull(result);
@@ -281,7 +281,7 @@ namespace Xrpl.Client.Tests
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+            request.TxBlob = signedTx.TxBlob;
 
             Submit result = await client.SubmitTransactionBlob(request);
             Assert.IsNotNull(result);
@@ -337,7 +337,7 @@ namespace Xrpl.Client.Tests
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+            request.TxBlob = signedTx.TxBlob;
 
             Submit result = await rippleClient.SubmitTransactionBlob(request);
             Assert.IsNotNull(result);
@@ -406,7 +406,7 @@ namespace Xrpl.Client.Tests
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+            request.TxBlob = signedTx.TxBlob;
 
             Submit result = await xls20client.SubmitTransactionBlob(request);
             Assert.IsNotNull(result);
@@ -437,7 +437,7 @@ namespace Xrpl.Client.Tests
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+            request.TxBlob = signedTx.TxBlob;
 
             Submit result = await xls20client.SubmitTransactionBlob(request);
             Assert.IsNotNull(result);
@@ -465,7 +465,7 @@ namespace Xrpl.Client.Tests
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+            request.TxBlob = signedTx.TxBlob;
 
             Submit result = await xls20client.SubmitTransactionBlob(request);
             Assert.IsNotNull(result);
@@ -492,7 +492,7 @@ namespace Xrpl.Client.Tests
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+            request.TxBlob = signedTx.TxBlob;
 
             Submit result = await xls20client.SubmitTransactionBlob(request);
             Assert.IsNotNull(result);
@@ -517,7 +517,7 @@ namespace Xrpl.Client.Tests
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+            request.TxBlob = signedTx.TxBlob;
 
             Submit result = await xls20client.SubmitTransactionBlob(request);
             Assert.IsNotNull(result);
@@ -541,7 +541,7 @@ namespace Xrpl.Client.Tests
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
             SubmitBlobRequest request = new SubmitBlobRequest();
-            request.TransactionBlob = signedTx.TxBlob;
+            request.TxBlob = signedTx.TxBlob;
 
             Submit result = await xls20client.SubmitTransactionBlob(request);
             Assert.IsNotNull(result);

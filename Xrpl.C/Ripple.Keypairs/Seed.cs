@@ -27,7 +27,7 @@ namespace Ripple.Keypairs
 
         public override string ToString()
         {
-            return EncodeSeed(_seedBytes, _keyType);
+            return XrplCodec.EncodeSeed(_seedBytes, _keyType);
         }
 
         public byte[] Bytes()
@@ -77,7 +77,7 @@ namespace Ripple.Keypairs
 
         public static Seed FromBase58(string b58)
         {
-            var seed = DecodeSeed(b58);
+            var seed = XrplCodec.DecodeSeed(b58);
             return new Seed(seed.Type, seed.Bytes);
         }
 

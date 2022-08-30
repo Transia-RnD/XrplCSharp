@@ -173,7 +173,7 @@ namespace Xrpl.Client.Tests
 
                 foreach (var c in currency.Value)
                 {
-                    Debug.WriteLine(c);
+                    //Debug.WriteLine(c);
                     //    var cur = (string)c.currency;
                     //    var value = (string)c.value;
                     //    var result = new Currency() { CurrencyCode = cur.Length > 3 ? cur.FromHexString().Trim('\0') : cur, Issuer = issuer, Value = value };

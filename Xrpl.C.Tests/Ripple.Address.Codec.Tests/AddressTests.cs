@@ -1,17 +1,9 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System.Text;
 using Newtonsoft.Json;
-using Xrpl.Client.Responses.Transaction;
 using System.Diagnostics;
 using Ripple.Address.Codec.Exceptions;
-using Xrpl.Client.Responses.Transaction.Interfaces;
-using Xrpl.Client.Responses.Transaction.TransactionTypes;
 using Xrpl.Tests.Ripple.Address.Codec.Tests.Properties;
 using System.Collections.Generic;
-using System.Collections;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/index.test.js
 

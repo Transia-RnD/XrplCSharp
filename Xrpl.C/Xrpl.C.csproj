@@ -25,4 +25,12 @@
     <PackageReference Include="Chaos.NaCl.Standard" Version="1.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Xrpl\Sugar\" />
+    <None Remove="Xrpl\Client\Models\Utils\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Xrpl\Sugar\" />
+    <Folder Include="Xrpl\Client\Models\Utils\" />
+  </ItemGroup>
 </Project>

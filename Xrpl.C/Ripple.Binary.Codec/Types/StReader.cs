@@ -18,7 +18,7 @@ namespace Ripple.Binary.Codec.Types
             var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
             return new StReader(new StreamParser(stream));
         }
-        public StReader FromHex(string hex)
+        public static StReader FromHex(string hex)
         {
             return new StReader(new BufferParser(hex));
         }
