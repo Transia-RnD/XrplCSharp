@@ -258,7 +258,7 @@ namespace Ripple.Binary.Codec.Types
 
         public NativeValue(string value)
         {
-            var parsed = decimal.Parse(value,NumberStyles.AllowDecimalPoint,CultureInfo.InvariantCulture);
+            var parsed = decimal.Parse(value,NumberStyles.AllowDecimalPoint|NumberStyles.AllowExponent,CultureInfo.InvariantCulture);
             IsNegative = parsed < 0;
             Mantissa = (ulong) Math.Abs(parsed);
         }
