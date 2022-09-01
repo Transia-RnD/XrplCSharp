@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using Ripple.Binary.Codec.Binary;
 using Ripple.Binary.Codec.Util;
@@ -257,7 +258,7 @@ namespace Ripple.Binary.Codec.Types
 
         public NativeValue(string value)
         {
-            var parsed = long.Parse(value);
+            var parsed = decimal.Parse(value,NumberStyles.AllowDecimalPoint,CultureInfo.InvariantCulture);
             IsNegative = parsed < 0;
             Mantissa = (ulong) Math.Abs(parsed);
         }
