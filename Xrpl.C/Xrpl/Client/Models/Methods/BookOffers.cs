@@ -1,8 +1,18 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
+using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Common;
 
 namespace Xrpl.Client.Models.Methods
 {
+    public class TakerAmount
+    {
+        [JsonProperty("currency")]
+        public string Currency { get; set; }
+
+        [JsonProperty("issuer")]
+        public string Issuer { get; set; }
+    }
     public class BookOffersRequest : BaseLedgerRequest
     {
         public BookOffersRequest()
@@ -17,9 +27,9 @@ namespace Xrpl.Client.Models.Methods
         public string Taker { get; set; }
 
         [JsonProperty("taker_gets")]
-        public Currency TakerGets { get; set; }
+        public TakerAmount TakerGets { get; set; }
 
         [JsonProperty("taker_pays")]
-        public Currency TakerPays { get; set; }
+        public TakerAmount TakerPays { get; set; }
     }
 }

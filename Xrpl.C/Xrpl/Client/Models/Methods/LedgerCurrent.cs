@@ -1,8 +1,8 @@
 ﻿namespace Xrpl.Client.Models.Methods
 {
-    public class CurrentLedgerRequest : RippleRequest
+    public class LedgerCurrentRequest : RippleRequest
     {
-        public CurrentLedgerRequest()
+        public LedgerCurrentRequest()
         {
             Command = "ledger_current";
         }

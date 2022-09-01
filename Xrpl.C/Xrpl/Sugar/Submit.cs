@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Transactions;
 using Newtonsoft.Json.Linq;
@@ -27,7 +29,7 @@ namespace Xrpl.Sugar
         /// <returns>A Wallet derived from a seed.</returns>
         public static async Task<Submit> Submit(
             IRippleClient client,
-            JToken transaction,
+            Dictionary<string, dynamic> transaction,
             bool autofill = false,
             bool failHard = false,
             rWallet wallet = null
@@ -38,18 +40,20 @@ namespace Xrpl.Sugar
         }
 
         // Encodes and submits a signed transaction.
-        public static Task<Submit> SubmitRequest(IRippleClient client, object signedTransaction, bool failHard)
+        public static async Task<Submit> SubmitRequest(IRippleClient client, string signedTransaction, bool failHard)
         {
             //if (!isSigned(signedTransaction)) {
             //    throw new ValidationError('Transaction must be signed')
             //}
 
             //string signedTxEncoded = typeof signedTransaction === 'string' ? signedTransaction : encode(signedTransaction)
-            string signedTxEncoded = BinaryCodec.Encode(signedTransaction);
+            //string signedTxEncoded = BinaryCodec.Encode(signedTransaction);
+            string signedTxEncoded = signedTransaction;
+            Debug.WriteLine(BinaryCodec.Decode(signedTransaction).ToString());
             //SubmitBlobRequest request = new SubmitBlobRequest { Command = "submit", TxBlob = signedTxEncoded, FailHard = isAccountDelete(signedTransaction) || failHard };
             SubmitBlobRequest request = new SubmitBlobRequest { Command = "submit", TxBlob = signedTxEncoded, FailHard = false  };
-            return client.SubmitTransactionBlob(request);
-
+            Debug.WriteLine("SUBMITTED");
+            return await client.SubmitTransactionBlob(request);
         }
 
         /// <summary>
@@ -63,7 +67,7 @@ namespace Xrpl.Sugar
         /// <returns>A Wallet derived from a seed.</returns>
         public static async Task<string> GetSignedTx(
             IRippleClient client,
-            JToken transaction,
+            Dictionary<string, dynamic> transaction,
             bool autofill,
             rWallet wallet
         )
@@ -80,7 +84,7 @@ namespace Xrpl.Sugar
 
             //    )
             //}
-            JToken tx = transaction;
+            Dictionary<string, dynamic> tx = transaction;
             //let tx =
             //  typeof transaction === 'string'
             //    ? // eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- converts JsonObject to correct Transaction type
@@ -90,7 +94,6 @@ namespace Xrpl.Sugar
             {
                 tx = await client.Autofill(tx);
             }
-
             return wallet.Sign(tx, false).TxBlob;
         }
     }

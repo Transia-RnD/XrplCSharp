@@ -10,7 +10,7 @@ namespace Xrpl.Client.Extensions
 {
     public static class ExtensionHelpers
     {
-        public static string ToHex(this string input)
+        public static string ConvertStringToHex(this string input)
         {
             char[] values = input.ToCharArray();
 
@@ -19,7 +19,7 @@ namespace Xrpl.Client.Extensions
             foreach (char letter in values)
             {
                 int value = Convert.ToInt32(letter);
-                sb.Append($"{value:X}");                
+                sb.Append($"{value:X}");
             }
 
             return sb.ToString();

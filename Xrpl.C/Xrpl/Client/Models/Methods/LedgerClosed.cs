@@ -1,8 +1,8 @@
 ﻿namespace Xrpl.Client.Models.Methods
 {
-    public class ClosedLedgerRequest : RippleRequest
+    public class LedgerClosedRequest : RippleRequest
     {
-        public ClosedLedgerRequest()
+        public LedgerClosedRequest()
         {
             Command = "ledger_closed";
         }

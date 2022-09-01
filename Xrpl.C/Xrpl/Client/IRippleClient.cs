@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
@@ -28,9 +30,9 @@ namespace Xrpl.Client
 
         // New Functions matching XRPLF
 
-        Task<JToken> Autofill(JToken tx);
+        Task<Dictionary<string, dynamic>> Autofill(Dictionary<string, dynamic> tx);
 
-        Task<Submit> Submit(IRippleClient client, JToken tx, rWallet wallet);
+        Task<Submit> Submit(Dictionary<string, dynamic> tx, rWallet wallet);
 
         Task<uint> GetLedgerIndex();
 
@@ -114,15 +116,11 @@ namespace Xrpl.Client
 
         Task<GatewayBalances> GatewayBalances(GatewayBalancesRequest request);
 
-        Task<TransactionResponseCommon> TTransaction(string transaction);
+        Task<TransactionResponseCommon> Tx(TxRequest transaction);
 
-        Task<ITransactionResponseCommon> Transaction(string transaction);
+        Task<ServerInfo> ServerInfo(ServerInfoRequest request);
 
-        Task<IBaseTransactionResponse> TransactionAsBinary(string transaction);
-
-        Task<ServerInfo> ServerInfo();
-
-        Task<Fee> Fees();
+        Task<Fee> Fee(FeeRequest request);
 
         Task<ChannelAuthorize> ChannelAuthorize(ChannelAuthorizeRequest request);
 
@@ -138,11 +136,13 @@ namespace Xrpl.Client
 
         Task<LOLedger> Ledger(LedgerRequest request);
 
-        Task<LOBaseLedger> ClosedLedger();
+        Task<LOBaseLedger> LedgerClosed(LedgerClosedRequest request);
 
-        Task<LOLedgerCurrentIndex> CurrentLedger();
+        Task<LOLedgerCurrentIndex> LedgerCurrent(LedgerCurrentRequest request);
 
         Task<LOLedgerData> LedgerData(LedgerDataRequest request);
+
+        Task<LOLedgerEntry> LedgerEntry(LedgerEntryRequest request);
     }
 
     public class RippleClient : IRippleClient
@@ -164,13 +164,13 @@ namespace Xrpl.Client
         }
 
         // ---------------------------------------------------------------
-        public Task<JToken> Autofill(JToken tx)
+        public Task<Dictionary<string, dynamic>> Autofill(Dictionary<string, dynamic> tx)
         {
             return AutofillSugar.Autofill(this, tx, null);
         }
-        public Task<Submit> Submit(IRippleClient client, JToken tx, rWallet wallet)
+        public Task<Submit> Submit(Dictionary<string, dynamic> tx, rWallet wallet)
         {
-            return SubmitSugar.Submit(client, tx, true, false, wallet);
+            return SubmitSugar.Submit(this, tx, true, false, wallet);
         }
         public Task<uint> GetLedgerIndex()
         {
@@ -270,6 +270,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
+            Debug.WriteLine(command);
             client.SendMessage(command);
             return task.Task;
         }
@@ -516,9 +517,8 @@ namespace Xrpl.Client
             return task.Task;
         }
 
-        public Task<TransactionResponseCommon> TTransaction(string transaction)
+        public Task<TransactionResponseCommon> Tx(TxRequest request)
         {
-            TransactionRequest request = new TransactionRequest(transaction);
             var command = JsonConvert.SerializeObject(request, serializerSettings);
             TaskCompletionSource<TransactionResponseCommon> task = new TaskCompletionSource<TransactionResponseCommon>();
 
@@ -533,46 +533,8 @@ namespace Xrpl.Client
             return task.Task;
         }
 
-        public Task<ITransactionResponseCommon> Transaction(string transaction)
+        public Task<ServerInfo> ServerInfo(ServerInfoRequest request)
         {
-            TransactionRequest request = new TransactionRequest(transaction);
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<ITransactionResponseCommon> task = new TaskCompletionSource<ITransactionResponseCommon>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(TransactionResponseCommon);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
-        }
-
-        public Task<IBaseTransactionResponse> TransactionAsBinary(string transaction)
-        {
-            TransactionRequest request = new TransactionRequest(transaction);
-            request.Binary = true;
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<IBaseTransactionResponse> task = new TaskCompletionSource<IBaseTransactionResponse>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(BinaryTransactionResponse);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
-
-        }
-
-        public Task<ServerInfo> ServerInfo()
-        {
-            RippleRequest request = new RippleRequest();
-            request.Command = "server_info";
 
             var command = JsonConvert.SerializeObject(request, serializerSettings);
             TaskCompletionSource<ServerInfo> task = new TaskCompletionSource<ServerInfo>();
@@ -588,11 +550,8 @@ namespace Xrpl.Client
             return task.Task;
         }
 
-        public Task<Fee> Fees()
+        public Task<Fee> Fee(FeeRequest request)
         {
-            RippleRequest request = new RippleRequest();
-            request.Command = "fee";
-
             var command = JsonConvert.SerializeObject(request, serializerSettings);
             TaskCompletionSource<Fee> task = new TaskCompletionSource<Fee>();
 
@@ -713,15 +672,15 @@ namespace Xrpl.Client
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(LOLedger);
 
+            Debug.WriteLine(command);
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
             return task.Task;
         }
 
-        public Task<LOBaseLedger> ClosedLedger()
+        public Task<LOBaseLedger> LedgerClosed(LedgerClosedRequest request)
         {
-            ClosedLedgerRequest request = new ClosedLedgerRequest();
             var command = JsonConvert.SerializeObject(request, serializerSettings);
             TaskCompletionSource<LOBaseLedger> task = new TaskCompletionSource<LOBaseLedger>();
 
@@ -737,9 +696,8 @@ namespace Xrpl.Client
 
         }
 
-        public Task<LOLedgerCurrentIndex> CurrentLedger()
+        public Task<LOLedgerCurrentIndex> LedgerCurrent(LedgerCurrentRequest request)
         {
-            CurrentLedgerRequest request = new CurrentLedgerRequest();
             var command = JsonConvert.SerializeObject(request, serializerSettings);
             TaskCompletionSource<LOLedgerCurrentIndex> task = new TaskCompletionSource<LOLedgerCurrentIndex>();
 
@@ -770,6 +728,22 @@ namespace Xrpl.Client
             return task.Task;
         }
 
+        public Task<LOLedgerEntry> LedgerEntry(LedgerEntryRequest request)
+        {
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<LOLedgerEntry> task = new TaskCompletionSource<LOLedgerEntry>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(LOLedgerEntry);
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
         private void Error(Exception ex, WebSocketClient client)
         {
             throw new Exception(ex.Message, ex);
@@ -785,6 +759,7 @@ namespace Xrpl.Client
 
                 if (response.Status == "success")
                 {
+                    Debug.WriteLine($"RESPONSE {response.Id} : {response.Result.ToString()}");
                     var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
                     var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("SetResult");
                     setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });

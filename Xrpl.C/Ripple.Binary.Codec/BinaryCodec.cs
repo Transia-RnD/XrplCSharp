@@ -7,6 +7,10 @@ using Ripple.Binary.Codec.Binary;
 using Ripple.Binary.Codec.Types;
 using Newtonsoft.Json.Linq;
 using System.Transactions;
+using System.Collections.Generic;
+using Ripple.Binary.Codec.Hashing;
+using System.Collections;
+using System.Reflection.Emit;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/index.ts
@@ -22,6 +26,7 @@ namespace Ripple.Binary.Codec
         /// <returns>JToken</returns>
         public static JToken Decode(string binary)
         {
+            Debug.WriteLine("DECODING");
             var stobject = StObject.FromHex(binary);
             return stobject.ToJson();
         }
@@ -33,8 +38,9 @@ namespace Ripple.Binary.Codec
         /// <returns>string</returns>
         public static string Encode(JToken token)
         {
-            var stobject = StObject.FromJson(token);
-            return Ripple.Address.Codec.Utils.FromBytesToHex(stobject.SigningData());
+            Debug.WriteLine("ENCODING");
+            Debug.WriteLine(token.ToString());
+            return SerializeJson(token);
         }
 
         /// <summary>
@@ -46,6 +52,40 @@ namespace Ripple.Binary.Codec
         {
             JToken token = JToken.FromObject(json);
             return Encode(token);
+        }
+
+        /// <summary>
+        /// Encode a transaction into binary format in preparation for signing. (Only encodes fields that are intended to be signed.)
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns>string</returns>
+        public static string EncodeForSigning(Dictionary<string, dynamic> json)
+        {
+            JToken token = JToken.FromObject(json);
+            return SerializeJson(token, HashPrefix.TxSign.Bytes(), null, true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns>string</returns>
+        public static string SerializeJson(JToken json, byte[]? prefix = null, byte[]? suffix = null, bool signingOnly = false)
+        {
+            var list = new BytesList();
+            if (prefix != null)
+            {
+                list.Put(prefix);
+            }
+
+            StObject so = StObject.FromJson(json, strict: true);
+            list.Put(so.ToBytes());
+
+            if (suffix != null)
+            {
+                list.Put(suffix);
+            }
+            return list.BytesHex();
         }
     }
 }

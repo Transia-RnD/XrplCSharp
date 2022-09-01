@@ -3,7 +3,15 @@ using Xrpl.Client.Json.Converters;
 
 namespace Xrpl.Client.Models.Methods
 {
-    public class Fee
+
+    public class FeeRequest : RippleRequest
+    {
+        public FeeRequest()
+        {
+            Command = "fee";
+        }
+    }
+        public class Fee
     {
         [JsonProperty("current_ledger_size")]
         [JsonConverter(typeof(GenericStringConverter<uint>))]

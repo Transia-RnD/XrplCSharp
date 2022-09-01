@@ -28,18 +28,18 @@ namespace Xrpl.Client.Tests
             client.Connect();
         }
 
-        [TestMethod]
-        public async Task CanGetServerState()
-        {
-            ServerInfo serverInfo = await client.ServerInfo();
-            Assert.IsNotNull(serverInfo);
-        }
+        //[TestMethod]
+        //public async Task CanGetServerState()
+        //{
+        //    ServerInfo serverInfo = await client.ServerInfo();
+        //    Assert.IsNotNull(serverInfo);
+        //}
 
-        [TestMethod]
-        public async Task CanGetFees()
-        {
-            Fee fee = await client.Fees();
-            Assert.IsNotNull(fee);
-        }
+        //[TestMethod]
+        //public async Task CanGetFees()
+        //{
+        //    Fee fee = await client.Fees();
+        //    Assert.IsNotNull(fee);
+        //}
     }
 }

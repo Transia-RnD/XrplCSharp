@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Xrpl.Client;
 using Xrpl.Client.Models.Common;
@@ -14,7 +15,9 @@ namespace Xrpl.Sugar
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Current);
             LedgerRequest request = new LedgerRequest() { LedgerIndex = index };
             LOLedger ledgerResponse = await client.Ledger(request);
-            return ledgerResponse.LedgerIndex;
+            LedgerEntity ledgerEntity = (LedgerEntity)ledgerResponse.LedgerEntity;
+            Debug.WriteLine(ledgerEntity.LedgerIndex);
+            return Convert.ToUInt32(ledgerEntity.LedgerIndex, 16);
         }
     }
 }

@@ -6,6 +6,13 @@ using Newtonsoft.Json.Converters;
 
 namespace Xrpl.Client.Models.Methods
 {
+    public class ServerInfoRequest : RippleRequest
+    {
+        public ServerInfoRequest()
+        {
+            Command = "server_info";
+        }
+    }
 
     public enum ServerState
     {

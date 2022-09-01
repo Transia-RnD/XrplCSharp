@@ -11,6 +11,7 @@ namespace Ripple.Keypairs
         byte[] Sign(byte[] message);
 
         string Id();
+        string Pk();
     }
 
     public static class KeyPairExtensions

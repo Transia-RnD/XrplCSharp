@@ -28,9 +28,13 @@
   <ItemGroup>
     <None Remove="Xrpl\Sugar\" />
     <None Remove="Xrpl\Client\Models\Utils\" />
+    <None Remove="Xrpl\Utils\" />
+    <None Remove="Xrpl\Utils\Hashes\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Xrpl\Sugar\" />
     <Folder Include="Xrpl\Client\Models\Utils\" />
+    <Folder Include="Xrpl\Utils\" />
+    <Folder Include="Xrpl\Utils\Hashes\" />
   </ItemGroup>
 </Project>

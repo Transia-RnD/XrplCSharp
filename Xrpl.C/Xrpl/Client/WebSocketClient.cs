@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
@@ -151,6 +152,7 @@ namespace Xrpl.Client
         /// <param name="message">The message to send</param>
         internal void SendMessage(string message)
         {
+            Debug.WriteLine($"REQUEST: {message}");
             SendMessage(Encoding.UTF8.GetBytes(message));
         }
 

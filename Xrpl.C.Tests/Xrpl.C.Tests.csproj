@@ -24,7 +24,8 @@
     <None Remove="Xrpl-Tests\Client-Tests\Properties\" />
     <None Remove="Xrpl-Tests\Client-Tests\TestData\" />
     <None Remove="Ripple.Binary.Codec.Tests\Fixtures\" />
-    <None Remove="Xrpl.Tests\Client.Tests\Integration\" />
+    <None Remove="Xrpl.Tests\Integration\" />
+    <None Remove="Ripple.Keypairs.Tests\Fixtures\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Ripple.Address.Codec.Tests\" />
@@ -37,7 +38,8 @@
     <Folder Include="Xrpl.Tests\Client.Tests\Properties\" />
     <Folder Include="Xrpl.Tests\Client.Tests\TestData\" />
     <Folder Include="Ripple.Binary.Codec.Tests\Fixtures\" />
-    <Folder Include="Xrpl.Tests\Client.Tests\Integration\" />
+    <Folder Include="Xrpl.Tests\Integration\" />
+    <Folder Include="Ripple.Keypairs.Tests\Fixtures\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
@@ -51,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Ripple-Binary-Codec-Tests\Properties\Resources.Designer.cs" />
+    <Compile Remove="Xrpl.Tests\Integration\requests\accountInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Ripple-Binary-Codec-Tests\Properties\Resources.resx">

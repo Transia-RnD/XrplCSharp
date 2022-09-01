@@ -51,7 +51,12 @@ namespace Ripple.Keypairs.Ed25519
 
         public string Id()
         {
-            return XrplCodec.EncodeAddress(this.PubKeyHash());
+            return Ripple.Address.Codec.Utils.FromBytesToHex(this._pubBytes);
+        }
+
+        public string Pk()
+        {
+            return Ripple.Address.Codec.Utils.FromBytesToHex(this._privBytes[0..32]);
         }
     }
 }

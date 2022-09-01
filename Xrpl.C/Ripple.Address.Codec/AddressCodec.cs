@@ -82,6 +82,7 @@ namespace Ripple.Address.Codec
 
         public static CodecAddress XAddressToClassicAddress(string xAddress)
         {
+            Debug.WriteLine("FUNC: XAddressToClassicAddress");
             CodecAccountID account = DecodeXAddress(xAddress);
             string classicAddress = XrplCodec.EncodeAccountID(account.AccountID);
             return new CodecAddress { ClassicAddress = classicAddress, Tag = account.Tag, Test = account.Test };
@@ -89,6 +90,7 @@ namespace Ripple.Address.Codec
 
         public static CodecAccountID DecodeXAddress(string xAddress)
         {
+            Debug.WriteLine("FUNC: DecodeXAddress");
             byte[] decoded = B58.Decode(xAddress);
             bool isTest = IsBufferForTestAddress(decoded);
             byte[] accountId = CopyOfRange(decoded, 2, 22);

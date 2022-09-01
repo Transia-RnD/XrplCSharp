@@ -15,12 +15,12 @@ namespace Xrpl.Client.Models.Transactions
         public string EngineResultMessage { get; set; }
 
         [JsonProperty("tx_blob")]
-        public string TransactionBlob { get; set; }
+        public string TxBlob { get; set; }
 
         [JsonProperty("tx_json")]
-        public dynamic TransactionJson { get; set; }
+        public dynamic TxJson { get; set; }
 
         //[JsonIgnore]
-        public ITransactionResponseCommon Transaction => JsonConvert.DeserializeObject<TransactionResponseCommon>(TransactionJson.ToString());
+        public ITransactionResponseCommon Transaction => JsonConvert.DeserializeObject<TransactionResponseCommon>(TxJson.ToString());
     }
 }

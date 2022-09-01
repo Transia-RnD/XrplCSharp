@@ -13,6 +13,9 @@ using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Utils;
 using System.Numerics;
 using static Ripple.Address.Codec.AddressCodec;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Collections;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/autofill.ts
 
@@ -29,23 +32,23 @@ namespace Xrpl.Sugar
             public int? Tag { get; set; }
         }
 
-        public static async Task<JToken> Autofill(IRippleClient client, JToken transaction, int? signersCount)
+        public static async Task<Dictionary<string, dynamic>> Autofill(IRippleClient client, Dictionary<string, dynamic> transaction, int? signersCount)
         {
-            JToken tx = (JToken)transaction;
+            Dictionary<string, dynamic> tx = transaction;
 
             SetValidAddresses(tx);
 
             //Flags.SetTransactionFlagsToNumber(tx);
-            Task[] promises = Array.Empty<Task>();
-            if (tx["Sequence"] == null)
+            List<Task> promises = new List<Task>();
+            if (!tx.ContainsKey("Sequence"))
             {
-                promises.Append(SetNextValidSequenceNumberAsync(client, tx));
+                promises.Add(SetNextValidSequenceNumberAsync(client, tx));
             }
             //if (tx["Fee"] == null)
             //{
             //    promises.push(CalculateFeePerTransactionType(client, tx, signersCount))
             //}
-            if (tx["LastLedgerSequence"] == null)
+            if (!tx.ContainsKey("LastLedgerSequence"))
             {
                 promises.Append(SetLatestValidatedLedgerSequence(client, tx));
             }
@@ -53,16 +56,16 @@ namespace Xrpl.Sugar
             //{
             //    promises.push(CheckAccountDeleteBlockers(client, tx))
             //}
-            await Task.WhenAll(promises);
+            Task.WaitAll(promises.ToArray());
             return tx;
         }
-        public static void SetValidAddresses(JToken tx)
+        public static void SetValidAddresses(Dictionary<string, dynamic> tx)
         {
             ValidateAccountAddress(tx, "Account", "SourceTag");
-              if (tx["Destination"] != null)
-              {
+            if (tx.ContainsKey("Destination"))
+            {
                 ValidateAccountAddress(tx, "Destination", "DestinationTag");
-              }
+            }
 
             // DepositPreauth:
             ConvertToClassicAddress(tx, "Authorize");
@@ -73,7 +76,7 @@ namespace Xrpl.Sugar
             ConvertToClassicAddress(tx, "RegularKey");
         }
 
-        public static void ValidateAccountAddress(JToken tx, string accountField, string tagField)
+        public static void ValidateAccountAddress(Dictionary<string, dynamic> tx, string accountField, string tagField)
         {
             // if X-address is given, convert it to classic address
             AddressNTag classicAccount = GetClassicAccountAndTag((string)tx[accountField], null);
@@ -85,7 +88,7 @@ namespace Xrpl.Sugar
             {
                 if (tx[tagField] != null && (int)tx[tagField] != classicAccount.Tag)
                 {
-                    throw new ValidationError("The ${ tagField }, if present, must match the tag of the ${ accountField} X - address");
+                    throw new ValidationError($"The { tagField }, if present, must match the tag of the { accountField} X - address");
                 }
                 // eslint-disable-next-line no-param-reassign -- param reassign is safe
                 tx[tagField] = classicAccount.Tag;
@@ -106,14 +109,20 @@ namespace Xrpl.Sugar
             return new AddressNTag { ClassicAddress = account, Tag = expectedTag };
         }
 
-        public static void ConvertToClassicAddress(JToken tx, string fieldName)
+        public static void ConvertToClassicAddress(Dictionary<string, dynamic> tx, string fieldName)
         {
-            string account = (string)tx[fieldName];
-            AddressNTag addressntag = GetClassicAccountAndTag(account, null);
-            tx[fieldName] = addressntag.ClassicAddress;
+            if (tx.ContainsKey(fieldName))
+            {
+                string account = (string)tx[fieldName];
+                if (account is string)
+                {
+                    AddressNTag addressntag = GetClassicAccountAndTag(account, null);
+                    tx[fieldName] = addressntag.ClassicAddress;
+                }
+            }
         }
 
-        public static async Task SetNextValidSequenceNumberAsync(IRippleClient client, JToken tx)
+        public static async Task SetNextValidSequenceNumberAsync(IRippleClient client, Dictionary<string, dynamic> tx)
         {
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Current);
             AccountInfoRequest request = new AccountInfoRequest((string)tx["Account"]) { LedgerIndex = index };
@@ -123,7 +132,8 @@ namespace Xrpl.Sugar
 
         public static async Task<BigInteger> FetchAccountDeleteFee(IRippleClient client)
         {
-            ServerInfo data = await client.ServerInfo();
+            ServerInfoRequest request = new ServerInfoRequest();
+            ServerInfo data = await client.ServerInfo(request);
             uint? fee = data.Info.ValidatedLedger.ReserveIncXrp;
 
             if (fee == null)
@@ -135,9 +145,10 @@ namespace Xrpl.Sugar
 
         // ....
 
-        public static async Task SetLatestValidatedLedgerSequence(IRippleClient client, JToken tx)
+        public static async Task SetLatestValidatedLedgerSequence(IRippleClient client, Dictionary<string, dynamic> tx)
         {
             uint ledgerSequence = await client.GetLedgerIndex();
+            Debug.WriteLine($"LAST LEDGER: {ledgerSequence}");
             tx["LastLedgerSequence"] = ledgerSequence + LEDGER_OFFSET;
         }
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/xrp-codec.ts
 
@@ -57,6 +58,7 @@ namespace Ripple.Address.Codec
 
         public static byte[] DecodeAccountID(string accountId)
         {
+            Debug.WriteLine("FUNC: DecodeAccountID");
             return B58.Decode(accountId, AccountID);
         }
 
@@ -67,6 +69,7 @@ namespace Ripple.Address.Codec
 
         public static byte[] DecodeAddress(string address)
         {
+
             return B58.Decode(address, AccountID);
         }
 

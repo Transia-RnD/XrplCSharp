@@ -67,5 +67,8 @@ namespace Xrpl.Client.Models.Methods
 
         [JsonProperty("marker")]
         public object Marker { get; set; }
+
+        [JsonProperty("strict")]
+        public bool Strict { get; set; }
     }
 }

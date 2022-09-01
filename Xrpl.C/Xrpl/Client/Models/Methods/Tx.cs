@@ -2,12 +2,12 @@
 
 namespace Xrpl.Client.Models.Methods
 {
-    internal class TransactionRequest : RippleRequest
+    public class TxRequest : RippleRequest
     {
-        public TransactionRequest(string transaction)
+        public TxRequest(string hash)
         {
             Command = "tx";
-            Transaction = transaction;
+            Transaction = hash;
         }
 
         [JsonProperty("transaction")]
