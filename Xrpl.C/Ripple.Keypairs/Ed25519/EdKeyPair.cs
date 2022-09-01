@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography.X509Certificates;
 using Ripple.Address.Codec;
 using Sha512 = Ripple.Keypairs.Utils.Sha512;
 
@@ -6,6 +7,7 @@ namespace Ripple.Keypairs.Ed25519
 {
     public class EdKeyPair : IKeyPair
     {
+        string prefix = "ED";
         private byte[] _canonicalisedPubBytes;
         private readonly byte[] _pubBytes;
         private readonly byte[] _privBytes;
@@ -51,12 +53,12 @@ namespace Ripple.Keypairs.Ed25519
 
         public string Id()
         {
-            return Ripple.Address.Codec.Utils.FromBytesToHex(this._pubBytes);
+            return prefix + Ripple.Address.Codec.Utils.FromBytesToHex(this._pubBytes);
         }
 
         public string Pk()
         {
-            return Ripple.Address.Codec.Utils.FromBytesToHex(this._privBytes[0..32]);
+            return prefix + Ripple.Address.Codec.Utils.FromBytesToHex(this._privBytes[0..32]);
         }
     }
 }

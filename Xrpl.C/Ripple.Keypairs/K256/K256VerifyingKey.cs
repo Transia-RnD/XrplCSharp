@@ -7,6 +7,10 @@ using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.X509;
 using Org.BouncyCastle.Security;
+using Org.BouncyCastle.Asn1.Sec;
+using Org.BouncyCastle.Asn1.X9;
+using Org.BouncyCastle.Utilities.Encoders;
+using System.Diagnostics;
 
 namespace Ripple.Keypairs.K256
 {
@@ -50,9 +54,8 @@ namespace Ripple.Keypairs.K256
         public static bool Verify1(byte[] signature, byte[] message, byte[] publicKey)
         {
             ECDsaSigner verifier = new ECDsaSigner();
-            ECPublicKeyParameters parameters = new ECPublicKeyParameters(Secp256K1.BasePoint(), Secp256K1.Parameters());
-            verifier.Init(true, parameters);
-            byte[] hash = Sha512.Half(message);
+            ECPublicKeyParameters parameters = new ECPublicKeyParameters(Secp256K1.Curve().DecodePoint(publicKey), Secp256K1.Parameters());
+            verifier.Init(false, parameters);
             EcdsaSignature sig = EcdsaSignature.DecodeFromDer(signature);
             return sig != null && verifier.VerifySignature(message, sig.R, sig.S);
         }

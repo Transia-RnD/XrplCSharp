@@ -10,6 +10,7 @@ using System.Diagnostics;
 using Ripple.Keypairs.Ed25519;
 using Xrpl.Client.Extensions;
 using Org.BouncyCastle.Bcpg.Sig;
+using Ripple.Keypairs.Extensions;
 
 //Debug.WriteLine(decodedSeed.Bytes.Length);
 
@@ -112,7 +113,7 @@ namespace Ripple.Keypairs.Tests
         [TestMethod]
         public void TestVerifySECP()
         {
-            string signature = (string)apiJson["secp256k1"]["signature"];
+            string signature  =(string)apiJson["secp256k1"]["signature"];
             string publicKey = (string)apiJson["secp256k1"]["keypair"]["publicKey"];
             string message = (string)apiJson["secp256k1"]["message"];
             byte[] messageBytes = Ripple.Address.Codec.Utils.FromHexToBytes(message.ConvertStringToHex());
@@ -127,6 +128,17 @@ namespace Ripple.Keypairs.Tests
             string message = (string)apiJson["ed25519"]["message"];
             byte[] messageBytes = Ripple.Address.Codec.Utils.FromHexToBytes(message.ConvertStringToHex());
             string signature = Keypairs.Sign(messageBytes, privateKey);
+            Assert.AreEqual(signature, (string)apiJson["ed25519"]["signature"]);
+        }
+
+        [TestMethod]
+        public void TestVerifyED()
+        {
+            string signature = (string)apiJson["ed25519"]["signature"];
+            string publicKey = (string)apiJson["ed25519"]["keypair"]["publicKey"];
+            string message = (string)apiJson["ed25519"]["message"];
+            byte[] messageBytes = Ripple.Address.Codec.Utils.FromHexToBytes(message.ConvertStringToHex());
+            bool verified = Keypairs.Verify(messageBytes, signature, publicKey);
             Assert.AreEqual(signature, (string)apiJson["ed25519"]["signature"]);
         }
     }

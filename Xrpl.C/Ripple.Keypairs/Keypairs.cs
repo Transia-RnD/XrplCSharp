@@ -82,7 +82,8 @@ namespace Ripple.Keypairs
             string algorithm = GetAlgorithmFromKey(privateKey);
             if (algorithm == "ed25519")
             {
-                return Chaos.NaCl.Ed25519.Sign(message, privateKey.FromHex()).ToHex();
+                byte[] pk = Chaos.NaCl.Ed25519.ExpandedPrivateKeyFromSeed(privateKey[2..66].FromHex());
+                return Chaos.NaCl.Ed25519.Sign(message, pk).ToHex();
             }
             return K256KeyPair.Sign1(message, privateKey.FromHex()).ToHex();
         }
@@ -92,7 +93,8 @@ namespace Ripple.Keypairs
             string algorithm = GetAlgorithmFromKey(publicKey);
             if (algorithm == "ed25519")
             {
-                return Chaos.NaCl.Ed25519.Verify(signature.FromHex(), message, publicKey.FromHex());
+
+                return Chaos.NaCl.Ed25519.Verify(signature.FromHex(), message, publicKey[2..66].FromHex());
             }
             return K256VerifyingKey.Verify1(signature.FromHex(), message, publicKey.FromHex());
         }
