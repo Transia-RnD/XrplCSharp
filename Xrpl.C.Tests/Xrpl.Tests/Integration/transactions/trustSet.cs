@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,15 +10,17 @@ using Xrpl.Client.Models.Transactions;
 using Xrpl.Client.Tests;
 using Xrpl.Wallet;
 
-// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/accountSet.ts
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/trustSet.ts
 
 namespace Xrpl.Tests.Client.Tests.Integration
 {
     [TestClass]
-    public class TestAccountSet
+    public class TestTrustSet
+
     {
         // private static int Timeout = 20;
-        public TestContext TestContext { get; set; }
+        public TestContext TestContext;
+
         public static SetupIntegration runner;
 
         [ClassInitialize]
@@ -30,9 +32,16 @@ namespace Xrpl.Tests.Client.Tests.Integration
         [TestMethod]
         public async Task TestRequestMethod()
         {
-            AccountSetTransaction tx = new AccountSetTransaction
+            rWallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
+            Currency limitAmount = new Currency {
+                CurrencyCode = "USD",
+                Issuer = wallet2.ClassicAddress,
+                Value = "100.10"
+            };
+            TrustSetTransaction tx = new TrustSetTransaction
             {
                 Account = runner.wallet.ClassicAddress,
+                LimitAmount = limitAmount
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
             Debug.WriteLine(txJson);

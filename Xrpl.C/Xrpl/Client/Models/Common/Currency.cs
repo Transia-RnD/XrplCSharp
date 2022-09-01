@@ -16,14 +16,15 @@ namespace Xrpl.Client.Models.Common
 
         [JsonProperty("currency")]
         public string CurrencyCode { get; set; }
-        [JsonIgnore]
-        public string CurrencyValidName => CurrencyCode is { Length: > 0 } row ? row.Length > 3 ? row.FromHexString().Trim('\0') : row : string.Empty;
 
         [JsonProperty("value")]
         public string Value { get; set; }
 
         [JsonProperty("issuer")]
         public string Issuer { get; set; }
+
+        [JsonIgnore]
+        public string CurrencyValidName => CurrencyCode is { Length: > 0 } row ? row.Length > 3 ? row.FromHexString().Trim('\0') : row : string.Empty;
 
         [JsonIgnore]
         public decimal ValueAsNumber

@@ -40,25 +40,20 @@ namespace Xrpl.Tests.Client.Tests.Integration
 
         public static async Task FundAccount(IRippleClient client, rWallet wallet)
         {
-            Debug.WriteLine("FUNDING ACCOUNT");
             PaymentTransaction payment = new PaymentTransaction
             {
                 Account = masterAccount,
                 Destination = wallet.ClassicAddress,
                 Amount = new Xrpl.Client.Models.Common.Currency { Value = "400000000", CurrencyCode = "XRP" }
             };
-            Debug.WriteLine(payment.ToJson());
             var values = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(payment.ToJson());
-            Submit response = await client.Submit(values, rWallet.FromSeed(masterSecret, null, null));
-            Debug.WriteLine(response.EngineResult);
+            Submit response = await client.Submit(values, rWallet.FromSeed(masterSecret));
             if (response.EngineResult != "tesSUCCESS")
             {
-                Debug.WriteLine(response);
                 throw new Exception("Response not successful, ${ response.result.engine_result}");
             }
             await LedgerAccept(client);
             response.TxJson.Property("hash").Remove();
-            //Debug.WriteLine(response.TransactionJson.ToString());
             await VerifySubmittedTransaction(client, response.TxJson);
         }
 

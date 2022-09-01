@@ -79,8 +79,9 @@ namespace Xrpl.Wallet
         /// <param name="algorithm"></param>
         /// <param name="masterAddress"></param>
         /// <returns>A Wallet derived from a seed.</returns>
-        public static rWallet FromSeed(string seed, string? masterAddress, string? algorithm)
+        public static rWallet FromSeed(string seed, string? masterAddress = null, string? algorithm = null)
         {
+            Debug.WriteLine("FromSeed");
             return rWallet.DeriveWallet(seed, masterAddress, algorithm);
         }
         /// <summary>
@@ -102,7 +103,7 @@ namespace Xrpl.Wallet
         /// <param name="algorithm"></param>
         /// <param name="masterAddress"></param>
         /// <returns>A Wallet derived from the seed.</returns>
-        private static rWallet DeriveWallet(string seed, string? masterAddress, string? algorithm)
+        private static rWallet DeriveWallet(string seed, string? masterAddress = null, string? algorithm = null)
         {
             IKeyPair keypair = Keypairs.DeriveKeypair(seed, algorithm);
             return new rWallet(keypair.Id(), keypair.Pk(), masterAddress, seed);

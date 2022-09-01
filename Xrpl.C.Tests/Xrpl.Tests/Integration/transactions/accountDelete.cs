@@ -1,8 +1,3 @@
-
-
-// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/accountDelete.ts
-
-
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,6 +8,8 @@ using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Transactions;
 using Xrpl.Client.Tests;
 using Xrpl.Wallet;
+
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/accountDelete.ts
 
 namespace Xrpl.Tests.Client.Tests.Integration
 {

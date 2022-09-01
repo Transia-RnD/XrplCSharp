@@ -47,7 +47,7 @@ namespace Ripple.Keypairs
             return XrplCodec.EncodeSeed(fentropy, algorithm);
         }
 
-        public static IKeyPair DeriveKeypair(string seed, string? algorithm = null, bool validator = false, int? index = null)
+        public static IKeyPair DeriveKeypair(string seed, string? algorithm = null, bool validator = false, int index = 0)
         {
             DecodedSeed decoded = XrplCodec.DecodeSeed(seed);
             if (decoded.Type == "ed25519")
@@ -103,10 +103,7 @@ namespace Ripple.Keypairs
         {
             return XrplCodec.EncodeAccountID(Ripple.Keypairs.Utils.HashUtils.PublicKeyHash(publicKeyBytes));
         }
-        //public static string DeriveAddress(IKeyPair keypair)
-        //{
-        //    return Keypairs.DeriveAddressFromBytes(keypair.CanonicalPubBytes());
-        //}
+
         public static string DeriveAddress(string publicKey)
         {
             return Keypairs.DeriveAddressFromBytes(Ripple.Address.Codec.Utils.FromHexToBytes(publicKey));
