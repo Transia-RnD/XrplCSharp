@@ -6,7 +6,7 @@ namespace Ripple.Address.Codec.Tests
 {
     public class TestUXrplCodec
     {
-        public EmptyClass()
+        public TestUXrplCodec()
         {
         }
     }

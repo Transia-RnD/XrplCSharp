@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Xrpl.Client.Models.Methods
 {
-    public class UnsubscribeRequest : RippleRequest
+    public class PingRequest : RippleRequest
     {
-        public UnsubscribeRequest()
+        public PingRequest()
         {
-            Command = "unsubscribe";
+            Command = "ping";
         }
     }
 }
