@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -33,10 +35,11 @@ namespace Xrpl.Tests.Client.Tests.Integration
         public async Task TestRequestMethod()
         {
             rWallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
-            Currency limitAmount = new Currency {
+            Currency limitAmount = new Currency
+            {
                 CurrencyCode = "USD",
                 Issuer = wallet2.ClassicAddress,
-                Value = "100.10"
+                Value = "100"
             };
             TrustSetTransaction tx = new TrustSetTransaction
             {
