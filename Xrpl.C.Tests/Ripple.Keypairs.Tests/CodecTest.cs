@@ -9,7 +9,7 @@ using Ripple.Keypairs.Extensions;
 namespace Ripple.Keypairs.Tests
 {
     [TestClass]
-    public class CodecTest
+    public class TestUCodec
     {
 
         [TestMethod]

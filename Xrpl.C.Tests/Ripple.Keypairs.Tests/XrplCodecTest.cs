@@ -9,7 +9,7 @@ using static Ripple.Address.Codec.XrplCodec;
 namespace Ripple.Keypairs.Tests
 {
     [TestClass]
-    public class EncodeSeedTests
+    public class TestUEncodeSeed
     {
         [TestMethod]
         public void EncodeSECPSeed()
@@ -55,7 +55,7 @@ namespace Ripple.Keypairs.Tests
     }
 
     [TestClass]
-    public class DecodeSeedTests
+    public class TestUDecodeSeed
     {
         [TestMethod]
         public void DecodeEDSeed()
@@ -75,7 +75,7 @@ namespace Ripple.Keypairs.Tests
     }
 
     [TestClass]
-    public class EncodeAccountIDTests
+    public class TestUEncodeAccountID
     {
         [TestMethod]
         public void EncodeAccountID()
@@ -86,7 +86,7 @@ namespace Ripple.Keypairs.Tests
     }
 
     [TestClass]
-    public class DecodeNodePublicTests
+    public class TestUDecodeNodePublic
     {
         [TestMethod]
         public void DecodeNodePublic()

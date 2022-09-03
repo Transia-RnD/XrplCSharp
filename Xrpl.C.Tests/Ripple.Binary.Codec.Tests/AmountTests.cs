@@ -19,7 +19,7 @@ using System.Collections.Generic;
 namespace Ripple.Binary.Codec.Tests
 {
     [TestClass]
-    public class AmountTests
+    public class TestUAmount
     {
         private static void AssertAmountEqual(JToken expected, JToken actual)
         {

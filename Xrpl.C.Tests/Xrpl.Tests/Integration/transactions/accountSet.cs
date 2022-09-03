@@ -15,7 +15,7 @@ using Xrpl.XrplWallet;
 namespace Xrpl.Tests.Client.Tests.Integration
 {
     [TestClass]
-    public class TestAccountSet
+    public class TestIAccountSet
     {
         // private static int Timeout = 20;
         public TestContext TestContext { get; set; }

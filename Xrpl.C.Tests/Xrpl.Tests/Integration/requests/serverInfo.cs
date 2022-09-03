@@ -13,7 +13,7 @@ using Xrpl.Client.Tests;
 namespace Xrpl.Tests.Client.Tests.Integration
 {
     [TestClass]
-    public class TestServerInfo
+    public class TestIServerInfo
     {
         // private static int Timeout = 20;
         public TestContext TestContext { get; set; }

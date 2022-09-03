@@ -15,7 +15,7 @@ using Xrpl.Client.Tests;
 namespace Xrpl.Tests.Client.Tests.Integration
 {
     [TestClass]
-    public class AccountCurrenciesRequests
+    public class AccountICurrenciesRequests
     {
         // private static int Timeout = 20;
         public TestContext TestContext { get; set; }

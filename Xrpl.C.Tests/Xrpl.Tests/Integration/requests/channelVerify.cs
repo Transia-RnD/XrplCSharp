@@ -14,7 +14,7 @@ using Xrpl.Client.Tests;
 namespace Xrpl.Tests.Client.Tests.Integration
 {
     [TestClass]
-    public class TestChannelVerify
+    public class TestIChannelVerify
     {
         // private static int Timeout = 20;
         public TestContext TestContext { get; set; }

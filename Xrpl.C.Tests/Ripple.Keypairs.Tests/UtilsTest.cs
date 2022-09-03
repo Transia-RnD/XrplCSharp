@@ -7,7 +7,7 @@ using Ripple.Keypairs.Extensions;
 namespace Ripple.Keypairs.Tests
 {
     [TestClass]
-    public class UtilsTest
+    public class TestUUtils
     {
         public bool Equality(byte[] a1, byte[] b1)
         {

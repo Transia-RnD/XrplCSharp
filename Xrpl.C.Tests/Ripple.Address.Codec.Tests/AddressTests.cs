@@ -12,7 +12,7 @@ namespace Ripple.Address.Codec.Tests
     using static AddressCodec;
 
     [TestClass]
-    public class AddressCodecTests
+    public class TestUAddressCodec
     {
 
         private static uint MAX_32_BIT_UNSIGNED_INT = 4294967295;

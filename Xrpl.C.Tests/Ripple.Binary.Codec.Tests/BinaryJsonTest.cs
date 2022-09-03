@@ -24,7 +24,7 @@ namespace Ripple.Binary.Codec.Tests
     //using static BinaryCodec;
 
     [TestClass]
-    public class BinaryJsonTests
+    public class TestUBinaryJson
     {
 
         private static JObject GetTestsJson()

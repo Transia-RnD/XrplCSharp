@@ -19,7 +19,7 @@ using Xrpl.Utils.Hashes;
 namespace Xrpl.Tests.Client.Tests.Integration
 {
     [TestClass]
-    public class TestTx
+    public class TestITx
     {
         //// private static int Timeout = 20;
         public TestContext TestContext { get; set; }

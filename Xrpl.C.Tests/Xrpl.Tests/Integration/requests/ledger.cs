@@ -15,7 +15,7 @@ using Xrpl.Client.Tests;
 namespace Xrpl.Tests.Client.Tests.Integration
 {
     [TestClass]
-    public class TestLedger
+    public class TestILedger
     {
         // private static int Timeout = 20;
         public TestContext TestContext { get; set; }
