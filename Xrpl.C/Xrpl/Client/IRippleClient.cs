@@ -37,15 +37,20 @@ namespace Xrpl.Client
         Task<uint> GetLedgerIndex();
 
         void Connect();
-
+        /// <summary> Disconnect from server </summary>
         void Disconnect();
 
         Task<object> AnyRequest(RippleRequest request);
 
         Task<object> Subscribe();
-
+        /// <summary> The subscribe method requests periodic notifications from the server when certain events happen. </summary>
+        /// <param name="request">An <see cref="Xrpl.Client.Models.Methods.SubscribeRequest"/> request.</param>
+        /// <returns></returns>
         Task<object> Subscribe(SubscribeRequest request);
 
+        /// <summary> The ping command returns an acknowledgement,
+        /// so that clients can test the connection status and latency </summary>
+        /// <returns></returns>
         Task Ping();
 
         Task<AccountCurrencies> AccountCurrencies(string account);
@@ -58,46 +63,75 @@ namespace Xrpl.Client
 
         Task<AccountInfo> AccountInfo(string account);
 
+        /// <summary> The account_info command retrieves information about an account, its activity, and its XRP balance. </summary>
+        /// <param name="request">An <see cref="Xrpl.Client.Models.Methods.AccountInfoRequest"/> request.</param>
+        /// <returns>An <see cref="Xrpl.Client.Models.Methods.AccountInfo"/> response.</returns>
         Task<AccountInfo> AccountInfo(AccountInfoRequest request);
+
+
+
+        #endregion
+
+        #region Offers
+
+        /// <summary> The account_offers method retrieves a list of offers made by a given account that are outstanding as of a particular ledger version </summary>
+        /// <param name="account">The unique identifier of an account, typically the account's Address.</param>
+        /// <returns>An <see cref="Xrpl.Client.Models.Methods.AccountOffers"/> response.</returns>
+        Task<AccountOffers> AccountOffers(string account);
+
+        /// <summary> The account_offers method retrieves a list of offers made by a given account that are outstanding as of a particular ledger version </summary>
+        /// <param name="request">An <see cref="Xrpl.Client.Models.Methods.AccountOffersRequest"/> request.</param>
+        /// <returns>An <see cref="Xrpl.Client.Models.Methods.AccountOffers"/> response.</returns>
+        Task<AccountOffers> AccountOffers(AccountOffersRequest request);
+
+        #endregion
+
+        #region Currencies
+
+        /// <summary> The account_currencies command retrieves a list of currencies that an account can send or receive, based on its trust lines. </summary>
+        /// <param name="account">The unique identifier of an account, typically the account's Address.</param>
+        /// <returns>An <see cref="Xrpl.Client.Models.Methods.AccountCurrencies"/> response.</returns>
+        Task<AccountCurrencies> AccountCurrencies(string account);
+
+        /// <summary> The account_currencies command retrieves a list of currencies that an account can send or receive, based on its trust lines. </summary>
+        /// <param name="request">An <see cref="Xrpl.Client.Models.Methods.AccountCurrenciesRequest"/> request.</param>
+        /// <returns>An <see cref="Xrpl.Client.Models.Methods.AccountCurrencies"/> response.</returns>
+        Task<AccountCurrencies> AccountCurrencies(AccountCurrenciesRequest request);
+
+        #endregion
+
+        #region Trustlines
 
         /// <summary>
         /// The account_lines method returns information about an account's trust lines, including balances in all non-XRP currencies and assets.
         /// </summary>
         /// <param name="account">The account number to query.</param>
-        /// <returns>An <see cref="Model.Account.AccountLines"/> response.</returns>
+        /// <returns>An <see cref="Xrpl.Client.Models.Methods.AccountLines"/> response.</returns>
         Task<AccountLines> AccountLines(string account);
 
         /// <summary>
         /// The account_lines method returns information about an account's trust lines, including balances in all non-XRP currencies and assets.
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns>An <see cref="Model.Account.AccountLines"/> response.</returns>
+        /// <param name="request">An <see cref="Xrpl.Client.Models.Methods.AccountLinesRequest"/> request.</param>
+        /// <returns>An <see cref="Xrpl.Client.Models.Methods.AccountLines"/> response.</returns>
         Task<AccountLines> AccountLines(AccountLinesRequest request);
 
-        Task<AccountOffers> AccountOffers(string account);
+        #endregion
 
-        Task<AccountOffers> AccountOffers(AccountOffersRequest request);
-
-        Task<NFTBuyOffers> NFTBuyOffers(string nft_id);
-
-        Task<NFTBuyOffers> NFTBuyOffers(NFTBuyOffersRequest request);
-
-        Task<NFTSellOffers> NFTSellOffers(string nft_id);
-
-        Task<NFTSellOffers> NFTSellOffers(NFTSellOffersRequest request);
+        #region Objects
 
         /// <summary>
         /// The AccountObjects command returns the raw ledger format for all objects owned by an account. For a higher-level view of an account's trust lines and balances, see <see cref="Model.Account.AccountLines"/> instead.
         /// </summary>
         /// <param name="account"></param>
-        /// <returns>An <see cref="Model.Account.AccountObjects"/> response.</returns>
+        /// <returns>An <see cref="Xrpl.Client.Models.Methods.AccountObjects"/> response.</returns>
         Task<AccountObjects> AccountObjects(string account);
 
         /// <summary>
         /// The AccountObjects command returns the raw ledger format for all objects owned by an account. For a higher-level view of an account's trust lines and balances, see <see cref="Model.Account.AccountLines"/> instead.
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns>An <see cref="Model.Account.AccountObjects"/> response.</returns>
+        /// <param name="request">An <see cref="Xrpl.Client.Models.Methods.AccountObjectsRequest"/> request.</param>
+        /// <returns>An <see cref="Xrpl.Client.Models.Methods.AccountObjects"/> response.</returns>
         Task<AccountObjects> AccountObjects(AccountObjectsRequest request);
 
         Task<AccountNFTs> AccountNFTs(string account);
@@ -110,10 +144,29 @@ namespace Xrpl.Client
 
         Task<NoRippleCheck> NoRippleCheck(string account);
 
+        /// <summary>
+        /// The noripple_check command provides a quick way to check the status of the Default Ripple field
+        /// for an account and the No Ripple flag of its trust lines, compared with the recommended settings
+        /// </summary>
+        /// <returns>An <see cref="Xrpl.Client.Models.Methods.NoRippleCheckRequest"/> response.</returns>
+        /// <returns>An <see cref="Xrpl.Client.Models.Methods.NoRippleCheck"/> response.</returns>
         Task<NoRippleCheck> NoRippleCheck(NoRippleCheckRequest request);
 
+
+        #endregion
+
+        #region Balance
+
+        /// <summary> The gateway_balances command calculates the total balances issued by a given account,
+        /// optionally excluding amounts held by operational addresses. </summary>
+        /// <param name="account">The unique identifier of an account, typically the account's Address.</param>
+        /// <returns>An <see cref="Xrpl.Client.Models.Methods.GatewayBalances"/> response.</returns>
         Task<GatewayBalances> GatewayBalances(string account);
 
+        /// <summary> The gateway_balances command calculates the total balances issued by a given account,
+        /// optionally excluding amounts held by operational addresses. </summary>
+        /// <param name="request">An <see cref="Xrpl.Client.Models.Methods.GatewayBalancesRequest"/> request.</param>
+        /// <returns>An <see cref="Xrpl.Client.Models.Methods.GatewayBalances"/> response.</returns>
         Task<GatewayBalances> GatewayBalances(GatewayBalancesRequest request);
 
         Task<TransactionResponseCommon> Tx(TxRequest transaction);
@@ -124,16 +177,24 @@ namespace Xrpl.Client
 
         Task<ChannelAuthorize> ChannelAuthorize(ChannelAuthorizeRequest request);
 
+        /// <summary>The channel_verify method checks the validity of a signature that can be used to redeem a specific amount of XRP from a payment channel</summary>
+        /// <param name="request">An <see cref="Xrpl.Client.Models.Methods.ChannelVerifyRequest"/> request.</param>
+        /// <returns>An <see cref="Xrpl.Client.Models.Transactions.ChannelAuthorize"/> response.</returns>
         Task<ChannelVerify> ChannelVerify(ChannelVerifyRequest request);
 
-        Task<Submit> SubmitTransactionBlob(SubmitBlobRequest request);
+        #endregion
 
-        Task<Submit> SubmitTransaction(SubmitRequest request);
+        #region Ledger
 
         Task<Submit> SubmitTransaction(SubmitRequest request, Wallet wallet);
 
-        Task<BookOffers> BookOffers(BookOffersRequest request);
-
+        /// <summary>
+        /// The ledger_request command tells server to fetch a specific ledger version from its connected peers.
+        /// This only works if one of the server's immediately-connected peers has that ledger.
+        /// You may need to run the command several times to completely fetch a ledger
+        /// </summary>
+        /// <param name="request">An <see cref="Xrpl.Client.Models.Methods.LedgerRequest"/> request.</param>
+        /// <returns>An <see cref="Xrpl.Client.Models.Ledger.LOLedger"/> response.</returns>
         Task<LOLedger> Ledger(LedgerRequest request);
 
         Task<LOBaseLedger> LedgerClosed(LedgerClosedRequest request);
@@ -186,7 +247,7 @@ namespace Xrpl.Client
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             } while (client.State != WebSocketState.Open);
         }
-
+        /// <inheritdoc />
         public void Disconnect()
         {
             client.Disconnect();
@@ -214,7 +275,7 @@ namespace Xrpl.Client
             SubscribeRequest request = new SubscribeRequest();
             return Subscribe(request);
         }
-
+        /// <inheritdoc />
         public Task<object> Subscribe(SubscribeRequest request)
         {
 
@@ -232,7 +293,7 @@ namespace Xrpl.Client
             client.SendMessage(command);
             return task.Task;
         }
-
+        /// <inheritdoc />
         public Task Ping()
         {
             RippleRequest request = new RippleRequest();
@@ -258,15 +319,13 @@ namespace Xrpl.Client
             return AccountChannels(request);
         }
 
-        public Task<AccountChannels> AccountChannels(AccountChannelsRequest request)
-        {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<AccountChannels> task = new TaskCompletionSource<AccountChannels>();
+            TaskCompletionSource<ServerInfo> task = new TaskCompletionSource<ServerInfo>();
 
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(AccountChannels);
+            taskInfo.Type = typeof(ServerInfo);
 
             tasks.TryAdd(request.Id, taskInfo);
 
@@ -284,12 +343,12 @@ namespace Xrpl.Client
         public Task<AccountCurrencies> AccountCurrencies(AccountCurrenciesRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<AccountCurrencies> task = new TaskCompletionSource<AccountCurrencies>();
+            TaskCompletionSource<Fee> task = new TaskCompletionSource<Fee>();
 
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(AccountCurrencies);
+            taskInfo.Type = typeof(Fee);
 
             tasks.TryAdd(request.Id, taskInfo);
 
@@ -297,12 +356,20 @@ namespace Xrpl.Client
             return task.Task;
         }
 
+
+        #endregion
+
+        #region Account
+
+        #region Info
+
+        /// <inheritdoc />
         public Task<AccountInfo> AccountInfo(string account)
         {
             AccountInfoRequest request = new AccountInfoRequest(account);
             return AccountInfo(request);
         }
-
+        /// <inheritdoc />
         public Task<AccountInfo> AccountInfo(AccountInfoRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
@@ -319,34 +386,17 @@ namespace Xrpl.Client
             return task.Task;
         }
 
-        public Task<AccountLines> AccountLines(string account)
-        {
-            AccountLinesRequest request = new AccountLinesRequest(account);
-            return AccountLines(request);
-        }
+        #endregion
 
-        public Task<AccountLines> AccountLines(AccountLinesRequest request)
-        {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<AccountLines> task = new TaskCompletionSource<AccountLines>();
+        #region Offers
 
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(AccountLines);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
-        }
-
+        /// <inheritdoc />
         public Task<AccountOffers> AccountOffers(string account)
         {
             AccountOffersRequest request = new AccountOffersRequest(account);
             return AccountOffers(request);
         }
-
+        /// <inheritdoc />
         public Task<AccountOffers> AccountOffers(AccountOffersRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
@@ -363,21 +413,26 @@ namespace Xrpl.Client
             return task.Task;
         }
 
-        public Task<NFTBuyOffers> NFTBuyOffers(string nft_id)
-        {
-            NFTBuyOffersRequest request = new NFTBuyOffersRequest(nft_id);
-            return NFTBuyOffers(request);
-        }
+        #endregion
 
-        public Task<NFTBuyOffers> NFTBuyOffers(NFTBuyOffersRequest request)
+        #region Currencies
+
+        /// <inheritdoc />
+        public Task<AccountCurrencies> AccountCurrencies(string account)
+        {
+            AccountCurrenciesRequest request = new AccountCurrenciesRequest(account);
+            return AccountCurrencies(request);
+        }
+        /// <inheritdoc />
+        public Task<AccountCurrencies> AccountCurrencies(AccountCurrenciesRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<NFTBuyOffers> task = new TaskCompletionSource<NFTBuyOffers>();
+            TaskCompletionSource<AccountCurrencies> task = new TaskCompletionSource<AccountCurrencies>();
 
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(NFTBuyOffers);
+            taskInfo.Type = typeof(AccountCurrencies);
 
             tasks.TryAdd(request.Id, taskInfo);
 
@@ -385,21 +440,26 @@ namespace Xrpl.Client
             return task.Task;
         }
 
-        public Task<NFTSellOffers> NFTSellOffers(string nft_id)
-        {
-            NFTSellOffersRequest request = new NFTSellOffersRequest(nft_id);
-            return NFTSellOffers(request);
-        }
+        #endregion
 
-        public Task<NFTSellOffers> NFTSellOffers(NFTSellOffersRequest request)
+        #region Trustlines
+
+        /// <inheritdoc />
+        public Task<AccountLines> AccountLines(string account)
+        {
+            AccountLinesRequest request = new AccountLinesRequest(account);
+            return AccountLines(request);
+        }
+        /// <inheritdoc />
+        public Task<AccountLines> AccountLines(AccountLinesRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<NFTSellOffers> task = new TaskCompletionSource<NFTSellOffers>();
+            TaskCompletionSource<AccountLines> task = new TaskCompletionSource<AccountLines>();
 
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(NFTSellOffers);
+            taskInfo.Type = typeof(AccountLines);
 
             tasks.TryAdd(request.Id, taskInfo);
 
@@ -407,12 +467,17 @@ namespace Xrpl.Client
             return task.Task;
         }
 
+        #endregion
+
+        #region Objects
+
+        /// <inheritdoc />
         public Task<AccountObjects> AccountObjects(string account)
         {
             AccountObjectsRequest request = new AccountObjectsRequest(account);
             return AccountObjects(request);
         }
-
+        /// <inheritdoc />
         public Task<AccountObjects> AccountObjects(AccountObjectsRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
@@ -429,56 +494,17 @@ namespace Xrpl.Client
             return task.Task;
         }
 
-        public Task<AccountNFTs> AccountNFTs(string account)
-        {
-            AccountNFTsRequest request = new AccountNFTsRequest(account);
-            return AccountNFTs(request);
-        }
+        #endregion
 
-        public Task<AccountNFTs> AccountNFTs(AccountNFTsRequest request)
-        {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<AccountNFTs> task = new TaskCompletionSource<AccountNFTs>();
+        #region NoRipple
 
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(AccountNFTs);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
-        }
-
-        public Task<AccountTransactions> AccountTransactions(string account)
-        {
-            AccountTransactionsRequest request = new AccountTransactionsRequest(account);
-            return AccountTransactions(request);
-        }
-
-        public Task<AccountTransactions> AccountTransactions(AccountTransactionsRequest request)
-        {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<AccountTransactions> task = new TaskCompletionSource<AccountTransactions>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(AccountTransactions);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
-        }
-
+        /// <inheritdoc />
         public Task<NoRippleCheck> NoRippleCheck(string account)
         {
             NoRippleCheckRequest request = new NoRippleCheckRequest(account);
             return NoRippleCheck(request);
         }
-
+        /// <inheritdoc />
         public Task<NoRippleCheck> NoRippleCheck(NoRippleCheckRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
@@ -495,12 +521,17 @@ namespace Xrpl.Client
             return task.Task;
         }
 
+        #endregion
+
+        #region Balance
+
+        /// <inheritdoc />
         public Task<GatewayBalances> GatewayBalances(string account)
         {
             GatewayBalancesRequest request = new GatewayBalancesRequest(account);
             return GatewayBalances(request);
         }
-
+        /// <inheritdoc />
         public Task<GatewayBalances> GatewayBalances(GatewayBalancesRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
@@ -517,15 +548,50 @@ namespace Xrpl.Client
             return task.Task;
         }
 
-        public Task<TransactionResponseCommon> Tx(TxRequest request)
+        #endregion
+
+        #endregion
+
+        #region NFT
+
+        /// <inheritdoc />
+        public Task<NFTBuyOffers> NFTBuyOffers(string nft_id)
+        {
+            NFTBuyOffersRequest request = new NFTBuyOffersRequest(nft_id);
+            return NFTBuyOffers(request);
+        }
+
+        public Task<NoRippleCheck> NoRippleCheck(NoRippleCheckRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<TransactionResponseCommon> task = new TaskCompletionSource<TransactionResponseCommon>();
+            TaskCompletionSource<NFTSellOffers> task = new TaskCompletionSource<NFTSellOffers>();
 
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(TransactionResponseCommon);
+            taskInfo.Type = typeof(NFTSellOffers);
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+        /// <inheritdoc />
+        public Task<AccountNFTs> AccountNFTs(string account)
+        {
+            AccountNFTsRequest request = new AccountNFTsRequest(account);
+            return AccountNFTs(request);
+        }
+        /// <inheritdoc />
+        public Task<AccountNFTs> AccountNFTs(AccountNFTsRequest request)
+        {
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<AccountNFTs> task = new TaskCompletionSource<AccountNFTs>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(AccountNFTs);
 
             tasks.TryAdd(request.Id, taskInfo);
 
@@ -533,9 +599,25 @@ namespace Xrpl.Client
             return task.Task;
         }
 
+        public Task<TransactionResponseCommon> Tx(TxRequest request)
+        {
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<AccountTransactions> task = new TaskCompletionSource<AccountTransactions>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(AccountTransactions);
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+        /// <inheritdoc />
         public Task<ServerInfo> ServerInfo(ServerInfoRequest request)
         {
-
+        /// <inheritdoc />
             var command = JsonConvert.SerializeObject(request, serializerSettings);
             TaskCompletionSource<ServerInfo> task = new TaskCompletionSource<ServerInfo>();
 
@@ -592,10 +674,13 @@ namespace Xrpl.Client
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(ChannelVerify);
 
-            tasks.TryAdd(request.Id, taskInfo);
+        #region Channels
 
-            client.SendMessage(command);
-            return task.Task;
+        /// <inheritdoc />
+        public Task<AccountChannels> AccountChannels(string account)
+        {
+            AccountChannelsRequest request = new AccountChannelsRequest(account);
+            return AccountChannels(request);
         }
 
         public Task<Submit> SubmitTransactionBlob(SubmitBlobRequest request)
@@ -617,28 +702,28 @@ namespace Xrpl.Client
         public Task<Submit> SubmitTransaction(SubmitRequest request, Wallet wallet)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<Submit> task = new TaskCompletionSource<Submit>();
+            TaskCompletionSource<ChannelAuthorize> task = new TaskCompletionSource<ChannelAuthorize>();
 
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(Submit);
+            taskInfo.Type = typeof(ChannelAuthorize);
 
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
             return task.Task;
         }
-
-        public Task<Submit> SubmitTransaction(SubmitRequest request)
+        /// <inheritdoc />
+        public Task<ChannelVerify> ChannelVerify(ChannelVerifyRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<Submit> task = new TaskCompletionSource<Submit>();
+            TaskCompletionSource<ChannelVerify> task = new TaskCompletionSource<ChannelVerify>();
 
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(Submit);
+            taskInfo.Type = typeof(ChannelVerify);
 
             tasks.TryAdd(request.Id, taskInfo);
 
@@ -646,22 +731,11 @@ namespace Xrpl.Client
             return task.Task;
         }
 
-        public Task<BookOffers> BookOffers(BookOffersRequest request)
-        {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<BookOffers> task = new TaskCompletionSource<BookOffers>();
+        #endregion
 
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(BookOffers);
+        #region Ledger
 
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
-        }
-
+        /// <inheritdoc />
         public Task<LOLedger> Ledger(LedgerRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
@@ -711,7 +785,7 @@ namespace Xrpl.Client
             client.SendMessage(command);
             return task.Task;
         }
-
+        /// <inheritdoc />
         public Task<LOLedgerData> LedgerData(LedgerDataRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
