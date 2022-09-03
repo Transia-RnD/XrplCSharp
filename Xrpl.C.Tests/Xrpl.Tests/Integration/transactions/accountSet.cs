@@ -8,7 +8,7 @@ using Xrpl.Client.Models.Ledger;
 using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Transactions;
 using Xrpl.Client.Tests;
-using Xrpl.Wallet;
+using Xrpl.XrplWallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/accountSet.ts
 

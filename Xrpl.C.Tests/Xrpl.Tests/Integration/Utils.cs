@@ -9,7 +9,7 @@ using Xrpl.Client.Models.Common;
 using Xrpl.Client.Models.Ledger;
 using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Transactions;
-using Xrpl.Wallet;
+using Xrpl.XrplWallet;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
@@ -38,7 +38,7 @@ namespace Xrpl.Tests.Client.Tests.Integration
             await client.AnyRequest(request);
         }
 
-        public static async Task FundAccount(IRippleClient client, rWallet wallet)
+        public static async Task FundAccount(IRippleClient client, Wallet wallet)
         {
             PaymentTransaction payment = new PaymentTransaction
             {
@@ -47,7 +47,7 @@ namespace Xrpl.Tests.Client.Tests.Integration
                 Amount = new Xrpl.Client.Models.Common.Currency { Value = "400000000", CurrencyCode = "XRP" }
             };
             var values = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(payment.ToJson());
-            Submit response = await client.Submit(values, rWallet.FromSeed(masterSecret));
+            Submit response = await client.Submit(values, Wallet.FromSeed(masterSecret));
             if (response.EngineResult != "tesSUCCESS")
             {
                 throw new Exception("Response not successful, ${ response.result.engine_result}");
@@ -57,9 +57,9 @@ namespace Xrpl.Tests.Client.Tests.Integration
             await VerifySubmittedTransaction(client, response.TxJson);
         }
 
-        public static async Task<rWallet> GenerateFundedWallet(IRippleClient client)
+        public static async Task<Wallet> GenerateFundedWallet(IRippleClient client)
         {
-            rWallet wallet = rWallet.Generate();
+            Wallet wallet = Wallet.Generate();
             await FundAccount(client, wallet);
             return wallet;
         }
@@ -91,7 +91,7 @@ namespace Xrpl.Tests.Client.Tests.Integration
               //}
         }
 
-        public static async Task TestTransaction(IRippleClient client, Dictionary<string, dynamic> transaction, rWallet wallet)
+        public static async Task TestTransaction(IRippleClient client, Dictionary<string, dynamic> transaction, Wallet wallet)
         {
             await LedgerAccept(client);
             Submit response = await client.Submit(transaction, wallet);

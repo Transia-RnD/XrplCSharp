@@ -27,6 +27,7 @@ namespace Ripple.Binary.Codec.Types
 
         public AccountId(string v) :
             this(XrplCodec.DecodeAddress(v), v) {}
+
         public AccountId(byte[] hash) :
             this(hash, XrplCodec.EncodeAddress(hash)) {}
 

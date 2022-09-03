@@ -11,6 +11,11 @@ using System.Collections.Generic;
 using Ripple.Binary.Codec.Hashing;
 using System.Collections;
 using System.Reflection.Emit;
+using Ripple.Keypairs.Extensions;
+using Ripple.Binary.Codec.Util;
+using Org.BouncyCastle.Asn1.Ocsp;
+using Ripple.Binary.Codec.Enums;
+using System.Data.Common;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/index.ts
@@ -63,6 +68,37 @@ namespace Ripple.Binary.Codec
         {
             JToken token = JToken.FromObject(json);
             return SerializeJson(token, HashPrefix.TxSign.Bytes(), null, true);
+        }
+
+        /// <summary>
+        /// Encode a `payment channel <https://xrpl.org/payment-channels.html>`_ Claim to be signed.
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns>string</returns> The binary-encoded claim, ready to be signed.
+        public static string EncodeForSigningClaim(Dictionary<string, dynamic> json)
+        {
+            byte[] prefix = HashPrefix.TxSign.Bytes();
+            byte[] channel = Hash256.FromHex((string)json["channel"]).Buffer;
+            byte[] amount = Uint64.FromValue((string)json["amount"]).ToBytes();
+
+            byte[] rv = new byte[prefix.Length + channel.Length + amount.Length];
+            System.Buffer.BlockCopy(prefix, 0, rv, 0, prefix.Length);
+            System.Buffer.BlockCopy(channel, 0, rv, prefix.Length, channel.Length);
+            System.Buffer.BlockCopy(amount, 0, rv, prefix.Length + channel.Length, amount.Length);
+            return rv.ToHex();
+        }
+
+        /// <summary>
+        /// Encode a transaction into binary format in preparation for providing one signature towards a multi-signed transaction. (Only encodes fields that are intended to be signed.)
+        /// </summary>
+        /// <param name="json"></param>
+        /// <param name="signingAccount"></param>
+        /// <returns>string</returns>
+        public static string EncodeForMulitSigning(Dictionary<string, dynamic> json, string signingAccount)
+        {
+            string accountID = new AccountId(signingAccount).ToHex();
+            JToken token = JToken.FromObject(json);
+            return SerializeJson(token, HashPrefix.TxSign.Bytes(), accountID.FromHex(), true);
         }
 
         /// <summary>

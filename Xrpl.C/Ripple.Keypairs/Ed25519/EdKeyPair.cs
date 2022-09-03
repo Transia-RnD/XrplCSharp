@@ -1,6 +1,7 @@
 using System;
 using System.Security.Cryptography.X509Certificates;
 using Ripple.Address.Codec;
+using Ripple.Keypairs.Extensions;
 using Sha512 = Ripple.Keypairs.Utils.Sha512;
 
 namespace Ripple.Keypairs.Ed25519
@@ -32,16 +33,6 @@ namespace Ripple.Keypairs.Ed25519
                        1, _pubBytes.Length);
         }
 
-        public byte[] Sign(byte[] message)
-        {
-            return Chaos.NaCl.Ed25519.Sign(message, _privBytes);
-        }
-
-        public bool Verify(byte[] message, byte[] signature)
-        {
-            return Chaos.NaCl.Ed25519.Verify(signature, message, _pubBytes);
-        }
-
         internal static IKeyPair From128Seed(byte[] seed)
         {
             var edSecret = Sha512.Half(seed);
@@ -59,6 +50,16 @@ namespace Ripple.Keypairs.Ed25519
         public string Pk()
         {
             return prefix + Ripple.Address.Codec.Utils.FromBytesToHex(this._privBytes[0..32]);
+        }
+
+        static public byte[] Sign(byte[] message, byte[] privateKey)
+        {
+            return Chaos.NaCl.Ed25519.Sign(message, privateKey);
+        }
+
+        static public bool Verify(byte[] signature, byte[] message, byte[] publicKey)
+        {
+            return Chaos.NaCl.Ed25519.Verify(signature, message, publicKey);
         }
     }
 }

@@ -26,6 +26,7 @@
     <None Remove="Ripple.Binary.Codec.Tests\Fixtures\" />
     <None Remove="Xrpl.Tests\Integration\" />
     <None Remove="Ripple.Keypairs.Tests\Fixtures\" />
+    <None Remove="Xrpl.Tests\Wallet.Tests\RequestFixtures\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Ripple.Address.Codec.Tests\" />
@@ -40,6 +41,7 @@
     <Folder Include="Ripple.Binary.Codec.Tests\Fixtures\" />
     <Folder Include="Xrpl.Tests\Integration\" />
     <Folder Include="Ripple.Keypairs.Tests\Fixtures\" />
+    <Folder Include="Xrpl.Tests\Wallet.Tests\RequestFixtures\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
@@ -81,5 +83,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Ripple.Keypairs.Tests\Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@ using Xrpl.Client.Models.Ledger;
 using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Transactions;
 using Xrpl.Client.Tests;
-using Xrpl.Wallet;
+using Xrpl.XrplWallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/trustSet.ts
 
@@ -34,7 +34,7 @@ namespace Xrpl.Tests.Client.Tests.Integration
         [TestMethod]
         public async Task TestRequestMethod()
         {
-            rWallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
+            Wallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
             Currency limitAmount = new Currency
             {
                 CurrencyCode = "USD",

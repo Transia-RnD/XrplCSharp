@@ -14,7 +14,7 @@ using Xrpl.Client.Models.Ledger;
 using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Transactions;
 using Xrpl.Sugar;
-using Xrpl.Wallet;
+using Xrpl.XrplWallet;
 
 using BookOffers = Xrpl.Client.Models.Transactions.BookOffers;
 using ChannelAuthorize = Xrpl.Client.Models.Transactions.ChannelAuthorize;
@@ -32,7 +32,7 @@ namespace Xrpl.Client
 
         Task<Dictionary<string, dynamic>> Autofill(Dictionary<string, dynamic> tx);
 
-        Task<Submit> Submit(Dictionary<string, dynamic> tx, rWallet wallet);
+        Task<Submit> Submit(Dictionary<string, dynamic> tx, Wallet wallet);
 
         Task<uint> GetLedgerIndex();
 
@@ -130,7 +130,7 @@ namespace Xrpl.Client
 
         Task<Submit> SubmitTransaction(SubmitRequest request);
 
-        Task<Submit> SubmitTransaction(SubmitRequest request, rWallet wallet);
+        Task<Submit> SubmitTransaction(SubmitRequest request, Wallet wallet);
 
         Task<BookOffers> BookOffers(BookOffersRequest request);
 
@@ -168,7 +168,7 @@ namespace Xrpl.Client
         {
             return AutofillSugar.Autofill(this, tx, null);
         }
-        public Task<Submit> Submit(Dictionary<string, dynamic> tx, rWallet wallet)
+        public Task<Submit> Submit(Dictionary<string, dynamic> tx, Wallet wallet)
         {
             return SubmitSugar.Submit(this, tx, true, false, wallet);
         }
@@ -614,7 +614,7 @@ namespace Xrpl.Client
             return task.Task;
         }
 
-        public Task<Submit> SubmitTransaction(SubmitRequest request, rWallet wallet)
+        public Task<Submit> SubmitTransaction(SubmitRequest request, Wallet wallet)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
             TaskCompletionSource<Submit> task = new TaskCompletionSource<Submit>();

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xrpl.Client;
 using Xrpl.Client.Models.Ledger;
-using Xrpl.Wallet;
+using Xrpl.XrplWallet;
 using Xrpl.Tests.Client.Tests.Integration;
 using System.Diagnostics;
 
@@ -13,13 +13,13 @@ namespace Xrpl.Tests.Client.Tests.Integration
 {
     public class SetupIntegration
     {
-        public rWallet wallet;
+        public Wallet wallet;
         public RippleClient client;
 
         public async Task<SetupIntegration> SetupClient(string serverUrl)
         {
             Debug.WriteLine(serverUrl);
-            wallet = rWallet.Generate();
+            wallet = Wallet.Generate();
             var promise = new TaskCompletionSource();
             client = new RippleClient(serverUrl);
             client.Connect();

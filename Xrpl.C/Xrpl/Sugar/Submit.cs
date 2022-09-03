@@ -10,7 +10,7 @@ using Ripple.Binary.Codec;
 using Xrpl.Client;
 using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Transactions;
-using Xrpl.Wallet;
+using Xrpl.XrplWallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/submit.ts
 
@@ -32,7 +32,7 @@ namespace Xrpl.Sugar
             Dictionary<string, dynamic> transaction,
             bool autofill = false,
             bool failHard = false,
-            rWallet wallet = null
+            Wallet wallet = null
         )
         {
             string signedTx = await SubmitSugar.GetSignedTx(client, transaction, autofill, wallet);
@@ -69,7 +69,7 @@ namespace Xrpl.Sugar
             IRippleClient client,
             Dictionary<string, dynamic> transaction,
             bool autofill,
-            rWallet wallet
+            Wallet wallet
         )
         {
             //if (isSigned(transaction))

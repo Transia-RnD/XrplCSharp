@@ -1,24 +1,10 @@
-﻿using System;
-using System.Reflection.Emit;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using Org.BouncyCastle.Asn1.Ocsp;
+﻿using System.Security.Cryptography;
 using Ripple.Address.Codec;
-using Ripple.Keypairs;
 using Ripple.Keypairs.Ed25519;
 using Ripple.Keypairs.K256;
-using static Ripple.Address.Codec.B58;
 using static Ripple.Address.Codec.XrplCodec;
-using Ripple.Keypairs.Utils;
-using System.Text;
-using Org.BouncyCastle.Asn1.X9;
-using Ripple.Binary.Codec.Types;
-using System.Linq;
-using Org.BouncyCastle.Crypto.Digests;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Crypto.Signers;
 using Ripple.Keypairs.Extensions;
-using System.Diagnostics;
+//using System.Diagnostics;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-keypairs/src/index.ts
 
@@ -57,7 +43,7 @@ namespace Ripple.Keypairs
                 //byte[] signature = method.sign(messageToVerify, keypair.privateKey);
                 //if (method.verify(messageToVerify, signature, keypair.publicKey) != true)
                 //{
-                //    throw new Error("derived keypair did not generate verifiable signature");
+                //        throw ValidationError("derived keypair did not generate verifiable signature");
                 //}
                 return edkp;
             }
@@ -83,9 +69,9 @@ namespace Ripple.Keypairs
             if (algorithm == "ed25519")
             {
                 byte[] pk = Chaos.NaCl.Ed25519.ExpandedPrivateKeyFromSeed(privateKey[2..66].FromHex());
-                return Chaos.NaCl.Ed25519.Sign(message, pk).ToHex();
+                return EdKeyPair.Sign(message, pk).ToHex();
             }
-            return K256KeyPair.Sign1(message, privateKey.FromHex()).ToHex();
+            return K256KeyPair.Sign(message, privateKey.FromHex()).ToHex();
         }
 
         public static bool Verify(byte[] message, string signature, string publicKey)
@@ -94,9 +80,9 @@ namespace Ripple.Keypairs
             if (algorithm == "ed25519")
             {
 
-                return Chaos.NaCl.Ed25519.Verify(signature.FromHex(), message, publicKey[2..66].FromHex());
+                return EdKeyPair.Verify(signature.FromHex(), message, publicKey[2..66].FromHex());
             }
-            return K256VerifyingKey.Verify1(signature.FromHex(), message, publicKey.FromHex());
+            return K256VerifyingKey.Verify(signature.FromHex(), message, publicKey.FromHex());
         }
 
         public static string DeriveAddressFromBytes(byte[] publicKeyBytes)

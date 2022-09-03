@@ -1,7 +1,7 @@
 ﻿using Ripple.Binary.Codec.Hashing;
 using Ripple.Binary.Codec.Util;
 
-namespace Xrpl.Wallet
+namespace Xrpl.XrplWallet
 {
     internal static class Extensions
     {

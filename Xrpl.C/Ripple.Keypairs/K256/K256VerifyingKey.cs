@@ -32,7 +32,7 @@ namespace Ripple.Keypairs.K256
             return PubKeyBytes;
         }
 
-        public bool Verify(byte[] message, byte[] signature)
+        public bool Verify1(byte[] message, byte[] signature)
         {
             return VerifyHash(message, signature);
         }
@@ -51,7 +51,7 @@ namespace Ripple.Keypairs.K256
             Verifier.Init(false, parameters);
         }
 
-        public static bool Verify1(byte[] signature, byte[] message, byte[] publicKey)
+        static public bool Verify(byte[] signature, byte[] message, byte[] publicKey)
         {
             ECDsaSigner verifier = new ECDsaSigner();
             ECPublicKeyParameters parameters = new ECPublicKeyParameters(Secp256K1.Curve().DecodePoint(publicKey), Secp256K1.Parameters());
