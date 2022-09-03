@@ -12,17 +12,8 @@ namespace Xrpl.Client.Extensions
     {
         public static string ConvertStringToHex(this string input)
         {
-            char[] values = input.ToCharArray();
-
-            StringBuilder sb = new StringBuilder();
-
-            foreach (char letter in values)
-            {
-                int value = Convert.ToInt32(letter);
-                sb.Append($"{value:X}");
-            }
-
-            return sb.ToString();
+            var bytes = Encoding.UTF8.GetBytes(input);
+            return Convert.ToHexString(bytes);
         }
 
         public static string FromHexString(this string input)
