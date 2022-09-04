@@ -3,11 +3,13 @@ using Newtonsoft.Json;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Enums;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelClaim.ts
+
 namespace Xrpl.Client.Models.Transactions
 {
-    public class NFTokenBurnTransaction : TransactionCommon, INFTokenBurnTransaction
+    public class NFTokenBurn : TransactionCommon, INFTokenBurn
     {
-        public NFTokenBurnTransaction()
+        public NFTokenBurn()
         {
             TransactionType = TransactionType.NFTokenBurn;
         }
@@ -17,13 +19,13 @@ namespace Xrpl.Client.Models.Transactions
         public string NFTokenID { get; set; }
     }
 
-    public interface INFTokenBurnTransaction : ITransactionCommon
+    public interface INFTokenBurn : ITransactionCommon
     {
         //string Issuer { get; set; } // INHEIRTED FROM COMMON
         string NFTokenID { get; set; }
     }
 
-    public class NFTokenBurnTransactionResponse : TransactionResponseCommon, INFTokenBurnTransaction
+    public class NFTokenBurnResponse : TransactionResponseCommon, INFTokenBurn
     {
         public string NFTokenID { get; set; }
     }

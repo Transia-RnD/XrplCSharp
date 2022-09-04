@@ -1,11 +1,13 @@
 ﻿
 using Xrpl.Client.Models.Enums;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/ticketCreate.ts
+
 namespace Xrpl.Client.Models.Transactions
 {
-    public class TicketCreateTransaction : TransactionCommon, ITicketCreateTransaction
+    public class TicketCreate : TransactionCommon, ITicketCreate
     {
-        public TicketCreateTransaction()
+        public TicketCreate()
         {
             TransactionType = TransactionType.TicketCreate;
         }
@@ -17,12 +19,12 @@ namespace Xrpl.Client.Models.Transactions
         public uint TicketCount { get; set; }
     }
 
-    public interface ITicketCreateTransaction : ITransactionCommon
+    public interface ITicketCreate : ITransactionCommon
     {
         public uint TicketCount { get; set; }
     }
 
-    public class TicketCreateTransactionResponse : TransactionResponseCommon, ITicketCreateTransaction
+    public class TicketCreateResponse : TransactionResponseCommon, ITicketCreate
     {
         /// <inheritdoc/>
         public uint TicketCount { get; set; }

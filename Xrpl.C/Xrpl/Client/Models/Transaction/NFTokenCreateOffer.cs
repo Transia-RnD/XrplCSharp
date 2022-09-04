@@ -4,6 +4,8 @@ using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Enums;
 using Xrpl.Client.Models.Common;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelClaim.ts
+
 namespace Xrpl.Client.Models.Transactions
 {
     [Flags]
@@ -11,9 +13,9 @@ namespace Xrpl.Client.Models.Transactions
     {
         tfSellToken = 1
     }
-    public class NFTokenCreateOfferTransaction : TransactionCommon, INFTokenCreateOfferTransaction
+    public class NFTokenCreateOffer : TransactionCommon, INFTokenCreateOffer
     {
-        public NFTokenCreateOfferTransaction()
+        public NFTokenCreateOffer()
         {
             TransactionType = TransactionType.NFTokenCreateOffer;
         }
@@ -33,7 +35,7 @@ namespace Xrpl.Client.Models.Transactions
         public string Destination { get; set; }
     }
 
-    public interface INFTokenCreateOfferTransaction : ITransactionCommon
+    public interface INFTokenCreateOffer : ITransactionCommon
     {
         DateTime? Expiration { get; set; }
         new NFTokenCreateOfferFlags? Flags { get; set; }
@@ -43,7 +45,7 @@ namespace Xrpl.Client.Models.Transactions
         string Destination { get; set; }
     }
 
-    public class NFTokenCreateOfferTransactionResponse : TransactionResponseCommon, INFTokenCreateOfferTransaction
+    public class NFTokenCreateOfferResponse : TransactionResponseCommon, INFTokenCreateOffer
     {
         [JsonConverter(typeof(RippleDateTimeConverter))]
         public DateTime? Expiration { get; set; }

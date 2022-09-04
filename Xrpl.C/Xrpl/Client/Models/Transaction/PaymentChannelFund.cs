@@ -3,11 +3,13 @@ using Newtonsoft.Json;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Enums;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelClaim.ts
+
 namespace Xrpl.Client.Models.Transactions
 {
-    public class PaymentChannelFundTransaction : TransactionCommon, IPaymentChannelFundTransaction
+    public class PaymentChannelFund : TransactionCommon, IPaymentChannelFund
     {
-        public PaymentChannelFundTransaction()
+        public PaymentChannelFund()
         {
             TransactionType = TransactionType.PaymentChannelFund;
         }
@@ -20,14 +22,14 @@ namespace Xrpl.Client.Models.Transactions
         public DateTime? Expiration { get; set; }
     }
 
-    public interface IPaymentChannelFundTransaction : ITransactionCommon
+    public interface IPaymentChannelFund : ITransactionCommon
     {
         string Amount { get; set; }
         string Channel { get; set; }
         DateTime? Expiration { get; set; }
     }
 
-    public class PaymentChannelFundTransactionResponse : TransactionResponseCommon, IPaymentChannelFundTransaction
+    public class PaymentChannelFundResponse : TransactionResponseCommon, IPaymentChannelFund
     {
         public string Amount { get; set; }
 

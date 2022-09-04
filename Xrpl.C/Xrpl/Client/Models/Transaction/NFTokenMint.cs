@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Enums;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelClaim.ts
+
 namespace Xrpl.Client.Models.Transactions
 {
     [Flags]
@@ -13,9 +15,9 @@ namespace Xrpl.Client.Models.Transactions
         tfTrustLine = 3,
         tfTransferable = 4
     }
-    public class NFTokenMintTransaction : TransactionCommon, INFTokenMintTransaction
+    public class NFTokenMint : TransactionCommon, INFTokenMint
     {
-        public NFTokenMintTransaction()
+        public NFTokenMint()
         {
             TransactionType = TransactionType.NFTokenMint;
         }
@@ -31,7 +33,7 @@ namespace Xrpl.Client.Models.Transactions
         public string URI { get; set; }
     }
 
-    public interface INFTokenMintTransaction : ITransactionCommon
+    public interface INFTokenMint : ITransactionCommon
     {
         new NFTokenMintFlags? Flags { get; set; }
         uint NFTokenTaxon { get; set; }
@@ -40,7 +42,7 @@ namespace Xrpl.Client.Models.Transactions
         string URI { get; set; }
     }
 
-    public class NFTokenMintTransactionResponse : TransactionResponseCommon, INFTokenMintTransaction
+    public class NFTokenMintResponse : TransactionResponseCommon, INFTokenMint
     {
         public new NFTokenMintFlags? Flags { get; set; }
 

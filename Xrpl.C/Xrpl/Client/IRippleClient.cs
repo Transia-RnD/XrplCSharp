@@ -18,8 +18,6 @@ using Xrpl.Sugar;
 using Xrpl.XrplWallet;
 
 using BookOffers = Xrpl.Client.Models.Transactions.BookOffers;
-using ChannelAuthorize = Xrpl.Client.Models.Transactions.ChannelAuthorize;
-using ChannelVerify = Xrpl.Client.Models.Transactions.ChannelVerify;
 using Submit = Xrpl.Client.Models.Transactions.Submit;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/client/index.ts
@@ -39,8 +37,6 @@ namespace Xrpl.Client
         Task<AccountTransactions> AccountTransactions(AccountTransactionsRequest request);
         Task<BookOffers> BookOffers(BookOffersRequest request);
         //Task<DepositAuthorized> DepositAuthorized(DepositAuthorizedRequest request);
-        Task<ChannelAuthorize> ChannelAuthorize(ChannelAuthorizeRequest request);
-        Task<ChannelVerify> ChannelVerify(ChannelVerifyRequest request);
         Task<Fee> Fee(FeeRequest request);
         Task<GatewayBalances> GatewayBalances(GatewayBalancesRequest request);
         Task<LOLedger> Ledger(LedgerRequest request);
@@ -65,10 +61,13 @@ namespace Xrpl.Client
         Task<TransactionResponseCommon> Tx(TxRequest request);
         Task<object> AnyRequest(RippleRequest request);
 
+        Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request);
+
         // Sugars
         Task<Dictionary<string, dynamic>> Autofill(Dictionary<string, dynamic> tx);
         Task<Submit> Submit(Dictionary<string, dynamic> tx, Wallet wallet);
         Task<uint> GetLedgerIndex();
+        Task<string> GetXrpBalance(string address);
 
         void Connect();
         /// <summary> Disconnect from server </summary>
@@ -77,18 +76,20 @@ namespace Xrpl.Client
 
     public class RippleClient : IRippleClient
     {
+        public readonly string url;
         private readonly WebSocketClient client;
         private readonly ConcurrentDictionary<Guid, TaskInfo> tasks;
         private readonly JsonSerializerSettings serializerSettings;
 
-        public RippleClient(string url)
+        public RippleClient(string server)
         {
+            url = server;
             tasks = new ConcurrentDictionary<Guid, TaskInfo>();
             serializerSettings = new JsonSerializerSettings();
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;
             serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
 
-            client = WebSocketClient.Create(url);
+            client = WebSocketClient.Create(server);
             client.OnMessageReceived(MessageReceived);
             client.OnConnectionError(Error);
         }
@@ -106,6 +107,11 @@ namespace Xrpl.Client
         {
             return GetLedgerSugar.GetLedgerIndex(this);
         }
+        public Task <string> GetXrpBalance(string address)
+        {
+            return BalancesSugar.GetXrpBalance(this, address);
+        }
+
         /// <inheritdoc />
         public void Connect()
         {
@@ -262,38 +268,6 @@ namespace Xrpl.Client
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(BookOffers);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
-        }
-
-        public Task<ChannelAuthorize> ChannelAuthorize(ChannelAuthorizeRequest request)
-        {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<ChannelAuthorize> task = new TaskCompletionSource<ChannelAuthorize>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(ChannelAuthorize);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
-        }
-
-        public Task<ChannelVerify> ChannelVerify(ChannelVerifyRequest request)
-        {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<ChannelVerify> task = new TaskCompletionSource<ChannelVerify>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(ChannelVerify);
 
             tasks.TryAdd(request.Id, taskInfo);
 
@@ -700,6 +674,23 @@ namespace Xrpl.Client
             taskInfo.Type = typeof(RippleRequest);
 
             tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request)
+        {
+
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<Dictionary<string, dynamic>> task = new TaskCompletionSource<Dictionary<string, dynamic>>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request["id"];
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(Dictionary<string, dynamic>);
+
+            tasks.TryAdd(request["id"], taskInfo);
 
             client.SendMessage(command);
             return task.Task;

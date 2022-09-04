@@ -4,11 +4,13 @@ using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Enums;
 using Xrpl.Client.Models.Common;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelClaim.ts
+
 namespace Xrpl.Client.Models.Transactions
 {
-    public class EscrowCreateTransaction : TransactionCommon, IEscrowCreateTransaction
+    public class EscrowCreate : TransactionCommon, IEscrowCreate
     {
-        public EscrowCreateTransaction()
+        public EscrowCreate()
         {
             TransactionType = TransactionType.EscrowCreate;
         }
@@ -31,7 +33,7 @@ namespace Xrpl.Client.Models.Transactions
         public uint? SourceTag { get; set; }
     }
 
-    public interface IEscrowCreateTransaction : ITransactionCommon
+    public interface IEscrowCreate : ITransactionCommon
     {
         Currency Amount { get; set; }
         DateTime? CancelAfter { get; set; }
@@ -42,7 +44,7 @@ namespace Xrpl.Client.Models.Transactions
         uint? SourceTag { get; set; }
     }
 
-    public class EscrowCreateTransactionResponse : TransactionResponseCommon, IEscrowCreateTransaction
+    public class EscrowCreateResponse : TransactionResponseCommon, IEscrowCreate
     {
         [JsonConverter(typeof(CurrencyConverter))]
         public Currency Amount { get; set; }

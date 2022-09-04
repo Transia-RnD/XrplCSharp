@@ -6,6 +6,8 @@ using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Enums;
 using Xrpl.Client.Models.Common;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelClaim.ts
+
 namespace Xrpl.Client.Models.Transactions
 {
     [Flags]
@@ -15,9 +17,9 @@ namespace Xrpl.Client.Models.Transactions
         tfPartialPayment = 131072,
         tfLimitQuality = 262144,
     }
-    public class PaymentTransaction : TransactionCommon, IPaymentTransaction
+    public class Payment : TransactionCommon, IPayment
     {
-        public PaymentTransaction()
+        public Payment()
         {
             TransactionType = TransactionType.Payment;
         }
@@ -42,7 +44,7 @@ namespace Xrpl.Client.Models.Transactions
         public Currency DeliverMin { get; set; }
     }
 
-    public interface IPaymentTransaction : ITransactionCommon
+    public interface IPayment : ITransactionCommon
     {
         Currency Amount { get; set; }
         Currency DeliverMin { get; set; }
@@ -54,7 +56,7 @@ namespace Xrpl.Client.Models.Transactions
         Currency SendMax { get; set; }
     }
 
-    public class PaymentTransactionResponse : TransactionResponseCommon, IPaymentTransaction
+    public class PaymentResponse : TransactionResponseCommon, IPayment
     {
         [JsonConverter(typeof(CurrencyConverter))]
         public Currency Amount { get; set; }

@@ -10,15 +10,15 @@ using Xrpl.Client.Models.Common;
 namespace Xrpl.Client.Models.Transactions
 {
 
-    public interface IAccountDeleteTransaction : ITransactionCommon
+    public interface IAccountDelete : ITransactionCommon
     {
         string Destination { get; set; }
         uint? DestinationTag { get; set; }
     }
     
-    public class AccountDeleteTransaction : TransactionCommon, IAccountDeleteTransaction
+    public class AccountDelete : TransactionCommon, IAccountDelete
     {
-        public AccountDeleteTransaction()
+        public AccountDelete()
         {
             TransactionType = TransactionType.AccountDelete;
         }
@@ -28,7 +28,7 @@ namespace Xrpl.Client.Models.Transactions
         public uint? DestinationTag { get; set; }
     }
 
-    public class AccountDeleteTransactionResponse : TransactionResponseCommon, IAccountDeleteTransaction
+    public class AccountDeleteResponse : TransactionResponseCommon, IAccountDelete
     {
         public string Destination { get; set; }
 

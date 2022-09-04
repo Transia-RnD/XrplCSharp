@@ -264,20 +264,6 @@ namespace Ripple.Binary.Codec.Transactions
                 {
                     [Field.NFTokenID] = Requirement.Required
                 },
-                // ...
-                [TransactionType.EnableAmendment] = new TxFormat
-                {
-                    [Field.LedgerSequence] = Requirement.Optional,
-                    [Field.Amendment] = Requirement.Required
-                },
-                [TransactionType.SetFee] = new TxFormat
-                {
-                    [Field.LedgerSequence] = Requirement.Optional,
-                    [Field.BaseFee] = Requirement.Required,
-                    [Field.ReferenceFeeUnits] = Requirement.Required,
-                    [Field.ReserveBase] = Requirement.Required,
-                    [Field.ReserveIncrement] = Requirement.Required
-                },
                 [TransactionType.UNLModify] = new TxFormat
                 {
                     [Field.LedgerSequence] = Requirement.Optional,

@@ -1,11 +1,13 @@
 ﻿
 using Xrpl.Client.Models.Enums;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelClaim.ts
+
 namespace Xrpl.Client.Models.Transactions
 {
-    public class EscrowCancelTransaction : TransactionCommon, IEscrowCancelTransaction
+    public class EscrowCancel : TransactionCommon, IEscrowCancel
     {
-        public EscrowCancelTransaction()
+        public EscrowCancel()
         {
             TransactionType = TransactionType.EscrowCancel;
         }
@@ -15,13 +17,13 @@ namespace Xrpl.Client.Models.Transactions
         public uint OfferSequence { get; set; }
     }
 
-    public interface IEscrowCancelTransaction : ITransactionCommon
+    public interface IEscrowCancel : ITransactionCommon
     {
         uint OfferSequence { get; set; }
         string Owner { get; set; }
     }
 
-    public class EscrowCancelTransactionResponse : TransactionResponseCommon, IEscrowCancelTransaction
+    public class EscrowCancelResponse : TransactionResponseCommon, IEscrowCancel
     {
         public uint OfferSequence { get; set; }
         public string Owner { get; set; }

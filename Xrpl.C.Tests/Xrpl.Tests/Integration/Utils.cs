@@ -40,7 +40,7 @@ namespace Xrpl.Tests.Client.Tests.Integration
 
         public static async Task FundAccount(IRippleClient client, Wallet wallet)
         {
-            PaymentTransaction payment = new PaymentTransaction
+            Payment payment = new Payment
             {
                 Account = masterAccount,
                 Destination = wallet.ClassicAddress,

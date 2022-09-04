@@ -36,7 +36,7 @@ namespace Xrpl.Tests.Client.Tests.Integration
         {
 
             string account = runner.wallet.ClassicAddress;
-            AccountSetTransaction request = new AccountSetTransaction
+            AccountSet request = new AccountSet
             {
                 Account = account,
                 Domain = "example.com".ConvertStringToHex()

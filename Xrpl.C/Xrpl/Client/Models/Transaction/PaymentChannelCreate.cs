@@ -3,11 +3,13 @@ using Newtonsoft.Json;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Enums;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelCreate.ts
+
 namespace Xrpl.Client.Models.Transactions
 {
-    public class PaymentChannelCreateTransaction : TransactionCommon, IPaymentChannelCreateTransaction
+    public class PaymentChannelCreate : TransactionCommon, IPaymentChannelCreate
     {
-        public PaymentChannelCreateTransaction()
+        public PaymentChannelCreate()
         {
             TransactionType = TransactionType.PaymentChannelCreate;
         }
@@ -28,7 +30,7 @@ namespace Xrpl.Client.Models.Transactions
         public uint? SourceTag { get; set; }
     }
 
-    public interface IPaymentChannelCreateTransaction : ITransactionCommon
+    public interface IPaymentChannelCreate : ITransactionCommon
     {
         string Amount { get; set; }
         DateTime? CancelAfter { get; set; }
@@ -39,7 +41,7 @@ namespace Xrpl.Client.Models.Transactions
         uint? SourceTag { get; set; }
     }
 
-    public class PaymentChannelCreateTransactionResponse : TransactionResponseCommon, IPaymentChannelCreateTransaction
+    public class PaymentChannelCreateResponse : TransactionResponseCommon, IPaymentChannelCreate
     {
         public string Amount { get; set; }
 

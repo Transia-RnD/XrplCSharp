@@ -6,6 +6,8 @@ using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Enums;
 using Xrpl.Client.Models.Common;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/common.ts
+
 namespace Xrpl.Client.Models.Transactions
 {
     [JsonConverter(typeof(TransactionConverter))]

@@ -29,51 +29,38 @@ namespace Xrpl.Client.Models.Transactions
     //    uint asfDefaultRipple { get; set; }
     //}
 
-    public class AccountSetTransaction : TransactionCommon, IAccountSetTransaction
+    public class AccountSet : TransactionCommon, IAccountSet
     {
-        public AccountSetTransaction()
+        public AccountSet()
         {
             TransactionType = TransactionType.AccountSet;
         }
 
-        public AccountSetTransaction(string account) : this()
+        public AccountSet(string account) : this()
         {
             Account = account;
         }
-
         public uint? ClearFlag { get; set; }
-
         public string Domain { get; set; }
-
         public string EmailHash { get; set; }
-
         public string MessageKey { get; set; }
-
         public uint? SetFlag { get; set; }
-
         public uint? TransferRate { get; set; }
-
         public uint? TickSize { get; set; }
     }
 
-    public interface IAccountSetTransaction : ITransactionCommon
+    public interface IAccountSet : ITransactionCommon
     {
         uint? ClearFlag { get; set; }
-
         string Domain { get; set; }
-
         string EmailHash { get; set; }
-
         string MessageKey { get; set; }
-
         uint? SetFlag { get; set; }
-
         uint? TransferRate { get; set; }
-
         uint? TickSize { get; set; }
     }
 
-    public class AccountSetTransactionResponse : TransactionResponseCommon, IAccountSetTransaction
+    public class AccountSetResponse : TransactionResponseCommon, IAccountSet
     {
         public uint? ClearFlag { get; set; }
         public string Domain { get; set; }

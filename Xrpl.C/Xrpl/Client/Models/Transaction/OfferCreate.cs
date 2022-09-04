@@ -4,6 +4,8 @@ using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Enums;
 using Xrpl.Client.Models.Common;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelClaim.ts
+
 namespace Xrpl.Client.Models.Transactions
 {
 
@@ -15,9 +17,9 @@ namespace Xrpl.Client.Models.Transactions
         tfFillOrKill = 262144,
         tfSell = 524288
     }
-    public class OfferCreateTransaction : TransactionCommon, IOfferCreateTransaction
+    public class OfferCreate : TransactionCommon, IOfferCreate
     {
-        public OfferCreateTransaction()
+        public OfferCreate()
         {
             TransactionType = TransactionType.OfferCreate;
         }
@@ -45,7 +47,7 @@ namespace Xrpl.Client.Models.Transactions
         public Currency TakerPays { get; set; }
     }
 
-    public interface IOfferCreateTransaction : ITransactionCommon
+    public interface IOfferCreate : ITransactionCommon
     {
         DateTime? Expiration { get; set; }
         new OfferCreateFlags? Flags { get; set; }
@@ -55,7 +57,7 @@ namespace Xrpl.Client.Models.Transactions
 
     }
 
-    public class OfferCreateTransactionResponse : TransactionResponseCommon, IOfferCreateTransaction
+    public class OfferCreateResponse : TransactionResponseCommon, IOfferCreate
     {
         [JsonConverter(typeof(RippleDateTimeConverter))]
         public DateTime? Expiration { get; set; }

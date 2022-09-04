@@ -15,7 +15,7 @@ namespace Ripple.Binary.Codec.Types
             {
                 return _encoded ?? (
                     _encoded =
-                    XrplCodec.EncodeAddress(Buffer));
+                    XrplCodec.EncodeAccountPublic(Buffer));
             }
             set { _encoded = value; }
         }
@@ -26,10 +26,10 @@ namespace Ripple.Binary.Codec.Types
         }
 
         public AccountId(string v) :
-            this(XrplCodec.DecodeAddress(v), v) {}
+            this(XrplCodec.DecodeAccountPublic(v), v) {}
 
         public AccountId(byte[] hash) :
-            this(hash, XrplCodec.EncodeAddress(hash)) {}
+            this(hash, XrplCodec.EncodeAccountPublic(hash)) {}
 
         public static implicit operator AccountId(string value)
         {

@@ -12,13 +12,13 @@ namespace Ripple.Address.Codec
         // Account address (20 bytes)
         public static B58.Version AccountID = B58.Version.With(versionByte: 0, expectedLength: 20);
         // Account public key (33 bytes)
-        public static B58.Version PublicKey = B58.Version.With(versionByte: 0, expectedLength: 33);
+        public static B58.Version PublicKey = B58.Version.With(versionByte: 35, expectedLength: 33);
         // 33; Seed value (for secret keys) (16 bytes)
         public static B58.Version K256Seed = B58.Version.With(versionByte: 33, expectedLength: 16);
-        // 28; Validation public key (33 bytes)
-        public static B58.Version NodePublic = B58.Version.With(versionByte: 28, expectedLength: 33);
         // [1, 225, 75]
         public static B58.Version Ed25519Seed = B58.Version.With(versionBytes: new byte[] { 0x1, 0xe1, 0x4b }, expectedLength: 16);
+        // 28; Validation public key (33 bytes)
+        public static B58.Version NodePublic = B58.Version.With(versionByte: 28, expectedLength: 33);
 
         public static B58.Versions AnySeed = B58.Versions.With("secp256k1", K256Seed).And("ed25519", Ed25519Seed);
 
@@ -58,19 +58,18 @@ namespace Ripple.Address.Codec
 
         public static byte[] DecodeAccountID(string accountId)
         {
-            Debug.WriteLine("FUNC: DecodeAccountID");
             return B58.Decode(accountId, AccountID);
         }
 
-        public static string EncodeAddress(byte[] bytes)
+        public static string EncodeAccountPublic(byte[] bytes)
         {
-            return B58.Encode(bytes, AccountID);
+            return B58.Encode(bytes, PublicKey);
         }
 
-        public static byte[] DecodeAddress(string address)
+        public static byte[] DecodeAccountPublic(string address)
         {
 
-            return B58.Decode(address, AccountID);
+            return B58.Decode(address, PublicKey);
         }
 
         public static string EncodeNodePublic(byte[] bytes)
@@ -83,29 +82,9 @@ namespace Ripple.Address.Codec
             return B58.Decode(publicKey, NodePublic);
         }
 
-        public static bool isValidClassicAddress(string address)
+        public static bool IsValidClassicAddress(string address)
         {
             return B58.IsValid(address, AccountID);
         }
-
-        //public static byte[] DecodeK256Seed(string seed)
-        //{
-        //    return B58.Decode(seed, K256Seed);
-        //}
-
-        //public static string EncodeK256Seed(byte[] bytes)
-        //{
-        //    return B58.Encode(bytes, K256Seed);
-        //}
-
-        //public static byte[] DecodeEdSeed(string base58)
-        //{
-        //    return B58.Decode(base58, Ed25519Seed);
-        //}
-
-        //public static string EncodeEdSeed(byte[] bytes)
-        //{
-        //    return B58.Encode(bytes, Ed25519Seed);
-        //}
     }
 }

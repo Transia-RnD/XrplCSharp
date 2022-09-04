@@ -30,7 +30,7 @@ namespace Xrpl.Tests.Client.Tests.Integration
         [TestMethod]
         public async Task TestRequestMethod()
         {
-            AccountSetTransaction tx = new AccountSetTransaction
+            AccountSet tx = new AccountSet
             {
                 Account = runner.wallet.ClassicAddress,
             };

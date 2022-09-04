@@ -76,7 +76,12 @@ namespace Xrpl.Client.Exceptions
     /// faucets, or when the client cannot infer the faucet URL(i.e.when the Client
     /// is connected to mainnet).
     /// </summary>
-    public class XRPLFaucetError : XrplError { }
+    public class XRPLFaucetError : XrplError
+    {
+        public XRPLFaucetError(string message) : base(message)
+        {
+        }
+    }
     /// <summary>
     /// Error thrown when xrpl.js cannot retrieve a transaction, ledger, account, etc.
     /// From rippled.

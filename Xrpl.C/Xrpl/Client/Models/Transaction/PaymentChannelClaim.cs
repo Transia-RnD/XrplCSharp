@@ -1,6 +1,8 @@
 ﻿using System;
 using Xrpl.Client.Models.Enums;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelClaim.ts
+
 namespace Xrpl.Client.Models.Transactions
 {
     [Flags]
@@ -9,9 +11,9 @@ namespace Xrpl.Client.Models.Transactions
         tfRenew = 65536,
         tfClose = 131072
     }
-    public class PaymentChannelClaimTransaction : TransactionCommon, IPaymentChannelClaimTransaction
+    public class PaymentChannelClaim : TransactionCommon, IPaymentChannelClaim
     {
-        public PaymentChannelClaimTransaction()
+        public PaymentChannelClaim()
         {
             TransactionType = TransactionType.PaymentChannelClaim;
         }
@@ -29,7 +31,7 @@ namespace Xrpl.Client.Models.Transactions
         public string PublicKey { get; set; }
     }
 
-    public interface IPaymentChannelClaimTransaction : ITransactionCommon
+    public interface IPaymentChannelClaim : ITransactionCommon
     {
         string Amount { get; set; }
         string Balance { get; set; }
@@ -39,7 +41,7 @@ namespace Xrpl.Client.Models.Transactions
         string Signature { get; set; }
     }
 
-    public class PaymentChannelClaimTransactionResponse : TransactionResponseCommon, IPaymentChannelClaimTransaction
+    public class PaymentChannelClaimResponse : TransactionResponseCommon, IPaymentChannelClaim
     {
         public string Amount { get; set; }
         public string Balance { get; set; }

@@ -4,7 +4,7 @@ using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Enums;
 using Xrpl.Client.Models.Common;
 
-
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/trustSet.ts 
 
 namespace Xrpl.Client.Models.Transactions
 {
@@ -18,9 +18,9 @@ namespace Xrpl.Client.Models.Transactions
         tfClearFreeze = 2097152
     }
     
-    public class TrustSetTransaction : TransactionCommon, ITrustSetTransaction
+    public class TrustSet : TransactionCommon, ITrustSet
     {
-        public TrustSetTransaction()
+        public TrustSet()
         {
             TransactionType = TransactionType.TrustSet;
             Flags = TrustSetFlags.tfSetNoRipple;
@@ -36,7 +36,7 @@ namespace Xrpl.Client.Models.Transactions
         public uint? QualityOut { get; set; }
     }
 
-    public interface ITrustSetTransaction : ITransactionCommon
+    public interface ITrustSet : ITransactionCommon
     {
         new TrustSetFlags? Flags { get; set; }
         Currency LimitAmount { get; set; }
@@ -44,7 +44,7 @@ namespace Xrpl.Client.Models.Transactions
         uint? QualityOut { get; set; }
     }
 
-    public class TrustSetTransactionResponse : TransactionResponseCommon, ITrustSetTransaction
+    public class TrustSetResponse : TransactionResponseCommon, ITrustSet
     {
         public new TrustSetFlags? Flags { get; set; }
 

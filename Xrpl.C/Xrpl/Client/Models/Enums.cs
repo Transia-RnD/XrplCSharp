@@ -5,28 +5,30 @@ namespace Xrpl.Client.Models.Enums
 {
     public enum TransactionType
     {
-        Payment,
-        OfferCreate,
-        OfferCancel,
-        TrustSet,
         AccountSet,
-        SetRegularKey,
-        SignerListSet,
+        AccountDelete,
+        CheckCancel,
+        CheckCash,
+        CheckCreate,
+        DepositPreauth,
+        EscrowCancel,
         EscrowCreate,
         EscrowFinish,
-        EscrowCancel,
+        NFTokenAcceptOffer,
+        NFTokenBurn,
+        NFTokenCancelOffer,
+        NFTokenCreateOffer,
+        NFTokenMint,
+        OfferCancel,
+        OfferCreate,
+        Payment,
+        PaymentChannelClaim,
         PaymentChannelCreate,
         PaymentChannelFund,
-        PaymentChannelClaim,
-        EnableAmendment,
-        SetFee,
-        AccountDelete,
-        NFTokenMint,
-        NFTokenBurn,
-        NFTokenCreateOffer,
-        NFTokenCancelOffer,
-        NFTokenAcceptOffer,
-        TicketCreate
+        SetRegularKey,
+        SignerListSet,
+        TicketCreate,
+        TrustSet
     }
 
     public enum LedgerEntryType

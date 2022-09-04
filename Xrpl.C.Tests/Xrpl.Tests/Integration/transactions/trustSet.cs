@@ -41,7 +41,7 @@ namespace Xrpl.Tests.Client.Tests.Integration
                 Issuer = wallet2.ClassicAddress,
                 Value = "100"
             };
-            TrustSetTransaction tx = new TrustSetTransaction
+            TrustSet tx = new TrustSet
             {
                 Account = runner.wallet.ClassicAddress,
                 LimitAmount = limitAmount
