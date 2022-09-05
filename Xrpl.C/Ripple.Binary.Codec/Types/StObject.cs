@@ -120,8 +120,11 @@ namespace Ripple.Binary.Codec.Types
                     continue;
                 }
                 var fieldForType = Field.Values[pair.Key];
-                Debug.WriteLine(fieldForType.Name);
-                Debug.WriteLine(pair.Value);
+                // Debug.WriteLine("-----------------");
+                // Debug.WriteLine("-----------------");
+                // Debug.WriteLine(fieldForType.Name);
+                // Debug.WriteLine(pair.Value);
+                // Debug.WriteLine("-----------------");
                 var jsonForField = pair.Value;
                 ISerializedType st;
                 try

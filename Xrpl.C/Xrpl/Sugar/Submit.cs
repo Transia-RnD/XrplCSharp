@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Asn1.Ocsp;
 using Ripple.Binary.Codec;
 using Xrpl.Client;
+using Xrpl.Client.Exceptions;
 using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Transactions;
 using Xrpl.XrplWallet;
@@ -49,10 +50,8 @@ namespace Xrpl.Sugar
             //string signedTxEncoded = typeof signedTransaction === 'string' ? signedTransaction : encode(signedTransaction)
             //string signedTxEncoded = BinaryCodec.Encode(signedTransaction);
             string signedTxEncoded = signedTransaction;
-            Debug.WriteLine(BinaryCodec.Decode(signedTransaction).ToString());
             //SubmitBlobRequest request = new SubmitBlobRequest { Command = "submit", TxBlob = signedTxEncoded, FailHard = isAccountDelete(signedTransaction) || failHard };
             SubmitRequest request = new SubmitRequest { Command = "submit", TxBlob = signedTxEncoded, FailHard = false  };
-            Debug.WriteLine("SUBMITTED");
             return await client.Submit(request);
         }
 
@@ -68,8 +67,8 @@ namespace Xrpl.Sugar
         public static async Task<string> GetSignedTx(
             IRippleClient client,
             Dictionary<string, dynamic> transaction,
-            bool autofill,
-            Wallet wallet
+            bool autofill = false,
+            Wallet? wallet = null
         )
         {
             //if (isSigned(transaction))
@@ -77,13 +76,10 @@ namespace Xrpl.Sugar
             //    return transaction
             //}
 
-            //if (!wallet)
-            //{
-            //    throw new ValidationError(
-            //      'Wallet must be provided when submitting an unsigned transaction',
-
-            //    )
-            //}
+            if (wallet == null)
+            {
+                throw new ValidationError("Wallet must be provided when submitting an unsigned transaction");
+            }
             Dictionary<string, dynamic> tx = transaction;
             //let tx =
             //  typeof transaction === 'string'

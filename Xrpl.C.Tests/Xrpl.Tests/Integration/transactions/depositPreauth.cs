@@ -10,12 +10,12 @@ using Xrpl.Client.Models.Transactions;
 using Xrpl.Client.Tests;
 using Xrpl.XrplWallet;
 
-// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/accountSet.ts
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/depositPreauth.ts
 
 namespace Xrpl.Tests.Client.Tests.Integration
 {
     [TestClass]
-    public class TestIAccountSet
+    public class TestIDepositPreauth
     {
         // private static int Timeout = 20;
         public TestContext TestContext { get; set; }
@@ -30,12 +30,15 @@ namespace Xrpl.Tests.Client.Tests.Integration
         [TestMethod]
         public async Task TestRequestMethod()
         {
-            AccountSet tx = new AccountSet
+            Wallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
+            DepositPreauth setupTx = new DepositPreauth
             {
                 Account = runner.wallet.ClassicAddress,
+                Authorize = wallet2.ClassicAddress,
             };
-            Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
-            await Utils.TestTransaction(runner.client, txJson, runner.wallet);
+            Debug.WriteLine(setupTx.ToJson());
+            Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
+            await Utils.TestTransaction(runner.client, setupJson, runner.wallet);
         }
     }
 }

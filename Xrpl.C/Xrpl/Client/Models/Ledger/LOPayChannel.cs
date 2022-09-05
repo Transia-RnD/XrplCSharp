@@ -8,7 +8,7 @@ using Xrpl.Client.Models.Enums;
 
 namespace Xrpl.Client.Models.Ledger
 {
-    public class LOPayChannel : BaseRippleLO
+    public class LOPayChannel : BaseLedgerEntry
     {
         public LOPayChannel()
         {
@@ -31,11 +31,9 @@ namespace Xrpl.Client.Models.Ledger
 
         public string OwnerNode { get; set; }
 
-        [JsonProperty("PreviousTxnID")]
-        public string PreviousTransactionId { get; set; }
+        public string PreviousTxnID { get; set; }
 
-        [JsonProperty("PreviousTxnLgrSeq")]
-        public uint PreviousTransactionLedgerSequence { get; set; }
+        public uint PreviousTxnLgrSeq { get; set; }
 
         [JsonConverter(typeof(RippleDateTimeConverter))]
         public DateTime? Expiration { get; set; }

@@ -195,10 +195,10 @@ namespace Xrpl.Client.Models.Transactions
         public string LedgerIndex { get; set; }
 
         [JsonProperty("PreviousTxnID")]
-        public string PreviousTransactionId { get; set; }
+        public string PreviousTxnID { get; set; }
 
         [JsonProperty("PreviousTxnLgrSeq")]
-        public uint? PreviousTransactionLedgerSequence { get; set; }
+        public uint? PreviousTxnLgrSeq { get; set; }
 
         [JsonProperty("FinalFields")]
         public FieldInfo FinalFields { get; set; }

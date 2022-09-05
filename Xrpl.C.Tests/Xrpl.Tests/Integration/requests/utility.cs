@@ -28,15 +28,17 @@ namespace Xrpl.Tests.Client.Tests.Integration
         [TestMethod]
         public async Task TestPingRequest()
         {
-            //Utility accountUtility = await runner.client.Utility(runner.wallet.ClassicAddress);
-            //Assert.IsNotNull(accountUtility);
+            PingRequest request = new PingRequest();
+            object response = await runner.client.Ping(request);
+            Assert.IsNotNull(response);
         }
 
         [TestMethod]
         public async Task TestRandomRequest()
         {
-            //Utility accountUtility = await runner.client.Utility(runner.wallet.ClassicAddress);
-            //Assert.IsNotNull(accountUtility);
+            RandomRequest request = new RandomRequest();
+            object response = await runner.client.Random(request);
+            Assert.IsNotNull(response);
         }
     }
 }

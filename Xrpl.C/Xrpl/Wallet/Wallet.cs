@@ -55,15 +55,10 @@ namespace Xrpl.XrplWallet
         /// <returns>A new Wallet.</returns>
         public Wallet(string publicKey, string privateKey, string? masterAddress = null, string? seed = null)
         {
-            Debug.WriteLine("NEW WALLET");
             this.PublicKey = publicKey;
             this.PrivateKey = privateKey;
             this.ClassicAddress = masterAddress != null ? masterAddress : Keypairs.DeriveAddress(publicKey);
             this.Seed = seed;
-            Debug.WriteLine(publicKey);
-            Debug.WriteLine(privateKey);
-            Debug.WriteLine(masterAddress);
-            Debug.WriteLine(seed);
         }
 
         /// <summary>
@@ -137,8 +132,6 @@ namespace Xrpl.XrplWallet
                 new ValidationError("txJSON must not contain `TxnSignature` or `Signers` properties");
             }
 
-            //Debug.WriteLine(this.PublicKey);
-
             // OTHER
             //JToken txToSignAndEncode = { "test": ""};
             JObject txToSignAndEncode = JToken.FromObject(transaction).ToObject<JObject>();
@@ -147,7 +140,6 @@ namespace Xrpl.XrplWallet
             string signature = ComputeSignature(txToSignAndEncode.ToObject<Dictionary<string, dynamic>>(), this.PrivateKey);
             txToSignAndEncode.Add("TxnSignature", signature);
 
-            Debug.WriteLine(txToSignAndEncode);
             string serialized = BinaryCodec.Encode(txToSignAndEncode);
             //this.checkTxSerialization(serialized, tx);
             return new SignatureResult(serialized, HashLedger.HashSignedTx(serialized));
@@ -168,7 +160,6 @@ namespace Xrpl.XrplWallet
 
         public string ComputeSignature(Dictionary<string, dynamic> transaction, string privateKey, string? signAs = null)
         {
-            Debug.WriteLine("FUND: ComputeSignature");
             string encoded = BinaryCodec.EncodeForSigning(transaction);
             return Keypairs.Sign(Ripple.Address.Codec.Utils.FromHexToBytes(encoded), privateKey);
         }

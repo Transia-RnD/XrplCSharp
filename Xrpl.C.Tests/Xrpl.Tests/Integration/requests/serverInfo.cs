@@ -28,8 +28,9 @@ namespace Xrpl.Tests.Client.Tests.Integration
         [TestMethod]
         public async Task TestRequestMethod()
         {
-            //ServerInfo accountTx = await runner.client.ServerInfo(runner.wallet.ClassicAddress);
-            //Assert.IsNotNull(accountTx);
+            ServerInfoRequest request = new ServerInfoRequest();
+            ServerInfo response = await runner.client.ServerInfo(request);
+            Assert.IsNotNull(response);
         }
     }
 }

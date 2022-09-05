@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -16,8 +17,10 @@ namespace Ripple.Binary.Codec.Types
         {
             if (native)
             {
+                Debug.WriteLine("NATIVE FROM STRING");
                 return new NativeValue(value);
             }
+            Debug.WriteLine("IOU FROM STRING");
             return IouValue.FromString(value);
         }
 

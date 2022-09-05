@@ -75,10 +75,10 @@ namespace Xrpl.Client.Models.Transactions
         public string OwnerNode { get; set; }
 
         [JsonProperty("PreviousTxnID")]
-        public string PreviousTransactionId { get; set; }
+        public string PreviousTxnID { get; set; }
 
         [JsonProperty("PreviousTxnLgrSeq")]
-        public uint PreviousTransactionLedgerSequence { get; set; }
+        public uint PreviousTxnLgrSeq { get; set; }
 
         [JsonConverter(typeof(RippleDateTimeConverter))]
         public DateTime? Expiration { get; set; }

@@ -4,6 +4,8 @@ using Ripple.Address.Codec;
 using Ripple.Binary.Codec.Binary;
 using Ripple.Binary.Codec.Util;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/account-id.ts
+
 namespace Ripple.Binary.Codec.Types
 {
     public class AccountId : Hash160
@@ -15,7 +17,7 @@ namespace Ripple.Binary.Codec.Types
             {
                 return _encoded ?? (
                     _encoded =
-                    XrplCodec.EncodeAccountPublic(Buffer));
+                    XrplCodec.EncodeAccountID(Buffer));
             }
             set { _encoded = value; }
         }
@@ -26,10 +28,10 @@ namespace Ripple.Binary.Codec.Types
         }
 
         public AccountId(string v) :
-            this(XrplCodec.DecodeAccountPublic(v), v) {}
+            this(XrplCodec.DecodeAccountID(v), v) {}
 
         public AccountId(byte[] hash) :
-            this(hash, XrplCodec.EncodeAccountPublic(hash)) {}
+            this(hash, XrplCodec.EncodeAccountID(hash)) {}
 
         public static implicit operator AccountId(string value)
         {

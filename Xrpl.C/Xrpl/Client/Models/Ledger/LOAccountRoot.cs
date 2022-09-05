@@ -23,7 +23,7 @@ namespace Xrpl.Client.Models.Ledger
         lsfGlobalFreeze = 4194304,
         lsfDefaultRipple = 8388608
     }
-    public class LOAccountRoot : BaseRippleLO
+    public class LOAccountRoot : BaseLedgerEntry
     {
         public LOAccountRoot()
         {
@@ -41,14 +41,11 @@ namespace Xrpl.Client.Models.Ledger
 
         public uint OwnerCount { get; set; }
 
-        [JsonProperty("PreviousTxnID")]
-        public string PreviousTransactionId { get; set; }
+        public string PreviousTxnID { get; set; }
 
-        [JsonProperty("PreviousTxnLgrSeq")]
-        public uint PreviousTransactionLedgerSequence { get; set; }
+        public uint PreviousTxnLgrSeq { get; set; }
 
-        [JsonProperty("AccountTxnID")]
-        public string AccountTransactionId { get; set; }
+        public string AccountTxnID { get; set; }
 
         public string RegularKey { get; set; }
 

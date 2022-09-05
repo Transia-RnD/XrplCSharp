@@ -47,8 +47,49 @@ namespace Xrpl.Tests.Client.Tests.Integration
                 LimitAmount = limitAmount
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
-            Debug.WriteLine(txJson);
             await Utils.TestTransaction(runner.client, txJson, runner.wallet);
         }
+
+        //[TestMethod]
+        //public async Task TestQualityLessOne()
+        //{
+        //    Wallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
+        //    Currency limitAmount = new Currency
+        //    {
+        //        CurrencyCode = "USD",
+        //        Issuer = wallet2.ClassicAddress,
+        //        Value = "100"
+        //    };
+        //    TrustSet tx = new TrustSet
+        //    {
+        //        Account = runner.wallet.ClassicAddress,
+        //        LimitAmount = limitAmount,
+        //        QualityIn = PercentToQuality("99%"),
+        //        QualityOut = PercentToQuality("99%"),
+        //    };
+        //    Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
+        //    await Utils.TestTransaction(runner.client, txJson, runner.wallet);
+        //}
+
+        //[TestMethod]
+        //public async Task TestQualityGreaterOne()
+        //{
+        //    Wallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
+        //    Currency limitAmount = new Currency
+        //    {
+        //        CurrencyCode = "USD",
+        //        Issuer = wallet2.ClassicAddress,
+        //        Value = "100"
+        //    };
+        //    TrustSet tx = new TrustSet
+        //    {
+        //        Account = runner.wallet.ClassicAddress,
+        //        LimitAmount = limitAmount,
+        //        QualityIn = PercentToQuality("101%"),
+        //        QualityOut = PercentToQuality("101%"),
+        //    };
+        //    Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
+        //    await Utils.TestTransaction(runner.client, txJson, runner.wallet);
+        //}
     }
 }

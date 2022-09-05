@@ -7,7 +7,7 @@ using Xrpl.Client.Models.Enums;
 
 namespace Xrpl.Client.Models.Ledger
 {
-    public class LODirectoryNode : BaseRippleLO
+    public class LODirectoryNode : BaseLedgerEntry
     {
 
         public LODirectoryNode()

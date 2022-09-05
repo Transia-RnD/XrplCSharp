@@ -10,12 +10,12 @@ using Xrpl.Client.Models.Transactions;
 using Xrpl.Client.Tests;
 using Xrpl.XrplWallet;
 
-// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/checkCancel.ts
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/checkCash.ts
 
 namespace Xrpl.Tests.Client.Tests.Integration
 {
     [TestClass]
-    public class TestICheckCancel
+    public class TestICheckCash
     {
         // private static int Timeout = 20;
         public TestContext TestContext { get; set; }
@@ -52,18 +52,19 @@ namespace Xrpl.Tests.Client.Tests.Integration
             string checkId = response1.AccountObjectList[0].Index;
             
             // actual test - cancel the check
-            CheckCancel tx = new CheckCancel
+            CheckCash tx = new CheckCash
             {
-               Account = runner.wallet.ClassicAddress,
-               CheckID = checkId
+               Account = wallet2.ClassicAddress,
+               CheckID = checkId,
+               Amount = new Currency { ValueAsXrp = 50 }
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
-            await Utils.TestTransaction(runner.client, txJson, runner.wallet);
+            await Utils.TestTransaction(runner.client, txJson, wallet2);
 
             // get check ID
             AccountObjectsRequest request2 = new AccountObjectsRequest(runner.wallet.ClassicAddress) { Type = "check" };
             AccountObjects response2 = await runner.client.AccountObjects(request1);
-            Assert.AreEqual(response2.AccountObjectList.Count, 0);
+            Assert.AreEqual(0, response2.AccountObjectList.Count);
         }
     }
 }

@@ -96,7 +96,7 @@ namespace Xrpl.Tests.Client.Tests.Integration
             await LedgerAccept(client);
             Submit response = await client.Submit(transaction, wallet);
             //Assert.IsNotNull(response.Type, "response");
-            Assert.IsNotNull(response.EngineResult, "tesSUCCESS");
+            Assert.AreEqual(response.EngineResult, "tesSUCCESS");
             response.TxJson.Property("hash").Remove();
             await LedgerAccept(client);
             await VerifySubmittedTransaction(client, response.TxJson);

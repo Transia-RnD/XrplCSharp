@@ -8,14 +8,15 @@ using Xrpl.Client.Models.Ledger;
 using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Transactions;
 using Xrpl.Client.Tests;
+using Xrpl.Utils.Hashes;
 using Xrpl.XrplWallet;
 
-// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/checkCancel.ts
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/paymentChannelClaim.ts
 
 namespace Xrpl.Tests.Client.Tests.Integration
 {
     [TestClass]
-    public class TestICheckCancel
+    public class TestIPaymentChannelClaim
     {
         // private static int Timeout = 20;
         public TestContext TestContext { get; set; }
@@ -30,40 +31,36 @@ namespace Xrpl.Tests.Client.Tests.Integration
         [TestMethod]
         public async Task TestRequestMethod()
         {
+
             Wallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
-            // WAITING ON BINARY REFACTOR
-            //Currency sendMax = new Currency {
-            //    CurrencyCode = "XRP",
-            //    Value = "50"
-            //};
-            CheckCreate setupTx = new CheckCreate
+            PaymentChannelCreate setupTx = new PaymentChannelCreate
             {
                 Account = runner.wallet.ClassicAddress,
+                Amount = "100",
                 Destination = wallet2.ClassicAddress,
-                SendMax = new Currency { ValueAsXrp = 50 }
+                SettleDelay = 86400,
+                PublicKey = runner.wallet.ClassicAddress
             };
             Debug.WriteLine(setupTx.ToJson());
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
-            await Utils.TestTransaction(runner.client, setupJson, runner.wallet);
 
-            // get check ID
-            AccountObjectsRequest request1 = new AccountObjectsRequest(runner.wallet.ClassicAddress) { Type = "check" };
-            AccountObjects response1 = await runner.client.AccountObjects(request1);
-            string checkId = response1.AccountObjectList[0].Index;
+            Submit paymentChannelResponse = await runner.client.Submit(setupJson, runner.wallet);
+
+            await Utils.TestTransaction(runner.client, setupJson, runner.wallet);
             
-            // actual test - cancel the check
-            CheckCancel tx = new CheckCancel
+            // actually test PaymentChannelClaim
+            PaymentChannelClaim tx = new PaymentChannelClaim
             {
                Account = runner.wallet.ClassicAddress,
-               CheckID = checkId
+               Channel = Hashes.HashPaymentChannel(
+                    runner.wallet.ClassicAddress,
+                    wallet2.ClassicAddress,
+                    paymentChannelResponse.TxJson.Sequence
+                ),
+                Amount = "100"
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
             await Utils.TestTransaction(runner.client, txJson, runner.wallet);
-
-            // get check ID
-            AccountObjectsRequest request2 = new AccountObjectsRequest(runner.wallet.ClassicAddress) { Type = "check" };
-            AccountObjects response2 = await runner.client.AccountObjects(request1);
-            Assert.AreEqual(response2.AccountObjectList.Count, 0);
         }
     }
 }

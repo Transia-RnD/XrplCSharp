@@ -36,7 +36,6 @@ namespace Xrpl.Sugar
                 Strict = true
             };
             AccountInfo accountInfo = await client.AccountInfo(xrpRequest);
-            Debug.WriteLine(XrpConversion.DropsToXrp(accountInfo.AccountData.Balance.ToString()));
             return accountInfo.AccountData.Balance.ValueAsXrp.ToString();
         }
     }

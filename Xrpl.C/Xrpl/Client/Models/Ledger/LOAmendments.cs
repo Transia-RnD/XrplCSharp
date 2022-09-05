@@ -15,7 +15,7 @@ namespace Xrpl.Client.Models.Ledger
         tfLostMajority = 131072
     }
 
-    public class LOAmendments : BaseRippleLO
+    public class LOAmendments : BaseLedgerEntry
     {
         public LOAmendments()
         {

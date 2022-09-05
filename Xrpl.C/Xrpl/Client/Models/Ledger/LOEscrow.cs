@@ -8,7 +8,7 @@ using Xrpl.Client.Models.Enums;
 
 namespace Xrpl.Client.Models.Ledger
 {
-    public class LOEscrow : BaseRippleLO
+    public class LOEscrow : BaseLedgerEntry
     {
         public LOEscrow()
         {
@@ -38,10 +38,8 @@ namespace Xrpl.Client.Models.Ledger
 
         public string DestinationNode { get; set; }
 
-        [JsonProperty("PreviousTxnID")]
-        public string PreviousTransactionId { get; set; }
+        public string PreviousTxnID { get; set; }
 
-        [JsonProperty("PreviousTxnLgrSeq")]
-        public uint PreviousTransactionLedgerSequence { get; set; }
+        public uint PreviousTxnLgrSeq { get; set; }
     }
 }

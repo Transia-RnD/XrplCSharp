@@ -44,7 +44,9 @@ namespace Xrpl.Client.Models.Enums
         RippleState,
         SignerList,
         NFTokenPage,
-        Ticket
+        Ticket,
+        Check,
+        DepositPreauth
     }
 
     public enum StreamType

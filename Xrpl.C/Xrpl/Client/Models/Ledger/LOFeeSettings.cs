@@ -7,7 +7,7 @@ using Xrpl.Client.Models.Enums;
 
 namespace Xrpl.Client.Models.Ledger
 {
-    public class LOFeeSettings : BaseRippleLO
+    public class LOFeeSettings : BaseLedgerEntry
     {
         public LOFeeSettings()
         {

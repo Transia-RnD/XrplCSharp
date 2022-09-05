@@ -235,8 +235,6 @@ namespace Ripple.Address.Codec.Tests
         //{
         //    B58.Version version = B58.Version.With(versionByte: 0, expectedLength: 9);
         //    byte[] bytes = Encoding.ASCII.GetBytes("123456789");
-        //    Debug.WriteLine(bytes.Length);
-        //    Debug.WriteLine(version);
         //    Assert.AreEqual(B58.Encode(bytes, version), "rnaC7gW34M77Kneb78s");
         //}
 

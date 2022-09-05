@@ -31,9 +31,6 @@ namespace Ripple.Address.Codec.Tests
                 string classicAddress = testCase[0];
                 int tag = testCase[1] != false ? testCase[1] : 0;
                 string xAddress = testCase[3];
-                Debug.WriteLine(classicAddress);
-                Debug.WriteLine(tag);
-                Debug.WriteLine(xAddress);
                 Assert.AreEqual(xAddress, ClassicAddressToXAddress(classicAddress, tag, false));
                 CodecAddress myClassicAddress = XAddressToClassicAddress(xAddress);
                 Assert.AreEqual(myClassicAddress.ClassicAddress, classicAddress);
@@ -50,9 +47,6 @@ namespace Ripple.Address.Codec.Tests
                 string classicAddress = testCase[0];
                 int tag = testCase[1] != false ? testCase[1] : 0;
                 string xAddress = testCase[3];
-                Debug.WriteLine(classicAddress);
-                Debug.WriteLine(tag);
-                Debug.WriteLine(xAddress);
                 Assert.AreEqual(xAddress, ClassicAddressToXAddress(classicAddress, tag, true));
                 CodecAddress myClassicAddress = XAddressToClassicAddress(xAddress);
                 Assert.AreEqual(myClassicAddress.ClassicAddress, classicAddress);

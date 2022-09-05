@@ -148,7 +148,6 @@ namespace Xrpl.Sugar
         public static async Task SetLatestValidatedLedgerSequence(IRippleClient client, Dictionary<string, dynamic> tx)
         {
             uint ledgerSequence = await client.GetLedgerIndex();
-            Debug.WriteLine($"LAST LEDGER: {ledgerSequence}");
             tx["LastLedgerSequence"] = ledgerSequence + LEDGER_OFFSET;
         }
     }

@@ -6,7 +6,7 @@ using Xrpl.Client.Models.Enums;
 
 namespace Xrpl.Client.Models.Ledger
 {
-    public class LOSignerList : BaseRippleLO
+    public class LOSignerList : BaseLedgerEntry
     {
         public LOSignerList()
         {
@@ -23,11 +23,9 @@ namespace Xrpl.Client.Models.Ledger
 
         public uint SignerListId { get; set; }
 
-        [JsonProperty("PreviousTxnID")]
-        public string PreviousTransactionId { get; set; }
+        public string PreviousTxnID { get; set; }
 
-        [JsonProperty("PreviousTxnLgrSeq")]
-        public uint PreviousTransactionLedgerSequence { get; set; }
+        public uint PreviousTxnLgrSeq { get; set; }
     }
 
     public class SignerEntry

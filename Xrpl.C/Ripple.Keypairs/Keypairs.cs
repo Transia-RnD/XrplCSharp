@@ -4,7 +4,6 @@ using Ripple.Keypairs.Ed25519;
 using Ripple.Keypairs.K256;
 using static Ripple.Address.Codec.XrplCodec;
 using Ripple.Keypairs.Extensions;
-//using System.Diagnostics;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-keypairs/src/index.ts
 

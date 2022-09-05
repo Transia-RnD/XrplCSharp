@@ -26,6 +26,6 @@ namespace Xrpl.Client.Models.Ledger
         [JsonProperty("marker")]
         public string Data { get; set; }
 
-        public BaseRippleLO LedgerObject { get; set; }
+        public BaseLedgerEntry LedgerObject { get; set; }
     }
 }

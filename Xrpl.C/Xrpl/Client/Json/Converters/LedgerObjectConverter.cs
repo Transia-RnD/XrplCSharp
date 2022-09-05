@@ -15,7 +15,7 @@ namespace Xrpl.Client.Json.Converters
             throw new NotImplementedException();
         }
 
-        public BaseRippleLO Create(Type objectType, JObject jObject)
+        public BaseLedgerEntry Create(Type objectType, JObject jObject)
         {
             string ledgerEntryType = jObject.Property("LedgerEntryType").Value.ToString();
             switch (ledgerEntryType)
@@ -40,8 +40,12 @@ namespace Xrpl.Client.Json.Converters
                     return new LORippleState();
                 case "SignerList":
                     return new LOSignerList();
-                // case "Ticket":
-                //     return new LOTicket();
+                case "Ticket":
+                    return new LOTicket();
+                case "Check":
+                    return new LOCheck();
+                case "DepositPreauth":
+                    return new LODepositPreauth();
             }
             throw new Exception("Can't create ledger type" + ledgerEntryType);
         }

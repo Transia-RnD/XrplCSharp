@@ -20,7 +20,7 @@ namespace Xrpl.Client.Models.Ledger
         lsfLowFreeze = 4194304,
         lsfHighFreeze = 8388608
     }
-    public class LORippleState : BaseRippleLO
+    public class LORippleState : BaseLedgerEntry
     {
         public LORippleState()
         {
@@ -35,11 +35,9 @@ namespace Xrpl.Client.Models.Ledger
 
         public Currency HighLimit { get; set; }
 
-        [JsonProperty("PreviousTxnID")]
-        public string PreviousTransactionId { get; set; }
+        public string PreviousTxnID { get; set; }
 
-        [JsonProperty("PreviousTxnLgrSeq")]
-        public uint PreviousTransactionLedgerSequence { get; set; }
+        public uint PreviousTxnLgrSeq { get; set; }
 
         public string LowNode { get; set; }
 

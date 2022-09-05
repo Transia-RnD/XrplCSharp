@@ -54,8 +54,6 @@ namespace Ripple.Binary.Codec.Tests
                 var t = entries[i];
                 var json = t.json;
                 var binary = t.binary;
-                Debug.WriteLine(json);
-                Debug.WriteLine(binary);
                 Assert.AreEqual(BinaryCodec.Encode(json), binary);
                 //expect(encode(t.json)).toEqual(t.binary)
                 //var decoded = B16.Encode(binary)
@@ -74,10 +72,8 @@ namespace Ripple.Binary.Codec.Tests
             //MakeSuiteI();
             var obj = GetTestsJson();
             string transactionsString = obj["transactions"].ToString();
-            Debug.WriteLine(transactionsString);
             var transactionsData = JsonConvert.DeserializeObject<TestData[]>(transactionsString);
             string accountStateString = obj["transactions"].ToString();
-            Debug.WriteLine(accountStateString);
             var accountStateData = JsonConvert.DeserializeObject<TestData[]>(accountStateString);
             MakeSuite("transactions", transactionsData);
             MakeSuite("accountState", accountStateData);
@@ -88,7 +84,6 @@ namespace Ripple.Binary.Codec.Tests
         {
             var obj = GetTestsJson();
             string ledgerDataString = obj["ledgerData"].ToString();
-            //Debug.WriteLine(ledgerDataString);
             var ledgerData = JsonConvert.DeserializeObject<TestData[]>(ledgerDataString);
             for (int i = 0; i < ledgerData.Length; i++)
             {

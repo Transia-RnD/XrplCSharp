@@ -79,7 +79,7 @@ namespace Ripple.Keypairs.K256
 
         public string Pk()
         {
-            return Ripple.Address.Codec.Utils.FromBytesToHex(this._privKey.ToByteArray());
+            return $"00{Ripple.Address.Codec.Utils.FromBytesToHex(this._privKey.ToByteArray())}";
         }
 
         static public byte[] Sign(byte[] message, byte[] privateKey)

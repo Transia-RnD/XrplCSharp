@@ -18,7 +18,6 @@ namespace Xrpl.Tests.Client.Tests.Integration
 
         public async Task<SetupIntegration> SetupClient(string serverUrl)
         {
-            Debug.WriteLine(serverUrl);
             wallet = Wallet.Generate();
             var promise = new TaskCompletionSource();
             client = new RippleClient(serverUrl);

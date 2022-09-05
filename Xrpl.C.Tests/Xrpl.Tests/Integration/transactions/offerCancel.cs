@@ -10,12 +10,12 @@ using Xrpl.Client.Models.Transactions;
 using Xrpl.Client.Tests;
 using Xrpl.XrplWallet;
 
-// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/checkCancel.ts
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/offerCancel.ts
 
 namespace Xrpl.Tests.Client.Tests.Integration
 {
     [TestClass]
-    public class TestICheckCancel
+    public class TestIOfferCancel
     {
         // private static int Timeout = 20;
         public TestContext TestContext { get; set; }
@@ -30,40 +30,39 @@ namespace Xrpl.Tests.Client.Tests.Integration
         [TestMethod]
         public async Task TestRequestMethod()
         {
+
             Wallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
-            // WAITING ON BINARY REFACTOR
-            //Currency sendMax = new Currency {
-            //    CurrencyCode = "XRP",
-            //    Value = "50"
-            //};
-            CheckCreate setupTx = new CheckCreate
+            OfferCreate setupTx = new OfferCreate
             {
                 Account = runner.wallet.ClassicAddress,
-                Destination = wallet2.ClassicAddress,
-                SendMax = new Currency { ValueAsXrp = 50 }
+                TakerGets = new Currency() { ValueAsXrp = 13100000 },
+                TakerPays = new Currency() { 
+                    CurrencyCode = "USD",
+                    Issuer = runner.wallet.ClassicAddress,
+                    Value = "10",
+                }
             };
             Debug.WriteLine(setupTx.ToJson());
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);
 
-            // get check ID
-            AccountObjectsRequest request1 = new AccountObjectsRequest(runner.wallet.ClassicAddress) { Type = "check" };
-            AccountObjects response1 = await runner.client.AccountObjects(request1);
-            string checkId = response1.AccountObjectList[0].Index;
+            // sequence
+            AccountOffersRequest request1 = new AccountOffersRequest(runner.wallet.ClassicAddress);
+            AccountOffers response1 = await runner.client.AccountOffers(request1);
+            uint sequence = (uint)response1.Offers[0].Sequence;
             
-            // actual test - cancel the check
-            CheckCancel tx = new CheckCancel
+            // actually test OfferCancel
+            OfferCancel tx = new OfferCancel
             {
                Account = runner.wallet.ClassicAddress,
-               CheckID = checkId
+               OfferSequence = sequence
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
             await Utils.TestTransaction(runner.client, txJson, runner.wallet);
 
-            // get check ID
-            AccountObjectsRequest request2 = new AccountObjectsRequest(runner.wallet.ClassicAddress) { Type = "check" };
-            AccountObjects response2 = await runner.client.AccountObjects(request1);
-            Assert.AreEqual(response2.AccountObjectList.Count, 0);
+            AccountOffersRequest request2 = new AccountOffersRequest(runner.wallet.ClassicAddress);
+            AccountOffers response2 = await runner.client.AccountOffers(request1);
+            Assert.AreEqual(response2.Offers.Count, 0);
         }
     }
 }

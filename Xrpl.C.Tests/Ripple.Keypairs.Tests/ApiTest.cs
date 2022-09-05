@@ -12,8 +12,6 @@ using Xrpl.Client.Extensions;
 using Org.BouncyCastle.Bcpg.Sig;
 using Ripple.Keypairs.Extensions;
 
-//Debug.WriteLine(decodedSeed.Bytes.Length);
-
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-keypairs/test/api-test.js
 
 namespace Ripple.Keypairs.Tests

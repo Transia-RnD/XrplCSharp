@@ -14,7 +14,7 @@ namespace Xrpl.Client.Models.Methods
         public string Account { get; set; }
 
         [JsonProperty("account_objects")]
-        public List<BaseRippleLO> AccountObjectList { get; set; }
+        public List<BaseLedgerEntry> AccountObjectList { get; set; }
 
         [JsonProperty("ledger_hash")]
         public string LedgerHash { get; set; }

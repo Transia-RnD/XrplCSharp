@@ -61,8 +61,6 @@ namespace Xrpl.XrplWallet
             json.Add("channel", channelID);
             json.Add("amount", amount);
             string signatureData = BinaryCodec.EncodeForSigningClaim(json);
-            Debug.WriteLine(signatureData);
-            Debug.WriteLine(wallet.PrivateKey);
             return Keypairs.Sign(signatureData.FromHex(), wallet.PrivateKey);
         }
 

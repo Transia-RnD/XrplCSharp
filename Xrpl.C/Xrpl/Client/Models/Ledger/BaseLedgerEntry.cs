@@ -6,7 +6,7 @@ using Xrpl.Client.Models.Enums;
 namespace Xrpl.Client.Models.Ledger
 {
     [JsonConverter(typeof(LOConverter))]
-    public class BaseRippleLO
+    public class BaseLedgerEntry
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public LedgerEntryType LedgerEntryType { get; set; }

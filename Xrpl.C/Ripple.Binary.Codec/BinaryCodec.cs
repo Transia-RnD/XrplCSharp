@@ -31,7 +31,6 @@ namespace Ripple.Binary.Codec
         /// <returns>JToken</returns>
         public static JToken Decode(string binary)
         {
-            Debug.WriteLine("DECODING");
             var stobject = StObject.FromHex(binary);
             return stobject.ToJson();
         }
@@ -43,8 +42,6 @@ namespace Ripple.Binary.Codec
         /// <returns>string</returns>
         public static string Encode(JToken token)
         {
-            Debug.WriteLine("ENCODING");
-            Debug.WriteLine(token.ToString());
             return SerializeJson(token);
         }
 
@@ -114,6 +111,7 @@ namespace Ripple.Binary.Codec
                 list.Put(prefix);
             }
 
+            Debug.WriteLine(json);
             StObject so = StObject.FromJson(json, strict: true);
             list.Put(so.ToBytes());
 

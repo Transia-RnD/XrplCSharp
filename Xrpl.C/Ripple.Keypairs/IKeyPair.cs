@@ -14,9 +14,6 @@ namespace Ripple.Keypairs
     {
         byte[] CanonicalPubBytes();
 
-        //bool Verify(byte[] message, byte[] signature, byte[] publicKey);
-        //byte[] Sign(byte[] message, byte[] privateKey);
-
         string Id();
         string Pk();
     }

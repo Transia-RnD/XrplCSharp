@@ -7,7 +7,7 @@ using Xrpl.Client.Models.Enums;
 
 namespace Xrpl.Client.Models.Ledger
 {
-    public class LOLedgerHashes : BaseRippleLO
+    public class LOLedgerHashes : BaseLedgerEntry
     {
         public LOLedgerHashes()
         {
