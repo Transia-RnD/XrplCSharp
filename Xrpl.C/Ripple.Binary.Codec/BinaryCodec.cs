@@ -68,7 +68,7 @@ namespace Ripple.Binary.Codec
         }
 
         /// <summary>
-        /// Encode a `payment channel <https://xrpl.org/payment-channels.html>`_ Claim to be signed.
+        /// Encode a `payment channel <a href="https://xrpl.org/payment-channels.html">here</a>`_ Claim to be signed.
         /// </summary>
         /// <param name="json"></param>
         /// <returns>string</returns> The binary-encoded claim, ready to be signed.

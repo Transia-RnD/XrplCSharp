@@ -32,6 +32,16 @@ namespace Xrpl.Sugar
             public int? Tag { get; set; }
         }
 
+        /// <summary>
+        /// Autofills fields in a transaction. This will set `Sequence`, `Fee`,
+        /// `lastLedgerSequence` according to the current state of the server this Client
+        /// is connected to. It also converts all X-Addresses to classic addresses and
+        /// flags interfaces into numbers.
+        /// </summary>
+        /// <param name="client">A client.</param>
+        /// <param name="transaction">A {@link Transaction} in JSON format</param>
+        /// <param name="signersCount">The expected number of signers for this transaction. Only used for multisigned transactions.</param>
+        // <returns>The autofilled transaction.</returns>
         public static async Task<Dictionary<string, dynamic>> Autofill(IRippleClient client, Dictionary<string, dynamic> transaction, int? signersCount)
         {
             Dictionary<string, dynamic> tx = transaction;
@@ -59,6 +69,8 @@ namespace Xrpl.Sugar
             Task.WaitAll(promises.ToArray());
             return tx;
         }
+
+
         public static void SetValidAddresses(Dictionary<string, dynamic> tx)
         {
             ValidateAccountAddress(tx, "Account", "SourceTag");

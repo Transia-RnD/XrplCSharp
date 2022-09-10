@@ -43,6 +43,15 @@ namespace Ripple.Address.Codec
             B58 = new B58(Alphabet);
         }
 
+        /// <summary>
+        /// Returns the X-Address representation of the data.
+        /// </summary>
+        /// <param classicAddress="string"></param>
+        /// <param tag="int"></param>
+        /// <param isTest="boolean"></param>
+        /// <returns>The X-Address representation of the data.</returns>
+        /// <throws>XRPLAddressCodecException: If the classic address does not have enough bytes
+        /// or the tag is invalid.</throws>
         public static string ClassicAddressToXAddress(string classicAddress, int tag, bool isTest)
         {
             byte[] accountId = XrplCodec.DecodeAccountID(accountId: classicAddress);
@@ -80,6 +89,13 @@ namespace Ripple.Address.Codec
             return B58.EncodeToString(fbytes);
         }
 
+        /// <summary>
+        /// Returns a tuple containing the classic address, tag, and whether the address
+        /// is on a test network for an X-Address.
+        /// </summary>
+        /// <param xAddress="string"></param>
+        /// <returns>A dict containing: classicAddress: the base58 classic address, tag: the destination tag, isTest: whether the address is on the test network (or main)</returns>
+        /// <throws>AddressCodecError: If the base decoded value is invalid or the base58 check is invalid</throws>
         public static CodecAddress XAddressToClassicAddress(string xAddress)
         {
             CodecAccountID account = DecodeXAddress(xAddress);
@@ -90,13 +106,19 @@ namespace Ripple.Address.Codec
         public static CodecAccountID DecodeXAddress(string xAddress)
         {
             byte[] decoded = B58.Decode(xAddress);
-            bool isTest = IsBufferForTestAddress(decoded);
+            bool isTest = IsTestAddress(decoded);
             byte[] accountId = CopyOfRange(decoded, 2, 22);
             int tag = TagFromBuffer(decoded);
             return new CodecAccountID { AccountID = accountId, Tag = tag, Test = isTest };
         }
 
-        public static bool IsBufferForTestAddress(byte[] buf)
+        /// <summary>
+        /// Returns whether a decoded X-Address is a test address.
+        /// </summary>
+        /// <param prefix="string">The first 2 bytes of an X-Address.</param>
+        /// <returns>Whether a decoded X-Address is a test address.</returns>
+        /// <throws>XRPLAddressCodecException: If the prefix is invalid.</throws>
+        public static bool IsTestAddress(byte[] buf)
         {
             byte[] decodedPrefix = CopyOfRange(buf, 0, 2);
             if (PREFIX_BYTES_MAIN == decodedPrefix)
@@ -110,6 +132,12 @@ namespace Ripple.Address.Codec
             throw new AddressCodecException("Invalid X-address: bad prefix");
         }
 
+        /// <summary>
+        /// Returns the destination tag extracted from the suffix of the X-Address.
+        /// </summary>
+        /// <param buffer="bytes[]"></param>
+        /// <returns>The destination tag extracted from the suffix of the X-Address.</returns>
+        /// <throws>XRPLAddressCodecException: If the address is unsupported.</throws>
         public static int TagFromBuffer(byte[] buf)
         {
             byte flag = buf[22];
@@ -131,6 +159,11 @@ namespace Ripple.Address.Codec
             return -1;
         }
 
+        /// <summary>
+        /// Returns whether `xAddress` is a valid X-Address.
+        /// </summary>
+        /// <param xAddress="string">The X-Address to check for validity.</param>
+        /// <returns>Whether `xAddress` is a valid X-Address.</returns>
         public static bool IsValidXAddress(string xAddress)
         {
             try

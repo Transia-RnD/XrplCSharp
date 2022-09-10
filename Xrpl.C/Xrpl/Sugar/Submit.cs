@@ -22,11 +22,11 @@ namespace Xrpl.Sugar
         /// <summary>
         /// Submits a signed/unsigned transaction.
         /// </summary>
-        /// <param name="client"></param>
-        /// <param name="transaction"></param>
-        /// <param name="autofill"></param>
-        /// <param name="failHard"></param>
-        /// <param name="wallet"></param>
+        /// <param name="client">A Client.</param>
+        /// <param name="transaction">A transaction to autofill, sign & encode, and submit.</param>
+        /// <param name="autofill">If true, autofill a transaction.</param>
+        /// <param name="failHard">If true, and the transaction fails locally, do not retry or relay the transaction to other servers.</param>
+        /// <param name="wallet">A wallet to sign a transaction. It must be provided when submitting an unsigned transaction.</param>
         /// <returns>A Wallet derived from a seed.</returns>
         public static async Task<Submit> Submit(
             IRippleClient client,
@@ -36,7 +36,7 @@ namespace Xrpl.Sugar
             Wallet wallet = null
         )
         {
-            string signedTx = await SubmitSugar.GetSignedTx(client, transaction, autofill, wallet);
+            string signedTx = await SubmitSugar.GetSignedTx(client, transaction, autofill, false, wallet);
             return await SubmitRequest(client, signedTx, failHard);
         }
 
@@ -58,16 +58,17 @@ namespace Xrpl.Sugar
         /// <summary>
         /// Initializes a transaction for a submit request
         /// </summary>
-        /// <param name="client"></param>
-        /// <param name="transaction"></param>
-        /// <param name="autofill"></param>
-        /// <param name="failHard"></param>
-        /// <param name="wallet"></param>
+        /// <param name="client">A Client.</param>
+        /// <param name="transaction">A transaction to autofill, sign & encode, and submit.</param>
+        /// <param name="autofill">If true, autofill a transaction.</param>
+        /// <param name="failHard">If true, and the transaction fails locally, do not retry or relay the transaction to other servers.</param>
+        /// <param name="wallet">A wallet to sign a transaction. It must be provided when submitting an unsigned transaction.</param>
         /// <returns>A Wallet derived from a seed.</returns>
         public static async Task<string> GetSignedTx(
             IRippleClient client,
             Dictionary<string, dynamic> transaction,
             bool autofill = false,
+            bool failHard = false,
             Wallet? wallet = null
         )
         {

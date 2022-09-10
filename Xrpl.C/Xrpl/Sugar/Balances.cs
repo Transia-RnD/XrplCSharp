@@ -12,21 +12,16 @@ using Xrpl.Utils;
 
 namespace Xrpl.Sugar
 {
-    // <summary>
-    /// Get the XRP balance for an account.
-    /// </summary>
-    /// <example>
-    ///
-    ///
-    ///
-    /// </example>
-    /// <param name="client" Drops to convert to XRP. This can be a string, number, or BigNumber.
-    /// <param name="address" Address of the account to retrieve XRP balance.
-    /// <param name="ledgerHndex" Retrieve the account balances at a given ledger_index.
-    /// <param name="ledgerHash" Retrieve the account balances at the ledger with a given ledger_hash.
-    /// <returns/> The XRP balance of the account (as a string).
     public class BalancesSugar
     {
+        /// <summary>
+        /// Get the XRP balance for an account.
+        /// </summary>
+        /// <param name="client">Client.</param>
+        /// <param name="address">Address of the account to retrieve XRP balance.</param>
+        /// <param name="lederIndex">Retrieve the account balances at a given ledgerIndex.</param>
+        /// <param name="ledgerHash">Retrieve the account balances at the ledger with a given ledger_hash.</param>
+        /// <returns/> The XRP balance of the account (as a string).
         public static async Task<string> GetXrpBalance(RippleClient client, string address, string? ledgerHash = null, LedgerIndex? lederIndex = null)
         {
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Validated);

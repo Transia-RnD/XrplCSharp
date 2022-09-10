@@ -1,7 +1,3 @@
-
-
-// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/requests/submitMultisigned.ts
-
 using System.Diagnostics;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -9,6 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xrpl.Client;
 using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Tests;
+
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/requests/submitMultisigned.ts
 
 namespace Xrpl.Tests.Client.Tests.Integration
 {

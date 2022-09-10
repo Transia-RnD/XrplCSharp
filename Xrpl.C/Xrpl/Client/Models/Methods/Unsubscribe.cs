@@ -3,14 +3,11 @@ using System.Collections.Generic;
 
 namespace Xrpl.Client.Models.Methods
 {
-    public class SubscribeRequest : RippleRequest
+    public class UnsubscribeRequest : RippleRequest
     {
-        public SubscribeRequest()
+        public UnsubscribeRequest()
         {
-            Command = "subscribe";
+            Command = "unsubscribe";
         }
-
-        [JsonProperty("streams")]
-        public List<string> Streams { get; set; }
     }
 }
