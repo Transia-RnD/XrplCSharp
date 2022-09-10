@@ -12,5 +12,8 @@ namespace Xrpl.Client.Models.Methods
 
         [JsonProperty("streams")]
         public List<string> Streams { get; set; }
+        [JsonProperty("accounts")]
+        public List<string> Accounts { get; set; }
+
     }
 }

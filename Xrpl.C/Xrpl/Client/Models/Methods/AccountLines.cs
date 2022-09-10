@@ -47,7 +47,7 @@ namespace Xrpl.Client.Models.Methods
         public string Limit { get; set; }
 
         [JsonIgnore]
-        public decimal LimitAsNumber => decimal.Parse(Limit, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+        public double LimitAsNumber => double.Parse(Limit, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 
         [JsonProperty("limit_peer")]
         public string LimitPeer { get; set; }
