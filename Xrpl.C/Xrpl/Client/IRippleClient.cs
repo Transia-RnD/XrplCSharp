@@ -18,8 +18,11 @@ using Submit = Xrpl.Client.Models.Transactions.Submit;
 
 namespace Xrpl.Client
 {
+    public delegate void OnClientSubscribe(string response);
+
     public interface IRippleClient
     {
+        event OnClientSubscribe OnClientSubscribe;
         #region Server
 
         /// <summary> connect to the server </summary>
@@ -310,6 +313,8 @@ namespace Xrpl.Client
 
     public class RippleClient : IRippleClient
     {
+        public event OnClientSubscribe OnClientSubscribe;
+
         private readonly WebSocketClient client;
         private readonly ConcurrentDictionary<Guid, TaskInfo> tasks;
         private readonly JsonSerializerSettings serializerSettings;
@@ -945,6 +950,12 @@ namespace Xrpl.Client
         private void MessageReceived(string s, WebSocketClient client)
         {
             RippleResponse response = JsonConvert.DeserializeObject<RippleResponse>(s);
+
+            if (response.Type != "response")
+            {
+                OnClientSubscribe?.Invoke(s);
+                return;
+            }
             try
             {
                 var taskInfoResult = tasks.TryGetValue(response.Id, out var taskInfo);
