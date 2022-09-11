@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 
-using Newtonsoft.Json;
+using System;
+
+using xrpl_c.Xrpl.Client.Models.Subscriptions;
 
 namespace Xrpl.Client.Models.Transactions
 {
@@ -17,7 +18,7 @@ namespace Xrpl.Client.Models.Transactions
         public string Status { get; set; }
 
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public ResponseStreamType Type { get; set; }
 
         [JsonProperty("result")]
         public object Result { get; set; }

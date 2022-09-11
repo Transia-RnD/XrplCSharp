@@ -18,7 +18,7 @@ public class TransactionStreamResponseResult : BaseStreamResponseResult
     /// transaction indicates this is the notification of a transaction, which could come from several possible streams.
     /// </summary>
     [JsonProperty("type")]
-    public string Type { get; set; }
+    public ResponseStreamType Type { get; set; }
     /// <summary>
     /// (Unvalidated transactions only) The ledger index of the current in-progress ledger version for which this transaction is currently proposed.
     /// </summary>

@@ -28,6 +28,8 @@ namespace xrpl_c.Xrpl.Client.Models.Subscriptions
         public List<RippleResponseWarning> Warnings { get; set; }
         [JsonProperty("forwarded")]
         public string Forwarded { get; set; }
+        [JsonProperty("api_version")]
+        public string ApiVersion { get; set; }
     }  
 
     public class RippleResponseWarning

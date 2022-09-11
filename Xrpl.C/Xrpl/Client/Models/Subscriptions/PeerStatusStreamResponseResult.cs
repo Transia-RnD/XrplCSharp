@@ -13,7 +13,7 @@ public class PeerStatusStreamResponseResult
     /// peerStatusChange indicates this comes from the Peer Status stream.
     /// </summary>
     [JsonProperty("type")]
-    public string Type { get; set; }
+    public ResponseStreamType Type { get; set; }
     /// <summary>
     /// The type of event that prompted this message. See Peer Status Events for possible values.<br/>
     /// possible values:<br/>

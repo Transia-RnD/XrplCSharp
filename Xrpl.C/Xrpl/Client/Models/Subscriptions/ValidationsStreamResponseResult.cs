@@ -14,7 +14,7 @@ public class ValidationsStreamResponseResult
     /// The value validationReceived indicates this is from the validations stream.
     /// </summary>
     [JsonProperty("type")]
-    public string Type { get; set; }
+    public ResponseStreamType Type { get; set; }
     /// <summary>
     /// (May be omitted) The amendments this server wants to be added to the protocol.
     /// </summary>

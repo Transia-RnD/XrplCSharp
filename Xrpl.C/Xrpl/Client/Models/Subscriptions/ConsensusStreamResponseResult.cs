@@ -10,10 +10,11 @@ namespace xrpl_c.Xrpl.Client.Models.Subscriptions;
 public class ConsensusStreamResponseResult
 {
     /// <summary>
-    /// consensusPhase indicates this is from the consensus stream
+    /// consensusPhase indicates this is from the consensus stream<br/>
+    /// consensusPhase - type
     /// </summary>
     [JsonProperty("type")]
-    public string Type { get; set; }
+    public ResponseStreamType Type { get; set; }
     /// <summary>
     /// The new consensus phase the server is in. Possible values are open, establish, and accepted.
     /// </summary>

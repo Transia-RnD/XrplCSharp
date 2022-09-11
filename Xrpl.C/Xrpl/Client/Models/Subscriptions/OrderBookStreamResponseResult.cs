@@ -10,10 +10,10 @@ namespace xrpl_c.Xrpl.Client.Models.Subscriptions;
 public class OrderBookStreamResponseResult : BaseStreamResponseResult
 {
     /// <summary>
-    /// peerStatusChange indicates this comes from the Peer Status stream.
+    /// transaction - type.
     /// </summary>
     [JsonProperty("type")]
-    public string Type { get; set; }
+    public ResponseStreamType Type { get; set; }
 
     /// <summary>
     /// (Validated transactions only) The transaction metadata, which shows the exact outcome of the transaction in detail.
