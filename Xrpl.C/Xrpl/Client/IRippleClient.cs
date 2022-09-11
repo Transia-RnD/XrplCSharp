@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Net.WebSockets;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 using Xrpl.Client.Exceptions;
 using Xrpl.Client.Models.Ledger;
 using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Transactions;
+
+using xrpl_c.Xrpl.Client.Models.Subscriptions;
 
 using BookOffers = Xrpl.Client.Models.Transactions.BookOffers;
 using ChannelAuthorize = Xrpl.Client.Models.Transactions.ChannelAuthorize;
@@ -18,11 +23,26 @@ using Submit = Xrpl.Client.Models.Transactions.Submit;
 
 namespace Xrpl.Client
 {
-    public delegate void OnClientSubscribe(string response);
+    public delegate void OnRippleResponse(string response);
+    public delegate void OnLedgerStreamResponse(LedgerStreamResponseResult response);
+    public delegate void OnValidationsStreamResponse(ValidationsStreamResponseResult response);
+    public delegate void OnTransactionStreamResponse(TransactionStreamResponseResult response);
+    public delegate void OnPeerStatusStreamResponse(PeerStatusStreamResponseResult response);
+    public delegate void OnConsensusStreamResponse(ConsensusStreamResponseResult response);
+    public delegate void OnPathFindStream(PathFindStreamResult response);
+    public delegate void OnErrorResponse(ErrorResponse response);
 
-    public interface IRippleClient
+    public interface IRippleClient : IDisposable
     {
-        event OnClientSubscribe OnClientSubscribe;
+        event OnLedgerStreamResponse OnLedgerClosed;
+        event OnValidationsStreamResponse OnValidation;
+        event OnTransactionStreamResponse OnTransaction;
+        event OnPeerStatusStreamResponse OnPeerStatusChange;
+        event OnConsensusStreamResponse OnConsensusPhase;
+        event OnPathFindStream OnPathFind;
+        event OnErrorResponse OnError;
+        event OnRippleResponse OnResponse;
+
         #region Server
 
         /// <summary> connect to the server </summary>
@@ -51,7 +71,7 @@ namespace Xrpl.Client
 
 
         #endregion
-        
+
         #region Account
 
         #region Info
@@ -313,7 +333,14 @@ namespace Xrpl.Client
 
     public class RippleClient : IRippleClient
     {
-        public event OnClientSubscribe OnClientSubscribe;
+        public event OnLedgerStreamResponse OnLedgerClosed;
+        public event OnValidationsStreamResponse OnValidation;
+        public event OnTransactionStreamResponse OnTransaction;
+        public event OnPeerStatusStreamResponse OnPeerStatusChange;
+        public event OnConsensusStreamResponse OnConsensusPhase;
+        public event OnPathFindStream OnPathFind;
+        public event OnErrorResponse OnError;
+        public event OnRippleResponse OnResponse;
 
         private readonly WebSocketClient client;
         private readonly ConcurrentDictionary<Guid, TaskInfo> tasks;
@@ -327,6 +354,7 @@ namespace Xrpl.Client
             serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
 
             client = WebSocketClient.Create(url);
+            OnResponse += OnMessageReceived;
             client.OnMessageReceived(MessageReceived);
             client.OnConnectionError(Error);
         }
@@ -337,6 +365,7 @@ namespace Xrpl.Client
         public void Connect()
         {
             client.OnMessageReceived(MessageReceived);
+
             client.Connect();
             do
             {
@@ -346,6 +375,7 @@ namespace Xrpl.Client
         /// <inheritdoc />
         public void Disconnect()
         {
+            OnResponse -= OnMessageReceived;
             client.Disconnect();
         }
         /// <inheritdoc />
@@ -924,7 +954,7 @@ namespace Xrpl.Client
         }
 
         #endregion
-        
+
         /// <inheritdoc />
         public Task<BookOffers> BookOffers(BookOffersRequest request)
         {
@@ -949,13 +979,77 @@ namespace Xrpl.Client
 
         private void MessageReceived(string s, WebSocketClient client)
         {
-            RippleResponse response = JsonConvert.DeserializeObject<RippleResponse>(s);
+            var json = JObject.Parse(s);
+            var can_get_type = json.TryGetValue("type", out var responseType);
+            if (!can_get_type)
+                throw new ArgumentNullException("type", "Unknown response type");
+            Enum.TryParse(responseType.ToString(), out ResponseStreamType type);
 
-            if (response.Type != "response")
+            switch (type)
             {
-                OnClientSubscribe?.Invoke(s);
-                return;
+                case ResponseStreamType.response:
+                    {
+                        OnResponse?.Invoke(s);
+                        break;
+                    }
+                case ResponseStreamType.connected:
+                    {
+                        break;
+                    }
+                case ResponseStreamType.disconnected:
+                    {
+                        break;
+                    }
+                case ResponseStreamType.ledgerClosed:
+                    {
+                        var response = JsonConvert.DeserializeObject<LedgerStreamResponseResult>(s);
+                        OnLedgerClosed?.Invoke(response);
+                        break;
+                    }
+                case ResponseStreamType.validationReceived:
+                    {
+                        var response = JsonConvert.DeserializeObject<ValidationsStreamResponseResult>(s);
+                        OnValidation?.Invoke(response);
+                        break;
+                    }
+                case ResponseStreamType.transaction:
+                    {
+                        var response = JsonConvert.DeserializeObject<TransactionStreamResponseResult>(s);
+                        OnTransaction?.Invoke(response);
+                        break;
+                    }
+                case ResponseStreamType.peerStatusChange:
+                    {
+                        var response = JsonConvert.DeserializeObject<PeerStatusStreamResponseResult>(s);
+                        OnPeerStatusChange?.Invoke(response);
+                        break;
+                    }
+                case ResponseStreamType.consensusPhase:
+                    {
+                        var response = JsonConvert.DeserializeObject<ConsensusStreamResponseResult>(s);
+                        OnConsensusPhase?.Invoke(response);
+                        break;
+                    }
+                case ResponseStreamType.path_find:
+                    {
+                        var response = JsonConvert.DeserializeObject<PathFindStreamResult>(s);
+                        OnPathFind?.Invoke(response);
+                        break;
+                    }
+                case ResponseStreamType.error:
+                    {
+                        var response = JsonConvert.DeserializeObject<ErrorResponse>(s);
+                        OnError?.Invoke(response);
+                        break;
+                    }
+                default: throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void OnMessageReceived(string s)
+        {
+            var response = JsonConvert.DeserializeObject<RippleResponse>(s);
+
             try
             {
                 var taskInfoResult = tasks.TryGetValue(response.Id, out var taskInfo);
@@ -993,6 +1087,17 @@ namespace Xrpl.Client
 
                 tasks.TryRemove(response.Id, out taskInfo);
             }
+
         }
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            client?.Disconnect();
+            client?.Dispose();
+        }
+
+        #endregion
     }
 }
