@@ -50,12 +50,13 @@ namespace Xrpl.Client
         /// <summary> Disconnect from server </summary>
         void Disconnect();
         /// <summary> The subscribe method requests periodic notifications from the server when certain events happen. </summary>
-        /// <returns></returns>
-        Task<object> Subscribe();
-        /// <summary> The subscribe method requests periodic notifications from the server when certain events happen. </summary>
         /// <param name="request">An <see cref="Xrpl.Client.Models.Methods.SubscribeRequest"/> request.</param>
         /// <returns></returns>
         Task<object> Subscribe(SubscribeRequest request);
+        /// <summary> The unsubscribe command tells the server to stop sending messages for a particular subscription or set of subscriptions.</summary>
+        /// <param name="request">An <see cref="Xrpl.Client.Models.Methods.UnSubscribeRequest"/> request.</param>
+        /// <returns></returns>
+        Task<object> UnSubscribe(UnSubscribeRequest request);
 
         /// <summary> The ping command returns an acknowledgement,
         /// so that clients can test the connection status and latency </summary>
@@ -378,14 +379,27 @@ namespace Xrpl.Client
             OnResponse -= OnMessageReceived;
             client.Disconnect();
         }
-        /// <inheritdoc />
-        public Task<object> Subscribe()
-        {
-            SubscribeRequest request = new SubscribeRequest();
-            return Subscribe(request);
-        }
+
         /// <inheritdoc />
         public Task<object> Subscribe(SubscribeRequest request)
+        {
+
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<object> task = new TaskCompletionSource<object>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.RemoveUponCompletion = false;
+            taskInfo.Type = typeof(object);
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+        /// <inheritdoc />
+        public Task<object> UnSubscribe(UnSubscribeRequest request)
         {
 
             var command = JsonConvert.SerializeObject(request, serializerSettings);
@@ -979,6 +993,9 @@ namespace Xrpl.Client
 
         private void MessageReceived(string s, WebSocketClient client)
         {
+            if(string.IsNullOrWhiteSpace(s))
+                return;
+
             var json = JObject.Parse(s);
             var can_get_type = json.TryGetValue("type", out var responseType);
             if (!can_get_type)
