@@ -63,6 +63,6 @@ public class LedgerStreamResponseResult
     /// This field is not returned if the server is not connected to the network, or if it is connected but has not yet obtained a ledger from the network.
     /// </summary>
     [JsonProperty("validated_ledgers")]
-    public uint? ValidatedLedgers { get; set; }
+    public string ValidatedLedgers { get; set; }
 
 }
