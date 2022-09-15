@@ -1,16 +1,46 @@
-﻿using Newtonsoft.Json;
+﻿//https://github.com/XRPLF/xrpl.js/blob/5fc1c795bc6fe4de34713fd8f0a3fde409378b30/packages/xrpl/src/models/methods/subscribe.ts
+
+using Newtonsoft.Json;
 
 using System.Collections.Generic;
 
 namespace Xrpl.Client.Models.Methods
 {
 
-    public class SubscribeRequest : RippleRequest
+    /// <summary>
+    /// The subscribe method requests periodic notifications from the server when certain events happen.<br/>
+    /// https://xrpl.org/subscribe.html
+    /// </summary>
+    public class SubscribeRequest : SubscribeBase
     {
         public SubscribeRequest()
         {
             Command = "subscribe";
         }
+        /// <summary>
+        /// (Optional for Websocket; Required otherwise) URL where the server sends a JSON-RPC callbacks for each event.
+        /// Admin-only.
+        /// </summary>
+        [JsonProperty("url")]
+        public string Url { get; set; }
+        /// <summary>
+        /// (Optional) Username to provide for basic authentication at the callback URL.
+        /// </summary>
+        [JsonProperty("url_username")]
+        public string UrlUsername { get; set; }
+        /// <summary>
+        /// (Optional) Password to provide for basic authentication at the callback URL.
+        /// </summary>
+        [JsonProperty("url_password")]
+        public string UrlPassword { get; set; }
+
+    }
+
+    /// <summary>
+    /// base subscribe / unsubscribe request fields
+    /// </summary>
+    public class SubscribeBase : RippleRequest
+    {
         /// <summary>
         /// (Optional) Array of string names of generic streams to subscribe to, as explained below
         /// </summary>
@@ -90,22 +120,6 @@ namespace Xrpl.Client.Models.Methods
         /// </summary>
         [JsonProperty("books")]
         public List<SubscribeBook> Books { get; set; }
-        /// <summary>
-        /// (Optional for Websocket; Required otherwise) URL where the server sends a JSON-RPC callbacks for each event.
-        /// Admin-only.
-        /// </summary>
-        [JsonProperty("url")]
-        public string Url { get; set; }
-        /// <summary>
-        /// (Optional) Username to provide for basic authentication at the callback URL.
-        /// </summary>
-        [JsonProperty("url_username")]
-        public string UrlUsername { get; set; }
-        /// <summary>
-        /// (Optional) Password to provide for basic authentication at the callback URL.
-        /// </summary>
-        [JsonProperty("url_password")]
-        public string UrlPassword { get; set; }
 
     }
     /// <summary>

@@ -1,13 +1,10 @@
-﻿using System.Dynamic;
-using System.Globalization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-using Xrpl.Client.Extensions;
-using Xrpl.Client.Json.Converters;
+using System.Globalization;
 
 namespace Xrpl.Client.Models.Common
 {
-    public class Currency
+    public partial class Currency
     {
         public Currency()
         {
@@ -16,8 +13,6 @@ namespace Xrpl.Client.Models.Common
 
         [JsonProperty("currency")]
         public string CurrencyCode { get; set; }
-        [JsonIgnore]
-        public string CurrencyValidName => CurrencyCode is { Length: > 0 } row ? row.Length > 3 ? row.FromHexString().Trim('\0') : row : string.Empty;
 
         [JsonProperty("value")]
         public string Value { get; set; }
