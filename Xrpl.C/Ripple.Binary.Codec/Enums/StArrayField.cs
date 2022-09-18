@@ -1,4 +1,5 @@
-﻿namespace Ripple.Binary.Codec.Enums
+﻿//https://xrpl.org/serialization.html#array-fields
+namespace Ripple.Binary.Codec.Enums
 {
     public class StArrayField : Field {
         public StArrayField(string name, int nthOfType,

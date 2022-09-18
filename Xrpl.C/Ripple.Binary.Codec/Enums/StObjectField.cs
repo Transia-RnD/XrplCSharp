@@ -1,4 +1,5 @@
-﻿namespace Ripple.Binary.Codec.Enums
+﻿//https://xrpl.org/serialization.html#object-fields
+namespace Ripple.Binary.Codec.Enums
 {
     public class StObjectField : Field {
         public StObjectField(string name, int nthOfType,

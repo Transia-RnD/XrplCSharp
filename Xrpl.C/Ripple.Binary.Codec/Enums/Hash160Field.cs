@@ -1,4 +1,5 @@
-﻿namespace Ripple.Binary.Codec.Enums
+﻿//https://xrpl.org/serialization.html#hash-fields
+namespace Ripple.Binary.Codec.Enums
 {
     public class Hash160Field : Field {
         public Hash160Field(string name, int nthOfType,

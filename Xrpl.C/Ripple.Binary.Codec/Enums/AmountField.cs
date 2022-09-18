@@ -1,4 +1,5 @@
-﻿namespace Ripple.Binary.Codec.Enums
+﻿//https://xrpl.org/serialization.html#amount-fields
+namespace Ripple.Binary.Codec.Enums
 {
     public class AmountField : Field {
         public AmountField(string name, int nthOfType,

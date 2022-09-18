@@ -1,4 +1,5 @@
-﻿namespace Ripple.Binary.Codec.Enums
+﻿//https://xrpl.org/serialization.html#uint-fields
+namespace Ripple.Binary.Codec.Enums
 {
     public class Uint64Field : Field {
         public Uint64Field(string name, int nthOfType,

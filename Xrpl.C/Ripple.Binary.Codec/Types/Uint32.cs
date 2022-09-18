@@ -2,33 +2,47 @@
 using Ripple.Binary.Codec.Binary;
 using Ripple.Binary.Codec.Util;
 
+//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/uint-32.ts
+
 namespace Ripple.Binary.Codec.Types
 {
+    /// <summary>
+    /// Derived UInt class for serializing/deserializing 32 bit UInt
+    /// </summary>
     public class Uint32 : Uint<uint>
     {
+        /// <summary>
+        /// create instance of this value
+        /// </summary>
+        /// <param name="value">uint value</param>
         public Uint32(uint value) : base(value)
         {
         }
-        public static Uint32 FromJson(JToken token)
-        {
-            return (uint)token;
-        }
-        public static implicit operator Uint32(uint v)
-        {
-            return new Uint32(v);
-        }
-        public static implicit operator uint(Uint32 v)
-        {
-            return v.Value;
-        }
-        public override byte[] ToBytes()
-        {
-            return Bits.GetBytes(Value);
-        }
+        /// <summary> Deserialize Uint32 </summary>
+        /// <param name="token">json token</param>
+        /// <returns>Uint32 value</returns>
+        public static Uint32 FromJson(JToken token) => (uint)token;
 
-        public static Uint32 FromParser(BinaryParser parser, int? hint=null)
-        {
-            return Bits.ToUInt32(parser.Read(4), 0);
-        }
+        /// <summary>
+        /// create instance of this value
+        /// </summary>
+        /// <param name="v">uint value</param>
+        public static implicit operator Uint32(uint v) => new Uint32(v);
+
+        /// <summary>
+        /// create instance of this value
+        /// </summary>
+        /// <param name="v">uint value</param>
+        public static implicit operator uint(Uint32 v) => v.Value;
+
+        /// <inheritdoc />
+        public override byte[] ToBytes() => Bits.GetBytes(Value);
+
+        /// <summary>
+        /// Construct a Uint16 from a BinaryParser
+        /// </summary>
+        /// <param name="parser">A BinaryParser to read Uint16 from</param>
+        /// <returns></returns>
+        public static Uint32 FromParser(BinaryParser parser, int? hint=null) => Bits.ToUInt32(parser.Read(4), 0);
     }
 }

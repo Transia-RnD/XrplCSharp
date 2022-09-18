@@ -3,30 +3,34 @@ using Ripple.Binary.Codec.Binary;
 using Ripple.Binary.Codec.Util;
 using System.Diagnostics.Contracts;
 
+//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/hash-256.ts
+
 namespace Ripple.Binary.Codec.Types
 {
+    /// <summary>
+    /// Hash with a width of 256 bits
+    /// </summary>
     public class Hash256 : Hash
     {
         public static readonly Hash256 Zero = new Hash256(new byte[32]);
 
+        /// <inheritdoc />
         public Hash256(byte[] buffer) : base(buffer)
         {
             Contract.Assert(buffer.Length == 32, "buffer should be 32 bytes");
-        }
-        public static Hash256 FromJson(JToken token)
-        {
-            return FromHex((string) token);
-        }
+        }   
+        /// <summary> create instance from json object </summary>
+        /// <param name="token">json object</param>
+        public static Hash256 FromJson(JToken token) => FromHex((string) token);
 
-        public static Hash256 FromHex(string token)
-        {
-            return new Hash256(B16.Decode(token));
-        }
+        /// <summary> create instance from hex string</summary>
+        /// <param name="token">string hex token</param>
+        public static Hash256 FromHex(string token) => new Hash256(B16.Decode(token));
 
-        public static Hash256 FromParser(BinaryParser parser, int? hint = null)
-        {
-            return new Hash256(parser.Read(32));
-        }
+        /// <summary> create instance from binary parser</summary>
+        /// <param name="parser">parser</param>
+        /// <param name="hint"></param>
+        public static Hash256 FromParser(BinaryParser parser, int? hint = null) => new Hash256(parser.Read(32));
 
         public int Nibblet(int depth)
         {

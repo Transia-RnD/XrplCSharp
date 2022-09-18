@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using Ripple.Binary.Codec.Binary;
 using Ripple.Binary.Codec.Util;
 
+//https://xrpl.org/serialization.html#token-amount-format
+
 namespace Ripple.Binary.Codec.Types
 {
     public abstract class AmountValue

@@ -4,18 +4,31 @@ using Newtonsoft.Json.Linq;
 using Ripple.Binary.Codec.Binary;
 using Ripple.Binary.Codec.Enums;
 
+//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/st-array.ts
+//https://xrpl.org/serialization.html#array-fields
+
 namespace Ripple.Binary.Codec.Types
 {
+    /// <summary>
+    /// Class for serializing and deserializing Arrays of Objects
+    /// </summary>
     public class StArray : List<StObject>, ISerializedType
     {
+        /// <summary>
+        ///  Construct an STArray from an Array of JSON Objects
+        /// </summary>
+        /// <param name="collection"> Array of JSON Objects</param>
         public StArray(IEnumerable<StObject> collection) : base(collection)
         {
         }
-
+        /// <summary>
+        ///  Construct an STArray 
+        /// </summary>
         public StArray()
         {
         }
 
+        /// <inheritdoc />
         public void ToBytes(IBytesSink sink)
         {
             foreach (var so in this)
@@ -24,6 +37,7 @@ namespace Ripple.Binary.Codec.Types
             }
         }
 
+        /// <inheritdoc />
         public JToken ToJson()
         {
             var arr = new JArray();
@@ -33,12 +47,18 @@ namespace Ripple.Binary.Codec.Types
             }
             return arr;
         }
-
+        /// <summary> Deserialize StArray </summary>
+        /// <param name="token">json token</param>
+        /// <returns></returns>
         public static StArray FromJson(JToken token)
         {
             return new StArray(token.Select(StObject.FromJson));
         }
-
+        /// <summary>
+        /// Construct a StArray from a BinaryParser
+        /// </summary>
+        /// <param name="parser">A BinaryParser to read StArray from</param>
+        /// <returns></returns>
         public static StArray FromParser(BinaryParser parser, int? hint = null)
         {
             var stArray = new StArray();

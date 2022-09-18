@@ -1,23 +1,34 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Ripple.Binary.Codec.Enums;
+﻿using Ripple.Binary.Codec.Enums;
+
+using System;
+
+//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/serdes/binary-serializer.ts#L52
 
 namespace Ripple.Binary.Codec.Binary
 {
+    /// <summary>
+    /// BinarySerializer is used to write fields and values to buffers
+    /// </summary>
     public class BinarySerializer : IBytesSink
     {
         private readonly IBytesSink _sink;
-
+        /// <summary>
+        /// create a value to this BinarySerializer
+        /// </summary>
+        /// <param name="sink">Bytes Sink</param>
         public BinarySerializer(IBytesSink sink)
         {
             _sink = sink;
         }
-
+        /// <inheritdoc />
         public void Put(byte[] n)
         {
             _sink.Put(n);
         }
-
+        /// <summary>
+        ///  Calculate the header of Variable Length encoded bytes
+        /// </summary>
+        /// <param name="n">length the length of the bytes</param>
         public void AddLengthEncoded(byte[] n)
         {
             Put(EncodeVl(n.Length));
@@ -58,7 +69,10 @@ namespace Ripple.Binary.Codec.Binary
             Array.Copy(buffer, 0, ret, 0, n);
             return ret;
         }
-
+        /// <summary>
+        /// Write a value to this BinarySerializer
+        /// </summary>
+        /// <param name="bl">value a SerializedType value</param>
         public void Add(BytesList bl)
         {
             foreach (byte[] bytes in bl.RawList())
@@ -66,7 +80,12 @@ namespace Ripple.Binary.Codec.Binary
                 _sink.Put(bytes);
             }
         }
-
+        /// <summary>
+        /// Write field header to this BinarySerializer
+        /// </summary>
+        /// <param name="f">field</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public int AddFieldHeader(Field f)
         {
             if (!f.IsSerialised)
@@ -79,17 +98,25 @@ namespace Ripple.Binary.Codec.Binary
             return n.Length;
         }
 
+        /// <inheritdoc />
         public void Put(byte type)
         {
             _sink.Put(type);
         }
-
+        /// <summary>
+        /// Write a variable length encoded value to the BinarySerializer
+        /// </summary>
+        /// <param name="bytes">value a SerializedType value</param>
         public void AddLengthEncoded(BytesList bytes)
         {
             Put(EncodeVl(bytes.BytesLength()));
             Add(bytes);
         }
-
+        /// <summary>
+        /// Write field and value to BinarySerializer
+        /// </summary>
+        /// <param name="field">field field to write to BinarySerializer</param>
+        /// <param name="value">value value to write to BinarySerializer</param>
         public void Add(Field field, ISerializedType value)
         {
             AddFieldHeader(field);
@@ -110,7 +137,10 @@ namespace Ripple.Binary.Codec.Binary
                 }
             }
         }
-
+        /// <summary>
+        /// Write a variable length encoded value to the BinarySerializer
+        /// </summary>
+        /// <param name="value">value length encoded value to write to BytesList</param>
         public void AddLengthEncoded(ISerializedType value)
         {
             var bytes = new BytesList();
