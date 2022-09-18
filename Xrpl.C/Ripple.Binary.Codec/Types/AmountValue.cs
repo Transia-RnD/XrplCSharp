@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.Text.RegularExpressions;
+
 using Ripple.Binary.Codec.Binary;
 using Ripple.Binary.Codec.Util;
 
@@ -10,16 +13,18 @@ namespace Ripple.Binary.Codec.Types
         public new abstract string ToString();
         public abstract byte[] ToBytes();
 
-        public static AmountValue FromString(string value, bool native=false)
+        public static AmountValue FromString(string value, bool native = false)
         {
             if (native)
             {
+                Debug.WriteLine("NATIVE FROM STRING");
                 return new NativeValue(value);
             }
+            Debug.WriteLine("IOU FROM STRING");
             return IouValue.FromString(value);
         }
 
-        public abstract bool IsIou { get;}
+        public abstract bool IsIou { get; }
 
         public static AmountValue FromParser(BinaryParser parser)
         {
@@ -84,8 +89,8 @@ namespace Ripple.Binary.Codec.Types
         public IouValue(ulong mantissa,
                            int exponent,
                            bool isNegative,
-                           int? precision=null,
-                           bool normalise=true)
+                           int? precision = null,
+                           bool normalise = true)
         {
             Mantissa = mantissa;
             Exponent = exponent;
@@ -101,8 +106,9 @@ namespace Ripple.Binary.Codec.Types
 
         }
 
-        public IouValue(byte[] mantissa, int sign, int exponent=0) :
-                this(ParseMantissa(mantissa), exponent, sign == -1) {}
+        public IouValue(byte[] mantissa, int sign, int exponent = 0) :
+                this(ParseMantissa(mantissa), exponent, sign == -1)
+        { }
 
         public static IouValue FromString(string value)
         {
@@ -235,8 +241,8 @@ namespace Ripple.Binary.Codec.Types
 
             var exponent = Exponent;
             var exponentByte = 97 + exponent;
-            mantissa[0] |= (byte) (exponentByte >> 2);
-            mantissa[1] |= (byte) ((exponentByte & 0x03) << 6);
+            mantissa[0] |= (byte)(exponentByte >> 2);
+            mantissa[1] |= (byte)((exponentByte & 0x03) << 6);
             return mantissa;
         }
 
@@ -257,9 +263,9 @@ namespace Ripple.Binary.Codec.Types
 
         public NativeValue(string value)
         {
-            var parsed = long.Parse(value);
+            var parsed = decimal.Parse(value, NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture);
             IsNegative = parsed < 0;
-            Mantissa = (ulong) Math.Abs(parsed);
+            Mantissa = (ulong)Math.Abs(parsed);
         }
         public NativeValue(byte[] mantissa, int sign)
         {
@@ -281,7 +287,7 @@ namespace Ripple.Binary.Codec.Types
         {
             var notNegative = !IsNegative;
             var mantissa = Bits.GetBytes(Mantissa);
-            mantissa[0] |= (byte) (notNegative ? 0x40 : 0x00);
+            mantissa[0] |= (byte)(notNegative ? 0x40 : 0x00);
             return mantissa;
         }
     }

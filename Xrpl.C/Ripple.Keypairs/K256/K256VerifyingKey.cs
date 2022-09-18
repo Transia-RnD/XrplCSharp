@@ -1,7 +1,16 @@
+using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Signers;
 using Org.BouncyCastle.Math.EC;
 using Ripple.Keypairs.Utils;
+using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.X509;
+using Org.BouncyCastle.Security;
+using Org.BouncyCastle.Asn1.Sec;
+using Org.BouncyCastle.Asn1.X9;
+using Org.BouncyCastle.Utilities.Encoders;
+using System.Diagnostics;
 
 namespace Ripple.Keypairs.K256
 {
@@ -23,10 +32,9 @@ namespace Ripple.Keypairs.K256
             return PubKeyBytes;
         }
 
-        public bool Verify(byte[] message, byte[] signature)
+        public bool Verify1(byte[] message, byte[] signature)
         {
-            byte[] hash = Sha512.Half(message);
-            return VerifyHash(hash, signature);
+            return VerifyHash(message, signature);
         }
 
         private bool VerifyHash(byte[] data, byte[] signature)
@@ -41,6 +49,15 @@ namespace Ripple.Keypairs.K256
             ECPublicKeyParameters parameters = new ECPublicKeyParameters(
                 pub, Secp256K1.Parameters());
             Verifier.Init(false, parameters);
+        }
+
+        static public bool Verify(byte[] signature, byte[] message, byte[] publicKey)
+        {
+            ECDsaSigner verifier = new ECDsaSigner();
+            ECPublicKeyParameters parameters = new ECPublicKeyParameters(Secp256K1.Curve().DecodePoint(publicKey), Secp256K1.Parameters());
+            verifier.Init(false, parameters);
+            EcdsaSignature sig = EcdsaSignature.DecodeFromDer(signature);
+            return sig != null && verifier.VerifySignature(message, sig.R, sig.S);
         }
     }
 }

@@ -1,3 +1,6 @@
+
+
+
 [![NuGet Badge](https://buildstats.info/nuget/xrpl.c)](https://www.nuget.org/packages/xrpl.c/)
 
 # xrpl.c
@@ -5,64 +8,6 @@
 * This library would not be possible without Chris Williams.
 
 A pure C# implementation for interacting with the XRP Ledger, the `xrpl.c` library simplifies the hardest parts of XRP Ledger interaction, like serialization and transaction signing, by providing native C# methods and models for [XRP Ledger transactions](https://xrpl.org/transaction-formats.html) and core server [API](https://xrpl.org/api-conventions.html) ([`rippled`](https://github.com/ripple/rippled)) objects.
-
-## Migration from RippleDotNet & ripple-netcore
-
-From RippleDotNet
-
-```
-using RippleDotNet;
-using RippleDotNet.Model.Account;
-using RippleDotNet.Requests.Account;
-```
-
-To xrpl.c
-
-```
-using Xrpl.Client;
-using Xrpl.Client.Model.Account;
-using Xrpl.Client.Requests.Account;
-```
-
-From Ripple.Core
-
-```
-using Ripple.Core.Types;
-```
-
-To xrpl.c
-
-```
-using Ripple.Binary.Codec.Types;
-```
-
-
-From Ripple.Signing
-
-```
-using Ripple.Signing;
-```
-
-To xrpl.c
-
-```
-using Xrpl.Wallet;
-```
-
-
-From Ripple.TxSigning
-
-```
-using Ripple.TxSigning;
-```
-
-To xrpl.c
-
-```
-using Ripple.Keypairs;
-```
-
-
 
 
 ```csharp

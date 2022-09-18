@@ -20,7 +20,6 @@ namespace Xrpl.Client.Json.Converters
                 
             }
 
-
             if (value is string)
             {
                 writer.WriteValue(value);

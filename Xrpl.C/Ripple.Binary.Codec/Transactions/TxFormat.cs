@@ -99,6 +99,32 @@ namespace Ripple.Binary.Codec.Transactions
         {
             Formats = new Dictionary<TransactionType, TxFormat>
             {
+                [TransactionType.Payment] = new TxFormat
+                {
+                    [Field.Destination] = Requirement.Required,
+                    [Field.Amount] = Requirement.Required,
+                    [Field.SendMax] = Requirement.Optional,
+                    [Field.Paths] = Requirement.Default,
+                    [Field.InvoiceID] = Requirement.Optional,
+                    [Field.DestinationTag] = Requirement.Optional,
+                    [Field.DeliverMin] = Requirement.Optional
+                },
+                [TransactionType.EscrowCreate] = new TxFormat
+                {
+                    [Field.Amount] = Requirement.Required,
+                    [Field.Destination] = Requirement.Required,
+                    [Field.Condition] = Requirement.Optional,
+                    [Field.CancelAfter] = Requirement.Optional,
+                    [Field.FinishAfter] = Requirement.Optional,
+                    [Field.DestinationTag] = Requirement.Optional,
+                },
+                [TransactionType.EscrowFinish] = new TxFormat
+                {
+                    [Field.Owner] = Requirement.Required,
+                    [Field.OfferSequence] = Requirement.Required,
+                    [Field.Condition] = Requirement.Optional,
+                    [Field.Fulfillment] = Requirement.Optional
+                },
                 [TransactionType.AccountSet] = new TxFormat
                 {
                     [Field.EmailHash] = Requirement.Optional,
@@ -111,110 +137,34 @@ namespace Ripple.Binary.Codec.Transactions
                     [Field.ClearFlag] = Requirement.Optional,
                     [Field.TickSize] = Requirement.Optional
                 },
-                [TransactionType.TrustSet] = new TxFormat
+                [TransactionType.EscrowCancel] = new TxFormat
                 {
-                    [Field.LimitAmount] = Requirement.Optional,
-                    [Field.QualityIn] = Requirement.Optional,
-                    [Field.QualityOut] = Requirement.Optional
+                    [Field.Owner] = Requirement.Required,
+                    [Field.OfferSequence] = Requirement.Required
                 },
+                [TransactionType.SetRegularKey] = new TxFormat
+                {
+                    [Field.RegularKey] = Requirement.Optional
+                },
+                // 6
                 [TransactionType.OfferCreate] = new TxFormat
-                {                    
+                {
                     [Field.TakerPays] = Requirement.Required,
                     [Field.TakerGets] = Requirement.Required,
                     [Field.Expiration] = Requirement.Optional,
                     [Field.OfferSequence] = Requirement.Optional
                 },
                 [TransactionType.OfferCancel] = new TxFormat
-                {                    
+                {
                     [Field.OfferSequence] = Requirement.Required
                 },
-                [TransactionType.NFTokenMint] = new TxFormat
-                {
-                    [Field.NFTokenTaxon] = Requirement.Required,
-                    [Field.Issuer] = Requirement.Optional,
-                    [Field.TransferFee] = Requirement.Optional,
-                    [Field.URI] = Requirement.Optional
-                },
-                [TransactionType.NFTokenBurn] = new TxFormat
-                {
-                    [Field.NFTokenID] = Requirement.Required
-                },
-                [TransactionType.NFTokenCreateOffer] = new TxFormat
-                {
-                    [Field.NFTokenID] = Requirement.Required,
-                    [Field.Amount] = Requirement.Required,
-                    [Field.Owner] = Requirement.Optional,
-                    [Field.Destination] = Requirement.Optional,
-                    [Field.Expiration] = Requirement.Optional
-                },
-                [TransactionType.NFTokenCancelOffer] = new TxFormat
-                {
-                    [Field.NFTokenOffers] = Requirement.Required
-                },
-                [TransactionType.NFTokenAcceptOffer] = new TxFormat
-                {
-                    [Field.NFTokenID] = Requirement.Required
-                },
-                [TransactionType.SetRegularKey] = new TxFormat
-                {
-                    [Field.RegularKey] = Requirement.Optional
-                },
-                [TransactionType.Payment] = new TxFormat
-                {                    
-                    [Field.Destination] = Requirement.Required,
-                    [Field.Amount] = Requirement.Required,
-                    [Field.SendMax] = Requirement.Optional,
-                    [Field.Paths] = Requirement.Default,
-                    [Field.InvoiceID] = Requirement.Optional,
-                    [Field.DestinationTag] = Requirement.Optional,
-                    [Field.DeliverMin] = Requirement.Optional
-                },
-
-                [TransactionType.EscrowCreate] = new TxFormat
-                {
-                    [Field.Amount] = Requirement.Required,
-                    [Field.Destination] = Requirement.Required,
-                    [Field.Condition] = Requirement.Optional,
-                    [Field.CancelAfter] = Requirement.Optional,
-                    [Field.FinishAfter] = Requirement.Optional,                    
-                    [Field.DestinationTag] = Requirement.Optional,                    
-                },
-                [TransactionType.EscrowCancel] = new TxFormat
-                {
-                    [Field.Owner] = Requirement.Required,
-                    [Field.OfferSequence] = Requirement.Required
-                },
-                [TransactionType.EscrowFinish] = new TxFormat
-                {
-                    [Field.Owner] = Requirement.Required,
-                    [Field.OfferSequence] = Requirement.Required,
-                    [Field.Condition] = Requirement.Optional,
-                    [Field.Fulfillment] = Requirement.Optional
-                },
-                [TransactionType.EnableAmendment] = new TxFormat
-                {
-                    [Field.LedgerSequence] = Requirement.Optional,
-                    [Field.Amendment] = Requirement.Required
-                },
-                [TransactionType.SetFee] = new TxFormat
-                {
-                    [Field.LedgerSequence] = Requirement.Optional,
-                    [Field.BaseFee] = Requirement.Required,
-                    [Field.ReferenceFeeUnits] = Requirement.Required,
-                    [Field.ReserveBase] = Requirement.Required,
-                    [Field.ReserveIncrement] = Requirement.Required
-                },  
+                // 9
                 [TransactionType.TicketCreate] = new TxFormat
                 {
                     [Field.Target] = Requirement.Optional,
                     [Field.Expiration] = Requirement.Optional
                 },
-                [TransactionType.TicketCancel] = new TxFormat
-                {
-                    [Field.TicketID] = Requirement.Required
-                },
-                // The SignerEntries are optional because a SignerList is deleted by
-                // setting the SignerQuorum to zero and omitting SignerEntries.
+                // 11
                 [TransactionType.SignerListSet] = new TxFormat
                 {
                     [Field.SignerQuorum] = Requirement.Required,
@@ -242,7 +192,86 @@ namespace Ripple.Binary.Codec.Transactions
                     [Field.Balance] = Requirement.Optional,
                     [Field.Signature] = Requirement.Optional,
                     [Field.PublicKey] = Requirement.Optional
-                }
+                },
+                [TransactionType.CheckCreate] = new TxFormat()
+                {
+                    [Field.Channel] = Requirement.Required,
+                    [Field.Amount] = Requirement.Optional,
+                    [Field.Balance] = Requirement.Optional,
+                    [Field.Signature] = Requirement.Optional,
+                    [Field.PublicKey] = Requirement.Optional
+                },
+                [TransactionType.CheckCash] = new TxFormat()
+                {
+                    [Field.Channel] = Requirement.Required,
+                    [Field.Amount] = Requirement.Optional,
+                    [Field.Balance] = Requirement.Optional,
+                    [Field.Signature] = Requirement.Optional,
+                    [Field.PublicKey] = Requirement.Optional
+                },
+                [TransactionType.CheckCancel] = new TxFormat()
+                {
+                    [Field.Channel] = Requirement.Required,
+                    [Field.Amount] = Requirement.Optional,
+                    [Field.Balance] = Requirement.Optional,
+                    [Field.Signature] = Requirement.Optional,
+                    [Field.PublicKey] = Requirement.Optional
+                },
+                [TransactionType.DepositPreauth] = new TxFormat()
+                {
+                    [Field.Channel] = Requirement.Required,
+                    [Field.Amount] = Requirement.Optional,
+                    [Field.Balance] = Requirement.Optional,
+                    [Field.Signature] = Requirement.Optional,
+                    [Field.PublicKey] = Requirement.Optional
+                },
+                [TransactionType.TrustSet] = new TxFormat
+                {
+                    [Field.LimitAmount] = Requirement.Optional,
+                    [Field.QualityIn] = Requirement.Optional,
+                    [Field.QualityOut] = Requirement.Optional
+                },
+                [TransactionType.AccountDelete] = new TxFormat
+                {
+                    [Field.Destination] = Requirement.Required,
+                    [Field.DestinationTag] = Requirement.Optional,
+                },
+
+                [TransactionType.NFTokenMint] = new TxFormat
+                {
+                    [Field.NFTokenTaxon] = Requirement.Required,
+                    [Field.Issuer] = Requirement.Optional,
+                    [Field.TransferFee] = Requirement.Optional,
+                    [Field.URI] = Requirement.Optional
+                },
+                [TransactionType.NFTokenBurn] = new TxFormat
+                {
+                    [Field.NFTokenID] = Requirement.Required
+                },
+                [TransactionType.NFTokenCreateOffer] = new TxFormat
+                {
+                    [Field.NFTokenID] = Requirement.Required,
+                    [Field.Amount] = Requirement.Required,
+                    [Field.Owner] = Requirement.Optional,
+                    [Field.Destination] = Requirement.Optional,
+                    [Field.Expiration] = Requirement.Optional
+                },
+                [TransactionType.NFTokenCancelOffer] = new TxFormat
+                {
+                    [Field.NFTokenOffers] = Requirement.Required
+                },
+                [TransactionType.NFTokenAcceptOffer] = new TxFormat
+                {
+                    [Field.NFTokenID] = Requirement.Required
+                },
+                [TransactionType.UNLModify] = new TxFormat
+                {
+                    [Field.LedgerSequence] = Requirement.Optional,
+                    [Field.BaseFee] = Requirement.Required,
+                    [Field.ReferenceFeeUnits] = Requirement.Required,
+                    [Field.ReserveBase] = Requirement.Required,
+                    [Field.ReserveIncrement] = Requirement.Required
+                },
             };
         }
     }

@@ -3,14 +3,19 @@ using Ripple.Keypairs.Utils;
 
 namespace Ripple.Keypairs
 {
+
+    public class rKeypair
+    {
+        public string PublicKey { get; set; }
+        public string PrivateKey { get; set; }
+    }
+
     public interface IKeyPair
     {
         byte[] CanonicalPubBytes();
 
-        bool Verify(byte[] message, byte[] signature);
-        byte[] Sign(byte[] message);
-
         string Id();
+        string Pk();
     }
 
     public static class KeyPairExtensions

@@ -1,43 +1,51 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Xrpl.Client.Model.Ledger;
-using Xrpl.Client.Model.Ledger.Objects;
+using Xrpl.Client.Models.Ledger;
+using Xrpl.Client.Models.Common;
+
+
 
 namespace Xrpl.Client.Json.Converters
 {
-    public class LedgerObjectConverter : JsonConverter
+    public class LOConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }
 
-        public BaseRippleLedgerObject Create(Type objectType, JObject jObject)
+        public BaseLedgerEntry Create(Type objectType, JObject jObject)
         {
             string ledgerEntryType = jObject.Property("LedgerEntryType").Value.ToString();
             switch (ledgerEntryType)
             {
                 case "AccountRoot":
-                    return new AccountRootLedgerObject();
+                    return new LOAccountRoot();
                 case "Amendments":
-                    return new AmendmentsLedgerObject();
+                    return new LOAmendments();
                 case "DirectoryNode":
-                    return new DirectoryNodeLedgerObject();
+                    return new LODirectoryNode();
                 case "Escrow":
-                    return new EscrowLedgerObject();
+                    return new LOEscrow();
                 case "FeeSettings":
-                    return new FeeSettingsLedgerObject();
+                    return new LOFeeSettings();
                 case "LedgerHashes":
-                    return new LedgerHashesLedgerObject();
+                    return new LOLedgerHashes();
                 case "Offer":
-                    return new OfferLedgerObject();
+                    return new LOOffer();
                 case "PayChannel":
-                    return new PayChannelLedgerObject();
+                    return new LOPayChannel();
                 case "RippleState":
-                    return new RippleStateLedgerObject();
+                    return new LORippleState();
                 case "SignerList":
-                    return new SignerListLedgerObject();
+                    return new LOSignerList();
+                case "Ticket":
+                    return new LOTicket();
+                case "Check":
+                    return new LOCheck();
+                case "DepositPreauth":
+                    return new LODepositPreauth();
             }
             throw new Exception("Can't create ledger type" + ledgerEntryType);
         }

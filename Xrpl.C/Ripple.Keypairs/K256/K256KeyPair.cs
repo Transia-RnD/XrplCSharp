@@ -1,4 +1,6 @@
-﻿using Org.BouncyCastle.Math;
+﻿using System.Diagnostics;
+using Org.BouncyCastle.Math;
+using Ripple.Address.Codec;
 using Ripple.Keypairs.Utils;
 
 namespace Ripple.Keypairs.K256
@@ -15,7 +17,7 @@ namespace Ripple.Keypairs.K256
         private ECDSASigner _signer;
         private bool _isNodeKey;
 
-        public K256KeyPair(BigInteger priv) : 
+        public K256KeyPair(BigInteger priv) :
             this(priv, K256KeyGenerator.ComputePublicKey(priv))
         {
         }
@@ -44,7 +46,7 @@ namespace Ripple.Keypairs.K256
             return _privKey;
         }
 
-        public byte[] Sign(byte[] message)
+        public byte[] Sign1(byte[] message)
         {
             return SignHash(Sha512.Half(message));
         }
@@ -72,12 +74,31 @@ namespace Ripple.Keypairs.K256
 
         public string Id()
         {
-            if (_isNodeKey)
+            return Ripple.Address.Codec.Utils.FromBytesToHex(this.CanonicalPubBytes());
+        }
+
+        public string Pk()
+        {
+            return $"00{Ripple.Address.Codec.Utils.FromBytesToHex(this._privKey.ToByteArray())}";
+        }
+
+        static public byte[] Sign(byte[] message, byte[] privateKey)
+        {
+            ECDSASigner signer = new ECDSASigner(new HMacDsaKCalculator(new Sha256Digest()));
+            ECPrivateKeyParameters privKey = new ECPrivateKeyParameters(new BigInteger(privateKey), Secp256K1.Parameters());
+            signer.Init(true, privKey);
+            byte[] hash = Sha512.Half(message);
+            BigInteger[] sigs = signer.GenerateSignature(hash);
+            var r = sigs[0];
+            var s = sigs[1];
+
+            var otherS = Secp256K1.Order().Subtract(s);
+            if (s.CompareTo(otherS) == 1)
             {
-                return Ripple.Address.Codec.AddressCodec.EncodeNodePublic(CanonicalPubBytes());
+                s = otherS;
             }
-            return Ripple.Address.Codec.AddressCodec.EncodeAddress(this.PubKeyHash());
+
+            return new EcdsaSignature(r, s).EncodeToDer();
         }
     }
-
 }

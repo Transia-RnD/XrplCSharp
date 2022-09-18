@@ -1,4 +1,6 @@
 ﻿using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Ripple.Binary.Codec.Binary;
 using Ripple.Binary.Codec.Hashing;
 using Ripple.Binary.Codec.Types;
@@ -57,6 +59,21 @@ namespace Ripple.Binary.Codec.Ledger
             CloseTime.ToBytes(sink);
             CloseResolution.ToBytes(sink);
             CloseFlags.ToBytes(sink);
+        }
+
+        public JObject ToJson()
+        {
+            dynamic jsonObject = new JObject();
+            jsonObject.ledger_index = LedgerIndex.ToJson();
+            jsonObject.total_drops = TotalDrops.ToJson();
+            jsonObject.parent_hash = ParentHash.ToJson();
+            jsonObject.transaction_hash = TransactionHash.ToJson();
+            jsonObject.state_hash = StateHash.ToJson();
+            jsonObject.parent_close_time = ParentCloseTime.ToJson();
+            jsonObject.close_time = CloseTime.ToJson();
+            jsonObject.close_resolution = CloseResolution.ToJson();
+            jsonObject.close_flags = CloseFlags.ToJson();
+            return jsonObject;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Ripple.Binary.Codec.Binary;
@@ -119,6 +120,11 @@ namespace Ripple.Binary.Codec.Types
                     continue;
                 }
                 var fieldForType = Field.Values[pair.Key];
+                // Debug.WriteLine("-----------------");
+                // Debug.WriteLine("-----------------");
+                // Debug.WriteLine(fieldForType.Name);
+                // Debug.WriteLine(pair.Value);
+                // Debug.WriteLine("-----------------");
                 var jsonForField = pair.Value;
                 ISerializedType st;
                 try

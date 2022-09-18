@@ -1,6 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using Newtonsoft.Json.Linq;
 using Ripple.Binary.Codec.Binary;
 using Ripple.Binary.Codec.Util;
+using Xrpl.Client.Models.Methods;
+using System.Numerics;
+
+// 
 
 namespace Ripple.Binary.Codec.Types
 {
@@ -26,6 +31,12 @@ namespace Ripple.Binary.Codec.Types
         public static implicit operator Uint64(ulong v)
         {
             return new Uint64(v);
+        }
+
+        public static Uint64 FromValue(string v)
+        {
+            BigInteger bignum = new BigInteger(Convert.ToByte(v));
+            return new Uint64(((ulong)bignum));
         }
 
         public override JToken ToJson()

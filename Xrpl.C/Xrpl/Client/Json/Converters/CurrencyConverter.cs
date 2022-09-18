@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Xrpl.Client.Model;
+using Xrpl.Client.Models.Common;
 
 namespace Xrpl.Client.Json.Converters
 {
@@ -31,6 +32,8 @@ namespace Xrpl.Client.Json.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
             JsonSerializer serializer)
         {
+            Debug.WriteLine("[CONVERTER] Read Json");
+            Debug.WriteLine($"[CONVERTER] Token Type: {reader.TokenType}");
             if (reader.TokenType == JsonToken.Null)
                 return null;
 

@@ -1,121 +1,180 @@
 using System;
+using System.Diagnostics;
+using Ripple.Address.Codec.Exceptions;
+using System.Text;
+
+
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/index.ts
 
 namespace Ripple.Address.Codec
 {
     public class AddressCodec
     {
-        public const string Alphabet = "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz";
 
-        // ReSharper disable RedundantArgumentNameForLiteralExpression, RedundantArgumentName
-        public static B58.Version AccountId = B58.Version.With(versionByte: 0, expectedLength: 20);
+        private static byte[] CopyOfRange(byte[] source, int from_, int to)
+        {
+            var range = new byte[to - from_];
+            Array.Copy(source, from_, range, 0, range.Length);
+            return range;
+        }
 
-        public static B58.Version NodePublic = B58.Version.With(versionByte: 28, expectedLength: 33);
-        public static B58.Version NodePrivate = B58.Version.With(versionByte: 32, expectedLength: 32);
+        public class CodecAddress
+        {
+            public string ClassicAddress { get; set; }
+            public int Tag { get; set; }
+            public bool Test { get; set; }
+        }
 
-        public static B58.Version AccountPublic = B58.Version.With(versionByte: 35, expectedLength: 33);
-        public static B58.Version AccountPrivate = B58.Version.With(versionByte: 34, expectedLength: 32);
+        public class CodecAccountID
+        {
+            public byte[] AccountID { get; set; }
+            public int Tag { get; set; }
+            public bool Test { get; set; }
+        }
 
-        public static B58.Version FamilyGenerator = B58.Version.With(versionByte: 41, expectedLength: 33);
+        private static uint MAX_32_BIT_UNSIGNED_INT = 4294967295;
+        private static byte[] PREFIX_BYTES_MAIN = { 0x05, 0x44 };
+        private static byte[] PREFIX_BYTES_TEST = { 0x04, 0x93 };
 
-        public static B58.Version K256Seed = B58.Version.With(versionByte: 33, expectedLength: 16);
-        public static B58.Version Ed25519Seed = B58.Version.With(versionBytes: new byte[]{ 0x1, 0xe1, 0x4b }, expectedLength: 16);
-
-        public static B58.Versions AnySeed = B58.Versions
-                                                .With("secp256k1", K256Seed)
-                                                .And("ed25519", Ed25519Seed);
-        // ReSharper restore RedundantArgumentNameForLiteralExpression, RedundantArgumentName
         private static readonly B58 B58;
+        public const string Alphabet = "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz";
         static AddressCodec()
         {
             B58 = new B58(Alphabet);
         }
 
-        public class DecodedSeed
+        /// <summary>
+        /// Returns the X-Address representation of the data.
+        /// </summary>
+        /// <param classicAddress="string"></param>
+        /// <param tag="int"></param>
+        /// <param isTest="boolean"></param>
+        /// <returns>The X-Address representation of the data.</returns>
+        /// <throws>XRPLAddressCodecException: If the classic address does not have enough bytes
+        /// or the tag is invalid.</throws>
+        public static string ClassicAddressToXAddress(string classicAddress, int tag, bool isTest)
         {
-            public readonly string Type;
-            public readonly byte[] Bytes;
+            byte[] accountId = XrplCodec.DecodeAccountID(accountId: classicAddress);
+            return EncodeXAddress(accountId, tag, isTest);
+        }
 
-            public DecodedSeed(string type, byte[] payload)
+        public static string EncodeXAddress(byte[] accountId, int? tag, bool isTest)
+        {
+            if (accountId.Length != 20)
             {
-                Type = type;
-                Bytes = payload;
+                // RIPEMD160 is 160 bits = 20 bytes
+                throw new AddressCodecException("Account ID must be 20 bytes");
             }
+            if (tag > MAX_32_BIT_UNSIGNED_INT)
+            {
+                throw new AddressCodecException("Invalid tag");
+            }
+            int theTag = tag ?? 0;
+            int flags = tag == null ? 0 : 1;
+            byte[] prefix = isTest ? PREFIX_BYTES_TEST : PREFIX_BYTES_MAIN;
+            byte[] postbytes = {
+                (byte)flags,
+                (byte)(theTag & 0xff),
+                (byte)((theTag >> 8) & 0xff),
+                (byte)((theTag >> 16) & 0xff),
+                (byte)((theTag >> 24) & 0xff),
+                0,
+                0,
+                0,
+                0
+            };
+            byte[] bytes = Utils.Combine(prefix, accountId, postbytes);
+            byte[] checkSum = CopyOfRange(HashUtils.DoubleDigest(bytes), 0, 4);
+            byte[] fbytes = Utils.Combine(bytes, checkSum);
+            return B58.EncodeToString(fbytes);
         }
 
-        public static DecodedSeed DecodeSeed(string seed)
+        /// <summary>
+        /// Returns a tuple containing the classic address, tag, and whether the address
+        /// is on a test network for an X-Address.
+        /// </summary>
+        /// <param xAddress="string"></param>
+        /// <returns>A dict containing: classicAddress: the base58 classic address, tag: the destination tag, isTest: whether the address is on the test network (or main)</returns>
+        /// <throws>AddressCodecError: If the base decoded value is invalid or the base58 check is invalid</throws>
+        public static CodecAddress XAddressToClassicAddress(string xAddress)
         {
-            var decoded = B58.Decode(seed, AnySeed);
-            return new DecodedSeed(decoded.Type, decoded.Payload);
+            CodecAccountID account = DecodeXAddress(xAddress);
+            string classicAddress = XrplCodec.EncodeAccountID(account.AccountID);
+            return new CodecAddress { ClassicAddress = classicAddress, Tag = account.Tag, Test = account.Test };
         }
 
-        public static string EncodeSeed(byte[] bytes, string type)
+        public static CodecAccountID DecodeXAddress(string xAddress)
         {
-            return B58.Encode(bytes, type, AnySeed);
+            byte[] decoded = B58.Decode(xAddress);
+            bool isTest = IsTestAddress(decoded);
+            byte[] accountId = CopyOfRange(decoded, 2, 22);
+            int tag = TagFromBuffer(decoded);
+            return new CodecAccountID { AccountID = accountId, Tag = tag, Test = isTest };
         }
 
-        public static byte[] DecodeK256Seed(string seed)
+        /// <summary>
+        /// Returns whether a decoded X-Address is a test address.
+        /// </summary>
+        /// <param prefix="string">The first 2 bytes of an X-Address.</param>
+        /// <returns>Whether a decoded X-Address is a test address.</returns>
+        /// <throws>XRPLAddressCodecException: If the prefix is invalid.</throws>
+        public static bool IsTestAddress(byte[] buf)
         {
-            return B58.Decode(seed, K256Seed);
+            byte[] decodedPrefix = CopyOfRange(buf, 0, 2);
+            if (PREFIX_BYTES_MAIN == decodedPrefix)
+            {
+                return false;
+            }
+            if (PREFIX_BYTES_TEST == decodedPrefix)
+            {
+                return true;
+            }
+            throw new AddressCodecException("Invalid X-address: bad prefix");
         }
 
-        public static string EncodeK256Seed(byte[] bytes)
+        /// <summary>
+        /// Returns the destination tag extracted from the suffix of the X-Address.
+        /// </summary>
+        /// <param buffer="bytes[]"></param>
+        /// <returns>The destination tag extracted from the suffix of the X-Address.</returns>
+        /// <throws>XRPLAddressCodecException: If the address is unsupported.</throws>
+        public static int TagFromBuffer(byte[] buf)
         {
-            return B58.Encode(bytes, K256Seed);
+            byte flag = buf[22];
+            if (flag >= 2)
+            {
+                // No support for 64-bit tags at this time
+                throw new AddressCodecException("Unsupported X-address");
+            }
+            if (flag == 1)
+            {
+                // Little-endian to big-endian
+                return buf[23] + buf[24] * 0x100 + buf[25] * 0x10000 + buf[26] * 0x1000000;
+            }
+            //assert.strictEqual(flag, 0, 'flag must be zero to indicate no tag')
+            //assert.ok(
+            //  Buffer.from('0000000000000000', 'hex').equals(buf.slice(23, 23 + 8)),
+            //'remaining bytes must be zero',
+            //)
+            return -1;
         }
 
-        public static byte[] DecodeEdSeed(string base58)
+        /// <summary>
+        /// Returns whether `xAddress` is a valid X-Address.
+        /// </summary>
+        /// <param xAddress="string">The X-Address to check for validity.</param>
+        /// <returns>Whether `xAddress` is a valid X-Address.</returns>
+        public static bool IsValidXAddress(string xAddress)
         {
-            return B58.Decode(base58, Ed25519Seed);
-        }
+            try
+            {
+                DecodeXAddress(xAddress);
 
-        public static string EncodeEdSeed(byte[] bytes)
-        {
-            return B58.Encode(bytes, Ed25519Seed);
-        }
-
-        public static string EncodeAddress(byte[] bytes)
-        {
-            return B58.Encode(bytes, AccountId);
-        }
-
-        public static string EncodeNodePublic(byte[] bytes)
-        {
-            return B58.Encode(bytes, NodePublic);
-        }
-
-        public static byte[] DecodeNodePublic(string publicKey)
-        {
-            return B58.Decode(publicKey, NodePublic);
-        }
-
-        public static byte[] DecodeAddress(string address)
-        {
-            return B58.Decode(address, AccountId);
-        }
-
-        public static bool IsValidAddress(string address)
-        {
-            return B58.IsValid(address, AccountId);
-        }
-
-        public static bool IsValidNodePublic(string nodePublic)
-        {
-            return B58.IsValid(nodePublic, NodePublic);
-        }
-
-        public static bool IsValidSeed(string seed)
-        {
-            return B58.IsValid(seed, AnySeed);
-        }
-
-        public static bool IsValidEdSeed(string edSeed)
-        {
-            return B58.IsValid(edSeed, Ed25519Seed);
-        }
-
-        public static bool IsValidK256Seed(string k256Seed)
-        {
-            return B58.IsValid(k256Seed, K256Seed);
+            } catch
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

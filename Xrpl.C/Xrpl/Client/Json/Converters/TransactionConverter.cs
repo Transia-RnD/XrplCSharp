@@ -1,9 +1,9 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Xrpl.Client.Model.Transaction.TransactionTypes;
-using Xrpl.Client.Responses.Transaction.Interfaces;
-using Xrpl.Client.Responses.Transaction.TransactionTypes;
+
+using System;
+
+using Xrpl.Client.Models.Transactions;
 
 namespace Xrpl.Client.Json.Converters
 {
@@ -16,55 +16,36 @@ namespace Xrpl.Client.Json.Converters
 
         public ITransactionResponseCommon Create(Type objectType, JObject jObject)
         {
-            JProperty transactionType = jObject.Property("TransactionType");
+            var transactionType = jObject.Property("TransactionType");
 
-            switch (transactionType.Value.ToString())
+            return jObject.Property("TransactionType").Value.ToString() switch
             {
-                case "NFTokenMint":
-                    return new NFTokenMintTransactionResponse();
-                case "NFTokenBurn":
-                    return new NFTokenBurnTransactionResponse();
-                case "NFTokenCreateOffer":
-                    return new NFTokenCreateOfferTransactionResponse();
-                case "NFTokenCancelOffer":
-                    return new NFTokenCancelOfferTransactionResponse();
-                case "NFTokenAcceptOffer":
-                    return new NFTokenAcceptOfferTransactionResponse();
-                case "AccountSet":
-                    return new AccountSetTransactionResponse();
-                case "EscrowCancel":
-                    return new EscrowCancelTransactionResponse();
-                case "EscrowCreate":
-                    return new EscrowCreateTransactionResponse();
-                case "EscrowFinish":
-                    return new EscrowFinishTransactionResponse();
-                case "OfferCancel":
-                    return new OfferCancelTransactionResponse();
-                case "OfferCreate":
-                    return new OfferCreateTransactionResponse();
-                case "Payment":
-                    return new PaymentTransactionResponse();
-                case "PaymentChannelClaim":
-                    return new PaymentChannelClaimTransactionResponse();
-                case "PaymentChannelCreate":
-                    return new PaymentChannelCreateTransactionResponse();
-                case "PaymentChannelFund":
-                    return new PaymentChannelFundTransactionResponse();
-                case "SetRegularKey":
-                    return new SetRegularKeyTransactionResponse();
-                case "SignerListSet":
-                    return new SignerListSetTransactionResponse();
-                case "TrustSet":
-                    return new TrustSetTransactionResponse();
-
-                case "EnableAmendment":
-                    return new EnableAmendmentTransactionResponse();
-                case "SetFee":
-                    return new SetFeeTransactionResponse();
-                case "AccountDelete":
-                    return new AccountDeleteTransactionResponse();
-            }
-            throw new Exception("Can't create transaction type" + transactionType);
+                "AccountSet" => new AccountSetResponse(),
+                "AccountDelete" => new AccountDeleteResponse(),
+                "CheckCancel" => new AccountDeleteResponse(),
+                "CheckCash" => new AccountDeleteResponse(),
+                "CheckCreate" => new AccountDeleteResponse(),
+                "DepositPreauth" => new DepositPreauthResponse(),
+                "EscrowCancel" => new EscrowCancelResponse(),
+                "EscrowCreate" => new EscrowCreateResponse(),
+                "EscrowFinish" => new EscrowFinishResponse(),
+                "NFTokenAcceptOffer" => new NFTokenAcceptOfferResponse(),
+                "NFTokenCancelOffer" => new NFTokenCancelOfferResponse(),
+                "NFTokenBurn" => new NFTokenBurnResponse(),
+                "NFTokenCreateOffer" => new NFTokenCreateOfferResponse(),
+                "NFTokenMint" => new NFTokenMintResponse(),
+                "OfferCancel" => new OfferCancelResponse(),
+                "OfferCreate" => new OfferCreateResponse(),
+                "Payment" => new PaymentResponse(),
+                "PaymentChannelClaim" => new PaymentChannelClaimResponse(),
+                "PaymentChannelCreate" => new PaymentChannelCreateResponse(),
+                "PaymentChannelFund" => new PaymentChannelFundResponse(),
+                "SetRegularKey" => new SetRegularKeyResponse(),
+                "SignerListSet" => new SignerListSetResponse(),
+                "TicketCreate" => new TicketCreateResponse(),
+                "TrustSet" => new TrustSetResponse(),
+                _ => throw new Exception("Can't create transaction type" + transactionType)
+            };
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -75,12 +56,7 @@ namespace Xrpl.Client.Json.Converters
             return transactionCommon;            
         }
 
-        public override bool CanConvert(Type objectType)
-        {
-            if (objectType == typeof(ITransactionResponseCommon))
-                return true;
-            return false;
-        }
+        public override bool CanConvert(Type objectType) => objectType == typeof(ITransactionResponseCommon);
 
         public override bool CanWrite => false;
     }

@@ -268,7 +268,7 @@ namespace Ripple.Address.Codec
             if (version.ExpectedLength != buffer.Length)
             {
                 throw new EncodingFormatException("version has expected " +
-                                    $"length of {version.ExpectedLength}");
+                                    $"length of {version.ExpectedLength} bytes are {buffer.Length}");
             }
         }
 
