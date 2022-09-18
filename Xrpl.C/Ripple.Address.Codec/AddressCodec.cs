@@ -1,7 +1,6 @@
-using System;
-using System.Diagnostics;
 using Ripple.Address.Codec.Exceptions;
-using System.Text;
+
+using System;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/index.ts
@@ -57,7 +56,14 @@ namespace Ripple.Address.Codec
             byte[] accountId = XrplCodec.DecodeAccountID(accountId: classicAddress);
             return EncodeXAddress(accountId, tag, isTest);
         }
-
+        /// <summary>
+        /// Encode account ID, tag, and network ID to X-address
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="tag"></param>
+        /// <param name="isTest"></param>
+        /// <returns></returns>
+        /// <exception cref="AddressCodecException">Account ID must be 20 bytes</exception>
         public static string EncodeXAddress(byte[] accountId, int? tag, bool isTest)
         {
             if (accountId.Length != 20)
@@ -102,7 +108,11 @@ namespace Ripple.Address.Codec
             string classicAddress = XrplCodec.EncodeAccountID(account.AccountID);
             return new CodecAddress { ClassicAddress = classicAddress, Tag = account.Tag, Test = account.Test };
         }
-
+        /// <summary>
+        /// Decode address
+        /// </summary>
+        /// <param name="xAddress"></param>
+        /// <returns></returns>
         public static CodecAccountID DecodeXAddress(string xAddress)
         {
             byte[] decoded = B58.Decode(xAddress);
