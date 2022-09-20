@@ -1,4 +1,5 @@
-﻿namespace Ripple.Binary.Codec.Enums
+﻿//https://xrpl.org/serialization.html#blob-fields
+namespace Ripple.Binary.Codec.Enums
 {
     public class BlobField : Field {
         public BlobField(string name, int nthOfType,

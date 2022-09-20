@@ -11,6 +11,9 @@ using Ripple.Binary.Codec.Binary;
 
 namespace Ripple.Binary.Codec.Types
 {
+    /// <summary>
+    /// An amount of XRP or tokens. The length of the field is 64 bits for XRP or 384 bits (64+160+160) for tokens.
+    /// </summary>
     public class Amount : ISerializedType
     {
 
@@ -46,17 +49,28 @@ namespace Ripple.Binary.Codec.Types
         //    this.Buffer = decode;
         //}
 
-        public bool IsNative() {
-            return (this.Value.ToBytes()[0] & 0x80) == 0;
-          }
+        /// <summary>
+        /// Test if this amount is in units of Native Currency(XRP)
+        /// </summary>
+        /// <returns></returns>
+        public bool IsNative() => (this.Value.ToBytes()[0] & 0x80) == 0;
 
+        /// <summary> Currency issuer </summary>
         public readonly AccountId Issuer;
+        /// <summary> currency code </summary>
         public readonly Currency Currency;
         //public bool IsNative => Currency.IsNative;
+        /// <summary> amount of currency </summary>
         public AmountValue Value;
-
+        /// <summary> Maximum Precision </summary>
         public const int MaximumIouPrecision = 16;
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="value">amount</param>
+        /// <param name="currency">currency code</param>
+        /// <param name="issuer">issuer</param>
         public Amount(AmountValue value, Currency currency=null, AccountId issuer=null)
         {
             Debug.WriteLine("INIT value");
@@ -64,20 +78,31 @@ namespace Ripple.Binary.Codec.Types
             Issuer = issuer ?? (Currency.IsNative ? AccountId.Zero : AccountId.Neutral);
             Value = value;
         }
-
-        public Amount(string v="0", Currency c=null, AccountId i=null) :
-                      this(AmountValue.FromString(v, c == null || c.IsNative), c, i)
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="value">amount</param>
+        /// <param name="currency">currency code</param>
+        /// <param name="issuer">issuer</param>
+        public Amount(string value = "0", Currency currency = null, AccountId issuer = null) :
+                      this(AmountValue.FromString(value, currency == null || currency.IsNative), currency, issuer)
         {
             //Debug.WriteLine(c.IsNative);
             Debug.WriteLine("INIT string");
         }
-
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="value">amount</param>
+        /// <param name="currency">currency code</param>
+        /// <param name="issuer">issuer</param>
         public Amount(decimal value, Currency currency, AccountId issuer=null) :
             this(value.ToString(CultureInfo.InvariantCulture), currency, issuer)
         {
             Debug.WriteLine("INIT decimal");
         }
 
+        /// <inheritdoc />
         public void ToBytes(IBytesSink sink)
         {
             sink.Put(Value.ToBytes());
@@ -88,6 +113,7 @@ namespace Ripple.Binary.Codec.Types
             }
         }
 
+        /// <inheritdoc />
         public JToken ToJson()
         {
             Debug.WriteLine("Amount TO JSON");
@@ -104,7 +130,12 @@ namespace Ripple.Binary.Codec.Types
                 ["issuer"] = Issuer,
             };
         }
-
+        /// <summary>
+        /// Get amount from json representation
+        /// </summary>
+        /// <param name="token">json representation</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidJsonException"></exception>
         public static Amount FromJson(JToken token)
         {
             //if (value instanceof Amount) {
@@ -183,7 +214,12 @@ namespace Ripple.Binary.Codec.Types
         {
             return new Amount(v);
         }
-
+        /// <summary>
+        /// get amount from binary parser
+        /// </summary>
+        /// <param name="parser">binary parser</param>
+        /// <param name="hint"></param>
+        /// <returns></returns>
         public static Amount FromParser(BinaryParser parser, int? hint=null)
         {
             var value = AmountValue.FromParser(parser);
@@ -192,7 +228,10 @@ namespace Ripple.Binary.Codec.Types
             var issuer = AccountId.FromParser(parser);
             return new Amount(value, curr, issuer);
         }
-
+        /// <summary>
+        /// get decimal value of amount
+        /// </summary>
+        /// <returns></returns>
         public decimal DecimalValue()
         {
             return decimal.Parse(Value.ToString(), NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture);
@@ -214,7 +253,11 @@ namespace Ripple.Binary.Codec.Types
         {
             return a > b.DecimalValue();
         }
-
+        /// <summary>
+        /// create amount value from decimal
+        /// </summary>
+        /// <param name="decimal"></param>
+        /// <returns></returns>
         public Amount NewValue(decimal @decimal)
         {
             return new Amount(@decimal, Currency, Issuer);

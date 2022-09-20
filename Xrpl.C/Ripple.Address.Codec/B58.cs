@@ -5,6 +5,8 @@ using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 
+//https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/xrp-codec.ts
+
 namespace Ripple.Address.Codec
 {
     public class B58
@@ -18,7 +20,12 @@ namespace Ripple.Address.Codec
             SetAlphabet(alphabet);
             BuildIndexes();
         }
-
+        /// <summary>
+        /// Decoder
+        /// </summary>
+        /// <param name="input">Base58Check-encoded string to decode</param>
+        /// <param name="version">Options object including the version byte(s) and the expected length of the data after decoding</param>
+        /// <returns></returns>
         public byte[] Decode(string input, Version version)
         {
             var buffer = DecodeAndCheck(input);
@@ -46,6 +53,12 @@ namespace Ripple.Address.Codec
                                 $"but actual length was {payloadEnd}");
         }
 
+        /// <summary>
+        /// Decoder
+        /// </summary>
+        /// <param name="input">Base58Check-encoded string to decode</param>
+        /// <param name="versions">Options object including the version byte(s) and the expected length of the data after decoding</param>
+        /// <returns></returns>
         public Decoded Decode(string input, Versions versions)
         {
             var buffer = DecodeAndCheck(input);
@@ -71,7 +84,11 @@ namespace Ripple.Address.Codec
             throw new EncodingFormatException("No version matched amongst " +
                                 $"{string.Join(", ", versions.NamesArray)}");
         }
-
+        /// <summary>
+        /// Decoder
+        /// </summary>
+        /// <param name="input">Base58Check-encoded string to decode</param>
+        /// <returns></returns>
         public byte[] Decode(string input)
         {
             if (input.Length == 0)
@@ -131,7 +148,13 @@ namespace Ripple.Address.Codec
             CheckLength(version, buffer);
             return EncodeToStringChecked(buffer, version.VersionBytes);
         }
-
+        /// <summary>
+        /// Encoder
+        /// </summary>
+        /// <param name="buffer">Buffer of data to encode.</param>
+        /// <param name="versionName"></param>
+        /// <param name="versions">Options object including the version bytes and the expected length of the data to encode.</param>
+        /// <returns></returns>
         public string Encode(byte[] buffer, string versionName, Versions versions)
         {
             return Encode(buffer, versions.Find(versionName));
@@ -199,7 +222,10 @@ namespace Ripple.Address.Codec
             Array.Copy(checkSum, 0, output, buffer.Length, checkSum.Length);
             return EncodeToBytes(output);
         }
-
+        /// <summary>
+        /// Encodes the given bytes in base58. No checksum is appended.
+        /// </summary>
+        /// <returns>ASCII string</returns>
         public string EncodeToString(byte[] input)
         {
             byte[] output = EncodeToBytes(input);

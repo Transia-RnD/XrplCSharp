@@ -1,21 +1,12 @@
-﻿using System;
-using System.Diagnostics;
-using Ripple.Address.Codec.Exceptions;
-using System.Text;
-using Org.BouncyCastle.Utilities.Encoders;
+﻿using Newtonsoft.Json.Linq;
+
 using Ripple.Binary.Codec.Binary;
-using Ripple.Binary.Codec.Types;
-using Newtonsoft.Json.Linq;
-using System.Transactions;
-using System.Collections.Generic;
 using Ripple.Binary.Codec.Hashing;
-using System.Collections;
-using System.Reflection.Emit;
+using Ripple.Binary.Codec.Types;
 using Ripple.Keypairs.Extensions;
-using Ripple.Binary.Codec.Util;
-using Org.BouncyCastle.Asn1.Ocsp;
-using Ripple.Binary.Codec.Enums;
-using System.Data.Common;
+
+using System.Collections.Generic;
+using System.Diagnostics;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/index.ts

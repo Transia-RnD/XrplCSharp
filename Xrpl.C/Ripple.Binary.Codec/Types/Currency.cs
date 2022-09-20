@@ -3,19 +3,42 @@ using Newtonsoft.Json.Linq;
 using Ripple.Binary.Codec.Binary;
 using Ripple.Binary.Codec.Util;
 
+//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/currency.ts
+//https://xrpl.org/currency-formats.html#currency-formats
+
 namespace Ripple.Binary.Codec.Types
 {
+    /// <summary>
+    /// Class defining how to encode and decode Currencies
+    /// </summary>
     public class Currency : Hash160
     {
+        /// <summary>
+        ///  ISO code of this currency
+        /// </summary>
         public readonly string IsoCode;
+        /// <summary>
+        /// Test if this amount is in units of Native Currency(XRP)
+        /// </summary>
         public readonly bool IsNative;
+        /// <summary>
+        /// Native XRP Currency
+        /// </summary>
         public static readonly Currency Xrp = new Currency(new byte[20]);
-
+        /// <summary>
+        /// Constructs a Currency object
+        /// </summary>
+        /// <param name="buffer">bytes buffer</param>
         public Currency(byte[] buffer) : base(buffer)
         {
             IsoCode = GetCurrencyCodeFromTlcBytes(buffer, out IsNative);
         }
-
+        /// <summary>
+        /// get currency code from bytes
+        /// </summary>
+        /// <param name="bytes">bytes</param>
+        /// <param name="isNative">will true if currency is XRP</param>
+        /// <returns></returns>
         public static string GetCurrencyCodeFromTlcBytes(byte[] bytes, out bool isNative)
         {
             int i;
@@ -46,7 +69,12 @@ namespace Ripple.Binary.Codec.Types
         {
             return (char)bytes[i];
         }
-
+        /// <summary>
+        /// Return the ISO code of this currency
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="offset"></param>
+        /// <returns></returns>
         private static string IsoCodeFromBytesAndOffset(byte[] bytes, int offset)
         {
             var a = CharFrom(bytes, offset);
@@ -54,12 +82,21 @@ namespace Ripple.Binary.Codec.Types
             var c = CharFrom(bytes, offset + 2);
             return "" + a + b + c;
         }
-
+        /// <summary>
+        /// decode currency from json field
+        /// </summary>
+        /// <param name="token">json field</param>
+        /// <returns></returns>
         public new static Currency FromJson(JToken token)
         {
             return token == null ? null : FromString(token.ToString());
         }
-
+        /// <summary>
+        /// decode currency from string
+        /// </summary>
+        /// <param name="str">string currency code</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public static Currency FromString(string str)
         {
             if (str == "XRP")
@@ -80,10 +117,12 @@ namespace Ripple.Binary.Codec.Types
             );
         }
 
-        /*
-        * The following are static methods, legacy from when there was no
-        * usage of Currency objects, just String with "XRP" ambiguity.
-        * */
+        /// <summary>
+        /// The following are static methods, legacy from when there was no
+        /// usage of Currency objects, just String with "XRP" ambiguity.
+        /// </summary>
+        /// <param name="currencyCode">currency code</param>
+        /// <returns></returns>
         public static byte[] EncodeCurrency(string currencyCode)
         {
             byte[] currencyBytes = new byte[20];
@@ -106,6 +145,7 @@ namespace Ripple.Binary.Codec.Types
             return v.ToString();
         }
 
+        /// <inheritdoc />
         public override string ToString()
         {
             if (IsoCode != null)
@@ -114,7 +154,11 @@ namespace Ripple.Binary.Codec.Types
             }
             return base.ToString();
         }
-
+        /// <summary>
+        /// Defines how to read a Currency from a BinaryParser
+        /// </summary>
+        /// <param name="parser">The binary parser to read Currency</param>
+        /// <returns>A Blob object</returns>
         public new static Currency FromParser(BinaryParser parser, int? hint = null)
         {
             return new Currency(parser.Read(20));
@@ -131,11 +175,12 @@ namespace Ripple.Binary.Codec.Types
 
         public static Issue operator /(Currency c, AccountId ac)
         {
-            return new Issue();
+            return new Issue();        //todo ?
         }
     }
 
     public class Issue
     {
+        //todo ?
     }
 }

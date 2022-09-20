@@ -1,4 +1,5 @@
-﻿namespace Ripple.Binary.Codec.Enums
+﻿// https://xrpl.org/serialization.html#accountid-fields
+namespace Ripple.Binary.Codec.Enums
 {
     public class AccountIdField : Field {
         public AccountIdField(string name, int nthOfType,

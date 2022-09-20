@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 
+//todo not found doc
+
 namespace Ripple.Binary.Codec.Types
 {
     public class UnissuedAmount

@@ -5,14 +5,21 @@ using Ripple.Binary.Codec.Util;
 
 namespace Ripple.Binary.Codec
 {
+
     public interface ISerializedType
     {
+        /// <summary> to bytes Sink </summary>
+        /// <param name="sink"> bytes Sink container</param>
         void ToBytes(IBytesSink sink);
+        /// <summary> Get the JSON representation of this type </summary>
         JToken ToJson();
     }
-
+    /// <summary> extension for ISerializedType </summary>
     public static class StExtensions
     {
+        /// <summary> object to hex string </summary>
+        /// <param name="st">Serialized type</param>
+        /// <returns></returns>
         public static string ToHex(this ISerializedType st)
         {
             BytesList list = new BytesList();
