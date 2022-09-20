@@ -52,7 +52,7 @@ dotnet test --no-build --verbosity normal --filter "TestI"
 
 ## Generate reference docs
 
-You can see the complete reference documentation at [`Xrpl.C` docs](https://c.xrpl.org). You can also generate them locally using `Visual Studio`
+You can see the complete reference documentation at [`XrplCSharp` docs](https://c.xrpl.org). You can also generate them locally using `Visual Studio`
 
 This updates `docs/` at the top level, where GitHub Pages looks for the docs.
 
@@ -136,7 +136,7 @@ ___
 23. Send an email to [xrpl-announce](https://groups.google.com/g/xrpl-announce).
 
 ## Mailing Lists
-We have a low-traffic mailing list for announcements of new `Xrpl.C` releases. (About 1 email every couple of weeks)
+We have a low-traffic mailing list for announcements of new `XrplCSharp` releases. (About 1 email every couple of weeks)
 
 + [Subscribe to xrpl-announce](https://groups.google.com/g/xrpl-announce)
 
