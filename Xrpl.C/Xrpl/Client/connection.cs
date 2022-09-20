@@ -83,5 +83,10 @@ namespace Xrpl.Client
           //const websocketOptions = { ...options, ...optionsOverrides };
 
         }
+
+        public void CreateWebSocket(string url, ConnectionOptions config)
+        {
+
+        }
     }
 }

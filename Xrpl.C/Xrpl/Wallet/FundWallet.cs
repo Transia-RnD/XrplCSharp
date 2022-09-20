@@ -195,8 +195,6 @@ namespace Xrpl.XrplWallet
             RippleClient client,
             double startingBalance,
             Wallet walletToFund
-            //Func<Task<Funded>> resolve,
-            //Func<Task<XRPLFaucetError?>> reject
         )
         {
             // Get Content Headers
@@ -209,8 +207,6 @@ namespace Xrpl.XrplWallet
                     body,
                     startingBalance,
                     walletToFund
-                    //resolve,
-                    //reject
                 );
             }
             else
@@ -230,8 +226,6 @@ namespace Xrpl.XrplWallet
               string body,
               double startingBalance,
               Wallet walletToFund
-              //Func<Task<Funded>> resolve,
-              //Func<Task<XRPLFaucetError?>> reject
         )
         {
             FaucetWallet faucetWallet = JsonConvert.DeserializeObject<FaucetWallet>(body);

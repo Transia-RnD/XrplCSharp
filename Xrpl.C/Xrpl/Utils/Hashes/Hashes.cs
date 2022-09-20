@@ -6,6 +6,8 @@ using Ripple.Binary.Codec.Util;
 using System.Collections.Generic;
 using Xrpl.Client.Exceptions;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/hashes/index.ts
+
 namespace Xrpl.Utils.Hashes
 {
     public class Hashes

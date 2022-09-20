@@ -8,6 +8,8 @@ using Ripple.Binary.Codec.Types;
 using Ripple.Binary.Codec.Util;
 using Xrpl.Client.Exceptions;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/hashes/hashLedger.ts
+
 namespace Xrpl.Utils.Hashes
 {
     public class HashLedger
