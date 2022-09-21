@@ -28,6 +28,7 @@
     <None Remove="Ripple.Keypairs.Tests\Fixtures\" />
     <None Remove="Xrpl.Tests\Wallet.Tests\RequestFixtures\" />
     <None Remove="Xrpl.Tests\Utils\" />
+    <None Remove="Xrpl.Tests\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Ripple.Address.Codec.Tests\" />
@@ -35,15 +36,13 @@
     <Folder Include="Ripple.Keypairs.Tests\" />
     <Folder Include="Xrpl.Tests\" />
     <Folder Include="Xrpl.Tests\Wallet.Tests\" />
-    <Folder Include="Xrpl.Tests\Client.Tests\" />
     <Folder Include="Ripple.Keypairs.Tests\Properties\" />
-    <Folder Include="Xrpl.Tests\Client.Tests\Properties\" />
-    <Folder Include="Xrpl.Tests\Client.Tests\TestData\" />
     <Folder Include="Ripple.Binary.Codec.Tests\Fixtures\" />
     <Folder Include="Xrpl.Tests\Integration\" />
     <Folder Include="Ripple.Keypairs.Tests\Fixtures\" />
     <Folder Include="Xrpl.Tests\Wallet.Tests\RequestFixtures\" />
     <Folder Include="Xrpl.Tests\Utils\" />
+    <Folder Include="Xrpl.Tests\Models\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
@@ -73,11 +72,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Ripple.Keypairs.Tests\Properties\Resources.resx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Xrpl.Tests\Client.Tests\Properties\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
