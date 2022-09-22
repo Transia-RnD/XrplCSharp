@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xrpl.Client;
 using Xrpl.Client.Models.Methods;
-using Xrpl.Client.Tests;
+using Xrpl.Tests.Client.Tests;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/requests/utility.ts
 

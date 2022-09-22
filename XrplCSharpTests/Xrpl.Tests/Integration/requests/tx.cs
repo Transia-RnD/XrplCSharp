@@ -9,7 +9,7 @@ using Xrpl.Client;
 using Xrpl.Client.Extensions;
 using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Transactions;
-using Xrpl.Client.Tests;
+using Xrpl.Tests.Client.Tests;
 using Xrpl.Utils.Hashes;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/requests/tx.ts

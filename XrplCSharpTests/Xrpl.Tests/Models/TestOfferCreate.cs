@@ -4,9 +4,9 @@
 
 namespace XrplCSharpTests.Xrpl.Tests.Models
 {
-    public class TestOfferCancel
+    public class TestOfferCreate
     {
-        public TestOfferCancel()
+        public TestOfferCreate()
         {
         }
     }

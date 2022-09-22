@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xrpl.Client;
 using Xrpl.Client.Models.Methods;
-using Xrpl.Client.Tests;
+using Xrpl.Tests.Client.Tests;
 
 namespace Xrpl.Tests.Client.Tests.Integration
 {

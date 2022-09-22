@@ -1,0 +1,5226 @@
+{
+  "homepages": [],
+  "source_base_path": "/Users/denisangell/projects/transia-rnd/XrplCSharp/DocFx",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "v+xFta56ZJXJE/Movnk5PLZKTfHTR1vtlNGhN4fy+EA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "BlPxk5mtl2kgfcZUgkEguqiSAR/EUyUTT4EdebwkQvs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "rNJGSwUkcJP40tBidiB47hJdCU9snaabkfv1lO8ZX4U="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.AddressCodec.CodecAccountID.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.AddressCodec.CodecAccountID.html",
+          "hash": "gBAcySGzmQc2td1SKWcla0/qoy3RCgtNDPS1C9C5RM4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.AddressCodec.CodecAddress.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.AddressCodec.CodecAddress.html",
+          "hash": "D2bLfXShQYb0yV7cyUtTD3OVQ8bOd+Qz8mH/3EMiCm4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.AddressCodec.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.AddressCodec.html",
+          "hash": "KLwgMYW6GS3WoJoaL1qO8+PnfYAcWuGAd58drVVcrBE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.B58.Decoded.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.B58.Decoded.html",
+          "hash": "sAelZFmwybmMbzYCD41yyrOIRV4AOOwZX+giIuYqVxw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.B58.Version.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.B58.Version.html",
+          "hash": "W0sZsUOLEeKneXI23DtyZC6iu4P95czF3WuGcM1LUW8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.B58.Versions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.B58.Versions.html",
+          "hash": "+r8g7LShnS2ZSikI+Mpev0i9yGcag3QRKROFNTL0lbY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.B58.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.B58.html",
+          "hash": "SYN8EfktMErB8/8ijuwIbGf3fw7wUITx/Q4YpCKZ1jY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.EncodingFormatException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.EncodingFormatException.html",
+          "hash": "VemF2OrH6DJJL5Txt3cTokH4EhT613I8n1rL/Fmoyc4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.Exceptions.AddressCodecException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.Exceptions.AddressCodecException.html",
+          "hash": "6vkNrEZ2u+6tKV3RgDcHVNh1dmOdigRwkckHCB7c30o="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.Exceptions.html",
+          "hash": "enRWCZ7SYYWdS2t9TXmA3Sae/c/F/b2p3poZdxOnbDM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.Utils.html",
+          "hash": "zVLLxtba3CuvP9e0RgpWzf0qdC9zBJOalbvxumctJg8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.XrplCodec.DecodedSeed.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.XrplCodec.DecodedSeed.html",
+          "hash": "zmlfZd5BK8DwZGlQj6ngqPOnh0DZ4i9hPtgcW8bYBao="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.XrplCodec.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.XrplCodec.html",
+          "hash": "9B147px2feeFgYBNziP8eD/dVilz0xVMbMEijWNsGFg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Address.Codec.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Address.Codec.html",
+          "hash": "RRSydSYxPAtZIIiScv8y1xIqRJYiaoc7U/aqW40M5Ro="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Binary.BinaryParser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Binary.BinaryParser.html",
+          "hash": "W83gqoSF+5RMWwnAm7MguIj+uUd3H2eDayPDY/LTMWY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Binary.BinarySerializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Binary.BinarySerializer.html",
+          "hash": "mbyOHlX8XcJXNMZ+1JfmoFHJZMMTVMID3N348zdEZEM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Binary.BufferParser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Binary.BufferParser.html",
+          "hash": "xMRdOwg8rq18VCyi3PRM0LSS2KkVBQrRUFi/qp2IkwA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Binary.BytesList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Binary.BytesList.html",
+          "hash": "7oYuCTCRDwf0R0sZVtu+yRMJhk3hfd8VROPBYSFNKRA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Binary.IBytesSink.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Binary.IBytesSink.html",
+          "hash": "He2fnh0kavhotFKhwVqCVB6Dp8VeGTs5RcTAzAzdjr8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Binary.StreamParser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Binary.StreamParser.html",
+          "hash": "xURtGDvNgIGRx8oOEdJH7icNjC8gedD78PM6qAQ/bCQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Binary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Binary.html",
+          "hash": "y9SvVny4y6QiBtVIG0fa6h1uDl5SMcpVFd3QzXzZOqU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.BinaryCodec.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.BinaryCodec.html",
+          "hash": "Rt6u3hLZZeSuiTRaRtaEOMeocEN8btskaMWAC5q9ehw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.AccountIdField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.AccountIdField.html",
+          "hash": "C3vIo/FhwVWe1NfKVl0VGSYZLyymp+lKKTnGW9ts5ak="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.AmountField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.AmountField.html",
+          "hash": "xrjGxm/qCyeJatYZESkkjFYSm6vQwjJvPfZHGmpEUSQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.BlobField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.BlobField.html",
+          "hash": "umWiD9LUpjBN0KcsyTvTYZccg3hAI+eqdxQNS/1umIQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.EngineResultField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.EngineResultField.html",
+          "hash": "qrRmayByKadATsQ9i0d5F23pcrn8dCOKkwdSXjzjOfI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.EnumItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.EnumItem.html",
+          "hash": "FU0FeLx0z9/B7urRVUafB/O0ptcNDoO3Qfl7sW78faM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.Enumeration-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.Enumeration-1.html",
+          "hash": "cV53IMfNCJdS9biwL5XUY+5W7VjVL8V14PWxlXQXCAI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.Field.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.Field.html",
+          "hash": "WsHuaop47L5O81I0Izyg0NzQSQMID6J8z+CVk32uMD0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.FieldType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.FieldType.html",
+          "hash": "esOoKbm0sKQs54sXFliOMnt0ZsmaJmTkuaPrhr5Ar1A="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.FromJson.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.FromJson.html",
+          "hash": "Qu/ydFO3tuBF7sOn98tm+3RUfUMf8jnuyQAMeGAdcUM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.FromParser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.FromParser.html",
+          "hash": "Sdu/dSxMdxeuogXxuiamVzWmOCJo3MOtIdNlEup8i20="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.Hash128Field.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.Hash128Field.html",
+          "hash": "PsSDoVryVs/BTbi4qsTXyRMR08fuoZzNgCswo/hj3lk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.Hash160Field.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.Hash160Field.html",
+          "hash": "gJNJLxJSfpwjhhovjhZByorPjYAmOddTspNwuttqPnQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.Hash256Field.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.Hash256Field.html",
+          "hash": "QRGQ12YTiu9xg/UjrxC2VGC9mg+R1+64fAjIOxAbffI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.LedgerEntryTypeField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.LedgerEntryTypeField.html",
+          "hash": "Q0HcbB9jB2xoJV8KxtA08aTo1WDPdfJe+ahDkJY2ANQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.PathSetField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.PathSetField.html",
+          "hash": "oiYiIZ5JqsYMenbAxfeIKdr8Ilyfs5+LU6EMfxEzRNA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.SerializedEnumItem-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.SerializedEnumItem-1.html",
+          "hash": "KuTeuxSffIuMMRLPmx0XiaYdoufYl/hgv6d7PhuelEk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.SerializedEnumeration-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.SerializedEnumeration-2.html",
+          "hash": "HiHJCsCPjqE/5/boiiTGHW6zQhtzcbwDeI0wRbW4QEA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.StArrayField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.StArrayField.html",
+          "hash": "ND1nfe9JJcGF3Bocu86JNfKjGEXePDAa8+YyyRm4MF8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.StObjectField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.StObjectField.html",
+          "hash": "SBvSG8SGz4xpMHRDr0GXpNRatYIF6+Zu5XGXeWVj4UQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.TransactionTypeField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.TransactionTypeField.html",
+          "hash": "HwbbJhqjPgPHMYEr7+2logNwijEpZNTn8icBDIIcoXk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.Uint16Field.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.Uint16Field.html",
+          "hash": "8EoU3PwP5yOqbYAWA+cnwiPClOl8Nwcc1d1qJuEDw2E="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.Uint32Field.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.Uint32Field.html",
+          "hash": "wwmTp0a6Gxj+DgG5zyEULfZWFI7A5I6hbks9EdrENig="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.Uint64Field.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.Uint64Field.html",
+          "hash": "Go+Hj04iN1criHyi1fMVM6+Nwz3G1rj1UYNysvDEAnY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.Uint8Field.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.Uint8Field.html",
+          "hash": "9wt+F1Kynsj63hSpA0s8VdGUKO27rVQAKycgUB8OW4I="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.Vector256Field.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.Vector256Field.html",
+          "hash": "OfpCVzS4qSHDXzphEjMDm82XCJWs8JEot9OuNFVaA5k="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Enums.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Enums.html",
+          "hash": "ksekwJR9wqsHta13Yv5/PCRuPx81tess3/XuSQDV6HA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Hashing.HashPrefix.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Hashing.HashPrefix.html",
+          "hash": "P3bwFhiLUv/o3wbtcXiWvmwXj2JZZig0WBxARkXDEsk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Hashing.Sha512.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Hashing.Sha512.html",
+          "hash": "zInEg6fPqRubrLoC0gNv09D7ZrmhJd6cScIqFOD7XQg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Hashing.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Hashing.html",
+          "hash": "oIsSKnLWExGKc2JfU8RAWIIdzExVFJMC1u+NNFmpTCs="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ISerializedType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ISerializedType.html",
+          "hash": "0RxliNhVZZzMpBXvwdGhlXugwpYyWTKfzQyoLHI/opg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Ledger.LedgerHeader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Ledger.LedgerHeader.html",
+          "hash": "KpzJZKe/82B1mTdDHYb/zLuUA8jy0z28oXoWLrk9rzs="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Ledger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Ledger.html",
+          "hash": "DWoNyrzlJDfxSWwSVLCBb8EWILfM7t2mx7ekKborKs0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.AccountState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.AccountState.html",
+          "hash": "374AQwz5ah6a/+DfQ3YhwwMyqU1fQQY+O5YReXzDM1I="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ILeafWalker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ILeafWalker.html",
+          "hash": "py7nWikTBTropqLssqzdOGB3dHyUjEIC6KZuQORz1Tk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.IShaMapItem-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.IShaMapItem-1.html",
+          "hash": "IAy3PxohosVRbkwNKSNsbKBQ9ytXXvyV76TsFcMJmqo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ITreeWalker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ITreeWalker.html",
+          "hash": "rK9Em1rzN1KIUsaXqWUKuhjH3rKxUQIK+G4sX20bSHk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.LedgerEntry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.LedgerEntry.html",
+          "hash": "FbbvmwaxqCdDxkuv9rjNKhl0e9TOLrMj6J/u2wgANGI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.LedgerEntryReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.LedgerEntryReader.html",
+          "hash": "WB8apFQcuMTIkvmDR8pnnhXmnpZmn5/XblnF+e4Ytis="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.OnLeaf.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.OnLeaf.html",
+          "hash": "A7/pab8oaIFZW3wm2YdBfM8K10Xu2IGF6nJgGJwdaII="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.PathToIndex.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.PathToIndex.html",
+          "hash": "djVN5Rsq8C2DVftkL45optijrgYu9s7vKh3vNUR1Re4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ShaMap.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ShaMap.html",
+          "hash": "GyhcSGa4w6olyWemiJW6AwiKh4QkW/SX7gK3oxm14Vk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ShaMapDiff.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ShaMapDiff.html",
+          "hash": "j3VqOka8Tb8N5IACBVi+BJm85Dn9gq48YFI12o8IZ84="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ShaMapInner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html",
+          "hash": "Ld2qWgrg1cT8xclthAGXhbxYgEGmiBg/nELD1URsqVA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ShaMapLeaf.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ShaMapLeaf.html",
+          "hash": "cKnnXlH0CY7YCqnKUteG6/2qBnAD4jDbrqLfeJtwbqI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ShaMapNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.ShaMapNode.html",
+          "hash": "tTv03oCxGJm6nSVtmbZtx7fz+uXoXlSyUPLdh9GmtP4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.TransactionResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.TransactionResult.html",
+          "hash": "6nvAp9qUFwz+6mn8+Tof9/+6bjZVlFune5Dq4dwgtaQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.TransactionResultReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.TransactionResultReader.html",
+          "hash": "Jp/gdD0MUqtFLJoliwdYR/vq2x/xWC/hAbs1YwH01wc="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.TransactionTree.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.TransactionTree.html",
+          "hash": "ldEmlgxLbevrpmtA/rslqGZVlYCK+PaxGV/ngIARRCo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.TreeWalker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.TreeWalker.html",
+          "hash": "yxMv/3ZNr6/MjioHi3DVTzgywgnHUVCRY5iuZ6bkCU8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.ShaMapTree.html",
+          "hash": "ZH0htgzmw5G3Zc/6zYZPyWHsf4ni3Wwz9fuWTEePQRM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.StExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.StExtensions.html",
+          "hash": "yY/OHisrZbgIpOQIH2neCFXugn/qSFgISLKWkDRsa8c="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Transactions.TxFormat.Requirement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Transactions.TxFormat.Requirement.html",
+          "hash": "XlfwKSlzwTmo4BYisqwObG4SYlYCl3U6/r2/tUG7FRE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Transactions.TxFormat.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Transactions.TxFormat.html",
+          "hash": "uH+6Pd1thhlynoGucIJ707VqXwGRWvjsZiQVMQsb4JQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Transactions.TxFormatValidationException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Transactions.TxFormatValidationException.html",
+          "hash": "MxWH67thuRfwSeqSi3feMSBA+wEgNQ06vlN2hnZEDuU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Transactions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Transactions.html",
+          "hash": "N7lOhN6Abkh48/H+Z5NMi62UOGKyhPH0OhwkKuqZWkw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.AccountId.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.AccountId.html",
+          "hash": "yqdYTUbtndIAgsXC4HklvTelndb8ljydmA6hN0KLbCQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Amount.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Amount.html",
+          "hash": "MrsTQjzCsC2uu+FEf+qWr0mux7RUbLEvO0gc2IVbmRE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.AmountValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.AmountValue.html",
+          "hash": "DR124aC8ZXXB/WVwJcoLBXU7Mnv0tUKQxcnXR63NKS4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Blob.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Blob.html",
+          "hash": "cIh7iDvfrQGpNNWTUyXW71Rq1UQV5QCu1fGCY6JDO1o="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Currency.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Currency.html",
+          "hash": "8MHg03EaNcgABs2JOl6Y8EiVHZM/sy8VfIN3aphAjQQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.EngineResult.EngineResultValues.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.EngineResult.EngineResultValues.html",
+          "hash": "bzoE1YWFcbgxeeQEqkTrC+MufPqmMI8FGq0m5cfx9vY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.EngineResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.EngineResult.html",
+          "hash": "OakzpM7Jk0HDhtSe0Vow1NkQRUkHIvzpiLYItg40OPk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Hash.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Hash.html",
+          "hash": "ssLbyTbVAsjW/hLZiP50zuX9oIgLE1wsCY4+e9x0iFk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Hash128.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Hash128.html",
+          "hash": "GK0n53o2+REhwmP6ngFjBg1ayxaaEkpNmHTTFf+NKf8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Hash160.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Hash160.html",
+          "hash": "MraKerMV3CFeKY0KrTjnjmoVrIRIcv7RfaWtUvHN+R8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Hash256.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Hash256.html",
+          "hash": "NMU8GlXf9LTqt/A9L9/4FeqF4XggP1W5CXPiOrDwg78="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.InvalidAmountValueException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.InvalidAmountValueException.html",
+          "hash": "p9JK487lDNIfwNIILpopewubW/YuhFQf2ckhjJXnvcU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.InvalidJsonException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.InvalidJsonException.html",
+          "hash": "arL6znFW8/5A1Nxc+K8V86/FWOeu/Tp9seIBswbLDBY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.IouValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.IouValue.html",
+          "hash": "a1MC75Y+Xraakk6TFF8gKiozpxiO8WO4IL3k+dFV0RE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Issue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Issue.html",
+          "hash": "F6SHxghzcHdzYbcb0cdknf39Y+oyNTbaXK/6PqGG4+I="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.LedgerEntryType.Enumeration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.LedgerEntryType.Enumeration.html",
+          "hash": "0Tdxc7LEi+/DOIl0zokZ5lq3a5SFCXuMgLKhWbSOVxU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.LedgerEntryType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.LedgerEntryType.html",
+          "hash": "md4sSlb2nxX9/t38vs+LHWbDodT6vH+RiCCXo6233Y0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Path.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Path.html",
+          "hash": "1Hx29bg8HInG7HI+Dn/ucTqkHGZdkJwXxRsb3WEcqxI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.PathHop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.PathHop.html",
+          "hash": "AlNxsrzdgE6thD8I+IO/EgxSlzy0FQ8ERCXB6J6wVAQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.PathSet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.PathSet.html",
+          "hash": "x6ccCRvBNYF6Iig13vlitINQisxiWUHLxg0Y5JWiz2k="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.PrecisionException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.PrecisionException.html",
+          "hash": "8Eup99d6SY0e7IUEk0OHuOjpTVc8/5cqcVFylYBADB0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.StArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.StArray.html",
+          "hash": "iMd8jfRNwqy2DpI+VWyxZExSxS4SgGri3OvLSt3qe9M="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.StObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.StObject.html",
+          "hash": "bkFlM4+SYwEB5b7Nc5u5v9T43f+MIR4JqdypCcFOUrc="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.StReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.StReader.html",
+          "hash": "PD6SbjseojfAqh3nB01/uxd/34bWIaj02Pp0XzGvSTY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.TransactionType.Enumeration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.TransactionType.Enumeration.html",
+          "hash": "pl5I1HO/8uM12dQBEvm7WhrYG6iaQLmZLug9MAXOLTg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.TransactionType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.TransactionType.html",
+          "hash": "ve9xmIkR8jGdkkM/4osPeryWQ7JEAPBb+6cmal4Y9gI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Uint-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Uint-1.html",
+          "hash": "thuImfUvvWTDBzQl3JFHeaSqIW81dcr9WCdYGONPUlo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Uint16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Uint16.html",
+          "hash": "5ODB94zgx71ir528RrRvVxW1kIpeJFXHe0xNDFnwqwE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Uint32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Uint32.html",
+          "hash": "GHxF/NjTjZ7QIcqaDz7NlTZcY7BvW+qQmH73/LLosY0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Uint64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Uint64.html",
+          "hash": "GlQ1W0n8KCWU2YvZY9r4NaZWzld9x/szJKdtDmxR3l4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Uint8.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Uint8.html",
+          "hash": "rNtOsmOV5AUNYe43yTM57wQFpQoaUkZ9lm8mhHy29H4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.UnissuedAmount.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.UnissuedAmount.html",
+          "hash": "0eLiBYvgPzbQd2xYt/+KDTUChTmoa79q2ne2yoDsZg8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.Vector256.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.Vector256.html",
+          "hash": "WDEk1dogF1FuFD5Eaf0q/j/yF9zmenRzXDyrOOkKl4M="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Types.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Types.html",
+          "hash": "Ue2NxdcrgKZMBej1+7gUcVTiF++FfjmRpS6RADqLV0s="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Util.B16.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Util.B16.html",
+          "hash": "D9AQn2dVKDDD0pth2/dg+kKxFMtSiqee2nZbk2+Xm4c="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Util.Bits.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Util.Bits.html",
+          "hash": "MYb2VEjMTQZNGUey09hO7/cQ6J3m+Z/eb5DBIK8goVs="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Util.ChannelUtils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Util.ChannelUtils.html",
+          "hash": "LK0vH/kq+omtKChRHj3zNQ5jsyjHtdAo+u0nsbfq/7o="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.Util.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.Util.html",
+          "hash": "bWT4lfhS+c7ZDIWDeHtCj0Lf/ZavVrQvm/H1HgZZvn8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Binary.Codec.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Binary.Codec.html",
+          "hash": "x9hK1nlmDILtU9yMjCBv9Q/G3xXUcCkeTaQ26zC54U0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.Ed25519.EdKeyPair.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.Ed25519.EdKeyPair.html",
+          "hash": "fhvl/YfirqsVHCx5a7DbQP+rownSGkEBbBMOPKQAyKQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.Ed25519.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.Ed25519.html",
+          "hash": "GTWHma047mtUcms7vOrNbJ9+5XOUGgN0Mn/fSSUbkq8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.Extensions.ExtensionHelpers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.Extensions.ExtensionHelpers.html",
+          "hash": "gkT472GntuawXcTAKWyoZ/ZGH9A3X+xGeXh2PUw+IF0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.Extensions.html",
+          "hash": "5mqMa9sEjJ/3A1cTALWLkQB390zCiqaP1q9HZIKPwJ0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.IKeyPair.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.IKeyPair.html",
+          "hash": "cENAjfQxEp3O6eifIrrLm4zbLZPyXwtAgKUE87Dmg2Y="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.K256.EcdsaSignature.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.K256.EcdsaSignature.html",
+          "hash": "CywJ4K0JNmiShLib16DLsARdeYyq5EmyZ2pGkGrLxp4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.K256.K256KeyGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.K256.K256KeyGenerator.html",
+          "hash": "HHeBVXwJ2sikS8TOUlL2y3r//T+9pDgYttZHI0ebaaA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.K256.K256KeyPair.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.K256.K256KeyPair.html",
+          "hash": "sviRayqca2QnA1hph6RncWbBweSkIxhvsWyNqWEYQ0Y="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.K256.K256VerifyingKey.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.K256.K256VerifyingKey.html",
+          "hash": "MgW++Yj6Z0olpVgqE7eMzwZCIaSgR+RIAh8/ZZ48L3k="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.K256.Secp256K1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.K256.Secp256K1.html",
+          "hash": "uGsOaGP33qSUSNI9GE75rJhRjjYlOOsxkaLKGk59odM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.K256.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.K256.html",
+          "hash": "ZSPR2xkRdfDWeVMEk/tmyqN2BuyN0+dKnNOp4or4HKE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.KeyPairExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.KeyPairExtensions.html",
+          "hash": "eZWRnSmw70/PYYixYFrhdoaj8g31wqF/xkhDSBZXvAE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.Keypairs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.Keypairs.html",
+          "hash": "UE/J3uJWF0en0W/pJxOYNIoJASYhgPUtNsrleCKtzzk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.Utils.Sha512.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.Utils.Sha512.html",
+          "hash": "bIIs8MYodhgWYPmZmzvIUy9bz4960faP/48rTcBjwSI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.Utils.html",
+          "hash": "mIHM/D06tg9/hhTUcEC1TkR3gEGcMjTJD0kaspnBAQU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.rKeypair.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.rKeypair.html",
+          "hash": "+0A+3jV0QC+I5PqVUCzM73YdJwxkUX6SGjGQevuTNWA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Ripple.Keypairs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Ripple.Keypairs.html",
+          "hash": "w6GeUzxH0CtpQy5NqD9EKfwG9LF99CxIY8ebtvVsFpo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.ConnectionError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.ConnectionError.html",
+          "hash": "bFVM4zek0+Rh5krSeN6+2dL2kHHiliOYk/gJwTbLIFM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.DisconnectedError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.DisconnectedError.html",
+          "hash": "pdc9hVUe+M1ufuEw6/DytxMM+UJMdG0f9e7tpu0c6g8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.NotConnectedError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.NotConnectedError.html",
+          "hash": "zB7TncwdLBR+k0u1ivJvE71UWnJGNsUXhaiDztFnaKA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.NotFoundError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.NotFoundError.html",
+          "hash": "+yExZVRvUOj49U6trxBRxYihrr0JMvBiFD8FsdK/Ku4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.ResponseFormatError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.ResponseFormatError.html",
+          "hash": "IeRCbNH/QPUqfOIILOTZ1HiprSEmmQgHPHHjqZBZoDw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.RippleException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.RippleException.html",
+          "hash": "qqzrxEd+qD+zt8yoTbHOJGQYRXLLo3wsl208GYzZpcE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.RippledError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.RippledError.html",
+          "hash": "VwHg7DwRys6AGVK3X3YR5KxE+NHJftL0+JSUgmT+RmI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.RippledNotInitializedError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.RippledNotInitializedError.html",
+          "hash": "n79y5aL8fcM6+DVYUchUDy1VaTtW221nfqXP8a0VqBI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.TimeoutError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.TimeoutError.html",
+          "hash": "w0uZuAvmSLDJQlIG1jPN7a2VIY2kxCV62BJwKQ64B14="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.UnexpectedError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.UnexpectedError.html",
+          "hash": "twP/PYC9zfK0fnT5mJRWo7r/5b1/5DUdA+wC44+U9VI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.ValidationError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.ValidationError.html",
+          "hash": "HCXnd+aECWlqrHRrjCO4MhYDPOz7wQkC0pyo30AoRKw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.XRPLFaucetError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.XRPLFaucetError.html",
+          "hash": "nncHD30Vro5PRO8OWiryoVU9mKAOUvlmtSwA0vOHivs="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.XrplError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.XrplError.html",
+          "hash": "iqOvxEnOt7LdMa0zx7ZEv1aGr/M0tC4/WOyCLIGRGD0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Exceptions.html",
+          "hash": "M1apHGi0LGJVcD4C2G/sA8LAmCTDyL9cUrObRyQN3rg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Extensions.EmumExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Extensions.EmumExtensions.html",
+          "hash": "4w9rs8O1n1QVRxMBkUhSOeFpXg9BXmIMmXZ4Sxk0Lzo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Extensions.EnumerableExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Extensions.EnumerableExtensions.html",
+          "hash": "tskJcSxa22eUXuvKdmdKyXx56zIMT86cc+ZbsVNy1Hc="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Extensions.ExtensionHelpers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Extensions.ExtensionHelpers.html",
+          "hash": "+6UT1S5qT7ciski7ktwU6IcA15N95F0Plt6griTRJis="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Extensions.html",
+          "hash": "bQXOTKrqYiyOxU/vZ81Qb+XdvsQlKAxu0lwXRZVigB0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.IRippleClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.IRippleClient.html",
+          "hash": "Iq3vi2mnOfTGm+teTG6IvMYvRML5ZZ16gbwXIL+zWYw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Json.Converters.CurrencyConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Json.Converters.CurrencyConverter.html",
+          "hash": "VBPKNGc7EiV6IvsEB0Vhmr5yXv7VFfQQLLtItNnJ328="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Json.Converters.GenericStringConverter-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Json.Converters.GenericStringConverter-1.html",
+          "hash": "OXTnUu90tHOZg6+if/UG83ermm5gp9raCOcVmy5/7M4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Json.Converters.LOConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Json.Converters.LOConverter.html",
+          "hash": "HW8qUYdr1xJ8zk4qYaQ78gjdo1qzkI8d2ekyFExTfVY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Json.Converters.LedgerBinaryConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Json.Converters.LedgerBinaryConverter.html",
+          "hash": "h4h74RwOwyHlMeaFldi4JRzjPYjyraqF1NMuzF7sAN0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Json.Converters.LedgerIndexConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Json.Converters.LedgerIndexConverter.html",
+          "hash": "UnJi/HzkkurvEYRO8gqDeerf/FZI1Togi6w3qwa8gNg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Json.Converters.MetaBinaryConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Json.Converters.MetaBinaryConverter.html",
+          "hash": "rQlOvFpvIOcypitfr1TsaqithtzNhl2022ICdCxrvOI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Json.Converters.RippleDateTimeConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Json.Converters.RippleDateTimeConverter.html",
+          "hash": "bNAoLhUxjOmdWCltjndXRGDE70xPJJL8tF2Dc1aF3wY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Json.Converters.StringOrArrayConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Json.Converters.StringOrArrayConverter.html",
+          "hash": "jToEcbcUgKvJ816lTXPzUBoT5K5SuE934gEhs624ocw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Json.Converters.TransactionConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Json.Converters.TransactionConverter.html",
+          "hash": "bUrz5XvFJQeAQRPKoU1WLOXsCJqPhcfCib+I435WxtI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Json.Converters.TransactionOrHashConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Json.Converters.TransactionOrHashConverter.html",
+          "hash": "qE8koI90UGe0NqH79gEouDO3FqrcNtNSGT+gsrEyxug="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Json.Converters.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Json.Converters.html",
+          "hash": "p4o1GUx5Ozq15iAQB10x9aChWIrjCV8cxNaUP1gZ8aI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Common.Common.IssuedCurrency.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Common.Common.IssuedCurrency.html",
+          "hash": "Erl7IiHMuVgcCM6BTc1po18XVGrIHKDI9aB/fcnQHzA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Common.Common.IssuedCurrencyAmount.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Common.Common.IssuedCurrencyAmount.html",
+          "hash": "+2oeLCqURFIa/B3Ee2SFLL8dAkFLtfvJ6maJZAOlazM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Common.Common.XRP.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Common.Common.XRP.html",
+          "hash": "pBIJmyKGqfzL8AKnVwz3r2QPXCfGEr9canPPaX5gqk0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Common.Common.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Common.Common.html",
+          "hash": "g1HLG3jiPdYAna3Mqv3zy6SYRE0TbPIL7QHVsM6mnDQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Common.Currency.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Common.Currency.html",
+          "hash": "t/ZTcVVVCIWC2VHKjNRTVWCm8Q3mehvCiyb9qs/4ta4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Common.LedgerIndex.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Common.LedgerIndex.html",
+          "hash": "dAC3Y7cIlhDY/hHKAiiKM9zXqVJy3MZxlX6pecYkmH0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Common.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Common.html",
+          "hash": "+TNe1/dmO8ktiTNPf6MX/9ihA+rbpUb71QOsWZ+KPGM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Enums.LedgerEntryType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Enums.LedgerEntryType.html",
+          "hash": "cWHV7eBwK+ssJ+uy0fG05jiocbSK8+KSJPp8D4zvzpE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Enums.StreamType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Enums.StreamType.html",
+          "hash": "LUOWKNAzq1BTSsE2ffLbamAJWBl0EwJkk5UCgM6jfUE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Enums.TransactionType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Enums.TransactionType.html",
+          "hash": "gkew2E3/wNzS4U7h0F90EmiNWKeQM60YuH8YmJHJhok="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Enums.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Enums.html",
+          "hash": "SAA4004pq2bRgSav0bDC3leM8zHq7w64+lcdCh57Un4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.AccountRootFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.AccountRootFlags.html",
+          "hash": "Vj46LEMtEVpqKyHR2/FlMyEksdu1QpkFKBA3THYnYqc="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.BaseLedgerEntity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.BaseLedgerEntity.html",
+          "hash": "9TGZ8Q0AuQPAuYU/EelsX18vUJTpd2EKrCyVYEjPbGE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.BaseLedgerEntry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.BaseLedgerEntry.html",
+          "hash": "AUSX9g5ErALwpGmiMJp0R4jdy+nySEeT5/JDYGfoqks="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.EnableAmendmentFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.EnableAmendmentFlags.html",
+          "hash": "NJxITRZng9isFxHJS3K8JlAF/gc7hnVcNR4QhH52KFI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.HashOrTransaction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.HashOrTransaction.html",
+          "hash": "JkgbBjlxVXum7tbBC6dfVDnY/Z/iY3dpu1NJ6AziaKs="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOAccountRoot.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOAccountRoot.html",
+          "hash": "7i0LK5V24DWVaqrTKjdc9mQo6m/+dmRCQ02EwrP+9lw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOAmendments.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOAmendments.html",
+          "hash": "5W9BFPlcL6XyTM9wo+JE6DVCnBUYqFq0pQINrPCDUr4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOBaseLedger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOBaseLedger.html",
+          "hash": "mtigY1c8hGtNdcFc5yyA8MbS3L+QhKwQLfDyv6nXamg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOCheck.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOCheck.html",
+          "hash": "DedXg76AU0ifQoFPYHl6LTkPJ3o1jxEGiPztQrsLD90="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LODepositPreauth.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LODepositPreauth.html",
+          "hash": "OWkq0Vkp+Z6Zpt1YdckXAlHd72tHX4BeIFUBe+h7ZY0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LODirectoryNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LODirectoryNode.html",
+          "hash": "avsevOKvIHirKxUr4YnunqObjCj9p8Eyn8BFM66rUVM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOEscrow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOEscrow.html",
+          "hash": "olOLX6r3ygxszBs/WbF867k02q9ZZeRjpsTZnshmm2Q="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOFeeSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOFeeSettings.html",
+          "hash": "EJ2LVPi7W8ReH+/+n1GgSG0ANfg4OLThdUzaf43bOyE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOLedger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOLedger.html",
+          "hash": "iD4pun1coi0VAdIhf71xXZCyPiwvvlzHuAHMv9c7Xe0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOLedgerCurrentIndex.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOLedgerCurrentIndex.html",
+          "hash": "hkF74/REuXSOqYjcnf/Z4uYBZ+X65gW9ro2n5NXiCWQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOLedgerData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOLedgerData.html",
+          "hash": "xCO5bdooMHpz0O91drfdx9FoZqwWsgdbsE2cjPKv8g8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOLedgerEntry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOLedgerEntry.html",
+          "hash": "IPu7hqS4InYSXvhzu5wdHgli629vLlfK0iMJpDloDro="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOLedgerHashes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOLedgerHashes.html",
+          "hash": "EWi7RJ1NPCG5SzkgkRAMGzXe3mCMGkAi7+bKU+BDsIw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOOffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOOffer.html",
+          "hash": "f32kW9WpoFiKFuC/j019Qj48SMK/+SyaBtUwp2EDPhg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOPayChannel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOPayChannel.html",
+          "hash": "v1w9vSl5UkzfgvgFUtnxNumhYxbFvxzM5aLbxZDwD6U="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LORippleState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LORippleState.html",
+          "hash": "hT2dVs1fE1Rk+ZT3Nx4H2R2nnxlsPxLBWi6EmTuHNCc="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOSignerList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOSignerList.html",
+          "hash": "V5lwm8RwewE8pi+CEEigMCAQVZpEdnMpcLrrRoNIzWI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LOTicket.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LOTicket.html",
+          "hash": "3PCnhZkLpKQyNFDe0GBIvfVmbNo5p4jW3TxZWslVmpY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LedgerBinaryEntity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LedgerBinaryEntity.html",
+          "hash": "1e4MwfhmTq2+rcAq1ass7J2SPyFrXzvWzIyiMDWb7zg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LedgerDataBinaryOrJson.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LedgerDataBinaryOrJson.html",
+          "hash": "T2dL92shz5RSaYMKIiM/oXjzDIlxQZloJYjYnLZLcVs="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LedgerEntity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LedgerEntity.html",
+          "hash": "s+aVRtvFFqxuZVSiPMxeZ0VUX37DkJcdxzCUr7A24aw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.LedgerIndexType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.LedgerIndexType.html",
+          "hash": "vWN2H4PO2qr3jwkCuL9ll/L8NeS6ByIL+fzjetQDssE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.Majority.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.Majority.html",
+          "hash": "qHwsWbQGgK94nWFr7zlBtOA1d9fUeoYdA/xyA5OSyKc="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.QueuedTransaction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.QueuedTransaction.html",
+          "hash": "EmKZwAVB0QY5yGF7JRx+knBrgmfY8Bzk8/fwlSmnB4U="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.RippleStateFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.RippleStateFlags.html",
+          "hash": "NiS7iuZszBjqc8Rm5hI2tSSTrj5AchV2BQRy30mp5Mk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.SignerEntry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.SignerEntry.html",
+          "hash": "1xRwLmMYrcjs6itvhqlq+EOUnLnJ29DWKvQBXY++qrQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Ledger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Ledger.html",
+          "hash": "XpdrR36Z/3ALoNuek4vTSEAc+hiTqMprOTMrdxBy64A="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountChannels.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountChannels.html",
+          "hash": "PaAoBmQhF1K4ETFP0A5e9757p9nkvIxnlDnUjVamSsA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountChannelsRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountChannelsRequest.html",
+          "hash": "v65Qq+NVUGwHwvAfSrfpHdC2YKJ3lx/fvCr82SIm45o="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountCurrencies.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountCurrencies.html",
+          "hash": "z6v6zS+ye/MMWLCP3h856q9Re7IuIyf5o8GqiVQqSOo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountCurrenciesRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountCurrenciesRequest.html",
+          "hash": "usE9gGeXJubzGi8ezW2aT/L6wfr9eDx0kSp+0e66t34="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountInfo.html",
+          "hash": "976abdnw2+tvg1fRad2+HOAvxqoQ8jHsnjxZ5rj/ZcM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountInfoRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountInfoRequest.html",
+          "hash": "1HOohIq7MFjblwipAn1XUqd4x4BALAOMqoVo9B/vg5M="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountLines.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountLines.html",
+          "hash": "1rXnfZQn0ZycjXkrqtpNkeead2tR1PIj6MbfWa8cKeI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountLinesRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountLinesRequest.html",
+          "hash": "e+/r2J+V1CQydxZc6dtQuxKB2sD0G7LgpA/ZQOS5GHY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountNFTs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountNFTs.html",
+          "hash": "wlv2576456+xqgQEqWGtywD885gbvnfEalEju8RWRC4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountNFTsRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountNFTsRequest.html",
+          "hash": "2r72S3e/DDZ6eYDQXcdfPmLpY85b4rcd+vW02/jKkSE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountObjects.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountObjects.html",
+          "hash": "8ZIfSOG9bFgLQuMmKfwscE78gMzIFAPhnF+FDgawnZ8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountObjectsRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountObjectsRequest.html",
+          "hash": "h5F8pu5aS9WGO0aGLVAGBrD3iSZbapqPo0hY2g2LcJ8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountOffers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountOffers.html",
+          "hash": "UbUSiuYpkBm0nIkNWFOfpNeQsUE9BHwltZnbwznN9XA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountOffersRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountOffersRequest.html",
+          "hash": "2krPlNm++lVjuIYvNd8TpYC8w8JJTRGESG1JuNOGi7A="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountTransaction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountTransaction.html",
+          "hash": "61bAhsGrtN8INpUXX1J6LguI08ZllcOPtnvv3JiGpF8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountTransactions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountTransactions.html",
+          "hash": "Q6JZlw4tOBpoK3L250NStGsNGKzANQThLjms/TSq4ds="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountTransactionsRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountTransactionsRequest.html",
+          "hash": "TYjdJVcLcnelH7j7+bm9wnRbxAe4OzwqkXCOJGH2wj4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountingStateInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountingStateInfo.html",
+          "hash": "apzPFTJdkZxwVWPWl+FIfzLmG0LGb2Jlxec0MiuuSy4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.AccountingStateSummary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.AccountingStateSummary.html",
+          "hash": "3cDC65HD5f+ygcNCDZclYkoLb4qrd88OM5yUjOxiY2c="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.BaseLedgerRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.BaseLedgerRequest.html",
+          "hash": "yKl2WdRf6uW3F9yJ2g1oCSKnq29j5KA2tLtUemFkPmk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.BookOffersRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.BookOffersRequest.html",
+          "hash": "sZHsBINXvNo1QQfGDAA5yzT/OV1/CQ2gGXwsBQUQnuQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.Channel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.Channel.html",
+          "hash": "7jBb9RiGPPGH/z1rbps9vkdvMfZbgCwf2vrKMAWo5TU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.ChannelAuthorizeRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.ChannelAuthorizeRequest.html",
+          "hash": "FhpnKcLGpQJDeKgSSXa6thFaxCuQc7kH4x4lh6OrBjI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.ChannelVerifyRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.ChannelVerifyRequest.html",
+          "hash": "6k448Mj3NdOAi3Jz7W7tzjn1+Mez236LJosqnm9x1l0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.Drops.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.Drops.html",
+          "hash": "bWcCkQDzPkrqkEEEA3xCeBtbAP6hGzUzdLgzV1sInt0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.Fee.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.Fee.html",
+          "hash": "SOwBgFLtQqCaV2/zg/w6Dg3mg5SXfnh00Ko7x2He380="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.FeeRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.FeeRequest.html",
+          "hash": "bVsmLFMstLvpqsLd01TDaFBISpcRwQcwzygnhkOjqyE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.GatewayBalances.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.GatewayBalances.html",
+          "hash": "9bTCZYqQX/kEpjWqgs93xT6925UngoKbk5nN4Sqg7v4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.GatewayBalancesRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.GatewayBalancesRequest.html",
+          "hash": "Xh4hjBZOY7occx1FXbO9CqrXgJO0KtaNSrfFPh+lJfk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.Info.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.Info.html",
+          "hash": "vYpPltjl9LCv40ndJl+815QCAJupN07w8ycA/B6+lno="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.JobType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.JobType.html",
+          "hash": "AxCgXtNqmrMUNvo5ZxcyDPoOO9koAhBuKYM0HIjdatI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.LastClose.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.LastClose.html",
+          "hash": "vpZnpEtb1Cm3V1PCH0uGexahOBjTYSpsgJA2u56xfpU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.LedgerClosedRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.LedgerClosedRequest.html",
+          "hash": "1/Txk604JdwNyKs6NeRD274RVIC8czun2cz1/S9jD1k="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.LedgerCurrentRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.LedgerCurrentRequest.html",
+          "hash": "Dgrm4LGw1Fy6kwjRdl5FmQXqyeKguTWxi3H1SoN0GTg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.LedgerDataRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.LedgerDataRequest.html",
+          "hash": "87O+pGCLg4RIa1fk1XLFvH9F0La0jq2IICIMO6U9fkI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.LedgerEntryRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.LedgerEntryRequest.html",
+          "hash": "govymVPNu3ybiiLZhBydayKQ2FsLdNDaNfe7xmFBWLM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.LedgerEntryRequestType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.LedgerEntryRequestType.html",
+          "hash": "O6KAPZIZKIlFm4sgcq/GBNxY5koBPfW5yzkDQAbeJ20="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.LedgerRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.LedgerRequest.html",
+          "hash": "sKmRxgc+ezpUHhiwlXehWKj+ydZjHSN1poXVMeYSlmw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.Levels.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.Levels.html",
+          "hash": "Kqk4tGG7O9ZinLclRL3ik8o2RFR0gG+XPwT81sVnpMY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.Load.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.Load.html",
+          "hash": "KY3R1F3b4wj1xxHHOZ6rYXjh5TmkxP2NfB57cIMk+l8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.NFT.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.NFT.html",
+          "hash": "ABczyP6R8nXHpI/FbnwkGHmysn04+iHPlwZ8F6zqSpw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.NFTBuyOffers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.NFTBuyOffers.html",
+          "hash": "axIBUGs3/wpiRdafewYHEYqKapWVrltZioNuF2K4G7M="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.NFTBuyOffersRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.NFTBuyOffersRequest.html",
+          "hash": "1SeUyI+GXfTdxhR5XnMBJbsW9vWPCFWcF83XcOs/mAA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.NFTOffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.NFTOffer.html",
+          "hash": "JNu6nRgqqsrUG4PEfoqOafOVi5uKSrHHkrzNPO76PWg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.NFTSellOffers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.NFTSellOffers.html",
+          "hash": "q1YE/FNctG2kv8qOCEOFwGxVFU7ztnVyJlyjBLgVCQA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.NFTSellOffersRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.NFTSellOffersRequest.html",
+          "hash": "7esDo06gji568AB/kQZoRkNLEYwSciJFUqHoPT5Jh0M="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.NoRippleCheck.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.NoRippleCheck.html",
+          "hash": "WH11aSZ1Iw5LpTbXgWRqZwKGW3eL6VUjRHwZ/CJ0toM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.NoRippleCheckRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.NoRippleCheckRequest.html",
+          "hash": "HoCPw6kf7GFUDYvCaM54rRRodwstyAN7VfhFB1acA+k="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.Offer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.Offer.html",
+          "hash": "Q9VZqFyBWDtmxY0LXcns5kWmJdFiI3fTNsV6MC0q8V4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.Path.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.Path.html",
+          "hash": "q3G8lJeJDZJLBboR7gLkWovwwmxTLrbPNO2jhrBEiLw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.PingRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.PingRequest.html",
+          "hash": "0CEYSn3mV2PV8wRzV9iMpoCnaNONp1UUWXnSfPfvmeo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.QueueData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.QueueData.html",
+          "hash": "OuglhTtB8rKDgihWDdF8mKw0ocac4YrFT0mu/vZ/azo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.RandomRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.RandomRequest.html",
+          "hash": "QbvOoLSKqvlwTnCZ+P3BgCXH9gQYRz73Xo9ZTZiUY0o="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.RippleRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.RippleRequest.html",
+          "hash": "/ywbPbdkt57lgapgJbqrqY10b2zEkBcJSUWJzhydAMM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.RippleState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.RippleState.html",
+          "hash": "cryL8enIE0sH/TOoGfv2qPPXDD3+vfrepIXsD9Wj1HY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.RoleType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.RoleType.html",
+          "hash": "dYFAi+DFxtvVopOZdZxBqIOaM83FqwD4HionKlzO/LU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.ServerInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.ServerInfo.html",
+          "hash": "wpD5SgeNiYi+CupledDTBeSUEX2Dl8DEF66OZ6qIg1A="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.ServerInfoRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.ServerInfoRequest.html",
+          "hash": "fwSa5wmDv5+XVaYYVaMSUyeUAHr65+EPhBLCyTxT9SQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.ServerState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.ServerState.html",
+          "hash": "9rOzESzF5eqyRdEAVwhiENKexOsdSGiTINAu1+AcwMA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.SubmitRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.SubmitRequest.html",
+          "hash": "O2cBKS2qmsZPJVkuZfSlIBFoMpyinX/UUaLXaqFHHuQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.SubscribeRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.SubscribeRequest.html",
+          "hash": "Kr6fZp3mHW4ekCcttRHVkq9gGeePUyJMtf+Zv8Le6+g="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.TakerAmount.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.TakerAmount.html",
+          "hash": "25wT7LeO72jG6wyiqj/NlOwOn6VU+K6XlQranPH0cNI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.TransactionSummary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.TransactionSummary.html",
+          "hash": "oyJ9B681es1uIhLi/vEDXn2iwl5zxTfja9OkfDlgRRU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.TrustLine.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.TrustLine.html",
+          "hash": "n55UQbE15egr9bnZQCe8b+JedNCHpzV77iidRS+w2Aw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.TxRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.TxRequest.html",
+          "hash": "yTyqZMr/OfH3iLj5zlhl5WcRR3acVchRWlnrzQLWZXg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.UnsubscribeRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.UnsubscribeRequest.html",
+          "hash": "tN3ol+JexOgvXL0fXa9LxWhbJ6olvnTEx9Ax5TEC8/o="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.ValidatedLedger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.ValidatedLedger.html",
+          "hash": "1VCBbQr3pxmweW6Q1wUShAs3ieAPLy8kKwv2hro97sI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Methods.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Methods.html",
+          "hash": "qxPJHcqB3xa6PFw0nz7neTi66IUzwpjMJhnfjuhqZJA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.AccountDelete.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.AccountDelete.html",
+          "hash": "JlK6zS5uvIxPWQYcKJWJNhyyejdJZDHaWL5nyP5sBQs="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.AccountDeleteResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.AccountDeleteResponse.html",
+          "hash": "aih4KbIoem4IsLHohE/bkv093vYR/VQIiErJKKtNm5M="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.AccountSet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.AccountSet.html",
+          "hash": "7UcC5IHuX2AarFhjnL//00gY59KFHakegmm9M5gApVE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.AccountSetResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.AccountSetResponse.html",
+          "hash": "M3rmwCJoAdz275wuwkwHwKnJgWL/ezXMG809liYfswE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.AccountSetTfFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.AccountSetTfFlags.html",
+          "hash": "fPxICRG+C6Vjgn0SQ9FedBNV5SzAEE7ihFfhE2dMk8Q="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.AffectedNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.AffectedNode.html",
+          "hash": "00qZFrvjwnd883oJgFpZFzRyS43Kz5Ofvj9UnpKjDno="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.BaseTransactionResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.BaseTransactionResponse.html",
+          "hash": "K5dZq0+9aXdt1J4ZSHAH1RA4esu6R44T8mlMri1JAK4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.BinaryTransaction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.BinaryTransaction.html",
+          "hash": "w73OEaFKsXU3fn22aWqu7ace5qhM7AxthXSyFBsgy7w="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.BinaryTransactionResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.BinaryTransactionResponse.html",
+          "hash": "2uHPWEQS4elkNO6I+jC5iu+4o4uY6uQ3WIhIQO0BaFc="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.BookOffers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.BookOffers.html",
+          "hash": "LIZVjyh8kFg1s3x+b5Nel6M7ZnwR2Fr6NxE0usQGizQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.CheckCancel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.CheckCancel.html",
+          "hash": "18XO+WqRRVgLhc+uw2XUHKSV308imHIaudGHpIMxEvw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.CheckCancelResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.CheckCancelResponse.html",
+          "hash": "+lHV6MMXVyD/mK1VTFN/EAMoz6kjFelPa+RFtcYtziw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.CheckCash.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.CheckCash.html",
+          "hash": "YJ5QHl/F665yDKFcmarXINQAG3VIIzvLJT61FtLa8cs="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.CheckCashResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.CheckCashResponse.html",
+          "hash": "yNYOfcaexvJ4v/QjiW2f3YoKjkU0xvlUwaLDtpzh7ao="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.CheckCreate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.CheckCreate.html",
+          "hash": "HzYK4Xa4YGFJMWzDyxzt/0aZQj5qrm11RHOJBRl/IpM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.CheckCreateResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.CheckCreateResponse.html",
+          "hash": "eipXHQNLWfGadwwbLpqTnR9jVk3jdQ6SYC72uqhyE4g="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.DepositPreauth.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.DepositPreauth.html",
+          "hash": "OAjzSOL7VKi5/J1FASnAPejd069aTb07ytH0/xlyIEw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.DepositPreauthResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.DepositPreauthResponse.html",
+          "hash": "BuPkxYP1k5tnJff7oZdjveWkRHhgT73Tv50TuFIYPdE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.EscrowCancel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.EscrowCancel.html",
+          "hash": "se98MSv3yBQDuCac/okT8uqXi+bQeTqgHBkxiLggt4Y="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.EscrowCancelResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.EscrowCancelResponse.html",
+          "hash": "HY3zzV/xkvKoG7nG6b2sryEkaeG7Btct4+kpzKrPcxY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.EscrowCreate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.EscrowCreate.html",
+          "hash": "Z9O5LbFqhrxhoF9SVopRZ2gkJbojCaYj8WxHpdzvXCo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.EscrowCreateResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.EscrowCreateResponse.html",
+          "hash": "yKa92cDxDA6muK0NgeCUwL+yUQZq/MA4/8I0wGNr44U="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.EscrowFinish.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.EscrowFinish.html",
+          "hash": "k0nMms6GlXe9oUCYApvClzQstLz5MQSYHnJxr2/vOBU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.EscrowFinishResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.EscrowFinishResponse.html",
+          "hash": "Mb1XEkcGrhkSiJHRolRpXdsMeoRdWRsGbdQVvZKdLRE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.FieldInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.FieldInfo.html",
+          "hash": "GOUIxFxdox8sugq+r1iZ07HV91ohgS6msZISrn/290E="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.IAccountDelete.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.IAccountDelete.html",
+          "hash": "f2b18E4LA7gXDlXFbw0Bfb4FsLrXPH9rUVw+YcddUQY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.IAccountSet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.IAccountSet.html",
+          "hash": "rDKROZJo4Q4aNThd7VwGit+iapVlLfhPWgOUgO+3+RA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.IBaseTransactionResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.IBaseTransactionResponse.html",
+          "hash": "ksGZapPTARaKD/4+PffGiNGaKOWymplziU5GvUNJQvk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.ICheckCancel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.ICheckCancel.html",
+          "hash": "oF101Im4OweJbfUnUx4Gj7qxh2WJD60KW3KWIPGBbSg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.ICheckCash.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.ICheckCash.html",
+          "hash": "oZI7h0N24uKsGwMMpFkGJoC9ZcdFCuow+vSx5tUNrfY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.ICheckCreate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.ICheckCreate.html",
+          "hash": "gnKE42Z6BzeUDNFXnq5/WsGLzM/r3wnVm9Hv6lD3RWU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.IDepositPreauth.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.IDepositPreauth.html",
+          "hash": "qfW/1e9I+HPHR43Ogyi9Ja7EhkvOchNcOgNudtsQgDU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.IEscrowCancel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.IEscrowCancel.html",
+          "hash": "H9ZIl8q+myr/IqqqzZ8eIJJjEHQ4ilsJR+PleqaDlbM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.IEscrowCreate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.IEscrowCreate.html",
+          "hash": "zGtt+mfqWWHWtKIo0eAJN3SP1IxSkP3a2SEbiSXe4c0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.IEscrowFinish.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.IEscrowFinish.html",
+          "hash": "lyijtjsSAk95BwNEOOKYQufuoTqvHu5VJ2ZL+uEQBUw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.INFToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.INFToken.html",
+          "hash": "Fas4ZNQuWovN0vPeq0Ch5x7SSDe6IsiCwYDXnmdB8o0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.INFTokenAcceptOffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.INFTokenAcceptOffer.html",
+          "hash": "kd3iVKcrUncyaFm2hQueEIP35sI9zeHXKpoUNaDu2aM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.INFTokenBurn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.INFTokenBurn.html",
+          "hash": "7WO8AoBQOm89kMxw3r11hp2EIMEgpQk0KumODzq9vM0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.INFTokenCancelOffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.INFTokenCancelOffer.html",
+          "hash": "ML31NfsvLnjmfdbZyVCH+L3K5gurUgMrYp2p3GTtths="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.INFTokenCreateOffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.INFTokenCreateOffer.html",
+          "hash": "QnOPUM+P11SyXQtPfw9f4ykyd+XpE1RgLYfTayRw43E="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.INFTokenMint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.INFTokenMint.html",
+          "hash": "su9MbltwJ6DCY4IoJQrHqFiNhiqknpRWtqyxTTY0ryw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.IOfferCancel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.IOfferCancel.html",
+          "hash": "E/agR2etyaITnkRQvZBgyL8OMgRjpQSfs27ZYjktRdQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.IOfferCreate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.IOfferCreate.html",
+          "hash": "jIld+5gg+KhfK6t1TxcyPnuPgASiDM26UfclISRgUkA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.IPayment.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.IPayment.html",
+          "hash": "sNqFQlLo2pWSmzGUW7BwUINanidcYeVBlZqWG7xa7oE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.IPaymentChannelClaim.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.IPaymentChannelClaim.html",
+          "hash": "4nA5d9IBgXaSXv7lqxAUdbxRaKNXJ1LT4t/M7dDJlH8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.IPaymentChannelCreate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.IPaymentChannelCreate.html",
+          "hash": "RmbQh/sDjfiNnfOfYz4PdrCj14tP9igrc0b82ZGW9eM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.IPaymentChannelFund.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.IPaymentChannelFund.html",
+          "hash": "7CKh+A2t3rNnVzDKJLEeVs7X7ujbTzeLr1LlIFHgHd8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.ISetRegularKey.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.ISetRegularKey.html",
+          "hash": "9srNlcm8pJiZVQTxR317+OXxH2MqZAoKrFPchvgasOA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.ISignerListSet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.ISignerListSet.html",
+          "hash": "IV13gn1RksImLNV6PtQT6u7t91sSIhJQ2ZWcw2oUPv0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.ITicketCreate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.ITicketCreate.html",
+          "hash": "aCnh52XXBcaZgwivGzVsI9S5q9A82buS6D6txBcAXgw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.ITransactionCommon.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.ITransactionCommon.html",
+          "hash": "hKjUlt9V69r8xOQjdDVcHDsyBRHSw6dYLUK2dh90vVQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.ITransactionResponseCommon.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.ITransactionResponseCommon.html",
+          "hash": "8qnAKJYPGLj1ffvwdrsQ8fNuutwzeazL24pXM5vDQyQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.ITrustSet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.ITrustSet.html",
+          "hash": "onHoHuWL3+pbDzUkfKTm6EiEKv+wksrcjq0fIj1qlJg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.Memo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.Memo.html",
+          "hash": "zPdmCFJEY0YtTmAtFh6vxiYVaB2VcEp868DXI22r1BU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.Memo2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.Memo2.html",
+          "hash": "dKVRXrxn/evXEd9JQvF4Tr6tkrSv2QFFJ/VqWvInTpY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.Meta.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.Meta.html",
+          "hash": "WeHJ23qKgWNIRFEGDuOBZpGTYCwqpg2s6rtac5K1ovc="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NFToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NFToken.html",
+          "hash": "mjIRyzONZn1eFI6VChoalfs8jP29NZNSBHgFdXOtTCw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenAcceptOffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenAcceptOffer.html",
+          "hash": "L6B/KsZdzN60hPnAIcLAI2rfo6AaFAiN76yiI2yTPuY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenAcceptOfferResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenAcceptOfferResponse.html",
+          "hash": "Yh0XbK4gPSruMcei8JV04GfH+uwV2WRZ+WGbKL3CPbc="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenBurn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenBurn.html",
+          "hash": "3bTF8Id1Be4wctr3n/2kqvGPRJNNJSWcVVkD1AybXRU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenBurnResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenBurnResponse.html",
+          "hash": "ORQ8OQW/cOyX82H2MJ7V0ciO/2jVzu38zPQJ7SGppdc="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenCancelOffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenCancelOffer.html",
+          "hash": "8UPn+nbTJcCSWFWBhPGf5ZtGcyk82VlfvJ8R9DxaPMk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenCancelOfferResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenCancelOfferResponse.html",
+          "hash": "q3wNgEqne8nCMz91tPL4h/gOSvVqfxwK9u3itIINfrU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenCreateOffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenCreateOffer.html",
+          "hash": "2z5ZWnyeKxhGcRdQQRgPgP/CZ4f/D4RozzJ3dWByJqQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenCreateOfferFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenCreateOfferFlags.html",
+          "hash": "FKINraFGnPhco0AqS2y9/T2tqxw3sAYCkzWJn5kfqXQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenCreateOfferResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenCreateOfferResponse.html",
+          "hash": "s4dGVwjz+xfcTxsWPjypvtMMA1G5fqVezfhnTssEpDw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenMint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenMint.html",
+          "hash": "Vx5VGYy1lj1INuSZXh/3YhRy25XYywFTII28kMVL/nM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenMintFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenMintFlags.html",
+          "hash": "1rFyBbny/I+sz5JMsfZvO7YMpvu52Xt2EDTwft2CUro="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenMintResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NFTokenMintResponse.html",
+          "hash": "o94XhecFLhnCBfDddvQj51+cIOIhKis7GuPf2aqIyZ4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.NodeInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.NodeInfo.html",
+          "hash": "HdRIuMEm4gJeIbjtAX7+4OB3fYxTuvgWO2MNO/kKuGI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.Offer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.Offer.html",
+          "hash": "BUzWuIEvWUAKYAWcWVa7Eqyd9tCE/GDALU3rtWtzo38="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.OfferCancel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.OfferCancel.html",
+          "hash": "VDsu/VIdHVCt49zHk4L/6lNiI+oGujH3o/T6I1RFdVg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.OfferCancelResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.OfferCancelResponse.html",
+          "hash": "T+otGuPX43yYgp0sjvnI5YcNREWYHnI+knLaludgdKo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.OfferCreate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.OfferCreate.html",
+          "hash": "vANpzOTI3duvCpmi+0v9YpkUbmRMhAIyu8XrvNf/iRg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.OfferCreateFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.OfferCreateFlags.html",
+          "hash": "1vxXNCNyfUBcquK+/byN7q+0NKicbhLqatkLLJwzHgI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.OfferCreateResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.OfferCreateResponse.html",
+          "hash": "p96JvHKZbQ+Un0OjGcMBhQdbBOoDD1piciYFmT2xUIg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.OfferFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.OfferFlags.html",
+          "hash": "QhD67yF5+v3qXtXOA5lP0cZ6ik7peDkf01H01vyBpwE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.Payment.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.Payment.html",
+          "hash": "VxTSTAnBu6sRWFYPOlLYs5skr5y59o/N0qtSvCLIayo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelClaim.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelClaim.html",
+          "hash": "KKFlFhoq5do/x3qTGiG5ph3o7fs+20QB2DTURtQeKOw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelClaimFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelClaimFlags.html",
+          "hash": "XWe4CRnT4pySpPv+jSrOnElBYPp+RhFIknW42M5Z2SM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelClaimResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelClaimResponse.html",
+          "hash": "K68MZDINz49BrsHfexEs4uk9elhe92fDedyYxAYHWI8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelCreate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelCreate.html",
+          "hash": "4IuHXvMiyEpNJX0iG5BwWfvU7j8Ac6nd0kI3Ao+aD8U="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelCreateResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelCreateResponse.html",
+          "hash": "IF1WQclnPNqbOUW9o5JUrB8gESmLLef7MZP2Br18S1g="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelFund.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelFund.html",
+          "hash": "KGIPqUsHRHJ+cFQOMV45EdDZ0xcOnnfQA2IgZLJflJk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelFundResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentChannelFundResponse.html",
+          "hash": "PbMzej1ANwt47YtBiDtHXXqYgSSUc2wRmz8DPSUyKbs="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentFlags.html",
+          "hash": "rVepLi9hJUZx60bMwnwQOWJgAiPGG/RONc7qxXgrr4o="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.PaymentResponse.html",
+          "hash": "a4U8vnQULPc6mINK7zrkLOEITWvTp4FVJapvKnNGoJE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.PreviousFields.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.PreviousFields.html",
+          "hash": "be3fHzufpeqggX9LaQN5NI9N2GK6nWwC47wwUi2cY5k="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.RippleResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.RippleResponse.html",
+          "hash": "CGT+hAxVhMxdmPeBu+BT1q9jtl5H9XU/p5g+Pk6szYY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.SetRegularKey.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.SetRegularKey.html",
+          "hash": "xWIeoIYu7f8N2/T75gqzKXjHrVGJGV2vZUFINE0tvvs="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.SetRegularKeyResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.SetRegularKeyResponse.html",
+          "hash": "zL8RKXDFCIkPEylKnfYMHrUX5TxLDP2Z0Xb4ookW+d8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.Signer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.Signer.html",
+          "hash": "rIYlhL65D02STL34GNQqxh/xOLle8lDsvziO5J2Jspk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.SignerListSet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.SignerListSet.html",
+          "hash": "oOWSpvpgHjQeEMB8VHQjQc/tGNmMFxWeZ0n0ZcdisRM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.SignerListSetResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.SignerListSetResponse.html",
+          "hash": "ZJcjUUADE84vzs1Uh+f3POeNl1x2gvahIn8QzaWB6M4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.Submit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.Submit.html",
+          "hash": "Uh+56UG7+gT/dYRagSE99E9Dzn7UebyOxhSBIJeHbjg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.TicketCreate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.TicketCreate.html",
+          "hash": "8txuzIWIx22ygE30DWU39VBEA0yjP4TXG2h7V/5Cig0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.TicketCreateResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.TicketCreateResponse.html",
+          "hash": "cM+H6qolPR6+IX1LzdXJRd3c1UV5y04t5t63ksC3oe8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.TransactionCommon.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.TransactionCommon.html",
+          "hash": "SjRFo4AdzZLs9Xxsnl7YLGRBO8nRdiW/foc7UXNbdC4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.TransactionResponseCommon.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.TransactionResponseCommon.html",
+          "hash": "GmoRAizm5LMZxSDAhbfLH4SjrwmosvSgm8r1FMFrjh8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.TrustSet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.TrustSet.html",
+          "hash": "3JOROBX2NdunyeuJnlHBDmdX9+lV8rFbCcAa2ImEaR4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.TrustSetFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.TrustSetFlags.html",
+          "hash": "X3YZAlLdImGuCdjiQcO6oo3URY1HtEhFtFuOrCZOgwY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.TrustSetResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.TrustSetResponse.html",
+          "hash": "/qI8ZRLr7pF/R9kch2uh/GsI9kpiGPyuJZ57srJHiiQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Transactions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Transactions.html",
+          "hash": "hpsQcooD2KFGjrLcHItAw8xud8D4zeIbtrF3TdmBJ3s="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Utils.Flags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Utils.Flags.html",
+          "hash": "P/HXLRBvJAFD9xWv+fRUxBODd/vzlOmEksk+aGFtryI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.Models.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.Models.Utils.html",
+          "hash": "mBnBiFoDIz5LG+Q7ieEJ8bbQB9lvEmYl2yvCPl9H06E="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.RippleClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.RippleClient.html",
+          "hash": "l+vnf1Htb5QD1Wuccq+i/jSY39eaoXTsPjLsfIrQrmU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.connection.ConnectionOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.connection.ConnectionOptions.html",
+          "hash": "23T0N5bMG8iwkSYOuEn4e3Fl8BiHFZcHhGIRCKPWFpg="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.connection.Trace.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.connection.Trace.html",
+          "hash": "zqPcHr6IxNvMmpl0mYZ/mHFvF06Tn+kAeceirkyCHec="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.connection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.connection.html",
+          "hash": "q3yGDmkfQSvoB4/9gMIpKjL9Q7fUILQPnD9MsbTIiiA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Client.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Client.html",
+          "hash": "nST4nnpA2g/db6ivuENVL53Z4bisaxB7n6kCNk3IWEk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Sugar.AutofillSugar.AddressNTag.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Sugar.AutofillSugar.AddressNTag.html",
+          "hash": "3gcRvGsLTQVmLqG9Nwk/XU136oYFzCIByqYSabrg/WQ="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Sugar.AutofillSugar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Sugar.AutofillSugar.html",
+          "hash": "ZLL1Cmi+PryMFOHPvTmuYT6XOWxekIQgZCN+6DR0pyM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Sugar.BalancesSugar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Sugar.BalancesSugar.html",
+          "hash": "b3+Mekwo/jqffzDjS1oVoRR29yUKxewsGP6fq0PlyWI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Sugar.GetLedgerSugar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Sugar.GetLedgerSugar.html",
+          "hash": "UdUhG2H3vpDaZqP1/39AgaBFAAvJVGDbKpGzfwg3eYU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Sugar.SubmitSugar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Sugar.SubmitSugar.html",
+          "hash": "RmaIHXkK0rBTS0zNAiw1o0TCld6n5ketSU1j8IjvWpk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Sugar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Sugar.html",
+          "hash": "GX//NGYFKwEKx566ivrMMO8sMhxmSvfg6oVtpp3GR54="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Utils.BigIntegerExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Utils.BigIntegerExtensions.html",
+          "hash": "cEx2FPpBhpe+wNRof1J3zJJHeR6lXbfzTgIDRiCmoas="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Utils.Hashes.HashLedger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Utils.Hashes.HashLedger.html",
+          "hash": "u2bNbVqqswTbWS9I4l9437l0skBPLyCBkvTjRFryKWU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Utils.Hashes.Hashes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Utils.Hashes.Hashes.html",
+          "hash": "nnJJXcsYD9g5d2w5gxyi6Fmqfa92HTcaiOm7mWW/S4A="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Utils.Hashes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Utils.Hashes.html",
+          "hash": "SCPsg/V4H/8x3BWUJsxD6iule4Lds/XukOjNuWU8sfw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Utils.XrpConversion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Utils.XrpConversion.html",
+          "hash": "W+rodxjZocnY/JJjZOGdiccNKqd0oQD931mzxj4qkdo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.Utils.html",
+          "hash": "lOMqg46cCDVmF2Zz8UWOTremR95lb2/iVlsAS+2e/Go="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.XrplWallet.EasyTimer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.XrplWallet.EasyTimer.html",
+          "hash": "mDB1WiVHBQuybHNikd/YrHlDRVtcxmpMfqkdg+vtX0s="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.XrplWallet.Signer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.XrplWallet.Signer.html",
+          "hash": "ojidULifO15GLB4Rbd6GJUzyr5VNG4o6JtL1z/MgDYo="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.XrplWallet.Wallet.SignatureResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.XrplWallet.Wallet.SignatureResult.html",
+          "hash": "c9bkzhxLBSJsx8zZymiJksbsyA5QEU3eHVBtt2LhNg4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.XrplWallet.Wallet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.XrplWallet.Wallet.html",
+          "hash": "sFlXaCZlzrYuJaVhrqhlin15/siPTuIDJOAOWoiTkts="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.XrplWallet.WalletSugar.FaucetAccount.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.XrplWallet.WalletSugar.FaucetAccount.html",
+          "hash": "dQ/SJTk3O5dXQgZqfAWu1P8fw4f4U727HxlurBUhjuE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.XrplWallet.WalletSugar.FaucetNetwork.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.XrplWallet.WalletSugar.FaucetNetwork.html",
+          "hash": "WavG2r4BSRfr6/rp0Lh7nhr30J0PDzdg6e+qmA4OvB0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.XrplWallet.WalletSugar.FaucetWallet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.XrplWallet.WalletSugar.FaucetWallet.html",
+          "hash": "tHQF8Er0kFDC633FRIdqkRjol8OWtxE2VKDaEuJj+Uw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.XrplWallet.WalletSugar.Funded.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.XrplWallet.WalletSugar.Funded.html",
+          "hash": "hODj7Q5TNEFDQtiunXnYWk2G7dZt8Pgu+oi+d1MqSAE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.XrplWallet.WalletSugar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.XrplWallet.WalletSugar.html",
+          "hash": "fQHrdLCFYHnqF7sg3GRZcmsjBKNQNPffq63NwpyEIH4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/Xrpl.XrplWallet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/Xrpl.XrplWallet.html",
+          "hash": "vfsh9t2rhOMqDyR3eZAl5MBq3GXJXsZvRJPEPv8jSTk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Client.Models.Utils.EmptyClass.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Client.Models.Utils.EmptyClass.html",
+          "hash": "17mBZH0I9oPv6fE3a0EhxmLprYrAc0RtyeHSfro5Rvc="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Client.Models.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Client.Models.Utils.html",
+          "hash": "Q5TgX/iMEn2WQOF8nD0NN18TmnJGQItiZe+JnmrQxX0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.Derive.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.Derive.html",
+          "hash": "cTQQOEyii8FViOe+tM64SM7hOLNwEBOowHZ214w+mcw="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.GetBalanceChanges.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.GetBalanceChanges.html",
+          "hash": "vJ6bf9RKWZiiWUkTqk3jS0/OcevXe0XO3KHa/rSFpio="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.HashPrefix.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.HashPrefix.html",
+          "hash": "4Di0lz7e72HzMN5eks+I0vQVMGtmhKjSCqKq+NAJMOU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.LedgerSpaces.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.LedgerSpaces.html",
+          "hash": "Bo08ROj++V2Fbz5Ew8h9HnY9yK9PnpGBSJpZ0euTDls="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.Sha512Half.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.Sha512Half.html",
+          "hash": "RjWFBb/ZDNbe3Au1QSNBk0lhdbsxruPvVEslOhgCWbY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.ShaMap.InnerNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.ShaMap.InnerNode.html",
+          "hash": "rb7+0gdA8WA3KayaEjnzn1eojOxY93vJuh0vFCD/K/Y="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.ShaMap.LeafNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.ShaMap.LeafNode.html",
+          "hash": "GgPfvdw+RwhDXXRLbTsbwjP/vvgUQJ9cvAxj2+7bJHM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.ShaMap.Node.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.ShaMap.Node.html",
+          "hash": "hVjoP9u3Tjks6QiigMScCBydhlgQ9PwSxYIcJ3speuk="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.ShaMap.SHAMap.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.ShaMap.SHAMap.html",
+          "hash": "jPZ+xziXYS60aVrHyFco3Z2UzO7i+rQJ8f+1UD2DmvM="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.ShaMap.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.ShaMap.html",
+          "hash": "WshQgNG53mWq41t3P2RUXeNvc6OEkcP8QLNPBIVpm/A="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.Hashes.html",
+          "hash": "vKqavWv4mBrDwl/rHG73tvh3k+UvJfdcchzG8Fp1914="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.ParseNFTID.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.ParseNFTID.html",
+          "hash": "bwA/1jYt509dM+1aFJVvygvTfX7j/4n6UuMe9IWxjUY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.Quality.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.Quality.html",
+          "hash": "2il/iykCmJpfdOnjwitehgEAE57Kr0vnXrF6rU/I6go="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.SignPaymentChannelClaim.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.SignPaymentChannelClaim.html",
+          "hash": "SmkNUfiWKXGhi6Mwi9gUkOZ02woSvsoX4zD9lkKijjU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.StringConversion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.StringConversion.html",
+          "hash": "Fx5h50eZM9SCIPwwpaLKM/uIjIgXjefcjmbmRt24z6Q="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.TimeConversion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.TimeConversion.html",
+          "hash": "dyTViAt7i2TnvfuLSDXu+zzY8feutZO51DsXoHQY/X4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.VerifyPaymentChannelClaim.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.VerifyPaymentChannelClaim.html",
+          "hash": "SjEwou8bCXDJohcxkV2cEVQCqXeK03WqQwHRu60kwOE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "reference/XrplCSharp.Xrpl.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/XrplCSharp.Xrpl.Utils.html",
+          "hash": "oyBdh+skal43JG0hS8324Goy8fiiotVC+xJucdasYq8="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "reference/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "reference/toc.html",
+          "hash": "lqE7gZV7zjXWRbePPlPlpWOGiAdfyClx6U2+gci+7Cc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "52mY4KTXgnUOtZHG2oitC86bQ6jZfjC/ployvimxkTQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 2,
+          "skipped_file_count": 1
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 426,
+          "skipped_file_count": 426
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

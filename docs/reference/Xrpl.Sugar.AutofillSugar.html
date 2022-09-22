@@ -1,0 +1,511 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class AutofillSugar
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class AutofillSugar
+   ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Xrpl.Sugar.AutofillSugar">
+  
+  
+  <h1 id="Xrpl_Sugar_AutofillSugar" data-uid="Xrpl.Sugar.AutofillSugar" class="text-break">Class AutofillSugar
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">AutofillSugar</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Xrpl.Sugar.html">Xrpl.Sugar</a></h6>
+  <h6><strong>Assembly</strong>: XrplCSharp.dll</h6>
+  <h5 id="Xrpl_Sugar_AutofillSugar_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class AutofillSugar : object</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Xrpl_Sugar_AutofillSugar_Autofill_Xrpl_Client_IRippleClient_Dictionary_System_String_System_Object__System_Nullable_System_Int32__.md&amp;value=---%0Auid%3A%20Xrpl.Sugar.AutofillSugar.Autofill(Xrpl.Client.IRippleClient%2CDictionary%7BSystem.String%2CSystem.Object%7D%2CSystem.Nullable%7BSystem.Int32%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Xrpl/Sugar/Autofill.cs/#L45">View Source</a>
+  </span>
+  <a id="Xrpl_Sugar_AutofillSugar_Autofill_" data-uid="Xrpl.Sugar.AutofillSugar.Autofill*"></a>
+  <h4 id="Xrpl_Sugar_AutofillSugar_Autofill_Xrpl_Client_IRippleClient_Dictionary_System_String_System_Object__System_Nullable_System_Int32__" data-uid="Xrpl.Sugar.AutofillSugar.Autofill(Xrpl.Client.IRippleClient,Dictionary{System.String,System.Object},System.Nullable{System.Int32})">Autofill(IRippleClient, Dictionary&lt;String, Object&gt;, Nullable&lt;Int32&gt;)</h4>
+  <div class="markdown level1 summary"><p>Autofills fields in a transaction. This will set <code>Sequence</code>, <code>Fee</code>,
+<code>lastLedgerSequence</code> according to the current state of the server this Client
+is connected to. It also converts all X-Addresses to classic addresses and
+flags interfaces into numbers.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static async Task&lt;Dictionary&lt;string, dynamic&gt;&gt; Autofill(IRippleClient client, Dictionary&lt;string, dynamic&gt; transaction, int? signersCount)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Xrpl.Client.IRippleClient.html">IRippleClient</a></td>
+        <td><span class="parametername">client</span></td>
+        <td><p>A client.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;</td>
+        <td><span class="parametername">transaction</span></td>
+        <td><p>A {@link Transaction} in JSON format</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td><span class="parametername">signersCount</span></td>
+        <td><p>The expected number of signers for this transaction. Only used for multisigned transactions.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Xrpl_Sugar_AutofillSugar_ConvertToClassicAddress_Dictionary_System_String_System_Object__System_String_.md&amp;value=---%0Auid%3A%20Xrpl.Sugar.AutofillSugar.ConvertToClassicAddress(Dictionary%7BSystem.String%2CSystem.Object%7D%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Xrpl/Sugar/Autofill.cs/#L124">View Source</a>
+  </span>
+  <a id="Xrpl_Sugar_AutofillSugar_ConvertToClassicAddress_" data-uid="Xrpl.Sugar.AutofillSugar.ConvertToClassicAddress*"></a>
+  <h4 id="Xrpl_Sugar_AutofillSugar_ConvertToClassicAddress_Dictionary_System_String_System_Object__System_String_" data-uid="Xrpl.Sugar.AutofillSugar.ConvertToClassicAddress(Dictionary{System.String,System.Object},System.String)">ConvertToClassicAddress(Dictionary&lt;String, Object&gt;, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void ConvertToClassicAddress(Dictionary&lt;string, dynamic&gt; tx, string fieldName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;</td>
+        <td><span class="parametername">tx</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">fieldName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Xrpl_Sugar_AutofillSugar_FetchAccountDeleteFee_Xrpl_Client_IRippleClient_.md&amp;value=---%0Auid%3A%20Xrpl.Sugar.AutofillSugar.FetchAccountDeleteFee(Xrpl.Client.IRippleClient)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Xrpl/Sugar/Autofill.cs/#L145">View Source</a>
+  </span>
+  <a id="Xrpl_Sugar_AutofillSugar_FetchAccountDeleteFee_" data-uid="Xrpl.Sugar.AutofillSugar.FetchAccountDeleteFee*"></a>
+  <h4 id="Xrpl_Sugar_AutofillSugar_FetchAccountDeleteFee_Xrpl_Client_IRippleClient_" data-uid="Xrpl.Sugar.AutofillSugar.FetchAccountDeleteFee(Xrpl.Client.IRippleClient)">FetchAccountDeleteFee(IRippleClient)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static async Task&lt;BigInteger&gt; FetchAccountDeleteFee(IRippleClient client)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Xrpl.Client.IRippleClient.html">IRippleClient</a></td>
+        <td><span class="parametername">client</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span>&lt;<span class="xref">BigInteger</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Xrpl_Sugar_AutofillSugar_GetClassicAccountAndTag_System_String_System_Nullable_System_Int32__.md&amp;value=---%0Auid%3A%20Xrpl.Sugar.AutofillSugar.GetClassicAccountAndTag(System.String%2CSystem.Nullable%7BSystem.Int32%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Xrpl/Sugar/Autofill.cs/#L110">View Source</a>
+  </span>
+  <a id="Xrpl_Sugar_AutofillSugar_GetClassicAccountAndTag_" data-uid="Xrpl.Sugar.AutofillSugar.GetClassicAccountAndTag*"></a>
+  <h4 id="Xrpl_Sugar_AutofillSugar_GetClassicAccountAndTag_System_String_System_Nullable_System_Int32__" data-uid="Xrpl.Sugar.AutofillSugar.GetClassicAccountAndTag(System.String,System.Nullable{System.Int32})">GetClassicAccountAndTag(String, Nullable&lt;Int32&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static AutofillSugar.AddressNTag GetClassicAccountAndTag(string account, int? expectedTag)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">account</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td><span class="parametername">expectedTag</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Xrpl.Sugar.AutofillSugar.AddressNTag.html">AutofillSugar.AddressNTag</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Xrpl_Sugar_AutofillSugar_SetLatestValidatedLedgerSequence_Xrpl_Client_IRippleClient_Dictionary_System_String_System_Object__.md&amp;value=---%0Auid%3A%20Xrpl.Sugar.AutofillSugar.SetLatestValidatedLedgerSequence(Xrpl.Client.IRippleClient%2CDictionary%7BSystem.String%2CSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Xrpl/Sugar/Autofill.cs/#L160">View Source</a>
+  </span>
+  <a id="Xrpl_Sugar_AutofillSugar_SetLatestValidatedLedgerSequence_" data-uid="Xrpl.Sugar.AutofillSugar.SetLatestValidatedLedgerSequence*"></a>
+  <h4 id="Xrpl_Sugar_AutofillSugar_SetLatestValidatedLedgerSequence_Xrpl_Client_IRippleClient_Dictionary_System_String_System_Object__" data-uid="Xrpl.Sugar.AutofillSugar.SetLatestValidatedLedgerSequence(Xrpl.Client.IRippleClient,Dictionary{System.String,System.Object})">SetLatestValidatedLedgerSequence(IRippleClient, Dictionary&lt;String, Object&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static async Task SetLatestValidatedLedgerSequence(IRippleClient client, Dictionary&lt;string, dynamic&gt; tx)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Xrpl.Client.IRippleClient.html">IRippleClient</a></td>
+        <td><span class="parametername">client</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;</td>
+        <td><span class="parametername">tx</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Xrpl_Sugar_AutofillSugar_SetNextValidSequenceNumberAsync_Xrpl_Client_IRippleClient_Dictionary_System_String_System_Object__.md&amp;value=---%0Auid%3A%20Xrpl.Sugar.AutofillSugar.SetNextValidSequenceNumberAsync(Xrpl.Client.IRippleClient%2CDictionary%7BSystem.String%2CSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Xrpl/Sugar/Autofill.cs/#L137">View Source</a>
+  </span>
+  <a id="Xrpl_Sugar_AutofillSugar_SetNextValidSequenceNumberAsync_" data-uid="Xrpl.Sugar.AutofillSugar.SetNextValidSequenceNumberAsync*"></a>
+  <h4 id="Xrpl_Sugar_AutofillSugar_SetNextValidSequenceNumberAsync_Xrpl_Client_IRippleClient_Dictionary_System_String_System_Object__" data-uid="Xrpl.Sugar.AutofillSugar.SetNextValidSequenceNumberAsync(Xrpl.Client.IRippleClient,Dictionary{System.String,System.Object})">SetNextValidSequenceNumberAsync(IRippleClient, Dictionary&lt;String, Object&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static async Task SetNextValidSequenceNumberAsync(IRippleClient client, Dictionary&lt;string, dynamic&gt; tx)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Xrpl.Client.IRippleClient.html">IRippleClient</a></td>
+        <td><span class="parametername">client</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;</td>
+        <td><span class="parametername">tx</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Xrpl_Sugar_AutofillSugar_SetValidAddresses_Dictionary_System_String_System_Object__.md&amp;value=---%0Auid%3A%20Xrpl.Sugar.AutofillSugar.SetValidAddresses(Dictionary%7BSystem.String%2CSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Xrpl/Sugar/Autofill.cs/#L74">View Source</a>
+  </span>
+  <a id="Xrpl_Sugar_AutofillSugar_SetValidAddresses_" data-uid="Xrpl.Sugar.AutofillSugar.SetValidAddresses*"></a>
+  <h4 id="Xrpl_Sugar_AutofillSugar_SetValidAddresses_Dictionary_System_String_System_Object__" data-uid="Xrpl.Sugar.AutofillSugar.SetValidAddresses(Dictionary{System.String,System.Object})">SetValidAddresses(Dictionary&lt;String, Object&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetValidAddresses(Dictionary&lt;string, dynamic&gt; tx)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;</td>
+        <td><span class="parametername">tx</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Xrpl_Sugar_AutofillSugar_ValidateAccountAddress_Dictionary_System_String_System_Object__System_String_System_String_.md&amp;value=---%0Auid%3A%20Xrpl.Sugar.AutofillSugar.ValidateAccountAddress(Dictionary%7BSystem.String%2CSystem.Object%7D%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Xrpl/Sugar/Autofill.cs/#L91">View Source</a>
+  </span>
+  <a id="Xrpl_Sugar_AutofillSugar_ValidateAccountAddress_" data-uid="Xrpl.Sugar.AutofillSugar.ValidateAccountAddress*"></a>
+  <h4 id="Xrpl_Sugar_AutofillSugar_ValidateAccountAddress_Dictionary_System_String_System_Object__System_String_System_String_" data-uid="Xrpl.Sugar.AutofillSugar.ValidateAccountAddress(Dictionary{System.String,System.Object},System.String,System.String)">ValidateAccountAddress(Dictionary&lt;String, Object&gt;, String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void ValidateAccountAddress(Dictionary&lt;string, dynamic&gt; tx, string accountField, string tagField)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;</td>
+        <td><span class="parametername">tx</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">accountField</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">tagField</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Xrpl_Sugar_AutofillSugar.md&amp;value=---%0Auid%3A%20Xrpl.Sugar.AutofillSugar%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Xrpl/Sugar/Autofill.cs/#L24" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

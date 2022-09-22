@@ -10,7 +10,7 @@ using Xrpl.Client;
 using Xrpl.Client.Models.Common;
 using Xrpl.Client.Models.Ledger;
 using Xrpl.Client.Models.Methods;
-using Xrpl.Client.Tests;
+using Xrpl.Tests.Client.Tests;
 
 namespace Xrpl.Tests.Client.Tests.Integration
 {

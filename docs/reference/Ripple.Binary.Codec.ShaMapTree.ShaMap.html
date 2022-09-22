@@ -1,0 +1,387 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ShaMap
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ShaMap
+   ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Ripple.Binary.Codec.ShaMapTree.ShaMap">
+  
+  
+  <h1 id="Ripple_Binary_Codec_ShaMapTree_ShaMap" data-uid="Ripple.Binary.Codec.ShaMapTree.ShaMap" class="text-break">Class ShaMap
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapNode.html">ShaMapNode</a></div>
+    <div class="level2"><a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html">ShaMapInner</a></div>
+    <div class="level3"><span class="xref">ShaMap</span></div>
+      <div class="level4"><a class="xref" href="Ripple.Binary.Codec.ShaMapTree.AccountState.html">AccountState</a></div>
+      <div class="level4"><a class="xref" href="Ripple.Binary.Codec.ShaMapTree.TransactionTree.html">TransactionTree</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_Depth">ShaMapInner.Depth</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_Branches">ShaMapInner.Branches</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_Copy_System_Int32_">ShaMapInner.Copy(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_MakeInnerChild">ShaMapInner.MakeInnerChild()</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_SetLeaf_Ripple_Binary_Codec_ShaMapTree_ShaMapLeaf_">ShaMapInner.SetLeaf(ShaMapLeaf)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_WalkLeaves_Ripple_Binary_Codec_ShaMapTree_OnLeaf_">ShaMapInner.WalkLeaves(OnLeaf)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_WalkTree_Ripple_Binary_Codec_ShaMapTree_ITreeWalker_">ShaMapInner.WalkTree(ITreeWalker)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_OnlyChildLeaf">ShaMapInner.OnlyChildLeaf()</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_RemoveLeaf_Ripple_Binary_Codec_Types_Hash256_">ShaMapInner.RemoveLeaf(Hash256)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_GetItem_Ripple_Binary_Codec_Types_Hash256_">ShaMapInner.GetItem(Hash256)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_AddItem_Ripple_Binary_Codec_Types_Hash256_Ripple_Binary_Codec_ShaMapTree_IShaMapItem_System_Object__">ShaMapInner.AddItem(Hash256, IShaMapItem&lt;Object&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_UpdateItem_Ripple_Binary_Codec_Types_Hash256_Ripple_Binary_Codec_ShaMapTree_IShaMapItem_System_Object__">ShaMapInner.UpdateItem(Hash256, IShaMapItem&lt;Object&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_HasLeaf_Ripple_Binary_Codec_Types_Hash256_">ShaMapInner.HasLeaf(Hash256)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_GetLeaf_Ripple_Binary_Codec_Types_Hash256_">ShaMapInner.GetLeaf(Hash256)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_AddLeaf_Ripple_Binary_Codec_ShaMapTree_ShaMapLeaf_">ShaMapInner.AddLeaf(ShaMapLeaf)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_UpdateLeaf_Ripple_Binary_Codec_ShaMapTree_ShaMapLeaf_">ShaMapInner.UpdateLeaf(ShaMapLeaf)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_PathToIndex_Ripple_Binary_Codec_Types_Hash256_">ShaMapInner.PathToIndex(Hash256)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_SetBranch_Ripple_Binary_Codec_Types_Hash256_Ripple_Binary_Codec_ShaMapTree_ShaMapNode_">ShaMapInner.SetBranch(Hash256, ShaMapNode)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_GetBranch_Ripple_Binary_Codec_Types_Hash256_">ShaMapInner.GetBranch(Hash256)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_GetBranch_System_Int32_">ShaMapInner.GetBranch(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_Branch_System_Int32_">ShaMapInner.Branch(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_SelectBranch_Ripple_Binary_Codec_Types_Hash256_">ShaMapInner.SelectBranch(Hash256)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_HasLeaf_System_Int32_">ShaMapInner.HasLeaf(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_HasInner_System_Int32_">ShaMapInner.HasInner(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_HasNone_System_Int32_">ShaMapInner.HasNone(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_Empty">ShaMapInner.Empty()</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_IsInner">ShaMapInner.IsInner</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_IsLeaf">ShaMapInner.IsLeaf</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_ToBytesSink_Ripple_Binary_Codec_Binary_IBytesSink_">ShaMapInner.ToBytesSink(IBytesSink)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_Hash">ShaMapInner.Hash()</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_GetLeafForUpdating_Ripple_Binary_Codec_Types_Hash256_">ShaMapInner.GetLeafForUpdating(Hash256)</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_BranchCount">ShaMapInner.BranchCount()</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapNode.html#Ripple_Binary_Codec_ShaMapTree_ShaMapNode_CachedHash">ShaMapNode.CachedHash</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapNode.html#Ripple_Binary_Codec_ShaMapTree_ShaMapNode_AsLeaf">ShaMapNode.AsLeaf()</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapNode.html#Ripple_Binary_Codec_ShaMapTree_ShaMapNode_AsInner">ShaMapNode.AsInner()</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapNode.html#Ripple_Binary_Codec_ShaMapTree_ShaMapNode_Invalidate">ShaMapNode.Invalidate()</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapNode.html#Ripple_Binary_Codec_ShaMapTree_ShaMapNode_CreateHash">ShaMapNode.CreateHash()</a>
+    </div>
+    <div>
+      <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapNode.html#Ripple_Binary_Codec_ShaMapTree_ShaMapNode_WalkAnyLeaves_Ripple_Binary_Codec_ShaMapTree_OnLeaf_">ShaMapNode.WalkAnyLeaves(OnLeaf)</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Ripple.Binary.Codec.ShaMapTree.html">Ripple.Binary.Codec.ShaMapTree</a></h6>
+  <h6><strong>Assembly</strong>: XrplCSharp.dll</h6>
+  <h5 id="Ripple_Binary_Codec_ShaMapTree_ShaMap_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ShaMap : ShaMapInner</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Ripple_Binary_Codec_ShaMapTree_ShaMap__ctor.md&amp;value=---%0Auid%3A%20Ripple.Binary.Codec.ShaMapTree.ShaMap.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Ripple.Binary.Codec/ShaMapTree/ShaMap.cs/#L19">View Source</a>
+  </span>
+  <a id="Ripple_Binary_Codec_ShaMapTree_ShaMap__ctor_" data-uid="Ripple.Binary.Codec.ShaMapTree.ShaMap.#ctor*"></a>
+  <h4 id="Ripple_Binary_Codec_ShaMapTree_ShaMap__ctor" data-uid="Ripple.Binary.Codec.ShaMapTree.ShaMap.#ctor">ShaMap()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ShaMap()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Ripple_Binary_Codec_ShaMapTree_ShaMap__ctor_System_Boolean_System_Int32_.md&amp;value=---%0Auid%3A%20Ripple.Binary.Codec.ShaMapTree.ShaMap.%23ctor(System.Boolean%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Ripple.Binary.Codec/ShaMapTree/ShaMap.cs/#L25">View Source</a>
+  </span>
+  <a id="Ripple_Binary_Codec_ShaMapTree_ShaMap__ctor_" data-uid="Ripple.Binary.Codec.ShaMapTree.ShaMap.#ctor*"></a>
+  <h4 id="Ripple_Binary_Codec_ShaMapTree_ShaMap__ctor_System_Boolean_System_Int32_" data-uid="Ripple.Binary.Codec.ShaMapTree.ShaMap.#ctor(System.Boolean,System.Int32)">ShaMap(Boolean, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ShaMap(bool isCopy, int depth)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">isCopy</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">depth</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Ripple_Binary_Codec_ShaMapTree_ShaMap_Copy.md&amp;value=---%0Auid%3A%20Ripple.Binary.Codec.ShaMapTree.ShaMap.Copy%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Ripple.Binary.Codec/ShaMapTree/ShaMap.cs/#L33">View Source</a>
+  </span>
+  <a id="Ripple_Binary_Codec_ShaMapTree_ShaMap_Copy_" data-uid="Ripple.Binary.Codec.ShaMapTree.ShaMap.Copy*"></a>
+  <h4 id="Ripple_Binary_Codec_ShaMapTree_ShaMap_Copy" data-uid="Ripple.Binary.Codec.ShaMapTree.ShaMap.Copy">Copy()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual ShaMap Copy()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMap.html">ShaMap</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Ripple_Binary_Codec_ShaMapTree_ShaMap_MakeInnerOfSameClass_System_Int32_.md&amp;value=---%0Auid%3A%20Ripple.Binary.Codec.ShaMapTree.ShaMap.MakeInnerOfSameClass(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Ripple.Binary.Codec/ShaMapTree/ShaMap.cs/#L29">View Source</a>
+  </span>
+  <a id="Ripple_Binary_Codec_ShaMapTree_ShaMap_MakeInnerOfSameClass_" data-uid="Ripple.Binary.Codec.ShaMapTree.ShaMap.MakeInnerOfSameClass*"></a>
+  <h4 id="Ripple_Binary_Codec_ShaMapTree_ShaMap_MakeInnerOfSameClass_System_Int32_" data-uid="Ripple.Binary.Codec.ShaMapTree.ShaMap.MakeInnerOfSameClass(System.Int32)">MakeInnerOfSameClass(Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override ShaMapInner MakeInnerOfSameClass(int depth)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">depth</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html">ShaMapInner</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Ripple.Binary.Codec.ShaMapTree.ShaMapInner.html#Ripple_Binary_Codec_ShaMapTree_ShaMapInner_MakeInnerOfSameClass_System_Int32_">ShaMapInner.MakeInnerOfSameClass(Int32)</a></div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Transia-RnD/xrpl.c/new/develop/apiSpec/new?filename=Ripple_Binary_Codec_ShaMapTree_ShaMap.md&amp;value=---%0Auid%3A%20Ripple.Binary.Codec.ShaMapTree.ShaMap%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/Transia-RnD/xrpl.c/blob/develop/XrplCSharp/Ripple.Binary.Codec/ShaMapTree/ShaMap.cs/#L16" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

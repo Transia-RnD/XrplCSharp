@@ -7,7 +7,7 @@ using Xrpl.Client.Models.Common;
 using Xrpl.Client.Models.Ledger;
 using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Transactions;
-using Xrpl.Client.Tests;
+using Xrpl.Tests.Client.Tests;
 using Xrpl.XrplWallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/offerCreate.ts
