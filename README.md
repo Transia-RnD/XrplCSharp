@@ -70,11 +70,11 @@ Use `XrplCSharp` to build C# applications that leverage the [XRP Ledger](https:/
 
 `XrplCSharp` also provides:
 
-* A network client — See [`xrpl.clients`](https://xrpl-c.readthedocs.io/en/stable/source/xrpl.clients.html) for more information.
-* Methods for inspecting accounts — See [XRPL Account Methods](https://xrpl-c.readthedocs.io/en/stable/source/xrpl.account.html) for more information.
-* Codecs for encoding and decoding addresses and other objects — See [Core Codecs](https://xrpl-c.readthedocs.io/en/stable/source/xrpl.core.html) for more information.
+* A network client — See [`xrpl.clients`](https://transia-rnd.github.io/XrplCSharp/xrpl.clients.html) for more information.
+* Methods for inspecting accounts — See [XRPL Account Methods](https://transia-rnd.github.io/XrplCSharp/xrpl.account.html) for more information.
+* Codecs for encoding and decoding addresses and other objects — See [Core Codecs](https://transia-rnd.github.io/XrplCSharp/xrpl.core.html) for more information.
 
-## [➡️ Reference Documentation](https://xrpl-c.readthedocs.io/en/stable/)
+## [➡️ Reference Documentation](https://transia-rnd.github.io/XrplCSharp/)
 
 See the complete [`XrplCSharp` reference documentation on Read the Docs](https://transia-rnd.github.io/XrplCSharp/).
 
@@ -97,7 +97,7 @@ client.Connect();
 
 #### `Xrpl.Wallet`
 
-Use the [`Xrpl.Wallet`](https://xrpl-c.readthedocs.io/en/stable/source/xrpl.wallet.html) module to create a wallet from a given seed or or via a [Testnet faucet](https://xrpl.org/xrp-testnet-faucet.html).
+Use the [`Xrpl.Wallet`](https://transia-rnd.github.io/XrplCSharp/xrpl.wallet.html) module to create a wallet from a given seed or or via a [Testnet faucet](https://xrpl.org/xrp-testnet-faucet.html).
 
 To create a wallet from a seed (in this case, the value generated using [`Xrpl.Keypairs`](#xrpl-keypairs)):
 
@@ -122,7 +122,7 @@ Debug.WriteLine(test_account);
 
 #### `Ripple.Keypairs`
 
-Use the [`Ripple.Keypairs`](https://xrpl-c.readthedocs.io/en/stable/source/xrpl.core.keypairs.html#module-xrpl.core.keypairs) module to generate seeds and derive keypairs and addresses from those seed values.
+Use the [`Ripple.Keypairs`](https://transia-rnd.github.io/XrplCSharp/xrpl.core.keypairs.html#module-xrpl.core.keypairs) module to generate seeds and derive keypairs and addresses from those seed values.
 
 Here's an example of how to generate a `seed` value and derive an [XRP Ledger "classic" address](https://xrpl.org/cryptographic-keys.html#account-id-and-address) from that seed.
 
