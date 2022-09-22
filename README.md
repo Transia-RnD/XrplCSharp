@@ -1,13 +1,13 @@
 
 
 
-[![NuGet Badge](https://buildstats.info/nuget/xrpl.c)](https://www.nuget.org/packages/xrpl.c/)
+[![NuGet Badge](https://buildstats.info/nuget/XrplCSharp)](https://www.nuget.org/packages/XrplCSharp/)
 
-# xrpl.c
+# XrplCSharp
 
 * This library would not be possible without Chris Williams.
 
-A pure C# implementation for interacting with the XRP Ledger, the `xrpl.c` library simplifies the hardest parts of XRP Ledger interaction, like serialization and transaction signing, by providing native C# methods and models for [XRP Ledger transactions](https://xrpl.org/transaction-formats.html) and core server [API](https://xrpl.org/api-conventions.html) ([`rippled`](https://github.com/ripple/rippled)) objects.
+A pure C# implementation for interacting with the XRP Ledger, the `XrplCSharp` library simplifies the hardest parts of XRP Ledger interaction, like serialization and transaction signing, by providing native C# methods and models for [XRP Ledger transactions](https://xrpl.org/transaction-formats.html) and core server [API](https://xrpl.org/api-conventions.html) ([`rippled`](https://github.com/ripple/rippled)) objects.
 
 
 ```csharp
@@ -48,27 +48,27 @@ Debug.WriteLine(accountInfo);
 
 ## Installation and supported versions
 
-The `xrpl.c` library is available on [DotNet](https://dotnet.microsoft.com/). Install with `dotnet`:
+The `XrplCSharp` library is available on [DotNet](https://dotnet.microsoft.com/). Install with `dotnet`:
 
 
 ```
-dotnet add package xrpl.c --version 1.0.0
+dotnet add package XrplCSharp --version 1.0.0
 ```
 
 The library supports [Dotnet 5](https://dotnet.microsoft.com/) and later.
 
-<!-- [![Supported Versions](https://img.shields.io/pypi/pyversions/xrpl.c.svg)](https://pypi.org/project/xrpl-py) -->
+<!-- [![Supported Versions](https://img.shields.io/pypi/pyversions/XrplCSharp.svg)](https://pypi.org/project/xrpl-py) -->
 
 
 ## Features
 
-Use `xrpl.c` to build C# applications that leverage the [XRP Ledger](https://xrpl.org/). The library helps with all aspects of interacting with the XRP Ledger, including:
+Use `XrplCSharp` to build C# applications that leverage the [XRP Ledger](https://xrpl.org/). The library helps with all aspects of interacting with the XRP Ledger, including:
 
 * Key and wallet management
 * Serialization
 * Transaction Signing
 
-`xrpl.c` also provides:
+`XrplCSharp` also provides:
 
 * A network client — See [`xrpl.clients`](https://xrpl-c.readthedocs.io/en/stable/source/xrpl.clients.html) for more information.
 * Methods for inspecting accounts — See [XRPL Account Methods](https://xrpl-c.readthedocs.io/en/stable/source/xrpl.account.html) for more information.
@@ -76,12 +76,12 @@ Use `xrpl.c` to build C# applications that leverage the [XRP Ledger](https://xrp
 
 ## [➡️ Reference Documentation](https://xrpl-c.readthedocs.io/en/stable/)
 
-See the complete [`xrpl.c` reference documentation on Read the Docs](https://xrpl-c.readthedocs.io/en/stable/index.html).
+See the complete [`XrplCSharp` reference documentation on Read the Docs](https://transia-rnd.github.io/XrplCSharp/).
 
 
 ## Usage
 
-The following sections describe some of the most commonly used modules in the `xrpl.c` library and provide sample code.
+The following sections describe some of the most commonly used modules in the `XrplCSharp` library and provide sample code.
 
 ### Network client
 
@@ -147,21 +147,21 @@ Debug.WriteLine("Store this in a secure place!");
 # Store this in a secure place!
 ```
 
-**Note:** You can use `Ripple.Keypairs` to sign transactions but `xrpl.c` also provides explicit methods for safely signing and submitting transactions. See [Transaction Signing](#transaction-signing) and [XRPL Transaction Methods](https://xrpl.c.readthedocs.io/en/stable/source/xrpl.transaction.html#module-xrpl.transaction) for more information.
+**Note:** You can use `Ripple.Keypairs` to sign transactions but `XrplCSharp` also provides explicit methods for safely signing and submitting transactions. See [Transaction Signing](#transaction-signing) and [XRPL Transaction Methods](https://XrplCSharp.readthedocs.io/en/stable/source/xrpl.transaction.html#module-xrpl.transaction) for more information.
 
 
 ### Serialize and sign transactions
 
-To securely submit transactions to the XRP Ledger, you need to first serialize data from JSON and other formats into the [XRP Ledger's canonical format](https://xrpl.org/serialization.html), then to [authorize the transaction](https://xrpl.org/transaction-basics.html#authorizing-transactions) by digitally [signing it](https://xrpl.c.readthedocs.io/en/stable/source/xrpl.core.keypairs.html?highlight=sign#xrpl.core.keypairs.sign) with the account's private key. The `xrpl.c` library provides several methods to simplify this process.
+To securely submit transactions to the XRP Ledger, you need to first serialize data from JSON and other formats into the [XRP Ledger's canonical format](https://xrpl.org/serialization.html), then to [authorize the transaction](https://xrpl.org/transaction-basics.html#authorizing-transactions) by digitally [signing it](https://XrplCSharp.readthedocs.io/en/stable/source/xrpl.core.keypairs.html?highlight=sign#xrpl.core.keypairs.sign) with the account's private key. The `XrplCSharp` library provides several methods to simplify this process.
 
 
-Use the [`xrpl.transaction`](https://xrpl.c.readthedocs.io/en/stable/source/xrpl.transaction.html) module to sign and submit transactions. The module offers three ways to do this:
+Use the [`xrpl.transaction`](https://XrplCSharp.readthedocs.io/en/stable/source/xrpl.transaction.html) module to sign and submit transactions. The module offers three ways to do this:
 
-* [`safe_sign_and_submit_transaction`](https://xrpl.c.readthedocs.io/en/stable/source/xrpl.transaction.html#xrpl.transaction.safe_sign_and_submit_transaction) — Signs a transaction locally, then submits it to the XRP Ledger. This method does not implement [reliable transaction submission](https://xrpl.org/reliable-transaction-submission.html#reliable-transaction-submission) best practices, so only use it for development or testing purposes.
+* [`safe_sign_and_submit_transaction`](https://XrplCSharp.readthedocs.io/en/stable/source/xrpl.transaction.html#xrpl.transaction.safe_sign_and_submit_transaction) — Signs a transaction locally, then submits it to the XRP Ledger. This method does not implement [reliable transaction submission](https://xrpl.org/reliable-transaction-submission.html#reliable-transaction-submission) best practices, so only use it for development or testing purposes.
 
-* [`safe_sign_transaction`](https://xrpl.c.readthedocs.io/en/stable/source/xrpl.transaction.html#xrpl.transaction.safe_sign_transaction) — Signs a transaction locally. This method **does  not** submit the transaction to the XRP Ledger.
+* [`safe_sign_transaction`](https://XrplCSharp.readthedocs.io/en/stable/source/xrpl.transaction.html#xrpl.transaction.safe_sign_transaction) — Signs a transaction locally. This method **does  not** submit the transaction to the XRP Ledger.
 
-* [`send_reliable_submission`](https://xrpl.c.readthedocs.io/en/stable/source/xrpl.transaction.html#xrpl.transaction.send_reliable_submission) — An implementation of the [reliable transaction submission guidelines](https://xrpl.org/reliable-transaction-submission.html#reliable-transaction-submission), this method submits a signed transaction to the XRP Ledger and then verifies that it has been included in a validated ledger (or has failed to do so). Use this method to submit transactions for production purposes.
+* [`send_reliable_submission`](https://XrplCSharp.readthedocs.io/en/stable/source/xrpl.transaction.html#xrpl.transaction.send_reliable_submission) — An implementation of the [reliable transaction submission guidelines](https://xrpl.org/reliable-transaction-submission.html#reliable-transaction-submission), this method submits a signed transaction to the XRP Ledger and then verifies that it has been included in a validated ledger (or has failed to do so). Use this method to submit transactions for production purposes.
 
 
 ```csharp
@@ -205,7 +205,7 @@ Debug.WriteLine(fee);
 
 <!-- #### Auto-filled fields
 
-The `xrpl.c` library automatically populates the `fee`, `sequence` and `last_ledger_sequence` fields when you create transactions. In the example above, you could omit those fields and let the library fill them in for you.
+The `XrplCSharp` library automatically populates the `fee`, `sequence` and `last_ledger_sequence` fields when you create transactions. In the example above, you could omit those fields and let the library fill them in for you.
 
 ```csharp
 from xrpl.models.transactions import Payment
@@ -295,7 +295,7 @@ If you want to contribute to this project, see [CONTRIBUTING.md].
 
 ### Mailing Lists
 
-We have a low-traffic mailing list for announcements of new `xrpl.c` releases. (About 1 email per week)
+We have a low-traffic mailing list for announcements of new `XrplCSharp` releases. (About 1 email per week)
 
 + [Subscribe to xrpl-announce](https://groups.google.com/g/xrpl-announce)
 
@@ -306,7 +306,7 @@ If you're using the XRP Ledger in production, you should run a [rippled server](
 
 ## License
 
-The `xrpl.c` library is licensed under the ISC License. See [LICENSE] for more information.
+The `XrplCSharp` library is licensed under the ISC License. See [LICENSE] for more information.
 
 
 
