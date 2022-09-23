@@ -17,7 +17,8 @@ IRippleClient client = new RippleClient("wss://s.altnet.rippletest.net:51233");
 client.Connect();
 
 # create a wallet on the testnet
-using Xrpl.Wallet;
+using Xrpl.XrplWallet;
+using static Xrpl.XrplWallet.Wallet;
 using System.Diagnostics;
 // test_wallet = SOON
 Debug.WriteLine(testWallet);
@@ -28,7 +29,9 @@ classic_address: rBtXmAdEYcno9LWRnAGfT9qBxCeDvuVRZo
 # look up account info
 using System.Diagnostics;
 using Xrpl.Client.Model.Account;
-AccountInfo accountInfo = await client.AccountInfo(account);
+AccountInfoRequest request = new AccountInfoRequest(account);
+AccountInfo accountInfo = await client.AccountInfo(request);
+Debug.Log(accountInfo);
 Debug.WriteLine(accountInfo);
 # {
 #     "Account": "rBtXmAdEYcno9LWRnAGfT9qBxCeDvuVRZo",
@@ -102,9 +105,10 @@ Use the [`Xrpl.Wallet`](https://transia-rnd.github.io/XrplCSharp/xrpl.wallet.htm
 To create a wallet from a seed (in this case, the value generated using [`Xrpl.Keypairs`](#xrpl-keypairs)):
 
 ```csharp
-using Xrpl.Wallet;
+using Xrpl.XrplWallet;
+using static Xrpl.XrplWallet.Wallet;
 using System.Diagnostics;
-TxSigner signer = TxSigner.FromSecret(seed);
+Wallet wallet = Wallet.FromSeed(seed);
 Debug.WriteLine(signer);
 # pub_key: ED46949E414A3D6D758D347BAEC9340DC78F7397FEE893132AAF5D56E4D7DE77B0
 # priv_key: -HIDDEN-
@@ -130,21 +134,21 @@ Here's an example of how to generate a `seed` value and derive an [XRP Ledger "c
 ```csharp
 using Ripple.Keypairs;
 using System.Diagnostics;
-Seed seed = Seed.FromRandom();
-KeyPair pair = seed.KeyPair();
-string public = pair.Id();
-string private = seed.ToString();
-Debug.WriteLine("Here's the public key:");
-print("Here's the public key:")
-Debug.WriteLine(public);
-Debug.WriteLine("Here's the private key:");
-Debug.WriteLine(private);
-Debug.WriteLine("Store this in a secure place!");
-# Here's the public key:
-# ED3CC1BBD0952A60088E89FA502921895FC81FBD79CAE9109A8FE2D23659AD5D56
-# Here's the private key:
-# EDE65EE7882847EF5345A43BFB8E6F5EEC60F45461696C384639B99B26AAA7A5CD
-# Store this in a secure place!
+using Xrpl.XrplWallet;
+using static Xrpl.XrplWallet.Wallet;
+Wallet wallet = Wallet.Generate();
+string publicKey = wallet.PublicKey;
+string privateKey = wallet.PrivateKey;
+Debug.Log("Here's the public key:");
+Debug.Log(publicKey);
+Debug.Log("Here's the private key:");
+Debug.Log(privateKey);
+Debug.Log("Store this in a secure place!");
+// Here's the public key:
+// ED3CC1BBD0952A60088E89FA502921895FC81FBD79CAE9109A8FE2D23659AD5D56
+// Here's the private key:
+// EDE65EE7882847EF5345A43BFB8E6F5EEC60F45461696C384639B99B26AAA7A5CD
+// Store this in a secure place!
 ```
 
 **Note:** You can use `Ripple.Keypairs` to sign transactions but `XrplCSharp` also provides explicit methods for safely signing and submitting transactions. See [Transaction Signing](#transaction-signing) and [XRPL Transaction Methods](https://XrplCSharp.readthedocs.io/en/stable/source/xrpl.transaction.html#module-xrpl.transaction) for more information.
@@ -165,30 +169,30 @@ Use the [`xrpl.transaction`](https://XrplCSharp.readthedocs.io/en/stable/source/
 
 
 ```csharp
-using Xrpl.Client.Model.Account;
-using Xrpl.Client.Requests.Account;
-using Xrpl.Client.Model.Transaction;
+using Xrpl.Client.Models.Methods;
+using Xrpl.Client.Models.Transactions;
+// ...
+AccountInfoRequest request = new AccountInfoRequest(classicAddress);
+AccountInfo accountInfo = await client.AccountInfo(request);
 
-AccountInfo accountInfo = await client.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
-
-# prepare the transaction
-# the amount is expressed in drops, not XRP
-# see https://xrpl.org/basic-data-types.html#specifying-currency-amounts
-IPaymentTransaction paymentTransaction = new PaymentTransaction();
-paymentTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
+// prepare the transaction
+// the amount is expressed in drops, not XRP
+// see https://xrpl.org/basic-data-types.html#specifying-currency-amounts
+IPayment paymentTransaction = new Payment();
+paymentTransaction.Account = classicAddress;
 paymentTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
 paymentTransaction.Amount = new Currency { ValueAsXrp = 1 };
 paymentTransaction.Sequence = accountInfo.AccountData.Sequence;
 
-# sign the transaction
-TxSigner signer = TxSigner.FromSecret("xxxxxxx");  //secret is not sent to server, offline signing only
-SignedTx signedTx = signer.SignJson(JObject.Parse(paymentTransaction.ToJson()));
+// sign the transaction
+Dictionary<string, dynamic> paymentJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(paymentTransaction.ToJson());
+SignatureResult signedTx = wallet.Sign(paymentJson);
 
-# submit the transaction
-SubmitBlobRequest request = new SubmitBlobRequest();
-request.TransactionBlob = signedTx.TxBlob;
+// submit the transaction
+SubmitRequest request1 = new SubmitRequest();
+request1.TxBlob = signedTx.TxBlob;
 
-Submit result = await client.SubmitTransactionBlob(request);
+Submit result = await client.Submit(request1);
 ```
 
 #### Get fee from the XRP Ledger
@@ -198,7 +202,8 @@ In most cases, you can specify the minimum [transaction cost](https://xrpl.org/t
 
 ```csharp
 using System.Diagnostics;
-Fee fee = await client.Fees();
+FeeRequest feeRequest = new FeeRequest();
+Fee fee = await client.Fee(feeRequest);
 Debug.WriteLine(fee);
 # 10
 ```
