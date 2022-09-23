@@ -1,4 +1,4 @@
-
+> THIS REPOSITORY IS NOT FINISHED. README IS NOT UP TO DATE. EXPECT DRAGONS. SEE TESTS FOR CURRENT IMPLEMENTATIONS.
 
 
 [![NuGet Badge](https://buildstats.info/nuget/XrplCSharp)](https://www.nuget.org/packages/XrplCSharp/)
