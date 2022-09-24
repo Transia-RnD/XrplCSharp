@@ -1,9 +1,8 @@
-﻿using System.Dynamic;
-using System.Globalization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-using Xrpl.Client.Extensions;
-using Xrpl.Client.Json.Converters;
+using System.Globalization;
+
+using XrplCSharp.Xrpl.Utils;
 
 namespace Xrpl.Client.Models.Common
 {

@@ -11,6 +11,7 @@ using Ripple.Keypairs.Ed25519;
 using Xrpl.Client.Extensions;
 using Org.BouncyCastle.Bcpg.Sig;
 using Ripple.Keypairs.Extensions;
+using XrplCSharp.Xrpl.Utils;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-keypairs/test/api-test.js
 

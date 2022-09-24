@@ -11,6 +11,7 @@ using Xrpl.Client.Models.Methods;
 using Xrpl.Client.Models.Transactions;
 using Xrpl.Tests.Client.Tests;
 using Xrpl.Utils.Hashes;
+using XrplCSharp.Xrpl.Utils;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/requests/tx.ts
 

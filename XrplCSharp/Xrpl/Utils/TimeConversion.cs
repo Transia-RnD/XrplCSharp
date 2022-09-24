@@ -15,10 +15,11 @@ namespace XrplCSharp.Xrpl.Utils
 
         public static long UnixTimeToRippleTime(int timestamp)
         {
-            return Math.Round(timestamp / 1000) - RIPPLE_EPOCH_DIFF;
+            var v = timestamp / 1000;
+            return v - RIPPLE_EPOCH_DIFF;
         }
 
-        public static long RippleTimeToISOTime(int rippleTime)
+        public static string RippleTimeToISOTime(int rippleTime)
         {
             return new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(RippleTimeToUnixTime(rippleTime)).ToString("o");
         }

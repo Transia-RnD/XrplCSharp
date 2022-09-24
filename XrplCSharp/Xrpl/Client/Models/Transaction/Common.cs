@@ -5,6 +5,7 @@ using Xrpl.Client.Extensions;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Client.Models.Enums;
 using Xrpl.Client.Models.Common;
+using XrplCSharp.Xrpl.Utils;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/common.ts
 

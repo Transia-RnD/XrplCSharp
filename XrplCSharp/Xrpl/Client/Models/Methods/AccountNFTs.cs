@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Xrpl.Client.Extensions;
+using XrplCSharp.Xrpl.Utils;
 
 namespace Xrpl.Client.Models.Methods
 {
