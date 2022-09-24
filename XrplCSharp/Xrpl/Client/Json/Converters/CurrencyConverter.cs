@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 using Xrpl.Client.Models.Common;
 
 namespace Xrpl.Client.Json.Converters
@@ -10,10 +12,10 @@ namespace Xrpl.Client.Json.Converters
     public class CurrencyConverter : JsonConverter
     {
         /// <summary>
-        /// write currency to json object
+        /// write  <see cref="Currency"/>  to json object
         /// </summary>
         /// <param name="writer">writer</param>
-        /// <param name="value">currency value</param>
+        /// <param name="value"> <see cref="Currency"/> value</param>
         /// <param name="serializer">json serializer</param>
         /// <exception cref="NotSupportedException">Cannot write this object type</exception>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -35,33 +37,30 @@ namespace Xrpl.Client.Json.Converters
                 throw new NotSupportedException("Cannot write this object type");
             }
         }
-        /// <summary> read currency from json object </summary>
+        /// <summary> read  <see cref="Currency"/>  from json object </summary>
         /// <param name="reader">json reader</param>
         /// <param name="objectType">object type</param>
         /// <param name="existingValue">object value</param>
         /// <param name="serializer">json serializer</param>
-        /// <returns>Currency<see cref="Xrpl.Client.Models.Common.Currency"/> </returns>
+        /// <returns><see cref="Xrpl.Client.Models.Common.Currency"/></returns>
         /// <exception cref="NotSupportedException">Cannot convert value</exception>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
             JsonSerializer serializer)
         {
             Debug.WriteLine("[CONVERTER] Read Json");
             Debug.WriteLine($"[CONVERTER] Token Type: {reader.TokenType}");
-            switch (reader.TokenType)
+            return reader.TokenType switch
             {
-                case JsonToken.Null: return null;
-                case JsonToken.String:
+                JsonToken.Null => null,
+                JsonToken.String => new Currency
                 {
-                    Currency currency = new Currency
-                    {
-                        CurrencyCode = "XRP",
-                        Value = reader.Value.ToString()
-                    };
-                    return currency;
-                }
-                case JsonToken.StartObject: return serializer.Deserialize<Currency>(reader);
-                default: throw new NotSupportedException("Cannot convert value " + objectType);
-            }
+                    CurrencyCode = "XRP",
+                    Value = reader.Value?.ToString()
+                },
+
+                JsonToken.StartObject => serializer.Deserialize<Currency>(reader),
+                _ => throw new NotSupportedException("Cannot convert value " + objectType)
+            };
         }
         /// <summary> Can convert object to currency </summary>
         /// <param name="objectType">object type</param>
