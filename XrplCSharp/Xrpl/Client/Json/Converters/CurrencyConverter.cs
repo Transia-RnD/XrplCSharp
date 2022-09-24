@@ -6,20 +6,27 @@ using Xrpl.Models.Common;
 
 namespace Xrpl.ClientLib.Json.Converters
 {
+    /// <summary> currency json converter </summary>
     public class CurrencyConverter : JsonConverter
     {
+        /// <summary>
+        /// write  <see cref="Currency"/>  to json object
+        /// </summary>
+        /// <param name="writer">writer</param>
+        /// <param name="value"> <see cref="Currency"/> value</param>
+        /// <param name="serializer">json serializer</param>
+        /// <exception cref="NotSupportedException">Cannot write this object type</exception>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value is Currency)
+            if (value is Currency currency)
             {
-                Currency currency = (Currency) value;
                 if (currency.CurrencyCode == "XRP")
                 {
                     writer.WriteValue(currency.Value);
                 }
                 else
                 {
-                    JToken t = JToken.FromObject(value);
+                    JToken t = JToken.FromObject(currency);
                     t.WriteTo(writer);
                 }
             }
@@ -28,36 +35,34 @@ namespace Xrpl.ClientLib.Json.Converters
                 throw new NotSupportedException("Cannot write this object type");
             }
         }
-
+        /// <summary> read  <see cref="Currency"/>  from json object </summary>
+        /// <param name="reader">json reader</param>
+        /// <param name="objectType">object type</param>
+        /// <param name="existingValue">object value</param>
+        /// <param name="serializer">json serializer</param>
+        /// <returns><see cref="Currency"/></returns>
+        /// <exception cref="NotSupportedException">Cannot convert value</exception>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
             JsonSerializer serializer)
         {
             Debug.WriteLine("[CONVERTER] Read Json");
             Debug.WriteLine($"[CONVERTER] Token Type: {reader.TokenType}");
-            if (reader.TokenType == JsonToken.Null)
-                return null;
-
-            if (reader.TokenType == JsonToken.String)
+            return reader.TokenType switch
             {
-                Currency currency = new Currency();
-                currency.CurrencyCode = "XRP";
-                currency.Value = reader.Value.ToString();
-                return currency;
-            }
+                JsonToken.Null => null,
+                JsonToken.String => new Currency
+                {
+                    CurrencyCode = "XRP",
+                    Value = reader.Value?.ToString()
+                },
 
-            if (reader.TokenType == JsonToken.StartObject)
-            {
-                return serializer.Deserialize<Currency>(reader);
-            }
-
-            throw new NotSupportedException("Cannot convert value " + objectType);
+                JsonToken.StartObject => serializer.Deserialize<Currency>(reader),
+                _ => throw new NotSupportedException("Cannot convert value " + objectType)
+            };
         }
-
-        public override bool CanConvert(Type objectType)
-        {
-            if (objectType == typeof(Currency))
-                return true;
-            return false;
-        }
+        /// <summary> Can convert object to currency </summary>
+        /// <param name="objectType">object type</param>
+        /// <returns>bool result</returns>
+        public override bool CanConvert(Type objectType) => objectType == typeof(Currency);
     }
 }
