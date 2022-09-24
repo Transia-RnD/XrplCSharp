@@ -11,24 +11,28 @@ namespace Ripple.Keypairs
 {
     public class Keypairs
     {
-
+        /// <summary> Generate random seed bytes for new account </summary>
+        /// <returns>byte seed array</returns>
         public static byte[] FromRandom()
         {
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                var seed = new byte[16];
-                rng.GetBytes(seed);
-                return seed;
-            }
+            using var rng = RandomNumberGenerator.Create();
+            var seed = new byte[16];
+            rng.GetBytes(seed);
+            return seed;
         }
-
+        /// <summary>
+        /// generate string seed from bytes array, if null - random
+        /// </summary>
+        /// <param name="entropy">seed byte array</param>
+        /// <param name="algorithm">seed algorithm, base - secp256k1</param>
+        /// <returns></returns>
         public static string GenerateSeed(byte[]? entropy = null, string algorithm = "secp256k1")
         {
             //assert.ok(
             //    !options.entropy || options.entropy.length >= 16,
             //    'entropy too short',
             //  )
-            byte[] fentropy = entropy != null ? entropy : FromRandom();
+            byte[] fentropy = entropy ?? FromRandom();
             return XrplCodec.EncodeSeed(fentropy, algorithm);
         }
 
@@ -55,43 +59,41 @@ namespace Ripple.Keypairs
             //}
             return scpk;
         }
-
+        /// <summary> get seed algorithm from seed key </summary>
+        /// <param name="key">seed key</param>
+        /// <returns></returns>
         public static string GetAlgorithmFromKey(string key)
         {
             byte[] data = Ripple.Address.Codec.Utils.FromHexToBytes(key);
             return data.Length == 33 && data[0] == 0xED ? "ed25519" : "secp256k1";
         }
-
+        /// <summary> Sing message </summary>
+        /// <param name="message">byte array</param>
+        /// <param name="privateKey">private key</param>
+        /// <returns></returns>
         public static string Sign(byte[] message, string privateKey)
         {
             string algorithm = GetAlgorithmFromKey(privateKey);
-            if (algorithm == "ed25519")
-            {
-                byte[] pk = Chaos.NaCl.Ed25519.ExpandedPrivateKeyFromSeed(privateKey[2..66].FromHex());
-                return EdKeyPair.Sign(message, pk).ToHex();
-            }
-            return K256KeyPair.Sign(message, privateKey.FromHex()).ToHex();
+
+            if (algorithm != "ed25519")
+                return K256KeyPair.Sign(message, privateKey.FromHex()).ToHex();
+
+            byte[] pk = Chaos.NaCl.Ed25519.ExpandedPrivateKeyFromSeed(privateKey[2..66].FromHex());
+            return EdKeyPair.Sign(message, pk).ToHex();
         }
 
         public static bool Verify(byte[] message, string signature, string publicKey)
         {
             string algorithm = GetAlgorithmFromKey(publicKey);
-            if (algorithm == "ed25519")
-            {
-
-                return EdKeyPair.Verify(signature.FromHex(), message, publicKey[2..66].FromHex());
-            }
-            return K256VerifyingKey.Verify(signature.FromHex(), message, publicKey.FromHex());
+            return algorithm == "ed25519" 
+                ? EdKeyPair.Verify(signature.FromHex(), message, publicKey[2..66].FromHex())
+                : K256VerifyingKey.Verify(signature.FromHex(), message, publicKey.FromHex());
         }
 
-        public static string DeriveAddressFromBytes(byte[] publicKeyBytes)
-        {
-            return XrplCodec.EncodeAccountID(Ripple.Keypairs.Utils.HashUtils.PublicKeyHash(publicKeyBytes));
-        }
+        public static string DeriveAddressFromBytes(byte[] publicKeyBytes) 
+            => XrplCodec.EncodeAccountID(Ripple.Keypairs.Utils.HashUtils.PublicKeyHash(publicKeyBytes));
 
-        public static string DeriveAddress(string publicKey)
-        {
-            return Keypairs.DeriveAddressFromBytes(Ripple.Address.Codec.Utils.FromHexToBytes(publicKey));
-        }
+        public static string DeriveAddress(string publicKey) 
+            => Keypairs.DeriveAddressFromBytes(Ripple.Address.Codec.Utils.FromHexToBytes(publicKey));
     }
 }

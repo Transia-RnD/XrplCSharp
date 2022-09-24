@@ -82,7 +82,7 @@ namespace Ripple.Keypairs.K256
             return $"00{Ripple.Address.Codec.Utils.FromBytesToHex(this._privKey.ToByteArray())}";
         }
 
-        static public byte[] Sign(byte[] message, byte[] privateKey)
+        public static byte[] Sign(byte[] message, byte[] privateKey)
         {
             ECDSASigner signer = new ECDSASigner(new HMacDsaKCalculator(new Sha256Digest()));
             ECPrivateKeyParameters privKey = new ECPrivateKeyParameters(new BigInteger(privateKey), Secp256K1.Parameters());

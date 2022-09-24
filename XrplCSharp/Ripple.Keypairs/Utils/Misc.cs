@@ -1,6 +1,8 @@
 ﻿using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Utilities.Encoders;
 
+//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-keypairs/src/utils.ts
+
 namespace Ripple.Keypairs.Utils
 {
     internal class Misc

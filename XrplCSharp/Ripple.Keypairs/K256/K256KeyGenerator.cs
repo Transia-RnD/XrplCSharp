@@ -34,11 +34,11 @@ namespace Ripple.Keypairs.K256
                             .Add(privateGen).Mod(Secp256K1.Order());
         }
 
-        ///
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="privateGen"> secret scalar</param>
-        /// <returns> the corresponding public key is the public generator
-        ///         (aka public root key, master public key).
-        /// </returns>
+        /// <returns> the corresponding public key is the public generator (aka public root key, master public key). </returns>
         public static ECPoint ComputePublicGenerator(BigInteger privateGen)
         {
             return ComputePublicKey(privateGen);
@@ -52,11 +52,12 @@ namespace Ripple.Keypairs.K256
             ECPoint offset = rootPubPoint.Add(point);
             return offset.GetEncoded(true);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="seedBytes"> - a bytes sequence of arbitrary length which will be hashed </param>
         /// <param name="discriminator"> - nullable optional uint32 to hash </param>
-        /// <returns> a number between [1, order -1] suitable as a private key
-        ///  </returns>
+        /// <returns> a number between [1, order -1] suitable as a private key  </returns>
         public static BigInteger ComputeScalar(byte[] seedBytes, uint? discriminator)
         {
             BigInteger key = null;
@@ -78,8 +79,7 @@ namespace Ripple.Keypairs.K256
             }
             return key;
         }
-
-        ///
+        /// <summary> Compute Public Key </summary>
         /// <param name="secretKey"> secret point on the curve as BigInteger </param>
         /// <returns> corresponding public point </returns>
         public static ECPoint ComputePublicKey(BigInteger secretKey)

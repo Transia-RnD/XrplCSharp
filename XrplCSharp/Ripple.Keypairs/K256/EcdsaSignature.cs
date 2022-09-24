@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using Org.BouncyCastle.Math;
 
+//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-keypairs/src/secp256k1.ts
+
 namespace Ripple.Keypairs.K256
 {
 
@@ -12,12 +14,10 @@ namespace Ripple.Keypairs.K256
 
     public class EcdsaSignature
     {
-        /// <summary>
-        /// The two components of the signature. </summary>
+        /// <summary> The two components of the signature. </summary>
         public BigInteger R, S;
 
-        /// <summary>
-        /// Constructs a signature with the given components. </summary>
+        /// <summary> Constructs a signature with the given components. </summary>
         public EcdsaSignature(BigInteger r, BigInteger s)
         {
             this.R = r;

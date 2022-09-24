@@ -1,11 +1,10 @@
 using System;
-using System.Security.Cryptography.X509Certificates;
-using Ripple.Address.Codec;
-using Ripple.Keypairs.Extensions;
+
 using Sha512 = Ripple.Keypairs.Utils.Sha512;
 
 namespace Ripple.Keypairs.Ed25519
 {
+    //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-keypairs/src/index.ts#L69
     public class EdKeyPair : IKeyPair
     {
         string prefix = "ED";
@@ -20,10 +19,7 @@ namespace Ripple.Keypairs.Ed25519
             ComputeCanonicalPub();
         }
 
-        public byte[] CanonicalPubBytes()
-        {
-            return _canonicalisedPubBytes;
-        }
+        public byte[] CanonicalPubBytes() => _canonicalisedPubBytes;
 
         private void ComputeCanonicalPub()
         {
@@ -42,24 +38,12 @@ namespace Ripple.Keypairs.Ed25519
             return new EdKeyPair(publicKey, expandedPrivateKey);
         }
 
-        public string Id()
-        {
-            return prefix + Ripple.Address.Codec.Utils.FromBytesToHex(this._pubBytes);
-        }
+        public string Id() => prefix + Ripple.Address.Codec.Utils.FromBytesToHex(this._pubBytes);
 
-        public string Pk()
-        {
-            return prefix + Ripple.Address.Codec.Utils.FromBytesToHex(this._privBytes[0..32]);
-        }
+        public string Pk() => prefix + Ripple.Address.Codec.Utils.FromBytesToHex(this._privBytes[0..32]);
 
-        static public byte[] Sign(byte[] message, byte[] privateKey)
-        {
-            return Chaos.NaCl.Ed25519.Sign(message, privateKey);
-        }
+        public static byte[] Sign(byte[] message, byte[] privateKey) => Chaos.NaCl.Ed25519.Sign(message, privateKey);
 
-        static public bool Verify(byte[] signature, byte[] message, byte[] publicKey)
-        {
-            return Chaos.NaCl.Ed25519.Verify(signature, message, publicKey);
-        }
+        public static bool Verify(byte[] signature, byte[] message, byte[] publicKey) => Chaos.NaCl.Ed25519.Verify(signature, message, publicKey);
     }
 }
