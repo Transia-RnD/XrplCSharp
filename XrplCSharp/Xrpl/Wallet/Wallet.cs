@@ -1,28 +1,38 @@
 ﻿using System;
-using Ripple.Keypairs;
 using System.Security.Cryptography;
 using Org.BouncyCastle.Crypto;
 using System.Security.Cryptography.X509Certificates;
-using Xrpl.XrplWallet;
-using Ripple.Keypairs.Ed25519;
-using Ripple.Keypairs.K256;
-using System.Transactions;
-using Ripple.Binary.Codec;
+using Xrpl.KeypairsLib;
+using Xrpl.KeypairsLib.Ed25519;
+using Xrpl.KeypairsLib.K256;
+using Xrpl.BinaryCodecLib;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Xrpl.Utils.Hashes;
-using Xrpl.Client.Exceptions;
-using Xrpl.Client.Models.Transactions;
+using Xrpl.ClientLib.Exceptions;
+using Xrpl.Models.Transactions;
 using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Asn1.Ocsp;
-using Ripple.Keypairs.Extensions;
-using Ripple.Address.Codec;
+using Xrpl.AddressCodecLib;
+using IKeypairs = Xrpl.KeypairsLib.Keypairs;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/Wallet/index.ts
 
-namespace Xrpl.XrplWallet
+namespace Xrpl.WalletLib
 {
+    public class SignatureResult
+    {
+        public string TxBlob;
+        public string Hash;
+
+        public SignatureResult(string txBlob, string hash)
+        {
+            TxBlob = txBlob;
+            Hash = hash;
+        }
+    }
+
     public class Wallet
     {
 
@@ -32,18 +42,6 @@ namespace Xrpl.XrplWallet
         public readonly string PrivateKey;
         public readonly string ClassicAddress;
         public readonly string Seed;
-
-        public class SignatureResult
-        {
-            public string TxBlob;
-            public string Hash;
-
-            public SignatureResult(string txBlob, string hash)
-            {
-                TxBlob = txBlob;
-                Hash = hash;
-            }
-        }
 
         /// <summary>
         /// Creates a new Wallet.
@@ -56,7 +54,7 @@ namespace Xrpl.XrplWallet
         {
             this.PublicKey = publicKey;
             this.PrivateKey = privateKey;
-            this.ClassicAddress = masterAddress != null ? masterAddress : Keypairs.DeriveAddress(publicKey);
+            this.ClassicAddress = masterAddress != null ? masterAddress : IKeypairs.DeriveAddress(publicKey);
             this.Seed = seed;
         }
 
@@ -67,7 +65,7 @@ namespace Xrpl.XrplWallet
         /// <returns>A new Wallet derived from a generated seed.</returns>
         public static Wallet Generate(string algorithm = "ed25519")
         {
-            string seed = Keypairs.GenerateSeed(null, algorithm);
+            string seed = IKeypairs.GenerateSeed(null, algorithm);
             return Wallet.FromSeed(seed, null, algorithm);
         }
         /// <summary>
@@ -90,7 +88,7 @@ namespace Xrpl.XrplWallet
         public static Wallet FromEntropy(byte[] entropy, string? masterAddress = null, string? algorithm = null)
         {
             string falgorithm = algorithm != null ? algorithm : Wallet.DEFAULT_ALGORITHM;
-            string seed = Keypairs.GenerateSeed(entropy, falgorithm);
+            string seed = IKeypairs.GenerateSeed(entropy, falgorithm);
             return Wallet.DeriveWallet(seed, masterAddress, falgorithm);
         }
 
@@ -103,7 +101,7 @@ namespace Xrpl.XrplWallet
         /// <returns>A Wallet derived from the seed.</returns>
         private static Wallet DeriveWallet(string seed, string? masterAddress = null, string? algorithm = null)
         {
-            IKeyPair keypair = Keypairs.DeriveKeypair(seed, algorithm);
+            IKeyPair keypair = IKeypairs.DeriveKeypair(seed, algorithm);
             return new Wallet(keypair.Id(), keypair.Pk(), masterAddress, seed);
         }
 
@@ -156,7 +154,7 @@ namespace Xrpl.XrplWallet
             JToken tx = BinaryCodec.Decode(signedTransaction);
             string messageHex = BinaryCodec.EncodeForSigning(tx.ToObject<Dictionary<string, dynamic>>());
             string signature = (string)tx["TxnSignature"];
-            return Keypairs.Verify(messageHex.FromHex(), signature, this.PublicKey);
+            return IKeypairs.Verify(messageHex.FromHex(), signature, this.PublicKey);
         }
 
         public string GetXAddress(int tag, bool isTestnet = false)
@@ -167,7 +165,7 @@ namespace Xrpl.XrplWallet
         public string ComputeSignature(Dictionary<string, dynamic> transaction, string privateKey, string? signAs = null)
         {
             string encoded = BinaryCodec.EncodeForSigning(transaction);
-            return Keypairs.Sign(Ripple.Address.Codec.Utils.FromHexToBytes(encoded), privateKey);
+            return IKeypairs.Sign(AddressCodecLib.Utils.FromHexToBytes(encoded), privateKey);
         }
 
     }

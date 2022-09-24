@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xrpl.Client
+namespace Xrpl.ClientLib
 {
     internal class TaskInfo
     {

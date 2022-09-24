@@ -3,9 +3,9 @@ using Newtonsoft.Json.Linq;
 
 using System;
 
-using Xrpl.Client.Models.Transactions;
+using Xrpl.Models.Transactions;
 
-namespace Xrpl.Client.Json.Converters
+namespace Xrpl.ClientLib.Json.Converters
 {
     public class TransactionConverter : JsonConverter
     {

@@ -2,11 +2,11 @@
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/hashes/HashPrefix.ts
 
-namespace XrplCSharp.Xrpl.Utils.Hashes
+namespace Xrpl.Utils.Hashes
 {
-    public class HashPrefix
+    public class rHashPrefix
     {
-        public HashPrefix()
+        public rHashPrefix()
         {
         }
     }

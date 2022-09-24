@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Xrpl.Client.Json.Converters
+namespace Xrpl.ClientLib.Json.Converters
 {
     public class GenericStringConverter<T> : JsonConverter
     {

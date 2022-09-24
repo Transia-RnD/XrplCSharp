@@ -12,8 +12,8 @@ A pure C# implementation for interacting with the XRP Ledger, the `XrplCSharp` l
 
 ```csharp
 # create a network client
-using Xrpl.Client;
-IRippleClient client = new RippleClient("wss://s.altnet.rippletest.net:51233");
+using Xrpl;
+IClient client = new RippleClient("wss://s.altnet.rippletest.net:51233");
 client.Connect();
 
 # create a wallet on the testnet
@@ -27,7 +27,7 @@ classic_address: rBtXmAdEYcno9LWRnAGfT9qBxCeDvuVRZo
 
 # look up account info
 using System.Diagnostics;
-using Xrpl.Client.Model.Account;
+using Xrpl.Model.Account;
 AccountInfo accountInfo = await client.AccountInfo(account);
 Debug.WriteLine(accountInfo);
 # {
@@ -88,8 +88,8 @@ The following sections describe some of the most commonly used modules in the `X
 Use the `Xrpl.Client` library to create a network client for connecting to the XRP Ledger.
 
 ```csharp
-using Xrpl.Client;
-IRippleClient client = new RippleClient("wss://s.altnet.rippletest.net:51233");
+using Xrpl;
+IClient client = new RippleClient("wss://s.altnet.rippletest.net:51233");
 client.Connect();
 ```
 
@@ -120,15 +120,15 @@ Debug.WriteLine(test_account);
 # Classic address: rEQB2hhp3rg7sHj6L8YyR4GG47Cb7pfcuw
 ``` -->
 
-#### `Ripple.Keypairs`
+#### `Keypairs`
 
-Use the [`Ripple.Keypairs`](https://transia-rnd.github.io/XrplCSharp/xrpl.core.keypairs.html#module-xrpl.core.keypairs) module to generate seeds and derive keypairs and addresses from those seed values.
+Use the [`Keypairs`](https://transia-rnd.github.io/XrplCSharp/xrpl.core.keypairs.html#module-xrpl.core.keypairs) module to generate seeds and derive keypairs and addresses from those seed values.
 
 Here's an example of how to generate a `seed` value and derive an [XRP Ledger "classic" address](https://xrpl.org/cryptographic-keys.html#account-id-and-address) from that seed.
 
 
 ```csharp
-using Ripple.Keypairs;
+using Xrpl.KeypairsLib;
 using System.Diagnostics;
 Seed seed = Seed.FromRandom();
 KeyPair pair = seed.KeyPair();
@@ -147,7 +147,7 @@ Debug.WriteLine("Store this in a secure place!");
 # Store this in a secure place!
 ```
 
-**Note:** You can use `Ripple.Keypairs` to sign transactions but `XrplCSharp` also provides explicit methods for safely signing and submitting transactions. See [Transaction Signing](#transaction-signing) and [XRPL Transaction Methods](https://XrplCSharp.readthedocs.io/en/stable/source/xrpl.transaction.html#module-xrpl.transaction) for more information.
+**Note:** You can use `Keypairs` to sign transactions but `XrplCSharp` also provides explicit methods for safely signing and submitting transactions. See [Transaction Signing](#transaction-signing) and [XRPL Transaction Methods](https://XrplCSharp.readthedocs.io/en/stable/source/xrpl.transaction.html#module-xrpl.transaction) for more information.
 
 
 ### Serialize and sign transactions
@@ -165,9 +165,9 @@ Use the [`xrpl.transaction`](https://XrplCSharp.readthedocs.io/en/stable/source/
 
 
 ```csharp
-using Xrpl.Client.Model.Account;
-using Xrpl.Client.Requests.Account;
-using Xrpl.Client.Model.Transaction;
+using Xrpl.Model.Account;
+using Xrpl.Requests.Account;
+using Xrpl.Model.Transaction;
 
 AccountInfo accountInfo = await client.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
 

@@ -10,21 +10,21 @@ using System.Transactions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-using Xrpl.Client.Exceptions;
-using Xrpl.Client.Models.Ledger;
-using Xrpl.Client.Models.Methods;
-using Xrpl.Client.Models.Transactions;
+using Xrpl.ClientLib.Exceptions;
+using Xrpl.Models.Ledger;
+using Xrpl.Models.Methods;
+using Xrpl.Models.Transactions;
 using Xrpl.Sugar;
-using Xrpl.XrplWallet;
 
-using BookOffers = Xrpl.Client.Models.Transactions.BookOffers;
-using Submit = Xrpl.Client.Models.Transactions.Submit;
+using BookOffers = Xrpl.Models.Transactions.BookOffers;
+using Submit = Xrpl.Models.Transactions.Submit;
+using Xrpl.WalletLib;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/client/index.ts
 
-namespace Xrpl.Client
+namespace Xrpl.ClientLib
 {
-    public interface IRippleClient
+    public interface IClient
     {
 
         Task<AccountChannels> AccountChannels(AccountChannelsRequest request);
@@ -74,14 +74,14 @@ namespace Xrpl.Client
         void Disconnect();
     }
 
-    public class RippleClient : IRippleClient
+    public class Client : IClient
     {
         public readonly string url;
         private readonly WebSocketClient client;
         private readonly ConcurrentDictionary<Guid, TaskInfo> tasks;
         private readonly JsonSerializerSettings serializerSettings;
 
-        public RippleClient(string server)
+        public Client(string server)
         {
             url = server;
             tasks = new ConcurrentDictionary<Guid, TaskInfo>();

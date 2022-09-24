@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Xrpl.Client.Exceptions
+namespace Xrpl.ClientLib.Exceptions
 {
     public class RippleException : Exception
     {

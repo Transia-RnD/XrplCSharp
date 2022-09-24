@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
-using Xrpl.Client.Models.Transactions;
+using Xrpl.Models.Transactions;
 
-namespace Xrpl.Client.Json.Converters
+namespace Xrpl.ClientLib.Json.Converters
 {
     public class MetaBinaryConverter : JsonConverter
     {

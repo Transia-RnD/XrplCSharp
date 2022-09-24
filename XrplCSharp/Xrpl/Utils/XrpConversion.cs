@@ -1,12 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
-using Ripple.Binary.Codec.Hashing;
-using Ripple.Binary.Codec.Types;
-using Ripple.Binary.Codec.Util;
+using Xrpl.BinaryCodecLib.Hashing;
+using Xrpl.BinaryCodecLib.Types;
+using Xrpl.BinaryCodecLib.Util;
 using System.Numerics;
-using Xrpl.Client.Exceptions;
-using Xrpl.Client.Models.Methods;
-using static Xrpl.Client.Models.Common.Common;
+using Xrpl.ClientLib.Exceptions;
+using Xrpl.Models.Methods;
+using static Xrpl.Models.Common.Common;
 using System.Diagnostics;
 using System.Text;
 using System.Linq;
@@ -81,19 +81,19 @@ namespace Xrpl.Utils
         /// <summary>
         /// Convert Drops to XRP.
         /// </summary>
-        /// <param name="dropsToConvert" Drops to convert to XRP. This can be a string, number, or BigNumber.
+        /// <param name="dropsToConvert"> Drops to convert to XRP. This can be a string, number, or BigNumber.</param>
         /// <returns
         public static string DropsToXrp(double dropsToConvert)
         {
             return DropsToXrp(dropsToConvert.ToString());
         }
 
-            /// <summary>
-            /// Convert Drops to XRP.
-            /// </summary>
-            /// <param name="dropsToConvert" Drops to convert to XRP. This can be a string, number, or BigNumber.
-            /// <returns
-            public static string DropsToXrp(string dropsToConvert)
+        /// <summary>
+        /// Convert Drops to XRP.
+        /// </summary>
+        /// <param name="dropsToConvert"> Drops to convert to XRP. This can be a string, number, or BigNumber.</param>
+        /// <returns
+        public static string DropsToXrp(string dropsToConvert)
         {
             /*
             * Converting to BigNumber and then back to string should remove any
@@ -137,7 +137,7 @@ namespace Xrpl.Utils
         /// <summary>
         /// Convert Drops to XRP.
         /// </summary>
-        /// <param name="dropsToConvert" Drops to convert to XRP. This can be a string, number, or BigNumber.
+        /// <param name="dropsToConvert"> Drops to convert to XRP. This can be a string, number, or BigNumber.</param>
         /// <returns
         public static string XrpToDrops(double xrpToConvert)
         {
@@ -147,7 +147,7 @@ namespace Xrpl.Utils
         /// <summary>
         /// Convert an amount in XRP to an amount in drops.
         /// </summary>
-        /// <param name="xrpToConvert" Amount in XRP.
+        /// <param name="xrpToConvert">Amount in XRP.</param>
         /// <returns Amount in drops.
         public static string XrpToDrops(string xrpToConvert)
         {

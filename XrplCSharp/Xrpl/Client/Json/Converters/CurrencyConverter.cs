@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Xrpl.Client.Models.Common;
+using Xrpl.Models.Common;
 
-namespace Xrpl.Client.Json.Converters
+namespace Xrpl.ClientLib.Json.Converters
 {
     public class CurrencyConverter : JsonConverter
     {

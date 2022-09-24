@@ -2,7 +2,7 @@
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/hashes/SHAMap/index.ts
 
-namespace XrplCSharp.Xrpl.Utils.Hashes.ShaMap
+namespace Xrpl.Utils.Hashes.ShaMap
 {
     public class SHAMap
     {

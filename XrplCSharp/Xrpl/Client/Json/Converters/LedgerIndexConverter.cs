@@ -1,8 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Xrpl.Client.Models.Common;
+using Xrpl.Models.Common;
 
-namespace Xrpl.Client.Json.Converters
+namespace Xrpl.ClientLib.Json.Converters
 {
     public class LedgerIndexConverter : JsonConverter
     {

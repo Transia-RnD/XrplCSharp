@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using System.Transactions;
 using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Asn1.Ocsp;
-using Ripple.Binary.Codec;
-using Xrpl.Client;
-using Xrpl.Client.Exceptions;
-using Xrpl.Client.Models.Methods;
-using Xrpl.Client.Models.Transactions;
-using Xrpl.XrplWallet;
+using Xrpl.BinaryCodecLib;
+using Xrpl.ClientLib;
+using Xrpl.ClientLib.Exceptions;
+using Xrpl.Models.Methods;
+using Xrpl.Models.Transactions;
+using Xrpl.WalletLib;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/submit.ts
 
@@ -29,7 +29,7 @@ namespace Xrpl.Sugar
         /// <param name="wallet">A wallet to sign a transaction. It must be provided when submitting an unsigned transaction.</param>
         /// <returns>A Wallet derived from a seed.</returns>
         public static async Task<Submit> Submit(
-            IRippleClient client,
+            IClient client,
             Dictionary<string, dynamic> transaction,
             bool autofill = false,
             bool failHard = false,
@@ -41,7 +41,7 @@ namespace Xrpl.Sugar
         }
 
         // Encodes and submits a signed transaction.
-        public static async Task<Submit> SubmitRequest(IRippleClient client, string signedTransaction, bool failHard)
+        public static async Task<Submit> SubmitRequest(IClient client, string signedTransaction, bool failHard)
         {
             //if (!isSigned(signedTransaction)) {
             //    throw new ValidationError('Transaction must be signed')
@@ -65,7 +65,7 @@ namespace Xrpl.Sugar
         /// <param name="wallet">A wallet to sign a transaction. It must be provided when submitting an unsigned transaction.</param>
         /// <returns>A Wallet derived from a seed.</returns>
         public static async Task<string> GetSignedTx(
-            IRippleClient client,
+            IClient client,
             Dictionary<string, dynamic> transaction,
             bool autofill = false,
             bool failHard = false,

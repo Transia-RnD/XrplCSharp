@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Ripple.Binary.Codec;
-using Ripple.Binary.Codec.Hashing;
-using Ripple.Binary.Codec.Types;
-using Ripple.Binary.Codec.Util;
-using Xrpl.Client.Exceptions;
+using Xrpl.BinaryCodecLib;
+using Xrpl.BinaryCodecLib.Hashing;
+using Xrpl.BinaryCodecLib.Types;
+using Xrpl.BinaryCodecLib.Util;
+using Xrpl.ClientLib.Exceptions;
+using Xrpl.AddressCodecLib;
+using static Xrpl.AddressCodecLib.Utils;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/hashes/hashLedger.ts
 
@@ -22,7 +24,7 @@ namespace Xrpl.Utils.Hashes
             {
                 new ValidationError("The transaction must be signed to hash it.");
             }
-            return B16.Encode(Sha512.Half(input: Ripple.Address.Codec.Utils.FromHexToBytes(txBlob), prefix: (uint)HashPrefix.TransactionId));
+            return B16.Encode(Sha512.Half(input: FromHexToBytes(txBlob), prefix: (uint)HashPrefix.TransactionId));
         }
 
         public static string HashSignedTx(JToken tx)
@@ -33,7 +35,7 @@ namespace Xrpl.Utils.Hashes
             {
                 new ValidationError("The transaction must be signed to hash it.");
             }
-            return B16.Encode(Sha512.Half(input: Ripple.Address.Codec.Utils.FromHexToBytes(txBlob), prefix: (uint)HashPrefix.TransactionId));
+            return B16.Encode(Sha512.Half(input: FromHexToBytes(txBlob), prefix: (uint)HashPrefix.TransactionId));
         }
     }
 }

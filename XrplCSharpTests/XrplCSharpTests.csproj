@@ -3,7 +3,7 @@
   <PropertyGroup>
     <!-- <TargetFramework>netstandard2.0</TargetFramework> -->
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>XrplCSharpTests</RootNamespace>
+    <RootNamespace>XrplTests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,26 +23,6 @@
     <None Remove="Ripple-Keypairs-Tests\Properties\" />
     <None Remove="Xrpl-Tests\Client-Tests\Properties\" />
     <None Remove="Xrpl-Tests\Client-Tests\TestData\" />
-    <None Remove="Ripple.Binary.Codec.Tests\Fixtures\" />
-    <None Remove="Xrpl.Tests\Integration\" />
-    <None Remove="Ripple.Keypairs.Tests\Fixtures\" />
-    <None Remove="Xrpl.Tests\Wallet.Tests\RequestFixtures\" />
-    <None Remove="Xrpl.Tests\Utils\" />
-    <None Remove="Xrpl.Tests\Models\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Ripple.Address.Codec.Tests\" />
-    <Folder Include="Ripple.Binary.Codec.Tests\" />
-    <Folder Include="Ripple.Keypairs.Tests\" />
-    <Folder Include="Xrpl.Tests\" />
-    <Folder Include="Xrpl.Tests\Wallet.Tests\" />
-    <Folder Include="Ripple.Keypairs.Tests\Properties\" />
-    <Folder Include="Ripple.Binary.Codec.Tests\Fixtures\" />
-    <Folder Include="Xrpl.Tests\Integration\" />
-    <Folder Include="Ripple.Keypairs.Tests\Fixtures\" />
-    <Folder Include="Xrpl.Tests\Wallet.Tests\RequestFixtures\" />
-    <Folder Include="Xrpl.Tests\Utils\" />
-    <Folder Include="Xrpl.Tests\Models\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
@@ -55,23 +35,19 @@
     <ProjectReference Include="..\XrplCSharp\XrplCSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Ripple-Binary-Codec-Tests\Properties\Resources.Designer.cs" />
-    <Compile Remove="Xrpl.Tests\Integration\requests\accountInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Ripple-Binary-Codec-Tests\Properties\Resources.resx">
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="AddressCodec\Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Ripple-Keypairs-Tests\Properties\Resources.resx">
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="BinaryCodec\Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Xrpl-Tests\Client-Tests\Properties\Resources.resx">
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Keypairs\Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Ripple.Keypairs.Tests\Properties\Resources.resx">
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Xrpl\Properties\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -81,7 +57,7 @@
     <None Include="..\.editorconfig" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Ripple.Keypairs.Tests\Properties\Resources.Designer.cs">
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Keypairs.Tests\Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>

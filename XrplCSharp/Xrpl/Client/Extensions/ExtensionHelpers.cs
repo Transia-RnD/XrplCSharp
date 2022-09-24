@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace Xrpl.Client.Extensions
+namespace Xrpl.ClientLib.Extensions
 {
     public static class ExtensionHelpers
     {

@@ -1,11 +1,11 @@
 ﻿//using System;
 //using System.Diagnostics;
 //using System.Threading.Tasks;
-//using Xrpl.Client;
-//using Xrpl.Client.Exceptions;
-//using Xrpl.Client.Models.Common;
-//using Xrpl.Client.Models.Ledger;
-//using Xrpl.Client.Models.Methods;
+//using Xrpl;
+//using Xrpl.ClientLib.Exceptions;
+//using Xrpl.Models.Common;
+//using Xrpl.Models.Ledger;
+//using Xrpl.Models.Methods;
 //using System.Numerics;
 
 //// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/getFeeXrp.ts
@@ -23,7 +23,7 @@
 //        /// <param name="client">The Client used to connect to the ledger.</param>
 //        /// <param name="cushion"></param>
 //        // <returns>The most recently validated ledger index.</returns>
-//        public async static Task<string> GetFeeXrp(IRippleClient client, double? cushion = null)
+//        public async static Task<string> GetFeeXrp(IClient client, double? cushion = null)
 //        {
 
 //            //double feeCushion = cushion ?? client.feeCushion;

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Xrpl.Client;
-using Xrpl.Client.Models.Common;
-using Xrpl.Client.Models.Ledger;
-using Xrpl.Client.Models.Methods;
+using Xrpl.ClientLib;
+using Xrpl.Models.Common;
+using Xrpl.Models.Ledger;
+using Xrpl.Models.Methods;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/getLedgerIndex.ts
 
@@ -17,7 +17,7 @@ namespace Xrpl.Sugar
         /// </summary>
         /// <param name="client">The Client used to connect to the ledger.</param>
         // <returns>The most recently validated ledger index.</returns>
-        public async static Task<uint> GetLedgerIndex(IRippleClient client)
+        public async static Task<uint> GetLedgerIndex(IClient client)
         {
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Current);
             LedgerRequest request = new LedgerRequest() { LedgerIndex = index };

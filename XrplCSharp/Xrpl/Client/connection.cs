@@ -4,7 +4,7 @@ using System.Net.WebSockets;
 
 // https://github.com/XRPLF/xrpl.js/blob/76b73e16a97e1a371261b462ee1a24f1c01dbb0c/packages/xrpl/src/client/connection.ts#L388
 
-namespace Xrpl.Client
+namespace Xrpl.ClientLib
 {
     public class connection
     {

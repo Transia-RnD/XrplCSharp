@@ -3,7 +3,7 @@
   <PropertyGroup>
     <!-- <TargetFramework>netstandard2.0</TargetFramework> -->
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>XrplCSharp</RootNamespace>
+    <RootNamespace>Xrpl</RootNamespace>
     <PackOnBuild>true</PackOnBuild>
     <Authors>Chris Will, Denis Angell</Authors>
     <Owners>Xrpl Foundation</Owners>

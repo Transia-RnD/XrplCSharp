@@ -4,24 +4,24 @@ using System.Transactions;
 using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Utilities;
 using Org.BouncyCastle.Utilities.Encoders;
-using Ripple.Address.Codec;
-using Ripple.Binary.Codec;
-using Ripple.Binary.Codec.Enums;
-using Ripple.Binary.Codec.Transactions;
-using Ripple.Binary.Codec.Types;
-using Ripple.Binary.Codec.Util;
-using Ripple.Keypairs;
-using Xrpl.Client.Exceptions;
-using Xrpl.Client.Models.Transactions;
-using Ripple.Keypairs.Extensions;
+using Xrpl.AddressCodecLib;
+using Xrpl.BinaryCodecLib;
+using Xrpl.BinaryCodecLib.Enums;
+using Xrpl.BinaryCodecLib.Transactions;
+using Xrpl.BinaryCodecLib.Types;
+using Xrpl.BinaryCodecLib.Util;
+using Xrpl.KeypairsLib;
+using Xrpl.ClientLib.Exceptions;
+using Xrpl.Models.Transactions;
 using Org.BouncyCastle.Math;
 using System.Diagnostics;
-using static Ripple.Address.Codec.B58;
+using static Xrpl.AddressCodecLib.B58;
+using IKeypairs = Xrpl.KeypairsLib.Keypairs;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/Wallet/signer.ts
 
-namespace Xrpl.XrplWallet
+namespace Xrpl.WalletLib
 {
     public class Signer
     {
@@ -75,7 +75,7 @@ namespace Xrpl.XrplWallet
             json.Add("channel", channelID);
             json.Add("amount", amount);
             string signatureData = BinaryCodec.EncodeForSigningClaim(json);
-            return Keypairs.Sign(signatureData.FromHex(), wallet.PrivateKey);
+            return IKeypairs.Sign(signatureData.FromHex(), wallet.PrivateKey);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Xrpl.XrplWallet
         public static bool VerifySignature(Dictionary<string, dynamic> tx)
         {
             Dictionary<string, dynamic> decodedTx = GetDecodedTransaction(tx);
-            return Keypairs.Verify(
+            return IKeypairs.Verify(
               BinaryCodec.EncodeForSigning(decodedTx).FromHex(),
               decodedTx["TxnSignature"],
               decodedTx["SigningPubKey"]
@@ -101,7 +101,7 @@ namespace Xrpl.XrplWallet
         public static bool VerifySignature(string tx)
         {
             Dictionary<string, dynamic> decodedTx = GetDecodedTransaction(tx);
-            return Keypairs.Verify(
+            return IKeypairs.Verify(
               BinaryCodec.EncodeForSigning(decodedTx).FromHex(),
               decodedTx["TxnSignature"],
               decodedTx["SigningPubKey"]

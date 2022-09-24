@@ -1,10 +1,10 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
-using Ripple.Binary.Codec;
-using Ripple.Binary.Codec.Hashing;
-using Ripple.Binary.Codec.Util;
+using Xrpl.BinaryCodecLib;
+using Xrpl.BinaryCodecLib.Hashing;
+using Xrpl.BinaryCodecLib.Util;
 using System.Collections.Generic;
-using Xrpl.Client.Exceptions;
+using Xrpl.ClientLib.Exceptions;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/hashes/index.ts
 
@@ -21,7 +21,7 @@ namespace Xrpl.Utils.Hashes
             //{
             //    new ValidationError("The transaction must be signed to hash it.");
             //}
-            //return B16.Encode(Sha512.Half(input: Ripple.Address.Codec.Utils.FromHexToBytes(txBlob), prefix: (uint)HashPrefix.TransactionId));
+            //return B16.Encode(Sha512.Half(input: Address.Codec.Utils.FromHexToBytes(txBlob), prefix: (uint)HashPrefix.TransactionId));
         }
     }
 }

@@ -52,7 +52,7 @@ dotnet test --no-build --verbosity normal --filter "TestI"
 
 ## Generate reference docs
 
-You can see the complete reference documentation at [`XrplCSharp` docs](https://c.xrpl.org). You can also generate them locally using `docfx`
+You can see the complete reference documentation at [`XrplCSharp` docs](https://c.xrpl.org). You can also generate them locally using `cd DocFx && docfx`
 
 This updates `docs/` at the top level, where GitHub Pages looks for the docs.
 

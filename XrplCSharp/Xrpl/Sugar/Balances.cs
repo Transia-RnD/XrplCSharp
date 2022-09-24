@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
-using Xrpl.Client;
-using Xrpl.Client.Models.Common;
-using Xrpl.Client.Models.Ledger;
-using Xrpl.Client.Models.Methods;
+using Xrpl.ClientLib;
+using Xrpl.Models.Common;
+using Xrpl.Models.Ledger;
+using Xrpl.Models.Methods;
 using Xrpl.Utils;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/balances.ts
@@ -22,7 +22,7 @@ namespace Xrpl.Sugar
         /// <param name="lederIndex">Retrieve the account balances at a given ledgerIndex.</param>
         /// <param name="ledgerHash">Retrieve the account balances at the ledger with a given ledger_hash.</param>
         /// <returns/> The XRP balance of the account (as a string).
-        public static async Task<string> GetXrpBalance(RippleClient client, string address, string? ledgerHash = null, LedgerIndex? lederIndex = null)
+        public static async Task<string> GetXrpBalance(Client client, string address, string? ledgerHash = null, LedgerIndex? lederIndex = null)
         {
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Validated);
             AccountInfoRequest xrpRequest = new AccountInfoRequest(address) {

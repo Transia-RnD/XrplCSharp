@@ -15,9 +15,9 @@ using RippleDotNet.Requests.Account;
 To xrpl.c
 
 ```
-using Xrpl.Client;
-using Xrpl.Client.Model.Account;
-using Xrpl.Client.Requests.Account;
+using Xrpl;
+using Xrpl.Model.Account;
+using Xrpl.Requests.Account;
 ```
 
 From Ripple.Core
@@ -29,7 +29,7 @@ using Ripple.Core.Types;
 To xrpl.c
 
 ```
-using Ripple.Binary.Codec.Types;
+using Xrpl.BinaryCodecLib.Types;
 ```
 
 ### Wallet previously known as (Ripple.Signing)
@@ -56,5 +56,5 @@ using Ripple.TxSigning;
 To xrpl.c
 
 ```
-using Ripple.Keypairs;
+using Xrpl.KeypairsLib;
 ```

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Xrpl.Client.Extensions
+namespace Xrpl.ClientLib.Extensions
 {
     public static class EnumerableExtensions
     {

@@ -3,7 +3,7 @@
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/derive.ts
 
 
-namespace XrplCSharp.Xrpl.Utils
+namespace Xrpl.Utils
 {
     public class Derive
     {

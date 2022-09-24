@@ -1,0 +1,45 @@
+﻿using System;
+using Newtonsoft.Json;
+using Xrpl.ClientLib.Json.Converters;
+using Xrpl.Models;
+
+
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/ledger/Escrow.ts
+
+namespace Xrpl.Models.Ledger
+{
+    public class LOEscrow : BaseLedgerEntry
+    {
+        public LOEscrow()
+        {
+            LedgerEntryType = LedgerEntryType.Escrow;
+        }
+
+        public string Account { get; set; }
+
+        public string Destination { get; set; }
+
+        public string Amount { get; set; }
+
+        //https://tools.ietf.org/html/draft-thomas-crypto-conditions-02#section-8.1
+        public string Condition { get; set; }
+
+        [JsonConverter(typeof(RippleDateTimeConverter))]
+        public DateTime? CancelAfter { get; set; }
+
+        [JsonConverter(typeof(RippleDateTimeConverter))]
+        public DateTime? FinishAfter { get; set; }
+
+        public uint? SourceTag { get; set; }
+
+        public uint? DestinationTag { get; set; }
+
+        public string OwnerNode { get; set; }
+
+        public string DestinationNode { get; set; }
+
+        public string PreviousTxnID { get; set; }
+
+        public uint PreviousTxnLgrSeq { get; set; }
+    }
+}
