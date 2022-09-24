@@ -33,7 +33,7 @@ namespace Xrpl.Client.Models.Transactions
 
         public new PaymentFlags? Flags { get; set; }
 
-        public string InvoiceId { get; set; }
+        public string InvoiceID { get; set; }
 
         public List<List<Path>> Paths { get; set; }
 
@@ -51,7 +51,7 @@ namespace Xrpl.Client.Models.Transactions
         string Destination { get; set; }
         uint? DestinationTag { get; set; }
         new PaymentFlags? Flags { get; set; }
-        string InvoiceId { get; set; }
+        string InvoiceID { get; set; }
         List<List<Path>> Paths { get; set; }
         Currency SendMax { get; set; }
     }
@@ -67,7 +67,7 @@ namespace Xrpl.Client.Models.Transactions
 
         public new PaymentFlags? Flags { get; set; }
 
-        public string InvoiceId { get; set; }
+        public string InvoiceID { get; set; }
 
         public List<List<Path>> Paths { get; set; }
 
