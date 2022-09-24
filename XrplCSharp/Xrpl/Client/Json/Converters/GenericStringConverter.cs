@@ -30,5 +30,4 @@ namespace Xrpl.ClientLib.Json.Converters
         /// <inheritdoc />
         public override bool CanConvert(Type objectType) => objectType == typeof(T);
     }
-    }
 }
