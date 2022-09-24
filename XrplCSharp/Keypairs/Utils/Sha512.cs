@@ -1,6 +1,8 @@
 ﻿using System;
 using Org.BouncyCastle.Crypto.Digests;
 
+//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-keypairs/src/Sha512.ts
+
 namespace Xrpl.KeypairsLib.Utils
 {
     public class Sha512

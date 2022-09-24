@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using Org.BouncyCastle.Math;
 
+//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-keypairs/src/secp256k1.ts
+
 namespace Xrpl.KeypairsLib.K256
 {
 
@@ -24,10 +26,7 @@ namespace Xrpl.KeypairsLib.K256
             this.S = s;
         }
 
-        public static bool IsStrictlyCanonical(byte[] sig)
-        {
-            return CheckIsCanonical(sig, true);
-        }
+        public static bool IsStrictlyCanonical(byte[] sig) => CheckIsCanonical(sig, true);
 
         public static bool CheckIsCanonical(byte[] sig, bool strict)
         {
@@ -43,7 +42,7 @@ namespace Xrpl.KeypairsLib.K256
 
             int sigLen = sig.Length;
 
-            if ((sigLen < 8) || (sigLen > 72))
+            if (sigLen is < 8 or > 72)
             {
                 return false;
             }
@@ -56,14 +55,14 @@ namespace Xrpl.KeypairsLib.K256
             // Find R and check its length
             int rPos = 4, rLen = sig[rPos - 1];
 
-            if ((rLen < 1) || (rLen > 33) || ((rLen + 7) > sigLen))
+            if (rLen is < 1 or > 33 || ((rLen + 7) > sigLen))
             {
                 return false;
             }
 
             // Find S and check its length
             int sPos = rLen + 6, sLen = sig[sPos - 1];
-            if ((sLen < 1) || (sLen > 33) || ((rLen + sLen + 6) != sigLen))
+            if (sLen is < 1 or > 33 || ((rLen + sLen + 6) != sigLen))
             {
                 return false;
             }

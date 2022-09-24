@@ -1,16 +1,8 @@
-using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Signers;
 using Org.BouncyCastle.Math.EC;
-using Xrpl.KeypairsLib.Utils;
-using Org.BouncyCastle.Math;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.X509;
-using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Asn1.Sec;
-using Org.BouncyCastle.Asn1.X9;
-using Org.BouncyCastle.Utilities.Encoders;
-using System.Diagnostics;
+
+//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-keypairs/src/secp256k1.ts
 
 namespace Xrpl.KeypairsLib.K256
 {
@@ -51,7 +43,7 @@ namespace Xrpl.KeypairsLib.K256
             Verifier.Init(false, parameters);
         }
 
-        static public bool Verify(byte[] signature, byte[] message, byte[] publicKey)
+        public static bool Verify(byte[] signature, byte[] message, byte[] publicKey)
         {
             ECDsaSigner verifier = new ECDsaSigner();
             ECPublicKeyParameters parameters = new ECPublicKeyParameters(Secp256K1.Curve().DecodePoint(publicKey), Secp256K1.Parameters());

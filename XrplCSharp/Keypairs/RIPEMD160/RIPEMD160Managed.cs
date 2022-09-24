@@ -11,9 +11,7 @@
 //   https://homes.esat.kuleuven.be/~bosselae/ripemd160.html) the legal license
 //   status of this code is not clear. 
 
-using System;
 using System.Linq;
-using System.Text;
 
 namespace System.Security.Cryptography
 {
@@ -134,7 +132,7 @@ namespace System.Security.Cryptography
         }
 
         /// initializes MDbuffer to "magic constants"
-        static public void MDinit(ref uint[] MDbuf)
+        public static void MDinit(ref uint[] MDbuf)
         {
             MDbuf[0] = (uint)0x67452301;
             MDbuf[1] = (uint)0xefcdab89;
@@ -145,7 +143,7 @@ namespace System.Security.Cryptography
 
         ///  the compression function.
         ///  transforms MDbuf using message bytes X[0] through X[15]
-        static public void compress(ref uint[] MDbuf, uint[] X)
+        public static void compress(ref uint[] MDbuf, uint[] X)
         {
             uint aa = MDbuf[0];
             uint bb = MDbuf[1];
