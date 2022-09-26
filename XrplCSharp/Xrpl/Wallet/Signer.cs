@@ -74,7 +74,9 @@ namespace Xrpl.WalletLib
             Dictionary<string, dynamic> json = new Dictionary<string, dynamic>();
             json.Add("channel", channelID);
             json.Add("amount", amount);
+            Debug.WriteLine(json);
             string signatureData = BinaryCodec.EncodeForSigningClaim(json);
+            Debug.WriteLine(signatureData);
             return IKeypairs.Sign(signatureData.FromHex(), wallet.PrivateKey);
         }
 

@@ -19,6 +19,15 @@ namespace Xrpl.BinaryCodecLib.Types
         public Uint16(ushort value) : base(value)
         {
         }
+
+        /// <summary>
+        /// create instance of this value
+        /// </summary>
+        /// <param name="value">byte value</param>
+        public Uint16(byte value) : base(value)
+        {
+        }
+
         /// <summary> Deserialize Uint16 </summary>
         /// <param name="token">json token</param>
         /// <returns>Uint16 value</returns>
@@ -32,6 +41,12 @@ namespace Xrpl.BinaryCodecLib.Types
 
         /// <inheritdoc />
         public override byte[] ToBytes() => Bits.GetBytes(Value);
+
+        /// <summary>
+        /// create instance of this value
+        /// </summary>
+        /// <param name="v">int value</param>
+        public static Uint16 FromValue(int v) => new Uint16((byte)v);
 
         /// <summary>
         /// Construct a Uint16 from a BinaryParser

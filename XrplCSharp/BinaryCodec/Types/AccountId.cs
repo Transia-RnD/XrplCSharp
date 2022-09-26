@@ -1,8 +1,10 @@
 using System;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using Xrpl.AddressCodecLib;
 using Xrpl.BinaryCodecLib.Binary;
 using Xrpl.BinaryCodecLib.Util;
+using Xrpl.KeypairsLib;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/account-id.ts
 
@@ -14,6 +16,8 @@ namespace Xrpl.BinaryCodecLib.Types
     /// </summary>
     public class AccountId : Hash160
     {
+        static string HEX_REGEX = @"^[A-F0-9]{40}$";
+
         private string _encoded;
 
         private string Encoded
@@ -84,6 +88,19 @@ namespace Xrpl.BinaryCodecLib.Types
 
         public static readonly AccountId Zero = 0;
         public static readonly AccountId Neutral = 1;
+
+        /// <summary> create instance from binary parser</summary>
+        /// <param name="parser">parser</param>
+        /// <param name="hint"></param>
+        public static AccountId FromValue(string value)
+        {
+            Regex rg = new Regex(HEX_REGEX);
+            if (rg.Match(value).Success)
+            {
+                return new AccountId(value.FromHex());
+            }
+            return new AccountId(XrplCodec.DecodeAccountID(value));
+        }
 
         /// <summary> create instance from binary parser</summary>
         /// <param name="parser">parser</param>
