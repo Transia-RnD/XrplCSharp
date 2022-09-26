@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+
 using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
-using Xrpl.Models.Ledger;
 
 namespace Xrpl.Models.Ledger
 {
