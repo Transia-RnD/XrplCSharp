@@ -10,9 +10,9 @@ namespace Xrpl.Models.Methods;
 /// The response follows the standard format, with a successful result containing no fields.<br/>
 /// https://xrpl.org/unsubscribe.html
 /// </summary>
-public class UnSubscribeRequest : SubscribeBase
+public class UnsubscribeRequest : SubscribeBase
 {
-    public UnSubscribeRequest()
+    public UnsubscribeRequest()
     {
         Command = "unsubscribe";
     }
