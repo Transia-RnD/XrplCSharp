@@ -13,7 +13,7 @@ namespace Xrpl.ClientLib.Extensions
         /// <param name="selector">function to check collection</param>
         /// <returns>true, if predicate one of of collection element is true</returns>
         [DebuggerStepThrough]
-        public static bool Contains<T>(this IEnumerable<T> collection, Func<T, bool> selector) =>
+        public static bool ContainsElement<T>(this IEnumerable<T> collection, Func<T, bool> selector) =>
             collection switch
             {
                 T[] objArray => objArray.Any(selector),
