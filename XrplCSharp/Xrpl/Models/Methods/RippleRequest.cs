@@ -14,10 +14,14 @@ namespace Xrpl.Models.Methods
         {
             Id = id;
         }
-
+        /// <summary>
+        /// request id
+        /// </summary>
         [JsonProperty("id")]
         public Guid Id { get; set; }
-
+        /// <summary>
+        /// request command type
+        /// </summary>
         [JsonProperty("command")]
         public string Command { get; set; }
     }
