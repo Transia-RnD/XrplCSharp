@@ -273,6 +273,9 @@ namespace Xrpl.ClientLib
         public event OnErrorResponse OnError;
         public event OnRippleResponse OnResponse;
 
+        /// <summary> Current web socket client state </summary>
+        public WebSocketState SocketState => client.State;
+
         public readonly string url;
         private readonly WebSocketClient client;
         private readonly ConcurrentDictionary<Guid, TaskInfo> tasks;
