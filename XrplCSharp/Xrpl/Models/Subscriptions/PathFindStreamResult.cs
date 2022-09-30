@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Xrpl.Models.Methods;
-
+//https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/pathFind.ts
+//https://github.com/XRPLF/xrpl.js/blob/b20c05c3680d80344006d20c44b4ae1c3b0ffcac/packages/xrpl/src/models/methods/subscribe.ts#L382
 namespace Xrpl.Models.Subscriptions;
 
-public class PathFindStreamResult
+public class PathFindStreamResult //todo rename to PathFindResponse extends BaseResponse
 {
     /// <summary>
     /// result type (path_find)
@@ -38,7 +39,7 @@ public class PathFindStreamResult
     /// The ID provided in the WebSocket request is included again at this level.
     /// </summary>
     [JsonProperty("Id")]
-    public Guid Id { get; set; }
+    public Guid? Id { get; set; }
     /// <summary>
     /// Currency Amount that would be spent in the transaction.
     /// </summary>
@@ -51,11 +52,20 @@ public class PathFindStreamResult
 
     public List<AlternativePath> Alternatives { get; set; }
 }
-
-public class AlternativePath
+/// <summary>
+/// object with suggested paths to take, as described below.
+/// </summary>
+public class AlternativePath //todo rename to PathOption 
 {
+    /// <summary>
+    /// Array of arrays of objects defining payment paths.
+    /// </summary>
     [JsonProperty("alternatives")]
     public List<Path> PathsComputed { get; set; }
+    /// <summary>
+    /// Currency Amount that the source would have to send along this path for the.<br/>
+    /// Destination to receive the desired amount.
+    /// </summary>
     [JsonProperty("source_amount")]
     public decimal SourceAmount { get; set; }
 }
