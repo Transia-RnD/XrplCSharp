@@ -4,7 +4,7 @@ using Xrpl.ClientLib.Json.Converters;
 using Xrpl.Models.Transactions;
 
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/accountTx.ts
-
+//https://xrpl.org/account_tx.html
 namespace Xrpl.Models.Methods
 {
     /// <summary>
@@ -88,6 +88,18 @@ namespace Xrpl.Models.Methods
     /// The account_tx method retrieves a list of transactions that involved the  specified account.<br/>
     /// Expects a response in the form of a  <see cref="AccountTransactions"/>.
     /// </summary>
+    /// <code>
+    /// {
+    /// 	"id": 2,
+    /// 	"command": "account_tx",
+    /// 	"account": "rLNaPoKeeBjZe2qs6x52yVPZpZ8td4dc6w",
+    /// 	"ledger_index_min": -1,
+    /// 	"ledger_index_max": -1,
+    /// 	"binary": false,
+    /// 	"limit": 2,
+    /// 	"forward": false
+    /// }
+    /// </code>
     public class AccountTransactionsRequest : BaseLedgerRequest
     {
         public AccountTransactionsRequest(string account)

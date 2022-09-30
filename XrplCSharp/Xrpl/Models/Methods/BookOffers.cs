@@ -29,6 +29,18 @@ namespace Xrpl.Models.Methods
     /// Book, between two currencies.<br/>
     /// Returns an  <see cref="BookOffers"/>.
     /// </summary>
+    /// <code>
+    /// {
+    /// 	"id": 4,
+    /// 	"command": "book_offers",
+    /// 	"taker": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+    /// 	"taker_gets":{
+    /// 	"currency": "XRP"},
+    /// 	"taker_pays":{
+    /// 	"currency": "USD",
+    /// 	"issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"},
+    /// 	"limit": 10}
+    /// </code>
     public class BookOffersRequest : BaseLedgerRequest
     {
         public BookOffersRequest()

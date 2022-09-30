@@ -91,6 +91,13 @@ namespace Xrpl.Models.Methods
     /// <summary>
     /// The `account_nfts` method retrieves all of the NFTs currently owned by the  specified account.
     /// </summary>
+    /// <code>
+    /// {
+    /// 	"command": "account_nfts",
+    /// 	"account": "rsuHaTvJh1bDmDoxX9QcKP7HEBSBt4XsHx",
+    /// 	"ledger_index": "validated"
+    /// }
+    /// </code>
     public class AccountNFTsRequest : BaseLedgerRequest
     {
         public AccountNFTsRequest(string account)

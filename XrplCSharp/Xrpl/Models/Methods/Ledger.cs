@@ -8,6 +8,18 @@ namespace Xrpl.Models.Methods
     /// Retrieve information about the public ledger.<br/>
     /// Expects a response in the form.
     /// </summary>
+    /// <code>
+    /// ```ts  const ledger: LedgerRequest = {
+    ///     "id": 14,
+    ///     "command": "ledger",
+    ///     "ledger_index": "validated",
+    ///     "full": false,
+    ///     "accounts": false,
+    ///     "transactions": false,
+    ///     "expand": false,
+    ///     "owner_funds": false
+    /// }  ```.
+    /// </code>
     public class LedgerRequest : BaseLedgerRequest
     {
         public LedgerRequest()

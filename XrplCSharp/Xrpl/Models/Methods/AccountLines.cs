@@ -151,6 +151,13 @@ namespace Xrpl.Models.Methods
     /// All information  retrieved is relative to a particular version of the ledger.<br/>
     /// Expects an <see cref="AccountLines"/>.
     /// </summary>
+    /// <code>
+    /// {
+    /// 	"id": 1,
+    /// 	"command": "account_lines",
+    /// 	"account": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59"
+    /// }
+    /// </code>
     public class AccountLinesRequest : BaseLedgerRequest
     {
         public AccountLinesRequest(string account)

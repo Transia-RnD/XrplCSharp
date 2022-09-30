@@ -49,6 +49,16 @@ namespace Xrpl.Models.Methods
     /// The gateway_balances command calculates the total balances issued by a given  account, optionally excluding amounts held by operational addresses.<br/>
     /// Expects  a response in the form of a <see cref="GatewayBalances"/>.
     /// </summary>
+    /// <code>
+    /// ```ts  const gatewayBalances: GatewayBalanceRequest = {
+    ///     "id": "example_gateway_balances_1",
+    ///     "command": "gateway_balances",
+    ///     "account": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q",
+    ///     "strict": true,
+    ///     "hotwallet": ["rKm4uWpg9tfwbVSeATv4KxDe6mpE9yPkgJ","ra7JkEzrgeKHdzKgo4EUUVBnxggY4z37kt"],
+    ///     "ledger_index": "validated"
+    /// }  ```.
+    /// </code>
     public class GatewayBalancesRequest : BaseLedgerRequest
     {
         public GatewayBalancesRequest(string account)

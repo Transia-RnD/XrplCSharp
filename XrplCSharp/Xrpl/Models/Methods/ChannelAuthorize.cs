@@ -17,6 +17,16 @@ namespace Xrpl.Models.Methods
     /// Otherwise, eavesdroppers could use your secret key to sign claims and take all the money from this payment channel and anything else using the same key pair.<br/>
     /// See Set Up Secure Signing for instructions.<br/>
     /// </summary>
+    /// <code>
+    /// {
+    /// 	"id": "channel_authorize_example_id1",
+    /// 	"command": "channel_authorize",
+    /// 	"channel_id": "5DB01B7FFED6B67E6B0414DED11E051D2EE2B7619CE0EAA6286D67A3A4D5BDB3",
+    /// 	"seed": "s████████████████████████████",
+    /// 	"key_type": "secp256k1",
+    /// 	"amount": "1000000",
+    /// }
+    /// </code>
     public class ChannelAuthorizeRequest : RippleRequest
     {
         public ChannelAuthorizeRequest()

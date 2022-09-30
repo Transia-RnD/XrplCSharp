@@ -119,6 +119,16 @@ namespace Xrpl.Models.Methods
     /// The `account_info` command retrieves information about an account, its activity, and its XRP balance.<br/>
     /// All information retrieved is relative to a particular version of the ledger. Returns an <see cref="AccountInfo"/>.
     /// </summary>
+    /// <code>
+    /// {
+    /// 	"id": 2,
+    /// 	"command": "account_info",
+    /// 	"account": "rG1QQv2nh2gr7RCZ1P8YYcBUKCCN633jCn",
+    /// 	"strict": true,
+    /// 	"ledger_index": "current",
+    /// 	"queue": true
+    /// }
+    /// </code>
     public class AccountInfoRequest : BaseLedgerRequest
     {
         public AccountInfoRequest(string account)

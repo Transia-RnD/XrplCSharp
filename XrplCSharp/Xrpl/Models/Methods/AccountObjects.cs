@@ -63,6 +63,17 @@ namespace Xrpl.Models.Methods
     /// For a higher-level view of an account's trust lines and  balances, see the account_lines method instead.<br/>
     /// Expects a response in the  form of an <see cref="AccountObjects"/>.
     /// </summary>
+    /// <code>
+    /// {
+    /// 	"id": 8,
+    /// 	"command": "account_objects",
+    /// 	"account": "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+    /// 	"ledger_index": "validated",
+    /// 	"type": "state",
+    /// 	"deletion_blockers_only": false,
+    /// 	"limit": 10
+    /// }
+    /// </code>
     public class AccountObjectsRequest : BaseLedgerRequest
     {
         public AccountObjectsRequest(string account)

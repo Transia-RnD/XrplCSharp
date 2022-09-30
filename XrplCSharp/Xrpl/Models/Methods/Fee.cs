@@ -10,6 +10,11 @@ namespace Xrpl.Models.Methods
     /// This requires the FeeEscalation amendment to be  enabled.<br/>
     /// Expects a response in the form of a <see cref="Fee"/>.
     /// </summary>
+    /// <code>
+    /// ```ts  const feeRequest: FeeRequest = {
+    ///     command: 'fee'
+    /// }  ```.
+    /// </code>
     public class FeeRequest : RippleRequest
     {
         public FeeRequest()

@@ -92,6 +92,13 @@ namespace Xrpl.Models.Methods
     /// The account_offers method retrieves a list of offers made by a given account  that are outstanding as of a particular ledger version.<br/>
     /// Expects a response in  the form of a <see cref="AccountOffers"/>.
     /// </summary>
+    /// <code>
+    /// {
+    /// 	"id": 9,
+    /// 	"command": "account_offers",
+    /// 	"account": "rpP2JgiMyTF5jR5hLG3xHCPi1knBb1v9cM"
+    /// }
+    /// </code>
     public class AccountOffersRequest : BaseLedgerRequest
     {
         public AccountOffersRequest(string account)

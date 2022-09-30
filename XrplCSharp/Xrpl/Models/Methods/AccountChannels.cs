@@ -130,8 +130,17 @@ namespace Xrpl.Models.Methods
     /// This includes only channels where the specified account is the channel's source, not the destination.<br/>
     /// (A channel's "source" and "owner" are the same.)<br/>
     /// All information retrieved is relative to a particular version of the ledger.<br/>
-    /// Returns an <see cref="AccountChannels"/> .<br/>
+    /// Returns an <see cref="AccountChannels"/>.
     /// </summary>
+    /// <code>
+    /// {
+    /// 	"id": 1,
+    /// 	"command": "account_channels",
+    /// 	"account": "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+    /// 	"destination_account": "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+    /// 	"ledger_index": "validated"
+    /// }
+    /// </code>
     public class AccountChannelsRequest : BaseLedgerRequest
     {
         public AccountChannelsRequest(string account)

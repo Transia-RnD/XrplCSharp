@@ -52,7 +52,7 @@ namespace Xrpl.Models.Ledger
     /// A ledger is a block of transactions and shared state data.<br/>
     /// It has a unique header that describes its contents using cryptographic hashes.
     /// </summary>
-    public class LedgerEntity : BaseLedgerEntity
+    public class LedgerEntity : BaseLedgerEntity //todo rename to Ledger https://github.com/XRPLF/xrpl.js/blob/b20c05c3680d80344006d20c44b4ae1c3b0ffcac/packages/xrpl/src/models/ledger/Ledger.ts#L11
     {
         /// <summary>
         /// The SHA-512Half of this ledger's state tree information.
