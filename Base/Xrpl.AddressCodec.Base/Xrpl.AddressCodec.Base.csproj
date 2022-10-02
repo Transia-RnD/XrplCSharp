@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- <TargetFramework>netstandard2.0</TargetFramework> -->
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Xrpl</RootNamespace>
+    <PackOnBuild>true</PackOnBuild>
+    <Authors>Chris Will, Denis Angell</Authors>
+    <Owners>Xrpl Foundation</Owners>
+    <Description>A C# library to interact with the XRP Ledger (XRPL) blockchain</Description>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageLicenseUrl>https://github.com/Transia-RnD/XrplCSharp/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Transia-RnD/XrplCSharp</PackageProjectUrl>
+    <Title>XrplCSharp</Title>
+    <PackageVersion>2.0.0</PackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\net6.0\XrplCSharp.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+    <PackageReference Include="Chaos.NaCl.Standard" Version="1.0.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+  </ItemGroup>
+</Project>
