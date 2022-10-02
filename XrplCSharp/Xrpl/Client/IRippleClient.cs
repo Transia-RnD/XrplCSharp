@@ -121,6 +121,7 @@ namespace Xrpl.ClientLib
             {
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             } while (client.State != WebSocketState.Open);
+            Debug.WriteLine("OPEN");
         }
         /// <inheritdoc />
         public void Disconnect()

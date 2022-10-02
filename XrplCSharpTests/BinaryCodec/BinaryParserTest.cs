@@ -28,15 +28,15 @@ namespace XrplTests.BinaryCodecTests
             //Assert.AreEqual(testBytes[3:5], nextNBytes);
         }
 
-        [TestMethod]
-        public void TestIntReadMethods()
-        {
-            string test_hex = "01000200000003";
-            BufferParser binaryParser = new BufferParser(test_hex);
+        //[TestMethod]
+        //public void TestIntReadMethods()
+        //{
+        //    string test_hex = "01000200000003";
+        //    BufferParser binaryParser = new BufferParser(test_hex);
 
-            var int8 = binaryParser.Read;
-            Assert.AreEqual(firstByte, testBytes[0]);
-        }
+        //    var int8 = binaryParser.Read;
+        //    Assert.AreEqual(firstByte, testBytes[0]);
+        //}
     }
 }
 
