@@ -74,7 +74,9 @@ namespace Xrpl.WalletLib
             Dictionary<string, dynamic> json = new Dictionary<string, dynamic>();
             json.Add("channel", channelID);
             json.Add("amount", amount);
+            Debug.WriteLine(json);
             string signatureData = BinaryCodec.EncodeForSigningClaim(json);
+            Debug.WriteLine(signatureData);
             return IKeypairs.Sign(signatureData.FromHex(), wallet.PrivateKey);
         }
 
@@ -86,6 +88,9 @@ namespace Xrpl.WalletLib
         public static bool VerifySignature(Dictionary<string, dynamic> tx)
         {
             Dictionary<string, dynamic> decodedTx = GetDecodedTransaction(tx);
+            Debug.WriteLine(BinaryCodec.EncodeForSigning(decodedTx).FromHex().ToHex());
+            Debug.WriteLine((string)decodedTx["TxnSignature"]);
+            Debug.WriteLine((string)decodedTx["SigningPubKey"]);
             return IKeypairs.Verify(
               BinaryCodec.EncodeForSigning(decodedTx).FromHex(),
               decodedTx["TxnSignature"],

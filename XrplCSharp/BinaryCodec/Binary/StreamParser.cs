@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 
-//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/serdes/binary-parser.ts#L9
-
 namespace Xrpl.BinaryCodecLib.Binary
 {
     /// <inheritdoc />
@@ -33,6 +31,12 @@ namespace Xrpl.BinaryCodecLib.Binary
 
         /// <inheritdoc />
         public override byte ReadOne()
+        {
+            return Read(1)[0];
+        }
+
+        /// <inheritdoc />
+        public override byte Peek()
         {
             return Read(1)[0];
         }

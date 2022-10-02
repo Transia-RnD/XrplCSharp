@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Transactions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -91,7 +92,7 @@ namespace XrplTests.Xrpl.WalletLib
         static string publicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
         static string privateKey = "00141BA006D3363D2FB2785E8DF4E44D3A49908780CB4FB51F6D217C08C021429F";
         static string address = "rhvh5SrgBL5V8oeV9EpDuVszeJSSCEkbPc";
-        Wallet verifyWallet = new Wallet(publicKey, privateKey);
+        Wallet verifyWallet = new Wallet(publicKey, privateKey, address);
 
         static Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
         {
@@ -179,6 +180,7 @@ namespace XrplTests.Xrpl.WalletLib
         public void TestVerifySignatureJson()
         {
             SignatureResult signedTx = verifyWallet.Sign(tx);
+            Debug.WriteLine(signedTx.TxBlob);
             Assert.IsTrue(Signer.VerifySignature(BinaryCodec.Decode(signedTx.TxBlob).ToObject<Dictionary<string, dynamic>>()));
         }
 
@@ -192,4 +194,3 @@ namespace XrplTests.Xrpl.WalletLib
         }
     }
 }
-

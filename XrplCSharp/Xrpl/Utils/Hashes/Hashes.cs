@@ -5,6 +5,7 @@ using Xrpl.BinaryCodecLib.Hashing;
 using Xrpl.BinaryCodecLib.Util;
 using System.Collections.Generic;
 using Xrpl.ClientLib.Exceptions;
+using System.Diagnostics;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/hashes/index.ts
 
@@ -14,6 +15,7 @@ namespace Xrpl.Utils.Hashes
     {
         public static string HashPaymentChannel(string address, string dstAddress, int sequence)
         {
+            Debug.WriteLine("FAILING HERE");
             return "";
             //string txBlob = BinaryCodec.Encode(tx);
             //Dictionary<string, dynamic> txObject = tx.ToObject<Dictionary<string, dynamic>>();

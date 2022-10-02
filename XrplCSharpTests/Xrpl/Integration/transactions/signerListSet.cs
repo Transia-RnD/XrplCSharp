@@ -40,7 +40,6 @@ namespace XrplTests.Xrpl.ClientLib.Integration
                 SignerQuorum = 2,
                 SignerEntries = { signer1, signer2 }
             };
-            Debug.WriteLine(setupTx.ToJson());
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);
         }

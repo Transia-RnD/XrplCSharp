@@ -47,7 +47,6 @@ namespace XrplTests.Xrpl.ClientLib.Integration
                 CancelAfter = closeTime.AddSeconds(3),
                 FinishAfter = closeTime.AddSeconds(2),
             };
-            Debug.WriteLine(setupTx.ToJson());
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);
 

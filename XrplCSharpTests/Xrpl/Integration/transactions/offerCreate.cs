@@ -42,7 +42,6 @@ namespace XrplTests.Xrpl.ClientLib.Integration
                     Value = "10",
                 }
             };
-            Debug.WriteLine(setupTx.ToJson());
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);
 

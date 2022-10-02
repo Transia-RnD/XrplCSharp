@@ -100,9 +100,7 @@ namespace Xrpl.Utils
             * decimal point followed by zeros, e.g. '1.00'.
             * Important: specify base BASE_10 to avoid exponential notation, e.g. '1e-7'.
             */
-            Debug.WriteLine($"CONVERTING FROM: {dropsToConvert}");
             string drops = BigInteger.Parse(dropsToConvert, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent).ToRadixString(BASE_TEN);
-            Debug.WriteLine($"DROPS: {drops}");
             // check that the value is valid and actually a number
             if (!(dropsToConvert is string) && drops != null)
             {
@@ -155,7 +153,6 @@ namespace Xrpl.Utils
             Debug.WriteLine($"CONVERTING FROM: {xrpToConvert}");
             // TODO: SHOULD BE BASE 10
             string xrp = decimal.Parse(xrpToConvert, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent).ToString();
-            Debug.WriteLine($"XRP: {xrp}");
             // check that the value is valid and actually a number
             if (!(xrpToConvert is string) && xrp != null)
             {
@@ -165,18 +162,15 @@ namespace Xrpl.Utils
             // drops are only whole units
 
             string[] components = xrp.TrimEnd('0').Split(".");
-            Debug.WriteLine($"COMPONENTS: {components.Length}");
             if (components.Length > 2)
             {
                 throw new ValidationError("xrpToDrops: failed sanity check - value '${xrp}' has too many decimal points.");
             }
             string fraction = components.Length > 1 && components[1] != null ? components[1] : "0";
-            Debug.WriteLine($"FRACTION LENGTH: {fraction.Length}");
             if (fraction.Length > MAX_FRACTION_LENGTH)
             {
                 throw new ValidationError($"xrpToDrops: value '{xrp}' has too many decimal places.");
             }
-            Debug.WriteLine($"FRACTION: {fraction}");
             // TODO: SHOULD BE BASE 10
             return new BigInteger(decimal.Parse(xrpToConvert, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent) * (decimal)new BigInteger(DROPS_PER_XRP)).ToString();
         }

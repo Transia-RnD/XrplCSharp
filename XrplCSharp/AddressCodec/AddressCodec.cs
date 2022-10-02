@@ -1,6 +1,8 @@
 using Xrpl.AddressCodecLib;
 
 using System;
+using System.Diagnostics;
+using Xrpl.KeypairsLib;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/index.ts
@@ -20,14 +22,14 @@ namespace Xrpl.AddressCodecLib
         public class CodecAddress
         {
             public string ClassicAddress { get; set; }
-            public int Tag { get; set; }
+            public int? Tag { get; set; }
             public bool Test { get; set; }
         }
 
         public class CodecAccountID
         {
             public byte[] AccountID { get; set; }
-            public int Tag { get; set; }
+            public int? Tag { get; set; }
             public bool Test { get; set; }
         }
 
@@ -51,7 +53,7 @@ namespace Xrpl.AddressCodecLib
         /// <returns>The X-Address representation of the data.</returns>
         /// <throws>XRPLAddressCodecException: If the classic address does not have enough bytes
         /// or the tag is invalid.</throws>
-        public static string ClassicAddressToXAddress(string classicAddress, int tag, bool isTest)
+        public static string ClassicAddressToXAddress(string classicAddress, int? tag, bool isTest)
         {
             byte[] accountId = XrplCodec.DecodeAccountID(accountId: classicAddress);
             return EncodeXAddress(accountId, tag, isTest);
@@ -76,7 +78,7 @@ namespace Xrpl.AddressCodecLib
                 throw new AddressCodecException("Invalid tag");
             }
             int theTag = tag ?? 0;
-            int flags = tag == null ? 0 : 1;
+            int flags = tag == null ? 0x00 : 0x01;
             byte[] prefix = isTest ? PREFIX_BYTES_TEST : PREFIX_BYTES_MAIN;
             byte[] postbytes = {
                 (byte)flags,
@@ -118,7 +120,7 @@ namespace Xrpl.AddressCodecLib
             byte[] decoded = B58.Decode(xAddress);
             bool isTest = IsTestAddress(decoded);
             byte[] accountId = CopyOfRange(decoded, 2, 22);
-            int tag = TagFromBuffer(decoded);
+            int? tag = TagFromBuffer(decoded);
             return new CodecAccountID { AccountID = accountId, Tag = tag, Test = isTest };
         }
 
@@ -131,11 +133,11 @@ namespace Xrpl.AddressCodecLib
         public static bool IsTestAddress(byte[] buf)
         {
             byte[] decodedPrefix = CopyOfRange(buf, 0, 2);
-            if (PREFIX_BYTES_MAIN == decodedPrefix)
+            if (PREFIX_BYTES_MAIN.ToHex() == decodedPrefix.ToHex())
             {
                 return false;
             }
-            if (PREFIX_BYTES_TEST == decodedPrefix)
+            if (PREFIX_BYTES_TEST.ToHex() == decodedPrefix.ToHex())
             {
                 return true;
             }
@@ -148,7 +150,7 @@ namespace Xrpl.AddressCodecLib
         /// <param buffer="bytes[]"></param>
         /// <returns>The destination tag extracted from the suffix of the X-Address.</returns>
         /// <throws>XRPLAddressCodecException: If the address is unsupported.</throws>
-        public static int TagFromBuffer(byte[] buf)
+        public static int? TagFromBuffer(byte[] buf)
         {
             byte flag = buf[22];
             if (flag >= 2)
@@ -166,7 +168,7 @@ namespace Xrpl.AddressCodecLib
             //  Buffer.from('0000000000000000', 'hex').equals(buf.slice(23, 23 + 8)),
             //'remaining bytes must be zero',
             //)
-            return -1;
+            return null;
         }
 
         /// <summary>
