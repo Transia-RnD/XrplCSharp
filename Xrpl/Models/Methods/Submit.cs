@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Xrpl.Models.Transactions;
+using Xrpl.Models.Transaction;
 
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/submit.ts
 namespace Xrpl.Models.Methods

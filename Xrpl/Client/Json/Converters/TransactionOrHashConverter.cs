@@ -1,9 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Xrpl.Models.Ledger;
-using Xrpl.Models.Transactions;
+using Xrpl.Models.Transaction;
 
-namespace Xrpl.ClientLib.Json.Converters
+namespace Xrpl.Client.Json.Converters
 {
     /// <summary> Hash Or Transaction json converter </summary>
     public class TransactionOrHashConverter : JsonConverter

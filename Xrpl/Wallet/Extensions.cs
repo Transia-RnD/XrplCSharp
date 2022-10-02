@@ -1,7 +1,7 @@
 ﻿using Xrpl.BinaryCodecLib.Hashing;
 using Xrpl.BinaryCodecLib.Util;
 
-namespace Xrpl.WalletLib
+namespace Xrpl.Wallet
 {
     internal static class Extensions
     {

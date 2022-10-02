@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xrpl.ClientLib.Exceptions
+namespace Xrpl.Client.Exceptions
 {
     public class RippleException : Exception
     {

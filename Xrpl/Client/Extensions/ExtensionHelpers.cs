@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace Xrpl.ClientLib.Extensions
+namespace Xrpl.Client.Extensions
 {
     public static class ExtensionHelpers
     {

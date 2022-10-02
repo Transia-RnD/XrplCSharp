@@ -6,8 +6,8 @@ using Newtonsoft.Json;
 using Xrpl.Models.Common;
 using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
-using Xrpl.Models.Transactions;
-using Xrpl.WalletLib;
+using Xrpl.Models.Transaction;
+using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/escrowCreate.ts
 
@@ -36,7 +36,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             LedgerEntity ledgerEntity = (LedgerEntity)ledgerResponse.LedgerEntity;
             DateTime closeTime = ledgerEntity.CloseTime;
 
-            Wallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
+            XrplWallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
             EscrowCreate setupTx = new EscrowCreate
             {
                 Account = runner.wallet.ClassicAddress,

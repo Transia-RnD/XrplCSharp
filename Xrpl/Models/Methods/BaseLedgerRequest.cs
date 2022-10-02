@@ -1,6 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Xrpl.ClientLib.Json.Converters;
+using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
 
 namespace Xrpl.Models.Methods

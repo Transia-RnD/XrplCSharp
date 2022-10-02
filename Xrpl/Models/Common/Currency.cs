@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 using System.Globalization;
-
-using Xrpl.ClientLib.Extensions;
+using Xrpl.Client.Extensions;
 
 //https://xrpl.org/currency-formats.html#currency-formats
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/common/index.ts

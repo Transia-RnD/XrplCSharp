@@ -1,15 +1,15 @@
-﻿using Xrpl.KeypairsLib;
-using Xrpl.BinaryCodecLib;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using Xrpl.Utils.Hashes;
-using Xrpl.ClientLib.Exceptions;
 using Xrpl.AddressCodecLib;
+using Xrpl.BinaryCodecLib;
+using Xrpl.Client.Exceptions;
+using Xrpl.KeypairsLib;
+using Xrpl.Utils.Hashes;
 using IKeypairs = Xrpl.KeypairsLib.Keypairs;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/Wallet/index.ts
 
-namespace Xrpl.WalletLib
+namespace Xrpl.Wallet
 {
     public class SignatureResult
     {
@@ -23,7 +23,7 @@ namespace Xrpl.WalletLib
         }
     }
 
-    public class Wallet
+    public class XrplWallet
     {
 
         public static string DEFAULT_ALGORITHM = "ed25519";
@@ -40,7 +40,7 @@ namespace Xrpl.WalletLib
         /// <param name="privateKey">The private key used for signing transactions for the account.</param>
         /// <param name="masterAddress">Include if a Wallet uses a Regular Key Pair. It must be the master address of the account.</param>
         /// <param name="seed">The seed used to derive the account keys.</param>
-        public Wallet(string publicKey, string privateKey, string? masterAddress = null, string? seed = null)
+        public XrplWallet(string publicKey, string privateKey, string? masterAddress = null, string? seed = null)
         {
             this.PublicKey = publicKey;
             this.PrivateKey = privateKey;
@@ -53,10 +53,10 @@ namespace Xrpl.WalletLib
         /// </summary>
         /// <param name="algorithm">The digital signature algorithm to generate an address for.</param>
         /// <returns>A new Wallet derived from a generated seed.</returns>
-        public static Wallet Generate(string algorithm = "ed25519")
+        public static XrplWallet Generate(string algorithm = "ed25519")
         {
             string seed = IKeypairs.GenerateSeed(null, algorithm);
-            return Wallet.FromSeed(seed, null, algorithm);
+            return XrplWallet.FromSeed(seed, null, algorithm);
         }
         /// <summary>
         /// Derives a wallet from a seed.
@@ -65,9 +65,9 @@ namespace Xrpl.WalletLib
         /// <param name="algorithm">The digital signature algorithm to generate an address for.</param>
         /// <param name="masterAddress">Include if a Wallet uses a Regular Key Pair. It must be the master address of the account.</param>
         /// <returns>A Wallet derived from a seed.</returns>
-        public static Wallet FromSeed(string seed, string? masterAddress = null, string? algorithm = null)
+        public static XrplWallet FromSeed(string seed, string? masterAddress = null, string? algorithm = null)
         {
-            return Wallet.DeriveWallet(seed, masterAddress, algorithm);
+            return XrplWallet.DeriveWallet(seed, masterAddress, algorithm);
         }
         /// <summary>
         /// An array of random numbers to generate a seed used to derive a wallet.
@@ -75,11 +75,11 @@ namespace Xrpl.WalletLib
         /// <param name="algorithm">The digital signature algorithm to generate an address for.</param>
         /// <param name="masterAddress">Include if a Wallet uses a Regular Key Pair. It must be the master address of the account.</param>
         /// <returns>A Wallet derived from an entropy.</returns>
-        public static Wallet FromEntropy(byte[] entropy, string? masterAddress = null, string? algorithm = null)
+        public static XrplWallet FromEntropy(byte[] entropy, string? masterAddress = null, string? algorithm = null)
         {
-            string falgorithm = algorithm != null ? algorithm : Wallet.DEFAULT_ALGORITHM;
+            string falgorithm = algorithm != null ? algorithm : XrplWallet.DEFAULT_ALGORITHM;
             string seed = IKeypairs.GenerateSeed(entropy, falgorithm);
-            return Wallet.DeriveWallet(seed, masterAddress, falgorithm);
+            return XrplWallet.DeriveWallet(seed, masterAddress, falgorithm);
         }
 
         /// <summary>
@@ -89,10 +89,10 @@ namespace Xrpl.WalletLib
         /// <param name="algorithm">The digital signature algorithm to generate an address for.</param>
         /// <param name="masterAddress">Include if a Wallet uses a Regular Key Pair. It must be the master address of the account.</param>
         /// <returns>A Wallet derived from the seed.</returns>
-        private static Wallet DeriveWallet(string seed, string? masterAddress = null, string? algorithm = null)
+        private static XrplWallet DeriveWallet(string seed, string? masterAddress = null, string? algorithm = null)
         {
             IKeyPair keypair = IKeypairs.DeriveKeypair(seed, algorithm);
-            return new Wallet(keypair.Id(), keypair.Pk(), masterAddress, seed);
+            return new XrplWallet(keypair.Id(), keypair.Pk(), masterAddress, seed);
         }
 
         /// <summary>

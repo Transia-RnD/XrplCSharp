@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xrpl.ClientLib.Exceptions;
+using Xrpl.Client.Exceptions;
 using Xrpl.Utils;
 
 // https://github.com/XrpLF/xrpl.js/blob/main/packages/xrpl/test/utils/dropsToXrp.ts

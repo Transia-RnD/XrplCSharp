@@ -1,16 +1,14 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-
-using Xrpl.ClientLib.Json.Converters;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
 using Xrpl.Models.Methods;
 
 //https://github.com/XRPLF/xrpl.js/blob/b20c05c3680d80344006d20c44b4ae1c3b0ffcac/packages/xrpl/src/models/methods/bookOffers.ts#L51
 
-namespace Xrpl.Models.Transactions
+namespace Xrpl.Models.Transaction
 {
     /// <summary>
     /// There are several options which can be either enabled or disabled when an OfferCreate transaction creates an offer object.<br/>

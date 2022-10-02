@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using Org.BouncyCastle.Math;
 using Xrpl.AddressCodecLib;
 using Xrpl.BinaryCodecLib;
-using Xrpl.KeypairsLib;
-using Xrpl.ClientLib.Exceptions;
-using Org.BouncyCastle.Math;
-using System.Diagnostics;
+using Xrpl.Client.Exceptions;
 using IKeypairs = Xrpl.KeypairsLib.Keypairs;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/Wallet/signer.ts
 
-namespace Xrpl.WalletLib
+namespace Xrpl.Wallet
 {
     public class Signer
     {
@@ -58,7 +57,7 @@ namespace Xrpl.WalletLib
         /// <param name="channelID">An id for the payment channel to redeem XRP from.</param>
         /// <param name="amount">The amount in drops to redeem.</param>
         /// <returns>A signature that can be used to redeem a specific amount of XRP from a payment channel.</returns>
-        public static string AuthorizeChannel(Wallet wallet, string channelID, string amount)
+        public static string AuthorizeChannel(XrplWallet wallet, string channelID, string amount)
         {
             Dictionary<string, dynamic> json = new Dictionary<string, dynamic>();
             json.Add("channel", channelID);

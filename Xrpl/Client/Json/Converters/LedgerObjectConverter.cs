@@ -1,13 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-using System;
-
 using Xrpl.Models.Ledger;
 
-
-
-namespace Xrpl.ClientLib.Json.Converters
+namespace Xrpl.Client.Json.Converters
 {
     /// <summary>
     /// <see cref="BaseLedgerEntry"/> json converter

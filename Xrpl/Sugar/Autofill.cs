@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Xrpl.AddressCodecLib;
-using Xrpl.ClientLib;
-using Xrpl.ClientLib.Exceptions;
 using Xrpl.Models.Common;
 using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
 using System.Numerics;
 using static Xrpl.AddressCodecLib.AddressCodec;
 using System.Collections.Generic;
+using Xrpl.Client;
+using Xrpl.Client.Exceptions;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/autofill.ts
 
@@ -36,7 +36,7 @@ namespace Xrpl.Sugar
         /// <param name="transaction">A {@link Transaction} in JSON format</param>
         /// <param name="signersCount">The expected number of signers for this transaction. Only used for multisigned transactions.</param>
         // <returns>The autofilled transaction.</returns>
-        public static async Task<Dictionary<string, dynamic>> Autofill(IClient client, Dictionary<string, dynamic> transaction, int? signersCount)
+        public static async Task<Dictionary<string, dynamic>> Autofill(IXrplClient client, Dictionary<string, dynamic> transaction, int? signersCount)
         {
             Dictionary<string, dynamic> tx = transaction;
 
@@ -128,7 +128,7 @@ namespace Xrpl.Sugar
             }
         }
 
-        public static async Task SetNextValidSequenceNumberAsync(IClient client, Dictionary<string, dynamic> tx)
+        public static async Task SetNextValidSequenceNumberAsync(IXrplClient client, Dictionary<string, dynamic> tx)
         {
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Current);
             AccountInfoRequest request = new AccountInfoRequest((string)tx["Account"]) { LedgerIndex = index };
@@ -136,7 +136,7 @@ namespace Xrpl.Sugar
             tx["Sequence"] = data.AccountData.Sequence;
         }
 
-        public static async Task<BigInteger> FetchAccountDeleteFee(IClient client)
+        public static async Task<BigInteger> FetchAccountDeleteFee(IXrplClient client)
         {
             ServerInfoRequest request = new ServerInfoRequest();
             ServerInfo data = await client.ServerInfo(request);
@@ -151,7 +151,7 @@ namespace Xrpl.Sugar
 
         // ....
 
-        public static async Task SetLatestValidatedLedgerSequence(IClient client, Dictionary<string, dynamic> tx)
+        public static async Task SetLatestValidatedLedgerSequence(IXrplClient client, Dictionary<string, dynamic> tx)
         {
             uint ledgerSequence = await client.GetLedgerIndex();
             tx["LastLedgerSequence"] = ledgerSequence + LEDGER_OFFSET;

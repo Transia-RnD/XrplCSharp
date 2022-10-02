@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using Newtonsoft.Json;
 using Xrpl.AddressCodecLib;
-using Xrpl.ClientLib.Exceptions;
+using Xrpl.Client.Exceptions;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/createMockRippled.ts
 

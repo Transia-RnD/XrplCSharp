@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Xrpl.ClientLib.Json.Converters;
-using Xrpl.Models.Transactions;
+using Xrpl.Client.Json.Converters;
+using Xrpl.Models.Transaction;
 
 namespace Xrpl.Models.Ledger
 {

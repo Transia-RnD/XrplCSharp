@@ -2,7 +2,7 @@
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/depositPreauth.ts
 
-namespace Xrpl.Models.Transactions
+namespace Xrpl.Models.Transaction
 {
     public class DepositPreauth : TransactionCommon, IDepositPreauth
     {

@@ -2,7 +2,7 @@
 using System.Globalization;
 
 using Newtonsoft.Json;
-using Xrpl.ClientLib.Extensions;
+using Xrpl.Client.Extensions;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/accountLines.ts
 

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xrpl.BinaryCodecLib;
-using Xrpl.WalletLib;
+using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/wallet/signer.ts
 
@@ -87,7 +87,7 @@ namespace XrplTests.Xrpl.WalletLib
         static string publicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
         static string privateKey = "00141BA006D3363D2FB2785E8DF4E44D3A49908780CB4FB51F6D217C08C021429F";
         static string address = "rhvh5SrgBL5V8oeV9EpDuVszeJSSCEkbPc";
-        Wallet verifyWallet = new Wallet(publicKey, privateKey, address);
+        XrplWallet verifyWallet = new XrplWallet(publicKey, privateKey, address);
 
         static Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
         {
@@ -143,7 +143,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestAuthorizeChannelSECP()
         {
-            Wallet secpWallet = Wallet.FromSeed("snGHNrPbHrdUcszeuDEigMdC1Lyyd");
+            XrplWallet secpWallet = XrplWallet.FromSeed("snGHNrPbHrdUcszeuDEigMdC1Lyyd");
             string channelId = "5DB01B7FFED6B67E6B0414DED11E051D2EE2B7619CE0EAA6286D67A3A4D5BDB3";
             string amount = "1000000";
             Assert.AreEqual(
@@ -155,7 +155,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestAuthorizeChannelED()
         {
-            Wallet edWallet = Wallet.FromSeed("sEdSuqBPSQaood2DmNYVkwWTn1oQTj2");
+            XrplWallet edWallet = XrplWallet.FromSeed("sEdSuqBPSQaood2DmNYVkwWTn1oQTj2");
             string channelId = "5DB01B7FFED6B67E6B0414DED11E051D2EE2B7619CE0EAA6286D67A3A4D5BDB3";
             string amount = "1000000";
             Assert.AreEqual(

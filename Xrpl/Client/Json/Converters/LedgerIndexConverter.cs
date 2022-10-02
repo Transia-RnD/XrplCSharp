@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Xrpl.Models.Common;
 
-namespace Xrpl.ClientLib.Json.Converters
+namespace Xrpl.Client.Json.Converters
 {
     /// <summary>
     /// <see cref="LedgerIndex"/> json converter

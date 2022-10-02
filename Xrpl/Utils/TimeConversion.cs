@@ -2,7 +2,7 @@
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/timeConversion.ts
 
-namespace XrplCSharp.Xrpl.Utils
+namespace Xrpl.Utils
 {
     public static class TimeConversion
     {

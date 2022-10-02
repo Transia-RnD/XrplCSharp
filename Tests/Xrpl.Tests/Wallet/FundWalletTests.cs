@@ -3,9 +3,9 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Timers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xrpl.ClientLib;
-using Xrpl.ClientLib.Exceptions;
-using Xrpl.WalletLib;
+using Xrpl.Client;
+using Xrpl.Client.Exceptions;
+using Xrpl.Wallet;
 
 namespace XrplTests.Xrpl.WalletLib
 {
@@ -16,9 +16,9 @@ namespace XrplTests.Xrpl.WalletLib
         public async Task TestUFaucetHostsAsync()
         {
             string serverUrl = "wss://s.altnet.rippletest.net:51233";
-            Client client = new Client(serverUrl);
+            XrplClient client = new XrplClient(serverUrl);
             client.Connect();
-            Wallet wallet = Wallet.Generate();
+            XrplWallet wallet = XrplWallet.Generate();
             await WalletSugar.FundWallet(client, wallet);
         }
     }
@@ -33,7 +33,7 @@ namespace XrplTests.Xrpl.WalletLib
 
         private static double _originalBalance;
         private static string _address;
-        private static Client _client;
+        private static XrplClient _client;
 
         private static async void OnTimedEventAsync(Object source, ElapsedEventArgs e)
         {
@@ -79,7 +79,7 @@ namespace XrplTests.Xrpl.WalletLib
         }
 
         public static async Task<double> GetUpdatedBalance(
-            Client client,
+            XrplClient client,
             string address,
             double originalBalance
         )
@@ -104,9 +104,9 @@ namespace XrplTests.Xrpl.WalletLib
         public async Task TestUTimer()
         {
             string serverUrl = "wss://s.altnet.rippletest.net:51233";
-            Client client = new Client(serverUrl);
+            XrplClient client = new XrplClient(serverUrl);
             client.Connect();
-            Wallet wallet = Wallet.Generate();
+            XrplWallet wallet = XrplWallet.Generate();
             await GetUpdatedBalance(client, wallet.ClassicAddress, 0);
         }
     }

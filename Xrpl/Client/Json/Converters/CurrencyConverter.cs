@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xrpl.Models.Common;
 
-namespace Xrpl.ClientLib.Json.Converters
+namespace Xrpl.Client.Json.Converters
 {
     /// <summary> currency json converter </summary>
     public class CurrencyConverter : JsonConverter

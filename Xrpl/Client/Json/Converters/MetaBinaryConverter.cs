@@ -1,10 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
+using Xrpl.Models.Transaction;
 
-using System;
-
-using Xrpl.Models.Transactions;
-
-namespace Xrpl.ClientLib.Json.Converters
+namespace Xrpl.Client.Json.Converters
 {
     /// <summary> <see cref="Meta"/> json converter </summary>
     public class MetaBinaryConverter : JsonConverter

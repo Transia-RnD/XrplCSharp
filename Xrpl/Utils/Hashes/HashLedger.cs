@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using Xrpl.BinaryCodecLib;
 using Xrpl.BinaryCodecLib.Hashing;
 using Xrpl.BinaryCodecLib.Util;
-using Xrpl.ClientLib.Exceptions;
+using Xrpl.Client.Exceptions;
 using static Xrpl.AddressCodecLib.Utils;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/hashes/hashLedger.ts

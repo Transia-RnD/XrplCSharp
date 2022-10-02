@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xrpl.ClientLib;
 using Xrpl.Models.Methods;
-using Xrpl.Models.Transactions;
-using Xrpl.WalletLib;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Xrpl.Client;
+using Xrpl.Models.Transaction;
 using Xrpl.Utils.Hashes;
+using Xrpl.Wallet;
 using ICurrency = Xrpl.Models.Common.Currency;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/utils.ts
@@ -21,14 +21,14 @@ namespace XrplTests.Xrpl.ClientLib.Integration
         private static string masterAccount = "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh";
         private static string masterSecret = "snoPBrXtMeMyMHUVTgbuqAfg1SUTb";
 
-        public static async Task LedgerAccept(IClient client)
+        public static async Task LedgerAccept(IXrplClient client)
         {
             var request = new RippleRequest { Command = "ledger_accept" };
             //await client.connection.request(request);
             await client.AnyRequest(request);
         }
 
-        public static async Task FundAccount(IClient client, Wallet wallet)
+        public static async Task FundAccount(IXrplClient client, XrplWallet wallet)
         {
             Payment payment = new Payment
             {
@@ -37,7 +37,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
                 Amount = new ICurrency { Value = "400000000", CurrencyCode = "XRP" }
             };
             var values = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(payment.ToJson());
-            Submit response = await client.Submit(values, Wallet.FromSeed(masterSecret));
+            Submit response = await client.Submit(values, XrplWallet.FromSeed(masterSecret));
             if (response.EngineResult != "tesSUCCESS")
             {
                 throw new Exception("Response not successful, ${ response.result.engine_result}");
@@ -47,14 +47,14 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             await VerifySubmittedTransaction(client, response.TxJson);
         }
 
-        public static async Task<Wallet> GenerateFundedWallet(IClient client)
+        public static async Task<XrplWallet> GenerateFundedWallet(IXrplClient client)
         {
-            Wallet wallet = Wallet.Generate();
+            XrplWallet wallet = XrplWallet.Generate();
             await FundAccount(client, wallet);
             return wallet;
         }
 
-        public static async Task VerifySubmittedTransaction(IClient client, JToken tx, string? hashTx = null)
+        public static async Task VerifySubmittedTransaction(IXrplClient client, JToken tx, string? hashTx = null)
         {
             string hash = hashTx != null ? hashTx : HashLedger.HashSignedTx(tx);
             TxRequest request = new TxRequest(hash);
@@ -81,7 +81,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
               //}
         }
 
-        public static async Task TestTransaction(IClient client, Dictionary<string, dynamic> transaction, Wallet wallet)
+        public static async Task TestTransaction(IXrplClient client, Dictionary<string, dynamic> transaction, XrplWallet wallet)
         {
             await LedgerAccept(client);
             Submit response = await client.Submit(transaction, wallet);

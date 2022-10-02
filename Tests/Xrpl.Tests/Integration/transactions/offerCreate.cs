@@ -4,8 +4,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Xrpl.Models.Common;
 using Xrpl.Models.Methods;
-using Xrpl.Models.Transactions;
-using Xrpl.WalletLib;
+using Xrpl.Models.Transaction;
+using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/offerCreate.ts
 
@@ -28,7 +28,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
         public async Task TestRequestMethod()
         {
 
-            Wallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
+            XrplWallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
             OfferCreate setupTx = new OfferCreate
             {
                 Account = runner.wallet.ClassicAddress,

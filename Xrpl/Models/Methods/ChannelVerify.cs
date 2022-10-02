@@ -1,6 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Xrpl.ClientLib.Json.Converters;
+using Xrpl.Client.Json.Converters;
 
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/channelVerify.ts
 

@@ -5,7 +5,7 @@
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xrpl.Models.Methods;
-using Xrpl.Models.Transactions;
+using Xrpl.Models.Transaction;
 
 namespace XrplTests.Xrpl.ClientLib.Integration
 {

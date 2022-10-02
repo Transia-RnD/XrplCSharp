@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Xrpl.ClientLib
+namespace Xrpl.Client
 {
     //credit: https://github.com/Badiboy/WebSocketWrapper/blob/master/WebSocketWrapper.cs
     internal class WebSocketClient : IDisposable

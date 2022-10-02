@@ -2,7 +2,7 @@
 using Xrpl.Models.Methods;
 
 //https://github.com/XRPLF/xrpl.js/blob/b20c05c3680d80344006d20c44b4ae1c3b0ffcac/packages/xrpl/src/models/methods/submit.ts#L28
-namespace Xrpl.Models.Transactions
+namespace Xrpl.Models.Transaction
 {
     /// <summary>
     /// Response expected from a  <see cref="SubmitRequest"/>.

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 using System.Timers;
 using Newtonsoft.Json;
 using Xrpl.AddressCodecLib;
-using Xrpl.ClientLib;
-using Xrpl.ClientLib.Exceptions;
+using Xrpl.Client;
+using Xrpl.Client.Exceptions;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/Wallet/fundWallet.ts
 
-namespace Xrpl.WalletLib
+namespace Xrpl.Wallet
 {
     public static class EasyTimer
     {
@@ -60,10 +60,10 @@ namespace Xrpl.WalletLib
 
         public class Funded
         {
-            public Wallet Wallet;
+            public XrplWallet Wallet;
             public double Balance;
 
-            public Funded(Wallet wallet, double balance)
+            public Funded(XrplWallet wallet, double balance)
             {
                 Wallet = wallet;
                 Balance = balance;
@@ -103,14 +103,14 @@ namespace Xrpl.WalletLib
             public static readonly string NFTDevnet = "faucet-nft.ripple.com";
         }
 
-        public static async Task<Funded> FundWallet(Client client, Wallet? wallet = null, string? faucetHost = null)
+        public static async Task<Funded> FundWallet(XrplClient client, XrplWallet? wallet = null, string? faucetHost = null)
         {
             //if (!client.IsConnected())
             //{
             //    throw new RippledError("Client not connected, cannot call faucet");
             //}
             // Generate a new Wallet if no existing Wallet is provided or its address is invalid to fund
-            Wallet walletToFund = (wallet != null && XrplCodec.IsValidClassicAddress(wallet.ClassicAddress)) ? wallet : Wallet.Generate();
+            XrplWallet walletToFund = (wallet != null && XrplCodec.IsValidClassicAddress(wallet.ClassicAddress)) ? wallet : XrplWallet.Generate();
 
             double startingBalance = 0;
             try
@@ -136,9 +136,9 @@ namespace Xrpl.WalletLib
 
         public static async Task<Funded> ReturnPromise(
               Dictionary<string, dynamic> options,
-              Client client,
+              XrplClient client,
               double startingBalance,
-              Wallet walletToFund,
+              XrplWallet walletToFund,
               string postBody
         )
         {
@@ -159,7 +159,7 @@ namespace Xrpl.WalletLib
         }
 
         public static Dictionary<string, dynamic> GetHTTPOptions(
-              Client client,
+              XrplClient client,
               byte[] postBody,
               string hostname
         )
@@ -180,9 +180,9 @@ namespace Xrpl.WalletLib
         public static async Task<Funded> OnEnd(
             HttpResponseMessage response,
             byte[] chunks,
-            Client client,
+            XrplClient client,
             double startingBalance,
-            Wallet walletToFund
+            XrplWallet walletToFund
         )
         {
             // Get Content Headers
@@ -210,10 +210,10 @@ namespace Xrpl.WalletLib
         }
 
         public static async Task<Funded> ProcessSuccessfulResponse(
-              Client client,
+              XrplClient client,
               string body,
               double startingBalance,
-              Wallet walletToFund
+              XrplWallet walletToFund
         )
         {
             FaucetWallet faucetWallet = JsonConvert.DeserializeObject<FaucetWallet>(body);
@@ -265,7 +265,7 @@ namespace Xrpl.WalletLib
 
         private static double _originalBalance;
         private static string _address;
-        private static Client _client;
+        private static XrplClient _client;
 
         private static async void OnTimedEventAsync(Object source, ElapsedEventArgs e)
         {
@@ -308,7 +308,7 @@ namespace Xrpl.WalletLib
         }
 
         public static async Task<double> GetUpdatedBalance(
-            Client client,
+            XrplClient client,
             string address,
             double originalBalance
         )
@@ -328,7 +328,7 @@ namespace Xrpl.WalletLib
             return finalBalance;
         }
 
-        public static string GetFaucetHost(Client client)
+        public static string GetFaucetHost(XrplClient client)
         {
             string connectionUrl = client.url;
             // 'altnet' for Ripple Testnet server and 'testnet' for XRPL Labs Testnet server

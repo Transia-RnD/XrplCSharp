@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xrpl.Models.Ledger;
 
-namespace Xrpl.ClientLib.Json.Converters
+namespace Xrpl.Client.Json.Converters
 {
     /// <summary>
     /// <see cref="LedgerEntity"/> or  <see cref="LedgerBinaryEntity"/>  converter

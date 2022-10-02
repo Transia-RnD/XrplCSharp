@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Xrpl.ClientLib;
-using Xrpl.WalletLib;
+using Xrpl.Client;
+using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/setup.ts
 
@@ -8,14 +8,14 @@ namespace XrplTests.Xrpl.ClientLib.Integration
 {
     public class SetupIntegration
     {
-        public Wallet wallet;
-        public Client client;
+        public XrplWallet wallet;
+        public XrplClient client;
 
         public async Task<SetupIntegration> SetupClient(string serverUrl)
         {
-            wallet = Wallet.Generate();
+            wallet = XrplWallet.Generate();
             var promise = new TaskCompletionSource();
-            client = new Client(serverUrl);
+            client = new XrplClient(serverUrl);
             client.Connect();
             await Utils.FundAccount(client, wallet);
             return this;

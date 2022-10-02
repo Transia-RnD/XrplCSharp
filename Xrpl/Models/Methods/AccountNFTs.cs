@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 using System.Collections.Generic;
-
-using Xrpl.ClientLib.Extensions;
+using Xrpl.Client.Extensions;
 
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/accountNFTs.ts
 

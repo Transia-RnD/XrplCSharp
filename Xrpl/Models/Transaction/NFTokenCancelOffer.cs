@@ -2,7 +2,7 @@
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelClaim.ts
 
-namespace Xrpl.Models.Transactions
+namespace Xrpl.Models.Transaction
 {
     public class NFTokenCancelOffer : TransactionCommon, INFTokenCancelOffer
     {

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Xrpl.ClientLib.Extensions;
-using Xrpl.ClientLib.Json.Converters;
+using Xrpl.Client.Extensions;
+using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/common.ts
 
-namespace Xrpl.Models.Transactions
+namespace Xrpl.Models.Transaction
 {
     [JsonConverter(typeof(TransactionConverter))]
     public abstract class TransactionCommon : ITransactionCommon

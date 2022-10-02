@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using Xrpl.ClientLib.Extensions;
+using Xrpl.Client.Extensions;
 using Xrpl.Models.Methods;
-using Xrpl.Models.Transactions;
+using Xrpl.Models.Transaction;
 using Xrpl.Utils.Hashes;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/requests/tx.ts

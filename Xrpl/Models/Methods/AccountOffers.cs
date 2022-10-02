@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Xrpl.ClientLib.Json.Converters;
+using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
 
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/accountOffers.ts

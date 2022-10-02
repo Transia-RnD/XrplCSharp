@@ -1,6 +1,6 @@
 ﻿// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/accountSet.ts
 
-namespace Xrpl.Models.Transactions
+namespace Xrpl.Models.Transaction
 {
     /// <summary>
     /// Enum for AccountSet Flags.

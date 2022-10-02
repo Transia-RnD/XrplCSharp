@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 using System;
-
-using Xrpl.ClientLib.Json.Converters;
+using Xrpl.Client.Json.Converters;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/ledger/PayChannel.ts

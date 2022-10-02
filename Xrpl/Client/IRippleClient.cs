@@ -1,27 +1,24 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
-
-using Xrpl.ClientLib.Exceptions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Xrpl.Client.Exceptions;
 using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
 using Xrpl.Models.Subscriptions;
-using Xrpl.Models.Transactions;
+using Xrpl.Models.Transaction;
 using Xrpl.Sugar;
-using Xrpl.WalletLib;
-
-using BookOffers = Xrpl.Models.Transactions.BookOffers;
-using Submit = Xrpl.Models.Transactions.Submit;
+using Xrpl.Wallet;
+using BookOffers = Xrpl.Models.Transaction.BookOffers;
+using Submit = Xrpl.Models.Transaction.Submit;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/client/index.ts
 // https://xrpl.org/public-api-methods.html
-namespace Xrpl.ClientLib
+namespace Xrpl.Client
 {
     public delegate void OnRippleResponse(string response);
     public delegate void OnLedgerStreamResponse(LedgerStreamResponseResult response);
@@ -32,7 +29,7 @@ namespace Xrpl.ClientLib
     public delegate void OnPathFindStream(PathFindStreamResult response);
     public delegate void OnErrorResponse(ErrorResponse response);
 
-    public interface IClient : IDisposable
+    public interface IXrplClient : IDisposable
     {
         event OnLedgerStreamResponse OnLedgerClosed;
         event OnValidationsStreamResponse OnValidation;
@@ -165,7 +162,7 @@ namespace Xrpl.ClientLib
         /// The submit method applies a transaction and sends it to the network to be confirmed and included in future ledgers.
         /// </summary>
         /// <param name="request">An <see cref="SubmitRequest"/> request.</param>
-        /// <returns>An <see cref="Xrpl.Models.Transactions.Submit"/> response.</returns>
+        /// <returns>An <see cref="Models.Transaction.Submit"/> response.</returns>
         Task<Submit> Submit(SubmitRequest request);
         /// <summary>
         /// 
@@ -175,8 +172,8 @@ namespace Xrpl.ClientLib
         /// To be successful, the weights of the signatures must be equal or higher than the quorum of the SignerList.
         /// </param>
         /// <param name="wallet"></param>//todo add description
-        /// <returns>An <see cref="Xrpl.Models.Transactions.Submit"/> response.</returns>
-        Task<Submit> Submit(Dictionary<string, dynamic> tx, Wallet wallet);
+        /// <returns>An <see cref="Models.Transaction.Submit"/> response.</returns>
+        Task<Submit> Submit(Dictionary<string, dynamic> tx, XrplWallet wallet);
         /// <summary>
         /// The tx method retrieves information on a single transaction, by its identifying hash
         /// </summary>
@@ -235,7 +232,7 @@ namespace Xrpl.ClientLib
         /// The book_offers method retrieves a list of offers, also known as the order book , between two currencies
         /// </summary>
         /// <param name="request">An <see cref="BookOffersRequest"/> request.</param>
-        /// <returns>An <see cref="Models.Transactions.BookOffers"/> response.</returns>
+        /// <returns>An <see cref="Models.Transaction.BookOffers"/> response.</returns>
         Task<BookOffers> BookOffers(BookOffersRequest request);
         /// <summary>
         /// The random command provides a random number to be used as a source of entropy for random number generation by clients.<br/>
@@ -262,7 +259,7 @@ namespace Xrpl.ClientLib
 
     }
 
-    public class Client : IClient
+    public class XrplClient : IXrplClient
     {
         public event OnLedgerStreamResponse OnLedgerClosed;
         public event OnValidationsStreamResponse OnValidation;
@@ -281,7 +278,7 @@ namespace Xrpl.ClientLib
         private readonly ConcurrentDictionary<Guid, TaskInfo> tasks;
         private readonly JsonSerializerSettings serializerSettings;
 
-        public Client(string server)
+        public XrplClient(string server)
         {
             url = server;
             tasks = new ConcurrentDictionary<Guid, TaskInfo>();
@@ -302,7 +299,7 @@ namespace Xrpl.ClientLib
         }
 
         /// <inheritdoc />
-        public Task<Submit> Submit(Dictionary<string, dynamic> tx, Wallet wallet)
+        public Task<Submit> Submit(Dictionary<string, dynamic> tx, XrplWallet wallet)
         {
             return SubmitSugar.Submit(this, tx, true, false, wallet);
         }

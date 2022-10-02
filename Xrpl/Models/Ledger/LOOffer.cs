@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
 
 using System;
-
-using Xrpl.ClientLib.Json.Converters;
+using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
-using Xrpl.Models.Transactions;
+using Xrpl.Models.Transaction;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/ledger/Offer.ts

@@ -2,8 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-
-using Xrpl.ClientLib.Json.Converters;
+using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/nftSellOffers.ts
 namespace Xrpl.Models.Methods

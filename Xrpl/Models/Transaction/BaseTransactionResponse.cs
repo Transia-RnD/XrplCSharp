@@ -1,8 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Xrpl.ClientLib.Json.Converters;
+using Xrpl.Client.Json.Converters;
 
-namespace Xrpl.Models.Transactions
+namespace Xrpl.Models.Transaction
 {
 
     public interface IBaseTransactionResponse

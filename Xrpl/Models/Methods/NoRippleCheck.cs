@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Xrpl.Models.Transactions;
+using Xrpl.Models.Transaction;
+
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/norippleCheck.ts
 namespace Xrpl.Models.Methods
 {

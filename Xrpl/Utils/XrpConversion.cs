@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Numerics;
-using Xrpl.ClientLib.Exceptions;
 using System.Diagnostics;
 using System.Text;
 using System.Linq;
 using System.Globalization;
+using Xrpl.Client.Exceptions;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/xrpConversion.ts

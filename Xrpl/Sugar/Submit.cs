@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Xrpl.ClientLib;
-using Xrpl.ClientLib.Exceptions;
+using Xrpl.Client;
+using Xrpl.Client.Exceptions;
 using Xrpl.Models.Methods;
-using Xrpl.Models.Transactions;
-using Xrpl.WalletLib;
+using Xrpl.Models.Transaction;
+using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/submit.ts
 
@@ -22,11 +22,11 @@ namespace Xrpl.Sugar
         /// <param name="wallet">A wallet to sign a transaction. It must be provided when submitting an unsigned transaction.</param>
         /// <returns>A Wallet derived from a seed.</returns>
         public static async Task<Submit> Submit(
-            IClient client,
+            IXrplClient client,
             Dictionary<string, dynamic> transaction,
             bool autofill = false,
             bool failHard = false,
-            Wallet wallet = null
+            XrplWallet wallet = null
         )
         {
             string signedTx = await SubmitSugar.GetSignedTx(client, transaction, autofill, false, wallet);
@@ -34,7 +34,7 @@ namespace Xrpl.Sugar
         }
 
         // Encodes and submits a signed transaction.
-        public static async Task<Submit> SubmitRequest(IClient client, string signedTransaction, bool failHard)
+        public static async Task<Submit> SubmitRequest(IXrplClient client, string signedTransaction, bool failHard)
         {
             //if (!isSigned(signedTransaction)) {
             //    throw new ValidationError('Transaction must be signed')
@@ -58,11 +58,11 @@ namespace Xrpl.Sugar
         /// <param name="wallet">A wallet to sign a transaction. It must be provided when submitting an unsigned transaction.</param>
         /// <returns>A Wallet derived from a seed.</returns>
         public static async Task<string> GetSignedTx(
-            IClient client,
+            IXrplClient client,
             Dictionary<string, dynamic> transaction,
             bool autofill = false,
             bool failHard = false,
-            Wallet? wallet = null
+            XrplWallet? wallet = null
         )
         {
             //if (isSigned(transaction))

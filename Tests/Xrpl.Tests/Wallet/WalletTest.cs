@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 using Xrpl.BinaryCodecLib;
 using Xrpl.BinaryCodecLib.Types;
 using Xrpl.KeypairsLib;
-using Xrpl.WalletLib;
+using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/wallet/index.ts
 
@@ -23,7 +23,7 @@ namespace XrplTests.Xrpl.WalletLib
                 PublicKey = "aBRNH5wUurfhZcoyR6nRwDSa95gMBkovBJ8V4cp1C1pM28H7EPL1",
                 PrivateKey = "sh8i92YRnEjJy3fpFkL8txQSCVo79",
             };
-            Wallet wallet = new Wallet(
+            XrplWallet wallet = new XrplWallet(
                 regularKeyPair.PublicKey,
                 regularKeyPair.PrivateKey,
                 masterAddress
@@ -45,7 +45,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestDefaultAlgorithm()
         {
-            Wallet wallet = Wallet.Generate();
+            XrplWallet wallet = XrplWallet.Generate();
 
             //Assert.IsInstanceOfType(wallet.PublicKey, string);
             //Assert.IsInstanceOfType(wallet.PrivateKey, string);
@@ -59,7 +59,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSECPAlgorithm()
         {
-            Wallet wallet = Wallet.Generate("secp256k1");
+            XrplWallet wallet = XrplWallet.Generate("secp256k1");
 
             //Assert.IsInstanceOfType(wallet.PublicKey, string);
             //Assert.IsInstanceOfType(wallet.PrivateKey, string);
@@ -72,7 +72,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestEDAlgorithm()
         {
-            Wallet wallet = Wallet.Generate("ed25519");
+            XrplWallet wallet = XrplWallet.Generate("ed25519");
 
             //Assert.IsInstanceOfType(wallet.PublicKey, string);
             //Assert.IsInstanceOfType(wallet.PrivateKey, string);
@@ -95,7 +95,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestDefaultAlgorithm()
         {
-            Wallet wallet = Wallet.FromSeed(seed);
+            XrplWallet wallet = XrplWallet.FromSeed(seed);
 
             Assert.AreEqual(wallet.PublicKey, publicKey);
             Assert.AreEqual(wallet.PrivateKey, privateKey);
@@ -104,7 +104,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSECPAlgorithm()
         {
-            Wallet wallet = Wallet.FromSeed(seed, null, "secp256k1");
+            XrplWallet wallet = XrplWallet.FromSeed(seed, null, "secp256k1");
 
             Assert.AreEqual(wallet.PublicKey, publicKey);
             Assert.AreEqual(wallet.PrivateKey, privateKey);
@@ -113,7 +113,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestEDAlgorithm()
         {
-            Wallet wallet = Wallet.FromSeed(seed, null, "ed25519");
+            XrplWallet wallet = XrplWallet.FromSeed(seed, null, "ed25519");
 
             Assert.AreEqual(wallet.PublicKey, publicKey);
             Assert.AreEqual(wallet.PrivateKey, privateKey);
@@ -129,7 +129,7 @@ namespace XrplTests.Xrpl.WalletLib
                 PublicKey = "03AEEFE1E8ED4BBC009DE996AC03A8C6B5713B1554794056C66E5B8D1753C7DD0E",
                 PrivateKey = "004265A28F3E18340A490421D47B2EB8DBC2C0BF2C24CEFEA971B61CED2CABD233",
             };
-            Wallet wallet = Wallet.FromSeed(seed, masterAddress, "ed25519");
+            XrplWallet wallet = XrplWallet.FromSeed(seed, masterAddress, "ed25519");
 
             Assert.AreEqual(wallet.PublicKey, regularKeyPair.PublicKey);
             Assert.AreEqual(wallet.PrivateKey, regularKeyPair.PrivateKey);
@@ -152,7 +152,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestDefaultAlgorithm()
         {
-            Wallet wallet = Wallet.FromEntropy(entropy);
+            XrplWallet wallet = XrplWallet.FromEntropy(entropy);
 
             Assert.AreEqual(wallet.PublicKey, publicKeyED25519);
             Assert.AreEqual(wallet.PrivateKey, privateKeyED25519);
@@ -161,7 +161,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSECPAlgorithm()
         {
-            Wallet wallet = Wallet.FromEntropy(entropy, "secp256k1");
+            XrplWallet wallet = XrplWallet.FromEntropy(entropy, "secp256k1");
 
             Assert.AreEqual(wallet.PublicKey, publicKeyED25519);
             Assert.AreEqual(wallet.PrivateKey, privateKeyED25519);
@@ -170,7 +170,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestEDAlgorithm()
         {
-            Wallet wallet = Wallet.FromEntropy(entropy, "ed25519");
+            XrplWallet wallet = XrplWallet.FromEntropy(entropy, "ed25519");
 
             Assert.AreEqual(wallet.PublicKey, publicKeyED25519);
             Assert.AreEqual(wallet.PrivateKey, privateKeyED25519);
@@ -180,7 +180,7 @@ namespace XrplTests.Xrpl.WalletLib
         public void TestRegularKeypair()
         {
             string masterAddress = "rUAi7pipxGpYfPNg3LtPcf2ApiS8aw9A93";
-            Wallet wallet = Wallet.FromEntropy(entropy, masterAddress);
+            XrplWallet wallet = XrplWallet.FromEntropy(entropy, masterAddress);
 
             Assert.AreEqual(wallet.PublicKey, publicKeyED25519);
             Assert.AreEqual(wallet.PrivateKey, privateKeyED25519);
@@ -208,7 +208,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignSuccessful()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
             JObject some = requestJson["sign"]["normal"];
             SignatureResult result = wallet.Sign(some.ToObject<Dictionary<string, dynamic>>());
             Assert.AreEqual(result.TxBlob, (string)responseJson["sign"]["normal"]["signedTransaction"]);
@@ -228,7 +228,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignEscrow()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
             JObject some = requestJson["sign"]["escrow"];
             SignatureResult result = wallet.Sign(some.ToObject<Dictionary<string, dynamic>>());
             Assert.AreEqual(result.TxBlob, (string)responseJson["sign"]["escrow"]["signedTransaction"]);
@@ -238,7 +238,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignAs()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
             JObject some = requestJson["sign"]["signAs"];
             SignatureResult result = wallet.Sign(some.ToObject<Dictionary<string, dynamic>>());
             Assert.AreEqual(result.TxBlob, (string)responseJson["sign"]["signAs"]["signedTransaction"]);
@@ -268,7 +268,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignPaymentNoFlags()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
             {
@@ -290,7 +290,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignPaymentSourceDestMin()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
             {
@@ -328,7 +328,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignInvalidSmallFee()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
             {
@@ -347,7 +347,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignInvalidLargeFee()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
             {
@@ -366,7 +366,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignTicket()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
             JObject some = requestJson["sign"]["ticket"];
             SignatureResult result = wallet.Sign(some.ToObject<Dictionary<string, dynamic>>());
             Assert.AreEqual(result.TxBlob, (string)responseJson["sign"]["ticket"]["signedTransaction"]);
@@ -376,7 +376,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignPaymentWithPaths()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
             {
@@ -413,7 +413,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignPreparedPayment()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
             {
@@ -434,7 +434,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignInvalidAmount()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
             {
@@ -467,7 +467,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignICLowerCase()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> payment = icPayment;
             payment["Amount"] = new Dictionary<string, dynamic> {
@@ -483,7 +483,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignStdHex()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> payment = icPayment;
             payment["Amount"] = new Dictionary<string, dynamic> {
@@ -508,7 +508,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignInvalidICXRP()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> payment = icPayment;
             payment["Amount"] = new Dictionary<string, dynamic> {
@@ -523,7 +523,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignICXRPHex()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> payment = icPayment;
             payment["Amount"] = new Dictionary<string, dynamic> {
@@ -539,7 +539,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignICSymbol()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> payment = icPayment;
             payment["Amount"] = new Dictionary<string, dynamic> {
@@ -555,7 +555,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignICNonStandard()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> payment = icPayment;
             payment["Amount"] = new Dictionary<string, dynamic> {
@@ -571,7 +571,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignICTrailingZero()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> payment = new Dictionary<string, dynamic>
             {
@@ -595,7 +595,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignICTrailingZeros()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> payment = new Dictionary<string, dynamic>
             {
@@ -620,7 +620,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignNFTMintLowerURI()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
             {
@@ -646,7 +646,7 @@ namespace XrplTests.Xrpl.WalletLib
         [TestMethod]
         public void TestSignNFTMintInvalidURI()
         {
-            var wallet = Wallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
+            var wallet = XrplWallet.FromSeed("ss1x3KLrSvfg7irFc1D929WXZ7z9H");
 
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
             {
@@ -685,7 +685,7 @@ namespace XrplTests.Xrpl.WalletLib
         public void TestVerifySameWallet()
         {
 
-            var wallet = new Wallet(publicKey, privateKey);
+            var wallet = new XrplWallet(publicKey, privateKey);
             bool isVerified = wallet.VerifyTransaction(prepared["signedTransaction"]);
             Assert.AreEqual(isVerified, true);
         }
@@ -695,7 +695,7 @@ namespace XrplTests.Xrpl.WalletLib
         {
             string diffPublicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
             string diffPrivateKey = "00141BA006D3363D2FB2785E8DF4E44D3A49908780CB4FB51F6D217C08C021429F";
-            var wallet = new Wallet(diffPublicKey, diffPrivateKey);
+            var wallet = new XrplWallet(diffPublicKey, diffPrivateKey);
             bool isVerified = wallet.VerifyTransaction(prepared["signedTransaction"]);
             Assert.AreEqual(isVerified, false);
         }
@@ -707,7 +707,7 @@ namespace XrplTests.Xrpl.WalletLib
 
         static string publicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
         static string privateKey = "00141BA006D3363D2FB2785E8DF4E44D3A49908780CB4FB51F6D217C08C021429F";
-        static Wallet wallet = new Wallet(publicKey, privateKey);
+        static XrplWallet wallet = new XrplWallet(publicKey, privateKey);
         static int tag = 1337;
         static string mainnetXAddress = "X7gJ5YK8abHf2eTPWPFHAAot8Knck11QGqmQ7a6a3Z8PJvk";
         static string testnetXAddress = "T7bq3e7kxYq9pwDz8UZhqAZoEkcRGTXSNr5immvcj3DYRaV";

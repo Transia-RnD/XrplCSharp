@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 using System;
-
-using Xrpl.ClientLib.Json.Converters;
+using Xrpl.Client.Json.Converters;
 
 //https://xrpl.org/channel_authorize.html#channel_authorize
 

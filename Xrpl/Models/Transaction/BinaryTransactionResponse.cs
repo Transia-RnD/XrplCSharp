@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Xrpl.Models.Transactions
+namespace Xrpl.Models.Transaction
 {
     public class BinaryTransactionResponse : BaseTransactionResponse
     {

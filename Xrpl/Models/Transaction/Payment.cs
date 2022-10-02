@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Xrpl.ClientLib.Json.Converters;
-using Xrpl.Models.Methods;
+using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
+using Xrpl.Models.Methods;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelClaim.ts
 
-namespace Xrpl.Models.Transactions
+namespace Xrpl.Models.Transaction
 {
     [Flags]
     public enum PaymentFlags : uint

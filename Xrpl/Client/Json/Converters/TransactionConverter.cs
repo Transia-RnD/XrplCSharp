@@ -1,13 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-using System;
-
-using Xrpl.Models.Transactions;
+using Xrpl.Models.Transaction;
 
 //https://xrpl.org/transaction-types.html
 
-namespace Xrpl.ClientLib.Json.Converters
+namespace Xrpl.Client.Json.Converters
 {
     /// <summary> Transaction json Converter </summary>
     public class TransactionConverter : JsonConverter
