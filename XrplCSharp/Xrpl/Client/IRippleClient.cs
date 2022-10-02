@@ -709,7 +709,7 @@ namespace Xrpl.ClientLib
 
                 if (response.Status == "success")
                 {
-                    Debug.WriteLine($"RESPONSE {response.Id} : {response.Result.ToString()}");
+                    //Debug.WriteLine($"RESPONSE {response.Id} : {response.Result.ToString()}");
                     var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
                     var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("SetResult");
                     setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });

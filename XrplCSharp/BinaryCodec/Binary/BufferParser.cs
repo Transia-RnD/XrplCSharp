@@ -2,7 +2,7 @@
 
 using System;
 
-//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/serdes/binary-parser.ts#L9
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/serdes/binary-parser.ts
 
 namespace Xrpl.BinaryCodecLib.Binary
 {
@@ -26,14 +26,16 @@ namespace Xrpl.BinaryCodecLib.Binary
         /// <param name="hex">hexBytes a hex string</param>
         public BufferParser(string hex) : this(B16.Decode(hex))
         {
-            
         }
 
         /// <inheritdoc />
-        public override void Skip(int n) => Cursor += n;
+        public byte[] ToBytes() => Bytes;
 
         /// <inheritdoc />
-        public override byte ReadOne() => Bytes[Cursor++];
+        public override byte Peek() => Bytes[0];
+
+        /// <inheritdoc />
+        public override void Skip(int n) => Cursor += n;
 
         /// <inheritdoc />
         public override byte[] Read(int n)
@@ -43,5 +45,14 @@ namespace Xrpl.BinaryCodecLib.Binary
             Cursor += n;
             return ret;
         }
+
+        /// <inheritdoc />
+        //public int ReadUIntN(int n)
+        //{
+        //    return this.Read(n).Reduce((a, b) => (a << 8) | b) >>> 0;
+        //}
+
+        /// <inheritdoc />
+        public override byte ReadOne() => Bytes[Cursor++];
     }
 }

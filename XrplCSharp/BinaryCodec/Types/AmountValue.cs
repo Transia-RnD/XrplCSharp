@@ -19,10 +19,8 @@ namespace Xrpl.BinaryCodecLib.Types
         {
             if (native)
             {
-                Debug.WriteLine("NATIVE FROM STRING");
                 return new NativeValue(value);
             }
-            Debug.WriteLine("IOU FROM STRING");
             return IouValue.FromString(value);
         }
 

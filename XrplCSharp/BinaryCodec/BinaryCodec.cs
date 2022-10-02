@@ -68,16 +68,9 @@ namespace Xrpl.BinaryCodecLib
         /// <returns>string</returns> The binary-encoded claim, ready to be signed.
         public static string EncodeForSigningClaim(Dictionary<string, dynamic> json)
         {
-            Debug.WriteLine("1");
             byte[] prefix = Bits.GetBytes(PAYMENT_CHANNEL_CLAIM_PREFIX);
             byte[] channel = Hash256.FromHex((string)json["channel"]).Buffer;
-            Debug.WriteLine(int.Parse((string)json["amount"]));
             byte[] amount = Uint64.FromValue(int.Parse((string)json["amount"])).ToBytes();
-            Debug.WriteLine("4");
-
-            Debug.WriteLine(prefix.ToHex());
-            Debug.WriteLine(channel.ToHex());
-            Debug.WriteLine(amount.ToHex());
             byte[] rv = new byte[prefix.Length + channel.Length + amount.Length];
             System.Buffer.BlockCopy(prefix, 0, rv, 0, prefix.Length);
             System.Buffer.BlockCopy(channel, 0, rv, prefix.Length, channel.Length);
@@ -111,9 +104,10 @@ namespace Xrpl.BinaryCodecLib
                 list.Put(prefix);
             }
 
-            Debug.WriteLine(json);
+            //Debug.WriteLine(json);
             StObject so = StObject.FromJson(json, strict: true);
             list.Put(so.ToBytes());
+            Debug.WriteLine(list.BytesHex());
 
             if (suffix != null)
             {

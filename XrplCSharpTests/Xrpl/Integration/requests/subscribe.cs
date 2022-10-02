@@ -24,20 +24,5 @@ namespace XrplTests.Xrpl.ClientLib.Integration
         {
             runner = await new SetupIntegration().SetupClient(ServerUrl.serverUrl);
         }
-
-        [TestMethod]
-        public async Task TestSubscribe()
-        {
-            SubscribeRequest subscribeRequest = new SubscribeRequest()
-            {
-                Streams = new List<string> { "ledger" },
-                Accounts = new List<string> { runner.wallet.ClassicAddress },
-            };
-            Debug.WriteLine(subscribeRequest);
-            await runner.client.Subscribe(subscribeRequest).ContinueWith(t =>
-            {
-                Debug.WriteLine(t.Result);
-            });
-        }
     }
 }
