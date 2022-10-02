@@ -45,8 +45,6 @@ namespace Xrpl.ClientLib.Json.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
             JsonSerializer serializer)
         {
-            Debug.WriteLine("[CONVERTER] Read Json");
-            Debug.WriteLine($"[CONVERTER] Token Type: {reader.TokenType}");
             return reader.TokenType switch
             {
                 JsonToken.Null => null,

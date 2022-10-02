@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using Xrpl.BinaryCodecLib.Binary;
+using Xrpl.BinaryCodecLib.Util;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/uint-8.ts
 
@@ -31,6 +32,12 @@ namespace Xrpl.BinaryCodecLib.Types
         /// </summary>
         /// <param name="v">byte value</param>
         public static implicit operator Uint8(byte v) => new Uint8(v);
+
+        /// <summary>
+        /// create instance of this value
+        /// </summary>
+        /// <param name="v">int value</param>
+        public static Uint8 FromValue(int v) => new Uint8((byte)v);
 
         /// <summary>
         /// Construct a Uint8 from a BinaryParser

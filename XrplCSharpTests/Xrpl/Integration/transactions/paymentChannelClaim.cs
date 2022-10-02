@@ -41,7 +41,6 @@ namespace XrplTests.Xrpl.ClientLib.Integration
                 SettleDelay = 86400,
                 PublicKey = runner.wallet.ClassicAddress
             };
-            Debug.WriteLine(setupTx.ToJson());
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
 
             Submit paymentChannelResponse = await runner.client.Submit(setupJson, runner.wallet);

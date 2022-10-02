@@ -7,6 +7,7 @@ using Xrpl.KeypairsLib;
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using Xrpl.BinaryCodecLib.Util;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/index.ts
@@ -15,6 +16,8 @@ namespace Xrpl.BinaryCodecLib
 {
     public class BinaryCodec
     {
+        static uint PAYMENT_CHANNEL_CLAIM_PREFIX = 0x434C4D00u;
+
         /// <summary>
         /// 
         /// </summary>
@@ -65,10 +68,9 @@ namespace Xrpl.BinaryCodecLib
         /// <returns>string</returns> The binary-encoded claim, ready to be signed.
         public static string EncodeForSigningClaim(Dictionary<string, dynamic> json)
         {
-            byte[] prefix = HashPrefix.TxSign.Bytes();
+            byte[] prefix = Bits.GetBytes(PAYMENT_CHANNEL_CLAIM_PREFIX);
             byte[] channel = Hash256.FromHex((string)json["channel"]).Buffer;
-            byte[] amount = Uint64.FromValue((string)json["amount"]).ToBytes();
-
+            byte[] amount = Uint64.FromValue(int.Parse((string)json["amount"])).ToBytes();
             byte[] rv = new byte[prefix.Length + channel.Length + amount.Length];
             System.Buffer.BlockCopy(prefix, 0, rv, 0, prefix.Length);
             System.Buffer.BlockCopy(channel, 0, rv, prefix.Length, channel.Length);
@@ -102,9 +104,10 @@ namespace Xrpl.BinaryCodecLib
                 list.Put(prefix);
             }
 
-            Debug.WriteLine(json);
+            //Debug.WriteLine(json);
             StObject so = StObject.FromJson(json, strict: true);
             list.Put(so.ToBytes());
+            Debug.WriteLine(list.BytesHex());
 
             if (suffix != null)
             {

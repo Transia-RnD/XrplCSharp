@@ -89,7 +89,6 @@ namespace XrplTests.KeypairsLib
         [TestMethod]
         public void TestDeriveKPAddressSECP()
         {
-            Debug.WriteLine((string)apiJson["secp256k1"]["publicKey"]);
             string address = IKeypairs.DeriveAddress((string)apiJson["secp256k1"]["keypair"]["publicKey"]);
             Assert.AreEqual(address, (string)apiJson["secp256k1"]["address"]);
         }
@@ -97,7 +96,6 @@ namespace XrplTests.KeypairsLib
         [TestMethod]
         public void TestDeriveKPAddressED()
         {
-            Debug.WriteLine((string)apiJson["ed25519"]["publicKey"]);
             string address = IKeypairs.DeriveAddress((string)apiJson["ed25519"]["keypair"]["publicKey"]);
             Assert.AreEqual(address, (string)apiJson["ed25519"]["address"]);
         }

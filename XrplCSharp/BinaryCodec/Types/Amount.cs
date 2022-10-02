@@ -3,106 +3,56 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Utilities;
+using Org.BouncyCastle.Utilities.Encoders;
 using Xrpl.BinaryCodecLib.Binary;
+using Xrpl.BinaryCodecLib.Types;
+using Xrpl.BinaryCodecLib.Util;
+using Xrpl.Models.Common;
+using Xrpl.Models.Transactions;
+using Xrpl.KeypairsLib;
+using Xrpl.Models.Methods;
+using static Xrpl.AddressCodecLib.B58;
+using System.Numerics;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/amount.ts
 
 namespace Xrpl.BinaryCodecLib.Types
 {
-    /// <summary>
-    /// An amount of XRP or tokens. The length of the field is 64 bits for XRP or 384 bits (64+160+160) for tokens.
-    /// </summary>
     public class Amount : ISerializedType
     {
+        public bool IsNative()
+        {
+            return (this.Value.ToBytes()[0] & 0x80) == 0;
+        }
 
-        // V2 REFACTOR
-
-        //public class AmountObject
-        //{
-        //    public string Currency { get; set; }
-        //    public string Issuer { get; set; }
-        //    public string Value { get; set; }
-
-        //    public AmountObject(string value, string currency = null, string issuer = null)
-        //    {
-        //        Currency = currency;
-        //        Issuer = issuer;
-        //        Value = value;
-        //    }
-        //}
-
-        //private static bool IsAmountObject(JToken token)
-        //{
-        //    return (
-        //        // TODO: Sort and count key values keys.length == 0
-        //        token["currency"].Type == JTokenType.String &&
-        //        token["issuer"].Type == JTokenType.String &&
-        //        token["value"].Type == JTokenType.String
-        //    );
-        //}
-
-        //public readonly byte[] Buffer;
-        //private Amount(byte[] decode)
-        //{
-        //    this.Buffer = decode;
-        //}
-
-        /// <summary>
-        /// Test if this amount is in units of Native Currency(XRP)
-        /// </summary>
-        /// <returns></returns>
-        public bool IsNative() => (this.Value.ToBytes()[0] & 0x80) == 0;
-
-        /// <summary> Currency issuer </summary>
         public readonly AccountId Issuer;
-        /// <summary> currency code </summary>
         public readonly Currency Currency;
         //public bool IsNative => Currency.IsNative;
-        /// <summary> amount of currency </summary>
         public AmountValue Value;
-        /// <summary> Maximum Precision </summary>
+
         public const int MaximumIouPrecision = 16;
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="value">amount</param>
-        /// <param name="currency">currency code</param>
-        /// <param name="issuer">issuer</param>
-        public Amount(AmountValue value, Currency currency=null, AccountId issuer=null)
+        public Amount(AmountValue value, Currency currency = null, AccountId issuer = null)
         {
-            Debug.WriteLine("INIT value");
             Currency = currency ?? Currency.Xrp;
             Issuer = issuer ?? (Currency.IsNative ? AccountId.Zero : AccountId.Neutral);
             Value = value;
         }
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="value">amount</param>
-        /// <param name="currency">currency code</param>
-        /// <param name="issuer">issuer</param>
-        public Amount(string value = "0", Currency currency = null, AccountId issuer = null) :
-                      this(AmountValue.FromString(value, currency == null || currency.IsNative), currency, issuer)
+
+        public Amount(string v = "0", Currency c = null, AccountId i = null) :
+                      this(AmountValue.FromString(v, c == null || c.IsNative), c, i)
         {
-            //Debug.WriteLine(c.IsNative);
-            Debug.WriteLine("INIT string");
-        }
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="value">amount</param>
-        /// <param name="currency">currency code</param>
-        /// <param name="issuer">issuer</param>
-        public Amount(decimal value, Currency currency, AccountId issuer=null) :
-            this(value.ToString(CultureInfo.InvariantCulture), currency, issuer)
-        {
-            Debug.WriteLine("INIT decimal");
         }
 
-        /// <inheritdoc />
+        public Amount(decimal value, Currency currency, AccountId issuer = null) :
+            this(value.ToString(CultureInfo.InvariantCulture), currency, issuer)
+        {
+        }
+
         public void ToBytes(IBytesSink sink)
         {
             sink.Put(Value.ToBytes());
@@ -113,16 +63,12 @@ namespace Xrpl.BinaryCodecLib.Types
             }
         }
 
-        /// <inheritdoc />
         public JToken ToJson()
         {
-            Debug.WriteLine("Amount TO JSON");
             if (this.IsNative())
             {
-                Debug.WriteLine("Amount STRING");
                 return Value.ToString();
             }
-            Debug.WriteLine("Amount OBJECT");
             return new JObject
             {
                 ["value"] = Value.ToString(),
@@ -130,38 +76,9 @@ namespace Xrpl.BinaryCodecLib.Types
                 ["issuer"] = Issuer,
             };
         }
-        /// <summary>
-        /// Get amount from json representation
-        /// </summary>
-        /// <param name="token">json representation</param>
-        /// <returns></returns>
-        /// <exception cref="InvalidJsonException"></exception>
+
         public static Amount FromJson(JToken token)
         {
-            //if (value instanceof Amount) {
-            //    return value
-            //}
-
-            //if (token.Type == JTokenType.String)
-            //{
-            //    // Set the top bit for IOU
-            //    mantissa[0] |= 0x80;
-            //    if (IsZero) return mantissa;
-
-            //    if (notNegative)
-            //    {
-            //        mantissa[0] |= 0x40;
-            //    }
-
-            //    var exponent = Exponent;
-            //    var exponentByte = 97 + exponent;
-            //    mantissa[0] |= (byte)(exponentByte >> 2);
-            //    mantissa[1] |= (byte)((exponentByte & 0x03) << 6);
-            //    return new Amount((string)valueToken, (string)currencyToken, (string)issuerToken);
-            //}
-            Debug.WriteLine("Amount FromJson");
-            Debug.WriteLine(token.Type);
-            
             switch (token.Type)
             {
                 case JTokenType.String:
@@ -190,7 +107,7 @@ namespace Xrpl.BinaryCodecLib.Types
                     if (token.Children().Count() > 3)
                         throw new InvalidJsonException("Amount object has too many properties.");
 
-                    if(valueToken.Type != JTokenType.String)
+                    if (valueToken.Type != JTokenType.String)
                         throw new InvalidJsonException("Property `value` must be string.");
 
                     if (currencyToken.Type != JTokenType.String)
@@ -214,13 +131,8 @@ namespace Xrpl.BinaryCodecLib.Types
         {
             return new Amount(v);
         }
-        /// <summary>
-        /// get amount from binary parser
-        /// </summary>
-        /// <param name="parser">binary parser</param>
-        /// <param name="hint"></param>
-        /// <returns></returns>
-        public static Amount FromParser(BinaryParser parser, int? hint=null)
+
+        public static Amount FromParser(BinaryParser parser, int? hint = null)
         {
             var value = AmountValue.FromParser(parser);
             if (!value.IsIou) return new Amount(value);
@@ -228,23 +140,20 @@ namespace Xrpl.BinaryCodecLib.Types
             var issuer = AccountId.FromParser(parser);
             return new Amount(value, curr, issuer);
         }
-        /// <summary>
-        /// get decimal value of amount
-        /// </summary>
-        /// <returns></returns>
+
         public decimal DecimalValue()
         {
             return decimal.Parse(Value.ToString(), NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture);
         }
 
-        public static Amount operator * (Amount a, decimal b)
+        public static Amount operator *(Amount a, decimal b)
         {
             return new Amount(
-                (a.DecimalValue() * b).ToString(CultureInfo.InvariantCulture), 
+                (a.DecimalValue() * b).ToString(CultureInfo.InvariantCulture),
                               a.Currency, a.Issuer);
         }
 
-        public static bool operator < (decimal a, Amount b)
+        public static bool operator <(decimal a, Amount b)
         {
             return a < b.DecimalValue();
         }
@@ -253,11 +162,7 @@ namespace Xrpl.BinaryCodecLib.Types
         {
             return a > b.DecimalValue();
         }
-        /// <summary>
-        /// create amount value from decimal
-        /// </summary>
-        /// <param name="decimal"></param>
-        /// <returns></returns>
+
         public Amount NewValue(decimal @decimal)
         {
             return new Amount(@decimal, Currency, Issuer);

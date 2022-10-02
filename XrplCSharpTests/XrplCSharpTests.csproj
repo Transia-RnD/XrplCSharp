@@ -7,22 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Ripple-Address-Codec-Tests\" />
-    <None Remove="Ripple-Binary-Codec-Tests\" />
-    <None Remove="Ripple-Keypairs-Tests\" />
-    <None Remove="Xrpl-Tests\" />
-    <None Remove="Xrpl-Tests\Wallet-Tests\" />
-    <None Remove="Xrpl-Tests\Client-Tests\" />
     <None Remove="Microsoft.NET.Test.Sdk" />
     <None Remove="MSTest.TestFramework" />
     <None Remove="MSTest.TestAdapter" />
     <None Remove="Flurl.Http" />
     <None Remove="Newtonsoft.Json" />
-    <None Remove="Ripple-Binary-Codec-Tests\Properties\" />
-    <None Remove="Ripple-Binary-Codec-Tests\Transactions\" />
-    <None Remove="Ripple-Keypairs-Tests\Properties\" />
-    <None Remove="Xrpl-Tests\Client-Tests\Properties\" />
-    <None Remove="Xrpl-Tests\Client-Tests\TestData\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
@@ -60,5 +49,8 @@
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Keypairs.Tests\Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BinaryCodec\Types\" />
   </ItemGroup>
 </Project>

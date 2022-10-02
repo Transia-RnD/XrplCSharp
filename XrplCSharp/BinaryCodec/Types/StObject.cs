@@ -140,11 +140,11 @@ namespace Xrpl.BinaryCodecLib.Types
                     continue;
                 }
                 var fieldForType = Field.Values[pair.Key];
-                // Debug.WriteLine("-----------------");
-                // Debug.WriteLine("-----------------");
-                // Debug.WriteLine(fieldForType.Name);
-                // Debug.WriteLine(pair.Value);
-                // Debug.WriteLine("-----------------");
+                Debug.WriteLine("-----------------");
+                Debug.WriteLine("-----------------");
+                Debug.WriteLine(fieldForType.Name);
+                Debug.WriteLine(pair.Value);
+                Debug.WriteLine("-----------------");
                 var jsonForField = pair.Value;
                 ISerializedType st;
                 try
@@ -159,6 +159,7 @@ namespace Xrpl.BinaryCodecLib.Types
                     throw new InvalidJsonException($"Can't decode `{fieldForType}` " +
                                           $"from `{jsonForField}`", e);
                 }
+                Debug.WriteLine(st);
                 so.Fields[fieldForType] = st;
             }
             return so;
