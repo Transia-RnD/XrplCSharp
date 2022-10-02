@@ -1,6 +1,7 @@
 ﻿using Xrpl.BinaryCodecLib.Enums;
 
 using System;
+using Org.BouncyCastle.Utilities;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/serdes/binary-serializer.ts#L52
 
@@ -9,21 +10,21 @@ namespace Xrpl.BinaryCodecLib.Binary
     /// <summary>
     /// BinarySerializer is used to write fields and values to buffers
     /// </summary>
-    public class BinarySerializer : IBytesSink
+    public class BinarySerializer : BytesList
     {
-        private readonly IBytesSink _sink;
+        public readonly BytesList _sink;
         /// <summary>
         /// create a value to this BinarySerializer
         /// </summary>
         /// <param name="sink">Bytes Sink</param>
-        public BinarySerializer(IBytesSink sink)
+        public BinarySerializer(BytesList sink)
         {
             _sink = sink;
         }
         /// <inheritdoc />
-        public void Put(byte[] n)
+        public void Put(byte[] bytes)
         {
-            _sink.Put(n);
+            _sink.Put(bytes);
         }
         /// <summary>
         ///  Calculate the header of Variable Length encoded bytes
@@ -73,7 +74,7 @@ namespace Xrpl.BinaryCodecLib.Binary
         /// Write a value to this BinarySerializer
         /// </summary>
         /// <param name="bl">value a SerializedType value</param>
-        public void Add(BytesList bl)
+        public void WriteBytesList(BytesList bl)
         {
             foreach (byte[] bytes in bl.RawList())
             {
@@ -137,15 +138,32 @@ namespace Xrpl.BinaryCodecLib.Binary
                 }
             }
         }
+
         /// <summary>
         /// Write a variable length encoded value to the BinarySerializer
         /// </summary>
         /// <param name="value">value length encoded value to write to BytesList</param>
         public void AddLengthEncoded(ISerializedType value)
         {
-            var bytes = new BytesList();
-            value.ToBytes(bytes);
-            AddLengthEncoded(bytes);
+            var byteObject = new BytesList();
+            value.ToBytes(byteObject);
+            AddLengthEncoded(byteObject);
+        }
+
+        /// <summary>
+        /// Write a variable length encoded value to the BinarySerializer
+        /// </summary>
+        /// <param name="value">value length encoded value to write to BytesList</param>
+        public void WriteLengthEncoded(ISerializedType value, bool isUnlModifyWorkaround = false)
+        {
+            var byteObject = new BytesList();
+            if (!isUnlModifyWorkaround)
+            {
+                // TODO: ToBytesSink see doc above
+                value.ToBytes(byteObject);
+            }
+            Put(EncodeVl(byteObject.BytesLength()));
+            WriteBytesList(byteObject);
         }
     }
 }

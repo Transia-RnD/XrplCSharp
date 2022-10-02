@@ -14,7 +14,7 @@ namespace Xrpl.BinaryCodecLib.ShaMapTree
             Entry = entry;
         }
 
-        public void ToBytes(IBytesSink sink)
+        public void ToBytes(BytesList sink)
         {
             Entry.ToBytes(sink);
         }

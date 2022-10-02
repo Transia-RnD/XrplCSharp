@@ -53,7 +53,7 @@ namespace Xrpl.BinaryCodecLib.Types
         {
         }
 
-        public void ToBytes(IBytesSink sink)
+        public void ToBytes(BytesList sink)
         {
             sink.Put(Value.ToBytes());
             if (!IsNative())

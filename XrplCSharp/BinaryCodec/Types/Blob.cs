@@ -45,7 +45,7 @@ namespace Xrpl.BinaryCodecLib.Types
         public static Blob FromJson(JToken token) => FromHex(token.ToString());
 
         /// <inheritdoc />
-        public void ToBytes(IBytesSink sink)
+        public void ToBytes(BytesList sink)
         {
             sink.Put(Buffer);
         }

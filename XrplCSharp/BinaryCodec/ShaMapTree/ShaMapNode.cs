@@ -22,7 +22,7 @@ namespace Xrpl.BinaryCodecLib.ShaMapTree
         }
 
         internal abstract HashPrefix Prefix();
-        public abstract void ToBytesSink(IBytesSink sink);
+        public abstract void ToBytesSink(BytesList sink);
 
         public void Invalidate()
         {

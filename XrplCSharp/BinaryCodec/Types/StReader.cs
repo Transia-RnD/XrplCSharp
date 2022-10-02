@@ -61,7 +61,7 @@ namespace Xrpl.BinaryCodecLib.Types
         /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.Blob"/> from this parser </summary>
         public Blob ReadBlob()
         {
-            var hint = _parser.ReadVlLength();
+            var hint = _parser.ReadLengthPrefix();
             return Blob.FromParser(_parser, hint);
         }
 
@@ -116,7 +116,7 @@ namespace Xrpl.BinaryCodecLib.Types
         public Vector256 ReadVector256() => Vector256.FromParser(_parser);
 
         /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.StObject"/> from this parser </summary>
-        public StObject ReadVlStObject() => StObject.FromParser(_parser, _parser.ReadVlLength());
+        public StObject ReadVlStObject() => StObject.FromParser(_parser, _parser.ReadLengthPrefix());
 
         // Reader methods may be define via use of extension methods
         // eg. see: TransactionResult

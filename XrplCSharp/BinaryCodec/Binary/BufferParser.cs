@@ -1,6 +1,7 @@
 ﻿using Xrpl.BinaryCodecLib.Util;
 
 using System;
+using System.Linq;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/serdes/binary-parser.ts
 
@@ -47,10 +48,29 @@ namespace Xrpl.BinaryCodecLib.Binary
         }
 
         /// <inheritdoc />
-        //public int ReadUIntN(int n)
-        //{
-        //    return this.Read(n).Reduce((a, b) => (a << 8) | b) >>> 0;
-        //}
+        public int ReadUIntN(int n)
+        {
+            if (n < 0 && 4 <= n)
+            {
+                throw new BinaryCodecException("Invalid n");
+            }
+            return this.Read(n).Aggregate((v, _byte) => (byte)(v << 8 | (int)_byte));
+        }
+
+        public int ReadUInt8()
+        {
+            return ReadUIntN(n: 1);
+        }
+
+        public int ReadUInt16()
+        {
+            return ReadUIntN(n: 2);
+        }
+
+        public int ReadUInt32()
+        {
+            return ReadUIntN(n: 4);
+        }
 
         /// <inheritdoc />
         public override byte ReadOne() => Bytes[Cursor++];

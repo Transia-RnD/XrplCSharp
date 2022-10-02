@@ -99,7 +99,7 @@ namespace Xrpl.BinaryCodecLib.Types
                 {
                     break;
                 }
-                var sizeHint = field.IsVlEncoded ? parser.ReadVlLength() : (int?) null;
+                var sizeHint = field.IsVlEncoded ? parser.ReadLengthPrefix() : (int?) null;
                 var st = field.FromParser(parser, sizeHint);
                 so.Fields[field] = st ?? throw new InvalidOperationException("Parsed " + field + " as null");
             }
@@ -166,7 +166,7 @@ namespace Xrpl.BinaryCodecLib.Types
         }
 
         /// <inheritdoc />
-        public void ToBytes(IBytesSink to)
+        public void ToBytes(BytesList to)
         {
             ToBytes(to, null);
         }
@@ -191,7 +191,7 @@ namespace Xrpl.BinaryCodecLib.Types
         /// <summary> to bytes Sink </summary>
         /// <param name="to"> bytes Sink container</param>
         /// <param name="p">field selector</param>
-        public void ToBytes(IBytesSink to, Func<Field, bool> p)
+        public void ToBytes(BytesList to, Func<Field, bool> p)
         {
             var serializer = new BinarySerializer(to);
             foreach (var pair in Fields.Where(pair => pair.Key.IsSerialised &&

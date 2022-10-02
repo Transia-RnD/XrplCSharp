@@ -199,7 +199,7 @@ namespace Xrpl.BinaryCodecLib.Types
         //}
 
         /// <inheritdoc />
-        public void ToBytes(IBytesSink sink)
+        public void ToBytes(BytesList sink)
         {
             sink.Put(this.Buffer);
             //if (!IsNative())

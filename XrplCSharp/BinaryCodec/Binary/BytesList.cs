@@ -8,7 +8,7 @@ using System.Text;
 namespace Xrpl.BinaryCodecLib.Binary
 {
     /// <summary> Bytes list is a collection of buffer objects </summary>
-    public class BytesList : IBytesSink
+    public class BytesList
     {
         private readonly List<byte[]> _buffer = new List<byte[]>();
         private int _len;
@@ -62,6 +62,17 @@ namespace Xrpl.BinaryCodecLib.Binary
                 }
                 HexLookup[i] = s;
             }
+        }
+        /// <summary> convert bytes to hex string </summary>
+        /// <returns>string</returns>
+        public string ToHex()
+        {
+            var builder = new StringBuilder(_len * 2);
+            foreach (var aByte in _buffer.SelectMany(buf => buf))
+            {
+                builder.Append(HexLookup[aByte & 0xFF]);
+            }
+            return builder.ToString();
         }
         /// <summary> convert bytes to hex string </summary>
         /// <returns>string</returns>

@@ -79,12 +79,23 @@ namespace Xrpl.BinaryCodecLib.Binary
 
             return typeBits << 16 | fieldBits;
         }
+
+        /// <summary>
+        /// Reads variable length
+        /// </summary>
+        /// <returns>The variable length bytes</returns>
+        /// <exception cref="InvalidOperationException">Invalid variable length indicator</exception>
+        public byte[] ReadVariableLength()
+        {
+            return Read(ReadLengthPrefix());
+        }
+
         /// <summary>
         /// Reads variable length encoded bytes
         /// </summary>
         /// <returns>The variable length bytes</returns>
         /// <exception cref="InvalidOperationException">Invalid variable length indicator</exception>
-        public int ReadVlLength()
+        public int ReadLengthPrefix()
         {
             var b1 = ReadOneInt();
             int result;

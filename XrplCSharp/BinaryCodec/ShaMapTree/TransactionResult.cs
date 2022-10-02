@@ -19,7 +19,7 @@ namespace Xrpl.BinaryCodecLib.ShaMapTree
             LedgerIndex = ledgerIndex;
         }
 
-        public void ToBytes(IBytesSink sink)
+        public void ToBytes(BytesList sink)
         {
             var ser = new BinarySerializer(sink);
             ser.AddLengthEncoded(Tx);

@@ -29,7 +29,7 @@ namespace Xrpl.BinaryCodecLib.Types
         }
 
         /// <inheritdoc />
-        public void ToBytes(IBytesSink sink)
+        public void ToBytes(BytesList sink)
         {
             foreach (var so in this)
             {

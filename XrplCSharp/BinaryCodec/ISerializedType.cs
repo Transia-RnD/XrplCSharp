@@ -10,7 +10,7 @@ namespace Xrpl.BinaryCodecLib
     {
         /// <summary> to bytes Sink </summary>
         /// <param name="sink"> bytes Sink container</param>
-        void ToBytes(IBytesSink sink);
+        void ToBytes(BytesList sink);
         /// <summary> Get the JSON representation of this type </summary>
         JToken ToJson();
     }
