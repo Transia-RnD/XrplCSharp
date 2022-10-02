@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 
+using System.Text.RegularExpressions;
+
 using Xrpl.BinaryCodecLib.Binary;
 using Xrpl.BinaryCodecLib.Util;
-using System.Text.RegularExpressions;
-using Xrpl.KeypairsLib;
 
 // https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/uint-64.ts
 

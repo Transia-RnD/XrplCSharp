@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!-- <TargetFramework>netstandard2.0</TargetFramework> -->
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Xrpl</RootNamespace>
     <PackOnBuild>true</PackOnBuild>
@@ -24,9 +23,5 @@
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
     <PackageReference Include="Chaos.NaCl.Standard" Version="1.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Xrpl.AddressCodec.Base\Xrpl.AddressCodec.Base.csproj" />
-    <ProjectReference Include="..\Xrpl.Keypairs\Xrpl.Keypairs.csproj" />
   </ItemGroup>
 </Project>

@@ -26,6 +26,6 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xrpl.AddressCodec.Base\Xrpl.AddressCodec.Base.csproj" />
+    <ProjectReference Include="..\Xrpl.AddressCodec\Xrpl.AddressCodec.csproj" />
   </ItemGroup>
 </Project>

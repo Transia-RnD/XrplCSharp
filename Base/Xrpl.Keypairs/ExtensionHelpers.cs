@@ -2,7 +2,7 @@
 
 namespace Xrpl.KeypairsLib
 {
-    public static class ExtensionHelpers
+    internal static class ExtensionHelpers
     {
         public static string ToHex(this byte[] input)
         {

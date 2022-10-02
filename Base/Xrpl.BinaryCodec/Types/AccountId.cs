@@ -1,10 +1,11 @@
+using Newtonsoft.Json.Linq;
+
 using System;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json.Linq;
+
 using Xrpl.AddressCodecLib;
 using Xrpl.BinaryCodecLib.Binary;
 using Xrpl.BinaryCodecLib.Util;
-using Xrpl.KeypairsLib;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/account-id.ts
 

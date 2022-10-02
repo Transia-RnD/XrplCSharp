@@ -483,14 +483,14 @@ namespace Xrpl.AddressCodecLib
         }
     }
 
-    public sealed class HashUtils
+    internal class HashUtils
     {
-        public static byte[] DoubleDigest(byte[] buffer)
+        internal static byte[] DoubleDigest(byte[] buffer)
         {
             return Sha256(Sha256(buffer));
         }
 
-        public static byte[] Sha256(byte[] buffer)
+        internal static byte[] Sha256(byte[] buffer)
         {
             var hash = SHA256.Create();
             return hash.ComputeHash(buffer);

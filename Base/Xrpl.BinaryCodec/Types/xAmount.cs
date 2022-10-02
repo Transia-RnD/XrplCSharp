@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Numerics;
 
 using Xrpl.BinaryCodecLib.Binary;
-using Xrpl.KeypairsLib;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/amount.ts
 

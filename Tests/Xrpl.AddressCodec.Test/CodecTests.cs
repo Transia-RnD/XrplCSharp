@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xrpl.KeypairsLib;
+
 using static Xrpl.AddressCodecLib.XrplCodec;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/xrp-codec.test.js

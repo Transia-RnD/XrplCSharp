@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xrpl.AddressCodecLib;
 using Xrpl.KeypairsLib;
-using Xrpl.ClientLib.Extensions;
 
 using static Xrpl.AddressCodecLib.XrplCodec;
+
 using IKeypairs = Xrpl.KeypairsLib.Keypairs;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-keypairs/test/api-test.js

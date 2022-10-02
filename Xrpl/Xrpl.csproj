@@ -27,7 +27,6 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Base\Xrpl.AddressCodec.Base\Xrpl.AddressCodec.Base.csproj" />
     <ProjectReference Include="..\Base\Xrpl.AddressCodec\Xrpl.AddressCodec.csproj" />
     <ProjectReference Include="..\Base\Xrpl.BinaryCodec\Xrpl.BinaryCodec.csproj" />
     <ProjectReference Include="..\Base\Xrpl.Keypairs\Xrpl.Keypairs.csproj" />

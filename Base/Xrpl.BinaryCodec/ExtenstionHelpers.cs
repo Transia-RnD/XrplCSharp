@@ -1,9 +1,21 @@
-﻿using System.Text.RegularExpressions;
+﻿using Org.BouncyCastle.Utilities.Encoders;
+
+using System.Text.RegularExpressions;
 
 namespace Xrpl.BinaryCodecLib
 {
     public static class ExtenstionHelpers
     {
+        internal static string ToHex(this byte[] input)
+        {
+            return Hex.ToHexString(input).ToUpper();
+        }
+
+        internal static byte[] FromHex(this string input)
+        {
+            return Hex.Decode(input);
+        }
+
         public class NumFunc
         {
             public int Precision { get; set; }
