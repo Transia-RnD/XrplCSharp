@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Xrpl.BinaryCodecLib.Binary
+namespace Xrpl.BinaryCodec.Binary
 {
     /// <inheritdoc />
     public class StreamParser : BinaryParser

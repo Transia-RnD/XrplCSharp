@@ -1,9 +1,9 @@
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodecLib.Binary;
-using Xrpl.BinaryCodecLib.Util;
+using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Util;
 
-namespace Xrpl.BinaryCodecLib
+namespace Xrpl.BinaryCodec
 {
 
     public interface ISerializedType

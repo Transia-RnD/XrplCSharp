@@ -2,18 +2,17 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
-
-using Xrpl.BinaryCodecLib.Binary;
-using Xrpl.BinaryCodecLib.Hashing;
-using Xrpl.BinaryCodecLib.Types;
-using Xrpl.BinaryCodecLib.Util;
+using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Hashing;
+using Xrpl.BinaryCodec.Types;
+using Xrpl.BinaryCodec.Util;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/index.ts
 
-namespace Xrpl.BinaryCodecLib
+namespace Xrpl.BinaryCodec
 {
-    public class BinaryCodec
+    public class XrplBinaryCodec
     {
         static uint PAYMENT_CHANNEL_CLAIM_PREFIX = 0x434C4D00u;
 

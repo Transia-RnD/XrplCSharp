@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using Xrpl.AddressCodecLib;
-using Xrpl.BinaryCodecLib;
+using Xrpl.AddressCodec;
+using Xrpl.BinaryCodec;
 using Xrpl.Client.Exceptions;
-using Xrpl.KeypairsLib;
+using Xrpl.Keypairs;
 using Xrpl.Utils.Hashes;
-using IKeypairs = Xrpl.KeypairsLib.Keypairs;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/Wallet/index.ts
 
@@ -44,7 +43,7 @@ namespace Xrpl.Wallet
         {
             this.PublicKey = publicKey;
             this.PrivateKey = privateKey;
-            this.ClassicAddress = masterAddress != null ? masterAddress : IKeypairs.DeriveAddress(publicKey);
+            this.ClassicAddress = masterAddress != null ? masterAddress : XrplKeypairs.DeriveAddress(publicKey);
             this.Seed = seed;
         }
 
@@ -55,7 +54,7 @@ namespace Xrpl.Wallet
         /// <returns>A new Wallet derived from a generated seed.</returns>
         public static XrplWallet Generate(string algorithm = "ed25519")
         {
-            string seed = IKeypairs.GenerateSeed(null, algorithm);
+            string seed = XrplKeypairs.GenerateSeed(null, algorithm);
             return XrplWallet.FromSeed(seed, null, algorithm);
         }
         /// <summary>
@@ -78,7 +77,7 @@ namespace Xrpl.Wallet
         public static XrplWallet FromEntropy(byte[] entropy, string? masterAddress = null, string? algorithm = null)
         {
             string falgorithm = algorithm != null ? algorithm : XrplWallet.DEFAULT_ALGORITHM;
-            string seed = IKeypairs.GenerateSeed(entropy, falgorithm);
+            string seed = XrplKeypairs.GenerateSeed(entropy, falgorithm);
             return XrplWallet.DeriveWallet(seed, masterAddress, falgorithm);
         }
 
@@ -91,7 +90,7 @@ namespace Xrpl.Wallet
         /// <returns>A Wallet derived from the seed.</returns>
         private static XrplWallet DeriveWallet(string seed, string? masterAddress = null, string? algorithm = null)
         {
-            IKeyPair keypair = IKeypairs.DeriveKeypair(seed, algorithm);
+            IXrplKeyPair keypair = XrplKeypairs.DeriveKeypair(seed, algorithm);
             return new XrplWallet(keypair.Id(), keypair.Pk(), masterAddress, seed);
         }
 
@@ -129,7 +128,7 @@ namespace Xrpl.Wallet
             string signature = ComputeSignature(txToSignAndEncode.ToObject<Dictionary<string, dynamic>>(), this.PrivateKey);
             txToSignAndEncode.Add("TxnSignature", signature);
 
-            string serialized = BinaryCodec.Encode(txToSignAndEncode);
+            string serialized = XrplBinaryCodec.Encode(txToSignAndEncode);
             //this.checkTxSerialization(serialized, tx);
             return new SignatureResult(serialized, HashLedger.HashSignedTx(serialized));
         }
@@ -141,21 +140,21 @@ namespace Xrpl.Wallet
         /// <returns>Returns true if a signedTransaction is valid.</returns>
         public bool VerifyTransaction(string signedTransaction)
         {
-            JToken tx = BinaryCodec.Decode(signedTransaction);
-            string messageHex = BinaryCodec.EncodeForSigning(tx.ToObject<Dictionary<string, dynamic>>());
+            JToken tx = XrplBinaryCodec.Decode(signedTransaction);
+            string messageHex = XrplBinaryCodec.EncodeForSigning(tx.ToObject<Dictionary<string, dynamic>>());
             string signature = (string)tx["TxnSignature"];
-            return IKeypairs.Verify(messageHex.FromHex(), signature, this.PublicKey);
+            return XrplKeypairs.Verify(messageHex.FromHex(), signature, this.PublicKey);
         }
 
         public string GetXAddress(int tag, bool isTestnet = false)
         {
-            return AddressCodec.ClassicAddressToXAddress(this.ClassicAddress, tag, isTestnet);
+            return XrplAddressCodec.ClassicAddressToXAddress(this.ClassicAddress, tag, isTestnet);
         }
 
         public string ComputeSignature(Dictionary<string, dynamic> transaction, string privateKey, string? signAs = null)
         {
-            string encoded = BinaryCodec.EncodeForSigning(transaction);
-            return IKeypairs.Sign(AddressCodecLib.Utils.FromHexToBytes(encoded), privateKey);
+            string encoded = XrplBinaryCodec.EncodeForSigning(transaction);
+            return XrplKeypairs.Sign(AddressCodec.Utils.FromHexToBytes(encoded), privateKey);
         }
 
     }

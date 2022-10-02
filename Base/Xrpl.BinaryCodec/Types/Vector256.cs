@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodecLib.Binary;
+using Xrpl.BinaryCodec.Binary;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/vector-256.ts
 
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     /// <summary>
     /// Class for serializing and deserializing vectors of Hash256

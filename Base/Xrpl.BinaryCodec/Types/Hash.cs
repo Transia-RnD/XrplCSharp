@@ -1,14 +1,12 @@
 ﻿using Newtonsoft.Json.Linq;
-
-using Xrpl.BinaryCodecLib.Binary;
-using Xrpl.BinaryCodecLib.Util;
-
 using System;
 using System.Linq;
+using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Util;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/hash.ts
 
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     /// <summary>
     /// The XRP Ledger has several "hash" types: Hash128, Hash160, and Hash256.<br/>

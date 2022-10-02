@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Xrpl.AddressCodecLib;
+using Xrpl.AddressCodec;
 using Xrpl.Models.Common;
 using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
 using System.Numerics;
-using static Xrpl.AddressCodecLib.AddressCodec;
+using static Xrpl.AddressCodec.XrplAddressCodec;
 using System.Collections.Generic;
 using Xrpl.Client;
 using Xrpl.Client.Exceptions;
@@ -103,9 +103,9 @@ namespace Xrpl.Sugar
 
         public static AddressNTag GetClassicAccountAndTag(string account, int? expectedTag)
         {
-            if (AddressCodec.IsValidXAddress(account))
+            if (XrplAddressCodec.IsValidXAddress(account))
             {
-                CodecAddress codecAddress = AddressCodec.XAddressToClassicAddress(account);
+                CodecAddress codecAddress = XrplAddressCodec.XAddressToClassicAddress(account);
                 if (expectedTag != null && codecAddress.Tag != expectedTag)
                 {
                     throw new ValidationError("address includes a tag that does not match the tag specified in the transaction");

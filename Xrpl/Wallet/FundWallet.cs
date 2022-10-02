@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using Newtonsoft.Json;
-using Xrpl.AddressCodecLib;
+using Xrpl.AddressCodec;
 using Xrpl.Client;
 using Xrpl.Client.Exceptions;
 

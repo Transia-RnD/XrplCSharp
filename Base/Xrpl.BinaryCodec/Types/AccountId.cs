@@ -3,13 +3,13 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Text.RegularExpressions;
 
-using Xrpl.AddressCodecLib;
-using Xrpl.BinaryCodecLib.Binary;
-using Xrpl.BinaryCodecLib.Util;
+using Xrpl.AddressCodec;
+using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Util;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/account-id.ts
 
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     /// <summary>
     /// Class defining how to encode and decode an AccountID<br/>

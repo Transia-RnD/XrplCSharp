@@ -1,4 +1,4 @@
-﻿namespace Xrpl.BinaryCodecLib.Enums
+﻿namespace Xrpl.BinaryCodec.Enums
 {
     public class FieldType : EnumItem
     {

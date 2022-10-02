@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodecLib.Binary;
+using Xrpl.BinaryCodec.Binary;
 
-namespace Xrpl.BinaryCodecLib.Enums
+namespace Xrpl.BinaryCodec.Enums
 {
     public abstract class SerializedEnumeration<TEnum, TOrd> : Enumeration<TEnum> 
         where TEnum : SerializedEnumItem<TOrd>

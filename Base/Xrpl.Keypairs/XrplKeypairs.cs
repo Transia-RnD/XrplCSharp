@@ -1,15 +1,15 @@
 ﻿using System.Security.Cryptography;
-using Xrpl.AddressCodecLib;
-using Xrpl.KeypairsLib.Ed25519;
-using Xrpl.KeypairsLib.K256;
-using static Xrpl.AddressCodecLib.XrplCodec;
-using static Xrpl.AddressCodecLib.Utils;
+using Xrpl.AddressCodec;
+using Xrpl.Keypairs.Ed25519;
+using Xrpl.Keypairs.K256;
+using static Xrpl.AddressCodec.XrplCodec;
+using static Xrpl.AddressCodec.Utils;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-keypairs/src/index.ts
 
-namespace Xrpl.KeypairsLib
+namespace Xrpl.Keypairs
 {
-    public static class Keypairs
+    public static class XrplKeypairs
     {
 
         /// <summary> Generate random seed bytes for new account </summary>
@@ -34,16 +34,16 @@ namespace Xrpl.KeypairsLib
             //    !options.entropy || options.entropy.length >= 16,
             //    'entropy too short',
             //  )
-            byte[] fentropy = entropy != null ? entropy : FromRandom();
+            byte[] fentropy = entropy ?? FromRandom();
             return XrplCodec.EncodeSeed(fentropy, algorithm);
         }
 
-        public static IKeyPair DeriveKeypair(string seed, string? algorithm = null, bool validator = false, int index = 0)
+        public static IXrplKeyPair DeriveKeypair(string seed, string? algorithm = null, bool validator = false, int index = 0)
         {
             DecodedSeed decoded = XrplCodec.DecodeSeed(seed);
             if (decoded.Type == "ed25519")
             {
-                IKeyPair edkp = EdKeyPair.From128Seed(decoded.Bytes);
+                IXrplKeyPair edkp = EdKeyPair.From128Seed(decoded.Bytes);
                 //byte[] messageToVerify = hash("This test message should verify.");
                 //byte[] signature = method.sign(messageToVerify, keypair.privateKey);
                 //if (method.verify(messageToVerify, signature, keypair.publicKey) != true)
@@ -52,7 +52,7 @@ namespace Xrpl.KeypairsLib
                 //}
                 return edkp;
             }
-            IKeyPair scpk = K256KeyGenerator.From128Seed(decoded.Bytes, validator ? -1 : (int)index);
+            IXrplKeyPair scpk = K256KeyGenerator.From128Seed(decoded.Bytes, validator ? -1 : (int)index);
             //byte[] messageToVerify = hash("This test message should verify.");
             //byte[] signature = method.sign(messageToVerify, keypair.privateKey);
             //if (method.verify(messageToVerify, signature, keypair.publicKey) != true)
@@ -97,6 +97,6 @@ namespace Xrpl.KeypairsLib
             => XrplCodec.EncodeAccountID(Utils.HashUtils.PublicKeyHash(publicKeyBytes));
 
         public static string DeriveAddress(string publicKey)
-            => Keypairs.DeriveAddressFromBytes(FromHexToBytes(publicKey));
+            => XrplKeypairs.DeriveAddressFromBytes(FromHexToBytes(publicKey));
     }
 }

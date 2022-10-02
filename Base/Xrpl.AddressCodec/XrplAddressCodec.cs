@@ -3,9 +3,9 @@ using System;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/index.ts
 
-namespace Xrpl.AddressCodecLib
+namespace Xrpl.AddressCodec
 {
-    public class AddressCodec
+    public class XrplAddressCodec
     {
 
         private static byte[] CopyOfRange(byte[] source, int from_, int to)
@@ -35,7 +35,7 @@ namespace Xrpl.AddressCodecLib
 
         private static readonly B58 B58;
         public const string Alphabet = "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz";
-        static AddressCodec()
+        static XrplAddressCodec()
         {
             B58 = new B58(Alphabet);
         }

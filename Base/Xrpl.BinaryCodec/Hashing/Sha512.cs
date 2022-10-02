@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Security.Cryptography;
-using Xrpl.BinaryCodecLib.Binary;
+using Xrpl.BinaryCodec.Binary;
 
-namespace Xrpl.BinaryCodecLib.Hashing
+namespace Xrpl.BinaryCodec.Hashing
 {
     public class Sha512 : IBytesSink
     {

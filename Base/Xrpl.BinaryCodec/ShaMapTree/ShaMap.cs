@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodecLib.Types;
+using Xrpl.BinaryCodec.Types;
 
-namespace Xrpl.BinaryCodecLib.ShaMapTree
+namespace Xrpl.BinaryCodec.ShaMapTree
 {
     internal class Versioner
     {

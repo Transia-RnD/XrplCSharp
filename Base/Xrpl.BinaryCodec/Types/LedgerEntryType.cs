@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodecLib.Enums;
+using Xrpl.BinaryCodec.Enums;
 
 //todo not found doc
 
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     public class LedgerEntryType : SerializedEnumItem<ushort>
     {

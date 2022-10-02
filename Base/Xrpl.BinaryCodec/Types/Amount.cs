@@ -2,12 +2,11 @@
 
 using System.Globalization;
 using System.Linq;
-
-using Xrpl.BinaryCodecLib.Binary;
+using Xrpl.BinaryCodec.Binary;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/amount.ts
 
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     public class Amount : ISerializedType
     {

@@ -2,7 +2,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Xrpl.BinaryCodecLib
+namespace Xrpl.BinaryCodec
 {
     public static class ExtenstionHelpers
     {

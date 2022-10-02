@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Xrpl.BinaryCodecLib.Binary;
+using Xrpl.BinaryCodec.Binary;
 
 // https://github.com/XRPLF/xrpl-py/blob/master/tests/unit/core/binarycodec/test_binary_parser.py
 

@@ -1,10 +1,9 @@
-﻿using Xrpl.BinaryCodecLib.Util;
-
-using System;
+﻿using System;
+using Xrpl.BinaryCodec.Util;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/serdes/binary-parser.ts
 
-namespace Xrpl.BinaryCodecLib.Binary
+namespace Xrpl.BinaryCodec.Binary
 {
     /// <inheritdoc />
     public class BufferParser : BinaryParser

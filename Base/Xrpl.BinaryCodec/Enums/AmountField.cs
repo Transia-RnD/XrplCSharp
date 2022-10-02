@@ -1,5 +1,5 @@
 ﻿//https://xrpl.org/serialization.html#amount-fields
-namespace Xrpl.BinaryCodecLib.Enums
+namespace Xrpl.BinaryCodec.Enums
 {
     public class AmountField : Field {
         public AmountField(string name, int nthOfType,

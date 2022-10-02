@@ -1,8 +1,8 @@
-﻿using Xrpl.BinaryCodecLib.Enums;
+﻿using Xrpl.BinaryCodec.Enums;
 
 //todo not found doc
 
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     public class EngineResult : SerializedEnumItem<byte>
     {

@@ -1,5 +1,5 @@
 ﻿// https://xrpl.org/serialization.html#accountid-fields
-namespace Xrpl.BinaryCodecLib.Enums
+namespace Xrpl.BinaryCodec.Enums
 {
     public class AccountIdField : Field {
         public AccountIdField(string name, int nthOfType,

@@ -1,7 +1,7 @@
-﻿using Xrpl.BinaryCodecLib.Binary;
-using Xrpl.BinaryCodecLib.Hashing;
+﻿using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Hashing;
 
-namespace Xrpl.BinaryCodecLib.ShaMapTree
+namespace Xrpl.BinaryCodec.ShaMapTree
 {
     public interface IShaMapItem<out T>
     {

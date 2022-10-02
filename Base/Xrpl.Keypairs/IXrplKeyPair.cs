@@ -1,6 +1,6 @@
-﻿using Xrpl.KeypairsLib.Utils;
+﻿using Xrpl.Keypairs.Utils;
 
-namespace Xrpl.KeypairsLib
+namespace Xrpl.Keypairs
 {
 
     public class rKeypair
@@ -9,7 +9,7 @@ namespace Xrpl.KeypairsLib
         public string PrivateKey { get; set; }
     }
 
-    public interface IKeyPair
+    public interface IXrplKeyPair
     {
         byte[] CanonicalPubBytes();
 
@@ -19,7 +19,7 @@ namespace Xrpl.KeypairsLib
 
     public static class KeyPairExtensions
     {
-        public static byte[] PubKeyHash(this IKeyPair pair)
+        public static byte[] PubKeyHash(this IXrplKeyPair pair)
         {
             return HashUtils.PublicKeyHash(pair.CanonicalPubBytes());
         }

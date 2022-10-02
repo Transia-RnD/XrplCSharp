@@ -1,5 +1,5 @@
 ﻿//https://xrpl.org/serialization.html#hash-fields
-namespace Xrpl.BinaryCodecLib.Enums
+namespace Xrpl.BinaryCodec.Enums
 {
     public class Hash256Field : Field {
         public Hash256Field(string name, int nthOfType,

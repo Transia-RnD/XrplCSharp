@@ -1,10 +1,9 @@
-﻿using Xrpl.BinaryCodecLib.Enums;
-
-using System;
+﻿using System;
+using Xrpl.BinaryCodec.Enums;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/serdes/binary-serializer.ts#L52
 
-namespace Xrpl.BinaryCodecLib.Binary
+namespace Xrpl.BinaryCodec.Binary
 {
     /// <summary>
     /// BinarySerializer is used to write fields and values to buffers

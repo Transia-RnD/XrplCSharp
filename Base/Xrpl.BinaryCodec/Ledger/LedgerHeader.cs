@@ -1,14 +1,12 @@
 ﻿using Newtonsoft.Json.Linq;
-
-using Xrpl.BinaryCodecLib.Binary;
-using Xrpl.BinaryCodecLib.Hashing;
-using Xrpl.BinaryCodecLib.Types;
-
 using System;
+using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Hashing;
+using Xrpl.BinaryCodec.Types;
 
 //https://xrpl.org/ledger-header.html#ledger-header
 
-namespace Xrpl.BinaryCodecLib.Ledger
+namespace Xrpl.BinaryCodec.Ledger
 {
     /// <summary>
     /// Every ledger version has a unique header that describes the contents. You can look up a ledger's header information with the ledger method.

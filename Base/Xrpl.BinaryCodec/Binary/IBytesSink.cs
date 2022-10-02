@@ -1,4 +1,4 @@
-﻿namespace Xrpl.BinaryCodecLib.Binary
+﻿namespace Xrpl.BinaryCodec.Binary
 {
     /// <summary> base Bytes Sink </summary>
     public interface IBytesSink

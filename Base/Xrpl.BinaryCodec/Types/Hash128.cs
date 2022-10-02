@@ -1,13 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
-
-using Xrpl.BinaryCodecLib.Binary;
-using Xrpl.BinaryCodecLib.Util;
-
 using System.Diagnostics.Contracts;
+using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Util;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/hash-128.ts
 
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     /// <summary>
     /// Hash with a width of 128 bits

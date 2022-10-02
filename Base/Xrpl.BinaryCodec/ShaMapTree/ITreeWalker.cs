@@ -1,4 +1,4 @@
-﻿namespace Xrpl.BinaryCodecLib.ShaMapTree
+﻿namespace Xrpl.BinaryCodec.ShaMapTree
 {
     public interface ILeafWalker
     {

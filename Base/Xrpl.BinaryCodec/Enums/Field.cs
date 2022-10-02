@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xrpl.BinaryCodecLib.Enums
+namespace Xrpl.BinaryCodec.Enums
 {
     public class Field : EnumItem
     {

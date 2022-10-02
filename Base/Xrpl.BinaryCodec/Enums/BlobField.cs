@@ -1,5 +1,5 @@
 ﻿//https://xrpl.org/serialization.html#blob-fields
-namespace Xrpl.BinaryCodecLib.Enums
+namespace Xrpl.BinaryCodec.Enums
 {
     public class BlobField : Field {
         public BlobField(string name, int nthOfType,

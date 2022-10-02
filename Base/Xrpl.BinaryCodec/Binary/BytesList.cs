@@ -5,7 +5,7 @@ using System.Text;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/serdes/binary-serializer.ts#L9
 
-namespace Xrpl.BinaryCodecLib.Binary
+namespace Xrpl.BinaryCodec.Binary
 {
     /// <summary> Bytes list is a collection of buffer objects </summary>
     public class BytesList : IBytesSink

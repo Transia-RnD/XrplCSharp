@@ -1,6 +1,6 @@
-﻿using Xrpl.BinaryCodecLib.Enums;
+﻿using Xrpl.BinaryCodec.Enums;
 
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     public class TransactionType : SerializedEnumItem<ushort>
     {

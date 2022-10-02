@@ -1,5 +1,5 @@
 ﻿//https://xrpl.org/serialization.html#object-fields
-namespace Xrpl.BinaryCodecLib.Enums
+namespace Xrpl.BinaryCodec.Enums
 {
     public class StObjectField : Field {
         public StObjectField(string name, int nthOfType,

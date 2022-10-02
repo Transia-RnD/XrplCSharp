@@ -1,14 +1,12 @@
 ﻿using Newtonsoft.Json.Linq;
-
-using Xrpl.BinaryCodecLib.Binary;
-
 using System.Collections.Generic;
 using System.Linq;
+using Xrpl.BinaryCodec.Binary;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/path-set.ts
 //https://xrpl.org/serialization.html#pathset-fields
 
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     /// <summary> The object representation of a Hop, an issuer AccountID, an account AccountID, and a Currency </summary>
     public class PathHop

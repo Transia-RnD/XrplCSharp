@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xrpl.BinaryCodecLib;
+using Xrpl.BinaryCodec;
 using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/wallet/signer.ts
@@ -176,14 +176,14 @@ namespace XrplTests.Xrpl.WalletLib
         {
             SignatureResult signedTx = verifyWallet.Sign(tx);
             Debug.WriteLine(signedTx.TxBlob);
-            Assert.IsTrue(Signer.VerifySignature(BinaryCodec.Decode(signedTx.TxBlob).ToObject<Dictionary<string, dynamic>>()));
+            Assert.IsTrue(Signer.VerifySignature(XrplBinaryCodec.Decode(signedTx.TxBlob).ToObject<Dictionary<string, dynamic>>()));
         }
 
         [TestMethod]
         public void TestVerifyInvalidSigningKey()
         {
             SignatureResult signedTx = verifyWallet.Sign(tx);
-            Dictionary<string, dynamic> decodedTx = BinaryCodec.Decode(signedTx.TxBlob).ToObject<Dictionary<string, dynamic>>();
+            Dictionary<string, dynamic> decodedTx = XrplBinaryCodec.Decode(signedTx.TxBlob).ToObject<Dictionary<string, dynamic>>();
             decodedTx["SigningPubKey"] = "0330E7FC9D56BB25D6893BA3F317AE5BCF33B3291BD63DB32654A313222F7FD020";
             Assert.IsFalse(Signer.VerifySignature(decodedTx));
         }

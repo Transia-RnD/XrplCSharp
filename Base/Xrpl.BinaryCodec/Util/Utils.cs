@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Xrpl.BinaryCodecLib.Util
+namespace Xrpl.BinaryCodec.Util
 {
     internal static class Utils
     {

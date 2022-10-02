@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xrpl.BinaryCodecLib.Util
+namespace Xrpl.BinaryCodec.Util
 {
     public class B16
     {

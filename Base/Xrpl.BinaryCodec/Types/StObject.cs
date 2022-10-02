@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodecLib.Binary;
-using Xrpl.BinaryCodecLib.Enums;
-using Xrpl.BinaryCodecLib.Hashing;
-using Xrpl.BinaryCodecLib.Util;
+using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Enums;
+using Xrpl.BinaryCodec.Hashing;
+using Xrpl.BinaryCodec.Util;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/st-object.ts
 //https://xrpl.org/serialization.html#object-fields
 
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     /// <summary>
     /// Class for Serializing/Deserializing objects
@@ -244,9 +244,9 @@ namespace Xrpl.BinaryCodecLib.Types
             return list.Bytes();
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.AccountIdField"/> field to this object
+        /// add <see cref="AccountIdField"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.AccountIdField"/>field</param>
+        /// <param name="f"><see cref="AccountIdField"/>field</param>
         /// <returns></returns>
         public AccountId this[AccountIdField f]
         {
@@ -254,9 +254,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.AmountField"/> field to this object
+        /// add <see cref="AmountField"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.AmountField"/>field</param>
+        /// <param name="f"><see cref="AmountField"/>field</param>
         /// <returns></returns>
         public Amount this[AmountField f]
         {
@@ -264,9 +264,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.BlobField"/> field to this object
+        /// add <see cref="BlobField"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.BlobField"/>field</param>
+        /// <param name="f"><see cref="BlobField"/>field</param>
         /// <returns></returns>
         public Blob this[BlobField f]
         {
@@ -274,9 +274,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.Hash128Field"/> field to this object
+        /// add <see cref="Hash128Field"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.Hash128Field"/>field</param>
+        /// <param name="f"><see cref="Hash128Field"/>field</param>
         /// <returns></returns>
         public Hash128 this[Hash128Field f]
         {
@@ -284,9 +284,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.Hash160Field"/> field to this object
+        /// add <see cref="Hash160Field"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.Hash160Field"/>field</param>
+        /// <param name="f"><see cref="Hash160Field"/>field</param>
         /// <returns></returns>
         public Hash160 this[Hash160Field f]
         {
@@ -294,9 +294,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.Hash256Field"/> field to this object
+        /// add <see cref="Hash256Field"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.Hash256Field"/>field</param>
+        /// <param name="f"><see cref="Hash256Field"/>field</param>
         /// <returns></returns>
         public Hash256 this[Hash256Field f]
         {
@@ -304,9 +304,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.PathSetField"/> field to this object
+        /// add <see cref="PathSetField"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.PathSetField"/>field</param>
+        /// <param name="f"><see cref="PathSetField"/>field</param>
         /// <returns></returns>
         public PathSet this[PathSetField f]
         {
@@ -314,9 +314,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.StArrayField"/> field to this object
+        /// add <see cref="StArrayField"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.StArrayField"/>field</param>
+        /// <param name="f"><see cref="StArrayField"/>field</param>
         /// <returns></returns>
         public StArray this[StArrayField f]
         {
@@ -324,9 +324,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.StObjectField"/> field to this object
+        /// add <see cref="StObjectField"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.StObjectField"/>field</param>
+        /// <param name="f"><see cref="StObjectField"/>field</param>
         /// <returns></returns>
         public StObject this[StObjectField f]
         {
@@ -334,9 +334,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.Uint16Field"/> field to this object
+        /// add <see cref="Uint16Field"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.Uint16Field"/>field</param>
+        /// <param name="f"><see cref="Uint16Field"/>field</param>
         /// <returns></returns>
         public Uint16 this[Uint16Field f]
         {
@@ -344,9 +344,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.LedgerEntryTypeField"/> field to this object
+        /// add <see cref="LedgerEntryTypeField"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.LedgerEntryTypeField"/>field</param>
+        /// <param name="f"><see cref="LedgerEntryTypeField"/>field</param>
         /// <returns></returns>
         public LedgerEntryType this[LedgerEntryTypeField f]
         {
@@ -354,9 +354,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.TransactionTypeField"/> field to this object
+        /// add <see cref="TransactionTypeField"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.TransactionTypeField"/>field</param>
+        /// <param name="f"><see cref="TransactionTypeField"/>field</param>
         /// <returns></returns>
         public TransactionType this[TransactionTypeField f]
         {
@@ -364,9 +364,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.Uint32Field"/> field to this object
+        /// add <see cref="Uint32Field"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.Uint32Field"/>field</param>
+        /// <param name="f"><see cref="Uint32Field"/>field</param>
         /// <returns></returns>
         public Uint32 this[Uint32Field f]
         {
@@ -374,9 +374,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.Uint64Field"/> field to this object
+        /// add <see cref="Uint64Field"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.Uint64Field"/>field</param>
+        /// <param name="f"><see cref="Uint64Field"/>field</param>
         /// <returns></returns>
         public Uint64 this[Uint64Field f]
         {
@@ -384,9 +384,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.Uint8Field"/> field to this object
+        /// add <see cref="Uint8Field"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.Uint8Field"/>field</param>
+        /// <param name="f"><see cref="Uint8Field"/>field</param>
         /// <returns></returns>
         public Uint8 this[Uint8Field f]
         {
@@ -394,9 +394,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.EngineResultField"/> field to this object
+        /// add <see cref="EngineResultField"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.EngineResultField"/>field</param>
+        /// <param name="f"><see cref="EngineResultField"/>field</param>
         /// <returns></returns>
         public EngineResult this[EngineResultField f]
         {
@@ -404,9 +404,9 @@ namespace Xrpl.BinaryCodecLib.Types
             set { Fields[f] = value; }
         }
         /// <summary>
-        /// add <see cref="Xrpl.BinaryCodecLib.Enums.Vector256Field"/> field to this object
+        /// add <see cref="Vector256Field"/> field to this object
         /// </summary>
-        /// <param name="f"><see cref="Xrpl.BinaryCodecLib.Enums.Vector256Field"/>field</param>
+        /// <param name="f"><see cref="Vector256Field"/>field</param>
         /// <returns></returns>
         public Vector256 this[Vector256Field f]
         {

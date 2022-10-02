@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
-
-using Xrpl.BinaryCodecLib.Binary;
-using Xrpl.BinaryCodecLib.Util;
+using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Util;
 
 //https://xrpl.org/serialization.html#token-amount-format
 
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     public abstract class AmountValue
     {

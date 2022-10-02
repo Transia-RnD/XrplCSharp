@@ -1,4 +1,4 @@
-﻿namespace Xrpl.BinaryCodecLib.Enums
+﻿namespace Xrpl.BinaryCodec.Enums
 {
     public class Vector256Field : Field {
         public Vector256Field(string name, int nthOfType,

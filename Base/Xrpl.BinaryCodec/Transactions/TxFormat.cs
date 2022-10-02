@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Xrpl.BinaryCodecLib.Enums;
-using Xrpl.BinaryCodecLib.Types;
+using Xrpl.BinaryCodec.Enums;
+using Xrpl.BinaryCodec.Types;
 
-namespace Xrpl.BinaryCodecLib.Transactions
+namespace Xrpl.BinaryCodec.Transactions
 {
     //https://github.com/ripple/rippled/blob/112a863e7346793234c973e97818ced4c6e36867/src/ripple/protocol/impl/TxFormats.cpp
     public class TxFormat : Dictionary<Field, TxFormat.Requirement>

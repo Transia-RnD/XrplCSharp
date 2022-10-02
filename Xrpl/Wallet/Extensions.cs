@@ -1,5 +1,5 @@
-﻿using Xrpl.BinaryCodecLib.Hashing;
-using Xrpl.BinaryCodecLib.Util;
+﻿using Xrpl.BinaryCodec.Hashing;
+using Xrpl.BinaryCodec.Util;
 
 namespace Xrpl.Wallet
 {

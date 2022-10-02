@@ -4,7 +4,7 @@ using Org.BouncyCastle.Math;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-keypairs/src/secp256k1.ts
 
-namespace Xrpl.KeypairsLib.K256
+namespace Xrpl.Keypairs.K256
 {
 
     using Asn1InputStream = Org.BouncyCastle.Asn1.Asn1InputStream;

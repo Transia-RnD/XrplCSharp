@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     /// <summary>
     /// Thrown when JSON is not valid.

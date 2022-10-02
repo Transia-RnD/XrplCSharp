@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using static Xrpl.AddressCodecLib.XrplCodec;
+using static Xrpl.AddressCodec.XrplCodec;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/xrp-codec.test.js
 
-namespace Xrpl.AddressCodecLib.Tests
+namespace Xrpl.AddressCodec.Tests
 {
     [TestClass]
     public class TestUMiscXrplCodec
@@ -63,11 +63,11 @@ namespace Xrpl.AddressCodecLib.Tests
         [TestMethod]
         public void TestDecodeArbitrarySeed()
         {
-            DecodedSeed decoded = XrplCodec.DecodeSeed("sEdTM1uX8pu2do5XvTnutH6HsouMaM2");
+            XrplCodec.DecodedSeed decoded = XrplCodec.DecodeSeed("sEdTM1uX8pu2do5XvTnutH6HsouMaM2");
             Assert.AreEqual(decoded.Bytes.ToHex(), "4C3A1D213FBDFB14C7C28D609469B341");
             Assert.AreEqual(decoded.Type, "ed25519");
 
-            DecodedSeed decoded1 = XrplCodec.DecodeSeed("sn259rEFXrQrWyx3Q7XneWcwV6dfL");
+            XrplCodec.DecodedSeed decoded1 = XrplCodec.DecodeSeed("sn259rEFXrQrWyx3Q7XneWcwV6dfL");
             Assert.AreEqual(decoded1.Bytes.ToHex(), "CF2DE378FBDD7E2EE87D486DFB5A7BFF");
             Assert.AreEqual(decoded1.Type, "secp256k1");
         }
@@ -76,7 +76,7 @@ namespace Xrpl.AddressCodecLib.Tests
         public void TestDecodeTypeSeed()
         {
             string edSeed = "sEdTM1uX8pu2do5XvTnutH6HsouMaM2";
-            DecodedSeed decoded = XrplCodec.DecodeSeed(edSeed);
+            XrplCodec.DecodedSeed decoded = XrplCodec.DecodeSeed(edSeed);
             string type = "ed25519";
             Assert.AreEqual(decoded.Bytes.ToHex(), "4C3A1D213FBDFB14C7C28D609469B341");
             Assert.AreEqual(decoded.Type, type);
@@ -172,7 +172,7 @@ namespace Xrpl.AddressCodecLib.Tests
         [TestMethod]
         public void TestEncodeED()
         {
-            DecodedSeed decoded = XrplCodec.DecodeSeed("sEdTM1uX8pu2do5XvTnutH6HsouMaM2");
+            XrplCodec.DecodedSeed decoded = XrplCodec.DecodeSeed("sEdTM1uX8pu2do5XvTnutH6HsouMaM2");
             Assert.AreEqual(decoded.Bytes.ToHex(), "4C3A1D213FBDFB14C7C28D609469B341");
             Assert.AreEqual(decoded.Type, "ed25519");
         }
@@ -180,7 +180,7 @@ namespace Xrpl.AddressCodecLib.Tests
         [TestMethod]
         public void TestEncodeSECP()
         {
-            DecodedSeed decoded = XrplCodec.DecodeSeed("sn259rEFXrQrWyx3Q7XneWcwV6dfL");
+            XrplCodec.DecodedSeed decoded = XrplCodec.DecodeSeed("sn259rEFXrQrWyx3Q7XneWcwV6dfL");
             Assert.AreEqual(decoded.Bytes.ToHex(), "CF2DE378FBDD7E2EE87D486DFB5A7BFF");
             Assert.AreEqual(decoded.Type, "secp256k1");
         }

@@ -2,12 +2,10 @@
 
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using Xrpl.AddressCodecLib;
-using Xrpl.KeypairsLib;
+using Xrpl.AddressCodec;
+using Xrpl.Keypairs;
 
-using static Xrpl.AddressCodecLib.XrplCodec;
-
-using IKeypairs = Xrpl.KeypairsLib.Keypairs;
+using static Xrpl.AddressCodec.XrplCodec;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-keypairs/test/api-test.js
 
@@ -24,7 +22,7 @@ namespace XrplTests.KeypairsLib
         [TestMethod]
         public void TestGenerateSeedSECPRandom()
         {
-            string seed = IKeypairs.GenerateSeed();
+            string seed = XrplKeypairs.GenerateSeed();
             Assert.AreEqual(seed[0].ToString(), "s");
             DecodedSeed decodedSeed = XrplCodec.DecodeSeed(seed);
             Assert.IsTrue(decodedSeed.Type == "secp256k1");
@@ -34,13 +32,13 @@ namespace XrplTests.KeypairsLib
         [TestMethod]
         public void TestGenerateSeedED()
         {
-            Assert.AreEqual(IKeypairs.GenerateSeed(entropy, "ed25519").ToString(), (string)apiJson["ed25519"]["seed"]);
+            Assert.AreEqual(XrplKeypairs.GenerateSeed(entropy, "ed25519").ToString(), (string)apiJson["ed25519"]["seed"]);
         }
 
         [TestMethod]
         public void TestGenerateSeedEDRandom()
         {
-            string seed = IKeypairs.GenerateSeed(null, "ed25519");
+            string seed = XrplKeypairs.GenerateSeed(null, "ed25519");
             Assert.AreEqual(seed[0..3].ToString(), "sEd");
             DecodedSeed decodedSeed = XrplCodec.DecodeSeed(seed);
             Assert.IsTrue(decodedSeed.Type == "ed25519");
@@ -50,7 +48,7 @@ namespace XrplTests.KeypairsLib
         [TestMethod]
         public void TestDeriveKPSECP()
         {
-            IKeyPair keypair = IKeypairs.DeriveKeypair((string)apiJson["secp256k1"]["seed"]);
+            IXrplKeyPair keypair = XrplKeypairs.DeriveKeypair((string)apiJson["secp256k1"]["seed"]);
             Assert.AreEqual(keypair.Id(), (string)apiJson["secp256k1"]["keypair"]["publicKey"]);
             Assert.AreEqual(keypair.Pk(), (string)apiJson["secp256k1"]["keypair"]["privateKey"]);
         }
@@ -58,7 +56,7 @@ namespace XrplTests.KeypairsLib
         [TestMethod]
         public void TestDeriveKPED()
         {
-            IKeyPair keypair = IKeypairs.DeriveKeypair((string)apiJson["ed25519"]["seed"]);
+            IXrplKeyPair keypair = XrplKeypairs.DeriveKeypair((string)apiJson["ed25519"]["seed"]);
             Assert.AreEqual(keypair.Id(), (string)apiJson["ed25519"]["keypair"]["publicKey"]);
             Assert.AreEqual(keypair.Pk(), (string)apiJson["ed25519"]["keypair"]["privateKey"]);
         }
@@ -66,7 +64,7 @@ namespace XrplTests.KeypairsLib
         [TestMethod]
         public void TestDeriveKPValidatorSECP()
         {
-            IKeyPair keypair = IKeypairs.DeriveKeypair((string)apiJson["secp256k1"]["seed"], null, true);
+            IXrplKeyPair keypair = XrplKeypairs.DeriveKeypair((string)apiJson["secp256k1"]["seed"], null, true);
             Assert.AreEqual(keypair.Id(), (string)apiJson["secp256k1"]["validatorKeypair"]["publicKey"]);
             Assert.AreEqual(keypair.Pk(), (string)apiJson["secp256k1"]["validatorKeypair"]["privateKey"]);
         }
@@ -74,7 +72,7 @@ namespace XrplTests.KeypairsLib
         [TestMethod]
         public void TestDeriveKPValidatorED()
         {
-            IKeyPair keypair = IKeypairs.DeriveKeypair((string)apiJson["ed25519"]["seed"], null, true);
+            IXrplKeyPair keypair = XrplKeypairs.DeriveKeypair((string)apiJson["ed25519"]["seed"], null, true);
             Assert.AreEqual(keypair.Id(), (string)apiJson["ed25519"]["validatorKeypair"]["publicKey"]);
             Assert.AreEqual(keypair.Pk(), (string)apiJson["ed25519"]["validatorKeypair"]["privateKey"]);
         }
@@ -82,14 +80,14 @@ namespace XrplTests.KeypairsLib
         [TestMethod]
         public void TestDeriveKPAddressSECP()
         {
-            string address = IKeypairs.DeriveAddress((string)apiJson["secp256k1"]["keypair"]["publicKey"]);
+            string address = XrplKeypairs.DeriveAddress((string)apiJson["secp256k1"]["keypair"]["publicKey"]);
             Assert.AreEqual(address, (string)apiJson["secp256k1"]["address"]);
         }
 
         [TestMethod]
         public void TestDeriveKPAddressED()
         {
-            string address = IKeypairs.DeriveAddress((string)apiJson["ed25519"]["keypair"]["publicKey"]);
+            string address = XrplKeypairs.DeriveAddress((string)apiJson["ed25519"]["keypair"]["publicKey"]);
             Assert.AreEqual(address, (string)apiJson["ed25519"]["address"]);
         }
 
@@ -99,7 +97,7 @@ namespace XrplTests.KeypairsLib
             string privateKey = (string)apiJson["secp256k1"]["keypair"]["privateKey"];
             string message = (string)apiJson["secp256k1"]["message"];
             byte[] messageBytes = Utils.FromHexToBytes(message.ConvertStringToHex());
-            string signature = IKeypairs.Sign(messageBytes, privateKey);
+            string signature = XrplKeypairs.Sign(messageBytes, privateKey);
             Assert.AreEqual(signature, (string)apiJson["secp256k1"]["signature"]);
         }
 
@@ -110,7 +108,7 @@ namespace XrplTests.KeypairsLib
             string publicKey = (string)apiJson["secp256k1"]["keypair"]["publicKey"];
             string message = (string)apiJson["secp256k1"]["message"];
             byte[] messageBytes = Utils.FromHexToBytes(message.ConvertStringToHex());
-            bool verified = IKeypairs.Verify(messageBytes, signature, publicKey);
+            bool verified = XrplKeypairs.Verify(messageBytes, signature, publicKey);
             Assert.AreEqual(signature, (string)apiJson["secp256k1"]["signature"]);
         }
 
@@ -120,7 +118,7 @@ namespace XrplTests.KeypairsLib
             string privateKey = (string)apiJson["ed25519"]["keypair"]["privateKey"];
             string message = (string)apiJson["ed25519"]["message"];
             byte[] messageBytes = Utils.FromHexToBytes(message.ConvertStringToHex());
-            string signature = IKeypairs.Sign(messageBytes, privateKey);
+            string signature = XrplKeypairs.Sign(messageBytes, privateKey);
             Assert.AreEqual(signature, (string)apiJson["ed25519"]["signature"]);
         }
 
@@ -131,7 +129,7 @@ namespace XrplTests.KeypairsLib
             string publicKey = (string)apiJson["ed25519"]["keypair"]["publicKey"];
             string message = (string)apiJson["ed25519"]["message"];
             byte[] messageBytes = Utils.FromHexToBytes(message.ConvertStringToHex());
-            bool verified = IKeypairs.Verify(messageBytes, signature, publicKey);
+            bool verified = XrplKeypairs.Verify(messageBytes, signature, publicKey);
             Assert.AreEqual(signature, (string)apiJson["ed25519"]["signature"]);
         }
     }

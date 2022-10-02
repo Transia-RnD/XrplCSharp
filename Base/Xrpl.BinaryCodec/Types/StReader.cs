@@ -1,9 +1,8 @@
-﻿using Xrpl.BinaryCodecLib.Binary;
-using Xrpl.BinaryCodecLib.Hashing;
+﻿using System.IO;
+using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Hashing;
 
-using System.IO;
-
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     public class StReader
     {
@@ -52,34 +51,34 @@ namespace Xrpl.BinaryCodecLib.Types
             return _parser;
         }
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.AccountId"/> from this parser </summary>
+        /// <summary> read field as <see cref="AccountId"/> from this parser </summary>
         public AccountId ReadAccountId() => AccountId.FromParser(_parser);
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.Amount"/> from this parser </summary>
+        /// <summary> read field as <see cref="Amount"/> from this parser </summary>
         public Amount ReadAmount() => Amount.FromParser(_parser);
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.Blob"/> from this parser </summary>
+        /// <summary> read field as <see cref="Blob"/> from this parser </summary>
         public Blob ReadBlob()
         {
             var hint = _parser.ReadVlLength();
             return Blob.FromParser(_parser, hint);
         }
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.Currency"/> from this parser </summary>
+        /// <summary> read field as <see cref="Currency"/> from this parser </summary>
         public Currency ReadCurrency() => Currency.FromParser(_parser);
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.Hash128"/> from this parser </summary>
+        /// <summary> read field as <see cref="Hash128"/> from this parser </summary>
         public Hash128 ReadHash128() => Hash128.FromParser(_parser);
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.Hash160"/> from this parser </summary>
+        /// <summary> read field as <see cref="Hash160"/> from this parser </summary>
         public Hash160 ReadHash160() => Hash160.FromParser(_parser);
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.Hash256"/> from this parser </summary>
+        /// <summary> read field as <see cref="Hash256"/> from this parser </summary>
         public Hash256 ReadHash256() => Hash256.FromParser(_parser);
         /// <summary>
         /// Read Hash Prefix
         /// </summary>
-        /// <returns><see cref="Xrpl.BinaryCodecLib.Hashing.HashPrefix"/> prefix type</returns>
+        /// <returns><see cref="HashPrefix"/> prefix type</returns>
         public HashPrefix ReadHashPrefix()
         {
             var four = ReadUint32();
@@ -91,31 +90,31 @@ namespace Xrpl.BinaryCodecLib.Types
         /// <returns></returns>
         public int ReadOneInt() => _parser.ReadOneInt();
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.PathSet"/> from this parser </summary>
+        /// <summary> read field as <see cref="PathSet"/> from this parser </summary>
         public PathSet ReadPathSet() => PathSet.FromParser(_parser);
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.StArray"/> from this parser </summary>
+        /// <summary> read field as <see cref="StArray"/> from this parser </summary>
         public StArray ReadStArray() => StArray.FromParser(_parser);
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.StObject"/> from this parser </summary>
+        /// <summary> read field as <see cref="StObject"/> from this parser </summary>
         public StObject ReadStObject() => StObject.FromParser(_parser);
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.Uint16"/> from this parser </summary>
+        /// <summary> read field as <see cref="Uint16"/> from this parser </summary>
         public Uint16 ReadUint16() => Uint16.FromParser(_parser);
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.Uint32"/> from this parser </summary>
+        /// <summary> read field as <see cref="Uint32"/> from this parser </summary>
         public Uint32 ReadUint32() => Uint32.FromParser(_parser);
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.Uint64"/> from this parser </summary>
+        /// <summary> read field as <see cref="Uint64"/> from this parser </summary>
         public Uint64 ReadUint64() => Uint64.FromParser(_parser);
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.Uint8"/> from this parser </summary>
+        /// <summary> read field as <see cref="Uint8"/> from this parser </summary>
         public Uint8 ReadUint8() => Uint8.FromParser(_parser);
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.Vector256"/> from this parser </summary>
+        /// <summary> read field as <see cref="Vector256"/> from this parser </summary>
         public Vector256 ReadVector256() => Vector256.FromParser(_parser);
 
-        /// <summary> read field as <see cref="Xrpl.BinaryCodecLib.Types.StObject"/> from this parser </summary>
+        /// <summary> read field as <see cref="StObject"/> from this parser </summary>
         public StObject ReadVlStObject() => StObject.FromParser(_parser, _parser.ReadVlLength());
 
         // Reader methods may be define via use of extension methods

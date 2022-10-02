@@ -1,6 +1,6 @@
 ﻿//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/hash-prefixes.ts
 
-namespace Xrpl.BinaryCodecLib.Hashing
+namespace Xrpl.BinaryCodec.Hashing
 {
     /// <summary> hash prefix </summary>
     public enum HashPrefix : uint

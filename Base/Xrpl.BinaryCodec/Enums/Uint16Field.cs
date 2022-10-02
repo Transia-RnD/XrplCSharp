@@ -1,5 +1,5 @@
 ﻿//https://xrpl.org/serialization.html#uint-fields
-namespace Xrpl.BinaryCodecLib.Enums
+namespace Xrpl.BinaryCodec.Enums
 {
     public class Uint16Field : Field {
         public Uint16Field(string name, int nthOfType,

@@ -6,9 +6,9 @@ using System.Collections.Generic;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/index.test.js
 
-namespace Xrpl.AddressCodecLib.Tests
+namespace Xrpl.AddressCodec.Tests
 {
-    using static AddressCodec;
+    using static XrplAddressCodec;
 
     [TestClass]
     public class TestUAddressCodec

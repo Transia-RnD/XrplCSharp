@@ -1,8 +1,8 @@
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Math.EC;
-using Xrpl.KeypairsLib.Utils;
+using Xrpl.Keypairs.Utils;
 
-namespace Xrpl.KeypairsLib.K256
+namespace Xrpl.Keypairs.K256
 {
     public class K256KeyGenerator
     {

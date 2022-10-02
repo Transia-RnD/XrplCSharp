@@ -1,14 +1,14 @@
 using System;
 
-using static Xrpl.AddressCodecLib.Utils;
+using static Xrpl.AddressCodec.Utils;
 
-using Sha512 = Xrpl.KeypairsLib.Utils.Sha512;
+using Sha512 = Xrpl.Keypairs.Utils.Sha512;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-keypairs/src/index.ts#L69
 
-namespace Xrpl.KeypairsLib.Ed25519
+namespace Xrpl.Keypairs.Ed25519
 {
-    public class EdKeyPair : IKeyPair
+    public class EdKeyPair : IXrplKeyPair
     {
         string prefix = "ED";
         private byte[] _canonicalisedPubBytes;
@@ -35,7 +35,7 @@ namespace Xrpl.KeypairsLib.Ed25519
                        1, _pubBytes.Length);
         }
 
-        internal static IKeyPair From128Seed(byte[] seed)
+        internal static IXrplKeyPair From128Seed(byte[] seed)
         {
             var edSecret = Sha512.Half(seed);
             byte[] publicKey;

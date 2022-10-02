@@ -1,10 +1,8 @@
 ﻿using Org.BouncyCastle.Math;
+using Xrpl.Keypairs.Utils;
+using static Xrpl.AddressCodec.Utils;
 
-using Xrpl.KeypairsLib.Utils;
-
-using static Xrpl.AddressCodecLib.Utils;
-
-namespace Xrpl.KeypairsLib.K256
+namespace Xrpl.Keypairs.K256
 {
     using ECDSASigner = Org.BouncyCastle.Crypto.Signers.ECDsaSigner;
     using ECPoint = Org.BouncyCastle.Math.EC.ECPoint;
@@ -12,7 +10,7 @@ namespace Xrpl.KeypairsLib.K256
     using HMacDsaKCalculator = Org.BouncyCastle.Crypto.Signers.HMacDsaKCalculator;
     using Sha256Digest = Org.BouncyCastle.Crypto.Digests.Sha256Digest;
 
-    public class K256KeyPair : K256VerifyingKey, IKeyPair
+    public class K256KeyPair : K256VerifyingKey, IXrplKeyPair
     {
         private readonly BigInteger _privKey;
         private ECDSASigner _signer;

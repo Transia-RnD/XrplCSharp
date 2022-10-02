@@ -3,12 +3,11 @@
 using System;
 using System.Globalization;
 using System.Numerics;
-
-using Xrpl.BinaryCodecLib.Binary;
+using Xrpl.BinaryCodec.Binary;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/amount.ts
 
-namespace Xrpl.BinaryCodecLib.Types
+namespace Xrpl.BinaryCodec.Types
 {
     /// <summary>
     /// An amount of XRP or tokens. The length of the field is 64 bits for XRP or 384 bits (64+160+160) for tokens.

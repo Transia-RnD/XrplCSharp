@@ -1,8 +1,8 @@
-﻿using Xrpl.BinaryCodecLib.Binary;
-using Xrpl.BinaryCodecLib.Hashing;
-using Xrpl.BinaryCodecLib.Types;
+﻿using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Hashing;
+using Xrpl.BinaryCodec.Types;
 
-namespace Xrpl.BinaryCodecLib.ShaMapTree
+namespace Xrpl.BinaryCodec.ShaMapTree
 {
     public class ShaMapLeaf : ShaMapNode
     {

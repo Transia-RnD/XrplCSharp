@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xrpl.BinaryCodecLib.Types;
+using Xrpl.BinaryCodec.Types;
 
 // https://github.com/XRPLF/xrpl-py/blob/master/tests/unit/core/binarycodec/types/test_account_id.py
 

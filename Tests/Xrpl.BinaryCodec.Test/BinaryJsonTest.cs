@@ -1,12 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodecLib.Ledger;
-using Xrpl.BinaryCodecLib.Types;
+using Xrpl.BinaryCodec.Ledger;
+using Xrpl.BinaryCodec.Types;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/test/binary-json.test.js
 
-namespace Xrpl.BinaryCodecLib.Tests
+namespace Xrpl.BinaryCodec.Tests
 {
     //using static BinaryCodec;
 
@@ -31,7 +31,7 @@ namespace Xrpl.BinaryCodecLib.Tests
         public void MakeSuiteI()
         {
             string binary = "1200002200000000240000003E6140000002540BE40068400000000000000A7321034AADB09CFF4A4804073701EC53C3510CDC95917C2BB0150FB742D0C66E6CEE9E74473045022022EB32AECEF7C644C891C19F87966DF9C62B1F34BABA6BE774325E4BB8E2DD62022100A51437898C28C2B297112DF8131F2BB39EA5FE613487DDD611525F17962646398114550FC62003E785DC231A1058A05E56E3F09CF4E68314D4CC8AB5B21D86A82C3E9E8D0ECF2404B77FECBA";
-            Assert.AreEqual(BinaryCodec.Encode(binary), binary);
+            Assert.AreEqual(XrplBinaryCodec.Encode(binary), binary);
         }
 
         public void MakeSuite(string name, TestData[] entries)
@@ -41,7 +41,7 @@ namespace Xrpl.BinaryCodecLib.Tests
                 var t = entries[i];
                 var json = t.json;
                 var binary = t.binary;
-                Assert.AreEqual(BinaryCodec.Encode(json), binary);
+                Assert.AreEqual(XrplBinaryCodec.Encode(json), binary);
                 //expect(encode(t.json)).toEqual(t.binary)
                 //var decoded = B16.Encode(binary)
                 //Assert.AreEqual(Encode, binary);

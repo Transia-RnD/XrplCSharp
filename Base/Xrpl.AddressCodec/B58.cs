@@ -7,7 +7,7 @@ using System.Text;
 
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/xrp-codec.ts
 
-namespace Xrpl.AddressCodecLib
+namespace Xrpl.AddressCodec
 {
     public class B58
     {

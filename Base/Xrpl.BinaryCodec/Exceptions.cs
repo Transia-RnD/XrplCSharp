@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xrpl.BinaryCodecLib
+namespace Xrpl.BinaryCodec
 {
     public class BinaryCodecException : Exception
     {

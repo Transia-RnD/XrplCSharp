@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xrpl.BinaryCodecLib.Types;
+using Xrpl.BinaryCodec.Types;
 
-namespace Xrpl.BinaryCodecLib.ShaMapTree
+namespace Xrpl.BinaryCodec.ShaMapTree
 {
     public class ShaMapDiff
     {

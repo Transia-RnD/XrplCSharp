@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xrpl.AddressCodecLib
+namespace Xrpl.AddressCodec
 {
     public class AddressCodecException : Exception
     {

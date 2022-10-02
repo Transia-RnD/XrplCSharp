@@ -1,5 +1,5 @@
 ﻿//https://xrpl.org/serialization.html#array-fields
-namespace Xrpl.BinaryCodecLib.Enums
+namespace Xrpl.BinaryCodec.Enums
 {
     public class StArrayField : Field {
         public StArrayField(string name, int nthOfType,

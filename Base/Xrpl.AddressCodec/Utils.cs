@@ -4,7 +4,7 @@ using System.Linq;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/utils.ts
 
-namespace Xrpl.AddressCodecLib
+namespace Xrpl.AddressCodec
 {
     public class Utils
     {

@@ -1,6 +1,6 @@
 ﻿using Org.BouncyCastle.Utilities.Encoders;
 
-namespace Xrpl.KeypairsLib
+namespace Xrpl.Keypairs
 {
     internal static class ExtensionHelpers
     {

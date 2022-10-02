@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodecLib.Binary;
-using Xrpl.BinaryCodecLib.Util;
+using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Util;
 
-namespace Xrpl.BinaryCodecLib.Enums
+namespace Xrpl.BinaryCodec.Enums
 {
     public abstract class SerializedEnumItem<TOrd> : EnumItem, ISerializedType
         where TOrd : struct, IConvertible

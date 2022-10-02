@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using Org.BouncyCastle.Math;
-using Xrpl.AddressCodecLib;
-using Xrpl.BinaryCodecLib;
+using Xrpl.AddressCodec;
+using Xrpl.BinaryCodec;
 using Xrpl.Client.Exceptions;
-using IKeypairs = Xrpl.KeypairsLib.Keypairs;
+using Xrpl.Keypairs;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/Wallet/signer.ts
@@ -47,7 +47,7 @@ namespace Xrpl.Wallet
             //    },
             //  )
             ValidateTransactionEquivalence(decodedTransactions);
-            return BinaryCodec.Encode(GetTransactionWithAllSigners(decodedTransactions));
+            return XrplBinaryCodec.Encode(GetTransactionWithAllSigners(decodedTransactions));
         }
 
         /// <summary>
@@ -63,9 +63,9 @@ namespace Xrpl.Wallet
             json.Add("channel", channelID);
             json.Add("amount", amount);
             Debug.WriteLine(json);
-            string signatureData = BinaryCodec.EncodeForSigningClaim(json);
+            string signatureData = XrplBinaryCodec.EncodeForSigningClaim(json);
             Debug.WriteLine(signatureData);
-            return IKeypairs.Sign(signatureData.FromHex(), wallet.PrivateKey);
+            return XrplKeypairs.Sign(signatureData.FromHex(), wallet.PrivateKey);
         }
 
         /// <summary>
@@ -76,11 +76,11 @@ namespace Xrpl.Wallet
         public static bool VerifySignature(Dictionary<string, dynamic> tx)
         {
             Dictionary<string, dynamic> decodedTx = GetDecodedTransaction(tx);
-            Debug.WriteLine(BinaryCodec.EncodeForSigning(decodedTx).FromHex().ToHex());
+            Debug.WriteLine(XrplBinaryCodec.EncodeForSigning(decodedTx).FromHex().ToHex());
             Debug.WriteLine((string)decodedTx["TxnSignature"]);
             Debug.WriteLine((string)decodedTx["SigningPubKey"]);
-            return IKeypairs.Verify(
-              BinaryCodec.EncodeForSigning(decodedTx).FromHex(),
+            return XrplKeypairs.Verify(
+              XrplBinaryCodec.EncodeForSigning(decodedTx).FromHex(),
               decodedTx["TxnSignature"],
               decodedTx["SigningPubKey"]
             );
@@ -94,8 +94,8 @@ namespace Xrpl.Wallet
         public static bool VerifySignature(string tx)
         {
             Dictionary<string, dynamic> decodedTx = GetDecodedTransaction(tx);
-            return IKeypairs.Verify(
-              BinaryCodec.EncodeForSigning(decodedTx).FromHex(),
+            return XrplKeypairs.Verify(
+              XrplBinaryCodec.EncodeForSigning(decodedTx).FromHex(),
               decodedTx["TxnSignature"],
               decodedTx["SigningPubKey"]
             );
@@ -149,12 +149,12 @@ namespace Xrpl.Wallet
 
         public static Dictionary<string, dynamic> GetDecodedTransaction(Dictionary<string, dynamic>  txOrBlob)
         {
-            return BinaryCodec.Decode(BinaryCodec.Encode(txOrBlob)).ToObject<Dictionary<string, dynamic>>();
+            return XrplBinaryCodec.Decode(XrplBinaryCodec.Encode(txOrBlob)).ToObject<Dictionary<string, dynamic>>();
         }
 
         public static Dictionary<string, dynamic> GetDecodedTransaction(string txOrBlob)
         {
-            return BinaryCodec.Decode(txOrBlob).ToObject<Dictionary<string, dynamic>>();
+            return XrplBinaryCodec.Decode(txOrBlob).ToObject<Dictionary<string, dynamic>>();
         }
     }
 }
