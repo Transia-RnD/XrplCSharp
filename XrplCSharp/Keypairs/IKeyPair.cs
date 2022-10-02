@@ -1,5 +1,4 @@
-﻿using Org.BouncyCastle.Utilities.Encoders;
-using Xrpl.KeypairsLib.Utils;
+﻿using Xrpl.KeypairsLib.Utils;
 
 namespace Xrpl.KeypairsLib
 {

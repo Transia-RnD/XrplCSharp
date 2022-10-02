@@ -1,9 +1,10 @@
 using System;
-using System.Security.Cryptography.X509Certificates;
-using Xrpl.KeypairsLib;
-using Sha512 = Xrpl.KeypairsLib.Utils.Sha512;
-using Xrpl.AddressCodecLib;
+
 using static Xrpl.AddressCodecLib.Utils;
+
+using Sha512 = Xrpl.KeypairsLib.Utils.Sha512;
+
+//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-keypairs/src/index.ts#L69
 
 namespace Xrpl.KeypairsLib.Ed25519
 {
@@ -43,24 +44,12 @@ namespace Xrpl.KeypairsLib.Ed25519
             return new EdKeyPair(publicKey, expandedPrivateKey);
         }
 
-        public string Id()
-        {
-            return prefix + FromBytesToHex(this._pubBytes);
-        }
+        public string Id() => prefix + FromBytesToHex(this._pubBytes);
 
-        public string Pk()
-        {
-            return prefix + FromBytesToHex(this._privBytes[0..32]);
-        }
+        public string Pk() => prefix + FromBytesToHex(this._privBytes[0..32]);
 
-        static public byte[] Sign(byte[] message, byte[] privateKey)
-        {
-            return Chaos.NaCl.Ed25519.Sign(message, privateKey);
-        }
+        public static byte[] Sign(byte[] message, byte[] privateKey) => Chaos.NaCl.Ed25519.Sign(message, privateKey);
 
-        static public bool Verify(byte[] signature, byte[] message, byte[] publicKey)
-        {
-            return Chaos.NaCl.Ed25519.Verify(signature, message, publicKey);
-        }
+        public static bool Verify(byte[] signature, byte[] message, byte[] publicKey) => Chaos.NaCl.Ed25519.Verify(signature, message, publicKey);
     }
 }
