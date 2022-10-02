@@ -1,14 +1,14 @@
-﻿using System.Diagnostics;
-using Org.BouncyCastle.Math;
+﻿using Org.BouncyCastle.Math;
+
 using Xrpl.KeypairsLib.Utils;
-using Xrpl.AddressCodecLib;
+
 using static Xrpl.AddressCodecLib.Utils;
 
 namespace Xrpl.KeypairsLib.K256
 {
-    using ECPrivateKeyParameters = Org.BouncyCastle.Crypto.Parameters.ECPrivateKeyParameters;
     using ECDSASigner = Org.BouncyCastle.Crypto.Signers.ECDsaSigner;
     using ECPoint = Org.BouncyCastle.Math.EC.ECPoint;
+    using ECPrivateKeyParameters = Org.BouncyCastle.Crypto.Parameters.ECPrivateKeyParameters;
     using HMacDsaKCalculator = Org.BouncyCastle.Crypto.Signers.HMacDsaKCalculator;
     using Sha256Digest = Org.BouncyCastle.Crypto.Digests.Sha256Digest;
 
@@ -83,7 +83,7 @@ namespace Xrpl.KeypairsLib.K256
             return $"00{FromBytesToHex(this._privKey.ToByteArray())}";
         }
 
-        static public byte[] Sign(byte[] message, byte[] privateKey)
+        public static byte[] Sign(byte[] message, byte[] privateKey)
         {
             ECDSASigner signer = new ECDSASigner(new HMacDsaKCalculator(new Sha256Digest()));
             ECPrivateKeyParameters privKey = new ECPrivateKeyParameters(new BigInteger(privateKey), Secp256K1.Parameters());

@@ -6,8 +6,16 @@ using Newtonsoft.Json.Linq;
 
 namespace Xrpl.ClientLib.Json.Converters
 {
+    /// <summary> string or array json converter </summary>
     public class StringOrArrayConverter : JsonConverter
     {
+        /// <summary>
+        /// write  string or array to json object
+        /// </summary>
+        /// <param name="writer">writer</param>
+        /// <param name="value"> string or array value</param>
+        /// <param name="serializer">json serializer</param>
+        /// <exception cref="Exception">Cannot write value</exception>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             JToken t = JToken.FromObject(value);
@@ -15,47 +23,37 @@ namespace Xrpl.ClientLib.Json.Converters
             {
                 t.WriteTo(writer);
             }
-            else
-            {
-                
-            }
 
-            if (value is string)
+            switch (value)
             {
-                writer.WriteValue(value);
-            } else if (value is List<string>)
-            {
-                
-            } else if (value is Array)
-            {
-                
+                case string:
+                    writer.WriteValue(value);
+                    break;
+                case List<string>: break;
+                case Array: throw new Exception("Cannot write value");
             }
-            throw new Exception("Cannot write value");
         }
 
+        /// <summary> read  string or array  from json object </summary>
+        /// <param name="reader">json reader</param>
+        /// <param name="objectType">object type</param>
+        /// <param name="existingValue">object value</param>
+        /// <param name="serializer">json serializer</param>
+        /// <returns>string or array </returns>
+        /// <exception cref="Exception">Cannot convert value</exception>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            if (reader.TokenType == JsonToken.Null)
-                return null;
-
-            if (reader.TokenType == JsonToken.String)
+            return reader.TokenType switch
             {
-                return reader.Value;
-            }
-
-            if (reader.TokenType == JsonToken.StartObject)
-            {
-                return serializer.Deserialize<List<string>>(reader);
-            }
-
-            throw new Exception("Cannot convert value");
+                JsonToken.Null => null,
+                JsonToken.String => reader.Value,
+                JsonToken.StartObject => serializer.Deserialize<List<string>>(reader),
+                _ => throw new Exception("Cannot convert value")
+            };
         }
 
+        /// <inheritdoc />
         public override bool CanConvert(Type objectType)
-        {
-            if (objectType == typeof(string) || objectType == typeof(List<string>) || objectType == typeof(Array))
-                return true;
-            return false;
-        }
+            => objectType == typeof(string) || objectType == typeof(List<string>) || objectType == typeof(Array);
     }
 }
