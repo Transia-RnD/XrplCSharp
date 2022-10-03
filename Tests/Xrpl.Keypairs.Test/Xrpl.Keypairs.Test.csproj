@@ -21,9 +21,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Base\Xrpl.Keypairs\Xrpl.Keypairs.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Xrpl\Properties\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -34,5 +31,8 @@
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Keypairs.Tests\Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Base\Xrpl.Keypairs\Xrpl.Keypairs.csproj" />
   </ItemGroup>
 </Project>

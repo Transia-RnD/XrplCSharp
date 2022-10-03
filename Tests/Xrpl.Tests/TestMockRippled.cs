@@ -12,18 +12,18 @@ namespace XrplTests.Xrpl
 
         public static SetupUnit runner;
 
-        [ClassInitialize]
-        public static async Task MyClassInitializeAsync(TestContext testContext)
-        {
-            runner = await new SetupUnit().SetupClient();
-        }
+        //[ClassInitialize]
+        //public static async Task MyClassInitializeAsync(TestContext testContext)
+        //{
+        //    runner = await new SetupUnit().SetupClient();
+        //}
 
-        [TestMethod]
-        public async Task TestErrorMockNotProvided()
-        {
-            ServerInfoRequest request = new ServerInfoRequest();
-            //await runner.client.ServerInfo(request);
-        }
+        //[TestMethod]
+        //public async Task TestErrorMockNotProvided()
+        //{
+        //    ServerInfoRequest request = new ServerInfoRequest();
+        //    //await runner.client.ServerInfo(request);
+        //}
     }
 }
 

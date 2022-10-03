@@ -10,7 +10,7 @@ namespace Xrpl.BinaryCodec.Binary
     /// </summary>
     public class BinarySerializer : IBytesSink
     {
-        private readonly IBytesSink _sink;
+        public readonly IBytesSink _sink;
         /// <summary>
         /// create a value to this BinarySerializer
         /// </summary>

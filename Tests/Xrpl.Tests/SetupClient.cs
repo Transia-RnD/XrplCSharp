@@ -21,8 +21,8 @@ namespace XrplTests.Xrpl
             Debug.WriteLine($"ws://localhost:{9999}");
             //_mockedServerPort = mockedRippled._port;
             //client = new Client("wss://hooks-testnet-v2.xrpl-labs.com");
-            client = new XrplClient($"ws://localhost:{9999}");
-            client.Connect();
+            //client = new XrplClient($"ws://localhost:{9999}");
+            //client.Connect();
             return this;
         }
     }

@@ -1,18 +1,108 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Xrpl.AddressCodec;
 using Xrpl.BinaryCodec.Ledger;
 using Xrpl.BinaryCodec.Types;
 
-// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/test/binary-json.test.js
+// https://github.com/XRPLF/xrpl-py/blob/master/tests/unit/core/binarycodec/test_main.py
 
 namespace Xrpl.BinaryCodec.Tests
 {
-    //using static BinaryCodec;
+
+    //[TestClass]
+    //public class TestUBinarySimple
+    //{
+    //    static Dictionary<string, dynamic> TX_JSON = new Dictionary<string, dynamic>
+    //    {
+    //        { "Account", "r9LqNeG6qHxjeUocjvVki2XR35weJ9mZgQ" },
+    //        { "Destination", "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh" },
+    //        //{ "Flags", (1 << 31) },
+    //        { "Flags", 2147483648 },
+    //        { "Sequence", 1 },
+    //        { "TransactionType", "Payment" },
+    //    };
+
+    //    [TestMethod]
+    //    public void TestSimple()
+    //    {
+    //        string encoded = XrplBinaryCodec.Encode(TX_JSON);
+    //        JToken decoded = XrplBinaryCodec.Decode(encoded);
+    //        Dictionary<string, dynamic> result = decoded.ToObject<Dictionary<string, dynamic>>();
+    //        Assert.IsTrue(TX_JSON.ContentEquals(result));
+    //    }
+
+    //    [TestMethod]
+    //    public void TestAmountFee()
+    //    {
+    //        var clone = TX_JSON;
+    //        clone["Amount"] = "1000";
+    //        clone["Fee"] = "10";
+    //        Assert.IsTrue(XrplBinaryCodec.Decode(XrplBinaryCodec.Encode(clone)).ToObject<Dictionary<string, object>>() == clone);
+    //    }
+
+    //    [TestMethod]
+    //    [ExpectedException(typeof(BinaryCodecException))]
+    //    public void TestInvalidAmount()
+    //    {
+    //        var clone = TX_JSON;
+    //        clone["Amount"] = "1000.789";
+    //        clone["Fee"] = "10.123";
+    //        XrplBinaryCodec.Encode(clone);
+    //    }
+
+    //    [TestMethod]
+    //    [ExpectedException(typeof(BinaryCodecException))]
+    //    public void TestInvalidAmountInvalidFee()
+    //    {
+    //        var clone = TX_JSON;
+    //        clone["Amount"] = "1000.001";
+    //        clone["Fee"] = "10";
+    //        XrplBinaryCodec.Encode(clone);
+    //    }
+
+    //    [TestMethod]
+    //    [ExpectedException(typeof(BinaryCodecException))]
+    //    public void TestInvalidAmountType()
+    //    {
+    //        var clone = TX_JSON;
+    //        clone["Amount"] = 1000;
+    //        XrplBinaryCodec.Encode(clone);
+    //    }
+
+    //    [TestMethod]
+    //    [ExpectedException(typeof(BinaryCodecException))]
+    //    public void TestInvalidFeeType()
+    //    {
+    //        var clone = TX_JSON;
+    //        clone["Fee"] = 10;
+    //        XrplBinaryCodec.Encode(clone);
+    //    }
+    //}
 
     [TestClass]
-    public class TestUBinaryJson
+    public class TestUBinaryXAddress
     {
+
+    }
+
+    [TestClass]
+    public class TestUBinaryFixtures
+    {
+        public class TestData
+        {
+            public string binary { get; set; }
+            public JObject json { get; set; }
+        }
+
+        public class TestXData
+        {
+            public JObject rjson { get; set; }
+            public JObject xjson { get; set; }
+        }
 
         private static JObject GetTestsJson()
         {
@@ -22,65 +112,83 @@ namespace Xrpl.BinaryCodec.Tests
             return (JObject)JToken.Parse(jsonString);
         }
 
-        public class TestData
+        private static JObject GetXTestsJson()
         {
-            public string binary { get; set; }
-            public JObject json { get; set; }
+            //return (JObject)Utils.ParseJson(Resources.DataDrivenTests);
+            string jsonString = "{\"transactions\":[{\"rjson\":{\"Account\":\"r3kmLJN5D28dHuH8vZNUZpMC43pEHpaocV\",\"Destination\":\"rLQBHVhFnaC5gLEkgr6HgBJJ3bgeZHg9cj\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"3045022022EB32AECEF7C644C891C19F87966DF9C62B1F34BABA6BE774325E4BB8E2DD62022100A51437898C28C2B297112DF8131F2BB39EA5FE613487DDD611525F1796264639\",\"SigningPubKey\":\"034AADB09CFF4A4804073701EC53C3510CDC95917C2BB0150FB742D0C66E6CEE9E\",\"Amount\":\"10000000000\",\"DestinationTag\":1010,\"SourceTag\":84854,\"Fee\":\"10\",\"Flags\":0,\"Sequence\":62},\"xjson\":{\"Account\":\"X7tFPvjMH7nDxP8nTGkeeggcUpCZj8UbyT2QoiRHGDfjqrB\",\"Destination\":\"XVYmGpJqHS95ir411XvanwY1xt5Z2314WsamHPVgUNABUGV\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"3045022022EB32AECEF7C644C891C19F87966DF9C62B1F34BABA6BE774325E4BB8E2DD62022100A51437898C28C2B297112DF8131F2BB39EA5FE613487DDD611525F1796264639\",\"SigningPubKey\":\"034AADB09CFF4A4804073701EC53C3510CDC95917C2BB0150FB742D0C66E6CEE9E\",\"Amount\":\"10000000000\",\"Fee\":\"10\",\"Flags\":0,\"Sequence\":62}},{\"rjson\":{\"Account\":\"r4DymtkgUAh2wqRxVfdd3Xtswzim6eC6c5\",\"Amount\":\"199000000\",\"Destination\":\"rsekGH9p9neiPxym2TMJhqaCzHFuokenTU\",\"DestinationTag\":3663729509,\"Fee\":\"6335\",\"Flags\":2147483648,\"LastLedgerSequence\":57313352,\"Sequence\":105791,\"SigningPubKey\":\"02053A627976CE1157461336AC65290EC1571CAAD1B327339980F7BF65EF776F83\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"30440220086D3330CD6CE01D891A26BA0355D8D5A5D28A5C9A1D0C5E06E321C81A02318A0220027C3F6606E41FEA35103EDE5224CC489B6514ACFE27543185B0419DD02E301C\"},\"xjson\":{\"Account\":\"r4DymtkgUAh2wqRxVfdd3Xtswzim6eC6c5\",\"Amount\":\"199000000\",\"Destination\":\"X7cBoj6a5xSEfPCr6AStN9YPhbMAA2yaN2XYWwRJKAKb3y5\",\"Fee\":\"6335\",\"Flags\":2147483648,\"LastLedgerSequence\":57313352,\"Sequence\":105791,\"SigningPubKey\":\"02053A627976CE1157461336AC65290EC1571CAAD1B327339980F7BF65EF776F83\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"30440220086D3330CD6CE01D891A26BA0355D8D5A5D28A5C9A1D0C5E06E321C81A02318A0220027C3F6606E41FEA35103EDE5224CC489B6514ACFE27543185B0419DD02E301C\"}},{\"rjson\":{\"Account\":\"rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv\",\"Amount\":\"105302107\",\"Destination\":\"r33hypJXDs47LVpmvta7hMW9pR8DYeBtkW\",\"DestinationTag\":1658156118,\"Fee\":\"60000\",\"Flags\":2147483648,\"LastLedgerSequence\":57313566,\"Sequence\":1113196,\"SigningPubKey\":\"03D847C2DBED3ABF0453F71DCD7641989136277218DF516AD49519C9693F32727E\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"3045022100FCA10FBAC65EA60C115A970CD52E6A526B1F9DDB6C4F843DA3DE7A97DFF9492D022037824D0FC6F663FB08BE0F2812CBADE1F61836528D44945FC37F10CC03215111\"},\"xjson\":{\"Account\":\"rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv\",\"Amount\":\"105302107\",\"Destination\":\"X7ikFY5asEwp6ikt2AJdTfBLALEs5JN35kkeqKVeT1GdvY1\",\"Fee\":\"60000\",\"Flags\":2147483648,\"LastLedgerSequence\":57313566,\"Sequence\":1113196,\"SigningPubKey\":\"03D847C2DBED3ABF0453F71DCD7641989136277218DF516AD49519C9693F32727E\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"3045022100FCA10FBAC65EA60C115A970CD52E6A526B1F9DDB6C4F843DA3DE7A97DFF9492D022037824D0FC6F663FB08BE0F2812CBADE1F61836528D44945FC37F10CC03215111\"}},{\"rjson\":{\"Account\":\"rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv\",\"Amount\":\"3899911571\",\"Destination\":\"rU2mEJSLqBRkYLVTv55rFTgQajkLTnT6mA\",\"DestinationTag\":255406,\"Fee\":\"60000\",\"Flags\":2147483648,\"LastLedgerSequence\":57313566,\"Sequence\":1113197,\"SigningPubKey\":\"03D847C2DBED3ABF0453F71DCD7641989136277218DF516AD49519C9693F32727E\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"3044022077642D94BB3C49BF3CB4C804255EC830D2C6009EA4995E38A84602D579B8AAD702206FAD977C49980226E8B495BF03C8D9767380F1546BBF5A4FD47D604C0D2CCF9B\"},\"xjson\":{\"Account\":\"rDsbeomae4FXwgQTJp9Rs64Qg9vDiTCdBv\",\"Amount\":\"3899911571\",\"Destination\":\"XVfH8gwNWVbB5Kft16jmTNgGTqgw1dzA8ZTBkNjSLw6JdXS\",\"Fee\":\"60000\",\"Flags\":2147483648,\"LastLedgerSequence\":57313566,\"Sequence\":1113197,\"SigningPubKey\":\"03D847C2DBED3ABF0453F71DCD7641989136277218DF516AD49519C9693F32727E\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"3044022077642D94BB3C49BF3CB4C804255EC830D2C6009EA4995E38A84602D579B8AAD702206FAD977C49980226E8B495BF03C8D9767380F1546BBF5A4FD47D604C0D2CCF9B\"}},{\"rjson\":{\"Account\":\"r4eEbLKZGbVSBHnSUBZW8i5XaMjGLdqT4a\",\"Amount\":\"820370849\",\"Destination\":\"rDhmyBh4JwDAtXyRZDarNgg52UcLLRoGje\",\"DestinationTag\":2017780486,\"Fee\":\"6000\",\"Flags\":2147483648,\"LastLedgerSequence\":57315579,\"Sequence\":234254,\"SigningPubKey\":\"038CF47114672A12B269AEE015BF7A8438609B994B0640E4B28B2F56E93D948B15\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"3044022015004653B1CBDD5CCA1F7B38555F1B37FE3F811E9D5070281CCC6C8A93460D870220679E9899184901EA69750C8A9325768490B1B9C1A733842446727653FF3D1DC0\"},\"xjson\":{\"Account\":\"r4eEbLKZGbVSBHnSUBZW8i5XaMjGLdqT4a\",\"Amount\":\"820370849\",\"Destination\":\"XV31huWNJQXsAJFwgE6rnC8uf8jRx4H4waq4MyGUxz5CXzS\",\"Fee\":\"6000\",\"Flags\":2147483648,\"LastLedgerSequence\":57315579,\"Sequence\":234254,\"SigningPubKey\":\"038CF47114672A12B269AEE015BF7A8438609B994B0640E4B28B2F56E93D948B15\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"3044022015004653B1CBDD5CCA1F7B38555F1B37FE3F811E9D5070281CCC6C8A93460D870220679E9899184901EA69750C8A9325768490B1B9C1A733842446727653FF3D1DC0\"}},{\"rjson\":{\"Account\":\"rsGeDwS4rpocUumu9smpXomzaaeG4Qyifz\",\"Amount\":\"1500000000\",\"Destination\":\"rDxfhNRgCDNDckm45zT5ayhKDC4Ljm7UoP\",\"DestinationTag\":1000635172,\"Fee\":\"5000\",\"Flags\":2147483648,\"Sequence\":55741075,\"SigningPubKey\":\"02ECB814477DF9D8351918878E235EE6AF147A2A5C20F1E71F291F0F3303357C36\",\"SourceTag\":1000635172,\"TransactionType\":\"Payment\",\"TxnSignature\":\"304402202A90972E21823214733082E1977F9EA2D6B5101902F108E7BDD7D128CEEA7AF3022008852C8DAD746A7F18E66A47414FABF551493674783E8EA7409C501D3F05F99A\"},\"xjson\":{\"Account\":\"rsGeDwS4rpocUumu9smpXomzaaeG4Qyifz\",\"Amount\":\"1500000000\",\"Destination\":\"XVBkK1yLutMqFGwTm6hykn7YXGDUrjsZSkpzMgRveZrMbHs\",\"Fee\":\"5000\",\"Flags\":2147483648,\"Sequence\":55741075,\"SigningPubKey\":\"02ECB814477DF9D8351918878E235EE6AF147A2A5C20F1E71F291F0F3303357C36\",\"SourceTag\":1000635172,\"TransactionType\":\"Payment\",\"TxnSignature\":\"304402202A90972E21823214733082E1977F9EA2D6B5101902F108E7BDD7D128CEEA7AF3022008852C8DAD746A7F18E66A47414FABF551493674783E8EA7409C501D3F05F99A\"}},{\"rjson\":{\"Account\":\"rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt\",\"Amount\":\"48918500000\",\"Destination\":\"rEb8TK3gBgk5auZkwc6sHnwrGVJH8DuaLh\",\"DestinationTag\":105959914,\"Fee\":\"10\",\"Flags\":2147483648,\"Sequence\":32641,\"SigningPubKey\":\"02E98DA545CCCC5D14C82594EE9E6CCFCF5171108E2410B3E784183E1068D33429\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"304502210091DCA7AF189CD9DC93BDE24DEAE87381FBF16789C43113EE312241D648982B2402201C6055FEFFF1F119640AAC0B32C4F37375B0A96033E0527A21C1366920D6A524\"},\"xjson\":{\"Account\":\"rHWcuuZoFvDS6gNbmHSdpb7u1hZzxvCoMt\",\"Amount\":\"48918500000\",\"Destination\":\"XVH3aqvbYGhRhrD1FYSzGooNuxdzbG3VR2fuM47oqbXxQr7\",\"Fee\":\"10\",\"Flags\":2147483648,\"Sequence\":32641,\"SigningPubKey\":\"02E98DA545CCCC5D14C82594EE9E6CCFCF5171108E2410B3E784183E1068D33429\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"304502210091DCA7AF189CD9DC93BDE24DEAE87381FBF16789C43113EE312241D648982B2402201C6055FEFFF1F119640AAC0B32C4F37375B0A96033E0527A21C1366920D6A524\"}},{\"rjson\":{\"PreviousTxnLgrSeq\":239,\"LedgerEntryType\":\"RippleState\",\"LowLimit\":{\"currency\":\"USD\",\"value\":\"0\",\"issuer\":\"rnziParaNb8nsU4aruQdwYE3j5jUcqjzFm\"},\"PreviousTxnID\":\"C6A2521BBCCF13282C4FFEBC00D47BBA18C6CE5F5E4E0EFC3E3FCE364BAFC6B8\",\"Flags\":131072,\"Balance\":{\"currency\":\"USD\",\"value\":\"0\",\"issuer\":\"rrrrrrrrrrrrrrrrrrrrBZbvji\"},\"HighLimit\":{\"currency\":\"USD\",\"value\":\"10\",\"issuer\":\"rMYBVwiY95QyUnCeuBQA1D47kXA9zuoBui\"}},\"xjson\":{\"PreviousTxnLgrSeq\":239,\"LedgerEntryType\":\"RippleState\",\"LowLimit\":{\"currency\":\"USD\",\"value\":\"0\",\"issuer\":\"X7jqKn4UidCF7AQ7Eeyfn3vJubztfhF1LwTD9PV2QhPpnvx\"},\"PreviousTxnID\":\"C6A2521BBCCF13282C4FFEBC00D47BBA18C6CE5F5E4E0EFC3E3FCE364BAFC6B8\",\"Flags\":131072,\"Balance\":{\"currency\":\"USD\",\"value\":\"0\",\"issuer\":\"X7TYFRtYHMcHtT2qNycMwgXzFbcRvdrhMLy5kJrYHpJDkc2\"},\"HighLimit\":{\"currency\":\"USD\",\"value\":\"10\",\"issuer\":\"XVc7LPeF5cfwQ1XRmz6Ursck9i8yWpb1yqApvW4ZGuDNZbD\"}}}]}";
+            //return JsonConvert.DeserializeObject<dynamic>(jsonString);
+            return (JObject)JToken.Parse(jsonString);
         }
 
-        public void MakeSuiteI()
+        public void CheckBinaryAndJson(TestData test)
         {
-            string binary = "1200002200000000240000003E6140000002540BE40068400000000000000A7321034AADB09CFF4A4804073701EC53C3510CDC95917C2BB0150FB742D0C66E6CEE9E74473045022022EB32AECEF7C644C891C19F87966DF9C62B1F34BABA6BE774325E4BB8E2DD62022100A51437898C28C2B297112DF8131F2BB39EA5FE613487DDD611525F17962646398114550FC62003E785DC231A1058A05E56E3F09CF4E68314D4CC8AB5B21D86A82C3E9E8D0ECF2404B77FECBA";
-            Assert.AreEqual(XrplBinaryCodec.Encode(binary), binary);
+            Assert.AreEqual(XrplBinaryCodec.Encode(test.json), test.binary);
+            //Dictionary<string, dynamic> result = XrplBinaryCodec.Decode(test.binary).ToObject<Dictionary<string, dynamic>>();
+            //Debug.WriteLine(result.ToDebugString());
+            //Debug.WriteLine(test.json.ToDebugString());
+            //Assert.IsTrue(result.ContentEquals(test.json.ToObject<Dictionary<string, dynamic>>()));
+        }
+
+        public void CheckXaddressJsons(TestXData test)
+        {
+            Assert.AreEqual(XrplBinaryCodec.Encode(test.xjson), XrplBinaryCodec.Encode(test.rjson));
+            //Assert.IsTrue(XrplBinaryCodec.Decode(XrplBinaryCodec.Encode(test.xjson)) == test.rjson);
         }
 
         public void MakeSuite(string name, TestData[] entries)
         {
             for (var i = 0; i < entries.Length; i++)
             {
-                var t = entries[i];
-                var json = t.json;
-                var binary = t.binary;
-                Assert.AreEqual(XrplBinaryCodec.Encode(json), binary);
-                //expect(encode(t.json)).toEqual(t.binary)
-                //var decoded = B16.Encode(binary)
-                //Assert.AreEqual(Encode, binary);
+                var test = entries[i];
+                CheckBinaryAndJson(test);
             }
-            //Encode
-            //Assert.AreEqual(jsonData, decoded);
-            //expect(encode(t.json)).toEqual(t.binary);
-            //const decoded = decode(t.binary);
-            //expect(decoded).toEqual(t.json);
+        }
+
+        public void MakeXSuite(string name, TestXData[] entries)
+        {
+            for (var i = 0; i < entries.Length; i++)
+            {
+                var test = entries[i];
+                CheckXaddressJsons(test);
+            }
         }
 
         [TestMethod]
-        public void TestMakes()
+        public void RunFixturesTest()
         {
-            //MakeSuiteI();
             var obj = GetTestsJson();
             string transactionsString = obj["transactions"].ToString();
             var transactionsData = JsonConvert.DeserializeObject<TestData[]>(transactionsString);
-            string accountStateString = obj["transactions"].ToString();
+            string accountStateString = obj["accountState"].ToString();
             var accountStateData = JsonConvert.DeserializeObject<TestData[]>(accountStateString);
             MakeSuite("transactions", transactionsData);
             MakeSuite("accountState", accountStateData);
         }
 
-        [TestMethod]
-        public void TestLedgerData()
-        {
-            var obj = GetTestsJson();
-            string ledgerDataString = obj["ledgerData"].ToString();
-            var ledgerData = JsonConvert.DeserializeObject<TestData[]>(ledgerDataString);
-            for (int i = 0; i < ledgerData.Length; i++)
-            {
-                TestData data = ledgerData[i];
-                string binary = data.binary;
-                JObject jsonData = data.json;
-                StReader reader = StReader.FromHex(binary);
-                var decoded = LedgerHeader.FromReader(reader);
-                Assert.AreEqual(jsonData, decoded.ToJson());
-            }
-        }
+        //[TestMethod]
+        //public void RunXFixturesTest()
+        //{
+        //    var obj = GetXTestsJson();
+        //    string transactionsString = obj["transactions"].ToString();
+        //    var transactionsData = JsonConvert.DeserializeObject<TestXData[]>(transactionsString);
+        //    MakeXSuite("transactions", transactionsData);
+        //}
+
+        //[TestMethod]
+        //public void TestLedgerData()
+        //{
+        //    var obj = GetTestsJson();
+        //    string ledgerDataString = obj["ledgerData"].ToString();
+        //    var ledgerData = JsonConvert.DeserializeObject<TestData[]>(ledgerDataString);
+        //    for (int i = 0; i < ledgerData.Length; i++)
+        //    {
+        //        TestData data = ledgerData[i];
+        //        string binary = data.binary;
+        //        JObject jsonData = data.json;
+        //        StReader reader = StReader.FromHex(binary);
+        //        var decoded = LedgerHeader.FromReader(reader);
+        //        Assert.AreEqual(jsonData, decoded.ToJson());
+        //    }
+        //}
     }
 }

@@ -14,7 +14,7 @@ namespace Xrpl.Keypairs.K256
             if (keyIndex == -1)
             {
                 // The root keyPair
-                return new K256KeyPair(privateGen);
+                return new K256KeyPair(privateGen, true);
             }
             var secret = ComputeSecretKey(privateGen, (uint) keyIndex);
             return new K256KeyPair(secret);
