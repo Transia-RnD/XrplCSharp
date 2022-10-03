@@ -4,7 +4,7 @@ using Xrpl.BinaryCodec.Binary;
 
 namespace Xrpl.BinaryCodec.Hashing
 {
-    public class Sha512 : BytesList
+    public class Sha512 : IBytesSink
     {
         private readonly SHA512 _digest;
 

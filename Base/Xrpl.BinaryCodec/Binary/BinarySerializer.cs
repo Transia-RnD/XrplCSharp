@@ -8,33 +8,33 @@ namespace Xrpl.BinaryCodec.Binary
     /// <summary>
     /// BinarySerializer is used to write fields and values to buffers
     /// </summary>
-    public class BinarySerializer : BytesList
+    public class BinarySerializer : IBytesSink
     {
-        public readonly BytesList _sink;
+        public readonly IBytesSink _sink;
         /// <summary>
         /// create a value to this BinarySerializer
         /// </summary>
         /// <param name="sink">Bytes Sink</param>
-        public BinarySerializer(BytesList sink)
+        public BinarySerializer(IBytesSink sink)
         {
             _sink = sink;
         }
         /// <inheritdoc />
-        public void Put(byte[] bytes)
+        public void Put(byte[] n)
         {
-            _sink.Put(bytes);
+            _sink.Put(n);
         }
         /// <summary>
         ///  Calculate the header of Variable Length encoded bytes
         /// </summary>
         /// <param name="n">length the length of the bytes</param>
-        //public void AddLengthEncoded(byte[] n)
-        //{
-        //    Put(EncodeVl(n.Length));
-        //    Put(n);
-        //}
+        public void AddLengthEncoded(byte[] n)
+        {
+            Put(EncodeVl(n.Length));
+            Put(n);
+        }
 
-        public static byte[] EncodeVariableLength(int length)
+        public static byte[] EncodeVl(int length)
         {
             // TODO: bytes
             var lenBytes = new byte[4];
@@ -72,7 +72,7 @@ namespace Xrpl.BinaryCodec.Binary
         /// Write a value to this BinarySerializer
         /// </summary>
         /// <param name="bl">value a SerializedType value</param>
-        public void WriteBytesList(BytesList bl)
+        public void Add(BytesList bl)
         {
             foreach (byte[] bytes in bl.RawList())
             {
@@ -102,66 +102,49 @@ namespace Xrpl.BinaryCodec.Binary
         {
             _sink.Put(type);
         }
-        ///// <summary>
-        ///// Write a variable length encoded value to the BinarySerializer
-        ///// </summary>
-        ///// <param name="bytes">value a SerializedType value</param>
-        //public void AddLengthEncoded(BytesList bytes)
-        //{
-        //    Put(EncodeVl(bytes.BytesLength()));
-        //    Add(bytes);
-        //}
-
+        /// <summary>
+        /// Write a variable length encoded value to the BinarySerializer
+        /// </summary>
+        /// <param name="bytes">value a SerializedType value</param>
+        public void AddLengthEncoded(BytesList bytes)
+        {
+            Put(EncodeVl(bytes.BytesLength()));
+            Add(bytes);
+        }
         /// <summary>
         /// Write field and value to BinarySerializer
         /// </summary>
         /// <param name="field">field field to write to BinarySerializer</param>
         /// <param name="value">value value to write to BinarySerializer</param>
-        public void WriteFieldAndValue(Field field, ISerializedType value, bool isUNL = false)
+        public void Add(Field field, ISerializedType value)
         {
             AddFieldHeader(field);
             if (field.IsVlEncoded)
             {
-                WriteLengthEncoded(value, isUNL);
+                AddLengthEncoded(value);
             }
             else
             {
                 value.ToBytes(_sink);
-                //if (field.Type == FieldType.StObject)
-                //{
-                //    AddFieldHeader(Field.ObjectEndMarker);
-                //}
-                //else if (field.Type == FieldType.StArray)
-                //{
-                //    AddFieldHeader(Field.ArrayEndMarker);
-                //}
+                if (field.Type == FieldType.StObject)
+                {
+                    AddFieldHeader(Field.ObjectEndMarker);
+                }
+                else if (field.Type == FieldType.StArray)
+                {
+                    AddFieldHeader(Field.ArrayEndMarker);
+                }
             }
         }
         /// <summary>
         /// Write a variable length encoded value to the BinarySerializer
         /// </summary>
         /// <param name="value">value length encoded value to write to BytesList</param>
-        //public void AddLengthEncoded(ISerializedType value)
-        //{
-        //    var byteObject = new BytesList();
-        //    value.ToBytes(byteObject);
-        //    AddLengthEncoded(byteObject);
-        //}
-
-        /// <summary>
-        /// Write a variable length encoded value to the BinarySerializer
-        /// </summary>
-        /// <param name="value">value length encoded value to write to BytesList</param>
-        public void WriteLengthEncoded(ISerializedType value, bool isUnlModifyWorkaround = false)
+        public void AddLengthEncoded(ISerializedType value)
         {
-            var byteObject = new BytesList();
-            if (!isUnlModifyWorkaround)
-            {
-                // TODO: ToBytesSink see doc above
-                value.ToBytes(byteObject);
-            }
-            Put(EncodeVariableLength(byteObject.BytesLength()));
-            WriteBytesList(byteObject);
+            var bytes = new BytesList();
+            value.ToBytes(bytes);
+            AddLengthEncoded(bytes);
         }
     }
 }

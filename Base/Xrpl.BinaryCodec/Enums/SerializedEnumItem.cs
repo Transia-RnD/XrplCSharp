@@ -10,7 +10,7 @@ namespace Xrpl.BinaryCodec.Enums
         where TOrd : struct, IConvertible
     {
         protected readonly byte[] Bytes; 
-        public void ToBytes(BytesList sink)
+        public void ToBytes(IBytesSink sink)
         {
             sink.Put(Bytes);
         }

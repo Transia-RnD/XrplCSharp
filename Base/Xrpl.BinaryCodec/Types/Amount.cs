@@ -39,7 +39,7 @@ namespace Xrpl.BinaryCodec.Types
         {
         }
 
-        public void ToBytes(BytesList sink)
+        public void ToBytes(IBytesSink sink)
         {
             sink.Put(Value.ToBytes());
             if (!IsNative())

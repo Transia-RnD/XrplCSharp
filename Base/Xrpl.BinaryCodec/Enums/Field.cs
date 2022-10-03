@@ -18,7 +18,6 @@ namespace Xrpl.BinaryCodec.Enums
         #endregion
 
         public static readonly Enumeration<Field> Values = new Enumeration<Field>();
-
         public Field(string name,
             int nthOfType,
             FieldType type,

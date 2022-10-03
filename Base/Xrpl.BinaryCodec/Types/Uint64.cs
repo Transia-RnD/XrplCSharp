@@ -68,7 +68,7 @@ namespace Xrpl.BinaryCodec.Types
             Regex rg = new Regex(HEX_REGEX);
             if (rg.Matches(v).Count == 0)
             {
-                throw new BinaryCodecError($"{v} is not a valid hex string");
+                throw new BinaryCodecException($"{v} is not a valid hex string");
             }
 
             string strBuf = v.PadRight(16, '0');

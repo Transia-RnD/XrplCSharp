@@ -19,11 +19,11 @@ namespace Xrpl.BinaryCodec.ShaMapTree
             LedgerIndex = ledgerIndex;
         }
 
-        public void ToBytes(BytesList sink)
+        public void ToBytes(IBytesSink sink)
         {
             var ser = new BinarySerializer(sink);
-            ser.WriteFieldAndValue(Field.Transaction, Tx);
-            ser.WriteFieldAndValue(Field.TransactionMetaData, Tx);
+            ser.AddLengthEncoded(Tx);
+            ser.AddLengthEncoded(Meta);
         }
 
         public IShaMapItem<TransactionResult> Copy()

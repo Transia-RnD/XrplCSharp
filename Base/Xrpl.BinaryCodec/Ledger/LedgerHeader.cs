@@ -76,7 +76,7 @@ namespace Xrpl.BinaryCodec.Ledger
             return new Hash256(hasher.Finish256());
         }
 
-        private void ToBytes(BytesList sink)
+        private void ToBytes(IBytesSink sink)
         {
             LedgerIndex.ToBytes(sink);
             TotalDrops.ToBytes(sink);

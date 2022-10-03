@@ -15,16 +15,16 @@ namespace Xrpl.BinaryCodec.Types
         {
             _parser = parser;
         }
-        ///// <summary>
-        ///// create StReader reader from file
-        ///// </summary>
-        ///// <param name="path">file path</param>
-        ///// <returns></returns>
-        //public static StReader FromFile(string path)
-        //{
-        //    var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
-        //    return new StReader(new StreamParser(stream));
-        //}
+        /// <summary>
+        /// create StReader reader from file
+        /// </summary>
+        /// <param name="path">file path</param>
+        /// <returns></returns>
+        public static StReader FromFile(string path)
+        {
+            var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            return new StReader(new StreamParser(stream));
+        }
         /// <summary>
         /// create StReader reader from hex string
         /// </summary>
@@ -60,7 +60,7 @@ namespace Xrpl.BinaryCodec.Types
         /// <summary> read field as <see cref="Blob"/> from this parser </summary>
         public Blob ReadBlob()
         {
-            var hint = _parser.ReadLengthPrefix();
+            var hint = _parser.ReadVlLength();
             return Blob.FromParser(_parser, hint);
         }
 
@@ -115,7 +115,7 @@ namespace Xrpl.BinaryCodec.Types
         public Vector256 ReadVector256() => Vector256.FromParser(_parser);
 
         /// <summary> read field as <see cref="StObject"/> from this parser </summary>
-        public StObject ReadVlStObject() => StObject.FromParser(_parser, _parser.ReadLengthPrefix());
+        public StObject ReadVlStObject() => StObject.FromParser(_parser, _parser.ReadVlLength());
 
         // Reader methods may be define via use of extension methods
         // eg. see: TransactionResult

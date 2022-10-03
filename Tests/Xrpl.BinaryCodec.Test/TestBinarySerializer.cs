@@ -24,10 +24,10 @@ namespace Xrpl.BinaryCodec.Tests
                 Blob blob = Blob.FromHex(byteString);
                 Assert.AreEqual(blob.Buffer.Length, _case);
 
-                binarySerializer.WriteLengthEncoded(blob);
+                binarySerializer.AddLengthEncoded(blob);
                 // hex string representation of encoded length prefix
-                BufferParser binaryParser = new BufferParser(binarySerializer._sink.ToHex());
-                int decodedLength = binaryParser.ReadLengthPrefix();
+                BufferParser binaryParser = new BufferParser(binarySerializer._sink.ToString());
+                int decodedLength = binaryParser.ReadVlLength();
                 Assert.AreEqual(_case, decodedLength);
             }
         }

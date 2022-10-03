@@ -27,7 +27,7 @@ namespace Xrpl.BinaryCodec.Types
         }
 
         /// <inheritdoc />
-        public void ToBytes(BytesList sink) => sink.Put(ToBytes());
+        public void ToBytes(IBytesSink sink) => sink.Put(ToBytes());
 
         /// <inheritdoc />
         public virtual JToken ToJson() => Convert.ToUInt32(Value);

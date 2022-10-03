@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Xrpl.BinaryCodec.Binary;
@@ -11,7 +10,7 @@ namespace Xrpl.BinaryCodec
     {
         /// <summary> to bytes Sink </summary>
         /// <param name="sink"> bytes Sink container</param>
-        void ToBytes(BytesList sink);
+        void ToBytes(IBytesSink sink);
         /// <summary> Get the JSON representation of this type </summary>
         JToken ToJson();
     }

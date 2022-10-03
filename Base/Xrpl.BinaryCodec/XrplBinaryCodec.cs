@@ -102,14 +102,16 @@ namespace Xrpl.BinaryCodec
                 list.Put(prefix);
             }
 
-            StObject so = StObject.FromJson(json, strict: signingOnly);
+            //Debug.WriteLine(json);
+            StObject so = StObject.FromJson(json, strict: true);
             list.Put(so.ToBytes());
+            Debug.WriteLine(list.BytesHex());
 
             if (suffix != null)
             {
                 list.Put(suffix);
             }
-            return list.ToHex();
+            return list.BytesHex();
         }
     }
 }
