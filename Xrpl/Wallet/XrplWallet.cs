@@ -154,7 +154,6 @@ namespace Xrpl.Wallet
 
         public string ComputeSignature(Dictionary<string, dynamic> transaction, string privateKey, string? signAs = null)
         {
-            Debug.WriteLine(privateKey);
             string encoded = XrplBinaryCodec.EncodeForSigning(transaction);
             return XrplKeypairs.Sign(AddressCodec.Utils.FromHexToBytes(encoded), privateKey);
         }
