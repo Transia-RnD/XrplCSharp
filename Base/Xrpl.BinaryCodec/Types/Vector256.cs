@@ -21,7 +21,7 @@ namespace Xrpl.BinaryCodec.Types
         }
 
         /// <inheritdoc />
-        public void ToBytes(IBytesSink sink)
+        public void ToBytes(BytesList sink)
         {
             foreach (var hash in this)
             {

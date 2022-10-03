@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace XrplTests.KeypairsLib;
+namespace Xrpl.Keypairs.Tests;
 
 internal static class ExtensionHelpers
 {

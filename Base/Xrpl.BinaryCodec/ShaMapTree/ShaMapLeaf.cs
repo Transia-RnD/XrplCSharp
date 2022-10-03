@@ -24,7 +24,7 @@ namespace Xrpl.BinaryCodec.ShaMapTree
             return Item.Prefix();
         }
 
-        public override void ToBytesSink(IBytesSink sink)
+        public override void ToBytesSink(BytesList sink)
         {
             Item.ToBytes(sink);
             Index.ToBytes(sink);

@@ -5,7 +5,7 @@ namespace Xrpl.BinaryCodec.ShaMapTree
 {
     public interface IShaMapItem<out T>
     {
-        void ToBytes(IBytesSink sink);
+        void ToBytes(BytesList sink);
         IShaMapItem<T> Copy();
         T Value();
         HashPrefix Prefix();

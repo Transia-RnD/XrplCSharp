@@ -46,7 +46,7 @@ namespace Xrpl.BinaryCodec.Types
             // Contains no decimal point
             if (!ContainsDecimal(xrpValue))
             {
-                throw new BinaryCodecException($"{xrpValue} is an invalid XRP amount.");
+                throw new BinaryCodecError($"{xrpValue} is an invalid XRP amount.");
             }
             // Within valid range
             decimal dec = decimal.Parse(xrpValue, NumberStyles.Float | NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture);
@@ -57,7 +57,7 @@ namespace Xrpl.BinaryCodec.Types
             
             if (Decimal.Compare(dec, (decimal)MinXrp) == -1 || Decimal.Compare(dec, (decimal)MaxDrops) == 1)
             {
-                throw new BinaryCodecException($"{xrpValue} is an invalid XRP amount.");
+                throw new BinaryCodecError($"{xrpValue} is an invalid XRP amount.");
             }
         }
 
@@ -67,7 +67,7 @@ namespace Xrpl.BinaryCodec.Types
         /// </summary>
         /// <param name="icv">A string representing the "value" field of an issued currency amount.</param>
         /// <returns>None, but raises if issued_currency_value is not valid.</returns>
-        /// <throws>XRPLBinaryCodecException: If issued_currency_value is invalid.</throws>
+        /// <throws>BinaryCodecError: If issued_currency_value is invalid.</throws>
         public static void VerifyIouValue(string icv)
         {
             // Within valid range
@@ -82,7 +82,7 @@ namespace Xrpl.BinaryCodec.Types
                 exponent > MaxExponent ||
                 exponent < MinExponent
             ) {
-                throw new BinaryCodecException("Decimal precision out of range for issued currency value.");
+                throw new BinaryCodecError("Decimal precision out of range for issued currency value.");
             }
         }
 
@@ -186,7 +186,7 @@ namespace Xrpl.BinaryCodec.Types
         //}
 
         /// <inheritdoc />
-        public void ToBytes(IBytesSink sink)
+        public void ToBytes(BytesList sink)
         {
             sink.Put(this.Buffer);
             //if (!IsNative())

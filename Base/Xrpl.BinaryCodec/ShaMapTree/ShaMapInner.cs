@@ -275,7 +275,7 @@ namespace Xrpl.BinaryCodec.ShaMapTree
             return HashPrefix.InnerNode;
         }
 
-        public override void ToBytesSink(IBytesSink sink)
+        public override void ToBytesSink(BytesList sink)
         {
             foreach (var branch in Branches)
             {

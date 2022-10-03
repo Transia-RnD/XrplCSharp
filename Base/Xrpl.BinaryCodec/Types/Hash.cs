@@ -30,7 +30,7 @@ namespace Xrpl.BinaryCodec.Types
 
         /// <summary> Hash to bytes </summary>
         /// <param name="sink"> Bytes Sink </param>
-        public void ToBytes(IBytesSink sink)
+        public void ToBytes(BytesList sink)
         {
             sink.Put(Buffer);
         }

@@ -99,7 +99,7 @@ namespace Xrpl.BinaryCodec.Types
                 {
                     break;
                 }
-                var sizeHint = field.IsVlEncoded ? parser.ReadVlLength() : (int?) null;
+                var sizeHint = field.IsVlEncoded ? parser.ReadLengthPrefix() : (int?) null;
                 var st = field.FromParser(parser, sizeHint);
                 so.Fields[field] = st ?? throw new InvalidOperationException("Parsed " + field + " as null");
             }
@@ -140,11 +140,11 @@ namespace Xrpl.BinaryCodec.Types
                     continue;
                 }
                 var fieldForType = Field.Values[pair.Key];
-                Debug.WriteLine("-----------------");
-                Debug.WriteLine("-----------------");
-                Debug.WriteLine(fieldForType.Name);
-                Debug.WriteLine(pair.Value);
-                Debug.WriteLine("-----------------");
+                //Debug.WriteLine("-----------------");
+                //Debug.WriteLine("-----------------");
+                //Debug.WriteLine(fieldForType.Name);
+                //Debug.WriteLine(pair.Value);
+                //Debug.WriteLine("-----------------");
                 var jsonForField = pair.Value;
                 ISerializedType st;
                 try
@@ -159,14 +159,14 @@ namespace Xrpl.BinaryCodec.Types
                     throw new InvalidJsonException($"Can't decode `{fieldForType}` " +
                                           $"from `{jsonForField}`", e);
                 }
-                Debug.WriteLine(st);
+                //Debug.WriteLine(st.ToJson());
                 so.Fields[fieldForType] = st;
             }
             return so;
         }
 
         /// <inheritdoc />
-        public void ToBytes(IBytesSink to)
+        public void ToBytes(BytesList to)
         {
             ToBytes(to, null);
         }
@@ -191,13 +191,13 @@ namespace Xrpl.BinaryCodec.Types
         /// <summary> to bytes Sink </summary>
         /// <param name="to"> bytes Sink container</param>
         /// <param name="p">field selector</param>
-        public void ToBytes(IBytesSink to, Func<Field, bool> p)
+        public void ToBytes(BytesList to, Func<Field, bool> p)
         {
             var serializer = new BinarySerializer(to);
             foreach (var pair in Fields.Where(pair => pair.Key.IsSerialised &&
                                                     (p == null || p(pair.Key))))
             {
-                serializer.Add(pair.Key, pair.Value);
+                serializer.WriteFieldAndValue(pair.Key, pair.Value);
             }
         }
         /// <summary>
@@ -240,7 +240,9 @@ namespace Xrpl.BinaryCodec.Types
         public byte[] ToBytes()
         {
             var list = new BytesList();
-            ToBytes(list, f => f.IsSerialised);
+            Debug.WriteLine(list.BytesLength());
+            ToBytes(list, f => f.IsSigningField);
+            Debug.WriteLine(list.BytesLength());
             return list.Bytes();
         }
         /// <summary>

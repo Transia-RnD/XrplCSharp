@@ -28,7 +28,7 @@ namespace Xrpl.BinaryCodec
             var match = Regex.Match(input, regex);
             if (!match.Success)
             {
-                throw new BinaryCodecException($"Value {input} must match {regex}");
+                throw new BinaryCodecError($"Value {input} must match {regex}");
             }
             var numberGroup = match.Groups[2];
             var fractionGroup = match.Groups[4];
@@ -66,7 +66,7 @@ namespace Xrpl.BinaryCodec
             var match = Regex.Match(input, regex);
             if (!match.Success)
             {
-                throw new BinaryCodecException($"Value {input} must match {regex}");
+                throw new BinaryCodecError($"Value {input} must match {regex}");
             }
             var numberGroup = match.Groups[2];
             var fractionGroup = match.Groups[4];
@@ -98,7 +98,7 @@ namespace Xrpl.BinaryCodec
             var match = Regex.Match(input, regex);
             if (!match.Success)
             {
-                throw new BinaryCodecException($"Value {input} must match {regex}");
+                throw new BinaryCodecError($"Value {input} must match {regex}");
             }
             var numberGroup = match.Groups[2];
             var fractionGroup = match.Groups[4];

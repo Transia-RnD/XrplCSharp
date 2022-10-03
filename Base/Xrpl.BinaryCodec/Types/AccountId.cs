@@ -1,6 +1,7 @@
 using Newtonsoft.Json.Linq;
 
 using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 using Xrpl.AddressCodec;

@@ -155,7 +155,7 @@ namespace Xrpl.BinaryCodec.Types
         }
 
         /// <inheritdoc />
-        public void ToBytes(IBytesSink buffer)
+        public void ToBytes(BytesList buffer)
         {
             var n = 0;
             foreach (var path in this)
