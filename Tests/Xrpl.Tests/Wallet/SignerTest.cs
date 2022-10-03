@@ -6,7 +6,7 @@ using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/wallet/signer.ts
 
-namespace XrplTests.Xrpl.WalletLib
+namespace Xrpl.Tests.Wallet.Tests
 {
 
     [TestClass]

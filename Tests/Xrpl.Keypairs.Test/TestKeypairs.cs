@@ -7,6 +7,7 @@ using Xrpl.Keypairs;
 
 using static Xrpl.AddressCodec.XrplCodec;
 using static Xrpl.AddressCodec.Utils;
+using System.Diagnostics;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-keypairs/test/api-test.js
 
@@ -50,6 +51,7 @@ namespace Xrpl.Keypairs.Tests
         public void TestDeriveKPSECP()
         {
             IXrplKeyPair keypair = XrplKeypairs.DeriveKeypair((string)apiJson["secp256k1"]["seed"]);
+            Debug.WriteLine(keypair.Pk());
             Assert.AreEqual(keypair.Id(), (string)apiJson["secp256k1"]["keypair"]["publicKey"]);
             Assert.AreEqual(keypair.Pk(), (string)apiJson["secp256k1"]["keypair"]["privateKey"]);
         }

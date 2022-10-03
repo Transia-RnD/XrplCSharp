@@ -7,7 +7,7 @@ using Xrpl.Client;
 using Xrpl.Client.Exceptions;
 using Xrpl.Wallet;
 
-namespace XrplTests.Xrpl.WalletLib
+namespace Xrpl.Tests.Wallet.Tests
 {
     [TestClass]
     public class FundWalletTests

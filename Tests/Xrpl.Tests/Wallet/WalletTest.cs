@@ -9,7 +9,7 @@ using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/wallet/index.ts
 
-namespace XrplTests.Xrpl.WalletLib
+namespace Xrpl.Tests.Wallet.Tests
 {
     [TestClass]
     public class TestUConstructor
@@ -88,9 +88,9 @@ namespace XrplTests.Xrpl.WalletLib
     public class TestUSeed
     {
 
-        static string seed = "ssL9dv2W5RK8L3tuzQxYY6EaZhSxW";
-        static string publicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
-        static string privateKey = "00141BA006D3363D2FB2785E8DF4E44D3A49908780CB4FB51F6D217C08C021429F";
+        private static string seed = "ssL9dv2W5RK8L3tuzQxYY6EaZhSxW";
+        private static string publicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
+        private static string privateKey = "00141BA006D3363D2FB2785E8DF4E44D3A49908780CB4FB51F6D217C08C021429F";
 
         [TestMethod]
         public void TestDefaultAlgorithm()
@@ -129,7 +129,7 @@ namespace XrplTests.Xrpl.WalletLib
                 PublicKey = "03AEEFE1E8ED4BBC009DE996AC03A8C6B5713B1554794056C66E5B8D1753C7DD0E",
                 PrivateKey = "004265A28F3E18340A490421D47B2EB8DBC2C0BF2C24CEFEA971B61CED2CABD233",
             };
-            XrplWallet wallet = XrplWallet.FromSeed(seed, masterAddress, "ed25519");
+            XrplWallet wallet = XrplWallet.FromSeed(seed, masterAddress, "secp256k1");
 
             Assert.AreEqual(wallet.PublicKey, regularKeyPair.PublicKey);
             Assert.AreEqual(wallet.PrivateKey, regularKeyPair.PrivateKey);
@@ -322,7 +322,7 @@ namespace XrplTests.Xrpl.WalletLib
             Assert.AreEqual(result.Hash, "FB2813E9E673EF56609070A4BA9640FAD0508DA567320AE9D92FB5A356A03D84");
 
             JToken decoded = XrplBinaryCodec.Decode(result.TxBlob);
-            Assert.AreEqual(decoded["Flags"], null);
+            Assert.AreEqual(null, decoded["Flags"]);
         }
 
         [TestMethod]
@@ -459,6 +459,7 @@ namespace XrplTests.Xrpl.WalletLib
                 { "issuer", "rnURbz5HLbvqEq69b1B4TX6cUTNMmcrBqi" },
                 { "value", "123.40" }
             } },
+            { "Flags", 2147483648 },
             { "Sequence", 23 },
             { "LastLedgerSequence", 8819954 },
             { "Fee", "12" },
@@ -671,9 +672,8 @@ namespace XrplTests.Xrpl.WalletLib
     [TestClass]
     public class TestUVerify
     {
-
-        static string publicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
-        static string privateKey = "00141BA006D3363D2FB2785E8DF4E44D3A49908780CB4FB51F6D217C08C021429F";
+        private static string publicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
+        private static string privateKey = "00141BA006D3363D2FB2785E8DF4E44D3A49908780CB4FB51F6D217C08C021429F";
 
         static Dictionary<string, dynamic> prepared = new Dictionary<string, dynamic>
         {
@@ -705,12 +705,12 @@ namespace XrplTests.Xrpl.WalletLib
     public class TestUXAddress
     {
 
-        static string publicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
-        static string privateKey = "00141BA006D3363D2FB2785E8DF4E44D3A49908780CB4FB51F6D217C08C021429F";
-        static XrplWallet wallet = new XrplWallet(publicKey, privateKey);
-        static int tag = 1337;
-        static string mainnetXAddress = "X7gJ5YK8abHf2eTPWPFHAAot8Knck11QGqmQ7a6a3Z8PJvk";
-        static string testnetXAddress = "T7bq3e7kxYq9pwDz8UZhqAZoEkcRGTXSNr5immvcj3DYRaV";
+        private static string publicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
+        private static string privateKey = "00141BA006D3363D2FB2785E8DF4E44D3A49908780CB4FB51F6D217C08C021429F";
+        private static XrplWallet wallet = new XrplWallet(publicKey, privateKey);
+        private static int tag = 1337;
+        private static string mainnetXAddress = "X7gJ5YK8abHf2eTPWPFHAAot8Knck11QGqmQ7a6a3Z8PJvk";
+        private static string testnetXAddress = "T7bq3e7kxYq9pwDz8UZhqAZoEkcRGTXSNr5immvcj3DYRaV";
 
         [TestMethod]
         public void TestVerifyTestnetProvided()

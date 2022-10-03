@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Math;
+﻿using System.Diagnostics;
+using Org.BouncyCastle.Math;
 using Xrpl.Keypairs.Utils;
 using static Xrpl.AddressCodec.Utils;
 
@@ -16,9 +17,10 @@ namespace Xrpl.Keypairs.K256
         private ECDSASigner _signer;
         private bool _isNodeKey;
 
-        public K256KeyPair(BigInteger priv) :
+        public K256KeyPair(BigInteger priv, bool nodeKey = false) :
             this(priv, K256KeyGenerator.ComputePublicKey(priv))
         {
+            _isNodeKey = nodeKey;
         }
 
         internal K256KeyPair(BigInteger priv, ECPoint pub) : base(pub)
@@ -78,7 +80,12 @@ namespace Xrpl.Keypairs.K256
 
         public string Pk()
         {
-            return $"00{FromBytesToHex(this._privKey.ToByteArray())}";
+            if (_isNodeKey)
+            {
+                return $"00{FromBytesToHex(this._privKey.ToByteArray())}";
+            }
+            return FromBytesToHex(this._privKey.ToByteArray());
+            //return $"00{FromBytesToHex(this._privKey.ToByteArray())}";
         }
 
         public static byte[] Sign(byte[] message, byte[] privateKey)

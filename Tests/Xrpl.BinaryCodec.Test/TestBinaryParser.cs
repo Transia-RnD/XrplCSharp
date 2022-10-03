@@ -44,25 +44,25 @@ namespace Xrpl.BinaryCodec.Tests
         //    Assert.AreEqual(int32, 3);
         //}
 
-        [TestMethod]
-        public void TestReadVariableLength()
-        {
-            int[] cases = { 100 };
-            for (var i = 0; i < cases.Length; i++)
-            {
-                int _case = cases[i];
-                BytesList list = new BytesList();
-                BinarySerializer binarySerializer = new BinarySerializer(list);
-                string byteString = "A2".Repeat(_case);
-                Blob blob = Blob.FromHex(byteString);
+        //[TestMethod]
+        //public void TestReadVariableLength()
+        //{
+        //    int[] cases = { 100 };
+        //    for (var i = 0; i < cases.Length; i++)
+        //    {
+        //        int _case = cases[i];
+        //        BytesList list = new BytesList();
+        //        BinarySerializer binarySerializer = new BinarySerializer(list);
+        //        string byteString = "A2".Repeat(_case);
+        //        Blob blob = Blob.FromHex(byteString);
 
-                binarySerializer.AddLengthEncoded(blob);
-                // hex string representation of encoded length prefix
-                string encodedLength = binarySerializer._sink.ToString();
-                BufferParser binaryParser = new BufferParser(encodedLength);
-                int decodedLength = binaryParser.ReadVlLength();
-                Assert.AreEqual(_case, decodedLength);
-            }
-        }
+        //        binarySerializer.AddLengthEncoded(blob);
+        //        // hex string representation of encoded length prefix
+        //        string encodedLength = binarySerializer._sink.ToString();
+        //        BufferParser binaryParser = new BufferParser(encodedLength);
+        //        int decodedLength = binaryParser.ReadVlLength();
+        //        Assert.AreEqual(_case, decodedLength);
+        //    }
+        //}
     }
 }
