@@ -58,7 +58,7 @@ namespace Xrpl.Models.Common
         [JsonIgnore]
         public decimal ValueAsNumber
         {
-            get => string.IsNullOrEmpty(Value)
+            get => string.IsNullOrWhiteSpace(Value)
                 ? 0
                 : decimal.Parse(Value, 
                     NumberStyles.AllowLeadingSign 
@@ -82,7 +82,7 @@ namespace Xrpl.Models.Common
         {
             get
             {
-                if (CurrencyCode != "XRP" || string.IsNullOrEmpty(Value))
+                if (CurrencyCode != "XRP" || string.IsNullOrWhiteSpace(Value))
                     return null;
                 return ValueAsNumber / 1000000;
             }
