@@ -203,61 +203,6 @@ namespace Xrpl.Models.Transaction
         public Currency PartialDeliveredAmount { get; set; }
     }
 
-    public class FieldInfo
-    {
-        [JsonProperty("Account")]
-        public string Account { get; set; }
-
-        [JsonProperty("Balance")]
-        public object Balance { get; set; }
-
-        [JsonProperty("Flags")]
-        public int Flags { get; set; }
-
-        [JsonProperty("OwnerCount")]
-        public int OwnerCount { get; set; }
-
-        [JsonProperty("Sequence")]
-        public int Sequence { get; set; }
-        
-        [JsonProperty("MintedTokens")]
-        public int MintedTokens { get; set; }
-
-        [JsonConverter(typeof(CurrencyConverter))]
-        public Currency HighLimit { get; set; }
-
-        public string HighNode { get; set; }
-
-        [JsonConverter(typeof(CurrencyConverter))]
-        public Currency LowLimit { get; set; }
-
-        public string LowNode { get; set; }
-
-        public List<INFToken> NFTokens { get; set; }
-
-        //todo not find fields
-        //public string Owner { get; set; }
-        //public string RootIndex { get; set; }
-        //public string BookDirectory { get; set; }
-        //public string BookNode { get; set; }
-        //[JsonConverter(typeof(CurrencyConverter))]
-        //public Currency TakerGets { get; set; }
-        //[JsonConverter(typeof(CurrencyConverter))]
-        //public Currency TakerPays { get; set; }
-        //public string ExchangeRate { get; set; }
-        //public string TakerGetsCurrency { get; set; }
-        //public string TakerGetsIssuer { get; set; }
-        //public string TakerPaysCurrency { get; set; }
-        //public string TakerPaysIssuer { get; set; }
-    }
-
-    public class PreviousFields
-    {
-        [JsonConverter(typeof(CurrencyConverter))]
-        public object Balance { get; set; } //todo change type to Currency
-        public int Sequence { get; set; }
-    }
-
     /// <summary>
     /// The AffectedNodes array contains a complete list of the objects in the ledger that this transaction modified in some way. 
     /// </summary>
@@ -294,7 +239,9 @@ namespace Xrpl.Models.Transaction
 
         public string URI { get; set; }
     }
-
+    /// <summary>
+    /// transaction object
+    /// </summary>
     public class NodeInfo
     {
         /// <summary>
