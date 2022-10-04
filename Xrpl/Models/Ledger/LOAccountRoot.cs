@@ -43,10 +43,11 @@ namespace Xrpl.Models.Ledger
         /// Enable rippling on this addresses's trust lines by default. Required for issuing addresses; discouraged for others.
         /// </summary>
         lsfDefaultRipple = 8388608,
-        //todo not found field   lsfDepositAuth = 0x01000000 
-        //This account can only receive funds from transactions it sends, and from preauthorized accounts.
-        //(It has DepositAuth enabled.)
-
+        /// <summary>
+        /// This account can only receive funds from transactions it sends, and from preauthorized accounts.<br/>
+        /// (It has DepositAuth enabled.)
+        /// </summary>
+        lsfDepositAuth = 16777216
     }
     /// <summary>
     /// The AccountRoot object type describes a single account, its settings, and XRP balance.
@@ -122,11 +123,25 @@ namespace Xrpl.Models.Ledger
         public string Domain { get; set; }
 
 
-        //todo not found field number - TicketCount?
-        // How many Tickets this account owns in the ledger.<br/>
-        // This is updated automatically to ensure that the account stays within the hard limit of 250.<br/>
-        // Tickets at a time. 
-
+        /// <summary>
+        /// (Optional) How many total of this account's issued non-fungible tokens  have been burned. This number is always equal or less than MintedNFTokens.
+        /// </summary>
+        public uint? BurnedNFTokens { get; set; }
+        /// <summary>
+        /// (Optional) How many total non-fungible tokens  have been minted by and on behalf of this account.
+        /// </summary>
+        public uint? MintedNFTokens { get; set; }
+        /// <summary>
+        /// (Optional) Another account that is authorized to mint non-fungible tokens  on behalf of this account.
+        /// </summary>
+        public uint? NFTokenMinter { get; set; }
+        /// <summary>
+        /// (Optional) How many Tickets this account owns in the ledger.
+        /// This is updated automatically to ensure that the account stays within the hard limit of 250 Tickets at a time.
+        /// This field is omitted if the account has zero Tickets.
+        /// (Added by the TicketBatch amendment.)
+        /// </summary>
+        public uint? TicketCount { get; set; }
 
     }
 }

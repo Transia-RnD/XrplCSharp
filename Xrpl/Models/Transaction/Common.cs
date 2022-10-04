@@ -9,8 +9,9 @@ using Xrpl.Models.Common;
 
 namespace Xrpl.Models.Transaction
 {
+    /// <inheritdoc />
     [JsonConverter(typeof(TransactionConverter))]
-    public abstract class TransactionCommon : ITransactionCommon
+    public abstract class TransactionCommon : ITransactionCommon //todo rename to BaseTransaction
     {
         protected TransactionCommon()
         {
@@ -51,13 +52,13 @@ namespace Xrpl.Models.Transaction
         public Meta Meta { get; set; }
 
         [JsonProperty("date")]
-        public uint? date { get; set; }
+        public uint? date { get; set; } //todo not unknown field
 
         [JsonProperty("inLedger")]
-        public uint? inLedger { get; set; }
+        public uint? inLedger { get; set; } //todo not unknown field
 
         [JsonProperty("ledger_index")]
-        public uint? ledger_index { get; set; }
+        public uint? ledger_index { get; set; } //todo not unknown field
 
         /// <inheritdoc />
         public string ToJson()
@@ -72,6 +73,9 @@ namespace Xrpl.Models.Transaction
         //todo not found fields -  SourceTag?: number, TicketSequence?: number
     }
 
+    /// <summary>
+    /// Additional arbitrary information used to identify transaction.
+    /// </summary>
     public class Memo
     {
         [JsonProperty("Memo")]
@@ -80,26 +84,50 @@ namespace Xrpl.Models.Transaction
 
     public class Memo2
     {
+        /// <summary>
+        /// Arbitrary hex value, conventionally containing the content of the memo.
+        /// </summary>
         public string MemoData { get; set; }
 
+        /// <summary>
+        /// Content of the memo.
+        /// </summary>
         [JsonIgnore]
         public string MemoDataAsText => MemoData.FromHexString();
 
+        /// <summary>
+        /// Conventionally containing information on how the memo is encoded, for example as a MIME type.
+        /// </summary>
         public string MemoFormat { get; set; }
 
         [JsonIgnore]
         public string MemoFormatAsText => MemoFormat.FromHexString();
 
+        /// <summary>
+        /// Hex value representing characters allowed in URLs.<br/>
+        /// Conventionally, a unique relation (according to RFC 5988 ) that defines the format of this memo.
+        /// </summary>
         public string MemoType { get; set; }
 
+        /// <summary>
+        /// Conventionally, a unique relation (according to RFC 5988 ) that defines the format of this memo.
+        /// </summary>
         [JsonIgnore]
         public string MemoTypeAsText => MemoType.FromHexString();
     }
 
     public class Signer
     {
+        /// <summary>
+        /// An XRP Ledger address whose signature contributes to the multi-signature.<br/>
+        /// It does not need to be a funded address in the ledger.
+        /// </summary>
         public string Account { get; set; }
 
+        /// <summary>
+        /// The weight of a signature from this signer.<br/>
+        /// A multi-signature is only valid if the sum weight of the signatures provided meets  or exceeds the signer list's SignerQuorum value.
+        /// </summary>
         [JsonProperty("TxnSignature")]
         public string TransactionSignature { get; set; }
 
@@ -303,6 +331,9 @@ namespace Xrpl.Models.Transaction
         public dynamic PreviousFields { get; set; }
     }
 
+    /// <summary>
+    /// Every transaction has the same set of common fields.
+    /// </summary>
     public interface ITransactionCommon
     {
         /// <summary>

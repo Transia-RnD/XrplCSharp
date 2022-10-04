@@ -85,6 +85,9 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         public string Account { get; set; }
 
+        /// <summary>
+        /// The exchange rate, as the ratio taker_gets divided by taker_pays.
+        /// </summary>
         public decimal AmountEach
         {
             get
