@@ -4,6 +4,7 @@ using Newtonsoft.Json.Converters;
 using Xrpl.Client.Extensions;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
+using Xrpl.Models.Ledger;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/common.ts
 
@@ -322,6 +323,7 @@ namespace Xrpl.Models.Transaction
         [JsonProperty("PreviousTxnLgrSeq")]
         public uint? PreviousTxnLgrSeq { get; set; }
         /// <summary>
+        /// JSON
         /// <remarks>
         /// DeletedNode <br/>
         /// The content fields of the ledger object immediately before it was deleted.<br/>
@@ -334,22 +336,50 @@ namespace Xrpl.Models.Transaction
         /// This omits the PreviousTxnID and PreviousTxnLgrSeq fields, even though most types of ledger objects have them.
         /// </remarks>
         /// </summary>
-        [JsonProperty("FinalFields")]
-        public FieldInfo FinalFields { get; set; }
+        public dynamic FinalFields { get; set; }
+        /// <summary>
+        /// <remarks>
+        /// DeletedNode <br/>
+        /// The content fields of the ledger object immediately before it was deleted.<br/>
+        /// Which fields are present depends on what type of ledger object was created.
+        /// </remarks>
+        /// <remarks>
+        /// ModifiedNode <br/>
+        /// The content fields of the ledger object after applying any changes from this transaction.<br/>
+        /// Which fields are present depends on what type of ledger object was created.<br/>
+        /// This omits the PreviousTxnID and PreviousTxnLgrSeq fields, even though most types of ledger objects have them.
+        /// </remarks>
+        /// </summary>
+        public BaseLedgerEntry Final => LOConverter.GetBaseRippleLO(LedgerEntryType, FinalFields);
 
+        /// <summary>
+        /// JSON
+        /// CreatedNode <br/>
+        /// The content fields of the newly-created ledger object.<br/>
+        /// Which fields are present depends on what type of ledger object was created.
+        /// </summary>
+        public dynamic NewFields { get; set; }
         /// <summary>
         /// CreatedNode <br/>
         /// The content fields of the newly-created ledger object.<br/>
         /// Which fields are present depends on what type of ledger object was created.
         /// </summary>
-        [JsonProperty("NewFields")]
-        public FieldInfo NewFields { get; set; }
+        public BaseLedgerEntry New => LOConverter.GetBaseRippleLO(LedgerEntryType, NewFields);
+
         /// <summary>
+        /// JSON
         /// ModifiedNode <br/>
         /// The previous values for all fields of the object that were changed as a result of this transaction.<br/>
         /// If the transaction only added fields to the object, this field is an empty object.
         /// </summary>
         public dynamic PreviousFields { get; set; }
+        /// <summary>
+        /// ModifiedNode <br/>
+        /// The previous values for all fields of the object that were changed as a result of this transaction.<br/>
+        /// If the transaction only added fields to the object, this field is an empty object.
+        /// </summary>
+        public BaseLedgerEntry Previous => LOConverter.GetBaseRippleLO(LedgerEntryType, PreviousFields);
+
     }
 
     /// <summary>
