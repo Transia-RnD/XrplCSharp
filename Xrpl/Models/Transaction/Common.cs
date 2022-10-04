@@ -228,17 +228,6 @@ namespace Xrpl.Models.Transaction
         public NodeInfo ModifiedNode { get; set; }
     }
 
-    public class INFToken
-    {
-        public NFToken NFToken { get; set; }
-    }
-
-    public class NFToken
-    {
-        public string NFTokenID { get; set; }
-
-        public string URI { get; set; }
-    }
     /// <summary>
     /// transaction object
     /// </summary>
