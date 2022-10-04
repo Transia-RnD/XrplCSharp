@@ -8,6 +8,12 @@ using Xrpl.Models.Common;
 
 namespace Xrpl.Models.Ledger
 {
+    /// <summary>
+    /// There are several options which can be either enabled or disabled for an account.<br/>
+    /// These options can be changed with an AccountSet transaction.<br/>
+    /// In the ledger, flags are represented as binary values that can be combined with bitwise-or operations.<br/>
+    /// The bit values for the flags in the ledger are different than the values used to enable or disable those flags in a transaction.
+    /// </summary>
     [Flags]
     public enum AccountRootFlags : uint
     {
