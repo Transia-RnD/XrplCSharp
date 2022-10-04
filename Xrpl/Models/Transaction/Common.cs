@@ -51,12 +51,21 @@ namespace Xrpl.Models.Transaction
         [JsonProperty("meta")]
         public Meta Meta { get; set; }
 
+        /// <summary>
+        /// The date/time when this transaction was included in a validated ledger.
+        /// </summary>
         [JsonProperty("date")]
         public uint? date { get; set; } //todo not unknown field
+                                        //possible
+                                        //https://github.com/XRPLF/xrpl.js/blob/984a58e642a4cde09aee320efe195d4e651b7733/packages/xrpl/src/models/common/index.ts#L98
+
 
         [JsonProperty("inLedger")]
         public uint? inLedger { get; set; } //todo not unknown field
 
+        /// <summary>
+        /// The sequence number of the ledger that included this transaction.
+        /// </summary>
         [JsonProperty("ledger_index")]
         public uint? ledger_index { get; set; } //todo not unknown field
 
@@ -78,10 +87,16 @@ namespace Xrpl.Models.Transaction
     /// </summary>
     public class Memo
     {
+        /// <summary>
+        /// The Memos field includes arbitrary messaging data with the transaction.
+        /// </summary>
         [JsonProperty("Memo")]
         public Memo2 Memo2 { get; set; }
     }
 
+    /// <summary>
+    /// The Memos field includes arbitrary messaging data with the transaction.
+    /// </summary>
     public class Memo2
     {
         /// <summary>
@@ -94,12 +109,14 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         [JsonIgnore]
         public string MemoDataAsText => MemoData.FromHexString();
-
         /// <summary>
+        /// Hex value representing characters allowed in URLs.<br/>
         /// Conventionally containing information on how the memo is encoded, for example as a MIME type.
         /// </summary>
         public string MemoFormat { get; set; }
-
+        /// <summary>
+        /// Conventionally containing information on how the memo is encoded, for example as a MIME type.
+        /// </summary>
         [JsonIgnore]
         public string MemoFormatAsText => MemoFormat.FromHexString();
 
@@ -116,21 +133,25 @@ namespace Xrpl.Models.Transaction
         public string MemoTypeAsText => MemoType.FromHexString();
     }
 
+    /// <summary>
+    /// The Signers field contains a multi-signature, which has signatures from up to 8 key pairs, that together should authorize the transaction.
+    /// </summary>
     public class Signer
     {
         /// <summary>
-        /// An XRP Ledger address whose signature contributes to the multi-signature.<br/>
-        /// It does not need to be a funded address in the ledger.
+        /// The address associated with this signature, as it appears in the signer list.
         /// </summary>
         public string Account { get; set; }
 
         /// <summary>
-        /// The weight of a signature from this signer.<br/>
-        /// A multi-signature is only valid if the sum weight of the signatures provided meets  or exceeds the signer list's SignerQuorum value.
+        /// A signature for this transaction, verifiable using the SigningPubKey.
         /// </summary>
         [JsonProperty("TxnSignature")]
         public string TransactionSignature { get; set; }
 
+        /// <summary>
+        /// The public key used to create this signature.
+        /// </summary>
         [JsonProperty("SigningPubKey")]
         public string SigningPublicKey { get; set; }
     }
@@ -419,71 +440,57 @@ namespace Xrpl.Models.Transaction
         string ToJson();
     }
 
-    public interface ITransactionResponseCommon : IBaseTransactionResponse
+    /// <summary>
+    /// Every transaction has the same set of common fields.
+    /// </summary>
+    public interface ITransactionResponseCommon : IBaseTransactionResponse, ITransactionCommon
     {
-        string Account { get; set; }
-        string AccountTxnID { get; set; }
-        Currency Fee { get; set; }
-        uint? Flags { get; set; }
-        uint? LastLedgerSequence { get; set; }
-        List<Memo> Memos { get; set; }
-        Meta Meta { get; set; }
-        uint? date { get; set; }
-        uint? inLedger { get; set; }
-        uint? ledger_index { get; set; }
-        uint? Sequence { get; set; }
-        List<Signer> Signers { get; set; }
-        string SigningPublicKey { get; set; }
-        string TransactionSignature { get; set; }
-        TransactionType TransactionType { get; set; }
-
-        string ToJson();
     }
 
+    /// <inheritdoc cref="ITransactionResponseCommon" />
     [JsonConverter(typeof(TransactionConverter))]
-    public abstract class   TransactionResponseCommon : BaseTransactionResponse, ITransactionCommon, ITransactionResponseCommon
+    public abstract class TransactionResponseCommon : BaseTransactionResponse, ITransactionResponseCommon
     {
+        /// <inheritdoc/>
         public string Account { get; set; }
 
+        /// <inheritdoc/>
         public string AccountTxnID { get; set; }
 
+        /// <inheritdoc/>
         [JsonConverter(typeof(CurrencyConverter))]
         public Currency Fee { get; set; }
 
+        /// <inheritdoc/>
         public uint? Flags { get; set; }
 
-        /// <summary>
-        /// Although optional, the LastLedgerSequence is strongly recommended on every transaction to ensure it's validated or rejected promptly.
-        /// </summary>
+        /// <inheritdoc/>
         public uint? LastLedgerSequence { get; set; }
 
+        /// <inheritdoc/>
         public List<Memo> Memos { get; set; }
-
+        /// <inheritdoc/>
         public uint? Sequence { get; set; }
-
+        /// <inheritdoc/>
         [JsonProperty("SigningPubKey")]
         public string SigningPublicKey { get; set; }
 
+        /// <inheritdoc/>
         public List<Signer> Signers { get; set; }
 
+        /// <inheritdoc/>
         [JsonConverter(typeof(StringEnumConverter))]
         public TransactionType TransactionType { get; set; }
 
+        /// <inheritdoc/>
         [JsonProperty("TxnSignature")]
         public string TransactionSignature { get; set; }
 
+        /// <inheritdoc/>
         [JsonProperty("meta")]
         public Meta Meta { get; set; }
 
-        [JsonProperty("date")]
-        public uint? date { get; set; }
-
-        [JsonProperty("inLedger")]
-        public uint? inLedger { get; set; }
-
-        [JsonProperty("ledger_index")]
-        public uint? ledger_index { get; set; }
-
+        /// <inheritdoc/>
         public string ToJson()
         {
             JsonSerializerSettings serializerSettings = new JsonSerializerSettings();
