@@ -4,9 +4,7 @@
 
 namespace Xrpl.Models.Transaction
 {
-    /// <summary>
-    /// An OfferCancel transaction removes an Offer object from the XRP Ledger.
-    /// </summary>
+    /// <inheritdoc cref="IOfferCancel" />
     public class OfferCancel : TransactionCommon, IOfferCancel
     {
         public OfferCancel()
@@ -32,9 +30,7 @@ namespace Xrpl.Models.Transaction
         uint OfferSequence { get; set; }
     }
 
-    /// <summary>
-    /// An OfferCancel transaction removes an Offer object from the XRP Ledger.
-    /// </summary>
+    /// <inheritdoc cref="IOfferCancel" />
     public class OfferCancelResponse : TransactionResponseCommon, IOfferCancel
     {
         /// <inheritdoc />

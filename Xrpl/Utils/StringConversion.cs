@@ -8,12 +8,22 @@ namespace Xrpl.Utils
 {
     public static class StringConversion
     {
+        /// <summary>
+        /// convert string to UTF8 HEX
+        /// </summary>
+        /// <param name="input">string</param>
+        /// <returns></returns>
         public static string ConvertStringToHex(this string input)
         {
             var bytes = Encoding.UTF8.GetBytes(input);
             return Convert.ToHexString(bytes);
         }
 
+        /// <summary>
+        /// Encoding UTF8 HEX string to readable string
+        /// </summary>
+        /// <param name="input">UTF8 HEX string</param>
+        /// <returns></returns>
         public static string FromHexString(this string input)
         {
             if (string.IsNullOrWhiteSpace(input))

@@ -38,12 +38,8 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         tfSell = 524288
     }
-    /// <summary>
-    /// An OfferCreate transaction is effectively a limit order.<br/>
-    /// It defines an  intent to exchange currencies, and creates an Offer object if not completely.<br/>
-    /// Fulfilled when placed.<br/>
-    /// Offers can be partially fulfilled.
-    /// </summary>
+
+    /// <inheritdoc cref="IOfferCreate" />
     public class OfferCreate : TransactionCommon, IOfferCreate
     {
         public OfferCreate()
@@ -99,12 +95,7 @@ namespace Xrpl.Models.Transaction
 
     }
 
-    /// <summary>
-    /// An OfferCreate transaction is effectively a limit order.<br/>
-    /// It defines an  intent to exchange currencies, and creates an Offer object if not completely.<br/>
-    /// Fulfilled when placed.<br/>
-    /// Offers can be partially fulfilled.
-    /// </summary>
+    /// <inheritdoc cref="IOfferCreate" />
     public class OfferCreateResponse : TransactionResponseCommon, IOfferCreate
     {
         /// <inheritdoc />

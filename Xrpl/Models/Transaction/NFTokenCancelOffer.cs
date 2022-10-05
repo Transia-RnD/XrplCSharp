@@ -4,11 +4,7 @@
 
 namespace Xrpl.Models.Transaction
 {
-    /// <summary>
-    /// The NFTokenCancelOffer transaction deletes existing NFTokenOffer objects.<br/>
-    /// It is useful if you want to free up space on your account to lower your  reserve requirement.<br/>
-    /// The transaction can be executed by the account that originally created  the NFTokenOffer, the account in the `Recipient` field of the NFTokenOffer  (if present), or any account if the NFTokenOffer has an `Expiration` and  the NFTokenOffer has already expired.
-    /// </summary>
+    /// <inheritdoc cref="INFTokenCancelOffer" />
     public class NFTokenCancelOffer : TransactionCommon, INFTokenCancelOffer
     {
         public NFTokenCancelOffer()
@@ -35,11 +31,7 @@ namespace Xrpl.Models.Transaction
         string[] NFTokenOffers { get; set; }
     }
 
-    /// <summary>
-    /// The NFTokenCancelOffer transaction deletes existing NFTokenOffer objects.<br/>
-    /// It is useful if you want to free up space on your account to lower your  reserve requirement.<br/>
-    /// The transaction can be executed by the account that originally created  the NFTokenOffer, the account in the `Recipient` field of the NFTokenOffer  (if present), or any account if the NFTokenOffer has an `Expiration` and  the NFTokenOffer has already expired.
-    /// </summary>
+    /// <inheritdoc cref="INFTokenCancelOffer" />
     public class NFTokenCancelOfferResponse : TransactionResponseCommon, INFTokenCancelOffer
     {
         /// <inheritdoc />

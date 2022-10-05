@@ -4,9 +4,7 @@
 
 namespace Xrpl.Models.Transaction
 {
-    /// <summary>
-    /// Deliver XRP from a held payment to the recipient.
-    /// </summary>
+    /// <inheritdoc cref="IEscrowFinish" />
     public class EscrowFinish : TransactionCommon, IEscrowFinish
     {
         public EscrowFinish()
@@ -61,9 +59,7 @@ namespace Xrpl.Models.Transaction
         string Owner { get; set; }
     }
 
-    /// <summary>
-    /// Deliver XRP from a held payment to the recipient.
-    /// </summary>
+    /// <inheritdoc cref="IEscrowFinish" />
     public class EscrowFinishResponse : TransactionResponseCommon, IEscrowFinish
     {
         /// <inheritdoc />

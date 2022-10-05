@@ -33,7 +33,7 @@ namespace Xrpl.Models.Transaction
     /// <summary>
     /// * Expected response from a <see cref="BookOffersRequest"/>.
     /// </summary>
-    public class BookOffers //todo rename to response :BaseResponse
+    public class BookOffers //todo rename to  BookOffersResponse :BaseResponse
     {
         /// <summary>
         /// The ledger index of the current in-progress ledger version, which was  used to retrieve this information.

@@ -4,10 +4,7 @@
 
 namespace Xrpl.Models.Transaction
 {
-    /// <summary>
-    /// Create a Check object in the ledger, which is a deferred payment that can be  cashed by its intended destination.<br/>
-    /// The sender of this transaction is the  sender of the Check.
-    /// </summary>
+    /// <inheritdoc cref="ICheckCreate" />
     public class CheckCreate : TransactionCommon, ICheckCreate
     {
         public CheckCreate()
@@ -61,10 +58,7 @@ namespace Xrpl.Models.Transaction
         uint? InvoiceID { get; set; }
     }
 
-    /// <summary>
-    /// Create a Check object in the ledger, which is a deferred payment that can be  cashed by its intended destination.<br/>
-    /// The sender of this transaction is the  sender of the Check.
-    /// </summary>
+    /// <inheritdoc cref="ICheckCreate" />
     public class CheckCreateResponse : TransactionResponseCommon, ICheckCreate
     {
         /// <inheritdoc />

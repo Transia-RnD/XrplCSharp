@@ -4,10 +4,7 @@
 
 namespace Xrpl.Models.Transaction
 {
-    /// <summary>
-    /// A DepositPreauth transaction gives another account pre-approval to deliver  payments to the sender of this transaction.<br/>
-    /// This is only useful if the sender  of this transaction is using (or plans to use) Deposit Authorization.
-    /// </summary>
+    /// <inheritdoc cref="IDepositPreauth" />
     public class DepositPreauth : TransactionCommon, IDepositPreauth
     {
         public DepositPreauth()
@@ -38,10 +35,7 @@ namespace Xrpl.Models.Transaction
         string Unauthorize { get; set; }
     }
 
-    /// <summary>
-    /// A DepositPreauth transaction gives another account pre-approval to deliver  payments to the sender of this transaction.<br/>
-    /// This is only useful if the sender  of this transaction is using (or plans to use) Deposit Authorization.
-    /// </summary>
+    /// <inheritdoc cref="IDepositPreauth" />
     public class DepositPreauthResponse : TransactionResponseCommon, IDepositPreauth
     {
         /// <inheritdoc />

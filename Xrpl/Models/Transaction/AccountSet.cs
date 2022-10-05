@@ -65,9 +65,7 @@ namespace Xrpl.Models.Transaction
     //    uint asfDefaultRipple { get; set; }
     //}
 
-    /// <summary>
-    /// An AccountSet transaction modifies the properties of an account in the XRP  Ledger.
-    /// </summary>
+    /// <inheritdoc cref="IAccountSet" />
     public class AccountSet : TransactionCommon, IAccountSet
     {
         public AccountSet()
@@ -136,6 +134,7 @@ namespace Xrpl.Models.Transaction
         //todo not found field NFTokenMinter?: string
     }
 
+    /// <inheritdoc cref="IAccountSet" />
     public class AccountSetResponse : TransactionResponseCommon, IAccountSet
     {
         /// <inheritdoc />

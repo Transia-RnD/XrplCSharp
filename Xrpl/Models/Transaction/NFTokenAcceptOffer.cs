@@ -8,18 +8,7 @@ using Xrpl.Models.Common;
 
 namespace Xrpl.Models.Transaction
 {
-    /// <summary>
-    /// The NFTokenOfferAccept transaction is used to accept offers to buy or sell an NFToken.<br/>
-    /// It can either:  1.<br/>
-    /// Allow one offer to be accepted.<br/>
-    /// This is called direct  mode.<br/>
-    /// 2.<br/>
-    /// Allow two distinct offers, one offering to buy a  given NFToken and the other offering to sell the same  NFToken, to be accepted in an atomic fashion.<br/>
-    /// This is  called brokered mode.<br/>
-    /// To indicate direct mode, use either the `sell_offer` or `buy_offer` fields, but not both.<br/>
-    /// To indicate brokered mode, use both the `sell_offer` and `buy_offer` fields.<br/>
-    /// If you use neither `sell_offer` nor `buy_offer`, the transaction is invalid.
-    /// </summary>
+    /// <inheritdoc cref="INFTokenAcceptOffer" />
     public class NFTokenAcceptOffer : TransactionCommon, INFTokenAcceptOffer
     {
         public NFTokenAcceptOffer()
@@ -43,7 +32,8 @@ namespace Xrpl.Models.Transaction
 
     /// <summary>
     /// The NFTokenOfferAccept transaction is used to accept offers to buy or sell an NFToken.<br/>
-    /// It can either:  1.<br/>
+    /// It can either:<br/>
+    /// 1.<br/>
     /// Allow one offer to be accepted.<br/>
     /// This is called direct  mode.<br/>
     /// 2.<br/>
@@ -79,18 +69,7 @@ namespace Xrpl.Models.Transaction
         public Currency NFTokenBrokerFee { get; set; }
     }
 
-    /// <summary>
-    /// The NFTokenOfferAccept transaction is used to accept offers to buy or sell an NFToken.<br/>
-    /// It can either:  1.<br/>
-    /// Allow one offer to be accepted.<br/>
-    /// This is called direct  mode.<br/>
-    /// 2.<br/>
-    /// Allow two distinct offers, one offering to buy a  given NFToken and the other offering to sell the same  NFToken, to be accepted in an atomic fashion.<br/>
-    /// This is  called brokered mode.<br/>
-    /// To indicate direct mode, use either the `sell_offer` or `buy_offer` fields, but not both.<br/>
-    /// To indicate brokered mode, use both the `sell_offer` and `buy_offer` fields.<br/>
-    /// If you use neither `sell_offer` nor `buy_offer`, the transaction is invalid.
-    /// </summary>
+    /// <inheritdoc cref="INFTokenAcceptOffer" />
     public class NFTokenAcceptOfferResponse : TransactionResponseCommon, INFTokenAcceptOffer
     {
         /// <inheritdoc />

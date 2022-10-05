@@ -7,9 +7,7 @@ using Xrpl.Models.Common;
 
 namespace Xrpl.Models.Transaction
 {
-    /// <summary>
-    /// Sequester XRP until the escrow process either finishes or is canceled.
-    /// </summary>
+    /// <inheritdoc cref="IEscrowCreate" />
     public class EscrowCreate : TransactionCommon, IEscrowCreate
     {
         public EscrowCreate()
@@ -83,9 +81,7 @@ namespace Xrpl.Models.Transaction
         uint? SourceTag { get; set; } //todo unknown field
     }
 
-    /// <summary>
-    /// Sequester XRP until the escrow process either finishes or is canceled.
-    /// </summary>
+    /// <inheritdoc cref="IEscrowCreate" />
     public class EscrowCreateResponse : TransactionResponseCommon, IEscrowCreate
     {
         /// <inheritdoc />

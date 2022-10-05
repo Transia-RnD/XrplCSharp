@@ -19,10 +19,7 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         tfSellToken = 1
     }
-    /// <summary>
-    /// The NFTokenCreateOffer transaction creates either an offer to buy an  NFT the submitting account does not own,
-    /// or an offer to sell an NFT  the submitting account does own.
-    /// </summary>
+    /// <inheritdoc cref="INFTokenCreateOffer" />
     public class NFTokenCreateOffer : TransactionCommon, INFTokenCreateOffer
     {
         public NFTokenCreateOffer()
@@ -90,6 +87,7 @@ namespace Xrpl.Models.Transaction
         string Destination { get; set; }
     }
 
+    /// <inheritdoc cref="INFTokenCreateOffer" />
     public class NFTokenCreateOfferResponse : TransactionResponseCommon, INFTokenCreateOffer
     {
         /// <inheritdoc />

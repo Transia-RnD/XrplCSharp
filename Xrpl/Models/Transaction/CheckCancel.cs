@@ -4,11 +4,7 @@
 
 namespace Xrpl.Models.Transaction
 {
-    /// <summary>
-    /// Cancels an unredeemed Check, removing it from the ledger without sending any  money.<br/>
-    /// The source or the destination of the check can cancel a Check at any  time using this transaction type.<br/>
-    /// If the Check has expired, any address can  cancel it.
-    /// </summary>
+    /// <inheritdoc cref="ICheckCancel" />
     public class CheckCancel : TransactionCommon, ICheckCancel
     {
         public CheckCancel()
@@ -33,11 +29,7 @@ namespace Xrpl.Models.Transaction
         string CheckID { get; set; }
     }
 
-    /// <summary>
-    /// Cancels an unredeemed Check, removing it from the ledger without sending any  money.<br/>
-    /// The source or the destination of the check can cancel a Check at any  time using this transaction type.<br/>
-    /// If the Check has expired, any address can  cancel it.
-    /// </summary>
+    /// <inheritdoc cref="ICheckCancel" />
     public class CheckCancelResponse : TransactionResponseCommon, ICheckCancel
     {
         /// <inheritdoc />

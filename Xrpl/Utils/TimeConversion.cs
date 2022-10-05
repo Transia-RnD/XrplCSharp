@@ -19,6 +19,11 @@ namespace Xrpl.Utils
             //return Math.Round(timestamp / 1000) - RIPPLE_EPOCH_DIFF;
         }
 
+        /// <summary>
+        /// Convert standard ripple tine (int) to ISO DateTime
+        /// </summary>
+        /// <param name="rippleTime"></param>
+        /// <returns></returns>
         public static string RippleTimeToISOTime(int rippleTime)
         {
             return new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(RippleTimeToUnixTime(rippleTime)).ToString("o");

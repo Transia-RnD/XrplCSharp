@@ -2,31 +2,59 @@
 
 namespace Xrpl.Models
 {
+    /// <summary>
+    /// The type of a transaction (TransactionType field) is the most fundamental information about a transaction.<br/>
+    /// This indicates what type of operation the transaction is supposed to do.
+    /// </summary>
     public enum TransactionType
     {
+        /// <summary> Set options on an account.</summary>
         AccountSet,
+        /// <summary> Delete an account.</summary>
         AccountDelete,
+        /// <summary> Cancel a check.</summary>
         CheckCancel,
+        /// <summary> Redeem a check.</summary>
         CheckCash,
+        /// <summary>Create a check.</summary>
         CheckCreate,
+        /// <summary>Preauthorizes an account to send payments to this one.</summary>
         DepositPreauth,
+        /// <summary>Reclaim escrowed XRP.</summary>
         EscrowCancel,
+        /// <summary>Create an escrowed XRP payment.</summary>
         EscrowCreate,
+        /// <summary>Deliver escrowed XRP to recipient.</summary>
         EscrowFinish,
+        /// <summary>Accept an offer to buy or sell an NFToken.</summary>
         NFTokenAcceptOffer,
+        /// <summary>Use TokenBurn to permanently destroy NFTs.</summary>
         NFTokenBurn,
+        /// <summary>Cancel existing token offers to buy or sell an NFToken.</summary>
         NFTokenCancelOffer,
+        /// <summary>Create an offer to buy or sell NFTs.</summary>
         NFTokenCreateOffer,
+        /// <summary>Use TokenMint to issue new NFTs.</summary>
         NFTokenMint,
+        /// <summary>Withdraw a currency-exchange order.</summary>
         OfferCancel,
+        /// <summary>Submit an order to exchange currency.</summary>
         OfferCreate,
+        /// <summary>Send funds from one account to another.</summary>
         Payment,
+        /// <summary>Claim money from a payment channel.</summary>
         PaymentChannelClaim,
+        /// <summary>Open a new payment channel.</summary>
         PaymentChannelCreate,
+        /// <summary>Add more XRP to a payment channel.</summary>
         PaymentChannelFund,
+        /// <summary>Add, remove, or modify an account's regular key pair.</summary>
         SetRegularKey,
+        /// <summary>Add, remove, or modify an account's multi-signing list.</summary>
         SignerListSet,
+        /// <summary>Set aside one or more sequence numbers as Tickets.</summary>
         TicketCreate,
+        /// <summary>Add or modify a trust line.</summary>
         TrustSet
     }
     /// <summary>
@@ -106,16 +134,37 @@ namespace Xrpl.Models
 
     public enum StreamType
     {
+        /// <summary>
+        /// ledgerClosed indicates this is from the ledger stream.
+        /// </summary>
         [EnumMember(Value = "ledgerClosed")]
         Ledger,
+        /// <summary>
+        /// The value validationReceived indicates this is from the validations stream.
+        /// </summary>
         [EnumMember(Value = "validationReceived")]
         Validations,
+        /// <summary>
+        /// transaction indicates this is the notification of a transaction, which could come from several possible streams.
+        /// </summary>
         [EnumMember(Value = "transaction")]
         Transaction,
+        /// <summary>
+        /// peerStatusChange indicates this comes from the Peer Status stream.
+        /// </summary>
         [EnumMember(Value = "peerStatusChange")]
         PeerStatus,
+        /// <summary>
+        /// The format of an order book stream message is the same as that of transaction stream messages,
+        /// except that OfferCreate transactions also contain the owner_funds field.
+        /// </summary>
         [EnumMember(Value = "transaction")]
-        OrderBook
+        OrderBook,
+        /// <summary>
+        /// consensusPhase indicates this is from the consensus stream.
+        /// </summary>
+        [EnumMember(Value = "consensusPhase")]
+        ConsensusStream
     }
 }
 

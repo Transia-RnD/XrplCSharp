@@ -5,10 +5,7 @@
 
 namespace Xrpl.Models.Transaction
 {
-    /// <summary>
-    /// Attempts to redeem a Check object in the ledger to receive up to the amount  authorized by the corresponding CheckCreate transaction.<br/>
-    /// Only the Destination  address of a Check can cash it with a CheckCash transaction.
-    /// </summary>
+    /// <inheritdoc cref="ICheckCash" />
     public class CheckCash : TransactionCommon, ICheckCash
     {
         public CheckCash()
@@ -50,6 +47,7 @@ namespace Xrpl.Models.Transaction
         Currency? DeliverMin { get; set; }
     }
 
+    /// <inheritdoc cref="ICheckCash" />
     public class CheckCashResponse : TransactionResponseCommon, ICheckCash
     {
         /// <inheritdoc />

@@ -3,9 +3,7 @@
 
 namespace Xrpl.Models.Transaction
 {
-    /// <summary>
-    /// Return escrowed XRP to the sender.
-    /// </summary>
+    /// <inheritdoc cref="IEscrowCancel" />
     public class EscrowCancel : TransactionCommon, IEscrowCancel
     {
         public EscrowCancel()
@@ -36,9 +34,7 @@ namespace Xrpl.Models.Transaction
         string Owner { get; set; }
     }
 
-    /// <summary>
-    /// Return escrowed XRP to the sender.
-    /// </summary>
+    /// <inheritdoc cref="IEscrowCancel" />
     public class EscrowCancelResponse : TransactionResponseCommon, IEscrowCancel
     {
         /// <inheritdoc />

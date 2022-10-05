@@ -29,10 +29,7 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         tfTransferable = 8
     }
-    /// <summary>
-    /// The NFTokenMint transaction creates an NFToken object and adds it to the  relevant NFTokenPage object of the minter.<br/>
-    /// If the transaction is  successful, the newly minted token will be owned by the minter account  specified by the transaction.
-    /// </summary>
+    /// <inheritdoc cref="INFTokenMint" />
     public class NFTokenMint : TransactionCommon, INFTokenMint
     {
         public NFTokenMint()
@@ -92,10 +89,7 @@ namespace Xrpl.Models.Transaction
         string URI { get; set; }
     }
 
-    /// <summary>
-    /// The NFTokenMint transaction creates an NFToken object and adds it to the  relevant NFTokenPage object of the minter.<br/>
-    /// If the transaction is  successful, the newly minted token will be owned by the minter account  specified by the transaction.
-    /// </summary>
+    /// <inheritdoc cref="INFTokenMint" />
     public class NFTokenMintResponse : TransactionResponseCommon, INFTokenMint
     {
         public new NFTokenMintFlags? Flags { get; set; }

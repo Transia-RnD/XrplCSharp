@@ -317,7 +317,7 @@ namespace Xrpl.Models.Transaction
         public BaseLedgerEntry Previous => LOConverter.GetBaseRippleLO(LedgerEntryType, PreviousFields);
 
     }
-
+    //https://xrpl.org/transaction-common-fields.html
     /// <summary>
     /// Every transaction has the same set of common fields.
     /// </summary>
@@ -404,6 +404,7 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         /// <returns></returns>
         string ToJson();
+        //todo not found fields - SourceTag: Number (UInt32), TicketSequence:Number(UInt32), TxnSignature:string
     }
 
     /// <summary>
