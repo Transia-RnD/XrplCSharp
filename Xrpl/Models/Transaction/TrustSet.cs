@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using Xrpl.Client.Exceptions;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
 
@@ -51,5 +53,33 @@ namespace Xrpl.Models.Transaction
         public Currency LimitAmount { get; set; }
         public uint? QualityIn { get; set; }
         public uint? QualityOut { get; set; }
+    }
+
+    class Validation
+    {
+        public void ValidateTrustSet(Dictionary<string, dynamic> tx)
+        {
+            // TODO: Write this function
+            //ValidateBaseTransaction(tx)
+            if (tx["LimitAmount"] == null)
+            {
+                throw new ValidationError("TrustSet: missing field LimitAmount");
+            }
+            // TODO: Review this function
+            if (!Common.IsAmount(tx["LimitAmount"]))
+            {
+                throw new ValidationError("TrustSet: invalid LimitAmount");
+            }
+
+            if (tx["QualityIn"] != null && tx["QualityIn"] is uint)
+            {
+                throw new ValidationError("TrustSet: invalid QualityIn");
+            }
+
+            if (tx["QualityOut"] != null && tx["QualityOut"] is uint)
+            {
+                throw new ValidationError("TrustSet: invalid QualityOut");
+            }
+        }
     }
 }

@@ -1,14 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using Xrpl.Client.Extensions;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
+using static Xrpl.Models.Transaction.TransactionCommon;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/common.ts
 
 namespace Xrpl.Models.Transaction
 {
+    public class Common
+    {
+        static int ISSUED_CURRENCY_SIZE = 3;
+
+        public static bool IsRecord(dynamic value)
+        {
+            return value != null && value is Dictionary<string, dynamic>;
+        }
+
+        public static bool IsIssuedCurrency(dynamic input)
+        {
+            return (
+                IsRecord(input) &&
+                input.Length == ISSUED_CURRENCY_SIZE &&
+                input.value is string &&
+                input.issuer is string &&
+                input.currency is string
+            );
+        }
+
+        public static bool IsAmount(dynamic amount)
+        {
+            return amount is string || IsIssuedCurrency(amount);
+        }
+    }
     [JsonConverter(typeof(TransactionConverter))]
     public abstract class TransactionCommon : ITransactionCommon
     {
