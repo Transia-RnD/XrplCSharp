@@ -13,10 +13,17 @@ namespace Xrpl.Sugar
     public class SubmitSugar
     {
         /// <summary>
-        /// Submits a signed/unsigned transaction.
+        /// Submits a signed/unsigned transaction.<br/>
+        /// Steps performed on a transaction:<br/>
+        /// 1.<br/>
+        /// Autofill.<br/>
+        /// 2.<br/>
+        /// Sign and Encode.<br/>
+        /// 3.<br/>
+        /// Submit.
         /// </summary>
         /// <param name="client">A Client.</param>
-        /// <param name="transaction">A transaction to autofill, sign & encode, and submit.</param>
+        /// <param name="transaction">A transaction to autofill, sign and encode, and submit.</param>
         /// <param name="autofill">If true, autofill a transaction.</param>
         /// <param name="failHard">If true, and the transaction fails locally, do not retry or relay the transaction to other servers.</param>
         /// <param name="wallet">A wallet to sign a transaction. It must be provided when submitting an unsigned transaction.</param>
@@ -33,7 +40,13 @@ namespace Xrpl.Sugar
             return await SubmitRequest(client, signedTx, failHard);
         }
 
-        // Encodes and submits a signed transaction.
+        /// <summary>
+        /// Encodes and submits a signed transaction.
+        /// </summary>
+        /// <param name="client">A Client.</param>
+        /// <param name="signedTransaction">signed Transaction</param>
+        /// <param name="failHard">If true, and the transaction fails locally, do not retry or relay the transaction to other servers.</param>
+        /// <returns></returns>
         public static async Task<Submit> SubmitRequest(IXrplClient client, string signedTransaction, bool failHard)
         {
             //if (!isSigned(signedTransaction)) {

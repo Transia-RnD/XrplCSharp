@@ -127,9 +127,9 @@ namespace Xrpl.Utils
         }
 
         /// <summary>
-        /// Convert Drops to XRP.
+        /// Convert XRP to Drops.
         /// </summary>
-        /// <param name="dropsToConvert"> Drops to convert to XRP. This can be a string, number, or BigNumber.</param>
+        /// <param name="xrpToConvert"> XRP to convert to Drops. This can be a string, number, or BigNumber.</param>
         /// <returns
         public static string XrpToDrops(double xrpToConvert)
         {
@@ -140,7 +140,7 @@ namespace Xrpl.Utils
         /// Convert an amount in XRP to an amount in drops.
         /// </summary>
         /// <param name="xrpToConvert">Amount in XRP.</param>
-        /// <returns Amount in drops.
+        /// <returns>Amount in drops.</returns>
         public static string XrpToDrops(string xrpToConvert)
         {
             // Important: specify base BASE_TEN to avoid exponential notation, e.g. '1e-7'.

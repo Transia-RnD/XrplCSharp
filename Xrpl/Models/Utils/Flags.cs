@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Xrpl.Client.Exceptions;
@@ -21,28 +22,35 @@ namespace Xrpl.Models.Utils
             {
                 return;
             }
-
-            switch (tx.TransactionType.ToString())
+            //todo unattainable code
+            tx.Flags = tx.TransactionType switch
             {
-                case "AccountSet":
-                    tx.Flags = ConvertAccountSetFlagsToNumber(tx.Flags);
-                    break;
-                case "OfferCreate":
-                    tx.Flags = ConvertOfferCreateFlagsToNumber(tx.Flags);
-                    break;
-                case "PaymentChannelClaim":
-                    tx.Flags = ConvertPaymentChannelClaimFlagsToNumber(tx.Flags);
-                    break;
-                case "Payment":
-                    tx.Flags = ConvertPaymentTransactionFlagsToNumber(tx.Flags);
-                    break;
-                case "TrustSet":
-                    tx.Flags = ConvertTrustSetFlagsToNumber(tx.Flags);
-                    break;
-                default:
-                    tx.Flags = 0;
-                    break;
-            }
+                TransactionType.AccountSet => ConvertAccountSetFlagsToNumber(tx.Flags),
+                //TransactionType.AccountDelete => expr,
+                //TransactionType.CheckCancel => expr,
+                //TransactionType.CheckCash => expr,
+                //TransactionType.CheckCreate => expr,
+                //TransactionType.DepositPreauth => expr,
+                //TransactionType.EscrowCancel => expr,
+                //TransactionType.EscrowCreate => expr,
+                //TransactionType.EscrowFinish => expr,
+                //TransactionType.NFTokenAcceptOffer => expr,
+                //TransactionType.NFTokenBurn => expr,
+                //TransactionType.NFTokenCancelOffer => expr,
+                //TransactionType.NFTokenCreateOffer => expr,
+                //TransactionType.NFTokenMint => expr,
+                //TransactionType.OfferCancel => expr,
+                TransactionType.OfferCreate => ConvertOfferCreateFlagsToNumber(tx.Flags),
+                TransactionType.Payment => ConvertPaymentTransactionFlagsToNumber(tx.Flags),
+                TransactionType.PaymentChannelClaim => ConvertPaymentChannelClaimFlagsToNumber(tx.Flags),
+                //TransactionType.PaymentChannelCreate => expr,
+                //TransactionType.PaymentChannelFund => expr,
+                //TransactionType.SetRegularKey => expr,
+                //TransactionType.SignerListSet => expr,
+                //TransactionType.TicketCreate => expr,
+                TransactionType.TrustSet => ConvertTrustSetFlagsToNumber(tx.Flags),
+                _ => 0
+            };
         }
 
         public static uint ConvertAccountSetFlagsToNumber(object flags)

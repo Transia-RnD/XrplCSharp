@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+
+using System.Collections.Generic;
+
 using Xrpl.AddressCodec;
 using Xrpl.BinaryCodec;
 using Xrpl.Client.Exceptions;
