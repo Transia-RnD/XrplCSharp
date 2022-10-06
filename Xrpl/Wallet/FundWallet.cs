@@ -6,7 +6,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+
 using Newtonsoft.Json;
+
 using Xrpl.AddressCodec;
 using Xrpl.Client;
 using Xrpl.Client.Exceptions;
@@ -334,7 +336,7 @@ namespace Xrpl.Wallet
             // 'altnet' for Ripple Testnet server and 'testnet' for XRPL Labs Testnet server
             if (connectionUrl.Contains("altnet") || connectionUrl.Contains("testnet"))
             {
-            return FaucetNetwork.Testnet;
+                return FaucetNetwork.Testnet;
             }
 
             if (connectionUrl.Contains("devnet"))

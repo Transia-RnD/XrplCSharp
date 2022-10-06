@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Xrpl.Models;
 using Xrpl.Models.Ledger;
 
 namespace Xrpl.Client.Json.Converters
@@ -10,6 +11,35 @@ namespace Xrpl.Client.Json.Converters
     /// </summary>
     public class LOConverter : JsonConverter
     {
+        /// <summary>
+        /// Convert ledger entry json object to standard type
+        /// </summary>
+        /// <param name="type">field type</param>
+        /// <param name="field">current json object</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static BaseLedgerEntry GetBaseRippleLO(LedgerEntryType type, object field) =>
+            type switch
+            {
+                LedgerEntryType.AccountRoot => JsonConvert.DeserializeObject<LOAccountRoot>($"{field}"),
+                LedgerEntryType.Amendments => JsonConvert.DeserializeObject<LOAmendments>($"{field}"),
+                LedgerEntryType.DirectoryNode => JsonConvert.DeserializeObject<LODirectoryNode>($"{field}"),
+                LedgerEntryType.Escrow => JsonConvert.DeserializeObject<LOEscrow>($"{field}"),
+                LedgerEntryType.FeeSettings => JsonConvert.DeserializeObject<LOFeeSettings>($"{field}"),
+                LedgerEntryType.LedgerHashes => JsonConvert.DeserializeObject<LOLedgerHashes>($"{field}"),
+                LedgerEntryType.Offer => JsonConvert.DeserializeObject<LOOffer>($"{field}"),
+                LedgerEntryType.PayChannel => JsonConvert.DeserializeObject<LOPayChannel>($"{field}"),
+                LedgerEntryType.RippleState => JsonConvert.DeserializeObject<LORippleState>($"{field}"),
+                LedgerEntryType.SignerList => JsonConvert.DeserializeObject<LOSignerList>($"{field}"),
+                //LedgerEntryType.NegativeUNL => expr,
+                //LedgerEntryType.NFTokenOffer => expr,
+                //LedgerEntryType.NFTokenPage => expr,
+                //LedgerEntryType.Ticket => expr,
+                //LedgerEntryType.Check => expr,
+                //LedgerEntryType.DepositPreauth => expr,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
         /// <summary>
         /// write <see cref="BaseLedgerEntry"/>  to json object
         /// </summary>
@@ -29,6 +59,32 @@ namespace Xrpl.Client.Json.Converters
         /// <returns></returns>
         public BaseLedgerEntry Create(Type objectType, JObject jObject)
         {
+            switch (objectType.Name)
+            {
+                case "LOAccountRoot":
+                    return new LOAccountRoot();
+                case "LOAmendments":
+                    return new LOAmendments();
+                case "LODirectoryNode":
+                    return new LODirectoryNode();
+                case "LOEscrow":
+                    return new LOEscrow();
+                case "LOFeeSettings":
+                    return new LOFeeSettings();
+                case "LOLedgerHashes":
+                    return new LOLedgerHashes();
+                case "LOOffer":
+                    return new LOOffer();
+                case "LOPayChannel":
+                    return new LOPayChannel();
+                case "LORippleState":
+                    return new LORippleState();
+                case "LOSignerList":
+                    return new LOSignerList();
+                // case "Ticket":
+                //     return new LOTicket();
+            }
+
             string ledgerEntryType = jObject.Property("LedgerEntryType")?.Value.ToString();
             return ledgerEntryType switch
             {

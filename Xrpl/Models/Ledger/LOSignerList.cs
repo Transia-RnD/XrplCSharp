@@ -69,5 +69,11 @@ namespace Xrpl.Models.Ledger
         /// or exceeds the signer list's SignerQuorum value.
         /// </summary>
         public ushort SignerWeight { get; set; }
+
+        /// <summary>
+        /// An arbitrary 256-bit (32-byte) field that can be used to identify the signer, which  may be useful for smart contracts,
+        /// or for identifying who controls a key in a large  organization.
+        /// </summary>
+        public string WalletLocator { get; set; }
     }
 }

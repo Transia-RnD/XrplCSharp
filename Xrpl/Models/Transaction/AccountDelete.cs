@@ -22,10 +22,7 @@ namespace Xrpl.Models.Transaction
         uint? DestinationTag { get; set; }
     }
 
-    /// <summary>
-    /// An AccountDelete transaction deletes an account and any objects it owns in  the XRP Ledger,
-    /// if possible, sending the account's remaining XRP to a  specified destination account.
-    /// </summary>
+    /// <inheritdoc cref="IAccountDelete" />
     public class AccountDelete : TransactionCommon, IAccountDelete
     {
         public AccountDelete()
@@ -40,6 +37,7 @@ namespace Xrpl.Models.Transaction
         public uint? DestinationTag { get; set; }
     }
 
+    /// <inheritdoc cref="IAccountDelete" />
     public class AccountDeleteResponse : TransactionResponseCommon, IAccountDelete
     {
         /// <inheritdoc />

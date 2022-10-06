@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 using Xrpl.Client.Extensions;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
-using static Xrpl.Models.Transaction.TransactionCommon;
+using Xrpl.Models.Ledger;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/common.ts
 
@@ -37,8 +37,10 @@ namespace Xrpl.Models.Transaction
             return amount is string || IsIssuedCurrency(amount);
         }
     }
+    
+    /// <inheritdoc />
     [JsonConverter(typeof(TransactionConverter))]
-    public abstract class TransactionCommon : ITransactionCommon
+    public abstract class TransactionCommon : ITransactionCommon //todo rename to BaseTransaction
     {
         protected TransactionCommon()
         {
@@ -78,14 +80,23 @@ namespace Xrpl.Models.Transaction
         [JsonProperty("meta")]
         public Meta Meta { get; set; }
 
+        /// <summary>
+        /// The date/time when this transaction was included in a validated ledger.
+        /// </summary>
         [JsonProperty("date")]
-        public uint? date { get; set; }
+        public uint? date { get; set; } //todo not unknown field
+                                        //possible
+                                        //https://github.com/XRPLF/xrpl.js/blob/984a58e642a4cde09aee320efe195d4e651b7733/packages/xrpl/src/models/common/index.ts#L98
+
 
         [JsonProperty("inLedger")]
-        public uint? inLedger { get; set; }
+        public uint? inLedger { get; set; } //todo not unknown field
 
+        /// <summary>
+        /// The sequence number of the ledger that included this transaction.
+        /// </summary>
         [JsonProperty("ledger_index")]
-        public uint? ledger_index { get; set; }
+        public uint? ledger_index { get; set; } //todo not unknown field
 
         /// <inheritdoc />
         public string ToJson()
@@ -100,37 +111,76 @@ namespace Xrpl.Models.Transaction
         //todo not found fields -  SourceTag?: number, TicketSequence?: number
     }
 
+    /// <summary>
+    /// Additional arbitrary information used to identify transaction.
+    /// </summary>
     public class MemoWrapper
     {
+        /// <summary>
+        /// The Memos field includes arbitrary messaging data with the transaction.
+        /// </summary>
         [JsonProperty("Memo")]
         public Memo Memo { get; set; }
     }
 
+    /// <summary>
+    /// The Memos field includes arbitrary messaging data with the transaction.
+    /// </summary>
     public class Memo
     {
+        /// <summary>
+        /// Arbitrary hex value, conventionally containing the content of the memo.
+        /// </summary>
         public string MemoData { get; set; }
 
+        /// <summary>
+        /// Content of the memo.
+        /// </summary>
         [JsonIgnore]
         public string MemoDataAsText => MemoData.FromHexString();
-
+        /// <summary>
+        /// Hex value representing characters allowed in URLs.<br/>
+        /// Conventionally containing information on how the memo is encoded, for example as a MIME type.
+        /// </summary>
         public string MemoFormat { get; set; }
-
+        /// <summary>
+        /// Conventionally containing information on how the memo is encoded, for example as a MIME type.
+        /// </summary>
         [JsonIgnore]
         public string MemoFormatAsText => MemoFormat.FromHexString();
 
+        /// <summary>
+        /// Hex value representing characters allowed in URLs.<br/>
+        /// Conventionally, a unique relation (according to RFC 5988 ) that defines the format of this memo.
+        /// </summary>
         public string MemoType { get; set; }
 
+        /// <summary>
+        /// Conventionally, a unique relation (according to RFC 5988 ) that defines the format of this memo.
+        /// </summary>
         [JsonIgnore]
         public string MemoTypeAsText => MemoType.FromHexString();
     }
 
+    /// <summary>
+    /// The Signers field contains a multi-signature, which has signatures from up to 8 key pairs, that together should authorize the transaction.
+    /// </summary>
     public class Signer
     {
+        /// <summary>
+        /// The address associated with this signature, as it appears in the signer list.
+        /// </summary>
         public string Account { get; set; }
 
+        /// <summary>
+        /// A signature for this transaction, verifiable using the SigningPubKey.
+        /// </summary>
         [JsonProperty("TxnSignature")]
         public string TransactionSignature { get; set; }
 
+        /// <summary>
+        /// The public key used to create this signature.
+        /// </summary>
         [JsonProperty("SigningPubKey")]
         public string SigningPublicKey { get; set; }
     }
@@ -181,61 +231,6 @@ namespace Xrpl.Models.Transaction
         public Currency PartialDeliveredAmount { get; set; }
     }
 
-    public class FieldInfo
-    {
-        [JsonProperty("Account")]
-        public string Account { get; set; }
-
-        [JsonProperty("Balance")]
-        public object Balance { get; set; }
-
-        [JsonProperty("Flags")]
-        public int Flags { get; set; }
-
-        [JsonProperty("OwnerCount")]
-        public int OwnerCount { get; set; }
-
-        [JsonProperty("Sequence")]
-        public int Sequence { get; set; }
-        
-        [JsonProperty("MintedTokens")]
-        public int MintedTokens { get; set; }
-
-        [JsonConverter(typeof(CurrencyConverter))]
-        public Currency HighLimit { get; set; }
-
-        public string HighNode { get; set; }
-
-        [JsonConverter(typeof(CurrencyConverter))]
-        public Currency LowLimit { get; set; }
-
-        public string LowNode { get; set; }
-
-        public List<INFToken> NFTokens { get; set; }
-
-        //todo not find fields
-        //public string Owner { get; set; }
-        //public string RootIndex { get; set; }
-        //public string BookDirectory { get; set; }
-        //public string BookNode { get; set; }
-        //[JsonConverter(typeof(CurrencyConverter))]
-        //public Currency TakerGets { get; set; }
-        //[JsonConverter(typeof(CurrencyConverter))]
-        //public Currency TakerPays { get; set; }
-        //public string ExchangeRate { get; set; }
-        //public string TakerGetsCurrency { get; set; }
-        //public string TakerGetsIssuer { get; set; }
-        //public string TakerPaysCurrency { get; set; }
-        //public string TakerPaysIssuer { get; set; }
-    }
-
-    public class PreviousFields
-    {
-        [JsonConverter(typeof(CurrencyConverter))]
-        public object Balance { get; set; } //todo change type to Currency
-        public int Sequence { get; set; }
-    }
-
     /// <summary>
     /// The AffectedNodes array contains a complete list of the objects in the ledger that this transaction modified in some way. 
     /// </summary>
@@ -261,18 +256,9 @@ namespace Xrpl.Models.Transaction
         public NodeInfo ModifiedNode { get; set; }
     }
 
-    public class INFToken
-    {
-        public NFToken NFToken { get; set; }
-    }
-
-    public class NFToken
-    {
-        public string NFTokenID { get; set; }
-
-        public string URI { get; set; }
-    }
-
+    /// <summary>
+    /// transaction object
+    /// </summary>
     public class NodeInfo
     {
         /// <summary>
@@ -301,6 +287,7 @@ namespace Xrpl.Models.Transaction
         [JsonProperty("PreviousTxnLgrSeq")]
         public uint? PreviousTxnLgrSeq { get; set; }
         /// <summary>
+        /// JSON
         /// <remarks>
         /// DeletedNode <br/>
         /// The content fields of the ledger object immediately before it was deleted.<br/>
@@ -313,24 +300,55 @@ namespace Xrpl.Models.Transaction
         /// This omits the PreviousTxnID and PreviousTxnLgrSeq fields, even though most types of ledger objects have them.
         /// </remarks>
         /// </summary>
-        [JsonProperty("FinalFields")]
-        public FieldInfo FinalFields { get; set; }
+        public dynamic FinalFields { get; set; }
+        /// <summary>
+        /// <remarks>
+        /// DeletedNode <br/>
+        /// The content fields of the ledger object immediately before it was deleted.<br/>
+        /// Which fields are present depends on what type of ledger object was created.
+        /// </remarks>
+        /// <remarks>
+        /// ModifiedNode <br/>
+        /// The content fields of the ledger object after applying any changes from this transaction.<br/>
+        /// Which fields are present depends on what type of ledger object was created.<br/>
+        /// This omits the PreviousTxnID and PreviousTxnLgrSeq fields, even though most types of ledger objects have them.
+        /// </remarks>
+        /// </summary>
+        public BaseLedgerEntry Final => LOConverter.GetBaseRippleLO(LedgerEntryType, FinalFields);
 
+        /// <summary>
+        /// JSON
+        /// CreatedNode <br/>
+        /// The content fields of the newly-created ledger object.<br/>
+        /// Which fields are present depends on what type of ledger object was created.
+        /// </summary>
+        public dynamic NewFields { get; set; }
         /// <summary>
         /// CreatedNode <br/>
         /// The content fields of the newly-created ledger object.<br/>
         /// Which fields are present depends on what type of ledger object was created.
         /// </summary>
-        [JsonProperty("NewFields")]
-        public FieldInfo NewFields { get; set; }
+        public BaseLedgerEntry New => LOConverter.GetBaseRippleLO(LedgerEntryType, NewFields);
+
         /// <summary>
+        /// JSON
         /// ModifiedNode <br/>
         /// The previous values for all fields of the object that were changed as a result of this transaction.<br/>
         /// If the transaction only added fields to the object, this field is an empty object.
         /// </summary>
         public dynamic PreviousFields { get; set; }
-    }
+        /// <summary>
+        /// ModifiedNode <br/>
+        /// The previous values for all fields of the object that were changed as a result of this transaction.<br/>
+        /// If the transaction only added fields to the object, this field is an empty object.
+        /// </summary>
+        public BaseLedgerEntry Previous => LOConverter.GetBaseRippleLO(LedgerEntryType, PreviousFields);
 
+    }
+    //https://xrpl.org/transaction-common-fields.html
+    /// <summary>
+    /// Every transaction has the same set of common fields.
+    /// </summary>
     public interface ITransactionCommon
     {
         /// <summary>
@@ -414,73 +432,60 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         /// <returns></returns>
         string ToJson();
+        //todo not found fields - SourceTag: Number (UInt32), TicketSequence:Number(UInt32), TxnSignature:string
     }
 
-    public interface ITransactionResponseCommon : IBaseTransactionResponse
+    /// <summary>
+    /// Every transaction has the same set of common fields.
+    /// </summary>
+    public interface ITransactionResponseCommon : IBaseTransactionResponse, ITransactionCommon
     {
-        string Account { get; set; }
-        string AccountTxnID { get; set; }
-        Currency Fee { get; set; }
-        uint? Flags { get; set; }
-        uint? LastLedgerSequence { get; set; }
-        List<Memo> Memos { get; set; }
-        Meta Meta { get; set; }
-        uint? date { get; set; }
-        uint? inLedger { get; set; }
-        uint? ledger_index { get; set; }
-        uint? Sequence { get; set; }
-        List<Signer> Signers { get; set; }
-        string SigningPublicKey { get; set; }
-        string TransactionSignature { get; set; }
-        TransactionType TransactionType { get; set; }
-
-        string ToJson();
     }
 
+    /// <inheritdoc cref="ITransactionResponseCommon" />
     [JsonConverter(typeof(TransactionConverter))]
-    public abstract class   TransactionResponseCommon : BaseTransactionResponse, ITransactionCommon, ITransactionResponseCommon
+    public abstract class TransactionResponseCommon : BaseTransactionResponse, ITransactionResponseCommon
     {
+        /// <inheritdoc/>
         public string Account { get; set; }
 
+        /// <inheritdoc/>
         public string AccountTxnID { get; set; }
 
+        /// <inheritdoc/>
         [JsonConverter(typeof(CurrencyConverter))]
         public Currency Fee { get; set; }
 
+        /// <inheritdoc/>
         public uint? Flags { get; set; }
 
-        /// <summary>
-        /// Although optional, the LastLedgerSequence is strongly recommended on every transaction to ensure it's validated or rejected promptly.
-        /// </summary>
+        /// <inheritdoc/>
         public uint? LastLedgerSequence { get; set; }
 
+        /// <inheritdoc/>
         public List<Memo> Memos { get; set; }
-
+        /// <inheritdoc/>
         public uint? Sequence { get; set; }
-
+        /// <inheritdoc/>
         [JsonProperty("SigningPubKey")]
         public string SigningPublicKey { get; set; }
 
+        /// <inheritdoc/>
         public List<Signer> Signers { get; set; }
 
+        /// <inheritdoc/>
         [JsonConverter(typeof(StringEnumConverter))]
         public TransactionType TransactionType { get; set; }
 
+        /// <inheritdoc/>
         [JsonProperty("TxnSignature")]
         public string TransactionSignature { get; set; }
 
+        /// <inheritdoc/>
         [JsonProperty("meta")]
         public Meta Meta { get; set; }
 
-        [JsonProperty("date")]
-        public uint? date { get; set; }
-
-        [JsonProperty("inLedger")]
-        public uint? inLedger { get; set; }
-
-        [JsonProperty("ledger_index")]
-        public uint? ledger_index { get; set; }
-
+        /// <inheritdoc/>
         public string ToJson()
         {
             JsonSerializerSettings serializerSettings = new JsonSerializerSettings();

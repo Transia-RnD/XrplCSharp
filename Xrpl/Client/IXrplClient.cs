@@ -1009,7 +1009,7 @@ namespace Xrpl.Client
 
         private void OnMessageReceived(string s)
         {
-            var response = JsonConvert.DeserializeObject<RippleResponse>(s);
+            var response = JsonConvert.DeserializeObject<BaseResponse>(s);
 
             try
             {
