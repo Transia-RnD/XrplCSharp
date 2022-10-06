@@ -122,8 +122,6 @@ namespace Xrpl.Wallet
                 new ValidationError("txJSON must not contain `TxnSignature` or `Signers` properties");
             }
 
-            // OTHER
-            //JToken txToSignAndEncode = { "test": ""};
             JObject txToSignAndEncode = JToken.FromObject(transaction).ToObject<JObject>();
             txToSignAndEncode["SigningPubKey"] = multisignAddress != "" ? "" : this.PublicKey;
 

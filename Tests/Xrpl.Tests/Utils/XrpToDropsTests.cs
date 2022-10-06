@@ -104,8 +104,8 @@ namespace XrplTests.Xrpl.Utils
         [TestMethod]
         public void TestInvalidXrpToDropsMultipleDecimalPointError()
         {
-            Assert.ThrowsException<ValidationError>(() => XrpConversion.XrpToDrops("1.0.0"));
-            Assert.ThrowsException<ValidationError>(() => XrpConversion.XrpToDrops("..."));
+            Assert.ThrowsException<FormatException>(() => XrpConversion.XrpToDrops("1.0.0"));
+            Assert.ThrowsException<FormatException>(() => XrpConversion.XrpToDrops("..."));
         }
     }
 }

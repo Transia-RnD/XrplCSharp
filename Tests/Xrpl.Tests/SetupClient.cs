@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Xrpl.Client;
 
@@ -14,14 +15,11 @@ namespace XrplTests.Xrpl
 
         public async Task<SetupUnit> SetupClient()
         {
-            Debug.WriteLine("SetupClient");
             var promise = new TaskCompletionSource();
-            mockedRippled = new CreateMockRippled(9999);
-            mockedRippled.Start();
-            Debug.WriteLine($"ws://localhost:{9999}");
+            //mockedRippled = new CreateMockRippled(9999);
+            //mockedRippled.Start();
             //_mockedServerPort = mockedRippled._port;
-            //client = new Client("wss://hooks-testnet-v2.xrpl-labs.com");
-            //client = new XrplClient($"ws://localhost:{9999}");
+            //client = new XrplClient($"ws://127.0.0.1:{9999}");
             //client.Connect();
             return this;
         }

@@ -11,8 +11,6 @@ namespace Xrpl.Keypairs
 
     public interface IXrplKeyPair
     {
-        byte[] CanonicalPubBytes();
-
         string Id();
         string Pk();
     }
@@ -21,7 +19,7 @@ namespace Xrpl.Keypairs
     {
         public static byte[] PubKeyHash(this IXrplKeyPair pair)
         {
-            return HashUtils.PublicKeyHash(pair.CanonicalPubBytes());
+            return HashUtils.PublicKeyHash(pair.Id().ToBytes());
         }
     }
 }

@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Math.EC;
 using Xrpl.Keypairs.Utils;
@@ -16,7 +18,7 @@ namespace Xrpl.Keypairs.K256
                 // The root keyPair
                 return new K256KeyPair(privateGen, true);
             }
-            var secret = ComputeSecretKey(privateGen, (uint) keyIndex);
+            var secret = ComputeSecretKey(privateGen, (uint)keyIndex);
             return new K256KeyPair(secret);
         }
 
@@ -25,13 +27,10 @@ namespace Xrpl.Keypairs.K256
             return ComputeScalar(seedBytes, null);
         }
 
-        public static BigInteger ComputeSecretKey(
-            BigInteger privateGen,
-            uint accountNumber)
+        public static BigInteger ComputeSecretKey(BigInteger privateGen, uint accountNumber)
         {
             ECPoint publicGen = ComputePublicGenerator(privateGen);
-            return ComputeScalar(publicGen.GetEncoded(true), accountNumber)
-                            .Add(privateGen).Mod(Secp256K1.Order());
+            return ComputeScalar(publicGen.GetEncoded(true), accountNumber).Add(privateGen).Mod(Secp256K1.Order());
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ internal static class ExtensionHelpers
         return Convert.ToHexString(bytes);
     }
 
-    internal static string FromHexString(this string input)
+    internal static string ConvertHexToString(this string input)
     {
         if (string.IsNullOrWhiteSpace(input))
             return null;

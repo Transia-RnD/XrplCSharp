@@ -93,7 +93,6 @@
 //            foreach (var item in XrpCases)
 //            {
 //                Amount amount = Amount.FromValue(item.Key);
-//                //Debug.WriteLine(amount.ToBytes());
 //                Assert.AreEqual(amount.ToString(), item.Value);
 //            }
 //        }

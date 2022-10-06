@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using Xrpl.Client.Extensions;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
@@ -10,6 +12,32 @@ using Xrpl.Models.Ledger;
 
 namespace Xrpl.Models.Transaction
 {
+    public class Common
+    {
+        static int ISSUED_CURRENCY_SIZE = 3;
+
+        public static bool IsRecord(dynamic value)
+        {
+            return value != null && value is Dictionary<string, dynamic>;
+        }
+
+        public static bool IsIssuedCurrency(dynamic input)
+        {
+            return (
+                IsRecord(input) &&
+                input.Length == ISSUED_CURRENCY_SIZE &&
+                input.value is string &&
+                input.issuer is string &&
+                input.currency is string
+            );
+        }
+
+        public static bool IsAmount(dynamic amount)
+        {
+            return amount is string || IsIssuedCurrency(amount);
+        }
+    }
+    
     /// <inheritdoc />
     [JsonConverter(typeof(TransactionConverter))]
     public abstract class TransactionCommon : ITransactionCommon //todo rename to BaseTransaction
@@ -86,19 +114,19 @@ namespace Xrpl.Models.Transaction
     /// <summary>
     /// Additional arbitrary information used to identify transaction.
     /// </summary>
-    public class Memo
+    public class MemoWrapper
     {
         /// <summary>
         /// The Memos field includes arbitrary messaging data with the transaction.
         /// </summary>
         [JsonProperty("Memo")]
-        public Memo2 Memo2 { get; set; }
+        public Memo Memo { get; set; }
     }
 
     /// <summary>
     /// The Memos field includes arbitrary messaging data with the transaction.
     /// </summary>
-    public class Memo2
+    public class Memo
     {
         /// <summary>
         /// Arbitrary hex value, conventionally containing the content of the memo.

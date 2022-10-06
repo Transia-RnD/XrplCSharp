@@ -33,7 +33,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
                 Amount = "100",
                 Destination = wallet2.ClassicAddress,
                 SettleDelay = 86400,
-                PublicKey = runner.wallet.ClassicAddress
+                PublicKey = runner.wallet.PublicKey
             };
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);

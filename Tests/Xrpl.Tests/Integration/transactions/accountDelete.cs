@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -39,6 +40,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
                 Destination = wallet2.ClassicAddress,
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
+            //Debug.WriteLine(JsonConvert.SerializeObject(txJson));
             await Utils.TestTransaction(runner.client, txJson, runner.wallet);
         }
     }
