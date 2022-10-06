@@ -3,9 +3,8 @@
         {
             "src": [
                 {
-                    "files": [ "XrplCSharp/*.csproj" ],
-                    "src": "..",
-                    "exclude": [ "XrplCSharpTests/*.csproj" ]
+                    "files": [ "*.csproj" ],
+                    "src": "../Xrpl"
                 }
             ],
             "dest": "reference",
