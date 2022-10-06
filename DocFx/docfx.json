@@ -5,6 +5,18 @@
                 {
                     "files": [ "*.csproj" ],
                     "src": "../Xrpl"
+                },
+                {
+                    "files": [ "*.csproj" ],
+                    "src": "../Base/Xrpl.AddressCodec"
+                },
+                {
+                    "files": [ "*.csproj" ],
+                    "src": "../Base/Xrpl.BinaryCodec"
+                },
+                {
+                    "files": [ "*.csproj" ],
+                    "src": "../Base/Xrpl.Keypairs"
                 }
             ],
             "dest": "reference",
