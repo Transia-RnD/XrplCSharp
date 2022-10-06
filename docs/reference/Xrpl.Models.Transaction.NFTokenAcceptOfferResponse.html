@@ -1,0 +1,1358 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class NFTokenAcceptOfferResponse
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class NFTokenAcceptOfferResponse
+   ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc">
+    <meta property="docfx:tocrel" content="toc">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+                
+                <ul class="nav level1 navbar-nav">
+                      <li>
+                          <a href="../reference/Xrpl.Client.html" title="Reference">Reference</a>
+                      </li>
+                </ul>    </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div>
+              <div class="sidefilter">
+                <form class="toc-filter">
+                  <span class="glyphicon glyphicon-filter filter-icon"></span>
+                  <input type="text" id="toc_filter_input" placeholder="Enter here to filter..." onkeypress="if(event.keyCode==13) {return false;}">
+                </form>
+              </div>
+              <div class="sidetoc">
+                <div class="toc" id="toc">
+                  
+                  <ul class="nav level1">
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Client.html" title="Xrpl.Client" class="">Xrpl.Client</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Client.connection.html" title="connection" class="">connection</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.connection.ConnectionOptions.html" title="connection.ConnectionOptions" class="">connection.ConnectionOptions</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.connection.Trace.html" title="connection.Trace" class="">connection.Trace</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.IXrplClient.html" title="IXrplClient" class="">IXrplClient</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.OnConsensusStreamResponse.html" title="OnConsensusStreamResponse" class="">OnConsensusStreamResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.OnErrorResponse.html" title="OnErrorResponse" class="">OnErrorResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.OnLedgerStreamResponse.html" title="OnLedgerStreamResponse" class="">OnLedgerStreamResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.OnPathFindStream.html" title="OnPathFindStream" class="">OnPathFindStream</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.OnPeerStatusStreamResponse.html" title="OnPeerStatusStreamResponse" class="">OnPeerStatusStreamResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.OnRippleResponse.html" title="OnRippleResponse" class="">OnRippleResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.OnTransactionStreamResponse.html" title="OnTransactionStreamResponse" class="">OnTransactionStreamResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.OnValidationsStreamResponse.html" title="OnValidationsStreamResponse" class="">OnValidationsStreamResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.XrplClient.html" title="XrplClient" class="">XrplClient</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Client.Exceptions.html" title="Xrpl.Client.Exceptions" class="">Xrpl.Client.Exceptions</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Client.Exceptions.ConnectionError.html" title="ConnectionError" class="">ConnectionError</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Exceptions.DisconnectedError.html" title="DisconnectedError" class="">DisconnectedError</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Exceptions.NotConnectedError.html" title="NotConnectedError" class="">NotConnectedError</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Exceptions.NotFoundError.html" title="NotFoundError" class="">NotFoundError</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Exceptions.ResponseFormatError.html" title="ResponseFormatError" class="">ResponseFormatError</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Exceptions.RippledError.html" title="RippledError" class="">RippledError</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Exceptions.RippledNotInitializedError.html" title="RippledNotInitializedError" class="">RippledNotInitializedError</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Exceptions.RippleException.html" title="RippleException" class="">RippleException</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Exceptions.TimeoutError.html" title="TimeoutError" class="">TimeoutError</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Exceptions.UnexpectedError.html" title="UnexpectedError" class="">UnexpectedError</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Exceptions.ValidationError.html" title="ValidationError" class="">ValidationError</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Exceptions.XrplError.html" title="XrplError" class="">XrplError</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Exceptions.XRPLFaucetError.html" title="XRPLFaucetError" class="">XRPLFaucetError</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Client.Extensions.html" title="Xrpl.Client.Extensions" class="">Xrpl.Client.Extensions</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Client.Extensions.EmumExtensions.html" title="EmumExtensions" class="">EmumExtensions</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Extensions.EnumerableExtensions.html" title="EnumerableExtensions" class="">EnumerableExtensions</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Extensions.ExtensionHelpers.html" title="ExtensionHelpers" class="">ExtensionHelpers</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Client.Json.Converters.html" title="Xrpl.Client.Json.Converters" class="">Xrpl.Client.Json.Converters</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Client.Json.Converters.CurrencyConverter.html" title="CurrencyConverter" class="">CurrencyConverter</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Json.Converters.GenericStringConverter-1.html" title="GenericStringConverter&lt;T&gt;" class="">GenericStringConverter&lt;T&gt;</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Json.Converters.LedgerBinaryConverter.html" title="LedgerBinaryConverter" class="">LedgerBinaryConverter</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Json.Converters.LedgerIndexConverter.html" title="LedgerIndexConverter" class="">LedgerIndexConverter</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Json.Converters.LOConverter.html" title="LOConverter" class="">LOConverter</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Json.Converters.MetaBinaryConverter.html" title="MetaBinaryConverter" class="">MetaBinaryConverter</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Json.Converters.RippleDateTimeConverter.html" title="RippleDateTimeConverter" class="">RippleDateTimeConverter</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Json.Converters.StringOrArrayConverter.html" title="StringOrArrayConverter" class="">StringOrArrayConverter</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Json.Converters.TransactionConverter.html" title="TransactionConverter" class="">TransactionConverter</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Client.Json.Converters.TransactionOrHashConverter.html" title="TransactionOrHashConverter" class="">TransactionOrHashConverter</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Models.html" title="Xrpl.Models" class="">Xrpl.Models</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Models.LedgerEntryType.html" title="LedgerEntryType" class="">LedgerEntryType</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.StreamType.html" title="StreamType" class="">StreamType</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.TransactionType.html" title="TransactionType" class="">TransactionType</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Models.Common.html" title="Xrpl.Models.Common" class="">Xrpl.Models.Common</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Models.Common.Common.html" title="Common" class="">Common</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Common.Common.IssuedCurrency.html" title="Common.IssuedCurrency" class="">Common.IssuedCurrency</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Common.Common.IssuedCurrencyAmount.html" title="Common.IssuedCurrencyAmount" class="">Common.IssuedCurrencyAmount</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Common.Common.XRP.html" title="Common.XRP" class="">Common.XRP</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Common.Currency.html" title="Currency" class="">Currency</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Common.LedgerIndex.html" title="LedgerIndex" class="">LedgerIndex</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Models.Ledger.html" title="Xrpl.Models.Ledger" class="">Xrpl.Models.Ledger</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.AccountRootFlags.html" title="AccountRootFlags" class="">AccountRootFlags</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.BaseLedgerEntity.html" title="BaseLedgerEntity" class="">BaseLedgerEntity</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.BaseLedgerEntry.html" title="BaseLedgerEntry" class="">BaseLedgerEntry</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.EnableAmendmentFlags.html" title="EnableAmendmentFlags" class="">EnableAmendmentFlags</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.HashOrTransaction.html" title="HashOrTransaction" class="">HashOrTransaction</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LedgerBinaryEntity.html" title="LedgerBinaryEntity" class="">LedgerBinaryEntity</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LedgerDataBinaryOrJson.html" title="LedgerDataBinaryOrJson" class="">LedgerDataBinaryOrJson</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LedgerEntity.html" title="LedgerEntity" class="">LedgerEntity</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LedgerIndexType.html" title="LedgerIndexType" class="">LedgerIndexType</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOAccountRoot.html" title="LOAccountRoot" class="">LOAccountRoot</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOAmendments.html" title="LOAmendments" class="">LOAmendments</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOBaseLedger.html" title="LOBaseLedger" class="">LOBaseLedger</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOCheck.html" title="LOCheck" class="">LOCheck</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LODepositPreauth.html" title="LODepositPreauth" class="">LODepositPreauth</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LODirectoryNode.html" title="LODirectoryNode" class="">LODirectoryNode</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOEscrow.html" title="LOEscrow" class="">LOEscrow</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOFeeSettings.html" title="LOFeeSettings" class="">LOFeeSettings</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOLedger.html" title="LOLedger" class="">LOLedger</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOLedgerCurrentIndex.html" title="LOLedgerCurrentIndex" class="">LOLedgerCurrentIndex</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOLedgerData.html" title="LOLedgerData" class="">LOLedgerData</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOLedgerEntry.html" title="LOLedgerEntry" class="">LOLedgerEntry</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOLedgerHashes.html" title="LOLedgerHashes" class="">LOLedgerHashes</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOOffer.html" title="LOOffer" class="">LOOffer</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOPayChannel.html" title="LOPayChannel" class="">LOPayChannel</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LORippleState.html" title="LORippleState" class="">LORippleState</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOSignerList.html" title="LOSignerList" class="">LOSignerList</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.LOTicket.html" title="LOTicket" class="">LOTicket</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.Majority.html" title="Majority" class="">Majority</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.QueuedTransaction.html" title="QueuedTransaction" class="">QueuedTransaction</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.RippleStateFlags.html" title="RippleStateFlags" class="">RippleStateFlags</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Ledger.SignerEntry.html" title="SignerEntry" class="">SignerEntry</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Models.Methods.html" title="Xrpl.Models.Methods" class="">Xrpl.Models.Methods</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountChannels.html" title="AccountChannels" class="">AccountChannels</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountChannelsRequest.html" title="AccountChannelsRequest" class="">AccountChannelsRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountCurrencies.html" title="AccountCurrencies" class="">AccountCurrencies</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountCurrenciesRequest.html" title="AccountCurrenciesRequest" class="">AccountCurrenciesRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountInfo.html" title="AccountInfo" class="">AccountInfo</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountInfoRequest.html" title="AccountInfoRequest" class="">AccountInfoRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountingStateInfo.html" title="AccountingStateInfo" class="">AccountingStateInfo</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountingStateSummary.html" title="AccountingStateSummary" class="">AccountingStateSummary</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountLines.html" title="AccountLines" class="">AccountLines</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountLinesRequest.html" title="AccountLinesRequest" class="">AccountLinesRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountNFTs.html" title="AccountNFTs" class="">AccountNFTs</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountNFTsRequest.html" title="AccountNFTsRequest" class="">AccountNFTsRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountObjects.html" title="AccountObjects" class="">AccountObjects</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountObjectsRequest.html" title="AccountObjectsRequest" class="">AccountObjectsRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountOffers.html" title="AccountOffers" class="">AccountOffers</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountOffersRequest.html" title="AccountOffersRequest" class="">AccountOffersRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountTransaction.html" title="AccountTransaction" class="">AccountTransaction</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountTransactions.html" title="AccountTransactions" class="">AccountTransactions</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.AccountTransactionsRequest.html" title="AccountTransactionsRequest" class="">AccountTransactionsRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.BaseLedgerRequest.html" title="BaseLedgerRequest" class="">BaseLedgerRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.BookCurrency.html" title="BookCurrency" class="">BookCurrency</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.BookOffersRequest.html" title="BookOffersRequest" class="">BookOffersRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.Channel.html" title="Channel" class="">Channel</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.ChannelAuthorizeRequest.html" title="ChannelAuthorizeRequest" class="">ChannelAuthorizeRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.ChannelVerifyRequest.html" title="ChannelVerifyRequest" class="">ChannelVerifyRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.Drops.html" title="Drops" class="">Drops</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.Fee.html" title="Fee" class="">Fee</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.FeeRequest.html" title="FeeRequest" class="">FeeRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.GatewayBalances.html" title="GatewayBalances" class="">GatewayBalances</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.GatewayBalancesRequest.html" title="GatewayBalancesRequest" class="">GatewayBalancesRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.Info.html" title="Info" class="">Info</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.JobType.html" title="JobType" class="">JobType</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.LastClose.html" title="LastClose" class="">LastClose</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.LedgerClosedRequest.html" title="LedgerClosedRequest" class="">LedgerClosedRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.LedgerCurrentRequest.html" title="LedgerCurrentRequest" class="">LedgerCurrentRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.LedgerDataRequest.html" title="LedgerDataRequest" class="">LedgerDataRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.LedgerEntryRequest.html" title="LedgerEntryRequest" class="">LedgerEntryRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.LedgerEntryRequestType.html" title="LedgerEntryRequestType" class="">LedgerEntryRequestType</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.LedgerRequest.html" title="LedgerRequest" class="">LedgerRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.Levels.html" title="Levels" class="">Levels</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.Load.html" title="Load" class="">Load</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.NFT.html" title="NFT" class="">NFT</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.NFTBuyOffers.html" title="NFTBuyOffers" class="">NFTBuyOffers</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.NFTBuyOffersRequest.html" title="NFTBuyOffersRequest" class="">NFTBuyOffersRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.NFTOffer.html" title="NFTOffer" class="">NFTOffer</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.NFTSellOffers.html" title="NFTSellOffers" class="">NFTSellOffers</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.NFTSellOffersRequest.html" title="NFTSellOffersRequest" class="">NFTSellOffersRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.NoRippleCheck.html" title="NoRippleCheck" class="">NoRippleCheck</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.NoRippleCheckRequest.html" title="NoRippleCheckRequest" class="">NoRippleCheckRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.Offer.html" title="Offer" class="">Offer</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.Path.html" title="Path" class="">Path</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.PingRequest.html" title="PingRequest" class="">PingRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.QueueData.html" title="QueueData" class="">QueueData</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.RandomRequest.html" title="RandomRequest" class="">RandomRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.RippleRequest.html" title="RippleRequest" class="">RippleRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.RippleState.html" title="RippleState" class="">RippleState</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.RoleType.html" title="RoleType" class="">RoleType</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.ServerInfo.html" title="ServerInfo" class="">ServerInfo</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.ServerInfoRequest.html" title="ServerInfoRequest" class="">ServerInfoRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.ServerState.html" title="ServerState" class="">ServerState</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.SubmitRequest.html" title="SubmitRequest" class="">SubmitRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.SubscribeBase.html" title="SubscribeBase" class="">SubscribeBase</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.SubscribeBook.html" title="SubscribeBook" class="">SubscribeBook</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.SubscribeRequest.html" title="SubscribeRequest" class="">SubscribeRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.TakerAmount.html" title="TakerAmount" class="">TakerAmount</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.TransactionSummary.html" title="TransactionSummary" class="">TransactionSummary</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.TrustLine.html" title="TrustLine" class="">TrustLine</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.TxRequest.html" title="TxRequest" class="">TxRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.UnsubscribeRequest.html" title="UnsubscribeRequest" class="">UnsubscribeRequest</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Methods.ValidatedLedger.html" title="ValidatedLedger" class="">ValidatedLedger</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Models.Subscriptions.html" title="Xrpl.Models.Subscriptions" class="">Xrpl.Models.Subscriptions</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.AlternativePath.html" title="AlternativePath" class="">AlternativePath</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.BaseResponse.html" title="BaseResponse" class="">BaseResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.BaseStreamResponseResult.html" title="BaseStreamResponseResult" class="">BaseStreamResponseResult</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.ConsensusStreamResponseResult.html" title="ConsensusStreamResponseResult" class="">ConsensusStreamResponseResult</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.ErrorResponse.html" title="ErrorResponse" class="">ErrorResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.LedgerStreamResponseResult.html" title="LedgerStreamResponseResult" class="">LedgerStreamResponseResult</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.OrderBookStreamResponseResult.html" title="OrderBookStreamResponseResult" class="">OrderBookStreamResponseResult</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.PathFindStreamResult.html" title="PathFindStreamResult" class="">PathFindStreamResult</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.PeerStatusStreamResponseResult.html" title="PeerStatusStreamResponseResult" class="">PeerStatusStreamResponseResult</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.ResponseStreamType.html" title="ResponseStreamType" class="">ResponseStreamType</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.RippleResponseWarning.html" title="RippleResponseWarning" class="">RippleResponseWarning</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.TransactionStreamResponseResult.html" title="TransactionStreamResponseResult" class="">TransactionStreamResponseResult</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.ValidationsStreamResponseResult.html" title="ValidationsStreamResponseResult" class="">ValidationsStreamResponseResult</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Subscriptions.WarningDetails.html" title="WarningDetails" class="">WarningDetails</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Models.Transaction.html" title="Xrpl.Models.Transaction" class="">Xrpl.Models.Transaction</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.AccountDelete.html" title="AccountDelete" class="">AccountDelete</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.AccountDeleteResponse.html" title="AccountDeleteResponse" class="">AccountDeleteResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.AccountSet.html" title="AccountSet" class="">AccountSet</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.AccountSetResponse.html" title="AccountSetResponse" class="">AccountSetResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.AccountSetTfFlags.html" title="AccountSetTfFlags" class="">AccountSetTfFlags</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.AffectedNode.html" title="AffectedNode" class="">AffectedNode</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.BaseTransactionResponse.html" title="BaseTransactionResponse" class="">BaseTransactionResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.BinaryTransaction.html" title="BinaryTransaction" class="">BinaryTransaction</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.BinaryTransactionResponse.html" title="BinaryTransactionResponse" class="">BinaryTransactionResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.BookOffers.html" title="BookOffers" class="">BookOffers</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.CheckCancel.html" title="CheckCancel" class="">CheckCancel</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.CheckCancelResponse.html" title="CheckCancelResponse" class="">CheckCancelResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.CheckCash.html" title="CheckCash" class="">CheckCash</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.CheckCashResponse.html" title="CheckCashResponse" class="">CheckCashResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.CheckCreate.html" title="CheckCreate" class="">CheckCreate</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.CheckCreateResponse.html" title="CheckCreateResponse" class="">CheckCreateResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.Common.html" title="Common" class="">Common</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.DepositPreauth.html" title="DepositPreauth" class="">DepositPreauth</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.DepositPreauthResponse.html" title="DepositPreauthResponse" class="">DepositPreauthResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.EscrowCancel.html" title="EscrowCancel" class="">EscrowCancel</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.EscrowCancelResponse.html" title="EscrowCancelResponse" class="">EscrowCancelResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.EscrowCreate.html" title="EscrowCreate" class="">EscrowCreate</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.EscrowCreateResponse.html" title="EscrowCreateResponse" class="">EscrowCreateResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.EscrowFinish.html" title="EscrowFinish" class="">EscrowFinish</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.EscrowFinishResponse.html" title="EscrowFinishResponse" class="">EscrowFinishResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.IAccountDelete.html" title="IAccountDelete" class="">IAccountDelete</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.IAccountSet.html" title="IAccountSet" class="">IAccountSet</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.IBaseTransactionResponse.html" title="IBaseTransactionResponse" class="">IBaseTransactionResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.ICheckCancel.html" title="ICheckCancel" class="">ICheckCancel</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.ICheckCash.html" title="ICheckCash" class="">ICheckCash</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.ICheckCreate.html" title="ICheckCreate" class="">ICheckCreate</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.IDepositPreauth.html" title="IDepositPreauth" class="">IDepositPreauth</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.IEscrowCancel.html" title="IEscrowCancel" class="">IEscrowCancel</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.IEscrowCreate.html" title="IEscrowCreate" class="">IEscrowCreate</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.IEscrowFinish.html" title="IEscrowFinish" class="">IEscrowFinish</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.INFTokenAcceptOffer.html" title="INFTokenAcceptOffer" class="">INFTokenAcceptOffer</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.INFTokenBurn.html" title="INFTokenBurn" class="">INFTokenBurn</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.INFTokenCancelOffer.html" title="INFTokenCancelOffer" class="">INFTokenCancelOffer</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.INFTokenCreateOffer.html" title="INFTokenCreateOffer" class="">INFTokenCreateOffer</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.INFTokenMint.html" title="INFTokenMint" class="">INFTokenMint</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.IOfferCancel.html" title="IOfferCancel" class="">IOfferCancel</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.IOfferCreate.html" title="IOfferCreate" class="">IOfferCreate</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.IPayment.html" title="IPayment" class="">IPayment</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.IPaymentChannelClaim.html" title="IPaymentChannelClaim" class="">IPaymentChannelClaim</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.IPaymentChannelCreate.html" title="IPaymentChannelCreate" class="">IPaymentChannelCreate</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.IPaymentChannelFund.html" title="IPaymentChannelFund" class="">IPaymentChannelFund</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.ISetRegularKey.html" title="ISetRegularKey" class="">ISetRegularKey</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.ISignerListSet.html" title="ISignerListSet" class="">ISignerListSet</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.ITicketCreate.html" title="ITicketCreate" class="">ITicketCreate</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.ITransactionCommon.html" title="ITransactionCommon" class="">ITransactionCommon</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.ITransactionResponseCommon.html" title="ITransactionResponseCommon" class="">ITransactionResponseCommon</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.ITrustSet.html" title="ITrustSet" class="">ITrustSet</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.Memo.html" title="Memo" class="">Memo</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.MemoWrapper.html" title="MemoWrapper" class="">MemoWrapper</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.Meta.html" title="Meta" class="">Meta</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.NFTokenAcceptOffer.html" title="NFTokenAcceptOffer" class="">NFTokenAcceptOffer</a>
+                          </li>
+                          <li class="active">
+                            <a href="Xrpl.Models.Transaction.NFTokenAcceptOfferResponse.html" title="NFTokenAcceptOfferResponse" class="active">NFTokenAcceptOfferResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.NFTokenBurn.html" title="NFTokenBurn" class="">NFTokenBurn</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.NFTokenBurnResponse.html" title="NFTokenBurnResponse" class="">NFTokenBurnResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.NFTokenCancelOffer.html" title="NFTokenCancelOffer" class="">NFTokenCancelOffer</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.NFTokenCancelOfferResponse.html" title="NFTokenCancelOfferResponse" class="">NFTokenCancelOfferResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.NFTokenCreateOffer.html" title="NFTokenCreateOffer" class="">NFTokenCreateOffer</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.NFTokenCreateOfferFlags.html" title="NFTokenCreateOfferFlags" class="">NFTokenCreateOfferFlags</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.NFTokenCreateOfferResponse.html" title="NFTokenCreateOfferResponse" class="">NFTokenCreateOfferResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.NFTokenMint.html" title="NFTokenMint" class="">NFTokenMint</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.NFTokenMintFlags.html" title="NFTokenMintFlags" class="">NFTokenMintFlags</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.NFTokenMintResponse.html" title="NFTokenMintResponse" class="">NFTokenMintResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.NodeInfo.html" title="NodeInfo" class="">NodeInfo</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.Offer.html" title="Offer" class="">Offer</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.OfferCancel.html" title="OfferCancel" class="">OfferCancel</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.OfferCancelResponse.html" title="OfferCancelResponse" class="">OfferCancelResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.OfferCreate.html" title="OfferCreate" class="">OfferCreate</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.OfferCreateFlags.html" title="OfferCreateFlags" class="">OfferCreateFlags</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.OfferCreateResponse.html" title="OfferCreateResponse" class="">OfferCreateResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.OfferFlags.html" title="OfferFlags" class="">OfferFlags</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.Payment.html" title="Payment" class="">Payment</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.PaymentChannelClaim.html" title="PaymentChannelClaim" class="">PaymentChannelClaim</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.PaymentChannelClaimFlags.html" title="PaymentChannelClaimFlags" class="">PaymentChannelClaimFlags</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.PaymentChannelClaimResponse.html" title="PaymentChannelClaimResponse" class="">PaymentChannelClaimResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.PaymentChannelCreate.html" title="PaymentChannelCreate" class="">PaymentChannelCreate</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.PaymentChannelCreateResponse.html" title="PaymentChannelCreateResponse" class="">PaymentChannelCreateResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.PaymentChannelFund.html" title="PaymentChannelFund" class="">PaymentChannelFund</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.PaymentChannelFundResponse.html" title="PaymentChannelFundResponse" class="">PaymentChannelFundResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.PaymentFlags.html" title="PaymentFlags" class="">PaymentFlags</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.PaymentResponse.html" title="PaymentResponse" class="">PaymentResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.SetRegularKey.html" title="SetRegularKey" class="">SetRegularKey</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.SetRegularKeyResponse.html" title="SetRegularKeyResponse" class="">SetRegularKeyResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.Signer.html" title="Signer" class="">Signer</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.SignerListSet.html" title="SignerListSet" class="">SignerListSet</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.SignerListSetResponse.html" title="SignerListSetResponse" class="">SignerListSetResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.Submit.html" title="Submit" class="">Submit</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.TicketCreate.html" title="TicketCreate" class="">TicketCreate</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.TicketCreateResponse.html" title="TicketCreateResponse" class="">TicketCreateResponse</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.TransactionCommon.html" title="TransactionCommon" class="">TransactionCommon</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.TransactionResponseCommon.html" title="TransactionResponseCommon" class="">TransactionResponseCommon</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.TrustSet.html" title="TrustSet" class="">TrustSet</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.TrustSetFlags.html" title="TrustSetFlags" class="">TrustSetFlags</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Transaction.TrustSetResponse.html" title="TrustSetResponse" class="">TrustSetResponse</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Models.Utils.html" title="Xrpl.Models.Utils" class="">Xrpl.Models.Utils</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Models.Utils.EmptyClass.html" title="EmptyClass" class="">EmptyClass</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Models.Utils.Flags.html" title="Flags" class="">Flags</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Sugar.html" title="Xrpl.Sugar" class="">Xrpl.Sugar</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Sugar.AutofillSugar.html" title="AutofillSugar" class="">AutofillSugar</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Sugar.AutofillSugar.AddressNTag.html" title="AutofillSugar.AddressNTag" class="">AutofillSugar.AddressNTag</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Sugar.BalancesSugar.html" title="BalancesSugar" class="">BalancesSugar</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Sugar.GetFeeXrpSugar.html" title="GetFeeXrpSugar" class="">GetFeeXrpSugar</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Sugar.GetLedgerSugar.html" title="GetLedgerSugar" class="">GetLedgerSugar</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Sugar.SubmitSugar.html" title="SubmitSugar" class="">SubmitSugar</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Utils.html" title="Xrpl.Utils" class="">Xrpl.Utils</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Utils.BigIntegerExtensions.html" title="BigIntegerExtensions" class="">BigIntegerExtensions</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.Derive.html" title="Derive" class="">Derive</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.GetBalanceChanges.html" title="GetBalanceChanges" class="">GetBalanceChanges</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.ParseNFTID.html" title="ParseNFTID" class="">ParseNFTID</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.Quality.html" title="Quality" class="">Quality</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.SignPaymentChannelClaim.html" title="SignPaymentChannelClaim" class="">SignPaymentChannelClaim</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.StringConversion.html" title="StringConversion" class="">StringConversion</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.TimeConversion.html" title="TimeConversion" class="">TimeConversion</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.VerifyPaymentChannelClaim.html" title="VerifyPaymentChannelClaim" class="">VerifyPaymentChannelClaim</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.XrpConversion.html" title="XrpConversion" class="">XrpConversion</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Utils.Hashes.html" title="Xrpl.Utils.Hashes" class="">Xrpl.Utils.Hashes</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Utils.Hashes.Hashes.html" title="Hashes" class="">Hashes</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.Hashes.HashLedger.html" title="HashLedger" class="">HashLedger</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.Hashes.LedgerSpaces.html" title="LedgerSpaces" class="">LedgerSpaces</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.Hashes.rHashPrefix.html" title="rHashPrefix" class="">rHashPrefix</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.Hashes.Sha512Half.html" title="Sha512Half" class="">Sha512Half</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Utils.Hashes.ShaMap.html" title="Xrpl.Utils.Hashes.ShaMap" class="">Xrpl.Utils.Hashes.ShaMap</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Utils.Hashes.ShaMap.InnerNode.html" title="InnerNode" class="">InnerNode</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.Hashes.ShaMap.LeafNode.html" title="LeafNode" class="">LeafNode</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.Hashes.ShaMap.Node.html" title="Node" class="">Node</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Utils.Hashes.ShaMap.SHAMap.html" title="SHAMap" class="">SHAMap</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Xrpl.Wallet.html" title="Xrpl.Wallet" class="">Xrpl.Wallet</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Xrpl.Wallet.EasyTimer.html" title="EasyTimer" class="">EasyTimer</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Wallet.SignatureResult.html" title="SignatureResult" class="">SignatureResult</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Wallet.Signer.html" title="Signer" class="">Signer</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Wallet.WalletSugar.html" title="WalletSugar" class="">WalletSugar</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Wallet.WalletSugar.FaucetAccount.html" title="WalletSugar.FaucetAccount" class="">WalletSugar.FaucetAccount</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Wallet.WalletSugar.FaucetNetwork.html" title="WalletSugar.FaucetNetwork" class="">WalletSugar.FaucetNetwork</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Wallet.WalletSugar.FaucetWallet.html" title="WalletSugar.FaucetWallet" class="">WalletSugar.FaucetWallet</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Wallet.WalletSugar.Funded.html" title="WalletSugar.Funded" class="">WalletSugar.Funded</a>
+                          </li>
+                          <li class="">
+                            <a href="Xrpl.Wallet.XrplWallet.html" title="XrplWallet" class="">XrplWallet</a>
+                          </li>
+                        </ul>  </li>
+                  </ul>        </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Xrpl.Models.Transaction.NFTokenAcceptOfferResponse">
+  
+  
+  <h1 id="Xrpl_Models_Transaction_NFTokenAcceptOfferResponse" data-uid="Xrpl.Models.Transaction.NFTokenAcceptOfferResponse" class="text-break">Class NFTokenAcceptOfferResponse
+  </h1>
+  <div class="markdown level0 summary"><p>The NFTokenOfferAccept transaction is used to accept offers to buy or sell an NFToken.<br>
+It can either:<br>
+1.<br>
+Allow one offer to be accepted.<br>
+This is called direct  mode.<br>
+2.<br>
+Allow two distinct offers, one offering to buy a  given NFToken and the other offering to sell the same  NFToken, to be accepted in an atomic fashion.<br>
+This is  called brokered mode.<br>
+To indicate direct mode, use either the <code>sell_offer</code> or <code>buy_offer</code> fields, but not both.<br>
+To indicate brokered mode, use both the <code>sell_offer</code> and <code>buy_offer</code> fields.<br>
+If you use neither <code>sell_offer</code> nor <code>buy_offer</code>, the transaction is invalid.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Xrpl.Models.Transaction.BaseTransactionResponse.html">BaseTransactionResponse</a></div>
+    <div class="level2"><a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html">TransactionResponseCommon</a></div>
+    <div class="level3"><span class="xref">NFTokenAcceptOfferResponse</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Xrpl.Models.Transaction.ITransactionResponseCommon.html">ITransactionResponseCommon</a></div>
+    <div><a class="xref" href="Xrpl.Models.Transaction.IBaseTransactionResponse.html">IBaseTransactionResponse</a></div>
+    <div><a class="xref" href="Xrpl.Models.Transaction.INFTokenAcceptOffer.html">INFTokenAcceptOffer</a></div>
+    <div><a class="xref" href="Xrpl.Models.Transaction.ITransactionCommon.html">ITransactionCommon</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html#Xrpl_Models_Transaction_TransactionResponseCommon_Account">TransactionResponseCommon.Account</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html#Xrpl_Models_Transaction_TransactionResponseCommon_AccountTxnID">TransactionResponseCommon.AccountTxnID</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html#Xrpl_Models_Transaction_TransactionResponseCommon_Fee">TransactionResponseCommon.Fee</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html#Xrpl_Models_Transaction_TransactionResponseCommon_Flags">TransactionResponseCommon.Flags</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html#Xrpl_Models_Transaction_TransactionResponseCommon_LastLedgerSequence">TransactionResponseCommon.LastLedgerSequence</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html#Xrpl_Models_Transaction_TransactionResponseCommon_Memos">TransactionResponseCommon.Memos</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html#Xrpl_Models_Transaction_TransactionResponseCommon_Sequence">TransactionResponseCommon.Sequence</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html#Xrpl_Models_Transaction_TransactionResponseCommon_SigningPublicKey">TransactionResponseCommon.SigningPublicKey</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html#Xrpl_Models_Transaction_TransactionResponseCommon_Signers">TransactionResponseCommon.Signers</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html#Xrpl_Models_Transaction_TransactionResponseCommon_TransactionType">TransactionResponseCommon.TransactionType</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html#Xrpl_Models_Transaction_TransactionResponseCommon_TransactionSignature">TransactionResponseCommon.TransactionSignature</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html#Xrpl_Models_Transaction_TransactionResponseCommon_Meta">TransactionResponseCommon.Meta</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.TransactionResponseCommon.html#Xrpl_Models_Transaction_TransactionResponseCommon_ToJson">TransactionResponseCommon.ToJson()</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.BaseTransactionResponse.html#Xrpl_Models_Transaction_BaseTransactionResponse_Date">BaseTransactionResponse.Date</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.BaseTransactionResponse.html#Xrpl_Models_Transaction_BaseTransactionResponse_Hash">BaseTransactionResponse.Hash</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.BaseTransactionResponse.html#Xrpl_Models_Transaction_BaseTransactionResponse_InLedger">BaseTransactionResponse.InLedger</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.BaseTransactionResponse.html#Xrpl_Models_Transaction_BaseTransactionResponse_LedgerIndex">BaseTransactionResponse.LedgerIndex</a>
+    </div>
+    <div>
+      <a class="xref" href="Xrpl.Models.Transaction.BaseTransactionResponse.html#Xrpl_Models_Transaction_BaseTransactionResponse_Validated">BaseTransactionResponse.Validated</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Xrpl.Models.Transaction.html">Xrpl.Models.Transaction</a></h6>
+  <h6><strong>Assembly</strong>: Xrpl.dll</h6>
+  <h5 id="Xrpl_Models_Transaction_NFTokenAcceptOfferResponse_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class NFTokenAcceptOfferResponse : TransactionResponseCommon, ITransactionResponseCommon, IBaseTransactionResponse, INFTokenAcceptOffer, ITransactionCommon</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/XrplCSharp/new/docs/apiSpec/new?filename=Xrpl_Models_Transaction_NFTokenAcceptOfferResponse_NFTokenBrokerFee.md&amp;value=---%0Auid%3A%20Xrpl.Models.Transaction.NFTokenAcceptOfferResponse.NFTokenBrokerFee%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/XrplCSharp/blob/docs/Xrpl/Models/Transaction/NFTokenAcceptOffer.cs/#L85">View Source</a>
+  </span>
+  <a id="Xrpl_Models_Transaction_NFTokenAcceptOfferResponse_NFTokenBrokerFee_" data-uid="Xrpl.Models.Transaction.NFTokenAcceptOfferResponse.NFTokenBrokerFee*"></a>
+  <h4 id="Xrpl_Models_Transaction_NFTokenAcceptOfferResponse_NFTokenBrokerFee" data-uid="Xrpl.Models.Transaction.NFTokenAcceptOfferResponse.NFTokenBrokerFee">NFTokenBrokerFee</h4>
+  <div class="markdown level1 summary"><p>This field is only valid in brokered mode.<br>
+It specifies the amount that the broker will keep as part of their fee for bringing the two offers together; the remaining amount will be sent to the seller of the NFToken being bought.<br>
+If specified, the fee must be such that, prior to accounting for the transfer fee charged by the issuer, the amount that the seller would receive is at least as much as the amount indicated in the sell offer.<br>
+This functionality is intended to allow the owner of an NFToken to offer their token for sale to a third party broker, who may then attempt to sell the NFToken on for a larger amount, without the broker having to own the NFToken or custody funds.<br>
+Note: in brokered mode, the offers referenced by NFTokenBuyOffer and NFTokenSellOffer must both specify the same NFTokenID; that is, both must be for the same NFToken.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Currency NFTokenBrokerFee { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Xrpl.Models.Common.Currency.html">Currency</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/XrplCSharp/new/docs/apiSpec/new?filename=Xrpl_Models_Transaction_NFTokenAcceptOfferResponse_NFTokenBuyOffer.md&amp;value=---%0Auid%3A%20Xrpl.Models.Transaction.NFTokenAcceptOfferResponse.NFTokenBuyOffer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/XrplCSharp/blob/docs/Xrpl/Models/Transaction/NFTokenAcceptOffer.cs/#L82">View Source</a>
+  </span>
+  <a id="Xrpl_Models_Transaction_NFTokenAcceptOfferResponse_NFTokenBuyOffer_" data-uid="Xrpl.Models.Transaction.NFTokenAcceptOfferResponse.NFTokenBuyOffer*"></a>
+  <h4 id="Xrpl_Models_Transaction_NFTokenAcceptOfferResponse_NFTokenBuyOffer" data-uid="Xrpl.Models.Transaction.NFTokenAcceptOfferResponse.NFTokenBuyOffer">NFTokenBuyOffer</h4>
+  <div class="markdown level1 summary"><p>Identifies the NFTokenOffer that offers to buy the NFToken.<br>
+In direct mode this field is optional, but either NFTokenSellOffer or NFTokenBuyOffer must be specified.<br>
+In brokered mode, both NFTokenSellOffer and NFTokenBuyOffer must be specified.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string NFTokenBuyOffer { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/XrplCSharp/new/docs/apiSpec/new?filename=Xrpl_Models_Transaction_NFTokenAcceptOfferResponse_NFTokenID.md&amp;value=---%0Auid%3A%20Xrpl.Models.Transaction.NFTokenAcceptOfferResponse.NFTokenID%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/XrplCSharp/blob/docs/Xrpl/Models/Transaction/NFTokenAcceptOffer.cs/#L76">View Source</a>
+  </span>
+  <a id="Xrpl_Models_Transaction_NFTokenAcceptOfferResponse_NFTokenID_" data-uid="Xrpl.Models.Transaction.NFTokenAcceptOfferResponse.NFTokenID*"></a>
+  <h4 id="Xrpl_Models_Transaction_NFTokenAcceptOfferResponse_NFTokenID" data-uid="Xrpl.Models.Transaction.NFTokenAcceptOfferResponse.NFTokenID">NFTokenID</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string NFTokenID { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Transia-RnD/XrplCSharp/new/docs/apiSpec/new?filename=Xrpl_Models_Transaction_NFTokenAcceptOfferResponse_NFTokenSellOffer.md&amp;value=---%0Auid%3A%20Xrpl.Models.Transaction.NFTokenAcceptOfferResponse.NFTokenSellOffer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Transia-RnD/XrplCSharp/blob/docs/Xrpl/Models/Transaction/NFTokenAcceptOffer.cs/#L79">View Source</a>
+  </span>
+  <a id="Xrpl_Models_Transaction_NFTokenAcceptOfferResponse_NFTokenSellOffer_" data-uid="Xrpl.Models.Transaction.NFTokenAcceptOfferResponse.NFTokenSellOffer*"></a>
+  <h4 id="Xrpl_Models_Transaction_NFTokenAcceptOfferResponse_NFTokenSellOffer" data-uid="Xrpl.Models.Transaction.NFTokenAcceptOfferResponse.NFTokenSellOffer">NFTokenSellOffer</h4>
+  <div class="markdown level1 summary"><p>Identifies the NFTokenOffer that offers to sell the NFToken.<br>
+In direct mode this field is optional, but either NFTokenSellOffer or  NFTokenBuyOffer must be specified.<br>
+In brokered mode, both NFTokenSellOffer  and NFTokenBuyOffer must be specified.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string NFTokenSellOffer { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Xrpl.Models.Transaction.ITransactionResponseCommon.html">ITransactionResponseCommon</a>
+  </div>
+  <div>
+      <a class="xref" href="Xrpl.Models.Transaction.IBaseTransactionResponse.html">IBaseTransactionResponse</a>
+  </div>
+  <div>
+      <a class="xref" href="Xrpl.Models.Transaction.INFTokenAcceptOffer.html">INFTokenAcceptOffer</a>
+  </div>
+  <div>
+      <a class="xref" href="Xrpl.Models.Transaction.ITransactionCommon.html">ITransactionCommon</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Transia-RnD/XrplCSharp/new/docs/apiSpec/new?filename=Xrpl_Models_Transaction_NFTokenAcceptOfferResponse.md&amp;value=---%0Auid%3A%20Xrpl.Models.Transaction.NFTokenAcceptOfferResponse%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/Transia-RnD/XrplCSharp/blob/docs/Xrpl/Models/Transaction/NFTokenAcceptOffer.cs/#L73" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
