@@ -200,11 +200,11 @@ namespace Xrpl.Wallet
             else
             {
                 Dictionary<string, dynamic> errorResponse = new Dictionary<string, dynamic>
-            {
-                { "statusCode", response.StatusCode },
-                { "contentType", response.Content.Headers.GetValues("Content-Type").First() },
-                { "body", body },
-            };
+                {
+                    { "statusCode", response.StatusCode },
+                    { "contentType", response.Content.Headers.GetValues("Content-Type").First() },
+                    { "body", body },
+                };
                 return await Task.FromException<Funded>(new XRPLFaucetError($"Content type is not application json {errorResponse.ToString()}"));
             }
         }

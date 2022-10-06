@@ -52,8 +52,6 @@ namespace Xrpl.Tests.Wallet.Tests
                 double newBalance = 0;
                 try
                 {
-                    //Task.Delay(2000).Wait();
-                    //newBalance = 1000.0;
                     newBalance = Convert.ToDouble(await _client.GetXrpBalance(_address));
                 }
                 catch (RippleException err)

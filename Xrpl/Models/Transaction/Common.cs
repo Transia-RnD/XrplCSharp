@@ -100,13 +100,13 @@ namespace Xrpl.Models.Transaction
         //todo not found fields -  SourceTag?: number, TicketSequence?: number
     }
 
-    public class Memo
+    public class MemoWrapper
     {
         [JsonProperty("Memo")]
-        public Memo2 Memo2 { get; set; }
+        public Memo Memo { get; set; }
     }
 
-    public class Memo2
+    public class Memo
     {
         public string MemoData { get; set; }
 

@@ -18,7 +18,7 @@ namespace Xrpl.BinaryCodec.Types
     /// </summary>
     public class StObject : ISerializedType
     {
-        protected internal readonly SortedDictionary<Field, ISerializedType> Fields;
+        protected internal SortedDictionary<Field, ISerializedType> Fields;
         /// <summary>
         /// Construct a STObject from a JSON object
         /// </summary>
@@ -121,30 +121,27 @@ namespace Xrpl.BinaryCodec.Types
         /// <param name="strict">optional, denote which field to include in serialized object</param>
         /// <returns></returns>
         /// <exception cref="InvalidJsonException">unknown field or token is not an object</exception>
-        public static StObject FromJson(JToken token, bool strict)
+        public static StObject FromJson(JToken token, bool signingOnly)
         {
             if (token.Type != JTokenType.Object)
             {
-                throw new InvalidJsonException("{token} is not an object");
+                throw new InvalidJsonException($"{token.Type} is not an object");
             }
 
             var so = new StObject();
+
+            var sortedKeys = new List<ISerializedType>();
             foreach (var pair in (JObject) token)
             {
                 if (!Field.Values.Has(pair.Key))
                 {
-                    if (strict)
+                    if (signingOnly)
                     {
                         throw new InvalidJsonException($"unknown field {pair.Key}");
                     }
                     continue;
                 }
                 var fieldForType = Field.Values[pair.Key];
-                Debug.WriteLine("-----------------");
-                Debug.WriteLine("-----------------");
-                Debug.WriteLine(fieldForType.Name);
-                Debug.WriteLine(pair.Value);
-                Debug.WriteLine("-----------------");
                 var jsonForField = pair.Value;
                 ISerializedType st;
                 try
@@ -156,11 +153,13 @@ namespace Xrpl.BinaryCodec.Types
                                           e is OverflowException ||
                                           e is PrecisionException)
                 {
-                    throw new InvalidJsonException($"Can't decode `{fieldForType}` " +
-                                          $"from `{jsonForField}`", e);
+                    throw new InvalidJsonException($"Can't decode `{fieldForType}` " + $"from `{jsonForField}`", e);
                 }
-                Debug.WriteLine(st);
                 so.Fields[fieldForType] = st;
+            }
+            if (signingOnly)
+            {
+                return so.FilterIsSigning();
             }
             return so;
         }
@@ -194,8 +193,7 @@ namespace Xrpl.BinaryCodec.Types
         public void ToBytes(IBytesSink to, Func<Field, bool> p)
         {
             var serializer = new BinarySerializer(to);
-            foreach (var pair in Fields.Where(pair => pair.Key.IsSerialised &&
-                                                    (p == null || p(pair.Key))))
+            foreach (var pair in Fields.Where(pair => pair.Key.IsSerialised && (p == null || p(pair.Key))))
             {
                 serializer.Add(pair.Key, pair.Value);
             }
@@ -431,6 +429,19 @@ namespace Xrpl.BinaryCodec.Types
 
     internal static class Extensions
     {
+        internal static StObject FilterIsSigning(this StObject sto)
+        {
+            var filtered = new SortedDictionary<Field, ISerializedType>();
+            foreach (var field in sto.Fields)
+            {
+                if (field.Key.IsSigningField == true)
+                {
+                    filtered.Add(field.Key, field.Value);
+                }
+            }
+            sto.Fields = filtered;
+            return sto;
+        }
         internal static byte[] Bytes(this HashPrefix hp) => Bits.GetBytes((uint)hp);
     }
 }

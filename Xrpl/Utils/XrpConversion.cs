@@ -144,7 +144,6 @@ namespace Xrpl.Utils
         public static string XrpToDrops(string xrpToConvert)
         {
             // Important: specify base BASE_TEN to avoid exponential notation, e.g. '1e-7'.
-            Debug.WriteLine($"CONVERTING FROM: {xrpToConvert}");
             // TODO: SHOULD BE BASE 10
             string xrp = decimal.Parse(xrpToConvert, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent).ToString();
             // check that the value is valid and actually a number

@@ -175,7 +175,6 @@ namespace Xrpl.Tests.Wallet.Tests
         public void TestVerifySignatureJson()
         {
             SignatureResult signedTx = verifyWallet.Sign(tx);
-            Debug.WriteLine(signedTx.TxBlob);
             Assert.IsTrue(Signer.VerifySignature(XrplBinaryCodec.Decode(signedTx.TxBlob).ToObject<Dictionary<string, dynamic>>()));
         }
 

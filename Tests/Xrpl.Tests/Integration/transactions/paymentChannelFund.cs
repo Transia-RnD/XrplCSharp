@@ -34,7 +34,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
                 Amount = "100",
                 Destination = wallet2.ClassicAddress,
                 SettleDelay = 86400,
-                PublicKey = runner.wallet.ClassicAddress
+                PublicKey = runner.wallet.PublicKey
             };
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
 
@@ -47,7 +47,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             {
                Account = runner.wallet.ClassicAddress,
                Channel = Hashes.HashPaymentChannel(
-                    runner.wallet.ClassicAddress,
+                    runner.wallet.PublicKey,
                     wallet2.ClassicAddress,
                     paymentChannelResponse.TxJson.Sequence
                 ),

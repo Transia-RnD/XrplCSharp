@@ -8,6 +8,7 @@ using Xrpl.Keypairs;
 using static Xrpl.AddressCodec.XrplCodec;
 using static Xrpl.AddressCodec.Utils;
 using System.Diagnostics;
+using System.Text;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-keypairs/test/api-test.js
 
@@ -51,7 +52,6 @@ namespace Xrpl.Keypairs.Tests
         public void TestDeriveKPSECP()
         {
             IXrplKeyPair keypair = XrplKeypairs.DeriveKeypair((string)apiJson["secp256k1"]["seed"]);
-            Debug.WriteLine(keypair.Pk());
             Assert.AreEqual(keypair.Id(), (string)apiJson["secp256k1"]["keypair"]["publicKey"]);
             Assert.AreEqual(keypair.Pk(), (string)apiJson["secp256k1"]["keypair"]["privateKey"]);
         }
@@ -99,7 +99,7 @@ namespace Xrpl.Keypairs.Tests
         {
             string privateKey = (string)apiJson["secp256k1"]["keypair"]["privateKey"];
             string message = (string)apiJson["secp256k1"]["message"];
-            byte[] messageBytes = message.ConvertStringToHex().FromHex();
+            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
             string signature = XrplKeypairs.Sign(messageBytes, privateKey);
             Assert.AreEqual(signature, (string)apiJson["secp256k1"]["signature"]);
         }
@@ -107,20 +107,42 @@ namespace Xrpl.Keypairs.Tests
         [TestMethod]
         public void TestVerifySECP()
         {
-            string signature  =(string)apiJson["secp256k1"]["signature"];
+            string signature = (string)apiJson["secp256k1"]["signature"];
             string publicKey = (string)apiJson["secp256k1"]["keypair"]["publicKey"];
             string message = (string)apiJson["secp256k1"]["message"];
-            byte[] messageBytes = message.ConvertStringToHex().FromHex();
+            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
             bool verified = XrplKeypairs.Verify(messageBytes, signature, publicKey);
-            Assert.AreEqual(signature, (string)apiJson["secp256k1"]["signature"]);
+            Assert.IsTrue(verified);
         }
 
+        [TestMethod]
+        public void TestSignSECP1()
+        {
+            string privateKey = "00141BA006D3363D2FB2785E8DF4E44D3A49908780CB4FB51F6D217C08C021429F";
+            string message = "CF83E1357EEFB8BDF1542850D66D8007D620E4050B5715DC83F4A921D36CE9CE";
+            byte[] messageBytes = message.FromHex();
+            string signature = XrplKeypairs.Sign(messageBytes, privateKey);
+            Assert.AreEqual(signature, "30440220600D60F6FF362A63C9B8484C5911F0B436047AB0FFE37D784BB115FFEF31894402200C87284F7FA540A454D20BD5D3EA1903B8D7AE4E991D7B44290DB30EF707B47D");
+        }
+
+        [TestMethod]
+        public void TestVerifySECP1()
+        {
+            string signature = "30440220016DF49D23201FBA4C4D557B6199C6C791D6E985B56C6688108B8FD7CA5D2D1102206F4540727D43604C6992AF2FAE85D89F51763CE8912A545DC73313603E968D09";
+            string publicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
+            string message = "CF83E1357EEFB8BDF1542850D66D8007D620E4050B5715DC83F4A921D36CE9CE";
+            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
+            bool verified = XrplKeypairs.Verify(messageBytes, signature, publicKey);
+            Assert.IsTrue(verified);
+        }
+
+        
         [TestMethod]
         public void TestSignED()
         {
             string privateKey = (string)apiJson["ed25519"]["keypair"]["privateKey"];
             string message = (string)apiJson["ed25519"]["message"];
-            byte[] messageBytes = message.ConvertStringToHex().FromHex();
+            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
             string signature = XrplKeypairs.Sign(messageBytes, privateKey);
             Assert.AreEqual(signature, (string)apiJson["ed25519"]["signature"]);
         }
@@ -131,9 +153,9 @@ namespace Xrpl.Keypairs.Tests
             string signature = (string)apiJson["ed25519"]["signature"];
             string publicKey = (string)apiJson["ed25519"]["keypair"]["publicKey"];
             string message = (string)apiJson["ed25519"]["message"];
-            byte[] messageBytes = message.ConvertStringToHex().FromHex();
+            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
             bool verified = XrplKeypairs.Verify(messageBytes, signature, publicKey);
-            Assert.AreEqual(signature, (string)apiJson["ed25519"]["signature"]);
+            Assert.IsTrue(verified);
         }
     }
 }

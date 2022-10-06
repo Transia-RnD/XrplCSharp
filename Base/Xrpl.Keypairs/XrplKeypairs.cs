@@ -4,6 +4,8 @@ using Xrpl.Keypairs.Ed25519;
 using Xrpl.Keypairs.K256;
 using static Xrpl.AddressCodec.XrplCodec;
 using static Xrpl.AddressCodec.Utils;
+using System.Diagnostics;
+using System.Text;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-keypairs/src/index.ts
 
@@ -38,27 +40,33 @@ namespace Xrpl.Keypairs
             return XrplCodec.EncodeSeed(fentropy, algorithm);
         }
 
+        internal static byte[] Hash(string message)
+        {
+            var bytes = Encoding.UTF8.GetBytes(message);
+            return bytes.Sha512HashHalf();
+        }
+
         public static IXrplKeyPair DeriveKeypair(string seed, string? algorithm = null, bool validator = false, int index = 0)
         {
             DecodedSeed decoded = XrplCodec.DecodeSeed(seed);
             if (decoded.Type == "ed25519")
             {
                 IXrplKeyPair edkp = EdKeyPair.From128Seed(decoded.Bytes);
-                //byte[] messageToVerify = hash("This test message should verify.");
-                //byte[] signature = method.sign(messageToVerify, keypair.privateKey);
-                //if (method.verify(messageToVerify, signature, keypair.publicKey) != true)
-                //{
-                //        throw ValidationError("derived keypair did not generate verifiable signature");
-                //}
+                byte[] edMsg = Hash("This test message should verify.");
+                string edSig = Sign(edMsg, edkp.Pk());
+                if (Verify(edMsg, edSig, edkp.Id()) != true)
+                {
+                    throw new KeypairException("derived keypair did not generate verifiable signature");
+                }
                 return edkp;
             }
             IXrplKeyPair scpk = K256KeyGenerator.From128Seed(decoded.Bytes, validator ? -1 : (int)index);
-            //byte[] messageToVerify = hash("This test message should verify.");
-            //byte[] signature = method.sign(messageToVerify, keypair.privateKey);
-            //if (method.verify(messageToVerify, signature, keypair.publicKey) != true)
-            //{
-            //    throw new Error("derived keypair did not generate verifiable signature");
-            //}
+            byte[] scpkMsg = Hash("This test message should verify.");
+            string scpkSig = Sign(scpkMsg, scpk.Pk());
+            if (Verify(scpkMsg, scpkSig, scpk.Id()) != true)
+            {
+                throw new KeypairException("derived keypair did not generate verifiable signature");
+            }
             return scpk;
         }
 
@@ -78,11 +86,12 @@ namespace Xrpl.Keypairs
         public static string Sign(byte[] message, string privateKey)
         {
             string algorithm = GetAlgorithmFromKey(privateKey);
-            if (algorithm != "ed25519") 
-                return K256KeyPair.Sign(message, privateKey.FromHex()).ToHex();
-
-            byte[] pk = Chaos.NaCl.Ed25519.ExpandedPrivateKeyFromSeed(privateKey[2..66].FromHex());
-            return EdKeyPair.Sign(message, pk).ToHex();
+            if (algorithm == "ed25519")
+            {
+                byte[] pk = Chaos.NaCl.Ed25519.ExpandedPrivateKeyFromSeed(privateKey[2..66].FromHex());
+                return EdKeyPair.Sign(message, pk).ToHex();
+            }
+            return K256KeyPair.Sign(message, privateKey.FromHex()).ToHex();
         }
 
         public static bool Verify(byte[] message, string signature, string publicKey)
@@ -90,7 +99,7 @@ namespace Xrpl.Keypairs
             string algorithm = GetAlgorithmFromKey(publicKey);
             return algorithm == "ed25519"
                 ? EdKeyPair.Verify(signature.FromHex(), message, publicKey[2..66].FromHex())
-                : K256VerifyingKey.Verify(signature.FromHex(), message, publicKey.FromHex());
+                : K256KeyPair.Verify(signature.FromHex(), message, publicKey.FromHex());
         }
 
         public static string DeriveAddressFromBytes(byte[] publicKeyBytes)

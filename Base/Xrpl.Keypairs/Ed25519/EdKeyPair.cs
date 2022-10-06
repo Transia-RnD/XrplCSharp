@@ -11,7 +11,6 @@ namespace Xrpl.Keypairs.Ed25519
     public class EdKeyPair : IXrplKeyPair
     {
         string prefix = "ED";
-        private byte[] _canonicalisedPubBytes;
         private readonly byte[] _pubBytes;
         private readonly byte[] _privBytes;
 
@@ -19,20 +18,6 @@ namespace Xrpl.Keypairs.Ed25519
         {
             _pubBytes = publicKey;
             _privBytes = expandedPrivateKey;
-            ComputeCanonicalPub();
-        }
-
-        public byte[] CanonicalPubBytes()
-        {
-            return _canonicalisedPubBytes;
-        }
-
-        private void ComputeCanonicalPub()
-        {
-            _canonicalisedPubBytes = new byte[33];
-            _canonicalisedPubBytes[0] = 0xed;
-            Array.Copy(_pubBytes, 0, _canonicalisedPubBytes,
-                       1, _pubBytes.Length);
         }
 
         internal static IXrplKeyPair From128Seed(byte[] seed)

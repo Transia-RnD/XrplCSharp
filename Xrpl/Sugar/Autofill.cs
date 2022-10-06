@@ -10,6 +10,14 @@ using static Xrpl.AddressCodec.XrplAddressCodec;
 using System.Collections.Generic;
 using Xrpl.Client;
 using Xrpl.Client.Exceptions;
+using Xrpl.Utils;
+using System.Globalization;
+using Newtonsoft.Json.Linq;
+using Org.BouncyCastle.Math.EC.Multiplier;
+using Xrpl.BinaryCodec.Types;
+using System.IO;
+using System.Diagnostics;
+using Newtonsoft.Json;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/autofill.ts
 
@@ -46,12 +54,12 @@ namespace Xrpl.Sugar
             List<Task> promises = new List<Task>();
             if (!tx.ContainsKey("Sequence"))
             {
-                promises.Add(SetNextValidSequenceNumberAsync(client, tx));
+                promises.Add(SetNextValidSequenceNumber(client, tx));
             }
-            //if (tx["Fee"] == null)
-            //{
-            //    promises.push(CalculateFeePerTransactionType(client, tx, signersCount))
-            //}
+            if (!tx.ContainsKey("Fee") || tx["Fee"] == "10")
+            {
+                promises.Append(CalculateFeePerTransactionType(client, tx, signersCount ?? 0));
+            }
             if (!tx.ContainsKey("LastLedgerSequence"))
             {
                 promises.Append(SetLatestValidatedLedgerSequence(client, tx));
@@ -61,6 +69,7 @@ namespace Xrpl.Sugar
             //    promises.push(CheckAccountDeleteBlockers(client, tx))
             //}
             Task.WaitAll(promises.ToArray());
+            //Debug.WriteLine(JsonConvert.SerializeObject(tx));
             return tx;
         }
 
@@ -128,7 +137,7 @@ namespace Xrpl.Sugar
             }
         }
 
-        public static async Task SetNextValidSequenceNumberAsync(IXrplClient client, Dictionary<string, dynamic> tx)
+        public static async Task SetNextValidSequenceNumber(IXrplClient client, Dictionary<string, dynamic> tx)
         {
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Current);
             AccountInfoRequest request = new AccountInfoRequest((string)tx["Account"]) { LedgerIndex = index };
@@ -149,9 +158,47 @@ namespace Xrpl.Sugar
             return new BigInteger(Convert.ToByte(fee));
         }
 
-        // ....
+        public static async Task CalculateFeePerTransactionType(IXrplClient client, Dictionary<string, dynamic> tx, int signersCount = 0)
+        {
+            var netFeeXRP = await GetFeeXrpSugar.GetFeeXrp(client);
+            var netFeeDrops = XrpConversion.XrpToDrops(netFeeXRP);
+            var baseFee = BigInteger.Parse(netFeeDrops, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent);
 
-        public static async Task SetLatestValidatedLedgerSequence(IXrplClient client, Dictionary<string, dynamic> tx)
+            // EscrowFinish Transaction with Fulfillment
+            if (tx["TransactionType"] == "EscrowFinish" && tx["Fulfillment"] != null)
+            {
+                var fulfillmentBytesSize = Math.Ceiling(tx["Fulfillment"].Length / 2);
+                // 10 drops × (33 + (Fulfillment size in bytes / 16))
+                var product = new BigInteger(ScaleValue(netFeeDrops, 33 + fulfillmentBytesSize / 16));
+                baseFee = BigInteger.Parse(Math.Ceiling(((decimal)product)).ToString());
+            }
+
+            // AccountDelete Transaction
+            if (tx["TransactionType"] == "AccountDelete")
+            {
+                baseFee = await FetchAccountDeleteFee(client);
+            }
+
+            /*
+            * Multi-signed Transaction
+            * 10 drops × (1 + Number of Signatures Provided)
+            */
+            if (signersCount > 0)
+            {
+                baseFee = BigInteger.Add(baseFee, BigInteger.Parse(ScaleValue(netFeeDrops, 1 + signersCount)));
+            }
+
+            var maxFeeDrops = XrpConversion.XrpToDrops(client.MaxFeeXRP);
+            var totalFee = tx["TransactionType"] == "AccountDelete" ? baseFee : BigInteger.Min(baseFee, BigInteger.Parse(maxFeeDrops));
+            tx["Fee"] = Math.Ceiling(((decimal)totalFee)).ToString();
+        }
+
+        public static string ScaleValue(string value, int multiplier)
+        {
+            return (int.Parse(value)! * multiplier).ToString();
+        }
+
+    public static async Task SetLatestValidatedLedgerSequence(IXrplClient client, Dictionary<string, dynamic> tx)
         {
             uint ledgerSequence = await client.GetLedgerIndex();
             tx["LastLedgerSequence"] = ledgerSequence + LEDGER_OFFSET;

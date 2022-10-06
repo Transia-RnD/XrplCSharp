@@ -1,4 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿//See https://aka.ms/new-console-template for more information
 
 using Xrpl.Client;
 using Xrpl.Models.Methods;

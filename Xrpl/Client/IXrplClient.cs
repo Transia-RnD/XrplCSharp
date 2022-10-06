@@ -31,6 +31,9 @@ namespace Xrpl.Client
 
     public interface IXrplClient : IDisposable
     {
+        double FeeCushion { get; set; }
+        string MaxFeeXRP { get; set; }
+
         event OnLedgerStreamResponse OnLedgerClosed;
         event OnValidationsStreamResponse OnValidation;
         event OnTransactionStreamResponse OnTransaction;
@@ -261,6 +264,8 @@ namespace Xrpl.Client
 
     public class XrplClient : IXrplClient
     {
+        public double FeeCushion { get; set; }
+        public string MaxFeeXRP { get; set; }
         public event OnLedgerStreamResponse OnLedgerClosed;
         public event OnValidationsStreamResponse OnValidation;
         public event OnTransactionStreamResponse OnTransaction;
@@ -278,8 +283,10 @@ namespace Xrpl.Client
         private readonly ConcurrentDictionary<Guid, TaskInfo> tasks;
         private readonly JsonSerializerSettings serializerSettings;
 
-        public XrplClient(string server)
+        public XrplClient(string server, double? feeCushion = 1.2, string? maxFeeXRP = "2")
         {
+            FeeCushion = feeCushion ?? FeeCushion;
+            MaxFeeXRP = maxFeeXRP ?? MaxFeeXRP;
             url = server;
             tasks = new ConcurrentDictionary<Guid, TaskInfo>();
             serializerSettings = new JsonSerializerSettings();
@@ -324,7 +331,6 @@ namespace Xrpl.Client
             {
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             } while (client.State != WebSocketState.Open);
-            Debug.WriteLine("OPEN");
         }
         /// <inheritdoc />
         public void Disconnect()
@@ -1012,7 +1018,6 @@ namespace Xrpl.Client
 
                 if (response.Status == "success")
                 {
-                    //Debug.WriteLine($"RESPONSE {response.Id} : {response.Result.ToString()}");
                     var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
                     var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("SetResult");
                     setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });
@@ -1034,7 +1039,6 @@ namespace Xrpl.Client
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 var taskInfoResult = tasks.TryGetValue(response.Id, out var taskInfo);
                 var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("SetException", new Type[] { typeof(Exception) }, null);
 

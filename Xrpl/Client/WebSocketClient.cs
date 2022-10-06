@@ -29,7 +29,6 @@ namespace Xrpl.Client
         protected WebSocketClient(string uri)
         {
             _uri = new Uri(uri);
-            Debug.WriteLine(_uri);
             _cancellationToken = _cancellationTokenSource.Token;
         }
 
@@ -51,7 +50,6 @@ namespace Xrpl.Client
         {
             if (_ws == null)
             {
-                Debug.WriteLine("HERE");
                 _ws = new ClientWebSocket();
                 _ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(20);
             }
@@ -154,7 +152,6 @@ namespace Xrpl.Client
         /// <param name="message">The message to send</param>
         internal void SendMessage(string message)
         {
-            // Debug.WriteLine($"REQUEST: {message}");
             SendMessage(Encoding.UTF8.GetBytes(message));
         }
 
@@ -203,7 +200,9 @@ namespace Xrpl.Client
             if (_ws != null)
             {
                 if (_ws.State != WebSocketState.Open)
+                {
                     await _ws.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                }
                 _ws.Dispose();
                 _ws = null;
                 CallOnDisconnected();

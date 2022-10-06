@@ -26,7 +26,6 @@ namespace XrplTests.Xrpl.ClientLib.Integration
         [TestMethod]
         public async Task TestRequestMethod()
         {
-
             XrplWallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
             SignerEntry signer1 = new SignerEntry { Account = "r5nx8ZkwEbFztnc8Qyi22DE9JYjRzNmvs", SignerWeight = 1 };
             SignerEntry signer2 = new SignerEntry { Account = "r3RtUvGw9nMoJ5FuHxuoVJvcENhKtuF9ud", SignerWeight = 1 };
@@ -34,7 +33,11 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             {
                 Account = runner.wallet.ClassicAddress,
                 SignerQuorum = 2,
-                SignerEntries = { signer1, signer2 }
+                SignerEntries = new List<SignerEntry>()
+                {
+                    signer1,
+                    signer2
+                }
             };
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);

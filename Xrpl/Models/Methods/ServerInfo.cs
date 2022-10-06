@@ -3,7 +3,9 @@ using System.Runtime.Serialization;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/serverInfo.ts
+
 namespace Xrpl.Models.Methods
 {
     /// <summary>
@@ -176,7 +178,7 @@ namespace Xrpl.Models.Methods
         /// Information about the most recent fully-validated ledger.
         /// </summary>
         [JsonProperty("validated_ledger")]
-        public ValidatedLedger ValidatedLedger { get; set; }
+        public ValidatedLedger? ValidatedLedger { get; set; }
 
         /// <summary>
         /// Minimum number of trusted validations required to validate a ledger   version.<br/>
