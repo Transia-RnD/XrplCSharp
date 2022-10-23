@@ -131,25 +131,17 @@ namespace Xrpl.Models.Transaction
         public async Task ValidateTrustSet(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
-            if (tx["LimitAmount"] == null)
-            {
+            if (!tx.TryGetValue("LimitAmount", out var LimitAmount) || LimitAmount is null)
                 throw new ValidationError("TrustSet: missing field LimitAmount");
-            }
             // TODO: Review this function
-            if (!Common.IsAmount(tx["LimitAmount"]))
-            {
+            if (!Common.IsAmount(LimitAmount))
                 throw new ValidationError("TrustSet: invalid LimitAmount");
-            }
 
-            if (tx["QualityIn"] != null && tx["QualityIn"] is uint)
-            {
+            if (!tx.TryGetValue("QualityIn", out var QualityIn) || QualityIn is not uint { })
                 throw new ValidationError("TrustSet: invalid QualityIn");
-            }
 
-            if (tx["QualityOut"] != null && tx["QualityOut"] is uint)
-            {
+            if (!tx.TryGetValue("QualityOut", out var QualityOut) || QualityOut is not uint { })
                 throw new ValidationError("TrustSet: invalid QualityOut");
-            }
         }
     }
 }
