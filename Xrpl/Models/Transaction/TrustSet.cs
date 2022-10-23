@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Xrpl.Client.Exceptions;
 using Xrpl.Client.Json.Converters;
@@ -119,12 +120,17 @@ namespace Xrpl.Models.Transaction
         public uint? QualityOut { get; set; }
     }
 
-    class Validation
+    partial class Validation
     {
-        public void ValidateTrustSet(Dictionary<string, dynamic> tx)
+        //https://github.com/XRPLF/xrpl.js/blob/b40a519a0d949679a85bf442be29026b76c63a22/packages/xrpl/src/models/transactions/trustSet.ts#L127
+        /// <summary>
+        /// Verify the form and type of a TrustSet at runtime.
+        /// </summary>
+        /// <param name="tx"> A TrustSet Transaction.</param>
+        /// <exception cref="ValidationError">When the TrustSet is malformed.</exception>
+        public async Task ValidateTrustSet(Dictionary<string, dynamic> tx)
         {
-            // TODO: Write this function
-            //ValidateBaseTransaction(tx)
+            await Common.ValidateBaseTransaction(tx);
             if (tx["LimitAmount"] == null)
             {
                 throw new ValidationError("TrustSet: missing field LimitAmount");

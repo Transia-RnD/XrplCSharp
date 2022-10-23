@@ -1,8 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
+
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
+
+using Xrpl.Client.Exceptions;
 using Xrpl.Client.Extensions;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
@@ -20,7 +25,11 @@ namespace Xrpl.Models.Transaction
         {
             return value != null && value is Dictionary<string, dynamic>;
         }
-
+        /// <summary>
+        /// Verify the form and type of an IssuedCurrencyAmount at runtime.
+        /// </summary>
+        /// <param name="input">The input to check the form and type of.</param>
+        /// <returns>Whether the IssuedCurrencyAmount is malformed.</returns>
         public static bool IsIssuedCurrency(dynamic input)
         {
             return (
@@ -31,13 +40,145 @@ namespace Xrpl.Models.Transaction
                 input.currency is string
             );
         }
-
+        /// <summary>
+        /// Verify the form and type of an Amount at runtime.
+        /// </summary>
+        /// <param name="amount">The object to check the form and type of.</param>
+        /// <returns>Whether the Amount is malformed.</returns>
         public static bool IsAmount(dynamic amount)
         {
             return amount is string || IsIssuedCurrency(amount);
         }
+        /// <summary>
+        /// Parse the value of an amount, expressed either in XRP or as an Issued Currency, into a number.
+        /// </summary>
+        /// <param name="amount"> An Amount to parse for its value.</param>
+        /// <returns></returns>
+        /// <exception cref="ValidationError">The parsed amount value, or null if the amount count not be parsed.</exception>
+        public static double ParseAmountValue(dynamic amount)
+        {
+            if (!Common.IsAmount(amount))
+            {
+                return double.NaN;
+            }
+            if (amount is string)
+            {
+                return double.Parse(
+                    amount, NumberStyles.AllowLeadingSign
+                                 | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
+                                 | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                 | (NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                 | NumberStyles.AllowExponent
+                                 | NumberStyles.AllowDecimalPoint,
+                    CultureInfo.InvariantCulture);
+            }
+
+            return double.Parse(
+                amount.value, NumberStyles.AllowLeadingSign
+                             | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
+                             | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                             | (NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                             | NumberStyles.AllowExponent
+                             | NumberStyles.AllowDecimalPoint,
+                CultureInfo.InvariantCulture);
+        }
+        /// <summary>
+        /// Verify the common fields of a transaction.<br/>
+        /// The validate functionality will be optional, and will check transaction form at runtime.
+        /// This should be called any time a transaction will be verified.
+        /// </summary>
+        /// <param name="tx">An interface w/ common transaction fields.</param>
+        /// <returns></returns>
+        /// <exception cref="ValidationError"> When the common param is malformed.</exception>
+        public static Task ValidateBaseTransaction(Dictionary<string, dynamic> tx)
+        {
+            if (!tx.TryGetValue("Account", out var Account) || Account is null)
+            {
+                throw new ValidationError("BaseTransaction: missing field Account");
+            }
+
+            if (Account is not string { })
+            {
+                throw new ValidationError("BaseTransaction: Account not string");
+            }
+
+            if (!tx.TryGetValue("TransactionType", out var TransactionType) || TransactionType is null)
+            {
+                throw new ValidationError("BaseTransaction: missing field TransactionType");
+            }
+
+            if (TransactionType is not string)
+            {
+                throw new ValidationError("BaseTransaction: TransactionType not string");
+            }
+
+
+            if (Enum.GetValues<TransactionType>().All(type => type.ToString() != $"{TransactionType}"))
+            {
+                throw new ValidationError("BaseTransaction: Unknown TransactionType");
+            }
+
+            if (!tx.TryGetValue("Fee", out var Fee) || Fee is not string { })
+            {
+                throw new ValidationError("BaseTransaction: invalid Fee");
+            }
+
+            if (!tx.TryGetValue("Sequence", out var Sequence) || Sequence is not uint { })
+            {
+                throw new ValidationError("BaseTransaction: invalid Sequence");
+            }
+            if (!tx.TryGetValue("AccountTxnID", out var AccountTxnID) || AccountTxnID is not string { })
+            {
+                throw new ValidationError("BaseTransaction: invalid AccountTxnID");
+            }
+            if (!tx.TryGetValue("LastLedgerSequence", out var LastLedgerSequence) || LastLedgerSequence is not uint { })
+            {
+                throw new ValidationError("BaseTransaction: invalid LastLedgerSequence");
+            }
+
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- Only used by JS
+            if (tx.TryGetValue("Memos", out var Memos) && Memos is List<dynamic> { } memos)
+            {
+                foreach (dynamic memo in memos)
+                {
+                    if (memo is not Memo)
+                        throw new ValidationError("BaseTransaction: invalid Memos");
+                }
+
+            }
+
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- Only used by JS
+
+            if (tx.TryGetValue("Signers", out var Signers) && Signers is List<dynamic> { Count: > 0 } signers)
+            {
+                foreach (dynamic signer in signers)
+                {
+                    if (signer is not Signer)
+                        throw new ValidationError("BaseTransaction: invalid Signers");
+                }
+
+            }
+
+            if (!tx.TryGetValue("SourceTag", out var SourceTag) || SourceTag is not uint { })
+            {
+                throw new ValidationError("BaseTransaction: invalid SourceTag");
+            }
+            if (!tx.TryGetValue("SigningPubKey", out var SigningPubKey) || SigningPubKey is not string { })
+            {
+                throw new ValidationError("BaseTransaction: invalid SigningPubKey");
+            }
+            if (!tx.TryGetValue("TicketSequence", out var TicketSequence) || TicketSequence is not uint { })
+            {
+                throw new ValidationError("BaseTransaction: invalid TicketSequence");
+            }
+            if (!tx.TryGetValue("TxnSignature", out var TxnSignature) || TxnSignature is not string { })
+            {
+                throw new ValidationError("BaseTransaction: invalid TxnSignature");
+            }
+            return Task.CompletedTask;
+        }
     }
-    
+
     /// <inheritdoc />
     [JsonConverter(typeof(TransactionConverter))]
     public abstract class TransactionCommon : ITransactionCommon //todo rename to BaseTransaction
