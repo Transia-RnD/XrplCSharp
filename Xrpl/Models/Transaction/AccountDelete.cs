@@ -1,5 +1,9 @@
 ﻿// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/accountDelete.ts
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xrpl.Client.Exceptions;
+
 namespace Xrpl.Models.Transaction
 {
 
@@ -46,4 +50,25 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public uint? DestinationTag { get; set; }
     }
+    partial class Validation
+    {
+        //https://github.com/XRPLF/xrpl.js/blob/b40a519a0d949679a85bf442be29026b76c63a22/packages/xrpl/src/models/transactions/accountDelete.ts#L33
+        /// <summary>
+        /// Verify the form and type of a AccountDelete at runtime.
+        /// </summary>
+        /// <param name="tx"> A AccountDelete Transaction.</param>
+        /// <exception cref="ValidationError">When the AccountDelete is malformed.</exception>
+        public async Task ValidateAccountDelete(Dictionary<string, dynamic> tx)
+        {
+            await Common.ValidateBaseTransaction(tx);
+            if (!tx.TryGetValue("Destination", out var Destination) || Destination is null)
+                throw new ValidationError("AccountDelete: missing field Destination");
+            if (Destination is not string { })
+                throw new ValidationError("AccountDelete: invalid Destination");
+
+            if (!tx.TryGetValue("DestinationTag", out var DestinationTag) || DestinationTag is not uint { })
+                throw new ValidationError("AccountDelete: invalid DestinationTag");
+        }
+    }
+
 }
