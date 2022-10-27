@@ -188,7 +188,7 @@ namespace Xrpl.Sugar
                 baseFee = BigInteger.Add(baseFee, BigInteger.Parse(ScaleValue(netFeeDrops, 1 + signersCount)));
             }
 
-            var maxFeeDrops = XrpConversion.XrpToDrops(client.MaxFeeXRP);
+            var maxFeeDrops = XrpConversion.XrpToDrops(client.maxFeeXRP);
             var totalFee = tx["TransactionType"] == "AccountDelete" ? baseFee : BigInteger.Min(baseFee, BigInteger.Parse(maxFeeDrops));
             tx["Fee"] = Math.Ceiling(((decimal)totalFee)).ToString();
         }

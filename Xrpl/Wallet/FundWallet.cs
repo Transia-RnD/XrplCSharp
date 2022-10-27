@@ -332,7 +332,7 @@ namespace Xrpl.Wallet
 
         public static string GetFaucetHost(XrplClient client)
         {
-            string connectionUrl = client.url;
+            string connectionUrl = client.Url();
             // 'altnet' for Ripple Testnet server and 'testnet' for XRPL Labs Testnet server
             if (connectionUrl.Contains("altnet") || connectionUrl.Contains("testnet"))
             {

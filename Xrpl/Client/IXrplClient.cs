@@ -6,6 +6,7 @@ using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Org.BouncyCastle.Ocsp;
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
@@ -13,10 +14,12 @@ using Xrpl.Models.Subscriptions;
 using Xrpl.Models.Transaction;
 using Xrpl.Sugar;
 using Xrpl.Wallet;
+using static Xrpl.Client.Connection;
 using BookOffers = Xrpl.Models.Transaction.BookOffers;
 using Submit = Xrpl.Models.Transaction.Submit;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/client/index.ts
+
 // https://xrpl.org/public-api-methods.html
 namespace Xrpl.Client
 {
@@ -31,8 +34,9 @@ namespace Xrpl.Client
 
     public interface IXrplClient : IDisposable
     {
-        double FeeCushion { get; set; }
-        string MaxFeeXRP { get; set; }
+        Connection connection { get; set; }
+        double feeCushion { get; set; }
+        string maxFeeXRP { get; set; }
 
         event OnLedgerStreamResponse OnLedgerClosed;
         event OnValidationsStreamResponse OnValidation;
@@ -45,9 +49,11 @@ namespace Xrpl.Client
 
         #region Server
         /// <summary> connect to the server </summary>
-        void Connect();
+        Task Connect();
         /// <summary> Disconnect from server </summary>
         void Disconnect();
+        /// <summary> the url </summary>
+        string Url();
         /// <summary> The subscribe method requests periodic notifications from the server when certain events happen. </summary>
         /// <param name="request">An <see cref="SubscribeRequest"/> request.</param>
         /// <returns></returns>
@@ -264,8 +270,18 @@ namespace Xrpl.Client
 
     public class XrplClient : IXrplClient
     {
-        public double FeeCushion { get; set; }
-        public string MaxFeeXRP { get; set; }
+
+        public class ClientOptions : ConnectionOptions
+        {
+            public double? feeCushion { get; set; }
+            public string? maxFeeXRP { get; set; }
+        }
+
+        public Connection connection { get; set; }
+        public double feeCushion { get; set; }
+        public string maxFeeXRP { get; set; }
+
+
         public event OnLedgerStreamResponse OnLedgerClosed;
         public event OnValidationsStreamResponse OnValidation;
         public event OnTransactionStreamResponse OnTransaction;
@@ -275,28 +291,60 @@ namespace Xrpl.Client
         public event OnErrorResponse OnError;
         public event OnRippleResponse OnResponse;
 
-        /// <summary> Current web socket client state </summary>
-        public WebSocketState SocketState => client.State;
+        ///// <summary> Current web socket client state </summary>
+        //public WebSocketState SocketState => client.State;
 
-        public readonly string url;
-        private readonly WebSocketClient client;
         private readonly ConcurrentDictionary<Guid, TaskInfo> tasks;
         private readonly JsonSerializerSettings serializerSettings;
 
-        public XrplClient(string server, double? feeCushion = 1.2, string? maxFeeXRP = "2")
+        public XrplClient(string server, ClientOptions? options = null)
         {
-            FeeCushion = feeCushion ?? FeeCushion;
-            MaxFeeXRP = maxFeeXRP ?? MaxFeeXRP;
-            url = server;
+            if (!IsValidWss(server))
+            {
+                throw new Exception("Invalid WSS Server Url");
+            }
+            feeCushion = options?.feeCushion ?? feeCushion;
+            maxFeeXRP = options?.maxFeeXRP ?? maxFeeXRP;
+
+            connection = new Connection(server, options);
             tasks = new ConcurrentDictionary<Guid, TaskInfo>();
             serializerSettings = new JsonSerializerSettings();
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;
             serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
 
-            client = WebSocketClient.Create(server);
+            //client = WebSocketClient.Create(server);
             OnResponse += OnMessageReceived;
-            client.OnMessageReceived(MessageReceived);
-            client.OnConnectionError(Error);
+            //client.OnMessageReceived(MessageReceived);
+            //client.OnConnectionError(Error);
+        }
+
+        /// <inheritdoc />
+        public string Url()
+        {
+            return this.connection.GetUrl();
+        }
+
+        public bool IsValidWss(string server)
+        {
+            return true;
+        }
+
+        /// <inheritdoc />
+        public Task Connect()
+        {
+            return connection.Connect();
+        }
+
+        /// <inheritdoc />
+        public async void Disconnect()
+        {
+            await connection.Disconnect();
+        }
+
+        /// <inheritdoc />
+        public void IsConnected()
+        {
+            this.connection.IsConnected();
         }
 
         // SUGARS
@@ -322,21 +370,16 @@ namespace Xrpl.Client
             return BalancesSugar.GetXrpBalance(this, address);
         }
 
-        /// <inheritdoc />
-        public void Connect()
-        {
-            client.OnMessageReceived(MessageReceived);
-            client.Connect();
-            do
-            {
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            } while (client.State != WebSocketState.Open);
-        }
-        /// <inheritdoc />
-        public void Disconnect()
-        {
-            client.Disconnect();
-        }
+        ///// <inheritdoc />
+        //public void Connect()
+        //{
+        //    client.OnMessageReceived(MessageReceived);
+        //    client.Connect();
+        //    do
+        //    {
+        //        System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+        //    } while (client.State != WebSocketState.Open);
+        //}
 
         // REQUESTS
         /// <inheritdoc />
@@ -352,7 +395,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -369,7 +412,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -386,7 +429,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -403,7 +446,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -421,7 +464,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -438,7 +481,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -455,7 +498,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -472,7 +515,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -489,7 +532,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -524,7 +567,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -541,7 +584,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
 
         }
@@ -559,7 +602,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
         /// <inheritdoc />
@@ -575,7 +618,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -592,7 +635,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -609,7 +652,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -626,7 +669,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -643,7 +686,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -660,7 +703,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -677,7 +720,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -713,7 +756,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -733,7 +776,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -769,7 +812,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -803,7 +846,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -838,7 +881,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -857,7 +900,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -890,7 +933,7 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
@@ -908,26 +951,28 @@ namespace Xrpl.Client
 
             tasks.TryAdd(request.Id, taskInfo);
 
-            client.SendMessage(command);
+            //client.SendMessage(command);
             return task.Task;
         }
 
         /// <inheritdoc />
-        public Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request)
+        public async Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request)
         {
+            //Debug.WriteLine(request);
+            //string account = request["Account"] ? EnsureClassicAddress((string)request["account"]) : null;
+            //request["Account"] = account;
+            var response = await this.connection.Request(request);
 
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<Dictionary<string, dynamic>> task = new TaskCompletionSource<Dictionary<string, dynamic>>();
+            // mutates `response` to add warnings
+            //handlePartialPayment(req.command, response)
 
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request["id"];
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(Dictionary<string, dynamic>);
+            return response;
 
-            tasks.TryAdd(request["id"], taskInfo);
+        }
 
-            client.SendMessage(command);
-            return task.Task;
+        public string EnsureClassicAddress(string address)
+        {
+            return address;
         }
 
         private static void Error(Exception ex, WebSocketClient client)
@@ -1054,8 +1099,8 @@ namespace Xrpl.Client
 
         public void Dispose()
         {
-            client?.Disconnect();
-            client?.Dispose();
+            connection?.Disconnect();
+            //connection?.client.Dispose();
         }
 
         #endregion

@@ -39,11 +39,20 @@ namespace Xrpl.Client.Exceptions
     /// <summary>
     /// Error thrown when xrpl.js has an error with connection to rippled.
     /// </summary>
-    public class ConnectionError : XrplError { }
+    public class ConnectionError : XrplError
+    {
+        public ConnectionError(string message) : base(message)
+        {
+        }
+    }
     /// <summary>
     /// Error thrown when xrpl.js is not connected to rippled server.
     /// </summary>
-    public class NotConnectedError : XrplError { }
+    public class NotConnectedError : XrplError {
+        public NotConnectedError(string message = null) : base(message)
+        {
+        }
+    }
     /// <summary>
     /// Error thrown when xrpl.js has disconnected from rippled server.
     /// </summary>
@@ -65,7 +74,7 @@ namespace Xrpl.Client.Exceptions
     /// </summary>
     public class ValidationError : XrplError
     {
-        public ValidationError(string message) : base(message)
+        public ValidationError(string message = null) : base(message)
         {
         }
     }
@@ -76,7 +85,7 @@ namespace Xrpl.Client.Exceptions
     /// </summary>
     public class XRPLFaucetError : XrplError
     {
-        public XRPLFaucetError(string message) : base(message)
+        public XRPLFaucetError(string message = null) : base(message)
         {
         }
     }

@@ -48,7 +48,7 @@ namespace Xrpl.Sugar
             BigInteger fee = baseFeeXrp * BigInteger.Parse(serverInfo.Info.LoadFactor.ToString()) * BigInteger.Parse(feeCushion.ToString());
 
             // Cap fee to `client.maxFeeXRP`
-            fee = BigInteger.Min(fee, BigInteger.Parse(client.MaxFeeXRP));
+            fee = BigInteger.Min(fee, BigInteger.Parse(client.maxFeeXRP));
             // Round fee to 6 decimal places
             // TODO: Review To Fixed
             return fee.ToString();

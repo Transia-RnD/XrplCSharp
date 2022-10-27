@@ -13,26 +13,34 @@ namespace XrplTests.Xrpl
     public class TestMockRippled
     {
 
-        public static SetupUnit runner;
+        public static SetupUnitClient runner;
 
         //[ClassInitialize]
         //public static async Task MyClassInitializeAsync(TestContext testContext)
         //{
-        //    runner = await new SetupUnit().SetupClient();
+        //    runner = await new SetupUnitClient().SetupClient();
         //}
 
         //[ClassCleanup]
         //public static async Task MyClassCleanupAsync(TestContext testContext)
         //{
-        //    await runner.client.Disconnect();
+        //    runner.client.Disconnect();
         //}
+
+        [TestMethod]
+        public void TestErrorMockNotProvided()
+        {
+            CreateMockRippled mockedRippled = new CreateMockRippled(9999);
+            mockedRippled.Start();
+
+        }
 
         //[TestMethod]
         //[ExpectedException(typeof(XrplError), "")]
         //public async Task TestErrorMockNotProvided()
         //{
-        //    ServerInfoRequest request = new ServerInfoRequest();
-        //    await runner.client.ServerInfo(request);
+        //    //ServerInfoRequest request = new ServerInfoRequest();
+        //    //await runner.client.ServerInfo(request);
         //}
     }
 }

@@ -5,10 +5,12 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Xrpl.Client.Exceptions;
 
 namespace Xrpl.Client
 {
     //credit: https://github.com/Badiboy/WebSocketWrapper/blob/master/WebSocketWrapper.cs
+
     internal class WebSocketClient : IDisposable
     {
 
@@ -240,15 +242,13 @@ namespace Xrpl.Client
             }
             catch (Exception)
             {
-                //CallOnDisconnected();
+                CallOnDisconnected();
                 Disconnect();
             }
-            /*
-                        finally
-                        {
-                            _ws.Dispose();
-                        }
-            */
+            finally
+            {
+                _ws.Dispose();
+            }
         }
 
         private void CallOnMessage(byte[] result)
