@@ -92,7 +92,7 @@ namespace Xrpl.Client
             //  (value) => value == null,
             //)
             //const websocketOptions = { ...options, ...optionsOverrides };
-            return WebSocketClient.Create(url); // todo add options
+            return new WebSocketClient(url); // todo add options
         }
 
 
@@ -166,11 +166,11 @@ namespace Xrpl.Client
             //    void this.onceOpen(connectionTimeoutID)
             //})
 
-            this.ws.OnConnect(OnceOpen);
-            this.ws.OnMessageReceived(OnMessage);
-            this.ws.OnConnectionError(OnConnectionFailed);
-            this.ws.OnDisconnect(OnceClose);
-            this.ws.Connect();
+            this.ws.OnConnected += (c, e) => OnceOpen((WebSocketClient)c);
+            this.ws.OnMessageReceived += (c, m) => OnMessage(m, (WebSocketClient)c);
+            this.ws.OnConnectionError += (c, e) => OnConnectionFailed(e, (WebSocketClient)c);
+            this.ws.OnDisconnect += (c, e) => OnceClose((WebSocketClient)c);
+            this.ws.ConnectAsync();
             return this.connectionManager.AwaitConnection();
         }
 
@@ -217,7 +217,7 @@ namespace Xrpl.Client
             //*/
             if (this.ws != null && this.State() != WebSocketState.CloseReceived)
             {
-                this.ws.Disconnect(); // should use INTENTIONAL_DISCONNECT_CODE
+                this.ws.Dispose(); // should use INTENTIONAL_DISCONNECT_CODE
             }
             return promise.Task;
         }
@@ -234,7 +234,7 @@ namespace Xrpl.Client
                 */
                 //});
                 //throw new NotConnectedError(error.Message);
-                this.ws.Disconnect();
+                this.ws.Dispose();
                 this.ws = null;
             }
             this.connectionManager.RejectAllAwaiting(new NotConnectedError(error.Message));
@@ -249,7 +249,7 @@ namespace Xrpl.Client
 
         private void WebsocketSendAsync(WebSocketClient ws, string message)
         {
-            ws.SendMessage(message);
+            ws.SendMessageAsync(message);
         }
 
         public Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request, int? timeout = null)

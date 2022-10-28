@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
+using System.ComponentModel;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Xrpl.Client.Exceptions;
 
 namespace Xrpl.Client
 {
@@ -14,283 +12,205 @@ namespace Xrpl.Client
     internal class WebSocketClient : IDisposable
     {
 
-        private const int ReceiveChunkSize = 1048576;
-        private const int SendChunkSize = 1024;
+        //private Action<WebSocketClient> _onConnected;
+        //private Action<Exception, WebSocketClient> _onConnectionError;
+        //private Action<byte[], WebSocketClient> _onMessageBinary;
+        //private Action<string, WebSocketClient> _onMessageString;
+        //private Action<WebSocketClient> _onDisconnected;
 
-        private ClientWebSocket _ws;
-        private readonly Uri _uri;
-        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-        private readonly CancellationToken _cancellationToken;
+        /// <summary>
+        /// The encapsulated websocket client.
+        /// </summary>
+        private readonly ClientWebSocket ws;
 
-        private Action<WebSocketClient> _onConnected;
-        private Action<Exception, WebSocketClient> _onConnectionError;
-        private Action<byte[], WebSocketClient> _onMessageBinary;
-        private Action<string, WebSocketClient> _onMessageString;
-        private Action<WebSocketClient> _onDisconnected;
+        /// <summary>
+        /// The size of the message send to the server.
+        /// </summary>
+        private readonly int sendChunkSize;
 
-        protected WebSocketClient(string uri)
+        /// <summary>
+        /// The default size of the accepted messages.
+        /// </summary>
+        private readonly int receiveChunkSize;
+
+        /// <summary>
+        /// The background worker used to manage the reception of messages.
+        /// </summary>
+        private readonly BackgroundWorker worker;
+
+        private readonly string uri;
+
+
+        public WebSocketClient(string uri)
         {
-            _uri = new Uri(uri);
-            _cancellationToken = _cancellationTokenSource.Token;
+            this.uri = uri;
+            this.sendChunkSize = 1024;
+            this.receiveChunkSize = 1048576;
+            int keepAlive = 5;
+
+            this.ws = new ClientWebSocket();
+            this.ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(keepAlive);
+
+            this.worker = new BackgroundWorker();
+            this.worker.DoWork += (s, e) => this.CatchMessagesAsync().Wait();
         }
 
         /// <summary>
-        /// Creates a new instance.
+        /// Raised when the websocket is connected.
         /// </summary>
-        /// <param name="uri">The URI of the WebSocket server.</param>
-        /// <returns>Instance of the created WebSocketWrapper</returns>
-        internal static WebSocketClient Create(string uri)
+        public event EventHandler OnConnected;
+
+        /// <summary>
+        /// Raised when the websocket is closed.
+        /// </summary>
+        public event EventHandler OnDisconnect;
+
+        /// <summary>
+        /// Raised when an error occurs during the reception of a message.
+        /// </summary>
+        public event EventHandler<Exception> OnConnectionError;
+
+        /// <summary>
+        /// Raised when a new message is received.
+        /// </summary>
+        public event EventHandler<string> OnMessageReceived;
+
+        /// <summary>
+        /// Connects to a WebSocket server as an asynchronous operation.
+        /// </summary>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public async Task ConnectAsync()
         {
-            return new WebSocketClient(uri);
+            Uri server = new Uri(this.uri);
+            CancellationToken cancellationToken = new CancellationTokenSource().Token;
+            await this.ws.ConnectAsync(server, cancellationToken);
+            this.worker.RunWorkerAsync();
+            this.RaiseConnected();
         }
 
         /// <summary>
-        /// Connects to the WebSocket server.
+        /// Sends a message back to the websocket server.
         /// </summary>
-        /// <returns>Self</returns>
-        internal WebSocketClient Connect()
+        /// <param name="message">The message to be send.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public async Task SendMessageAsync(string message)
         {
-
-            if (_ws == null)
-            {
-                _ws = new ClientWebSocket();
-                _ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(20);
-            }
-
-            ConnectAsync();
-            return this;
-        }
-
-        /// <summary>
-        /// Disconnects from the WebSocket server.
-        /// </summary>
-        /// <returns>Self</returns>
-        internal WebSocketClient Disconnect()
-        {
-            DisconnectAsync();
-            return this;
-        }
-
-        /// <summary>
-        /// Get the current state of the WebSocket client.
-        /// </summary>
-        internal WebSocketState State
-        {
-            get
-            {
-                if (_ws == null)
-                    return WebSocketState.None;
-
-                return _ws.State;
-            }
-        }
-
-        /// <summary>
-        /// Set the Action to call when the connection has been established.
-        /// </summary>
-        /// <param name="onConnect">The Action to call</param>
-        /// <returns>Self</returns>
-        internal WebSocketClient OnConnect(Action<WebSocketClient> onConnect)
-        {
-            _onConnected = onConnect;
-            return this;
-        }
-
-        /// <summary>
-        /// Set the Action to call when the connection fails.
-        /// </summary>
-        /// <param name="onConnectionError">The Action to call</param>
-        /// <returns>Self</returns>
-        internal WebSocketClient OnConnectionError(Action<Exception, WebSocketClient> onConnectionError)
-        {
-            _onConnectionError = onConnectionError;
-            return this;
-        }
-
-        /// <summary>
-        /// Set the Action to call when the connection has been terminated.
-        /// </summary>
-        /// <param name="onDisconnect">The Action to call</param>
-        /// <returns>Self</returns>
-        internal WebSocketClient OnDisconnect(Action<WebSocketClient> onDisconnect)
-        {
-            _onDisconnected = onDisconnect;
-            return this;
-        }
-
-        /// <summary>
-        /// Set the Action to call when a messages has been received.
-        /// </summary>
-        /// <param name="onMessage">The Action to call.</param>
-        /// <returns>Self</returns>
-        internal WebSocketClient OnBinaryMessage(Action<byte[], WebSocketClient> onMessage)
-        {
-            _onMessageBinary = onMessage;
-            return this;
-        }
-
-        /// <summary>
-        /// Set the Action to call when a messages has been received.
-        /// </summary>
-        /// <param name="onMessage">The Action to call.</param>
-        /// <returns>Self</returns>
-        internal WebSocketClient OnMessageReceived(Action<string, WebSocketClient> onMessage)
-        {
-            _onMessageString = onMessage;
-            return this;
-        }
-
-        /// <summary>
-        /// Send a byte array to the WebSocket server.
-        /// </summary>
-        /// <param name="data">The data to send</param>
-        internal void SendMessage(byte[] data)
-        {
-            SendMessageAsync(data);
-        }
-
-        /// <summary>
-        /// Send a UTF8 string to the WebSocket server.
-        /// </summary>
-        /// <param name="message">The message to send</param>
-        internal void SendMessage(string message)
-        {
-            SendMessage(Encoding.UTF8.GetBytes(message));
-        }
-
-        private async void SendMessageAsync(byte[] message)
-        {
-            if (_ws.State != WebSocketState.Open)
+            if (this.ws.State != WebSocketState.Open)
             {
                 throw new Exception("Connection is not open.");
             }
 
-            var messagesCount = (int)Math.Ceiling((double)message.Length / SendChunkSize);
+            byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
+            int messagesCount = (int)Math.Ceiling((double)messageBuffer.Length / this.sendChunkSize);
 
-            for (var i = 0; i < messagesCount; i++)
+            for (int i = 0; i < messagesCount; i++)
             {
-                var offset = (SendChunkSize * i);
-                var count = SendChunkSize;
-                var lastMessage = ((i + 1) == messagesCount);
+                int offset = (this.sendChunkSize * i);
+                int count = this.sendChunkSize;
+                bool lastMessage = ((i + 1) == messagesCount);
 
-                if ((count * (i + 1)) > message.Length)
+                if ((count * (i + 1)) > messageBuffer.Length)
                 {
-                    count = message.Length - offset;
+                    count = messageBuffer.Length - offset;
                 }
 
-                await _ws.SendAsync(new ArraySegment<byte>(message, offset, count), WebSocketMessageType.Text, lastMessage, _cancellationToken);
+                await this.ws.SendAsync(new ArraySegment<byte>(messageBuffer, offset, count), WebSocketMessageType.Text, lastMessage, CancellationToken.None);
             }
         }
 
-        private async void ConnectAsync()
-        {
-            try
-            {
-                await _ws.ConnectAsync(_uri, _cancellationToken);
-                CallOnConnected();
-                StartListen();
-            }
-            catch (Exception e)
-            {
-                _ws.Dispose();
-                _ws = null;
-                CallOnConnectionError(e);
-            }
-        }
 
-        private async void DisconnectAsync()
+        /// <summary>
+        /// Catches all the messages send by the server and raises <see cref="MessageReceived"/> events.
+        /// </summary>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        private async Task CatchMessagesAsync()
         {
-            if (_ws != null)
+            byte[] buffer = new byte[this.receiveChunkSize];
+
+            while (this.ws.State == WebSocketState.Open)
             {
-                if (_ws.State != WebSocketState.Open)
+                try
                 {
-                   await _ws.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
-                }
-                _ws.Dispose();
-                _ws = null;
-                CallOnDisconnected();
-            }
-        }
-
-        private async void StartListen()
-        {
-            var buffer = new byte[ReceiveChunkSize];
-
-            try
-            {
-                while (_ws.State == WebSocketState.Open)
-                {
-                    byte[] byteResult = new byte[0];
+                    var stringResult = new StringBuilder();
 
                     WebSocketReceiveResult result;
                     do
                     {
-                        result = await _ws.ReceiveAsync(new ArraySegment<byte>(buffer), _cancellationToken);
+                        result = await this.ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
                         if (result.MessageType == WebSocketMessageType.Close)
                         {
-                            Disconnect();
+                            this.RaiseClosed();
+                            return;
                         }
                         else
                         {
-                            byteResult = byteResult.Concat(buffer.Take(result.Count)).ToArray();
+                            string str = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                            stringResult.Append(str);
                         }
-
                     } while (!result.EndOfMessage);
 
-                    CallOnMessage(byteResult);
+                    this.RaiseMessageReceived(stringResult.ToString());
+                }
+                catch (Exception exception)
+                {
+                    this.RaiseError(exception);
                 }
             }
-            catch (Exception error)
+
+            this.RaiseClosed();
+        }
+
+        /// <summary>
+        /// Raises the <see cref="Connected"/> event.
+        /// </summary>
+        private void RaiseConnected()
+        {
+            this.OnConnected?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Raises the <see cref="Closed"/> event.
+        /// </summary>
+        private void RaiseClosed()
+        {
+            this.OnDisconnect?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Raises the <see cref="Error"/> event.
+        /// </summary>
+        /// <param name="exception">The catched exception.</param>
+        private void RaiseError(Exception exception)
+        {
+            if (exception == null)
             {
-                CallOnDisconnected();
-                Disconnect();
+                throw new ArgumentNullException(nameof(exception));
             }
-            finally
+
+            this.OnConnectionError?.Invoke(this, exception);
+        }
+
+        /// <summary>
+        /// Raises the <see cref="MessageReceived"/> event.
+        /// </summary>
+        /// <param name="message">The message received.</param>
+        private void RaiseMessageReceived(string message)
+        {
+            if (message == null)
             {
-                _ws.Dispose();
+                throw new ArgumentNullException(nameof(message));
             }
+
+            this.OnMessageReceived?.Invoke(this, message);
         }
 
-        private void CallOnMessage(byte[] result)
-        {
-            if (_onMessageBinary != null)
-                RunInTask(() => _onMessageBinary(result, this));
-
-            if (_onMessageString != null)
-                RunInTask(() => _onMessageString(Encoding.UTF8.GetString(result), this));
-        }
-
-
-        private void CallOnDisconnected()
-        {
-            if (_onDisconnected != null)
-                RunInTask(() => _onDisconnected(this));
-        }
-
-        private void CallOnConnected()
-        {
-            if (_onConnected != null)
-                RunInTask(() => _onConnected(this));
-        }
-
-        private void CallOnConnectionError(Exception e)
-        {
-            if (_onConnectionError != null)
-                RunInTask(() => _onConnectionError(e, this));
-            else
-                throw e;
-        }
-
-        private static void RunInTask(Action action)
-        {
-            Task.Factory.StartNew(action);
-        }
-
+        /// <summary>
+        /// Disposes the encapsulated websocket client.
+        /// </summary>
         public void Dispose()
         {
-            _ws?.Dispose();
-            _cancellationTokenSource?.Dispose();
+            this.ws.Dispose();
         }
     }
 }
