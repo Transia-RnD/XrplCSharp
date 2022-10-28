@@ -7,10 +7,14 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Org.BouncyCastle.Utilities.Net;
 using Xrpl.AddressCodec;
 using Xrpl.Client.Exceptions;
+using XrplTests.Xrpl.MockRippled;
+using IPAddress = System.Net.IPAddress;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/createMockRippled.ts
 
@@ -106,7 +110,7 @@ namespace XrplTests.Xrpl
             return functionOrObject;
         }
 
-        void TestCommand(NetworkStream netstr, Dictionary<string, dynamic> request)
+        void TestCommand(Client client, Dictionary<string, dynamic> request)
         {
             JToken jdata = request["data"];
             Dictionary<string, dynamic> data = jdata.ToObject<Dictionary<string, dynamic>>();
@@ -126,7 +130,7 @@ namespace XrplTests.Xrpl
                     { "type", "response" },
                 };
                 string responseString = CreateResponse(request, response);
-                this.Send(netstr, responseString);
+                this.Send(client, responseString);
             }
             if (openOnOtherPort != null)
             {
@@ -139,7 +143,7 @@ namespace XrplTests.Xrpl
                     { "type", "response" },
                 };
                 string responseString = CreateResponse(request, response);
-                this.Send(netstr, responseString);
+                this.Send(client, responseString);
             }
             if (closeServerAndReopen != null)
             {
@@ -150,7 +154,7 @@ namespace XrplTests.Xrpl
                     { "type", "response" },
                 };
                 string responseString = CreateResponse(request, response);
-                this.Send(netstr, responseString);
+                this.Send(client, responseString);
             }
             if (unrecognizedResponse != null)
             {
@@ -161,12 +165,12 @@ namespace XrplTests.Xrpl
                     { "type", "response" },
                 };
                 string responseString = CreateResponse(request, response);
-                this.Send(netstr, responseString);
+                this.Send(client, responseString);
             }
             if (closeServer != null)
             {
                 //this._listener.Stop();
-                netstr.Close();
+                //client.Close();
                 //netstr.Dispose();
             }
             if (delayedResponseIn != null)
@@ -178,25 +182,23 @@ namespace XrplTests.Xrpl
                     { "type", "response" },
                 };
                 string responseString = CreateResponse(request, response);
-                this.Send(netstr, responseString);
+                this.Send(client, responseString);
             }
         }
 
-        void Send(NetworkStream netstr, string message)
+        void Send(Client client, string message)
         {
             try
             {
-                byte[] send = Encoding.UTF8.GetBytes(message);
-                netstr.Write(send, 0, send.Length);
+                client.GetServer().SendMessage(client, message);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"ERROR: {ex.Message}");
                 throw new Exception(ex.Message);
             }
         }
 
-        void Ping(NetworkStream netstr, Dictionary<string, dynamic> request)
+        void Ping(Client client, Dictionary<string, dynamic> request)
         {
             Dictionary<string, dynamic> response = new Dictionary<string, dynamic>
             {
@@ -204,151 +206,95 @@ namespace XrplTests.Xrpl
                 { "status", "Success" },
                 { "type", "response" },
             };
-            Send(netstr, JsonConvert.SerializeObject(response));
+            Send(client, JsonConvert.SerializeObject(response));
         }
-
         public void Start()
         {
-            this._listener = new TcpListener(IPAddress.Parse("127.0.0.1"), this._port);
-            this._listener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
-            this._listener.Start();
 
-            TcpClient client = this._listener.AcceptTcpClient();
+            Server server = new Server(new IPEndPoint(IPAddress.Parse("127.0.0.1"), this._port));
 
-            NetworkStream stream = client.GetStream();
-
-            while (true)
+            // Bind the event for when a client connected
+            server.OnClientConnected += (object sender, OnClientConnectedHandler e) =>
             {
-                if (!stream.CanRead) { return; }
-                while (!stream.DataAvailable);
-                while (client.Available < 3); // match against "get"
+                string clientGuid = e.GetClient().GetGuid();
+                //Console.WriteLine($"Client with guid {clientGuid} connected!");
+            };
 
-                byte[] bytes = new byte[client.Available];
-                stream.Read(bytes, 0, client.Available);
-                string s = Encoding.UTF8.GetString(bytes);
-
-                if (Regex.IsMatch(s, "^GET", RegexOptions.IgnoreCase))
+            // Bind the event for when a message is received
+            server.OnMessageReceived += (object sender, OnMessageReceivedHandler e) =>
+            {
+                string jsonStr = e.GetMessage();
+                Dictionary<string, dynamic> request = null;
+                try
                 {
-                    // 1. Obtain the value of the "Sec-WebSocket-Key" request header without any leading or trailing whitespace
-                    // 2. Concatenate it with "258EAFA5-E914-47DA-95CA-C5AB0DC85B11" (a special GUID specified by RFC 6455)
-                    // 3. Compute SHA-1 and Base64 hash of the new value
-                    // 4. Write the hash back as the value of "Sec-WebSocket-Accept" response header in an HTTP response
-                    string swk = Regex.Match(s, "Sec-WebSocket-Key: (.*)").Groups[1].Value.Trim();
-                    string swka = swk + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
-                    byte[] swkaSha1 = System.Security.Cryptography.SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(swka));
-                    string swkaSha1Base64 = Convert.ToBase64String(swkaSha1);
-
-                    // HTTP/1.1 defines the sequence CR LF as the end-of-line marker
-                    byte[] response = Encoding.UTF8.GetBytes(
-                        "HTTP/1.1 101 Switching Protocols\r\n" +
-                        "Connection: Upgrade\r\n" +
-                        "Upgrade: websocket\r\n" +
-                        "Sec-WebSocket-Accept: " + swkaSha1Base64 + "\r\n\r\n");
-
-                    stream.Write(response, 0, response.Length);
-                }
-                else
-                {
-                    bool fin = (bytes[0] & 0b10000000) != 0,
-                    mask = (bytes[1] & 0b10000000) != 0; // must be true, "All messages from the client to the server have this bit set"
-                    int opcode = bytes[0] & 0b00001111, // expecting 1 - text message
-                        offset = 2;
-                    ulong msglen = (ulong)(bytes[1] & 0b01111111);
-
-                    if (msglen == 126)
+                    request = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(jsonStr);
+                    //request.TryGetValue("id", out var id);
+                    var _command = request.TryGetValue("command", out var command);
+                    //Console.WriteLine(result);
+                    if (request["id"] == null)
                     {
-                        // bytes are reversed because websocket will print them in Big-Endian, whereas
-                        // BitConverter will want them arranged in little-endian on windows
-                        msglen = BitConverter.ToUInt16(new byte[] { bytes[3], bytes[2] }, 0);
-                        offset = 4;
+                        throw new XrplError($"Request has no id: {JsonConvert.SerializeObject(request)}");
                     }
-                    else if (msglen == 127)
+                    if (!_command)
                     {
-                        // To test the below code, we need to manually buffer larger messages — since the NIC's autobuffering
-                        // may be too latency-friendly for this code to run (that is, we may have only some of the bytes in this
-                        // websocket frame available through client.Available).
-                        msglen = BitConverter.ToUInt64(new byte[] { bytes[9], bytes[8], bytes[7], bytes[6], bytes[5], bytes[4], bytes[3], bytes[2] }, 0);
-                        offset = 10;
+                        throw new XrplError($"Request has no command: {JsonConvert.SerializeObject(request)}");
                     }
-
-                    if (msglen == 0)
+                    if (command == "ping")
                     {
-                        Console.WriteLine("msglen == 0");
+                        Ping(e.GetClient(), request);
                     }
-                    else if (mask)
+                    else if (command == "test_command")
                     {
-                        byte[] decoded = new byte[msglen];
-                        byte[] masks = new byte[4] { bytes[offset], bytes[offset + 1], bytes[offset + 2], bytes[offset + 3] };
-                        offset += 4;
-
-                        for (ulong i = 0; i < msglen; ++i)
-                            decoded[i] = (byte)(bytes[(ulong)offset + i] ^ masks[i % 4]);
-
-                        string jsonStr = Encoding.ASCII.GetString(decoded);
-                        Console.WriteLine($"REQUEST: {jsonStr}");
-                        Dictionary<string, dynamic> request = null;
-                        try
-                        {
-                            request = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(jsonStr);
-                            //request.TryGetValue("id", out var id);
-                            if (request["id"] == null)
-                            {
-                                Console.WriteLine("null id");
-                                throw new XrplError($"Request has no id: {JsonConvert.SerializeObject(request)}");
-                            }
-                            if (request["command"] == null)
-                            {
-                                Console.WriteLine("null command");
-                                throw new XrplError($"Request has no command: {JsonConvert.SerializeObject(request)}");
-                            }
-                            if (request["command"] == "ping")
-                            {
-                                Console.WriteLine("ping");
-                                //Ping(stream, request);
-                            }
-                            else if (request["command"] == "test_command")
-                            {
-                                this.TestCommand(stream, request);
-                            }
-                            else if (this._responses.ContainsKey(request["command"]))
-                            {
-                                Console.WriteLine("command");
-                                //this.Send(stream, this.CreateResponse(request, this.GetResponse(request)));
-                            }
-                            else
-                            {
-                                //Console.WriteLine("error");
-                                throw new XrplError($"No event handler registered in mock rippled for {request["command"]}");
-                            }
-                        }
-                        catch (XrplError err)
-                        {
-                            //Console.WriteLine(err.Message);
-                            if (!this.suppressOutput)
-                            {
-                                Console.WriteLine($"{err}");
-                            }
-                            if (request != null)
-                            {
-                                Dictionary<string, dynamic> errorResponse = new Dictionary<string, dynamic>
-                                {
-                                    { "type", "response" },
-                                    { "status", "error" },
-                                    { "error", err.Message.ToString() },
-                                };
-                                this.Send(stream, CreateResponse(request, errorResponse));
-                            }
-                        }
-                        catch (Exception err)
-                        {
-                            Console.WriteLine($"Exception: {err.Message}");
-                            throw err;
-                        }
+                        this.TestCommand(e.GetClient(), request);
+                    }
+                    else if (this._responses.ContainsKey(command))
+                    {
+                        this.Send(e.GetClient(), this.CreateResponse(request, this.GetResponse(request)));
                     }
                     else
-                        Console.WriteLine("mask bit not set");
+                    {
+                        throw new XrplError($"No event handler registered in mock rippled for {request["command"]}");
+                    }
                 }
-            }
+                catch (XrplError err)
+                {
+                    if (!this.suppressOutput)
+                    {
+                        Console.WriteLine($"{err}");
+                    }
+                    if (request != null)
+                    {
+                        Dictionary<string, dynamic> errorResponse = new Dictionary<string, dynamic>
+                        {
+                            { "type", "response" },
+                            { "status", "error" },
+                            { "error", err.Message.ToString() },
+                        };
+                        this.Send(e.GetClient(), CreateResponse(request, errorResponse));
+                    }
+                }
+                catch (Exception err)
+                {
+                    throw err;
+                }
+            };
+
+            // Bind the event for when a client connected
+            server.OnSendMessage += (object sender, OnSendMessageHandler e) =>
+            {
+                string clientGuid = e.GetClient().GetGuid();
+                //Console.WriteLine($"Server sent message to client {clientGuid}!");
+            };
+
+            // Bind the event for when a client disconnected
+            server.OnClientDisconnected += (object sender, OnClientDisconnectedHandler e) =>
+            {
+                //e.GetClient().GetSocket().Close();
+                //e.GetClient().GetSocket().Dispose();
+                //e.GetClient().GetServer().ClientDisconnect(e.GetClient());
+                string clientGuid = e.GetClient().GetGuid();
+                //Console.WriteLine($"Client with guid {clientGuid} disconnected!");
+            };
         }
     }
 }

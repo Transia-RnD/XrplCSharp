@@ -30,7 +30,6 @@ namespace XrplTests.Xrpl.ClientLib
             Dictionary<string, dynamic> jsonData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(jsonString);
             runner.mockedRippled.AddResponse("server_info", jsonData);
             string fee = GetFeeXrpSugar.GetFeeXrp(runner.client).Result;
-            Console.WriteLine(fee);
             Assert.AreEqual(fee, "0.000012");
         }
     }

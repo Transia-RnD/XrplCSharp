@@ -56,7 +56,7 @@ namespace Xrpl.Tests.Wallet.Tests
                 }
                 catch (RippleException err)
                 {
-                    Debug.WriteLine(err);
+                    Console.WriteLine(err);
                     /* newBalance remains undefined */
                 }
                 if (newBalance > _originalBalance)

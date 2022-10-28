@@ -32,6 +32,13 @@ namespace Xrpl.Client
         {
             public int Id { get; set; }
             public string Message { get; set; }
+            public Task<Dictionary<string, dynamic>> Promise { get; set; }
+        }
+
+        public class XrplGRequest
+        {
+            public int Id { get; set; }
+            public string Message { get; set; }
             public Task<dynamic> Promise { get; set; }
         }
 
@@ -56,8 +63,6 @@ namespace Xrpl.Client
             {
                 throw new XrplError($"No existing promise with id {id}");
             }
-            // todo: should stop task timout if need to
-            //clearTimeout(promise)
             timer.Stop();
             var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
             var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("SetResult");
@@ -86,26 +91,28 @@ namespace Xrpl.Client
         /// </summary>
         public void RejectAll(Exception error)
         {
-            foreach (var guid in this.promisesAwaitingResponse.Keys)
+            foreach (var id in this.promisesAwaitingResponse.Keys)
             {
-                this.DeletePromise(guid, null);
+                this.Reject(id, error);
+                this.DeletePromise(id, null);
             }
         }
 
-        public XrplRequest CreateRRequest<R>(R request, int timeout)
+        public XrplGRequest CreateGRequest<T, R>(R request, int timeout)
         {
-            var id = request.TryGetValue("id", out var newId);
-            if (!id)
-            {
-                newId = this.nextId;
-                this.nextId += 1;
-            }
-            else
-            {
-                newId = request["id"];
-            }
+            int newId = 0;
+            //var id = request.TryGetValue("id", out var newId);
+            //if (!id)
+            //{
+            //    newId = this.nextId;
+            //    this.nextId += 1;
+            //}
+            //else
+            //{
+            //    newId = request["id"];
+            //}
 
-            request["id"] = newId;
+            //request["id"] = newId;
 
             string newRequest = JsonConvert.SerializeObject(request, serializerSettings);
 
@@ -114,11 +121,11 @@ namespace Xrpl.Client
                 throw new XrplError($"Response with id '${newId}' is already pending");
             }
 
-            TaskCompletionSource<object> task = new TaskCompletionSource<object>();
+            TaskCompletionSource<dynamic> task = new TaskCompletionSource<dynamic>();
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(object);
+            taskInfo.Type = typeof(T);
 
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
 
@@ -127,7 +134,7 @@ namespace Xrpl.Client
             timer.Elapsed += (sender, e) => this.Reject(newId, new TimeoutError());
             timer.Start();
 
-            return new XrplRequest()
+            return new XrplGRequest()
             {
                 Id = newId,
                 Message = newRequest,
@@ -137,18 +144,18 @@ namespace Xrpl.Client
 
         /// <summary>
         /// </summary>
-        //public XrplRequest CreateRequest<R>(R request, int timeout)
         public XrplRequest CreateRequest(Dictionary<string, dynamic> request, int timeout)
         {
-            var id = request.TryGetValue("id", out var newId);
-            if (!id)
+            int newId;
+            var _id = request.TryGetValue("id", out var id);
+            if (!_id)
             {
                 newId = this.nextId;
                 this.nextId += 1;
             }
             else
             {
-                newId = request["id"];
+                newId = (int)id;
             }
 
             request["id"] = newId;
@@ -160,11 +167,11 @@ namespace Xrpl.Client
                 throw new XrplError($"Response with id '${newId}' is already pending");
             }
 
-            TaskCompletionSource<object> task = new TaskCompletionSource<object>();
+            TaskCompletionSource<Dictionary<string, dynamic>> task = new TaskCompletionSource<Dictionary<string, dynamic>>();
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(object);
+            taskInfo.Type = typeof(Dictionary<string, dynamic>);
 
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
 
@@ -181,43 +188,39 @@ namespace Xrpl.Client
             };
         }
 
-        public void HandleResponse(dynamic response)
+        public void HandleResponse(BaseResponse response)
         {
-            Console.WriteLine(response);
-            string id = response.TryGetValue("id", out string tmp);
-            if (id == null)
+            //var _id = response.TryGetValue("id", out int id);
+            if (response.Id == null)
             {
                 throw new XrplError("Valid id not found in response");
             }
 
-            if (!promisesAwaitingResponse.ContainsKey(response["id"]))
+            if (!promisesAwaitingResponse.ContainsKey(response.Id))
             {
                 return;
             }
 
-            if (response["status"] == null)
+            if (response.Status == null)
+            //if (response["status"] == null)
             {
                 ResponseFormatError error = new ResponseFormatError("Response has no status");
-                this.Reject(response.id, error);
+                this.Reject(response.Id, error);
             }
 
-            if (response["status"] == "error")
+            if (response.Status == "error")
+            //if (response["status"] == "error")
             {
 
             }
 
-            if (response["status"] != "success")
+            if (response.Status != "success")
+            //if (response["status"] != "success")
             {
 
             }
 
-            //var taskInfoResult = promisesAwaitingResponse.TryGetValue(response.Id, out TaskInfo taskInfo);
-            //if (taskInfoResult == false) throw new Exception("Task not found");
-
-            //var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
-            //var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("SetResult");
-            //setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });
-            this.Resolve(response["id"], response);
+            this.Resolve(response.Id, response);
         }
 
         /// <summary>

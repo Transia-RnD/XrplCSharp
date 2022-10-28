@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 
 namespace Xrpl.Models.Methods
 {
-
     public class RippleRequest //todo rename to BaseRequest
     {
         public RippleRequest()

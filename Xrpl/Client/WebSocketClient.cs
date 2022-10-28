@@ -202,9 +202,9 @@ namespace Xrpl.Client
         {
             if (_ws != null)
             {
-                if (_ws.State == WebSocketState.Open)
+                if (_ws.State != WebSocketState.Open)
                 {
-                    await _ws.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                   await _ws.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
                 }
                 _ws.Dispose();
                 _ws = null;
@@ -248,13 +248,12 @@ namespace Xrpl.Client
             }
             finally
             {
-                //_ws.Dispose();
+                _ws.Dispose();
             }
         }
 
         private void CallOnMessage(byte[] result)
         {
-            //throw new Exception(Encoding.UTF8.GetString(result));
             if (_onMessageBinary != null)
                 RunInTask(() => _onMessageBinary(result, this));
 

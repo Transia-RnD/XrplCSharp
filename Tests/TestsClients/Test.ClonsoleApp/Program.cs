@@ -9,7 +9,7 @@ var server = "wss://xrplcluster.com/";
 
 var client = new XrplClient(server);
 
-client.Connect();
+client.Connect().Wait();
 var subscribe = await client.Subscribe(
     new SubscribeRequest()
     {

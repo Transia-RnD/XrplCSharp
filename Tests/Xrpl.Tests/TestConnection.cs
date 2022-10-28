@@ -65,18 +65,6 @@ namespace XrplTests.Xrpl
         }
 
         [TestMethod]
-        public void TestSomething()
-        {
-            Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
-            {
-                { "command", "ledger" },
-                { "ledger_index", "validated" },
-            };
-            //string jtoken = JsonConvert.SerializeObject(tx);
-            runner.client.Request(tx).Wait();
-        }
-
-        [TestMethod]
         [ExpectedException(typeof(NotConnectedError))]
         public void TestDisconnectedError()
         {

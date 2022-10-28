@@ -69,7 +69,6 @@ namespace Xrpl.Sugar
             //    promises.push(CheckAccountDeleteBlockers(client, tx))
             //}
             Task.WaitAll(promises.ToArray());
-            //Debug.WriteLine(JsonConvert.SerializeObject(tx));
             return tx;
         }
 
