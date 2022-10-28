@@ -12,7 +12,7 @@ namespace Xrpl.Models.Methods
     /// The `server_info` command asks the server for a human-readable version of  various information about the rippled server being queried.<br/>
     /// Expects a  response in the form of a {@link ServerInfoResponse}.
     /// </summary>
-    public class ServerInfoRequest : RippleRequest
+    public class ServerInfoRequest : BaseRequest
     {
         public ServerInfoRequest()
         {

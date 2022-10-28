@@ -6,7 +6,7 @@ namespace Xrpl.Models.Methods
     /// The tx method retrieves information on a single transaction, by its  identifying hash.<br/>
     /// Expects a response in the form of a TxResponse.
     /// </summary>
-    public class TxRequest : RippleRequest
+    public class TxRequest : BaseRequest
     {
         public TxRequest(string hash)
         {

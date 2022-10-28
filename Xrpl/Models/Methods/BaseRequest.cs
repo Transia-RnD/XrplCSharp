@@ -5,14 +5,14 @@ using Newtonsoft.Json;
 
 namespace Xrpl.Models.Methods
 {
-    public class RippleRequest //todo rename to BaseRequest
+    public class BaseRequest //todo rename to BaseRequest
     {
-        public RippleRequest()
+        public BaseRequest()
         {
-            Id = 0;
+            Id = null;
         }
 
-        public RippleRequest(int id)
+        public BaseRequest(int id)
         {
             Id = id;
         }
@@ -22,7 +22,7 @@ namespace Xrpl.Models.Methods
         /// This way, even if responses arrive out of order, you know which request prompted which response.
         /// </summary>
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         /** The name of the API method. */
         [JsonProperty("command")]
         public string Command { get; set; }

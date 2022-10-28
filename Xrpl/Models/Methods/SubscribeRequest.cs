@@ -37,7 +37,7 @@ namespace Xrpl.Models.Methods
     /// <summary>
     /// base subscribe / unsubscribe request fields
     /// </summary>
-    public class SubscribeBase : RippleRequest
+    public class SubscribeBase : BaseRequest
     {
         /// <summary>
         /// (Optional) Array of string names of generic streams to subscribe to, as explained below

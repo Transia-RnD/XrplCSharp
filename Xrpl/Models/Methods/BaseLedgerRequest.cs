@@ -5,7 +5,7 @@ using Xrpl.Models.Common;
 
 namespace Xrpl.Models.Methods
 {
-    public class BaseLedgerRequest : RippleRequest
+    public class BaseLedgerRequest : BaseRequest
     {
         public BaseLedgerRequest() { }
 

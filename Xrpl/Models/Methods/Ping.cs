@@ -5,7 +5,7 @@ namespace Xrpl.Models.Methods
     /// The ping command returns an acknowledgement, so that clients can test the  connection status and latency.<br/>
     /// Expects a response in the form of a PingRequest.
     /// </summary>
-    public class PingRequest : RippleRequest
+    public class PingRequest : BaseRequest
     {
         public PingRequest()
         {

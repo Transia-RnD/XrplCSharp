@@ -5,7 +5,7 @@ namespace Xrpl.Models.Methods
     /// The random command provides a random number to be used as a source of  entropy for random number generation by clients.<br/>
     /// Expects a response in the  form of a RandomResponse.
     /// </summary>
-    public class RandomRequest : RippleRequest
+    public class RandomRequest : BaseRequest
     {
         public RandomRequest()
         {

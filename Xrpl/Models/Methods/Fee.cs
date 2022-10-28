@@ -15,7 +15,7 @@ namespace Xrpl.Models.Methods
     ///     command: 'fee'
     /// }  ```.
     /// </code>
-    public class FeeRequest : RippleRequest
+    public class FeeRequest : BaseRequest
     {
         public FeeRequest()
         {

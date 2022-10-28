@@ -259,7 +259,7 @@ namespace Xrpl.Client
         // Task<ServerState> ServerState(ServerStateRequest request);
         //Task<SubmitMultisign> SubmitMultisign(SubmitMultisignRequest request);
         //Task<TransactionEntry> TransactionEntry(TransactionEntryRequest request);
-        Task<object> AnyRequest(RippleRequest request);
+        Task<object> AnyRequest(BaseRequest request);
 
         Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request);
         Task<T> GRequest<T, R>(R request);
@@ -566,9 +566,9 @@ namespace Xrpl.Client
         }
 
         /// <inheritdoc />
-        public Task<object> AnyRequest(RippleRequest request)
+        public Task<object> AnyRequest(BaseRequest request)
         {
-            return this.GRequest<object, RippleRequest>(request);
+            return this.GRequest<object, BaseRequest>(request);
         }
 
         /// <inheritdoc />
