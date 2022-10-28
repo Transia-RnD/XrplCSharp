@@ -60,7 +60,6 @@ namespace XrplTests.Xrpl
                 { "command", "ledger" },
                 { "ledger_index", "validated" },
             };
-            //string jtoken = JsonConvert.SerializeObject(tx);
             connection.Request(tx, null);
         }
 

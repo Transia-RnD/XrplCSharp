@@ -169,6 +169,7 @@ namespace XrplTests.Xrpl
             }
             if (closeServer != null)
             {
+                client.GetSocket().Close();
                 //this._listener.Stop();
                 //client.Close();
                 //netstr.Dispose();
