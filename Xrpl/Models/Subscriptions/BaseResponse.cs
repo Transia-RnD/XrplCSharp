@@ -14,7 +14,7 @@ namespace Xrpl.Models.Subscriptions
         /// (WebSocket only) ID provided in the request that prompted this response
         /// </summary>
         [JsonProperty("id")]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("error")]
         public string Error { get; set; }

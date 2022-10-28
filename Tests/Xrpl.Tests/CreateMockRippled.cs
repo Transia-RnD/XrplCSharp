@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xrpl.AddressCodec;
 using Xrpl.Client.Exceptions;
 
@@ -75,14 +76,13 @@ namespace XrplTests.Xrpl
             var cloneResp = response;
             if (response["type"] == null && response["error"] == null)
             {
-                throw new AddressCodecException($"Bad response format. Must contain `type` or `error`. {response}");
+                throw new AddressCodecException($"Bad response format. Must contain `type` or `error`. {response["type"]}");
             }
-            //cloneResp["id"] = request["id"];
-            cloneResp["id"] = 1;
+            cloneResp["id"] = request["id"];
             return JsonConvert.SerializeObject(cloneResp);
         }
 
-        void AddResponse(string command, Dictionary<string, dynamic> response)
+        public void AddResponse(string command, Dictionary<string, dynamic> response)
         {
             if (response["type"] == null && response["error"] == null)
             {
@@ -108,8 +108,17 @@ namespace XrplTests.Xrpl
 
         void TestCommand(NetworkStream netstr, Dictionary<string, dynamic> request)
         {
-            Dictionary<string, dynamic> data = request["data"];
-            if (data["disconnectIn"] != null) {
+            JToken jdata = request["data"];
+            Dictionary<string, dynamic> data = jdata.ToObject<Dictionary<string, dynamic>>();
+
+            data.TryGetValue("disconnectIn", out var disconnectIn);
+            data.TryGetValue("openOnOtherPort", out var openOnOtherPort);
+            data.TryGetValue("closeServerAndReopen", out var closeServerAndReopen);
+            data.TryGetValue("unrecognizedResponse", out var unrecognizedResponse);
+            data.TryGetValue("closeServer", out var closeServer);
+            data.TryGetValue("delayedResponseIn", out var delayedResponseIn);
+
+            if (disconnectIn != null) {
                 Dictionary<string, dynamic> response = new Dictionary<string, dynamic>
                 {
                     { "result", new Dictionary<string, dynamic>() {} },
@@ -119,7 +128,7 @@ namespace XrplTests.Xrpl
                 string responseString = CreateResponse(request, response);
                 this.Send(netstr, responseString);
             }
-            if (data["openOnOtherPort"] != null)
+            if (openOnOtherPort != null)
             {
                 Dictionary<string, dynamic> response = new Dictionary<string, dynamic>
                 {
@@ -132,7 +141,7 @@ namespace XrplTests.Xrpl
                 string responseString = CreateResponse(request, response);
                 this.Send(netstr, responseString);
             }
-            if (data["closeServerAndReopen"] != null)
+            if (closeServerAndReopen != null)
             {
                 Dictionary<string, dynamic> response = new Dictionary<string, dynamic>
                 {
@@ -143,7 +152,7 @@ namespace XrplTests.Xrpl
                 string responseString = CreateResponse(request, response);
                 this.Send(netstr, responseString);
             }
-            if (data["unrecognizedResponse"] != null)
+            if (unrecognizedResponse != null)
             {
                 Dictionary<string, dynamic> response = new Dictionary<string, dynamic>
                 {
@@ -154,11 +163,13 @@ namespace XrplTests.Xrpl
                 string responseString = CreateResponse(request, response);
                 this.Send(netstr, responseString);
             }
-            if (data["closeServer"] != null)
+            if (closeServer != null)
             {
+                //this._listener.Stop();
                 netstr.Close();
+                //netstr.Dispose();
             }
-            if (data["delayedResponseIn"] != null)
+            if (delayedResponseIn != null)
             {
                 Dictionary<string, dynamic> response = new Dictionary<string, dynamic>
                 {
@@ -180,6 +191,7 @@ namespace XrplTests.Xrpl
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"ERROR: {ex.Message}");
                 throw new Exception(ex.Message);
             }
         }
@@ -201,26 +213,13 @@ namespace XrplTests.Xrpl
             this._listener.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
             this._listener.Start();
 
-            tcpListenerThread = new Thread(() =>
-            {
-                HandleSocket();
-                //do
-                //{
-                //    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-                //} while (true);
-            });
-            tcpListenerThread.Start();
-        }
-
-        private void HandleSocket()
-        {
             TcpClient client = this._listener.AcceptTcpClient();
-            Logger.Write("A client connected.");
 
             NetworkStream stream = client.GetStream();
 
             while (true)
             {
+                if (!stream.CanRead) { return; }
                 while (!stream.DataAvailable);
                 while (client.Available < 3); // match against "get"
 
@@ -230,7 +229,6 @@ namespace XrplTests.Xrpl
 
                 if (Regex.IsMatch(s, "^GET", RegexOptions.IgnoreCase))
                 {
-                    Logger.Write($"=====Handshaking from client=====\n{s}");
                     // 1. Obtain the value of the "Sec-WebSocket-Key" request header without any leading or trailing whitespace
                     // 2. Concatenate it with "258EAFA5-E914-47DA-95CA-C5AB0DC85B11" (a special GUID specified by RFC 6455)
                     // 3. Compute SHA-1 and Base64 hash of the new value
@@ -275,7 +273,7 @@ namespace XrplTests.Xrpl
 
                     if (msglen == 0)
                     {
-                        Logger.Write("msglen == 0");
+                        Console.WriteLine("msglen == 0");
                     }
                     else if (mask)
                     {
@@ -287,21 +285,26 @@ namespace XrplTests.Xrpl
                             decoded[i] = (byte)(bytes[(ulong)offset + i] ^ masks[i % 4]);
 
                         string jsonStr = Encoding.ASCII.GetString(decoded);
-                        dynamic request = null;
+                        Console.WriteLine($"REQUEST: {jsonStr}");
+                        Dictionary<string, dynamic> request = null;
                         try
                         {
                             request = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(jsonStr);
+                            //request.TryGetValue("id", out var id);
                             if (request["id"] == null)
                             {
+                                Console.WriteLine("null id");
                                 throw new XrplError($"Request has no id: {JsonConvert.SerializeObject(request)}");
                             }
                             if (request["command"] == null)
                             {
+                                Console.WriteLine("null command");
                                 throw new XrplError($"Request has no command: {JsonConvert.SerializeObject(request)}");
                             }
                             if (request["command"] == "ping")
                             {
-                                Ping(stream, request);
+                                Console.WriteLine("ping");
+                                //Ping(stream, request);
                             }
                             else if (request["command"] == "test_command")
                             {
@@ -309,15 +312,18 @@ namespace XrplTests.Xrpl
                             }
                             else if (this._responses.ContainsKey(request["command"]))
                             {
-                                this.Send(stream, this.CreateResponse(request, this.GetResponse(request)));
+                                Console.WriteLine("command");
+                                //this.Send(stream, this.CreateResponse(request, this.GetResponse(request)));
                             }
                             else
                             {
-                                throw new XrplError($"No event handler registered in mock rippled for ${request["command"]}");
+                                //Console.WriteLine("error");
+                                throw new XrplError($"No event handler registered in mock rippled for {request["command"]}");
                             }
                         }
                         catch (XrplError err)
                         {
+                            //Console.WriteLine(err.Message);
                             if (!this.suppressOutput)
                             {
                                 Console.WriteLine($"{err}");
@@ -325,23 +331,23 @@ namespace XrplTests.Xrpl
                             if (request != null)
                             {
                                 Dictionary<string, dynamic> errorResponse = new Dictionary<string, dynamic>
-                                    {
-                                        { "type", "response" },
-                                        { "status", "error" },
-                                        { "error", err.Message },
-                                    };
-                                Send(stream, CreateResponse(request, errorResponse));
+                                {
+                                    { "type", "response" },
+                                    { "status", "error" },
+                                    { "error", err.Message.ToString() },
+                                };
+                                this.Send(stream, CreateResponse(request, errorResponse));
                             }
                         }
                         catch (Exception err)
                         {
+                            Console.WriteLine($"Exception: {err.Message}");
                             throw err;
                         }
                     }
                     else
-                        Logger.Write("mask bit not set");
+                        Console.WriteLine("mask bit not set");
                 }
-                break;
             }
         }
     }

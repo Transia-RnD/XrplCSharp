@@ -4,7 +4,7 @@ namespace Xrpl.Client
 {
     public class TaskInfo
     {
-        public Guid TaskId { get; set; }
+        public int TaskId { get; set; }
 
         public Type Type { get; set; }
 

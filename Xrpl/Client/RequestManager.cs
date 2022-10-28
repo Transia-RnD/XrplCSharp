@@ -10,6 +10,10 @@ using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Xrpl.BinaryCodec;
+using System.Timers;
+using System.Threading;
+using Timer = System.Timers.Timer;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/client/RequestManager.ts
 
@@ -26,13 +30,14 @@ namespace Xrpl.Client
 
         public class XrplRequest
         {
-            public Guid Id { get; set; }
+            public int Id { get; set; }
             public string Message { get; set; }
-            public TaskInfo Promise { get; set; }
+            public Task<dynamic> Promise { get; set; }
         }
 
-        private Guid nextId = Guid.NewGuid();
-        private readonly ConcurrentDictionary<Guid, TaskInfo> promisesAwaitingResponse = new ConcurrentDictionary<Guid, TaskInfo>();
+        private Timer timer;
+        private int nextId = 0;
+        private readonly ConcurrentDictionary<int, TaskInfo> promisesAwaitingResponse = new ConcurrentDictionary<int, TaskInfo>();
         private readonly JsonSerializerSettings serializerSettings;
 
         public RequestManager()
@@ -44,7 +49,7 @@ namespace Xrpl.Client
 
         /// <summary>
         /// </summary>
-        public void Resolve(Guid id, BaseResponse response)
+        public void Resolve(int id, BaseResponse response)
         {
             var promise = promisesAwaitingResponse.TryGetValue(id, out var taskInfo);
             if (taskInfo == null)
@@ -53,6 +58,7 @@ namespace Xrpl.Client
             }
             // todo: should stop task timout if need to
             //clearTimeout(promise)
+            timer.Stop();
             var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
             var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("SetResult");
             setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });
@@ -61,7 +67,7 @@ namespace Xrpl.Client
 
         /// <summary>
         /// </summary>
-        public void Reject(Guid id, Exception error)
+        public void Reject(int id, Exception error)
         {
             var promise = promisesAwaitingResponse.TryGetValue(id, out var taskInfo);
             if (taskInfo == null)
@@ -70,6 +76,7 @@ namespace Xrpl.Client
             }
             // todo: should stop task timout if need to
             //clearTimeout(promise)
+            timer.Stop();
             var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("SetException", new Type[] { typeof(Exception) }, null);
             setException.Invoke(taskInfo.TaskCompletionResult, new[] { error });
             this.DeletePromise(id, taskInfo);
@@ -85,54 +92,137 @@ namespace Xrpl.Client
             }
         }
 
-        /// <summary>
-        /// </summary>
-        public XrplRequest CreateRequest(Dictionary<string, dynamic> request, int timeout)
+        public XrplRequest CreateRRequest<R>(R request, int timeout)
         {
             var id = request.TryGetValue("id", out var newId);
             if (!id)
             {
                 newId = this.nextId;
-                this.nextId = Guid.NewGuid();
+                this.nextId += 1;
             }
             else
             {
                 newId = request["id"];
             }
 
+            request["id"] = newId;
+
             string newRequest = JsonConvert.SerializeObject(request, serializerSettings);
 
-            //const timer = setTimeout(
-            //    () => this.reject(newId, new TimeoutError()),
-            //    timeout,
-            //)
-
-            if (this.promisesAwaitingResponse.ContainsKey((Guid)newId))
+            if (this.promisesAwaitingResponse.ContainsKey(newId))
             {
                 throw new XrplError($"Response with id '${newId}' is already pending");
             }
 
-            TaskCompletionSource<Dictionary<string, dynamic>> task = new TaskCompletionSource<Dictionary<string, dynamic>>();
+            TaskCompletionSource<object> task = new TaskCompletionSource<object>();
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(Dictionary<string, dynamic>);
+            taskInfo.Type = typeof(object);
 
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
 
+            timer = new Timer(timeout);
+            //timer.Elapsed += (sender, e) => task.SetException(new TimeoutError());
+            timer.Elapsed += (sender, e) => this.Reject(newId, new TimeoutError());
+            timer.Start();
+
             return new XrplRequest()
             {
-                Id = (Guid)newId,
+                Id = newId,
                 Message = newRequest,
-                Promise = taskInfo
+                Promise = task.Task
             };
         }
 
+        /// <summary>
+        /// </summary>
+        //public XrplRequest CreateRequest<R>(R request, int timeout)
+        public XrplRequest CreateRequest(Dictionary<string, dynamic> request, int timeout)
+        {
+            var id = request.TryGetValue("id", out var newId);
+            if (!id)
+            {
+                newId = this.nextId;
+                this.nextId += 1;
+            }
+            else
+            {
+                newId = request["id"];
+            }
 
+            request["id"] = newId;
+
+            string newRequest = JsonConvert.SerializeObject(request, serializerSettings);
+
+            if (this.promisesAwaitingResponse.ContainsKey(newId))
+            {
+                throw new XrplError($"Response with id '${newId}' is already pending");
+            }
+
+            TaskCompletionSource<object> task = new TaskCompletionSource<object>();
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = newId;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(object);
+
+            promisesAwaitingResponse.TryAdd(newId, taskInfo);
+
+            timer = new Timer(timeout);
+            //timer.Elapsed += (sender, e) => task.SetException(new TimeoutError());
+            timer.Elapsed += (sender, e) => this.Reject(newId, new TimeoutError());
+            timer.Start();
+
+            return new XrplRequest()
+            {
+                Id = newId,
+                Message = newRequest,
+                Promise = task.Task
+            };
+        }
+
+        public void HandleResponse(dynamic response)
+        {
+            Console.WriteLine(response);
+            string id = response.TryGetValue("id", out string tmp);
+            if (id == null)
+            {
+                throw new XrplError("Valid id not found in response");
+            }
+
+            if (!promisesAwaitingResponse.ContainsKey(response["id"]))
+            {
+                return;
+            }
+
+            if (response["status"] == null)
+            {
+                ResponseFormatError error = new ResponseFormatError("Response has no status");
+                this.Reject(response.id, error);
+            }
+
+            if (response["status"] == "error")
+            {
+
+            }
+
+            if (response["status"] != "success")
+            {
+
+            }
+
+            //var taskInfoResult = promisesAwaitingResponse.TryGetValue(response.Id, out TaskInfo taskInfo);
+            //if (taskInfoResult == false) throw new Exception("Task not found");
+
+            //var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
+            //var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("SetResult");
+            //setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });
+            this.Resolve(response["id"], response);
+        }
 
         /// <summary>
         /// </summary>
-        public void DeletePromise(Guid id, TaskInfo taskInfo)
+        public void DeletePromise(int id, TaskInfo taskInfo)
         {
             this.promisesAwaitingResponse.TryRemove(id, out taskInfo);
         }

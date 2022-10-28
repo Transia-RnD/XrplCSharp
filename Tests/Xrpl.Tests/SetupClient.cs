@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Xrpl.Client;
 using Xrpl.Client.Exceptions;
@@ -16,11 +17,15 @@ namespace XrplTests.Xrpl
 
         public async Task<SetupUnitClient> SetupClient()
         {
-            var promise = new TaskCompletionSource();
-            mockedRippled = new CreateMockRippled(9999);
-            mockedRippled.Start();
+            var tcpListenerThread = new Thread(() =>
+            {
+                this.mockedRippled = new CreateMockRippled(9999);
+                this.mockedRippled.Start();
+            });
+            tcpListenerThread.Start();
             //_mockedServerPort = mockedRippled._port;
             client = new XrplClient($"ws://127.0.0.1:{9999}");
+            //client = new XrplClient($"wss://s1.ripple.com");
             await client.Connect();
             return this;
         }

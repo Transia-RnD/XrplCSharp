@@ -27,8 +27,8 @@ namespace Xrpl.Sugar
         // <returns>The most recently validated ledger index.</returns>
         public async static Task<string> GetFeeXrp(IXrplClient client, double? cushion = null)
         {
-            //double feeCushion = cushion ?? client.feeCushion;
-            double feeCushion = (double)cushion;
+            double feeCushion = cushion ?? client.feeCushion;
+            //double feeCushion = (double)cushion;
 
             ServerInfoRequest request = new ServerInfoRequest();
             ServerInfo serverInfo = await client.ServerInfo(request);

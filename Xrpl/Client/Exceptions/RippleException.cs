@@ -56,7 +56,12 @@ namespace Xrpl.Client.Exceptions
     /// <summary>
     /// Error thrown when xrpl.js has disconnected from rippled server.
     /// </summary>
-    public class DisconnectedError : XrplError { }
+    public class DisconnectedError : XrplError
+    {
+        public DisconnectedError(string message) : base(message)
+        {
+        }
+    }
     /// <summary>
     /// Error thrown when rippled is not initialized.
     /// </summary>
@@ -68,7 +73,12 @@ namespace Xrpl.Client.Exceptions
     /// <summary>
     /// Error thrown when xrpl.js sees a response in the wrong format.
     /// </summary>
-    public class ResponseFormatError : XrplError { }
+    public class ResponseFormatError : XrplError
+    {
+        public ResponseFormatError(string message) : base(message)
+        {
+        }
+    }
     /// <summary>
     /// Error thrown when xrpl.js sees a malformed transaction.
     /// </summary>

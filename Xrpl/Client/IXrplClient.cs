@@ -31,6 +31,7 @@ namespace Xrpl.Client
     public delegate void OnConsensusStreamResponse(ConsensusStreamResponseResult response);
     public delegate void OnPathFindStream(PathFindStreamResult response);
     public delegate void OnErrorResponse(ErrorResponse response);
+    public delegate void OOnErrorResponse(XrplError response);
 
     public interface IXrplClient : IDisposable
     {
@@ -45,6 +46,7 @@ namespace Xrpl.Client
         event OnConsensusStreamResponse OnConsensusPhase;
         event OnPathFindStream OnPathFind;
         event OnErrorResponse OnError;
+        event OOnErrorResponse OOnError;
         event OnRippleResponse OnResponse;
 
         #region Server
@@ -289,12 +291,13 @@ namespace Xrpl.Client
         public event OnConsensusStreamResponse OnConsensusPhase;
         public event OnPathFindStream OnPathFind;
         public event OnErrorResponse OnError;
+        public event OOnErrorResponse OOnError;
         public event OnRippleResponse OnResponse;
 
         ///// <summary> Current web socket client state </summary>
         //public WebSocketState SocketState => client.State;
 
-        private readonly ConcurrentDictionary<Guid, TaskInfo> tasks;
+        private readonly ConcurrentDictionary<int, TaskInfo> tasks;
         private readonly JsonSerializerSettings serializerSettings;
 
         public XrplClient(string server, ClientOptions? options = null)
@@ -307,13 +310,15 @@ namespace Xrpl.Client
             maxFeeXRP = options?.maxFeeXRP ?? maxFeeXRP;
 
             connection = new Connection(server, options);
-            tasks = new ConcurrentDictionary<Guid, TaskInfo>();
+            tasks = new ConcurrentDictionary<int, TaskInfo>();
             serializerSettings = new JsonSerializerSettings();
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;
             serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
 
+            //connection.OOnError += OOnError;
+
             //client = WebSocketClient.Create(server);
-            OnResponse += OnMessageReceived;
+            //OnResponse += OnMessageReceived;
             //client.OnMessageReceived(MessageReceived);
             //client.OnConnectionError(Error);
         }
@@ -561,7 +566,7 @@ namespace Xrpl.Client
             TaskCompletionSource<LOLedger> task = new TaskCompletionSource<LOLedger>();
 
             TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = Guid.Parse("1A3B944E-3632-467B-A53A-206305310BAE");
+            //taskInfo.TaskId = Guid.Parse("1A3B944E-3632-467B-A53A-206305310BAE");
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(LOLedger);
 
@@ -800,20 +805,10 @@ namespace Xrpl.Client
         //}
 
         /// <inheritdoc />
-        public Task<ServerInfo> ServerInfo(ServerInfoRequest request)
+        public Task<Dictionary<string, dynamic>> ServerInfo(ServerInfoRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<ServerInfo> task = new TaskCompletionSource<ServerInfo>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(ServerInfo);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            //client.SendMessage(command);
-            return task.Task;
+            Dictionary<string, dynamic> tx = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(request);
+            return this.Request(tx);
         }
 
         //public Task<ServerState> ServerState(ServerStateRequest request)
@@ -958,7 +953,6 @@ namespace Xrpl.Client
         /// <inheritdoc />
         public async Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request)
         {
-            //Debug.WriteLine(request);
             //string account = request["Account"] ? EnsureClassicAddress((string)request["account"]) : null;
             //request["Account"] = account;
             var response = await this.connection.Request(request);
@@ -969,6 +963,14 @@ namespace Xrpl.Client
             return response;
 
         }
+
+        /// <inheritdoc />
+        //public async Task<T> RRequest<R, T>(R request)
+        //{
+        //    var response = await this.connection.Request(request);
+        //    return response;
+
+        //}
 
         public string EnsureClassicAddress(string address)
         {
