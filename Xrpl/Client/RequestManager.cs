@@ -14,6 +14,8 @@ using System.Timers;
 using System.Threading;
 using Timer = System.Timers.Timer;
 using Org.BouncyCastle.Asn1.Ocsp;
+using System.Reflection;
+using System.Xml.Linq;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/client/RequestManager.ts
 
@@ -101,18 +103,18 @@ namespace Xrpl.Client
         public XrplGRequest CreateGRequest<T, R>(R request, int timeout)
         {
             int newId = 0;
-            //var id = request.TryGetValue("id", out var newId);
-            //if (!id)
-            //{
-            //    newId = this.nextId;
-            //    this.nextId += 1;
-            //}
-            //else
-            //{
-            //    newId = request["id"];
-            //}
+            var info = request.GetType().GetProperty("Id");
+            if (info.GetValue(request) == null)
+            {
+                newId = this.nextId;
+                this.nextId += 1;
+            }
+            else
+            {
+                newId = (int)info.GetValue(request);
+            }
 
-            //request["id"] = newId;
+            info.SetValue(request, newId, null);
 
             string newRequest = JsonConvert.SerializeObject(request, serializerSettings);
 
@@ -130,7 +132,6 @@ namespace Xrpl.Client
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
 
             timer = new Timer(timeout);
-            //timer.Elapsed += (sender, e) => task.SetException(new TimeoutError());
             timer.Elapsed += (sender, e) => this.Reject(newId, new TimeoutError());
             timer.Start();
 
@@ -176,7 +177,6 @@ namespace Xrpl.Client
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
 
             timer = new Timer(timeout);
-            //timer.Elapsed += (sender, e) => task.SetException(new TimeoutError());
             timer.Elapsed += (sender, e) => this.Reject(newId, new TimeoutError());
             timer.Start();
 
@@ -190,7 +190,6 @@ namespace Xrpl.Client
 
         public void HandleResponse(BaseResponse response)
         {
-            //var _id = response.TryGetValue("id", out int id);
             if (response.Id == null)
             {
                 throw new XrplError("Valid id not found in response");
@@ -202,20 +201,17 @@ namespace Xrpl.Client
             }
 
             if (response.Status == null)
-            //if (response["status"] == null)
             {
                 ResponseFormatError error = new ResponseFormatError("Response has no status");
                 this.Reject(response.Id, error);
             }
 
             if (response.Status == "error")
-            //if (response["status"] == "error")
             {
 
             }
 
             if (response.Status != "success")
-            //if (response["status"] != "success")
             {
 
             }

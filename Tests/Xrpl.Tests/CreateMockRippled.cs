@@ -228,10 +228,9 @@ namespace XrplTests.Xrpl
                 Dictionary<string, dynamic> request = null;
                 try
                 {
+                    Console.WriteLine(jsonStr);
                     request = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(jsonStr);
-                    //request.TryGetValue("id", out var id);
                     var _command = request.TryGetValue("command", out var command);
-                    //Console.WriteLine(result);
                     if (request["id"] == null)
                     {
                         throw new XrplError($"Request has no id: {JsonConvert.SerializeObject(request)}");
