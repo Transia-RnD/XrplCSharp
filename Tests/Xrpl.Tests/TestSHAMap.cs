@@ -4,11 +4,11 @@
 
 namespace XrplTests.Xrpl
 {
-    public class TestSHAMap
+    public class TestUSHAMap
     {
-        public TestSHAMap()
-        {
-        }
+        //public TestSHAMap()
+        //{
+        //}
     }
 }
 

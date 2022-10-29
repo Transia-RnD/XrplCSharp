@@ -4,11 +4,11 @@
 
 namespace XrplTests.Xrpl.ClientLib
 {
-    public class TestRequestAll
+    public class TestURequestAll
     {
-        public TestRequestAll()
-        {
-        }
+        //public TestRequestAll()
+        //{
+        //}
     }
 }
 

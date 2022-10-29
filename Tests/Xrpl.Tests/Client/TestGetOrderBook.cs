@@ -4,11 +4,11 @@
 
 namespace XrplTests.Xrpl.ClientLib
 {
-    public class TestGetOrderBook
+    public class TestUGetOrderBook
     {
-        public TestGetOrderBook()
-        {
-        }
+        //public TestGetOrderBook()
+        //{
+        //}
     }
 }
 

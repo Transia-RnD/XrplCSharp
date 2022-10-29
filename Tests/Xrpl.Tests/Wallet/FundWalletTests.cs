@@ -7,17 +7,19 @@ using Xrpl.Client;
 using Xrpl.Client.Exceptions;
 using Xrpl.Wallet;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/wallet/fundWallet.ts
+
 namespace Xrpl.Tests.Wallet.Tests
 {
     [TestClass]
     public class FundWalletTests
     {
-        [TestMethod]
+        //[TestMethod]
         public async Task TestUFaucetHostsAsync()
         {
             string serverUrl = "wss://s.altnet.rippletest.net:51233";
             XrplClient client = new XrplClient(serverUrl);
-            client.Connect();
+            await client.Connect();
             XrplWallet wallet = XrplWallet.Generate();
             await WalletSugar.FundWallet(client, wallet);
         }
@@ -98,12 +100,12 @@ namespace Xrpl.Tests.Wallet.Tests
 
         }
 
-        [TestMethod]
+        //[TestMethod]
         public async Task TestUTimer()
         {
             string serverUrl = "wss://s.altnet.rippletest.net:51233";
             XrplClient client = new XrplClient(serverUrl);
-            client.Connect();
+            await client.Connect();
             XrplWallet wallet = XrplWallet.Generate();
             await GetUpdatedBalance(client, wallet.ClassicAddress, 0);
         }

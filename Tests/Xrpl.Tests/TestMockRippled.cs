@@ -12,10 +12,10 @@ using Timer = System.Timers.Timer;
 namespace XrplTests.Xrpl
 {
     [TestClass]
-    public class TestMockRippled
+    public class TestUMockRippled
     {
 
-        public static SetupUnitClient runner;
+        //public static SetupUnitClient runner;
 
         //[ClassInitialize]
         //public static async Task MyClassInitializeAsync(TestContext testContext)
@@ -29,7 +29,7 @@ namespace XrplTests.Xrpl
         //    runner.client.Disconnect();
         //}
 
-        [TestMethod]
+        //[TestMethod]
         public void TestErrorMockNotProvided()
         {
             var tcpListenerThread = new Thread(() =>

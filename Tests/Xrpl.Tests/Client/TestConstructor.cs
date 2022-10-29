@@ -11,7 +11,7 @@ using Xrpl.Client.Exceptions;
 namespace XrplTests.Xrpl.ClientLib
 {
     [TestClass]
-    public class TestConstructor
+    public class TestUConstructor
     {
 
         //public static SetupUnitClient runner;
@@ -23,9 +23,9 @@ namespace XrplTests.Xrpl.ClientLib
         //}
 
         //[ClassCleanup]
-        //public static async Task MyClassCleanupAsync(TestContext testContext)
+        //public static void MyClassCleanupAsync()
         //{
-        //    await runner.client.Disconnect();
+        //    runner.client.Disconnect().Wait();
         //}
 
         [TestMethod]

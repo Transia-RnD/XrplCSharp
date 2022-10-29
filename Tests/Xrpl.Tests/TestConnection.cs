@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,7 +15,7 @@ namespace XrplTests.Xrpl
 {
 
     [TestClass]
-    public class TestConnection
+    public class TestUConnection
     {
 
         public static SetupUnitClient runner;
@@ -23,6 +24,12 @@ namespace XrplTests.Xrpl
         public static async Task MyClassInitializeAsync(TestContext testContext)
         {
             runner = await new SetupUnitClient().SetupClient();
+        }
+
+        [ClassCleanup]
+        public static void MyClassCleanupAsync()
+        {
+            runner.client.Disconnect().Wait();
         }
 
         [TestMethod]
@@ -64,7 +71,7 @@ namespace XrplTests.Xrpl
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotConnectedError))]
+        [ExpectedException(typeof(System.AggregateException))]
         public void TestDisconnectedError()
         {
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
@@ -115,7 +122,7 @@ namespace XrplTests.Xrpl
         //}
 
         [TestMethod]
-        [ExpectedException(typeof(System.AggregateException))]
+        [ExpectedException(typeof(NotConnectedError))]
         public void TestNoCrashError()
         {
             runner.mockedRippled.suppressOutput = true;

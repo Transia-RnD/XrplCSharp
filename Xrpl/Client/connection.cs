@@ -215,7 +215,7 @@ namespace Xrpl.Client
                 this.ws.OnDisconnect += (c, e) =>
                 {
                     Console.WriteLine("INSIDE DISCONNECT");
-                    promise.SetResult((int)c);
+                    promise.SetResult(((int)WebSocketCloseStatus.NormalClosure));
                 };
             }
 
@@ -234,7 +234,7 @@ namespace Xrpl.Client
 
         private void OnConnectionFailed(Exception error, WebSocketClient client)
         {
-            Console.WriteLine($"OnConnectionFailed: error.Message");
+            Console.WriteLine($"OnConnectionFailed: {error.Message}");
             if (this.ws != null)
             {
                 //this.ws.RemoveAllListeners();

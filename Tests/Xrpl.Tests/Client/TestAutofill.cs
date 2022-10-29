@@ -4,11 +4,11 @@
 
 namespace XrplTests.Xrpl.ClientLib
 {
-    public class TestAutofill
+    public class TestUAutofill
     {
-        public TestAutofill()
-        {
-        }
+        //public TestAutofill()
+        //{
+        //}
     }
 }
 

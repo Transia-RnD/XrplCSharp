@@ -4,11 +4,11 @@
 
 namespace XrplTests.Xrpl
 {
-    public class RunClientTests
+    public class RunUClientTests
     {
-        public RunClientTests()
-        {
-        }
+        //public RunClientTests()
+        //{
+        //}
     }
 }
 

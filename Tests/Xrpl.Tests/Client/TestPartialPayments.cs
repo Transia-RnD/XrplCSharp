@@ -4,11 +4,11 @@
 
 namespace XrplTests.Xrpl.ClientLib
 {
-    public class TestPartialPayments
+    public class TestUPartialPayments
     {
-        public TestPartialPayments()
-        {
-        }
+        //public TestPartialPayments()
+        //{
+        //}
     }
 }
 

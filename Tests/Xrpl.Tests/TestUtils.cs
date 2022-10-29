@@ -5,9 +5,9 @@ namespace XrplTests.Xrpl
 {
     public class TestUtils
     {
-        public TestUtils()
-        {
-        }
+        //public TestUtils()
+        //{
+        //}
     }
 }
 

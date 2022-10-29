@@ -9,7 +9,7 @@ using Xrpl.Client.Exceptions;
 namespace XrplTests.Xrpl.ClientLib
 {
     [TestClass]
-    public class TestErrors
+    public class TestUErrors
     {
         //[TestMethod]
         //public void TestErrorWithData()

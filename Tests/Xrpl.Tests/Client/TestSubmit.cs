@@ -25,6 +25,12 @@ namespace XrplTests.Xrpl.ClientLib
             runner = await new SetupUnitClient().SetupClient();
         }
 
+        [ClassCleanup]
+        public static void MyClassCleanupAsync()
+        {
+            runner.client.Disconnect().Wait();
+        }
+
         static string publicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
         static string privateKey = "00141BA006D3363D2FB2785E8DF4E44D3A49908780CB4FB51F6D217C08C021429F";
         static string address = "rhvh5SrgBL5V8oeV9EpDuVszeJSSCEkbPc";

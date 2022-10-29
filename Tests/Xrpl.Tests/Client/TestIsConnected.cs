@@ -8,7 +8,7 @@ using Xrpl.Models.Methods;
 namespace XrplTests.Xrpl.ClientLib
 {
     [TestClass]
-    public class TestIsConnected
+    public class TestUIsConnected
     {
 
         public static SetupUnitClient runner;
@@ -20,9 +20,9 @@ namespace XrplTests.Xrpl.ClientLib
         }
 
         //[ClassCleanup]
-        //public static async Task MyClassCleanupAsync(TestContext testContext)
+        //public static void MyClassCleanupAsync()
         //{
-        //    await runner.client.Disconnect();
+        //    runner.client.Disconnect().Wait();
         //}
 
         [TestMethod]

@@ -13,7 +13,7 @@ using Xrpl.Sugar;
 namespace XrplTests.Xrpl.ClientLib
 {
     [TestClass]
-    public class TestGetFeeXrp
+    public class TestUGetFeeXrp
     {
         public static SetupUnitClient runner;
 
@@ -21,6 +21,12 @@ namespace XrplTests.Xrpl.ClientLib
         public static async Task MyClassInitializeAsync(TestContext testContext)
         {
             runner = await new SetupUnitClient().SetupClient();
+        }
+
+        [ClassCleanup]
+        public static void MyClassCleanupAsync()
+        {
+            runner.client.Disconnect().Wait();
         }
 
         [TestMethod]

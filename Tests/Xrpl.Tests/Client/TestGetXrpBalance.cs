@@ -4,11 +4,11 @@
 
 namespace XrplTests.Xrpl.ClientLib
 {
-    public class TestGetXrpBalance
+    public class TestUGetXrpBalance
     {
-        public TestGetXrpBalance()
-        {
-        }
+        //public TestGetXrpBalance()
+        //{
+        //}
     }
 }
 

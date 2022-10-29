@@ -4,11 +4,11 @@
 
 namespace XrplTests.Xrpl.ClientLib
 {
-    public class TestRequestNextPage
+    public class TestURequestNextPage
     {
-        public TestRequestNextPage()
-        {
-        }
+        //public TestRequestNextPage()
+        //{
+        //}
     }
 }
 
