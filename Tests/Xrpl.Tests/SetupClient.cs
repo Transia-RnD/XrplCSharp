@@ -17,14 +17,15 @@ namespace XrplTests.Xrpl
 
         public async Task<SetupUnitClient> SetupClient()
         {
+            int port = TestUtils.GetFreePort();
             var tcpListenerThread = new Thread(() =>
             {
-                mockedRippled = new CreateMockRippled(9999);
+                mockedRippled = new CreateMockRippled(port);
                 mockedRippled.Start();
-                _mockedServerPort = mockedRippled._port;
+                _mockedServerPort = port;
             });
             tcpListenerThread.Start();
-            client = new XrplClient($"ws://127.0.0.1:{9999}");
+            client = new XrplClient($"ws://127.0.0.1:{port}");
             await client.Connect();
             return this;
         }
