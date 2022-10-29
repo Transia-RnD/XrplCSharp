@@ -158,8 +158,8 @@ namespace XrplTests.Xrpl.MockRippled
             // Create a new listen socket
             this._socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            Console.WriteLine("Copyright © 2017 - MazyModz. Created by Dennis Andersson. All rights reserved.\n\n");
-            Console.WriteLine("WebSocket Server Started\nListening on {0}:{1}\n", GetEndPoint().Address.ToString(), GetEndPoint().Port);
+            //Console.WriteLine("Copyright © 2017 - MazyModz. Created by Dennis Andersson. All rights reserved.\n\n");
+            //Console.WriteLine("WebSocket Server Started\nListening on {0}:{1}\n", GetEndPoint().Address.ToString(), GetEndPoint().Port);
 
             // Start the server
             start();

@@ -58,7 +58,7 @@ namespace Xrpl.Sugar
             string signedTxEncoded = signedTransaction;
             //SubmitBlobRequest request = new SubmitBlobRequest { Command = "submit", TxBlob = signedTxEncoded, FailHard = isAccountDelete(signedTransaction) || failHard };
             SubmitRequest request = new SubmitRequest { Command = "submit", TxBlob = signedTxEncoded, FailHard = false  };
-            return await client.Submit(request);
+            return await client.GRequest<Submit, SubmitRequest>(request);
         }
 
         /// <summary>

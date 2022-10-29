@@ -260,6 +260,7 @@ namespace Xrpl.Client
 
         private void WebsocketSendAsync(WebSocketClient ws, string message)
         {
+            //Console.WriteLine($"CLIENT: SEND: {message}");
             ws.SendMessageAsync(message);
         }
 
@@ -319,7 +320,7 @@ namespace Xrpl.Client
         //private void OnceOpen(int connectionTimeoutID)
         private async void OnceOpen(WebSocketClient client)
         {
-            Console.WriteLine("ONCE OPEN");
+            //Console.WriteLine("ONCE OPEN");
             if (this.ws == null)
             {
                 throw new XrplError("onceOpen: ws is null");
@@ -347,7 +348,7 @@ namespace Xrpl.Client
         //private void OnceClose(int? code = null, string? reason = null)
         private void OnceClose(WebSocketClient client)
         {
-            Console.WriteLine("ONCE CLOSE");
+            //Console.WriteLine("ONCE CLOSE");
             if (this.ws == null)
             {
                 throw new XrplError("OnceClose: ws is null");
@@ -393,7 +394,7 @@ namespace Xrpl.Client
 
         private void OnMessage(string message, WebSocketClient client)
         {
-            Console.WriteLine($"CONNECTION: RECV: {message}");
+            //Console.WriteLine($"CLIENT: RECV: {message}");
             BaseResponse data;
             try
             {

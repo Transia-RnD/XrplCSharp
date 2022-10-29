@@ -10,6 +10,7 @@ using System.Threading;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Org.BouncyCastle.Asn1.Ocsp;
 using Org.BouncyCastle.Utilities.Net;
 using Xrpl.AddressCodec;
 using Xrpl.Client.Exceptions;
@@ -250,6 +251,7 @@ namespace XrplTests.Xrpl
                     }
                     else if (this._responses.ContainsKey(command))
                     {
+                        //Console.WriteLine(JsonConvert.SerializeObject(this.GetResponse(request)));
                         this.Send(e.GetClient(), this.CreateResponse(request, this.GetResponse(request)));
                     }
                     else
