@@ -113,6 +113,18 @@ namespace XrplTests.Xrpl
         //{
         //    
         //}
+
+        [TestMethod]
+        [ExpectedException(typeof(System.AggregateException))]
+        public void TestNoCrashError()
+        {
+            runner.mockedRippled.suppressOutput = true;
+            Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
+            {
+                { "command", "test_garbage" },
+            };
+            runner.client.connection.Request(tx).Wait();
+        }
     }
 }
 

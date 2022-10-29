@@ -6,13 +6,8 @@ using Xrpl.Models.Methods;
 //https://github.com/XRPLF/xrpl.js/blob/b20c05c3680d80344006d20c44b4ae1c3b0ffcac/packages/xrpl/src/models/methods/subscribe.ts#L382
 namespace Xrpl.Models.Subscriptions;
 
-public class PathFindStreamResult //todo rename to PathFindResponse extends BaseResponse
+public class PathFindStream : BaseStream //todo rename to PathFindResponse extends BaseResponse
 {
-    /// <summary>
-    /// result type (path_find)
-    /// </summary>
-    [JsonProperty("type")]
-    public ResponseStreamType Type { get; set; }
     /// <summary>
     /// Unique address that would send a transaction.
     /// </summary>

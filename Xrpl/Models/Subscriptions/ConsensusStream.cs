@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
-//https://github.com/XRPLF/xrpl.js/blob/b20c05c3680d80344006d20c44b4ae1c3b0ffcac/packages/xrpl/src/models/methods/subscribe.ts#L366
+
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/subscribe.ts
+
 namespace Xrpl.Models.Subscriptions;
 
 /// <summary>
@@ -7,14 +9,8 @@ namespace Xrpl.Models.Subscriptions;
 /// The message contains the new phase of consensus the server is in.
 /// <see href="https://xrpl.org/subscribe.html#consensus-stream"/>
 /// </summary>
-public class ConsensusStreamResponseResult
+public class ConsensusStream : BaseStream
 {
-    /// <summary>
-    /// consensusPhase indicates this is from the consensus stream<br/>
-    /// consensusPhase - type
-    /// </summary>
-    [JsonProperty("type")]
-    public ResponseStreamType Type { get; set; }
     /// <summary>
     /// The new consensus phase the server is in. Possible values are open, establish, and accepted.
     /// </summary>

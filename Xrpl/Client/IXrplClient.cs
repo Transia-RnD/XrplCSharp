@@ -23,15 +23,18 @@ using Submit = Xrpl.Models.Transaction.Submit;
 // https://xrpl.org/public-api-methods.html
 namespace Xrpl.Client
 {
-    public delegate void OnRippleResponse(string response);
-    public delegate void OnLedgerStreamResponse(LedgerStreamResponseResult response);
-    public delegate void OnValidationsStreamResponse(ValidationsStreamResponseResult response);
-    public delegate void OnTransactionStreamResponse(TransactionStreamResponseResult response);
-    public delegate void OnPeerStatusStreamResponse(PeerStatusStreamResponseResult response);
-    public delegate void OnConsensusStreamResponse(ConsensusStreamResponseResult response);
-    public delegate void OnPathFindStream(PathFindStreamResult response);
-    public delegate void OnErrorResponse(ErrorResponse response);
-    public delegate void OOnErrorResponse(XrplError response);
+
+    public delegate void OnError(string error, string errorMessage, string message, dynamic data);
+    public delegate void OnConnected();
+    public delegate void OnDisconnect(int? code);
+    public delegate void OnResponse(object response);
+    public delegate void OnLedgerClosed(LedgerStream response);
+    public delegate void OnTransaction(TransactionStream response);
+    public delegate void OnManifestReceived(ValidationStream response);
+    public delegate void OnPeerStatusChange(PeerStatusStream response);
+    public delegate void OnConsensusPhase(ConsensusStream response);
+    public delegate void OnPathFind(PathFindStream response);
+
 
     public interface IXrplClient : IDisposable
     {
@@ -39,15 +42,15 @@ namespace Xrpl.Client
         double feeCushion { get; set; }
         string maxFeeXRP { get; set; }
 
-        event OnLedgerStreamResponse OnLedgerClosed;
-        event OnValidationsStreamResponse OnValidation;
-        event OnTransactionStreamResponse OnTransaction;
-        event OnPeerStatusStreamResponse OnPeerStatusChange;
-        event OnConsensusStreamResponse OnConsensusPhase;
-        event OnPathFindStream OnPathFind;
-        event OnErrorResponse OnError;
-        event OOnErrorResponse OOnError;
-        event OnRippleResponse OnResponse;
+        event OnError OnError;
+        event OnConnected OnConnected;
+        event OnDisconnect OnDisconnect;
+        event OnLedgerClosed OnLedgerClosed;
+        event OnTransaction OnTransaction;
+        event OnManifestReceived OnManifestReceived;
+        event OnPeerStatusChange OnPeerStatusChange;
+        event OnConsensusPhase OnConsensusPhase;
+        event OnPathFind OnPathFind;
 
         #region Server
         /// <summary> connect to the server </summary>
@@ -284,16 +287,15 @@ namespace Xrpl.Client
         public double feeCushion { get; set; }
         public string maxFeeXRP { get; set; }
 
-
-        public event OnLedgerStreamResponse OnLedgerClosed;
-        public event OnValidationsStreamResponse OnValidation;
-        public event OnTransactionStreamResponse OnTransaction;
-        public event OnPeerStatusStreamResponse OnPeerStatusChange;
-        public event OnConsensusStreamResponse OnConsensusPhase;
-        public event OnPathFindStream OnPathFind;
-        public event OnErrorResponse OnError;
-        public event OOnErrorResponse OOnError;
-        public event OnRippleResponse OnResponse;
+        public event OnError OnError;
+        public event OnConnected OnConnected;
+        public event OnDisconnect OnDisconnect;
+        public event OnLedgerClosed OnLedgerClosed;
+        public event OnTransaction OnTransaction;
+        public event OnManifestReceived OnManifestReceived;
+        public event OnPeerStatusChange OnPeerStatusChange;
+        public event OnConsensusPhase OnConsensusPhase;
+        public event OnPathFind OnPathFind;
 
         ///// <summary> Current web socket client state </summary>
         //public WebSocketState SocketState => client.State;
@@ -303,6 +305,12 @@ namespace Xrpl.Client
 
         public XrplClient(string server, ClientOptions? options = null)
         {
+            serializerSettings = new JsonSerializerSettings();
+            serializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            serializerSettings.FloatParseHandling = FloatParseHandling.Double;
+            serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
+
             if (!IsValidWss(server))
             {
                 throw new Exception("Invalid WSS Server Url");
@@ -311,19 +319,16 @@ namespace Xrpl.Client
             maxFeeXRP = options?.maxFeeXRP ?? "2";
 
             connection = new Connection(server, options);
-            tasks = new ConcurrentDictionary<int, TaskInfo>();
-            serializerSettings = new JsonSerializerSettings();
-            serializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            serializerSettings.FloatParseHandling = FloatParseHandling.Double;
-            serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
 
-            //connection.OOnError += OOnError;
-
-            //client = WebSocketClient.Create(server);
-            //OnResponse += OnMessageReceived;
-            //client.OnMessageReceived(MessageReceived);
-            //client.OnConnectionError(Error);
+            connection.OnError += OnError;
+            connection.OnConnected += OnConnected;
+            connection.OnDisconnect += OnDisconnect;
+            connection.OnLedgerClosed += OnLedgerClosed;
+            connection.OnTransaction += OnTransaction;
+            connection.OnManifestReceived += OnManifestReceived;
+            connection.OnPeerStatusChange += OnPeerStatusChange;
+            connection.OnConsensusPhase += OnConsensusPhase;
+            connection.OnPathFind += OnPathFind;
         }
 
         /// <inheritdoc />
@@ -602,126 +607,6 @@ namespace Xrpl.Client
         {
             return address;
         }
-
-        private static void Error(Exception ex, WebSocketClient client)
-        {
-            throw new Exception(ex.Message, ex);
-        }
-
-        //private void MessageReceived(string s, WebSocketClient client)
-        //{
-        //    if (string.IsNullOrWhiteSpace(s))
-        //        return;
-
-        //    var json = JObject.Parse(s);
-        //    var can_get_type = json.TryGetValue("type", out var responseType);
-        //    if (!can_get_type)
-        //        throw new ArgumentNullException("type", "Unknown response type");
-        //    Enum.TryParse(responseType.ToString(), out ResponseStreamType type);
-
-        //    switch (type)
-        //    {
-        //        case ResponseStreamType.response:
-        //            {
-        //                OnResponse?.Invoke(s);
-        //                break;
-        //            }
-        //        case ResponseStreamType.connected:
-        //            {
-        //                break;
-        //            }
-        //        case ResponseStreamType.disconnected:
-        //            {
-        //                break;
-        //            }
-        //        case ResponseStreamType.ledgerClosed:
-        //            {
-        //                var response = JsonConvert.DeserializeObject<LedgerStreamResponseResult>(s);
-        //                OnLedgerClosed?.Invoke(response);
-        //                break;
-        //            }
-        //        case ResponseStreamType.validationReceived:
-        //            {
-        //                var response = JsonConvert.DeserializeObject<ValidationsStreamResponseResult>(s);
-        //                OnValidation?.Invoke(response);
-        //                break;
-        //            }
-        //        case ResponseStreamType.transaction:
-        //            {
-        //                var response = JsonConvert.DeserializeObject<TransactionStreamResponseResult>(s);
-        //                OnTransaction?.Invoke(response);
-        //                break;
-        //            }
-        //        case ResponseStreamType.peerStatusChange:
-        //            {
-        //                var response = JsonConvert.DeserializeObject<PeerStatusStreamResponseResult>(s);
-        //                OnPeerStatusChange?.Invoke(response);
-        //                break;
-        //            }
-        //        case ResponseStreamType.consensusPhase:
-        //            {
-        //                var response = JsonConvert.DeserializeObject<ConsensusStreamResponseResult>(s);
-        //                OnConsensusPhase?.Invoke(response);
-        //                break;
-        //            }
-        //        case ResponseStreamType.path_find:
-        //            {
-        //                var response = JsonConvert.DeserializeObject<PathFindStreamResult>(s);
-        //                OnPathFind?.Invoke(response);
-        //                break;
-        //            }
-        //        case ResponseStreamType.error:
-        //            {
-        //                var response = JsonConvert.DeserializeObject<ErrorResponse>(s);
-        //                OnError?.Invoke(response);
-        //                break;
-        //            }
-        //        default: throw new ArgumentOutOfRangeException();
-        //    }
-        //}
-
-        //private void OnMessageReceived(string s)
-        //{
-        //    var response = JsonConvert.DeserializeObject<BaseResponse>(s);
-
-        //    try
-        //    {
-        //        var taskInfoResult = tasks.TryGetValue(response.Id, out var taskInfo);
-        //        if (taskInfoResult == false) throw new Exception("Task not found");
-
-        //        if (response.Status == "success")
-        //        {
-        //            var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
-        //            var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("SetResult");
-        //            setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });
-
-        //            if (taskInfo.RemoveUponCompletion)
-        //            {
-        //                tasks.TryRemove(response.Id, out taskInfo);
-        //            }
-        //        }
-        //        else if (response.Status == "error")
-        //        {
-        //            var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("SetException", new Type[] { typeof(Exception) }, null);
-
-        //            RippleException exception = new RippleException(response.Error);
-        //            setException.Invoke(taskInfo.TaskCompletionResult, new[] { exception });
-
-        //            tasks.TryRemove(response.Id, out taskInfo);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        var taskInfoResult = tasks.TryGetValue(response.Id, out var taskInfo);
-        //        var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("SetException", new Type[] { typeof(Exception) }, null);
-
-        //        RippleException exception = new RippleException(response.Error ?? e.Message, e);
-        //        setException.Invoke(taskInfo.TaskCompletionResult, new[] { exception });
-
-        //        tasks.TryRemove(response.Id, out taskInfo);
-        //    }
-
-        //}
 
         #region IDisposable
 

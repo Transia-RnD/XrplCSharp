@@ -4,6 +4,23 @@
 
 namespace Xrpl.Models.Common
 {
+    ///// <summary>
+    ///// Order book currency
+    ///// </summary>
+    //public class Currency
+    //{
+    //    /// <summary>
+    //    /// Currency code
+    //    /// </summary>
+    //    [JsonProperty("currency")]
+    //    public string Currency { get; set; }
+    //    /// <summary>
+    //    /// Currency Issuer
+    //    /// </summary>
+    //    [JsonProperty("issuer")]
+    //    public string Issuer { get; set; }
+    //}
+
     /// <summary> common class </summary>
     public class Common
     {

@@ -67,7 +67,7 @@ namespace XrplTests.Xrpl
         public int _port;
         private TcpListener _listener;
         private Dictionary<string, dynamic> _responses = new Dictionary<string, dynamic>();
-        private bool suppressOutput = false;
+        public bool suppressOutput = false;
         private Thread tcpListenerThread;
 
         public CreateMockRippled(int port)
@@ -191,6 +191,7 @@ namespace XrplTests.Xrpl
         {
             try
             {
+                Console.WriteLine($"SERVER SEND: {message}");
                 client.GetServer().SendMessage(client, message);
             }
             catch (Exception ex)
@@ -225,10 +226,10 @@ namespace XrplTests.Xrpl
             server.OnMessageReceived += (object sender, OnMessageReceivedHandler e) =>
             {
                 string jsonStr = e.GetMessage();
+                Console.WriteLine($"SERVER RECV: {jsonStr}");
                 Dictionary<string, dynamic> request = null;
                 try
                 {
-                    Console.WriteLine(jsonStr);
                     request = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(jsonStr);
                     var _command = request.TryGetValue("command", out var command);
                     if (request["id"] == null)
@@ -271,11 +272,12 @@ namespace XrplTests.Xrpl
                             { "error", err.Message.ToString() },
                         };
                         this.Send(e.GetClient(), CreateResponse(request, errorResponse));
+                        return;
                     }
                 }
-                catch (Exception err)
+                catch (Exception)
                 {
-                    throw err;
+                    throw;
                 }
             };
 

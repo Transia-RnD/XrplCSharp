@@ -26,7 +26,15 @@ namespace Xrpl.Client
     public class Connection
     {
 
-        public event OOnErrorResponse OOnError;
+        public event OnError OnError;
+        public event OnConnected OnConnected;
+        public event OnDisconnect OnDisconnect;
+        public event OnLedgerClosed OnLedgerClosed;
+        public event OnTransaction OnTransaction;
+        public event OnManifestReceived OnManifestReceived;
+        public event OnPeerStatusChange OnPeerStatusChange;
+        public event OnConsensusPhase OnConsensusPhase;
+        public event OnPathFind OnPathFind;
 
         public static string Base64Encode(string plainText)
         {
@@ -224,6 +232,7 @@ namespace Xrpl.Client
 
         private void OnConnectionFailed(Exception error, WebSocketClient client)
         {
+            Console.WriteLine(error.Message);
             if (this.ws != null)
             {
                 //this.ws.RemoveAllListeners();
@@ -316,21 +325,13 @@ namespace Xrpl.Client
             //this.ws.RemoveAllListeners()
             //clearTimeout(connectionTimeoutID)
             timer.Stop();
-            //this.ws.on('message', (message: string) => this.onMessage(message));
-            //this.ws.on('error', (error) =>
-            //  this.emit('error', 'websocket', error.message, error),
-            //)
-            //this.ws.once('close', (code ?: number, reason ?: Buffer) => { });
-
-            //this.ws.OnMessageReceived(OnMessage);
-            //this.ws.OnDisconnect(HandleClose);
             // Finalize the connection and resolve all awaiting connect() requests
             try
             {
                 //this.retryConnectionBackoff.reset();
                 //this.startHeartbeatInterval();
                 this.connectionManager.ResolveAllAwaiting();
-                //this.emit('connected');
+                //this.OnConnected();
             }
             catch (Exception error)
             {
@@ -351,70 +352,103 @@ namespace Xrpl.Client
             this.requestManager.RejectAll(new DisconnectedError($"websocket was closed, {"UNKNOWN REASON"}"));
             //this.ws.removeAllListeners();
             this.ws = null;
-            //if (code == null)
-            //{
-            //    //string reasonText = reason ? reason.ToString() : null;
-            //    string reasonText = reason;
-            //    // eslint-disable-next-line no-console -- The error is helpful for debugging.
-            //    //console.error(
-            //    //  `Disconnected but the disconnect code was undefined(The given reason was ${ reasonText}).` +
-            //    //    `This could be caused by an exception being thrown during a 'connect' callback. ` +
-            //    //    `Disconnecting with code 1011 to indicate an internal error has occurred.`,
-            //    //)
+            int? code = null;
+            string reason = null;
+            if (code == null)
+            {
+                //string reasonText = reason ? reason.ToString() : null;
+                string reasonText = reason;
+                // eslint-disable-next-line no-console -- The error is helpful for debugging.
+                //console.error(
+                //  `Disconnected but the disconnect code was undefined(The given reason was ${ reasonText}).` +
+                //    `This could be caused by an exception being thrown during a 'connect' callback. ` +
+                //    `Disconnecting with code 1011 to indicate an internal error has occurred.`,
+                //)
 
-            //    /*
-            //     * Error code 1011 represents an Internal Error according to
-            //     * https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
-            //     */
-            //    int internalErrorCode = 1011;
-            //    //this.emit('disconnected', internalErrorCode);
-            //}
-            //else
-            //{
-            //    //this.emit('disconnected', code);
-            //}
+                /*
+                 * Error code 1011 represents an Internal Error according to
+                 * https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
+                 */
+                int internalErrorCode = 1011;
+                //this.emit('disconnected', internalErrorCode);
+            }
+            else
+            {
+                this.OnDisconnect(code);
+            }
 
-            ///*
-            // * If this wasn't a manual disconnect, then lets reconnect ASAP.
-            // * Code can be undefined if there's an exception while connecting.
-            // */
-            //if (code != INTENTIONAL_DISCONNECT_CODE && code != null)
-            //{
-            //    //this.intentionalDisconnect();
-            //}
+            /// <summary>
+            /// If this wasn't a manual disconnect, then lets reconnect ASAP.
+            /// Code can be undefined if there's an exception while connecting.
+            /// </summary>
+            if (code != INTENTIONAL_DISCONNECT_CODE && code != null)
+            {
+                //this.intentionalDisconnect();
+            }
         }
 
         private void OnMessage(string message, WebSocketClient client)
         {
-            //this.OOnError(new XrplError("OnMessage"));
-            //this.trace('receive', message);
-            //JToken data;
             BaseResponse data;
             try
             {
-                //data = JObject.Parse(message);
                 data = JsonConvert.DeserializeObject<BaseResponse>(message);
             }
             catch (Exception error)
             {
-                Console.WriteLine(error.Message);
-                //this.OOnError(new XrplError(error.Message));
-                //this.emit('error', 'badMessage', error.message, message);
+                this.OnError("error", "badMessage", error.Message, message);
                 return;
             }
             if (data.Type == null && data.Error != null)
-            //if (data["type"] == null && data["error"] != null)
             {
                 // e.g. slowDown
-                Console.WriteLine(data.Error);
-                throw new XrplError((string)data.Error);
-                //this.emit('error', data.error, data.error_message, data);
+                this.OnError("error", data.Error, "data.ErrorMessage", data);
                 return;
             }
             if (data.Type != null)
             {
-                Console.WriteLine(data.Error);
-                //this.emit(data.type as string, data)
+                Enum.TryParse(data.Type.ToString(), out ResponseStreamType type);
+                switch (type)
+                {
+                    case ResponseStreamType.ledgerClosed:
+                        {
+                            var response = JsonConvert.DeserializeObject<LedgerStream>(message);
+                            OnLedgerClosed?.Invoke(response);
+                            break;
+                        }
+                    case ResponseStreamType.validationReceived:
+                        {
+                            var response = JsonConvert.DeserializeObject<ValidationStream>(message);
+                            OnManifestReceived?.Invoke(response);
+                            break;
+                        }
+                    case ResponseStreamType.transaction:
+                        {
+                            var response = JsonConvert.DeserializeObject<TransactionStream>(message);
+                            OnTransaction?.Invoke(response);
+                            break;
+                        }
+                    case ResponseStreamType.peerStatusChange:
+                        {
+                            var response = JsonConvert.DeserializeObject<PeerStatusStream>(message);
+                            OnPeerStatusChange?.Invoke(response);
+                            break;
+                        }
+                    case ResponseStreamType.consensusPhase:
+                        {
+                            var response = JsonConvert.DeserializeObject<ConsensusStream>(message);
+                            OnConsensusPhase?.Invoke(response);
+                            break;
+                        }
+                    case ResponseStreamType.path_find:
+                        {
+                            var response = JsonConvert.DeserializeObject<PathFindStream>(message);
+                            OnPathFind?.Invoke(response);
+                            break;
+                        }
+                    default:
+                        break;
+                }
             }
             if (data.Type == "response")
             {
@@ -424,13 +458,11 @@ namespace Xrpl.Client
                 }
                 catch (XrplError error)
                 {
-                    Console.WriteLine(error.Message);
-                    //this.emit('error', 'badMessage', error, error);
+                    this.OnError("error", "badMessage", error.Message, error);
                 }
                 catch (Exception error)
                 {
-                    Console.WriteLine(error.Message);
-                    //this.emit('error', 'badMessage', error.message, message);
+                    this.OnError("error", "badMessage", error.Message, error);
                 }
             }
         }

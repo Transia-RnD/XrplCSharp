@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+
 //https://github.com/XRPLF/xrpl.js/blob/b20c05c3680d80344006d20c44b4ae1c3b0ffcac/packages/xrpl/src/models/methods/subscribe.ts#L294
+
 namespace Xrpl.Models.Subscriptions;
 
 /// <summary>
@@ -7,13 +9,8 @@ namespace Xrpl.Models.Subscriptions;
 /// in particular their status in the consensus process.
 /// <see href="https://xrpl.org/subscribe.html#peer-status-stream"/>
 /// </summary>
-public class PeerStatusStreamResponseResult
+public class PeerStatusStream : BaseStream
 {
-    /// <summary>
-    /// peerStatusChange indicates this comes from the Peer Status stream.
-    /// </summary>
-    [JsonProperty("type")]
-    public ResponseStreamType Type { get; set; }
     /// <summary>
     /// The type of event that prompted this message. See Peer Status Events for possible values.<br/>
     /// possible values:<br/>

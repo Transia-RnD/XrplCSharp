@@ -127,6 +127,8 @@ namespace Xrpl.Client
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
+            var typeInfo = request.GetType().GetProperty("Command");
+            taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
             taskInfo.Type = typeof(T);
 
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
@@ -162,6 +164,7 @@ namespace Xrpl.Client
             request["id"] = newId;
 
             string newRequest = JsonConvert.SerializeObject(request, serializerSettings);
+            Console.WriteLine($"CLIENT SEND: {newRequest}");
 
             if (this.promisesAwaitingResponse.ContainsKey(newId))
             {
@@ -197,6 +200,7 @@ namespace Xrpl.Client
 
             if (!promisesAwaitingResponse.ContainsKey(response.Id))
             {
+                Console.WriteLine("Valid id not found in promises");
                 return;
             }
 
@@ -204,16 +208,21 @@ namespace Xrpl.Client
             {
                 ResponseFormatError error = new ResponseFormatError("Response has no status");
                 this.Reject(response.Id, error);
+                //return;
             }
 
             if (response.Status == "error")
             {
-
+                XrplError error = new XrplError(response.ErrorMessage ?? response.Error);
+                this.Reject(response.Id, error);
+                //return;
             }
 
             if (response.Status != "success")
             {
-
+                XrplError error = new XrplError($"unrecognized response.status: ${response.Status ?? ""}");
+                this.Reject(response.Id, error);
+                //return;
             }
 
             this.Resolve(response.Id, response);
