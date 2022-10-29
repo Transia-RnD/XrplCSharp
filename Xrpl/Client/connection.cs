@@ -128,7 +128,7 @@ namespace Xrpl.Client
 
         public bool IsConnected()
         {
-            return this.State() != WebSocketState.Closed;
+            return this.State() == WebSocketState.Open;
         }
 
         public Timer timer;
@@ -184,55 +184,57 @@ namespace Xrpl.Client
 
         public Task<int> Disconnect()
         {
+            Console.WriteLine("DISCONNECTING...");
             ////this.ClearHeartbeatInterval();
             //if (this.reconnectTimeoutID != null)
             //{
             //    //clearTimeout(this.reconnectTimeoutID);
             //    this.reconnectTimeoutID = null;
             //}
-            //if (this.State() == WebSocketState.Closed)
-            //{
-            //    var p1 = new TaskCompletionSource<int>();
-            //    p1.SetResult(0);
-            //    return p1.Task;
-            //}
+            if (this.State() == WebSocketState.Closed)
+            {
+                Console.WriteLine("WS CLOSED");
+                var p1 = new TaskCompletionSource<int>();
+                p1.SetResult(0);
+                return p1.Task;
+            }
 
-            //if (this.ws == null)
-            //{
-            //    var p1 = new TaskCompletionSource<int>();
-            //    p1.SetResult(0);
-            //    return p1.Task;
-            //}
+            if (this.ws == null)
+            {
+                Console.WriteLine("WS NULL");
+                var p1 = new TaskCompletionSource<int>();
+                p1.SetResult(0);
+                return p1.Task;
+            }
 
             var promise = new TaskCompletionSource<int>();
 
-            //if (this.ws == null)
-            //{
-            //    promise.SetResult(0);
-            //}
             if (this.ws != null)
             {
-                //this.ws.once('close', (code) => {
-                //    resolve(code));
-                //}
-                int code = 4000;
-                promise.SetResult(code);
+                Console.WriteLine("WS NO NULL");
+                this.ws.OnDisconnect += (c, e) =>
+                {
+                    Console.WriteLine("INSIDE DISCONNECT");
+                    promise.SetResult((int)c);
+                };
             }
-            ///*
-            //* Connection already has a disconnect handler for the disconnect logic.
-            //* Just close the websocket manually (with our "intentional" code) to
-            //* trigger that.
-            //*/
+
+            /// <summary>
+            /// Connection already has a disconnect handler for the disconnect logic.
+            /// Just close the websocket manually (with our "intentional" code) to
+            /// trigger that.
+            /// </summary>
             if (this.ws != null && this.State() != WebSocketState.CloseReceived)
             {
-                this.ws.Dispose(); // should use INTENTIONAL_DISCONNECT_CODE
+                Console.WriteLine("CLOSING...");
+                this.ws.Close(WebSocketCloseStatus.NormalClosure);
             }
             return promise.Task;
         }
 
         private void OnConnectionFailed(Exception error, WebSocketClient client)
         {
-            Console.WriteLine(error.Message);
+            Console.WriteLine($"OnConnectionFailed: error.Message");
             if (this.ws != null)
             {
                 //this.ws.RemoveAllListeners();
@@ -242,8 +244,7 @@ namespace Xrpl.Client
                 * don't have a listener on "error" node would log a warning on error.
                 */
                 //});
-                //throw new NotConnectedError(error.Message);
-                this.ws.Dispose();
+                this.ws.Close(WebSocketCloseStatus.ProtocolError);
                 this.ws = null;
             }
             this.connectionManager.RejectAllAwaiting(new NotConnectedError(error.Message));
@@ -251,6 +252,7 @@ namespace Xrpl.Client
 
         private void OnConnectionFailed(WebSocketClient client)
         {
+            Console.WriteLine($"OnConnectionFailed: NO error.Message");
             //clearTimeout(connectionTimeoutID))
             timer.Stop();
             this.connectionManager.RejectAllAwaiting(new NotConnectedError());
@@ -317,6 +319,7 @@ namespace Xrpl.Client
         //private void OnceOpen(int connectionTimeoutID)
         private async void OnceOpen(WebSocketClient client)
         {
+            Console.WriteLine("ONCE OPEN");
             if (this.ws == null)
             {
                 throw new XrplError("onceOpen: ws is null");
@@ -344,6 +347,7 @@ namespace Xrpl.Client
         //private void OnceClose(int? code = null, string? reason = null)
         private void OnceClose(WebSocketClient client)
         {
+            Console.WriteLine("ONCE CLOSE");
             if (this.ws == null)
             {
                 throw new XrplError("OnceClose: ws is null");
@@ -389,6 +393,7 @@ namespace Xrpl.Client
 
         private void OnMessage(string message, WebSocketClient client)
         {
+            Console.WriteLine($"CONNECTION: RECV: {message}");
             BaseResponse data;
             try
             {
@@ -425,6 +430,7 @@ namespace Xrpl.Client
                     case ResponseStreamType.transaction:
                         {
                             var response = JsonConvert.DeserializeObject<TransactionStream>(message);
+                            Console.WriteLine(response);
                             OnTransaction?.Invoke(response);
                             break;
                         }
@@ -465,6 +471,11 @@ namespace Xrpl.Client
                     this.OnError("error", "badMessage", error.Message, error);
                 }
             }
+        }
+
+        public void OnMessage(string message)
+        {
+            OnMessage(message, ws);
         }
     }
 }

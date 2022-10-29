@@ -40,6 +40,8 @@ namespace Xrpl.Client
 
         private readonly string uri;
 
+        private readonly CancellationToken cancellationToken;
+
 
         public WebSocketClient(string uri)
         {
@@ -47,6 +49,8 @@ namespace Xrpl.Client
             this.sendChunkSize = 1024;
             this.receiveChunkSize = 1048576;
             int keepAlive = 5;
+
+            cancellationToken = new CancellationTokenSource().Token;
 
             this.ws = new ClientWebSocket();
             this.ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(keepAlive);
@@ -82,7 +86,6 @@ namespace Xrpl.Client
         public async Task ConnectAsync()
         {
             Uri server = new Uri(this.uri);
-            CancellationToken cancellationToken = new CancellationTokenSource().Token;
             await this.ws.ConnectAsync(server, cancellationToken);
             this.worker.RunWorkerAsync();
             this.RaiseConnected();
@@ -203,6 +206,12 @@ namespace Xrpl.Client
             }
 
             this.OnMessageReceived?.Invoke(this, message);
+        }
+
+        public void Close(WebSocketCloseStatus code, string? message = null)
+        {
+            this.ws.CloseAsync(code, message, cancellationToken);
+            this.RaiseClosed();
         }
 
         /// <summary>

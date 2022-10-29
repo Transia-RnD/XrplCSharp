@@ -53,12 +53,14 @@ namespace Xrpl.Client
         event OnPathFind OnPathFind;
 
         #region Server
+        /// <summary> the url </summary>
+        string Url();
         /// <summary> connect to the server </summary>
         Task Connect();
         /// <summary> Disconnect from server </summary>
-        void Disconnect();
-        /// <summary> the url </summary>
-        string Url();
+        Task Disconnect();
+        /// <summary> if the websocket is connected </summary>
+        bool IsConnected();
         /// <summary> The subscribe method requests periodic notifications from the server when certain events happen. </summary>
         /// <param name="request">An <see cref="SubscribeRequest"/> request.</param>
         /// <returns></returns>
@@ -320,15 +322,15 @@ namespace Xrpl.Client
 
             connection = new Connection(server, options);
 
-            connection.OnError += OnError;
-            connection.OnConnected += OnConnected;
-            connection.OnDisconnect += OnDisconnect;
-            connection.OnLedgerClosed += OnLedgerClosed;
-            connection.OnTransaction += OnTransaction;
-            connection.OnManifestReceived += OnManifestReceived;
-            connection.OnPeerStatusChange += OnPeerStatusChange;
-            connection.OnConsensusPhase += OnConsensusPhase;
-            connection.OnPathFind += OnPathFind;
+            connection.OnError += (e, em, m, d) => OnError(e, em, m, d);
+            connection.OnConnected += () => OnConnected();
+            connection.OnDisconnect += (c) => OnDisconnect(c);
+            connection.OnLedgerClosed += (s) => OnLedgerClosed(s);
+            connection.OnTransaction += (s) => OnTransaction(s);
+            connection.OnManifestReceived += (s) => OnManifestReceived(s);
+            connection.OnPeerStatusChange += (s) => OnPeerStatusChange(s);
+            connection.OnConsensusPhase += (s) => OnConsensusPhase(s);
+            connection.OnPathFind += (s) => OnPathFind(s);
         }
 
         /// <inheritdoc />
@@ -349,15 +351,15 @@ namespace Xrpl.Client
         }
 
         /// <inheritdoc />
-        public async void Disconnect()
+        public Task Disconnect()
         {
-            await connection.Disconnect();
+            return connection.Disconnect();
         }
 
         /// <inheritdoc />
-        public void IsConnected()
+        public bool IsConnected()
         {
-            this.connection.IsConnected();
+            return this.connection.IsConnected();
         }
 
         // SUGARS

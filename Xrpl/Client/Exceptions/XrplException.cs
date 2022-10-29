@@ -26,6 +26,7 @@ namespace Xrpl.Client.Exceptions
 
         public XrplError(string message) : base(message) { }
         public XrplError(string message, Exception? InnerException) : base(message, InnerException) { }
+        //public XrplError(string message, dynamic data) : base(message, data) { }
     }
 
     /// <summary>

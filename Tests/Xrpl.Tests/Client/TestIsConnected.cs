@@ -1,13 +1,36 @@
-﻿
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Threading.Tasks;
+using Xrpl.Models.Methods;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/client/isConnected.ts
 
 namespace XrplTests.Xrpl.ClientLib
 {
+    [TestClass]
     public class TestIsConnected
     {
-        public TestIsConnected()
+
+        public static SetupUnitClient runner;
+
+        [ClassInitialize]
+        public static async Task MyClassInitializeAsync(TestContext testContext)
         {
+            runner = await new SetupUnitClient().SetupClient();
+        }
+
+        //[ClassCleanup]
+        //public static async Task MyClassCleanupAsync(TestContext testContext)
+        //{
+        //    await runner.client.Disconnect();
+        //}
+
+        [TestMethod]
+        public void TestConnectedDisconnect()
+        {
+            Assert.AreEqual(true, runner.client.IsConnected());
+            runner.client.Disconnect().Wait();
+            Assert.AreEqual(false, runner.client.IsConnected());
         }
     }
 }

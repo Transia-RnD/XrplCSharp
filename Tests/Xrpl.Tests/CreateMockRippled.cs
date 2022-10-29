@@ -191,7 +191,7 @@ namespace XrplTests.Xrpl
         {
             try
             {
-                Console.WriteLine($"SERVER SEND: {message}");
+                //Console.WriteLine($"SERVER SEND: {message}");
                 client.GetServer().SendMessage(client, message);
             }
             catch (Exception ex)
@@ -226,7 +226,7 @@ namespace XrplTests.Xrpl
             server.OnMessageReceived += (object sender, OnMessageReceivedHandler e) =>
             {
                 string jsonStr = e.GetMessage();
-                Console.WriteLine($"SERVER RECV: {jsonStr}");
+                //Console.WriteLine($"SERVER RECV: {jsonStr}");
                 Dictionary<string, dynamic> request = null;
                 try
                 {

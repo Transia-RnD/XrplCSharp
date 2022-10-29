@@ -43,7 +43,7 @@ new SubscribeRequest()
 });
 Console.WriteLine(subscribe);
 
-System.Threading.Thread.Sleep(TimeSpan.FromSeconds(13));
+//System.Threading.Thread.Sleep(TimeSpan.FromSeconds(13));
 
 //client.Disconnect();
 
