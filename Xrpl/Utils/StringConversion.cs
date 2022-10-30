@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
+using Org.BouncyCastle.Utilities.Encoders;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/stringConversion.ts
 
@@ -16,7 +17,7 @@ namespace Xrpl.Utils
         public static string ConvertStringToHex(this string input)
         {
             var bytes = Encoding.UTF8.GetBytes(input);
-            return Convert.ToHexString(bytes);
+            return Hex.ToHexString(bytes);
         }
 
         /// <summary>
