@@ -45,7 +45,6 @@ namespace XrplTests.Xrpl.MockRippled
             this._guid = Helpers.CreateGuid("client");
 
             // Start to detect incomming messages
-            Debug.WriteLine("BEGIN RECEIVE");
             GetSocket().BeginReceive(new byte[] { 0 }, 0, 0, SocketFlags.None, messageCallback, null);
         }
 
@@ -103,12 +102,11 @@ namespace XrplTests.Xrpl.MockRippled
             {
                 GetSocket().EndReceive(AsyncResult);
 
-                //Debug.WriteLine(GetSocket().Available);
                 // Read the incomming message
                 byte[] messageBuffer = new byte[GetSocket().Available];
-                Debug.WriteLine($"AVAILABLE: {messageBuffer.Length}");
+                // Debug.WriteLine($"AVAILABLE: {messageBuffer.Length}");
                 int bytesReceived = GetSocket().Receive(messageBuffer, messageBuffer.Length, SocketFlags.None);
-                Debug.WriteLine($"RECEIVED: {bytesReceived}");
+                // Debug.WriteLine($"RECEIVED: {bytesReceived}");
 
                 // Resize the byte array to remove whitespaces 
                 if (bytesReceived < messageBuffer.Length) Array.Resize<byte>(ref messageBuffer, bytesReceived);
@@ -124,15 +122,9 @@ namespace XrplTests.Xrpl.MockRippled
                 }
 
                 // Pass the message to the server event to handle the logic
-                //Debug.WriteLine(messageBuffer.Length);
-                //Debug.WriteLine("HERE0");
-                //Debug.WriteLine(Helpers.GetDataFromFrame(messageBuffer));
-                //Debug.WriteLine("HERE1");
                 GetServer().ReceiveMessage(this, Helpers.GetDataFromFrame(messageBuffer));
 
                 // Start to receive messages again
-                //Debug.WriteLine("BEGIN RECEIVE: INNER");
-                Debug.WriteLine($"BEGIN RECEIVE: {GetSocket()}");
                 GetSocket().BeginReceive(new byte[] { 0 }, 0, 0, SocketFlags.None, messageCallback, null);
 
             }

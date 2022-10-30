@@ -57,31 +57,24 @@ namespace Xrpl.Sugar
             List<Task> promises = new List<Task>();
             if (!tx.ContainsKey("Sequence"))
             {
-                //Debug.WriteLine("AUTOFILL Sequence");
                 promises.Add(SetNextValidSequenceNumber(client, tx));
             }
             if (!tx.ContainsKey("Fee"))
             {
-                //Debug.WriteLine("AUTOFILL Fee");
                 promises.Add(CalculateFeePerTransactionType(client, tx, signersCount ?? 0));
             }
             if (!tx.ContainsKey("LastLedgerSequence"))
             {
-                //Debug.WriteLine("AUTOFILL LastLedgerSequence");
                 promises.Add(SetLatestValidatedLedgerSequence(client, tx));
             }
             //if (tx.TransactionType === 'AccountDelete')
             //{
             //    promises.push(CheckAccountDeleteBlockers(client, tx))
             //}
-            Debug.WriteLine($"AUTOFILL WAITING: {promises.Count}");
             foreach (var promise in promises)
             {
-                Debug.WriteLine($"AWAIT {promise.Id}");
                 await promise;
-                Debug.WriteLine($"FINISHED {promise.Id}");
             }
-            Debug.WriteLine("AUTOFILL FINISHED");
             string jsonData = JsonConvert.SerializeObject(tx);
             return tx;
         }

@@ -117,12 +117,8 @@ namespace Xrpl.Client
                 {
                     count = messageBuffer.Length - offset;
                 }
-
-                Debug.WriteLine(count);
-                Debug.WriteLine(offset);
-                Debug.WriteLine($"CLIENT WS BUFFER: {messageBuffer.Length}");
-                Debug.WriteLine(new ArraySegment<byte>(messageBuffer, offset, count).Count);
-                await this.ws.SendAsync(new ArraySegment<byte>(messageBuffer, offset, count), WebSocketMessageType.Text, lastMessage, cancellationToken);
+                //Debug.WriteLine($"CLIENT WS BUFFER: {messageBuffer.Length}");
+                await this.ws.SendAsync(new ArraySegment<byte>(messageBuffer, offset, count), WebSocketMessageType.Binary, lastMessage, cancellationToken);
             }
         }
 

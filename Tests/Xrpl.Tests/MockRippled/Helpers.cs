@@ -93,7 +93,6 @@ namespace XrplTests.Xrpl.MockRippled
             }
 
             // error
-            Debug.WriteLine("GetFrameData Error");
             return new SFrameMaskData(0, 0, 0, 0);
         }
 

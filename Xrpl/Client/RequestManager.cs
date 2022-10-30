@@ -87,6 +87,7 @@ namespace Xrpl.Client
             // todo: should stop task timout if need to
             //clearTimeout(promise)
             var hasTimer = this.timeoutsAwaitingResponse.TryRemove(id, out var timer);
+            Debug.WriteLine(hasTimer);
             if (hasTimer)
                 timer.Stop();
             var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("SetException", new Type[] { typeof(Exception) }, null);
@@ -98,14 +99,9 @@ namespace Xrpl.Client
         /// </summary>
         public void RejectAll(Exception error)
         {
-            Debug.WriteLine("Reject ALL");
+            Debug.WriteLine($"REJECT ALL: {promisesAwaitingResponse.Count}");
             foreach (var id in this.promisesAwaitingResponse.Keys)
             {
-                var hasTimer = this.timeoutsAwaitingResponse.TryRemove(id, out var timer);
-                if (hasTimer)
-                {
-                    timer.Stop();
-                };
                 this.Reject(id, error);
                 this.DeletePromise(id, null);
             }

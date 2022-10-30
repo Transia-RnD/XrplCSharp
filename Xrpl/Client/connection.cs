@@ -176,7 +176,9 @@ namespace Xrpl.Client
             this.ws.OnConnected += (c, e) => OnceOpen((WebSocketClient)c);
             this.ws.OnMessageReceived += (c, m) => OnMessage(m, (WebSocketClient)c);
             this.ws.OnConnectionError += (c, e) => OnConnectionFailed(e, (WebSocketClient)c);
+            this.ws.OnConnectionError += (c, e) => timer.Stop();
             this.ws.OnDisconnect += (c, e) => OnceClose((WebSocketClient)c, e);
+            this.ws.OnDisconnect += (c, e) => timer.Stop();
             this.ws.ConnectAsync();
             return this.connectionManager.AwaitConnection();
         }
@@ -225,7 +227,7 @@ namespace Xrpl.Client
             /// </summary>
             if (this.ws != null && this.State() != WebSocketState.CloseReceived)
             {
-                //Debug.WriteLine("CLOSING...");
+                Debug.WriteLine("CLOSING...");
                 this.ws.Close(WebSocketCloseStatus.NormalClosure);
             }
             return promise.Task;
@@ -233,7 +235,7 @@ namespace Xrpl.Client
 
         private void OnConnectionFailed(Exception error, WebSocketClient client)
         {
-            Debug.WriteLine($"OnConnectionFailed: {error.Message}");
+             Debug.WriteLine($"OnConnectionFailed: {error.Message}");
             if (this.ws != null)
             {
                 //this.ws.RemoveAllListeners();
@@ -251,7 +253,7 @@ namespace Xrpl.Client
 
         private void OnConnectionFailed(WebSocketClient client)
         {
-            Debug.WriteLine($"OnConnectionFailed: NO error.Message");
+             Debug.WriteLine($"OnConnectionFailed: NO error.Message");
             //clearTimeout(connectionTimeoutID))
             timer.Stop();
             this.connectionManager.RejectAllAwaiting(new NotConnectedError());
@@ -259,7 +261,7 @@ namespace Xrpl.Client
 
         private void WebsocketSendAsync(string message)
         {
-            Debug.WriteLine($"CLIENT: SEND: {message}");
+            // Debug.WriteLine($"CLIENT: SEND: {message}");
             this.ws.SendMessageAsync(message);
         }
 
@@ -273,12 +275,11 @@ namespace Xrpl.Client
             //Debug.WriteLine(_request.Message);
             try
             {
-                Debug.WriteLine($"CLIENT: SEND: {_request.Id}");
+                // Debug.WriteLine($"CLIENT: SEND: {_request.Id}");
                 this.WebsocketSendAsync(_request.Message);
             }
             catch (EncodingFormatException error)
             {
-                Debug.WriteLine($"WSS ERROR: {error.Message}");
                 this.requestManager.Reject(_request.Id, error);
             }
             return _request.Promise;
@@ -294,13 +295,12 @@ namespace Xrpl.Client
             //Debug.WriteLine(_request.Message);
             try
             {
-                Debug.WriteLine($"CLIENT: SEND: {_request.Id}");
+                // Debug.WriteLine($"CLIENT: SEND: {_request.Id}");
                 this.WebsocketSendAsync(_request.Message);
             }
             catch (EncodingFormatException error)
             {
                 this.requestManager.Reject(_request.Id, error);
-                Debug.WriteLine($"WSS ERROR: {error.Message}");
             }
             return _request.Promise;
         }
@@ -323,7 +323,7 @@ namespace Xrpl.Client
         //private void OnceOpen(int connectionTimeoutID)
         private async void OnceOpen(WebSocketClient client)
         {
-            //Debug.WriteLine("ONCE OPEN");
+            Debug.WriteLine("ONCE OPEN");
             if (this.ws == null)
             {
                 throw new XrplError("onceOpen: ws is null");
@@ -352,7 +352,7 @@ namespace Xrpl.Client
         //private void OnceClose(int? code = null, string? reason = null)
         private void OnceClose(WebSocketClient client, EventArgs error)
         {
-            //Debug.WriteLine("ONCE CLOSE");
+            Debug.WriteLine("ONCE CLOSE");
             if (this.ws == null)
             {
                 throw new XrplError("OnceClose: ws is null");
@@ -378,10 +378,12 @@ namespace Xrpl.Client
                  * Error code 1011 represents an Internal Error according to
                  * https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
                  */
-                this.OnDisconnect(1011);
+                Debug.WriteLine("DISCONNECT1");
+                //this.OnDisconnect(1011);
             }
             else
             {
+                Debug.WriteLine("DISCONNECT2");
                 this.OnDisconnect(code);
             }
 
@@ -470,12 +472,10 @@ namespace Xrpl.Client
                 }
                 catch (XrplError error)
                 {
-                    Debug.WriteLine($"XRPL ERROR: {error.Message}");
                     this.OnError("error", "badMessage", error.Message, error);
                 }
                 catch (Exception error)
                 {
-                    Debug.WriteLine($"EXCEPTION: {error.Message}");
                     this.OnError("error", "badMessage", error.Message, error);
                 }
             }

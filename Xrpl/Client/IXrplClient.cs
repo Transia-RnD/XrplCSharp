@@ -352,6 +352,7 @@ namespace Xrpl.Client
         /// <inheritdoc />
         public Task Disconnect()
         {
+            Debug.WriteLine("CLIENT DISCONNECT CALLED");
             return connection.Disconnect();
         }
 

@@ -255,7 +255,6 @@ namespace XrplTests.Xrpl
                     }
                     else if (this._responses.ContainsKey(command))
                     {
-                        Debug.WriteLine("FAILING HERE");
                         this.Send(e.GetClient(), this.CreateResponse(request, this.GetResponse(request)));
                     }
                     else
@@ -265,7 +264,6 @@ namespace XrplTests.Xrpl
                 }
                 catch (XrplError err)
                 {
-                    Debug.WriteLine($"SERVER XRPL ERROR: {err.Message}");
                     if (!this.suppressOutput)
                     {
                         Debug.WriteLine($"{err}");

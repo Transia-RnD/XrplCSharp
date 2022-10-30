@@ -294,7 +294,6 @@ namespace XrplTests.Xrpl.MockRippled
         /// <param name="Message">The message that the client sent</param>
         public void ReceiveMessage(Client Client, string Message)
         {
-            //Debug.WriteLine(Message);
             if (OnMessageReceived == null) throw new Exception("Server error: event OnMessageReceived is not bound!");
             OnMessageReceived(this, new OnMessageReceivedHandler(Client, Message));
         }
