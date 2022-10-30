@@ -154,7 +154,7 @@ namespace Xrpl.Utils
 
             // drops are only whole units
 
-            string[] components = xrp.TrimEnd('0').Split(".");
+            string[] components = xrp.TrimEnd('0').Split('.');
             if (components.Length > 2)
             {
                 throw new ValidationError("xrpToDrops: failed sanity check - value '${xrp}' has too many decimal points.");
