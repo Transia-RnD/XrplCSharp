@@ -9,15 +9,17 @@ namespace Xrpl.Client
 {
     public class ConnectionManager
     {
-        private List<TaskCompletionSource> PromisesAwaitingConnection = new List<TaskCompletionSource>();
+        private struct VoidResult { }
+
+        private List<TaskCompletionSource<VoidResult>> PromisesAwaitingConnection = new List<TaskCompletionSource<VoidResult>>();
 
         public void ResolveAllAwaiting()
         {
             this.PromisesAwaitingConnection.ForEach((p) =>
             {
-                p.TrySetResult();
+                p.TrySetResult(default(VoidResult));
             });
-            this.PromisesAwaitingConnection = new List<TaskCompletionSource>();
+            this.PromisesAwaitingConnection = new List<TaskCompletionSource<VoidResult>>();
         }
 
         public void RejectAllAwaiting(Exception error)
@@ -26,12 +28,12 @@ namespace Xrpl.Client
             {
                 p.TrySetException(error);
             });
-            this.PromisesAwaitingConnection = new List<TaskCompletionSource>();
+            this.PromisesAwaitingConnection = new List<TaskCompletionSource<VoidResult>>();
         }
 
         public Task AwaitConnection()
         {
-            TaskCompletionSource task = new TaskCompletionSource();
+            TaskCompletionSource<VoidResult> task = new TaskCompletionSource<VoidResult>();
             this.PromisesAwaitingConnection.Add(task);
             return task.Task;
         }

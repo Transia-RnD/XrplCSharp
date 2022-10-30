@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.WebSockets;
-using System.Text.Encodings.Web;
-using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Asn1.Ocsp;
@@ -25,6 +23,8 @@ namespace Xrpl.Client
 {
     public class Connection
     {
+
+        private struct VoidResult { }
 
         public event OnError OnError;
         public event OnConnected OnConnected;
@@ -137,8 +137,8 @@ namespace Xrpl.Client
         {
             if (this.IsConnected())
             {
-                var p1 = new TaskCompletionSource();
-                p1.SetResult();
+                var p1 = new TaskCompletionSource<VoidResult>();
+                p1.SetResult(default(VoidResult));
                 return p1.Task;
             }
             if (this.State() == WebSocketState.Connecting)
@@ -195,7 +195,7 @@ namespace Xrpl.Client
             {
                 Console.WriteLine("WS CLOSED");
                 var p1 = new TaskCompletionSource<int>();
-                p1.SetResult(0);
+                p1.SetResult((int)WebSocketCloseStatus.NormalClosure);
                 return p1.Task;
             }
 
@@ -203,7 +203,7 @@ namespace Xrpl.Client
             {
                 Console.WriteLine("WS NULL");
                 var p1 = new TaskCompletionSource<int>();
-                p1.SetResult(0);
+                p1.SetResult((int)WebSocketCloseStatus.NormalClosure);
                 return p1.Task;
             }
 
