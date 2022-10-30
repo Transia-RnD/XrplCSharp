@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Xrpl.Client;
 using Xrpl.Client.Exceptions;
@@ -36,7 +38,9 @@ namespace Xrpl.Sugar
             XrplWallet wallet = null
         )
         {
+            Debug.WriteLine($"SIGNING");
             string signedTx = await SubmitSugar.GetSignedTx(client, transaction, autofill, false, wallet);
+            Debug.WriteLine($"SUBMITTING");
             return await SubmitRequest(client, signedTx, failHard);
         }
 
@@ -58,7 +62,10 @@ namespace Xrpl.Sugar
             string signedTxEncoded = signedTransaction;
             //SubmitBlobRequest request = new SubmitBlobRequest { Command = "submit", TxBlob = signedTxEncoded, FailHard = isAccountDelete(signedTransaction) || failHard };
             SubmitRequest request = new SubmitRequest { Command = "submit", TxBlob = signedTxEncoded, FailHard = false  };
-            return await client.GRequest<Submit, SubmitRequest>(request);
+            Debug.WriteLine($"THIS");
+            var response = await client.GRequest<Submit, SubmitRequest>(request);
+            Debug.WriteLine($"THAT");
+            return response;
         }
 
         /// <summary>
@@ -95,6 +102,7 @@ namespace Xrpl.Sugar
             //    : transaction
             if (autofill)
             {
+                Debug.WriteLine($"AUTOFILL");
                 tx = await client.Autofill(tx);
             }
             return wallet.Sign(tx, false).TxBlob;

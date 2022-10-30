@@ -18,6 +18,9 @@ using Xrpl.BinaryCodec.Types;
 using System.IO;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Ocsp;
+using Xrpl.BinaryCodec.Enums;
+using Org.BouncyCastle.Utilities;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/autofill.ts
 
@@ -54,21 +57,32 @@ namespace Xrpl.Sugar
             List<Task> promises = new List<Task>();
             if (!tx.ContainsKey("Sequence"))
             {
+                //Debug.WriteLine("AUTOFILL Sequence");
                 promises.Add(SetNextValidSequenceNumber(client, tx));
             }
-            if (!tx.ContainsKey("Fee") || tx["Fee"] == "10")
+            if (!tx.ContainsKey("Fee"))
             {
-                promises.Append(CalculateFeePerTransactionType(client, tx, signersCount ?? 0));
+                //Debug.WriteLine("AUTOFILL Fee");
+                promises.Add(CalculateFeePerTransactionType(client, tx, signersCount ?? 0));
             }
             if (!tx.ContainsKey("LastLedgerSequence"))
             {
-                promises.Append(SetLatestValidatedLedgerSequence(client, tx));
+                //Debug.WriteLine("AUTOFILL LastLedgerSequence");
+                promises.Add(SetLatestValidatedLedgerSequence(client, tx));
             }
             //if (tx.TransactionType === 'AccountDelete')
             //{
             //    promises.push(CheckAccountDeleteBlockers(client, tx))
             //}
-            Task.WaitAll(promises.ToArray());
+            Debug.WriteLine($"AUTOFILL WAITING: {promises.Count}");
+            foreach (var promise in promises)
+            {
+                Debug.WriteLine($"AWAIT {promise.Id}");
+                await promise;
+                Debug.WriteLine($"FINISHED {promise.Id}");
+            }
+            Debug.WriteLine("AUTOFILL FINISHED");
+            string jsonData = JsonConvert.SerializeObject(tx);
             return tx;
         }
 
@@ -93,14 +107,18 @@ namespace Xrpl.Sugar
         public static void ValidateAccountAddress(Dictionary<string, dynamic> tx, string accountField, string tagField)
         {
             // if X-address is given, convert it to classic address
-            AddressNTag classicAccount = GetClassicAccountAndTag((string)tx[accountField], null);
+            var ainfo = tx.TryGetValue(accountField, out var aField);
+            
+            AddressNTag classicAccount = GetClassicAccountAndTag((string)aField, null);
             tx[accountField] = classicAccount.ClassicAddress;
+
+            var tinfo = tx.TryGetValue(tagField, out var tField);
 
             // XRPL: Does bool or int. Smells.
             //if (classicAccount.Tag != null && classicAccount.Tag != false)
             if (classicAccount.Tag != null)
             {
-                if (tx[tagField] != null && (int)tx[tagField] != classicAccount.Tag)
+                if (tField != null && (int)tField != classicAccount.Tag)
                 {
                     throw new ValidationError($"The { tagField }, if present, must match the tag of the { accountField} X - address");
                 }
@@ -141,7 +159,7 @@ namespace Xrpl.Sugar
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Current);
             AccountInfoRequest request = new AccountInfoRequest((string)tx["Account"]) { LedgerIndex = index };
             AccountInfo data = await client.AccountInfo(request);
-            tx["Sequence"] = data.AccountData.Sequence;
+            tx.TryAdd("Sequence", data.AccountData.Sequence);
         }
 
         public static async Task<BigInteger> FetchAccountDeleteFee(IXrplClient client)
@@ -163,13 +181,15 @@ namespace Xrpl.Sugar
             var netFeeDrops = XrpConversion.XrpToDrops(netFeeXRP);
             var baseFee = BigInteger.Parse(netFeeDrops, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent);
 
+
             // EscrowFinish Transaction with Fulfillment
             if (tx["TransactionType"] == "EscrowFinish" && tx["Fulfillment"] != null)
             {
-                var fulfillmentBytesSize = Math.Ceiling(tx["Fulfillment"].Length / 2);
+                double fulfillmentBytesSize = Math.Ceiling((double)tx["Fulfillment"].Length / 2);
                 // 10 drops × (33 + (Fulfillment size in bytes / 16))
-                var product = new BigInteger(ScaleValue(netFeeDrops, 33 + fulfillmentBytesSize / 16));
-                baseFee = BigInteger.Parse(Math.Ceiling(((decimal)product)).ToString());
+                double resp = (33 + (fulfillmentBytesSize / 16));
+                bool product = BigInteger.TryParse(ScaleValue(netFeeDrops, 33 + (fulfillmentBytesSize / 16)), out var result);
+                baseFee = BigInteger.Parse(Math.Ceiling(((decimal)result)).ToString());
             }
 
             // AccountDelete Transaction
@@ -189,18 +209,18 @@ namespace Xrpl.Sugar
 
             var maxFeeDrops = XrpConversion.XrpToDrops(client.maxFeeXRP);
             var totalFee = tx["TransactionType"] == "AccountDelete" ? baseFee : BigInteger.Min(baseFee, BigInteger.Parse(maxFeeDrops));
-            tx["Fee"] = Math.Ceiling(((decimal)totalFee)).ToString();
+            tx.TryAdd("Fee", Math.Ceiling(((decimal)totalFee)).ToString());
         }
 
-        public static string ScaleValue(string value, int multiplier)
+        public static string ScaleValue(string value, double multiplier)
         {
-            return (int.Parse(value)! * multiplier).ToString();
+            return (double.Parse(value)! * multiplier).ToString();
         }
 
     public static async Task SetLatestValidatedLedgerSequence(IXrplClient client, Dictionary<string, dynamic> tx)
         {
             uint ledgerSequence = await client.GetLedgerIndex();
-            tx["LastLedgerSequence"] = ledgerSequence + LEDGER_OFFSET;
+            tx.TryAdd("LastLedgerSequence", ledgerSequence + LEDGER_OFFSET);
         }
     }
 }

@@ -27,9 +27,9 @@ namespace XrplTests.Xrpl
         }
 
         [ClassCleanup]
-        public static void MyClassCleanupAsync()
+        public static async Task MyClassCleanupAsync()
         {
-            runner.client.Disconnect().Wait();
+            await runner.client.Disconnect();
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace XrplTests.Xrpl
 
         [TestMethod]
         [ExpectedException(typeof(System.AggregateException))]
-        public void TestDisconnectedError()
+        public async Task TestDisconnectedError()
         {
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
             {
@@ -82,7 +82,7 @@ namespace XrplTests.Xrpl
                 } },
             };
             //string jtoken = JsonConvert.SerializeObject(tx);
-            runner.client.Request(tx).Wait();
+            await runner.client.Request(tx);
         }
 
         //[TestMethod]
@@ -122,15 +122,15 @@ namespace XrplTests.Xrpl
         //}
 
         [TestMethod]
-        [ExpectedException(typeof(NotConnectedError))]
-        public void TestNoCrashError()
+        [ExpectedException(typeof(XrplError))]
+        public async Task TestNoCrashError()
         {
             runner.mockedRippled.suppressOutput = true;
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
             {
                 { "command", "test_garbage" },
             };
-            runner.client.connection.Request(tx).Wait();
+            await runner.client.connection.Request(tx);
         }
     }
 }

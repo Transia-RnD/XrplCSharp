@@ -26,9 +26,9 @@ namespace XrplTests.Xrpl.ClientLib
         }
 
         [ClassCleanup]
-        public static void MyClassCleanupAsync()
+        public static async Task MyClassCleanupAsync()
         {
-            runner.client.Disconnect().Wait();
+            await runner.client.Disconnect();
         }
 
         static string publicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
@@ -46,7 +46,7 @@ namespace XrplTests.Xrpl.ClientLib
         };
 
         [TestMethod]
-        public void TestSubmitUnsigned()
+        public async Task TestSubmitUnsigned()
         {
             string accountInfoString = "{\"id\":0,\"status\":\"success\",\"type\":\"response\",\"result\":{\"account_data\":{\"Account\":\"r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59\",\"Balance\":\"922913243\",\"Domain\":\"6578616D706C652E636F6D\",\"EmailHash\":\"23463B99B62A72F26ED677CC556C44E8\",\"Flags\":655360,\"LedgerEntryType\":\"AccountRoot\",\"OwnerCount\":1,\"PreviousTxnID\":\"19899273706A9E040FDB5885EE991A1DC2BAD878A0D6E7DBCFB714E63BF737F7\",\"PreviousTxnLgrSeq\":6614625,\"Sequence\":23,\"TransferRate\":1002000000,\"TickSize\":5,\"WalletLocator\":\"00000000000000000000000000000000000000000000000000000000DEADBEEF\",\"index\":\"396400950EA27EB5710C0D5BE1D2B4689139F168AC5D07C13B8140EC3F82AE71\",\"urlgravatar\":\"http://www.gravatar.com/avatar/23463b99b62a72f26ed677cc556c44e8\",\"signer_lists\":[{\"Flags\":0,\"LedgerEntryType\":\"SignerList\",\"OwnerNode\":\"0000000000000000\",\"PreviousTxnID\":\"D2707DE50E1244B2C2AAEBC78C82A19ABAE0599D29362C16F1B8458EB65CCFE4\",\"PreviousTxnLgrSeq\":3131157,\"SignerEntries\":[{\"SignerEntry\":{\"Account\":\"rpHit3GvUR1VSGh2PXcaaZKEEUnCVxWU2i\",\"SignerWeight\":1}},{\"SignerEntry\":{\"Account\":\"rN4oCm1c6BQz6nru83H52FBSpNbC9VQcRc\",\"SignerWeight\":1}},{\"SignerEntry\":{\"Account\":\"rJ8KhCi67VgbapiKCQN3r1ZA6BMUxUvvnD\",\"SignerWeight\":1}}],\"SignerListID\":0,\"SignerQuorum\":3,\"index\":\"5A9373E02D1DEF7EC9204DEB4819BA42D6AA6BCD878DC8C853062E9DD9708D11\"}]},\"ledger_index\":9592219}}";
             Dictionary<string, dynamic> accountInfoData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(accountInfoString);
@@ -69,7 +69,7 @@ namespace XrplTests.Xrpl.ClientLib
             try
             {
 
-                Submit response = runner.client.Submit(tx, wallet).Result;
+                Submit response = await runner.client.Submit(tx, wallet);
                 Assert.AreEqual("tesSUCCESS", response.EngineResult);
             }
             catch (Exception error)

@@ -78,17 +78,20 @@ namespace XrplTests.Xrpl
 
         string CreateResponse(Dictionary<string, dynamic> request, Dictionary<string, dynamic> response)
         {
+            //Debug.WriteLine($"SERVER CREATE RESPONSE: {request["id"]}");
             var cloneResp = response;
             if (response["type"] == null && response["error"] == null)
             {
                 throw new AddressCodecException($"Bad response format. Must contain `type` or `error`. {response["type"]}");
             }
             cloneResp["id"] = request["id"];
+            //Debug.WriteLine($"SERVER CREATED RESPONSE: {request["id"]}");
             return JsonConvert.SerializeObject(cloneResp);
         }
 
         public void AddResponse(string command, Dictionary<string, dynamic> response)
         {
+            //Debug.WriteLine($"SERVER ADD RESP: {command}");
             if (response["type"] == null && response["error"] == null)
             {
                 throw new AddressCodecException($"Bad response format. Must contain `type` or `error`. {response}");
@@ -192,7 +195,7 @@ namespace XrplTests.Xrpl
         {
             try
             {
-                //Console.WriteLine($"SERVER SEND: {message}");
+                //Debug.WriteLine($"SERVER SEND: {message}");
                 client.GetServer().SendMessage(client, message);
             }
             catch (Exception ex)
@@ -220,14 +223,14 @@ namespace XrplTests.Xrpl
             server.OnClientConnected += (object sender, OnClientConnectedHandler e) =>
             {
                 string clientGuid = e.GetClient().GetGuid();
-                //Console.WriteLine($"Client with guid {clientGuid} connected!");
+                //Debug.WriteLine($"Client with guid {clientGuid} connected!");
             };
 
             // Bind the event for when a message is received
             server.OnMessageReceived += (object sender, OnMessageReceivedHandler e) =>
             {
                 string jsonStr = e.GetMessage();
-                //Console.WriteLine($"SERVER RECV: {jsonStr}");
+                //Debug.WriteLine($"SERVER RECV: {jsonStr}");
                 Dictionary<string, dynamic> request = null;
                 try
                 {
@@ -237,6 +240,7 @@ namespace XrplTests.Xrpl
                     {
                         throw new XrplError($"Request has no id: {JsonConvert.SerializeObject(request)}");
                     }
+                    //Debug.WriteLine($"SERVER RECV ID: {request["id"]}");
                     if (!_command)
                     {
                         throw new XrplError($"Request has no command: {JsonConvert.SerializeObject(request)}");
@@ -251,7 +255,7 @@ namespace XrplTests.Xrpl
                     }
                     else if (this._responses.ContainsKey(command))
                     {
-                        //Console.WriteLine(JsonConvert.SerializeObject(this.GetResponse(request)));
+                        Debug.WriteLine("FAILING HERE");
                         this.Send(e.GetClient(), this.CreateResponse(request, this.GetResponse(request)));
                     }
                     else
@@ -261,9 +265,10 @@ namespace XrplTests.Xrpl
                 }
                 catch (XrplError err)
                 {
+                    Debug.WriteLine($"SERVER XRPL ERROR: {err.Message}");
                     if (!this.suppressOutput)
                     {
-                        Console.WriteLine($"{err}");
+                        Debug.WriteLine($"{err}");
                     }
                     if (request != null)
                     {
@@ -277,8 +282,9 @@ namespace XrplTests.Xrpl
                         return;
                     }
                 }
-                catch (Exception)
+                catch (Exception error)
                 {
+                    Debug.WriteLine($"SERVER EXCEPTION: {error.Message}");
                     throw;
                 }
             };
@@ -287,7 +293,7 @@ namespace XrplTests.Xrpl
             server.OnSendMessage += (object sender, OnSendMessageHandler e) =>
             {
                 string clientGuid = e.GetClient().GetGuid();
-                //Console.WriteLine($"Server sent message to client {clientGuid}!");
+                //Debug.WriteLine($"Server sent message to client {clientGuid}!");
             };
 
             // Bind the event for when a client disconnected
@@ -297,7 +303,7 @@ namespace XrplTests.Xrpl
                 //e.GetClient().GetSocket().Dispose();
                 //e.GetClient().GetServer().ClientDisconnect(e.GetClient());
                 string clientGuid = e.GetClient().GetGuid();
-                //Console.WriteLine($"Client with guid {clientGuid} disconnected!");
+                //Debug.WriteLine($"Client with guid {clientGuid} disconnected!");
             };
         }
     }

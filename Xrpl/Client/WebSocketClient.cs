@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -117,7 +118,11 @@ namespace Xrpl.Client
                     count = messageBuffer.Length - offset;
                 }
 
-                await this.ws.SendAsync(new ArraySegment<byte>(messageBuffer, offset, count), WebSocketMessageType.Text, lastMessage, CancellationToken.None);
+                Debug.WriteLine(count);
+                Debug.WriteLine(offset);
+                Debug.WriteLine($"CLIENT WS BUFFER: {messageBuffer.Length}");
+                Debug.WriteLine(new ArraySegment<byte>(messageBuffer, offset, count).Count);
+                await this.ws.SendAsync(new ArraySegment<byte>(messageBuffer, offset, count), WebSocketMessageType.Text, lastMessage, cancellationToken);
             }
         }
 
@@ -128,19 +133,21 @@ namespace Xrpl.Client
         /// <returns>The task object representing the asynchronous operation.</returns>
         private async Task CatchMessagesAsync()
         {
+            //Debug.WriteLine("WS: CONNECTED");
             byte[] buffer = new byte[this.receiveChunkSize];
 
             while (this.ws.State == WebSocketState.Open)
             {
                 try
                 {
+                    //Debug.WriteLine("WS: RECEIVED");
                     var stringResult = new StringBuilder();
 
                     WebSocketReceiveResult result;
                     do
                     {
-                        result = await this.ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-
+                        result = await this.ws.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationToken);
+                        //Debug.WriteLine("WS: RESULT");
                         if (result.MessageType == WebSocketMessageType.Close)
                         {
                             this.RaiseClosed();
@@ -151,9 +158,12 @@ namespace Xrpl.Client
                             string str = Encoding.UTF8.GetString(buffer, 0, result.Count);
                             stringResult.Append(str);
                         }
-                    } while (!result.EndOfMessage);
-
-                    this.RaiseMessageReceived(stringResult.ToString());
+                    }
+                    while (!result.EndOfMessage);
+                    {
+                        //Debug.WriteLine("WS: EndOfMessage");
+                        this.RaiseMessageReceived(stringResult.ToString());
+                    }
                 }
                 catch (Exception exception)
                 {

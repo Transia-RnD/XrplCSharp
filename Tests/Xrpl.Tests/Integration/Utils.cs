@@ -10,6 +10,7 @@ using Xrpl.Models.Transaction;
 using Xrpl.Utils.Hashes;
 using Xrpl.Wallet;
 using ICurrency = Xrpl.Models.Common.Currency;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/utils.ts
 

@@ -103,9 +103,8 @@ namespace Xrpl.Client
             return new WebSocketClient(url); // todo add options
         }
 
-
-        int TIMEOUT = 10;
-        int CONNECTION_TIMEOUT = 3;
+        int TIMEOUT = 20;
+        int CONNECTION_TIMEOUT = 5;
         int INTENTIONAL_DISCONNECT_CODE = 4000;
 
         public readonly string url;
@@ -138,7 +137,7 @@ namespace Xrpl.Client
             if (this.IsConnected())
             {
                 var p1 = new TaskCompletionSource();
-                p1.SetResult();
+                p1.TrySetResult();
                 return p1.Task;
             }
             if (this.State() == WebSocketState.Connecting)
@@ -177,14 +176,14 @@ namespace Xrpl.Client
             this.ws.OnConnected += (c, e) => OnceOpen((WebSocketClient)c);
             this.ws.OnMessageReceived += (c, m) => OnMessage(m, (WebSocketClient)c);
             this.ws.OnConnectionError += (c, e) => OnConnectionFailed(e, (WebSocketClient)c);
-            this.ws.OnDisconnect += (c, e) => OnceClose((WebSocketClient)c);
+            this.ws.OnDisconnect += (c, e) => OnceClose((WebSocketClient)c, e);
             this.ws.ConnectAsync();
             return this.connectionManager.AwaitConnection();
         }
 
         public Task<int> Disconnect()
         {
-            Console.WriteLine("DISCONNECTING...");
+            Debug.WriteLine("DISCONNECTING...");
             ////this.ClearHeartbeatInterval();
             //if (this.reconnectTimeoutID != null)
             //{
@@ -193,17 +192,17 @@ namespace Xrpl.Client
             //}
             if (this.State() == WebSocketState.Closed)
             {
-                Console.WriteLine("WS CLOSED");
+                Debug.WriteLine("WS CLOSED");
                 var p1 = new TaskCompletionSource<int>();
-                p1.SetResult(0);
+                p1.TrySetResult(0);
                 return p1.Task;
             }
 
             if (this.ws == null)
             {
-                Console.WriteLine("WS NULL");
+                Debug.WriteLine("WS NULL");
                 var p1 = new TaskCompletionSource<int>();
-                p1.SetResult(0);
+                p1.TrySetResult(0);
                 return p1.Task;
             }
 
@@ -211,11 +210,11 @@ namespace Xrpl.Client
 
             if (this.ws != null)
             {
-                Console.WriteLine("WS NO NULL");
+                Debug.WriteLine("WS NO NULL");
                 this.ws.OnDisconnect += (c, e) =>
                 {
-                    Console.WriteLine("INSIDE DISCONNECT");
-                    promise.SetResult(((int)WebSocketCloseStatus.NormalClosure));
+                    Debug.WriteLine("INSIDE DISCONNECT");
+                    promise.TrySetResult(((int)WebSocketCloseStatus.NormalClosure));
                 };
             }
 
@@ -226,7 +225,7 @@ namespace Xrpl.Client
             /// </summary>
             if (this.ws != null && this.State() != WebSocketState.CloseReceived)
             {
-                Console.WriteLine("CLOSING...");
+                //Debug.WriteLine("CLOSING...");
                 this.ws.Close(WebSocketCloseStatus.NormalClosure);
             }
             return promise.Task;
@@ -234,7 +233,7 @@ namespace Xrpl.Client
 
         private void OnConnectionFailed(Exception error, WebSocketClient client)
         {
-            Console.WriteLine($"OnConnectionFailed: {error.Message}");
+            Debug.WriteLine($"OnConnectionFailed: {error.Message}");
             if (this.ws != null)
             {
                 //this.ws.RemoveAllListeners();
@@ -252,16 +251,16 @@ namespace Xrpl.Client
 
         private void OnConnectionFailed(WebSocketClient client)
         {
-            Console.WriteLine($"OnConnectionFailed: NO error.Message");
+            Debug.WriteLine($"OnConnectionFailed: NO error.Message");
             //clearTimeout(connectionTimeoutID))
             timer.Stop();
             this.connectionManager.RejectAllAwaiting(new NotConnectedError());
         }
 
-        private void WebsocketSendAsync(WebSocketClient ws, string message)
+        private void WebsocketSendAsync(string message)
         {
-            //Console.WriteLine($"CLIENT: SEND: {message}");
-            ws.SendMessageAsync(message);
+            Debug.WriteLine($"CLIENT: SEND: {message}");
+            this.ws.SendMessageAsync(message);
         }
 
         public Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request, int? timeout = null)
@@ -271,13 +270,15 @@ namespace Xrpl.Client
                 throw new NotConnectedError();
             }
             XrplRequest _request = this.requestManager.CreateRequest(request, timeout ?? this.config.timeout);
-            //this.trace('send', message)
+            //Debug.WriteLine(_request.Message);
             try
             {
-                this.WebsocketSendAsync(this.ws, _request.Message);
+                Debug.WriteLine($"CLIENT: SEND: {_request.Id}");
+                this.WebsocketSendAsync(_request.Message);
             }
             catch (EncodingFormatException error)
             {
+                Debug.WriteLine($"WSS ERROR: {error.Message}");
                 this.requestManager.Reject(_request.Id, error);
             }
             return _request.Promise;
@@ -290,14 +291,16 @@ namespace Xrpl.Client
                 throw new NotConnectedError();
             }
             XrplGRequest _request = this.requestManager.CreateGRequest<T, R>(request, timeout ?? this.config.timeout);
-            //this.trace('send', message)
+            //Debug.WriteLine(_request.Message);
             try
             {
-                this.WebsocketSendAsync(this.ws, _request.Message);
+                Debug.WriteLine($"CLIENT: SEND: {_request.Id}");
+                this.WebsocketSendAsync(_request.Message);
             }
             catch (EncodingFormatException error)
             {
                 this.requestManager.Reject(_request.Id, error);
+                Debug.WriteLine($"WSS ERROR: {error.Message}");
             }
             return _request.Promise;
         }
@@ -320,7 +323,7 @@ namespace Xrpl.Client
         //private void OnceOpen(int connectionTimeoutID)
         private async void OnceOpen(WebSocketClient client)
         {
-            //Console.WriteLine("ONCE OPEN");
+            //Debug.WriteLine("ONCE OPEN");
             if (this.ws == null)
             {
                 throw new XrplError("onceOpen: ws is null");
@@ -339,6 +342,7 @@ namespace Xrpl.Client
             }
             catch (Exception error)
             {
+                Debug.WriteLine($"Once Open Error: {error.Message}");
                 this.connectionManager.RejectAllAwaiting(error);
                 // Ignore this error, propagate the root cause.
                 await this.Disconnect();
@@ -346,15 +350,15 @@ namespace Xrpl.Client
         }
 
         //private void OnceClose(int? code = null, string? reason = null)
-        private void OnceClose(WebSocketClient client)
+        private void OnceClose(WebSocketClient client, EventArgs error)
         {
-            //Console.WriteLine("ONCE CLOSE");
+            //Debug.WriteLine("ONCE CLOSE");
             if (this.ws == null)
             {
                 throw new XrplError("OnceClose: ws is null");
             }
             //this.clearHeartbeatInterval();
-            this.requestManager.RejectAll(new DisconnectedError($"websocket was closed, {"UNKNOWN REASON"}"));
+            this.requestManager.RejectAll(new DisconnectedError($"websocket was closed, {"SOME"}"));
             //this.ws.removeAllListeners();
             this.ws = null;
             int? code = null;
@@ -363,8 +367,8 @@ namespace Xrpl.Client
             {
                 //string reasonText = reason ? reason.ToString() : null;
                 string reasonText = reason;
-                // eslint-disable-next-line no-console -- The error is helpful for debugging.
-                //console.error(
+                // eslint-disable-next-line no-Debug -- The error is helpful for debugging.
+                //Debug.error(
                 //  `Disconnected but the disconnect code was undefined(The given reason was ${ reasonText}).` +
                 //    `This could be caused by an exception being thrown during a 'connect' callback. ` +
                 //    `Disconnecting with code 1011 to indicate an internal error has occurred.`,
@@ -374,8 +378,7 @@ namespace Xrpl.Client
                  * Error code 1011 represents an Internal Error according to
                  * https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
                  */
-                int internalErrorCode = 1011;
-                //this.emit('disconnected', internalErrorCode);
+                this.OnDisconnect(1011);
             }
             else
             {
@@ -394,14 +397,16 @@ namespace Xrpl.Client
 
         private void OnMessage(string message, WebSocketClient client)
         {
-            //Console.WriteLine($"CLIENT: RECV: {message}");
+            //Debug.WriteLine($"CLIENT: RECV: {message}");
             BaseResponse data;
             try
             {
                 data = JsonConvert.DeserializeObject<BaseResponse>(message);
+                //Debug.WriteLine($"CLIENT: RECV: {data.Id}");
             }
             catch (Exception error)
             {
+                //Debug.WriteLine($"CLIENT: RECV ERROR: {error.Message}");
                 this.OnError("error", "badMessage", error.Message, message);
                 return;
             }
@@ -431,7 +436,7 @@ namespace Xrpl.Client
                     case ResponseStreamType.transaction:
                         {
                             var response = JsonConvert.DeserializeObject<TransactionStream>(message);
-                            Console.WriteLine(response);
+                            Debug.WriteLine(response);
                             OnTransaction?.Invoke(response);
                             break;
                         }
@@ -465,10 +470,12 @@ namespace Xrpl.Client
                 }
                 catch (XrplError error)
                 {
+                    Debug.WriteLine($"XRPL ERROR: {error.Message}");
                     this.OnError("error", "badMessage", error.Message, error);
                 }
                 catch (Exception error)
                 {
+                    Debug.WriteLine($"EXCEPTION: {error.Message}");
                     this.OnError("error", "badMessage", error.Message, error);
                 }
             }

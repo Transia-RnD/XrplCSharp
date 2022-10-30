@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace XrplTests.Xrpl.MockRippled
 {
@@ -92,6 +93,7 @@ namespace XrplTests.Xrpl.MockRippled
             }
 
             // error
+            Debug.WriteLine("GetFrameData Error");
             return new SFrameMaskData(0, 0, 0, 0);
         }
 

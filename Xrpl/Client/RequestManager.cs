@@ -16,6 +16,7 @@ using Timer = System.Timers.Timer;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System.Reflection;
 using System.Xml.Linq;
+using Org.BouncyCastle.Utilities;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/client/RequestManager.ts
 
@@ -32,21 +33,21 @@ namespace Xrpl.Client
 
         public class XrplRequest
         {
-            public int Id { get; set; }
+            public Guid Id { get; set; }
             public string Message { get; set; }
             public Task<Dictionary<string, dynamic>> Promise { get; set; }
         }
 
         public class XrplGRequest
         {
-            public int Id { get; set; }
+            public Guid Id { get; set; }
             public string Message { get; set; }
             public Task<dynamic> Promise { get; set; }
         }
 
-        private Timer timer;
-        private int nextId = 0;
-        private readonly ConcurrentDictionary<int, TaskInfo> promisesAwaitingResponse = new ConcurrentDictionary<int, TaskInfo>();
+        private Guid nextId = Guid.NewGuid();
+        private readonly ConcurrentDictionary<Guid, Timer> timeoutsAwaitingResponse = new ConcurrentDictionary<Guid, Timer>();
+        private readonly ConcurrentDictionary<Guid, TaskInfo> promisesAwaitingResponse = new ConcurrentDictionary<Guid, TaskInfo>();
         private readonly JsonSerializerSettings serializerSettings;
 
         public RequestManager()
@@ -58,23 +59,25 @@ namespace Xrpl.Client
 
         /// <summary>
         /// </summary>
-        public void Resolve(int id, BaseResponse response)
+        public void Resolve(Guid id, BaseResponse response)
         {
             var promise = promisesAwaitingResponse.TryGetValue(id, out var taskInfo);
             if (taskInfo == null)
             {
                 throw new XrplError($"No existing promise with id {id}");
             }
-            timer.Stop();
+            var hasTimer = this.timeoutsAwaitingResponse.TryRemove(id, out var timer);
+            if (hasTimer)
+                timer.Stop();
             var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
-            var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("SetResult");
+            var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("TrySetResult");
             setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });
             this.DeletePromise(id, taskInfo);
         }
 
         /// <summary>
         /// </summary>
-        public void Reject(int id, Exception error)
+        public void Reject(Guid id, Exception error)
         {
             var promise = promisesAwaitingResponse.TryGetValue(id, out var taskInfo);
             if (taskInfo == null)
@@ -83,7 +86,9 @@ namespace Xrpl.Client
             }
             // todo: should stop task timout if need to
             //clearTimeout(promise)
-            timer.Stop();
+            var hasTimer = this.timeoutsAwaitingResponse.TryRemove(id, out var timer);
+            if (hasTimer)
+                timer.Stop();
             var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("SetException", new Type[] { typeof(Exception) }, null);
             setException.Invoke(taskInfo.TaskCompletionResult, new[] { error });
             this.DeletePromise(id, taskInfo);
@@ -93,8 +98,14 @@ namespace Xrpl.Client
         /// </summary>
         public void RejectAll(Exception error)
         {
+            Debug.WriteLine("Reject ALL");
             foreach (var id in this.promisesAwaitingResponse.Keys)
             {
+                var hasTimer = this.timeoutsAwaitingResponse.TryRemove(id, out var timer);
+                if (hasTimer)
+                {
+                    timer.Stop();
+                };
                 this.Reject(id, error);
                 this.DeletePromise(id, null);
             }
@@ -102,16 +113,16 @@ namespace Xrpl.Client
 
         public XrplGRequest CreateGRequest<T, R>(R request, int timeout)
         {
-            int newId = 0;
+            Guid newId;
             var info = request.GetType().GetProperty("Id");
             if (info.GetValue(request) == null)
             {
                 newId = this.nextId;
-                this.nextId += 1;
+                this.nextId = Guid.NewGuid();
             }
             else
             {
-                newId = (int)info.GetValue(request);
+                newId = (Guid)info.GetValue(request);
             }
 
             info.SetValue(request, newId, null);
@@ -128,14 +139,18 @@ namespace Xrpl.Client
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
             var typeInfo = request.GetType().GetProperty("Command");
-            taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
+            taskInfo.RemoveUponCompletion = true;
+            //taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
             taskInfo.Type = typeof(T);
 
+            var cinfo = request.GetType().GetProperty("Command");
+            //Debug.WriteLine($"ADD NEW REQUEST: {(string)cinfo.GetValue(request)} ID: {newId}");
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
 
-            timer = new Timer(timeout);
+            Timer timer = new Timer(timeout);
             timer.Elapsed += (sender, e) => this.Reject(newId, new TimeoutError());
             timer.Start();
+            timeoutsAwaitingResponse.TryAdd(newId, timer);
 
             return new XrplGRequest()
             {
@@ -149,22 +164,22 @@ namespace Xrpl.Client
         /// </summary>
         public XrplRequest CreateRequest(Dictionary<string, dynamic> request, int timeout)
         {
-            int newId;
+            Guid newId;
             var _id = request.TryGetValue("id", out var id);
             if (!_id)
             {
                 newId = this.nextId;
-                this.nextId += 1;
+                this.nextId = Guid.NewGuid();
             }
             else
             {
-                newId = (int)id;
+                newId = (Guid)id;
             }
 
             request["id"] = newId;
 
             string newRequest = JsonConvert.SerializeObject(request, serializerSettings);
-            Console.WriteLine($"CLIENT SEND: {newRequest}");
+            //Debug.WriteLine($"CLIENT SEND: {newRequest}");
 
             if (this.promisesAwaitingResponse.ContainsKey(newId))
             {
@@ -176,14 +191,18 @@ namespace Xrpl.Client
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
             var typeInfo = request.GetType().GetProperty("Command");
-            taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
+            taskInfo.RemoveUponCompletion = true;
+            //taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
             taskInfo.Type = typeof(Dictionary<string, dynamic>);
 
+            var cinfo = request.GetType().GetProperty("Command");
+            //Debug.WriteLine($"ADD NEW REQUEST: {(string)cinfo.GetValue(request)} ID: {newId}");
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
 
-            timer = new Timer(timeout);
+            Timer timer = new Timer(timeout);
             timer.Elapsed += (sender, e) => this.Reject(newId, new TimeoutError());
             timer.Start();
+            timeoutsAwaitingResponse.TryAdd(newId, timer);
 
             return new XrplRequest()
             {
@@ -200,40 +219,49 @@ namespace Xrpl.Client
                 throw new XrplError("Valid id not found in response");
             }
 
-            if (!promisesAwaitingResponse.ContainsKey(response.Id))
+            //Debug.WriteLine("IDS IN AWAITING...");
+            //Debug.WriteLine("------------------");
+            //foreach (var id in promisesAwaitingResponse)
+            //{
+            //    Debug.WriteLine(id.Key);
+            //}
+            //Debug.WriteLine("------------------");
+            if (!promisesAwaitingResponse.ContainsKey((Guid)response.Id))
             {
-                Console.WriteLine("Valid id not found in promises");
+                Debug.WriteLine("Valid id not found in promises");
                 return;
             }
 
             if (response.Status == null)
             {
                 ResponseFormatError error = new ResponseFormatError("Response has no status");
-                this.Reject(response.Id, error);
+                this.Reject((Guid)response.Id, error);
                 //return;
             }
 
             if (response.Status == "error")
             {
+                //Debug.WriteLine("STATUS == ERROR");
                 XrplError error = new XrplError(response.ErrorMessage ?? response.Error);
-                this.Reject(response.Id, error);
-                //return;
+                this.Reject((Guid)response.Id, error);
+                return;
             }
 
             if (response.Status != "success")
             {
+                //Debug.WriteLine("STATUS != SUCCESS");
                 XrplError error = new XrplError($"unrecognized response.status: ${response.Status ?? ""}");
-                this.Reject(response.Id, error);
-                //return;
+                this.Reject((Guid)response.Id, error);
+                return;
             }
-
-            this.Resolve(response.Id, response);
+            this.Resolve((Guid)response.Id, response);
         }
 
         /// <summary>
         /// </summary>
-        public void DeletePromise(int id, TaskInfo taskInfo)
+        public void DeletePromise(Guid id, TaskInfo taskInfo)
         {
+            //Debug.WriteLine($"DELETE PROMISE: {id}");
             this.promisesAwaitingResponse.TryRemove(id, out taskInfo);
         }
     }

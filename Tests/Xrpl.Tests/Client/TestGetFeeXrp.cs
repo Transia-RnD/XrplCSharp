@@ -24,18 +24,18 @@ namespace XrplTests.Xrpl.ClientLib
         }
 
         [ClassCleanup]
-        public static void MyClassCleanupAsync()
+        public static async Task MyClassCleanupAsync()
         {
-            runner.client.Disconnect().Wait();
+            await runner.client.Disconnect();
         }
 
         [TestMethod]
-        public void TestGetFeeXrpDefault()
+        public async Task TestGetFeeXrpDefault()
         {
             string jsonString = "{\"id\":0,\"status\":\"success\",\"type\":\"response\",\"result\":{\"info\":{\"build_version\":\"0.24.0-rc1\",\"complete_ledgers\":\"32570-6595042\",\"hostid\":\"ARTS\",\"io_latency_ms\":1,\"last_close\":{\"converge_time_s\":2.007,\"proposers\":4},\"load_factor\":1,\"peers\":53,\"pubkey_node\":\"n94wWvFUmaKGYrKUGgpv1DyYgDeXRGdACkNQaSe7zJiy5Znio7UC\",\"server_state\":\"full\",\"validated_ledger\":{\"age\":5,\"base_fee_xrp\":0.00001,\"hash\":\"4482DEE5362332F54A4036ED57EE1767C9F33CF7CE5A6670355C16CECE381D46\",\"reserve_base_xrp\":20,\"reserve_inc_xrp\":5,\"seq\":6595042},\"validation_quorum\":3}}}";
             Dictionary<string, dynamic> jsonData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(jsonString);
             runner.mockedRippled.AddResponse("server_info", jsonData);
-            string fee = GetFeeXrpSugar.GetFeeXrp(runner.client).Result;
+            string fee = await GetFeeXrpSugar.GetFeeXrp(runner.client);
             Assert.AreEqual(fee, "0.000012");
         }
     }

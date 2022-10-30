@@ -12,7 +12,7 @@ namespace Xrpl.Models.Methods
             Id = null;
         }
 
-        public BaseRequest(int id)
+        public BaseRequest(Guid id)
         {
             Id = id;
         }
@@ -22,7 +22,7 @@ namespace Xrpl.Models.Methods
         /// This way, even if responses arrive out of order, you know which request prompted which response.
         /// </summary>
         [JsonProperty("id")]
-        public int? Id { get; set; }
+        public Guid? Id { get; set; }
         /** The name of the API method. */
         [JsonProperty("command")]
         public string Command { get; set; }

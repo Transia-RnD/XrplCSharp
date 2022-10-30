@@ -9,7 +9,7 @@ namespace Xrpl.Models.Methods
     {
         public BaseLedgerRequest() { }
 
-        public BaseLedgerRequest(int requestId) : base(requestId){ }
+        public BaseLedgerRequest(Guid requestId) : base(requestId){ }
         /// <summary>
         /// 20-byte hex string for the ledger version to use. 
         /// </summary>

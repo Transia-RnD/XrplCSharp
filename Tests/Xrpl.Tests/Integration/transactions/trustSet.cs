@@ -25,6 +25,13 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             runner = await new SetupIntegration().SetupClient(ServerUrl.serverUrl);
         }
 
+        
+        [ClassCleanup]
+        public static async Task MyClassCleanupAsync()
+        {
+            await runner.client.Disconnect();
+        }
+
         [TestMethod]
         public async Task TestRequestMethod()
         {

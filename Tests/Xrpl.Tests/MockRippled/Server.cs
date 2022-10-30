@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using System.Diagnostics;
 
 namespace XrplTests.Xrpl.MockRippled
 {
@@ -284,7 +285,7 @@ namespace XrplTests.Xrpl.MockRippled
             }
             catch (Exception Exception)
             {
-                Console.WriteLine("An error has occured while trying to accept a connecting client.\n\n{0}", Exception.Message);
+                Debug.WriteLine("An error has occured while trying to accept a connecting client.\n\n{0}", Exception.Message);
             }
         }
 
@@ -293,6 +294,7 @@ namespace XrplTests.Xrpl.MockRippled
         /// <param name="Message">The message that the client sent</param>
         public void ReceiveMessage(Client Client, string Message)
         {
+            //Debug.WriteLine(Message);
             if (OnMessageReceived == null) throw new Exception("Server error: event OnMessageReceived is not bound!");
             OnMessageReceived(this, new OnMessageReceivedHandler(Client, Message));
         }

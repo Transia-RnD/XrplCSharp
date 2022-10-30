@@ -27,7 +27,6 @@ namespace Xrpl.Client
     public delegate void OnError(string error, string errorMessage, string message, dynamic data);
     public delegate void OnConnected();
     public delegate void OnDisconnect(int? code);
-    public delegate void OnResponse(object response);
     public delegate void OnLedgerClosed(LedgerStream response);
     public delegate void OnTransaction(TransactionStream response);
     public delegate void OnManifestReceived(ValidationStream response);
@@ -173,13 +172,13 @@ namespace Xrpl.Client
         #endregion
 
         #region Transactions
-        //https://xrpl.org/transaction-methods.html
-        /// <summary>
-        /// The submit method applies a transaction and sends it to the network to be confirmed and included in future ledgers.
-        /// </summary>
-        /// <param name="request">An <see cref="SubmitRequest"/> request.</param>
-        /// <returns>An <see cref="Models.Transaction.Submit"/> response.</returns>
-        Task<Submit> Submit(SubmitRequest request);
+        ////https://xrpl.org/transaction-methods.html
+        ///// <summary>
+        ///// The submit method applies a transaction and sends it to the network to be confirmed and included in future ledgers.
+        ///// </summary>
+        ///// <param name="request">An <see cref="SubmitRequest"/> request.</param>
+        ///// <returns>An <see cref="Models.Transaction.Submit"/> response.</returns>
+        //Task<Submit> Submit(SubmitRequest request);
         /// <summary>
         /// 
         /// </summary>
@@ -537,10 +536,10 @@ namespace Xrpl.Client
         //}
 
         /// <inheritdoc />
-        public Task<Submit> Submit(SubmitRequest request)
-        {
-            return this.GRequest<Submit, SubmitRequest>(request);
-        }
+        //public Task<Submit> Submit(SubmitRequest request)
+        //{
+        //    return this.GRequest<Submit, SubmitRequest>(request);
+        //}
 
         //public Task<SubmitMultisign> SubmitMultisign(SubmitMultisignRequest request, Wallet wallet)
         //{

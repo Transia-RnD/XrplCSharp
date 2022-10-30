@@ -26,10 +26,10 @@ namespace XrplTests.Xrpl.ClientLib
         //}
 
         [TestMethod]
-        public void TestConnectedDisconnect()
+        public async Task TestConnectedDisconnect()
         {
             Assert.AreEqual(true, runner.client.IsConnected());
-            runner.client.Disconnect().Wait();
+            await runner.client.Disconnect();
             Assert.AreEqual(false, runner.client.IsConnected());
         }
     }
