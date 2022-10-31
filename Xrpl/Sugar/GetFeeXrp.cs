@@ -30,12 +30,12 @@ namespace Xrpl.Sugar
             double feeCushion = cushion ?? client.feeCushion;
             ServerInfoRequest request = new ServerInfoRequest();
             ServerInfo serverInfo = await client.ServerInfo(request);
-            double baseFee = serverInfo.Info.ValidatedLedger.BaseFeeXrp;
+            double? baseFee = serverInfo.Info.ValidatedLedger.BaseFeeXrp;
             if (baseFee == null)
             {
                 throw new XrplError("getFeeXrp: Could not get base_fee_xrp from server_info");
             }
-            decimal baseFeeXrp = new decimal(baseFee);
+            decimal baseFeeXrp = decimal.Parse(baseFee.ToString(), System.Globalization.NumberStyles.AllowExponent);
 
             if (serverInfo.Info.LoadFactor == null)
             {

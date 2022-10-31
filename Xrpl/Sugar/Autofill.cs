@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Ocsp;
 using Xrpl.BinaryCodec.Enums;
 using Org.BouncyCastle.Utilities;
+using System.Security.Principal;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/autofill.ts
 
@@ -49,12 +50,15 @@ namespace Xrpl.Sugar
         // <returns>The autofilled transaction.</returns>
         public static async Task<Dictionary<string, dynamic>> Autofill(IXrplClient client, Dictionary<string, dynamic> transaction, int? signersCount)
         {
+
+            //Debug.WriteLine((string)transaction["TransactionType"]);
             Dictionary<string, dynamic> tx = transaction;
 
             SetValidAddresses(tx);
 
             //Flags.SetTransactionFlagsToNumber(tx);
             List<Task> promises = new List<Task>();
+            bool hasTT = tx.TryGetValue("TransactionType", out var tt);
             if (!tx.ContainsKey("Sequence"))
             {
                 promises.Add(SetNextValidSequenceNumber(client, tx));
@@ -67,10 +71,10 @@ namespace Xrpl.Sugar
             {
                 promises.Add(SetLatestValidatedLedgerSequence(client, tx));
             }
-            //if (tx.TransactionType === 'AccountDelete')
-            //{
-            //    promises.push(CheckAccountDeleteBlockers(client, tx))
-            //}
+            if (tt == "AccountDelete")
+            {
+                promises.Add(CheckAccountDeleteBlockers(client, tx));
+            }
             foreach (var promise in promises)
             {
                 await promise;
@@ -163,7 +167,7 @@ namespace Xrpl.Sugar
 
             if (fee == null)
             {
-                Task.FromException(new XrplError("Could not fetch Owner Reserve."));
+                await Task.FromException(new XrplError("Could not fetch Owner Reserve."));
             }
             return new BigInteger(Convert.ToByte(fee));
         }
@@ -173,7 +177,6 @@ namespace Xrpl.Sugar
             var netFeeXRP = await GetFeeXrpSugar.GetFeeXrp(client);
             var netFeeDrops = XrpConversion.XrpToDrops(netFeeXRP);
             var baseFee = BigInteger.Parse(netFeeDrops, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent);
-
 
             // EscrowFinish Transaction with Fulfillment
             if (tx["TransactionType"] == "EscrowFinish" && tx["Fulfillment"] != null)
@@ -210,10 +213,27 @@ namespace Xrpl.Sugar
             return (double.Parse(value)! * multiplier).ToString();
         }
 
-    public static async Task SetLatestValidatedLedgerSequence(IXrplClient client, Dictionary<string, dynamic> tx)
+        public static async Task SetLatestValidatedLedgerSequence(IXrplClient client, Dictionary<string, dynamic> tx)
         {
             uint ledgerSequence = await client.GetLedgerIndex();
             tx.TryAdd("LastLedgerSequence", ledgerSequence + LEDGER_OFFSET);
+        }
+
+        public static async Task CheckAccountDeleteBlockers(IXrplClient client, Dictionary<string, dynamic> tx)
+        {
+            LedgerIndex index = new LedgerIndex(LedgerIndexType.Validated);
+            AccountObjectsRequest request = new AccountObjectsRequest((string)tx["Account"])
+            {
+                LedgerIndex = index,
+                DeletionBlockersOnly = true,
+            };
+            AccountObjects response = await client.AccountObjects(request);
+            TaskCompletionSource task = new TaskCompletionSource();
+            if (response.AccountObjectList.Count > 0)
+            {
+                task.TrySetException(new XrplError($"Account {(string)tx["Account"]} cannot be deleted; there are Escrows, PayChannels, RippleStates, or Checks associated with the account."));
+            }
+            task.TrySetResult();
         }
     }
 }
