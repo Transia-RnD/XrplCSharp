@@ -87,10 +87,9 @@ namespace Xrpl.Client
             // todo: should stop task timout if need to
             //clearTimeout(promise)
             var hasTimer = this.timeoutsAwaitingResponse.TryRemove(id, out var timer);
-            Debug.WriteLine(hasTimer);
             if (hasTimer)
                 timer.Stop();
-            var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("SetException", new Type[] { typeof(Exception) }, null);
+            var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("TrySetException", new Type[] { typeof(Exception) }, null);
             setException.Invoke(taskInfo.TaskCompletionResult, new[] { error });
             this.DeletePromise(id, taskInfo);
         }
@@ -135,12 +134,9 @@ namespace Xrpl.Client
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
             var typeInfo = request.GetType().GetProperty("Command");
-            taskInfo.RemoveUponCompletion = true;
-            //taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
+            taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
             taskInfo.Type = typeof(T);
 
-            var cinfo = request.GetType().GetProperty("Command");
-            //Debug.WriteLine($"ADD NEW REQUEST: {(string)cinfo.GetValue(request)} ID: {newId}");
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
 
             Timer timer = new Timer(timeout);
@@ -187,12 +183,9 @@ namespace Xrpl.Client
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
             var typeInfo = request.GetType().GetProperty("Command");
-            taskInfo.RemoveUponCompletion = true;
-            //taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
+            taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
             taskInfo.Type = typeof(Dictionary<string, dynamic>);
 
-            var cinfo = request.GetType().GetProperty("Command");
-            //Debug.WriteLine($"ADD NEW REQUEST: {(string)cinfo.GetValue(request)} ID: {newId}");
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
 
             Timer timer = new Timer(timeout);
@@ -215,16 +208,9 @@ namespace Xrpl.Client
                 throw new XrplError("Valid id not found in response");
             }
 
-            //Debug.WriteLine("IDS IN AWAITING...");
-            //Debug.WriteLine("------------------");
-            //foreach (var id in promisesAwaitingResponse)
-            //{
-            //    Debug.WriteLine(id.Key);
-            //}
-            //Debug.WriteLine("------------------");
             if (!promisesAwaitingResponse.ContainsKey((Guid)response.Id))
             {
-                Debug.WriteLine("Valid id not found in promises");
+                // Debug.WriteLine("Valid id not found in promises");
                 return;
             }
 
@@ -232,12 +218,10 @@ namespace Xrpl.Client
             {
                 ResponseFormatError error = new ResponseFormatError("Response has no status");
                 this.Reject((Guid)response.Id, error);
-                //return;
             }
 
             if (response.Status == "error")
             {
-                //Debug.WriteLine("STATUS == ERROR");
                 XrplError error = new XrplError(response.ErrorMessage ?? response.Error);
                 this.Reject((Guid)response.Id, error);
                 return;
@@ -245,7 +229,6 @@ namespace Xrpl.Client
 
             if (response.Status != "success")
             {
-                //Debug.WriteLine("STATUS != SUCCESS");
                 XrplError error = new XrplError($"unrecognized response.status: ${response.Status ?? ""}");
                 this.Reject((Guid)response.Id, error);
                 return;
@@ -257,7 +240,6 @@ namespace Xrpl.Client
         /// </summary>
         public void DeletePromise(Guid id, TaskInfo taskInfo)
         {
-            //Debug.WriteLine($"DELETE PROMISE: {id}");
             this.promisesAwaitingResponse.TryRemove(id, out taskInfo);
         }
     }

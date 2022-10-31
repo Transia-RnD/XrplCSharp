@@ -74,7 +74,7 @@ namespace XrplTests.Xrpl.ClientLib
             }
             catch (Exception error)
             {
-                Console.WriteLine(error);
+                Debug.WriteLine(error);
                 Assert.Fail();
             }
         }

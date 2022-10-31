@@ -235,7 +235,7 @@ namespace Xrpl.Client
 
         private void OnConnectionFailed(Exception error, WebSocketClient client)
         {
-             Debug.WriteLine($"OnConnectionFailed: {error.Message}");
+            Debug.WriteLine($"OnConnectionFailed: {error.Message}");
             if (this.ws != null)
             {
                 //this.ws.RemoveAllListeners();
@@ -261,7 +261,7 @@ namespace Xrpl.Client
 
         private void WebsocketSendAsync(string message)
         {
-            // Debug.WriteLine($"CLIENT: SEND: {message}");
+             //Debug.WriteLine($"CLIENT: SEND: {message}");
             this.ws.SendMessageAsync(message);
         }
 
@@ -399,7 +399,7 @@ namespace Xrpl.Client
 
         private void OnMessage(string message, WebSocketClient client)
         {
-            //Debug.WriteLine($"CLIENT: RECV: {message}");
+            Debug.WriteLine($"CLIENT: RECV: {message}");
             BaseResponse data;
             try
             {
