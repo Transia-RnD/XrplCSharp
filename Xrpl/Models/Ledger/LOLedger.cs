@@ -29,7 +29,13 @@ namespace Xrpl.Models.Ledger
         /// </summary>
         [JsonProperty("queue_data")]
         public List<QueuedTransaction> QueueData { get; set; }
-        //todo not found field  validated?: boolean
+
+        /// <summary>
+        /// If true, this is a validated ledger version. If omitted or set to false,
+        /// this ledger's data is not final.
+        /// </summary>
+        [JsonProperty("validated")]
+        public bool Validated { get; set; }
     }
 
     public abstract class BaseLedgerEntity
