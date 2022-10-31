@@ -32,7 +32,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             {
                 Account = runner.wallet.ClassicAddress,
                 Destination = wallet2.ClassicAddress,
-                Amount = new Currency { ValueAsXrp = 10000 }
+                Amount = new Currency { ValueAsXrp = 1 }
             };
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);

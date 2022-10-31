@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -33,8 +34,11 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Current);
             LedgerRequest request = new LedgerRequest() { LedgerIndex = index };
             LOLedger ledgerResponse = await runner.client.Ledger(request);
+            Debug.WriteLine(((LedgerEntity)ledgerResponse.LedgerEntity).CloseTime);
             LedgerEntity ledgerEntity = (LedgerEntity)ledgerResponse.LedgerEntity;
             DateTime closeTime = ledgerEntity.CloseTime;
+
+            Debug.WriteLine(closeTime);
 
             XrplWallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
             EscrowCreate setupTx = new EscrowCreate
