@@ -105,7 +105,10 @@ namespace Xrpl.Models.Methods
         /// </summary>
         [JsonProperty("marker")]
         public object Marker { get; set; }
-
-        //todo not found field deletion_blockers_only?: boolean
+        /// <summary>
+        /// A 20-byte hex string for the ledger version to use.
+        /// </summary>
+        [JsonProperty("deletion_blockers_only")]
+        public bool DeletionBlockersOnly { get; set; }
     }
 }
