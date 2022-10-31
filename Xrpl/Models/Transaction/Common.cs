@@ -42,10 +42,10 @@ namespace Xrpl.Models.Transaction
     [JsonConverter(typeof(TransactionConverter))]
     public abstract class TransactionCommon : ITransactionCommon //todo rename to BaseTransaction
     {
-        protected TransactionCommon()
-        {
-            Fee = new Currency { Value = "10" };
-        }
+        //protected TransactionCommon()
+        //{
+        //    Fee = new Currency { Value = "10" };
+        //}
 
         /// <inheritdoc />
         public string Account { get; set; }
