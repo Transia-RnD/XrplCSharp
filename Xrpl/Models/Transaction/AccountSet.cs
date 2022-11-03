@@ -172,7 +172,7 @@ namespace Xrpl.Models.Transaction
         public async Task ValidateAccountSet(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
-            if (tx.TryGetValue("ClearFlag", out var ClearFlag))
+            if (tx.TryGetValue("ClearFlag", out var ClearFlag) && ClearFlag is not null)
             {
                 if (ClearFlag is not uint { } flag )
                     throw new ValidationError("AccountSet: invalid ClearFlag");
@@ -180,16 +180,16 @@ namespace Xrpl.Models.Transaction
                 if (Enum.GetValues<AccountSetTfFlags>().All(c => (uint)c != flag))
                     throw new ValidationError("AccountSet: invalid ClearFlag");
             }
-            if (!tx.TryGetValue("Domain", out var Domain) || Domain is not string { })
+            if (tx.TryGetValue("Domain", out var Domain) && Domain is not string { })
                 throw new ValidationError("AccountSet: invalid Domain");
 
-            if (!tx.TryGetValue("EmailHash", out var EmailHash) || EmailHash is not string { })
+            if (tx.TryGetValue("EmailHash", out var EmailHash) && EmailHash is not string { })
                 throw new ValidationError("AccountSet: invalid EmailHash");
 
-            if (!tx.TryGetValue("MessageKey", out var MessageKey) || MessageKey is not string { })
+            if (tx.TryGetValue("MessageKey", out var MessageKey) && MessageKey is not string { })
                 throw new ValidationError("AccountSet: invalid MessageKey");
 
-            if (tx.TryGetValue("SetFlag", out var SetFlag))
+            if (tx.TryGetValue("SetFlag", out var SetFlag) && SetFlag is not null)
             {
                 if (SetFlag is not uint { })
                     throw new ValidationError("AccountSet: invalid SetFlag");
@@ -198,10 +198,10 @@ namespace Xrpl.Models.Transaction
                     throw new ValidationError("AccountSet: missing field Destination");
             }
 
-            if (!tx.TryGetValue("TransferRate", out var TransferRate) || TransferRate is not uint { })
+            if (tx.TryGetValue("TransferRate", out var TransferRate) && TransferRate is not uint { })
                 throw new ValidationError("AccountSet: invalid TransferRate");
 
-            if (tx.TryGetValue("TickSize", out var TickSize))
+            if (tx.TryGetValue("TickSize", out var TickSize) && TickSize is not null)
             {
                 if (TickSize is not uint { } size)
                     throw new ValidationError("AccountSet: invalid TickSize");

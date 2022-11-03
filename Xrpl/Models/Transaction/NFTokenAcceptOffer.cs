@@ -91,7 +91,6 @@ namespace Xrpl.Models.Transaction
 
     partial class Validation
     {
-        //https://github.com/XRPLF/xrpl.js/blob/b40a519a0d949679a85bf442be29026b76c63a22/packages/xrpl/src/models/transactions/NFTokenAcceptOffer.ts#L67
         public Task ValidateNFTokenBrokerFee(Dictionary<string, dynamic> tx)
         {
             if (!tx.TryGetValue("NFTokenBrokerFee", out var NFTokenBrokerFee) || NFTokenBrokerFee is null)
@@ -110,7 +109,6 @@ namespace Xrpl.Models.Transaction
 
             return Task.CompletedTask;
         }
-        //https://github.com/XRPLF/xrpl.js/blob/b40a519a0d949679a85bf442be29026b76c63a22/packages/xrpl/src/models/transactions/NFTokenAcceptOffer.ts#L92
         /// <summary>
         /// Verify the form and type of an NFTokenAcceptOffer at runtime.
         /// </summary>

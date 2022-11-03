@@ -85,7 +85,7 @@ namespace Xrpl.Models.Transaction
             if (DeliverMin is not null && !Common.IsAmount(DeliverMin))
                 throw new ValidationError("CheckCash: invalid DeliverMin");
 
-            if (!tx.TryGetValue("CheckID", out var CheckID) || CheckID is not string { })
+            if (tx.TryGetValue("CheckID", out var CheckID) && CheckID is not string { })
                 throw new ValidationError("CheckCash: invalid CheckID");
         }
     }

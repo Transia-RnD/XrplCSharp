@@ -150,10 +150,8 @@ namespace Xrpl.Models.Transaction
 
             if (tx.TryGetValue("Destination", out var Destination) && Account == Destination)
                 throw new ValidationError("NFTokenCreateOffer: Destination and Account must not be equal");
-            if (tx.TryGetValue("NFTokenID", out var NFTokenID) && NFTokenID is null)
-            {
+            if (!tx.TryGetValue("NFTokenID", out var NFTokenID) || NFTokenID is null)
                 throw new ValidationError("NFTokenCreateOffer: missing field NFTokenID");
-            }
             if (!tx.TryGetValue("Amount", out var Amount) || Amount is null || !Common.IsAmount(Amount))
                 throw new ValidationError("NFTokenCreateOffer: invalid Amount");
             if (tx.TryGetValue("Flags", out var Flags) &&

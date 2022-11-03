@@ -98,11 +98,11 @@ namespace Xrpl.Models.Transaction
             if (Destination is not string { })
                 throw new ValidationError("CheckCreate: invalid Destination");
 
-            if (!tx.TryGetValue("DestinationTag", out var DestinationTag) || DestinationTag is not uint { })
+            if (tx.TryGetValue("DestinationTag", out var DestinationTag) && DestinationTag is not uint { })
                 throw new ValidationError("CheckCreate: missing field DestinationTag");
-            if (!tx.TryGetValue("Expiration", out var Expiration) || Expiration is not uint { })
+            if (tx.TryGetValue("Expiration", out var Expiration) && Expiration is not uint { })
                 throw new ValidationError("CheckCreate: missing field Expiration");
-            if (!tx.TryGetValue("InvoiceID", out var InvoiceID) || InvoiceID is not string { })
+            if (tx.TryGetValue("InvoiceID", out var InvoiceID) && InvoiceID is not string { })
                 throw new ValidationError("CheckCreate: missing field InvoiceID");
 
 
