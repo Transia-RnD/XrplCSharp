@@ -11,6 +11,10 @@ namespace Xrpl.Models.Utils
 {
     public class Flags
     {
+        /// <summary>
+        /// Sets a transaction's flags to its numeric representation.
+        /// </summary>
+        /// <param name="tx"> A transaction to set its flags to its numeric representation.</param>
         public static void SetTransactionFlagsToNumber(ITransactionCommon tx)
         {
             if (tx.Flags == null)
