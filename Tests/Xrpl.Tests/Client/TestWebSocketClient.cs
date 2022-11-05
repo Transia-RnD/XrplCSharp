@@ -37,13 +37,14 @@ namespace XrplTests.Xrpl.ClientLib
 
             client.OnLedgerClosed += (message) =>
             {
-                Console.WriteLine($"LEDGER CALLBACK: {message}");
+                Debug.WriteLine($"RECEIVED: {DateTime.Now}");
+                //Console.WriteLine($"LEDGER CALLBACK: {message}");
                 isFinished = true;
             };
 
             client.OnDisconnect += (c) =>
             {
-                Console.WriteLine($"DISCONNECT CALLBACK: {c}");
+                //Console.WriteLine($"DISCONNECT CALLBACK: {c}");
                 //isFinished = true;
             };
 
@@ -60,7 +61,7 @@ namespace XrplTests.Xrpl.ClientLib
             //System.Threading.Thread.Sleep(TimeSpan.FromSeconds(8));
             //Debug.WriteLine($"AFTER: {DateTime.Now}");
 
-            Timer timer = new Timer(8000);
+            Timer timer = new Timer(4000);
             timer.Elapsed += (sender, e) =>
             {
                 isFinished = true;
@@ -100,7 +101,8 @@ namespace XrplTests.Xrpl.ClientLib
             bool isFinished = false;
             client.OnMessageReceived += (ws, message) =>
             {
-                Console.WriteLine(message);
+                Debug.WriteLine($"RECEIVED: {DateTime.Now}");
+                //Debug.WriteLine(message);
                 isFinished = true;
             };
 
@@ -118,11 +120,14 @@ namespace XrplTests.Xrpl.ClientLib
             serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
             string jsonString = JsonConvert.SerializeObject(request, serializerSettings);
             await client.SendMessageAsync(jsonString);
+            Debug.WriteLine($"BEFORE: {DateTime.Now}");
 
             while (!isFinished)
             {
+                Debug.WriteLine($"WAITING: {DateTime.Now}");
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             }
+            Debug.WriteLine($"AFTER: {DateTime.Now}");
         }
     }
 }

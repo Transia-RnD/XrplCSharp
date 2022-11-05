@@ -130,21 +130,21 @@ namespace Xrpl.Client
         /// <returns>The task object representing the asynchronous operation.</returns>
         private async Task CatchMessagesAsync()
         {
-            Debug.WriteLine("WS: CONNECTED");
+            //Debug.WriteLine("WS: CONNECTED");
             byte[] buffer = new byte[this.receiveChunkSize];
 
             while (this.ws.State == WebSocketState.Open)
             {
                 try
                 {
-                    Debug.WriteLine("WS: RECEIVED");
+                    //Debug.WriteLine("WS: RECEIVED");
                     var stringResult = new StringBuilder();
 
                     WebSocketReceiveResult result;
                     do
                     {
                         result = await this.ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                        Debug.WriteLine("WS: RESULT");
+                        //Debug.WriteLine("WS: RESULT");
                         if (result.MessageType == WebSocketMessageType.Close)
                         {
                             this.RaiseClosed();
@@ -164,12 +164,12 @@ namespace Xrpl.Client
                 }
                 catch (Exception exception)
                 {
-                    Debug.WriteLine($"WS: EXCEPTION: {exception.Message}");
+                    //Debug.WriteLine($"WS: EXCEPTION: {exception.Message}");
                     this.RaiseError(exception);
                 }
             }
 
-            Debug.WriteLine("WS: CLOSING");
+            //Debug.WriteLine("WS: CLOSING");
             this.RaiseClosed();
         }
 

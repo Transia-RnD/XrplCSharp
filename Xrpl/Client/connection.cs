@@ -393,7 +393,6 @@ namespace Xrpl.Client
 
         private void OnMessage(string message, WebSocketClient client)
         {
-            Debug.WriteLine($"ON RESPONSE: {DateTime.Now}");
             BaseResponse data;
             try
             {
@@ -417,7 +416,6 @@ namespace Xrpl.Client
                 {
                     case ResponseStreamType.ledgerClosed:
                         {
-                            Debug.WriteLine($"LEDGER STREAM: {message}");
                             object response = JsonConvert.DeserializeObject<object>(message.ToString());
                             OnLedgerClosed?.Invoke(response);
                             break;

@@ -58,7 +58,7 @@ namespace XrplTests.Xrpl.ClientLib
 
             client.OnConnected += () =>
             {
-                Console.WriteLine("CONNECTED");
+                //Console.WriteLine("CONNECTED");
             };
 
             var subscribe = await runner.client.Subscribe(
@@ -69,7 +69,7 @@ namespace XrplTests.Xrpl.ClientLib
                     "ledger",
                 })
             });
-            Console.WriteLine(subscribe);
+            //Console.WriteLine(subscribe);
 
             while (client.connection.State() == WebSocketState.Open)
             {
