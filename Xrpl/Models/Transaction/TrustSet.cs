@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Newtonsoft.Json;
+
 using Xrpl.Client.Exceptions;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
@@ -55,7 +57,7 @@ namespace Xrpl.Models.Transaction
 
         /// <inheritdoc />
         [JsonConverter(typeof(CurrencyConverter))]
-        public Currency LimitAmount {get; set; }
+        public Currency LimitAmount { get; set; }
 
         /// <inheritdoc />
         public uint? QualityIn { get; set; }

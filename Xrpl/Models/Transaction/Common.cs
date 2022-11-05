@@ -1,7 +1,7 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -34,10 +34,10 @@ namespace Xrpl.Models.Transaction
         {
             return (
                 IsRecord(input) &&
-                input.Length == ISSUED_CURRENCY_SIZE &&
-                input.value is string &&
-                input.issuer is string &&
-                input.currency is string
+                input.Count == ISSUED_CURRENCY_SIZE &&
+                input["value"] is string &&
+                input["issuer"] is string &&
+                input["currency"] is string
             );
         }
         /// <summary>
@@ -118,20 +118,20 @@ namespace Xrpl.Models.Transaction
                 throw new ValidationError("BaseTransaction: Unknown TransactionType");
             }
 
-            if (!tx.TryGetValue("Fee", out var Fee) || Fee is not string { })
+            if (tx.TryGetValue("Fee", out var Fee) && Fee is not string { })
             {
                 throw new ValidationError("BaseTransaction: invalid Fee");
             }
 
-            if (!tx.TryGetValue("Sequence", out var Sequence) || Sequence is not uint { })
+            if (tx.TryGetValue("Sequence", out var Sequence) && Sequence is not uint { })
             {
                 throw new ValidationError("BaseTransaction: invalid Sequence");
             }
-            if (!tx.TryGetValue("AccountTxnID", out var AccountTxnID) || AccountTxnID is not string { })
+            if (tx.TryGetValue("AccountTxnID", out var AccountTxnID) && AccountTxnID is not string { })
             {
                 throw new ValidationError("BaseTransaction: invalid AccountTxnID");
             }
-            if (!tx.TryGetValue("LastLedgerSequence", out var LastLedgerSequence) || LastLedgerSequence is not uint { })
+            if (tx.TryGetValue("LastLedgerSequence", out var LastLedgerSequence) && LastLedgerSequence is not uint { })
             {
                 throw new ValidationError("BaseTransaction: invalid LastLedgerSequence");
             }
@@ -159,19 +159,19 @@ namespace Xrpl.Models.Transaction
 
             }
 
-            if (!tx.TryGetValue("SourceTag", out var SourceTag) || SourceTag is not uint { })
+            if (tx.TryGetValue("SourceTag", out var SourceTag) && SourceTag is not uint { })
             {
                 throw new ValidationError("BaseTransaction: invalid SourceTag");
             }
-            if (!tx.TryGetValue("SigningPubKey", out var SigningPubKey) || SigningPubKey is not string { })
+            if (tx.TryGetValue("SigningPubKey", out var SigningPubKey) && SigningPubKey is not string { })
             {
                 throw new ValidationError("BaseTransaction: invalid SigningPubKey");
             }
-            if (!tx.TryGetValue("TicketSequence", out var TicketSequence) || TicketSequence is not uint { })
+            if (tx.TryGetValue("TicketSequence", out var TicketSequence) && TicketSequence is not uint { })
             {
                 throw new ValidationError("BaseTransaction: invalid TicketSequence");
             }
-            if (!tx.TryGetValue("TxnSignature", out var TxnSignature) || TxnSignature is not string { })
+            if (tx.TryGetValue("TxnSignature", out var TxnSignature) && TxnSignature is not string { })
             {
                 throw new ValidationError("BaseTransaction: invalid TxnSignature");
             }

@@ -2,8 +2,10 @@
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/models/trustSet.ts
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Xrpl.Client.Exceptions;
@@ -22,7 +24,7 @@ namespace XrplTests.Xrpl.Models
         public static Dictionary<string, dynamic> trustSet;
 
         [ClassInitialize]
-        public void MyClassInitializeAsync(TestContext testContext)
+        public static void MyClassInitialize(TestContext testContext)
         {
             trustSet = new Dictionary<string, dynamic>
             {
@@ -34,8 +36,8 @@ namespace XrplTests.Xrpl.Models
                     {"issuer","rcXY84C4g14iFp6taFXjjQGVeHqSCh9RX"},
                     {"value","4329.23"}
                 }},
-                {"QualityIn", 1234},
-                {"QualityOut", 4321}
+                {"QualityIn", 1234u},
+                {"QualityOut", 4321u}
             };
         }
 

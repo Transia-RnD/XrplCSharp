@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Newtonsoft.Json.Linq;
+
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Transaction;
 
@@ -15,21 +17,27 @@ namespace Xrpl.Models.Utils
         /// Sets a transaction's flags to its numeric representation.
         /// </summary>
         /// <param name="tx"> A transaction to set its flags to its numeric representation.</param>
-        public static void SetTransactionFlagsToNumber(ITransactionCommon tx)
+        public static void SetTransactionFlagsToNumber(Dictionary<string, dynamic> tx)
         {
-            if (tx.Flags == null)
+            if (!tx.TryGetValue("Flags", out var Flags))
             {
-                tx.Flags = 0;
-              return;
+                tx.Add("Flags",0u);
+                return;
             }
-            if (tx.Flags is uint)
+            if (Flags is null)
+            {
+                tx["Flags"] = 0u;
+                return;
+            }
+            if (Flags is uint)
             {
                 return;
             }
             //todo unattainable code
-            tx.Flags = tx.TransactionType switch
+
+            tx["Flags"] = tx["TransactionType"] switch
             {
-                TransactionType.AccountSet => ConvertAccountSetFlagsToNumber(tx.Flags),
+                TransactionType.AccountSet => ConvertAccountSetFlagsToNumber(Flags),
                 //TransactionType.AccountDelete => expr,
                 //TransactionType.CheckCancel => expr,
                 //TransactionType.CheckCash => expr,
@@ -44,15 +52,15 @@ namespace Xrpl.Models.Utils
                 //TransactionType.NFTokenCreateOffer => expr,
                 //TransactionType.NFTokenMint => expr,
                 //TransactionType.OfferCancel => expr,
-                TransactionType.OfferCreate => ConvertOfferCreateFlagsToNumber(tx.Flags),
-                TransactionType.Payment => ConvertPaymentTransactionFlagsToNumber(tx.Flags),
-                TransactionType.PaymentChannelClaim => ConvertPaymentChannelClaimFlagsToNumber(tx.Flags),
+                TransactionType.OfferCreate => ConvertOfferCreateFlagsToNumber(Flags),
+                TransactionType.Payment => ConvertPaymentTransactionFlagsToNumber(Flags),
+                TransactionType.PaymentChannelClaim => ConvertPaymentChannelClaimFlagsToNumber(Flags),
                 //TransactionType.PaymentChannelCreate => expr,
                 //TransactionType.PaymentChannelFund => expr,
                 //TransactionType.SetRegularKey => expr,
                 //TransactionType.SignerListSet => expr,
                 //TransactionType.TicketCreate => expr,
-                TransactionType.TrustSet => ConvertTrustSetFlagsToNumber(tx.Flags),
+                TransactionType.TrustSet => ConvertTrustSetFlagsToNumber(Flags),
                 _ => 0
             };
         }

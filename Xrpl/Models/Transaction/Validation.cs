@@ -29,10 +29,10 @@ namespace Xrpl.Models.Transaction
             if(type is not string)
                 throw new ValidationError("Object's `TransactionType` is not a string");
 
-            var value = JsonConvert.DeserializeObject<TransactionCommon>(tx as dynamic);
+            //var value = JsonConvert.DeserializeObject<TransactionCommon>(tx as dynamic);
 
             // eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- okay here
-            Flags.SetTransactionFlagsToNumber(value);
+            Flags.SetTransactionFlagsToNumber(tx);
 
             switch (type)
             {
