@@ -209,6 +209,7 @@ namespace Xrpl.Client
         /// <param name="message">The message received.</param>
         private void RaiseMessageReceived(string message)
         {
+            Debug.WriteLine($"WS RECEIVED: {DateTime.Now}");
             if (message == null)
             {
                 throw new ArgumentNullException(nameof(message));

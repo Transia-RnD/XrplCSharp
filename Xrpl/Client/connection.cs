@@ -172,7 +172,7 @@ namespace Xrpl.Client
             this.ws.OnConnectionError += (c, e) => timer.Stop();
             this.ws.OnDisconnect += (c, e) => OnceClose((WebSocketClient)c, e);
             this.ws.OnDisconnect += (c, e) => timer.Stop();
-            Task task = this.ws.ConnectAsync();
+            this.ws.ConnectAsync().Wait();
             return this.connectionManager.AwaitConnection();
         }
 
