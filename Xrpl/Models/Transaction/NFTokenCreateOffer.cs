@@ -116,16 +116,17 @@ namespace Xrpl.Models.Transaction
         public string Destination { get; set; }
 
     }
-    partial class Validation
+
+    public partial class Validation
     {
         //https://github.com/XRPLF/xrpl.js/blob/b40a519a0d949679a85bf442be29026b76c63a22/packages/xrpl/src/models/transactions/NFTokenCreateOffer.ts#L86
-        public Task ValidateNFTokenSellOfferCases(Dictionary<string, dynamic> tx)
+        public static Task ValidateNFTokenSellOfferCases(Dictionary<string, dynamic> tx)
         {
             if (tx.TryGetValue("Owner", out var Owner) && Owner is not null)
                 throw new ValidationError("NFTokenCreateOffer: Owner must not be present for sell offers");
             return Task.CompletedTask;
         }
-        public Task ValidateNFTokenBuyOfferCases(Dictionary<string, dynamic> tx)
+        public static Task ValidateNFTokenBuyOfferCases(Dictionary<string, dynamic> tx)
         {
             if (!tx.TryGetValue("Owner", out var Owner) || Owner is null)
                 throw new ValidationError("NFTokenCreateOffer: Owner must not be present for sell offers");
@@ -141,7 +142,7 @@ namespace Xrpl.Models.Transaction
         /// <param name="tx">An NFTokenCreateOffer Transaction.</param>
         /// <returns>When the NFTokenCreateOffer is Malformed.</returns>
         /// <exception cref="ValidationError"></exception>
-        public Task ValidateNFTokenCreateOffer(Dictionary<string, dynamic> tx)
+        public static Task ValidateNFTokenCreateOffer(Dictionary<string, dynamic> tx)
         {
             Common.ValidateBaseTransaction(tx);
 

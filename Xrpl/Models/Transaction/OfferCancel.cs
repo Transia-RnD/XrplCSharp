@@ -40,14 +40,15 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public uint OfferSequence { get; set; }
     }
-    partial class Validation
+
+    public partial class Validation
     {
         /// <summary>
         /// Verify the form and type of a OfferCancel at runtime.
         /// </summary>
         /// <param name="tx"> A OfferCancel Transaction.</param>
         /// <exception cref="ValidationError">When the OfferCancel is malformed.</exception>
-        public async Task ValidateOfferCancel(Dictionary<string, dynamic> tx)
+        public static async Task ValidateOfferCancel(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (!tx.TryGetValue("OfferSequence", out var OfferSequence) || OfferSequence is null)

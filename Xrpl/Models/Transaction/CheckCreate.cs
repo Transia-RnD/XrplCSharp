@@ -76,14 +76,15 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public uint? InvoiceID { get; set; }
     }
-    partial class Validation
+
+    public partial class Validation
     {
         /// <summary>
         /// Verify the form and type of a CheckCreate at runtime.
         /// </summary>
         /// <param name="tx"> A CheckCreate Transaction.</param>
         /// <exception cref="ValidationError">When the CheckCreate is malformed.</exception>
-        public async Task ValidateCheckCreate(Dictionary<string, dynamic> tx)
+        public static async Task ValidateCheckCreate(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 

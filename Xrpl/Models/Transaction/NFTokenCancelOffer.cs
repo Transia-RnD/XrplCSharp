@@ -42,7 +42,8 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public string[] NFTokenOffers { get; set; }
     }
-    partial class Validation
+
+    public partial class Validation
     {
         /// <summary>
         /// Verify the form and type of an NFTokenCancelOffer at runtime.
@@ -50,7 +51,7 @@ namespace Xrpl.Models.Transaction
         /// <param name="tx">An NFTokenCancelOffer Transaction.</param>
         /// <returns></returns>
         /// <exception cref="ValidationError">When the NFTokenCancelOffer is Malformed.</exception>
-        public async Task ValidateNFTokenCancelOffer(Dictionary<string, dynamic> tx)
+        public static async Task ValidateNFTokenCancelOffer(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (!tx.TryGetValue("NFTokenOffers ", out var NFTokenOffers) || NFTokenOffers is not List<dynamic> { } offers)

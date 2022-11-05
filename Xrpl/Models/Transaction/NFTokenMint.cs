@@ -112,7 +112,8 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public string URI { get; set; }
     }
-    partial class Validation
+
+    public partial class Validation
     {
         //https://github.com/XRPLF/xrpl.js/blob/b40a519a0d949679a85bf442be29026b76c63a22/packages/xrpl/src/models/transactions/NFTokenMint.ts#L100
         /// <summary>
@@ -120,7 +121,7 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         /// <param name="tx"> An NFTokenMint Transaction.</param>
         /// <exception cref="ValidationError">When the NFTokenMint is Malformed.</exception>
-        public async Task ValidateNFTokenMint(Dictionary<string, dynamic> tx)
+        public static async Task ValidateNFTokenMint(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 

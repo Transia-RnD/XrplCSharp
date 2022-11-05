@@ -158,7 +158,8 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public uint? TickSize { get; set; }
     }
-    partial class Validation
+
+    public partial class Validation
     {
         private const uint MIN_TICK_SIZE = 3;
 
@@ -169,7 +170,7 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         /// <param name="tx"> A AccountSet Transaction.</param>
         /// <exception cref="ValidationError">When the AccountSet is malformed.</exception>
-        public async Task ValidateAccountSet(Dictionary<string, dynamic> tx)
+        public static async Task ValidateAccountSet(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (tx.TryGetValue("ClearFlag", out var ClearFlag) && ClearFlag is not null)

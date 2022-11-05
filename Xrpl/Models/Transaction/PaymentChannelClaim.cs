@@ -130,14 +130,14 @@ namespace Xrpl.Models.Transaction
         public string Signature { get; set; }
     }
 
-    partial class Validation
+    public partial class Validation
     {
         /// <summary>
         /// Verify the form and type of a PaymentChannelClaim at runtime.
         /// </summary>
         /// <param name="tx"> A PaymentChannelClaim Transaction.</param>
         /// <exception cref="ValidationError">When the PaymentChannelClaim is malformed.</exception>
-        public async Task ValidatePaymentChannelClaim(Dictionary<string, dynamic> tx)
+        public static async Task ValidatePaymentChannelClaim(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 

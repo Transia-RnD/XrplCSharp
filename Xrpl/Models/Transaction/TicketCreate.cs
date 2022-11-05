@@ -40,7 +40,8 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc/>
         public uint TicketCount { get; set; }
     }
-    partial class Validation
+
+    public partial class Validation
     {
         private const uint MAX_TICKETS = 250;
         /// <summary>
@@ -48,7 +49,7 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         /// <param name="tx"> A TicketCreate Transaction.</param>
         /// <exception cref="ValidationError">When the TicketCreate is malformed.</exception>
-        public async Task ValidateTicketCreate(Dictionary<string, dynamic> tx)
+        public static async Task ValidateTicketCreate(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 

@@ -52,7 +52,8 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public uint SignerQuorum { get; set; }
     }
-    partial class Validation
+
+    public partial class Validation
     {
         private const uint MAX_SIGNERS = 32;
         /// <summary>
@@ -60,7 +61,7 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         /// <param name="tx"> A SignerListSet Transaction.</param>
         /// <exception cref="ValidationError">When the SignerListSet is malformed.</exception>
-        public async Task ValidateSignerListSet(Dictionary<string, dynamic> tx)
+        public static async Task ValidateSignerListSet(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (!tx.TryGetValue("SignerQuorum", out var SignerQuorum) || SignerQuorum is null)

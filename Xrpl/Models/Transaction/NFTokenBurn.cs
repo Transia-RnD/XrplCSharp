@@ -53,7 +53,8 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public string Owner { get; set; }
     }
-    partial class Validation
+
+    public partial class Validation
     {
         /// <summary>
         /// Verify the form and type of an NFTokenBurn at runtime.
@@ -61,7 +62,7 @@ namespace Xrpl.Models.Transaction
         /// <param name="tx"> An NFTokenBurn Transaction.</param>
         /// <returns></returns>
         /// <exception cref="ValidationError">When the NFTokenBurn is Malformed.</exception>
-        public async Task ValidateNFTokenBurn(Dictionary<string, dynamic> tx)
+        public static async Task ValidateNFTokenBurn(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (!tx.TryGetValue("NFTokenID ", out var NFTokenID) || NFTokenID is null)

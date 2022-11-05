@@ -76,14 +76,14 @@ namespace Xrpl.Models.Transaction
         public string Owner { get; set; }
     }
 
-    partial class Validation
+    public partial class Validation
     {
         /// <summary>
         /// Verify the form and type of a EscrowFinish at runtime.
         /// </summary>
         /// <param name="tx"> A EscrowFinish Transaction.</param>
         /// <exception cref="ValidationError">When the EscrowFinish is malformed.</exception>
-        public async Task ValidateEscrowFinish(Dictionary<string, dynamic> tx)
+        public static async Task ValidateEscrowFinish(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 

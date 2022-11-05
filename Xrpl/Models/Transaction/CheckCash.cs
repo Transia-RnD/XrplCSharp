@@ -62,14 +62,15 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public Currency? DeliverMin { get; set; }  
     }
-    partial class Validation
+
+    public partial class Validation
     {
         /// <summary>
         /// Verify the form and type of a CheckCash at runtime.
         /// </summary>
         /// <param name="tx"> A CheckCash Transaction.</param>
         /// <exception cref="ValidationError">When the CheckCash is malformed.</exception>
-        public async Task ValidateCheckCash(Dictionary<string, dynamic> tx)
+        public static async Task ValidateCheckCash(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             tx.TryGetValue("Amount", out var Amount);

@@ -50,7 +50,8 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public uint? DestinationTag { get; set; }
     }
-    partial class Validation
+
+    public partial class Validation
     {
         //https://github.com/XRPLF/xrpl.js/blob/b40a519a0d949679a85bf442be29026b76c63a22/packages/xrpl/src/models/transactions/accountDelete.ts#L33
         /// <summary>
@@ -58,7 +59,7 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         /// <param name="tx"> A AccountDelete Transaction.</param>
         /// <exception cref="ValidationError">When the AccountDelete is malformed.</exception>
-        public async Task ValidateAccountDelete(Dictionary<string, dynamic> tx)
+        public static async Task ValidateAccountDelete(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (!tx.TryGetValue("Destination", out var Destination) || Destination is null)

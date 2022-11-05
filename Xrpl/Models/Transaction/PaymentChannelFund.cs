@@ -69,14 +69,15 @@ namespace Xrpl.Models.Transaction
         [JsonConverter(typeof(RippleDateTimeConverter))]
         public DateTime? Expiration { get; set; }
     }
-    partial class Validation
+
+    public partial class Validation
     {
         /// <summary>
         /// Verify the form and type of a PaymentChannelFund at runtime.
         /// </summary>
         /// <param name="tx"> A PaymentChannelFund Transaction.</param>
         /// <exception cref="ValidationError">When the PaymentChannelFund is malformed.</exception>
-        public async Task ValidatePaymentChannelFund(Dictionary<string, dynamic> tx)
+        public static async Task ValidatePaymentChannelFund(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 

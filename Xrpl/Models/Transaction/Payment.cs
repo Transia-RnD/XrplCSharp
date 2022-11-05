@@ -176,14 +176,15 @@ namespace Xrpl.Models.Transaction
         [JsonConverter(typeof(CurrencyConverter))]
         public Currency DeliverMin { get; set; }
     }
-    partial class Validation
+
+    public partial class Validation
     {
         /// <summary>
         /// Verify the form and type of a Payment at runtime.
         /// </summary>
         /// <param name="tx"> A Payment Transaction.</param>
         /// <exception cref="ValidationError">When the Payment is malformed.</exception>
-        public async Task ValidatePayment(Dictionary<string, dynamic> tx)
+        public static async Task ValidatePayment(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 
@@ -212,7 +213,7 @@ namespace Xrpl.Models.Transaction
             await CheckPartialPayment(tx);
         }
 
-        public Task CheckPartialPayment(Dictionary<string, dynamic> tx)
+        public static Task CheckPartialPayment(Dictionary<string, dynamic> tx)
         {
             tx.TryGetValue("Flags", out var flags);
 
@@ -234,7 +235,7 @@ namespace Xrpl.Models.Transaction
             return Task.CompletedTask;
         }
 
-        public bool IsPathStep(dynamic pathStep)
+        public static bool IsPathStep(dynamic pathStep)
         {
             if (pathStep.ContainsKey("account") && pathStep["account"] is not string { } account)
                 return false;
@@ -249,7 +250,7 @@ namespace Xrpl.Models.Transaction
                 return true;
             return false;
         }
-        public bool IsPaths(Dictionary<string, dynamic> paths)
+        public static bool IsPaths(Dictionary<string, dynamic> paths)
         {
             foreach (var path in paths)
             {
@@ -260,7 +261,7 @@ namespace Xrpl.Models.Transaction
             return true;
 
         }
-        public bool IsPaths(List<List<Dictionary<string, dynamic>>> paths)
+        public static bool IsPaths(List<List<Dictionary<string, dynamic>>> paths)
         {
             if (paths is null || paths.Count == 0)
                 return false;

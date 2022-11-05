@@ -113,14 +113,15 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public uint? SourceTag { get; set; }
     }
-    partial class Validation
+
+    public partial class Validation
     {
         /// <summary>
         /// Verify the form and type of a EscrowCreate at runtime.
         /// </summary>
         /// <param name="tx"> A EscrowCreate Transaction.</param>
         /// <exception cref="ValidationError">When the EscrowCreate is malformed.</exception>
-        public async Task ValidateEscrowCreate(Dictionary<string, dynamic> tx)
+        public static async Task ValidateEscrowCreate(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             tx.TryGetValue("Amount", out var Amount);

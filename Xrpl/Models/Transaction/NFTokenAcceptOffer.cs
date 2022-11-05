@@ -89,9 +89,9 @@ namespace Xrpl.Models.Transaction
         public Currency NFTokenBrokerFee { get; set; }
     }
 
-    partial class Validation
+    public partial class Validation
     {
-        public Task ValidateNFTokenBrokerFee(Dictionary<string, dynamic> tx)
+        public static Task ValidateNFTokenBrokerFee(Dictionary<string, dynamic> tx)
         {
             if (!tx.TryGetValue("NFTokenBrokerFee", out var NFTokenBrokerFee) || NFTokenBrokerFee is null)
                 throw new ValidationError("NFTokenAcceptOffer: invalid NFTokenBrokerFee");
@@ -114,7 +114,7 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         /// <param name="tx">An NFTokenAcceptOffer Transaction.</param>
         /// <exception cref="ValidationError">When the NFTokenAcceptOffer is Malformed.</exception>
-        public async Task ValidateNFTokenAcceptOffer(Dictionary<string, dynamic> tx)
+        public static async Task ValidateNFTokenAcceptOffer(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 

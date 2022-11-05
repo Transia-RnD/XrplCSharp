@@ -13,14 +13,14 @@ using Xrpl.Models.Utils;
 
 namespace Xrpl.Models.Transaction
 {
-    partial class Validation
+    public static partial class Validation
     {
         /// <summary>
         /// Verify the form and type of a TrustSet at runtime.
         /// </summary>
         /// <param name="tx"> A TrustSet Transaction.</param>
         /// <exception cref="ValidationError">When the TrustSet is malformed.</exception>
-        public async Task Validate(Dictionary<string, dynamic> tx)
+        public static async Task Validate(Dictionary<string, dynamic> tx)
         {
             tx.TryGetValue("TransactionType", out var type);
 

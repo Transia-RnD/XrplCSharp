@@ -46,14 +46,15 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public string Owner { get; set; }
     }
-    partial class Validation
+
+    public partial class Validation
     {
         /// <summary>
         /// Verify the form and type of a EscrowCancel at runtime.
         /// </summary>
         /// <param name="tx"> A EscrowCancel Transaction.</param>
         /// <exception cref="ValidationError">When the EscrowCancel is malformed.</exception>
-        public async Task ValidateEscrowCancel(Dictionary<string, dynamic> tx)
+        public static async Task ValidateEscrowCancel(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (!tx.TryGetValue("Owner", out var Owner) || Owner is null)

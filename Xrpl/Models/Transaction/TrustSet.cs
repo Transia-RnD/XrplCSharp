@@ -120,7 +120,7 @@ namespace Xrpl.Models.Transaction
         public uint? QualityOut { get; set; }
     }
 
-    partial class Validation
+    public partial class Validation
     {
         //https://github.com/XRPLF/xrpl.js/blob/b40a519a0d949679a85bf442be29026b76c63a22/packages/xrpl/src/models/transactions/trustSet.ts#L127
         /// <summary>
@@ -128,7 +128,7 @@ namespace Xrpl.Models.Transaction
         /// </summary>
         /// <param name="tx"> A TrustSet Transaction.</param>
         /// <exception cref="ValidationError">When the TrustSet is malformed.</exception>
-        public async Task ValidateTrustSet(Dictionary<string, dynamic> tx)
+        public static async Task ValidateTrustSet(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (!tx.TryGetValue("LimitAmount", out var LimitAmount) || LimitAmount is null)

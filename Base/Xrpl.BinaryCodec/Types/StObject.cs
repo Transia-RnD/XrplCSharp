@@ -18,7 +18,7 @@ namespace Xrpl.BinaryCodec.Types
     /// </summary>
     public class StObject : ISerializedType
     {
-        protected internal SortedDictionary<Field, ISerializedType> Fields;
+        public SortedDictionary<Field, ISerializedType> Fields;
         /// <summary>
         /// Construct a STObject from a JSON object
         /// </summary>
