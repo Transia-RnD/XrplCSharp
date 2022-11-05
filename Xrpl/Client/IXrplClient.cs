@@ -27,7 +27,7 @@ namespace Xrpl.Client
     public delegate void OnError(string error, string errorMessage, string message, dynamic data);
     public delegate void OnConnected();
     public delegate void OnDisconnect(int? code);
-    public delegate void OnLedgerClosed(LedgerStream response);
+    public delegate void OnLedgerClosed(object response);
     public delegate void OnTransaction(TransactionStream response);
     public delegate void OnManifestReceived(ValidationStream response);
     public delegate void OnPeerStatusChange(PeerStatusStream response);
@@ -302,15 +302,9 @@ namespace Xrpl.Client
         //public WebSocketState SocketState => client.State;
 
         private readonly ConcurrentDictionary<int, TaskInfo> tasks;
-        private readonly JsonSerializerSettings serializerSettings;
 
         public XrplClient(string server, ClientOptions? options = null)
         {
-            serializerSettings = new JsonSerializerSettings();
-            serializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            serializerSettings.FloatParseHandling = FloatParseHandling.Double;
-            serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
 
             if (!IsValidWss(server))
             {
@@ -320,7 +314,6 @@ namespace Xrpl.Client
             maxFeeXRP = options?.maxFeeXRP ?? "2";
 
             connection = new Connection(server, options);
-
             connection.OnError += (e, em, m, d) => OnError(e, em, m, d);
             connection.OnConnected += () => OnConnected();
             connection.OnDisconnect += (c) => OnDisconnect(c);
@@ -580,13 +573,13 @@ namespace Xrpl.Client
         /// <inheritdoc />
         public async Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request)
         {
+            Debug.WriteLine("DEBUG0");
             //string account = request["Account"] ? EnsureClassicAddress((string)request["account"]) : null;
             //request["Account"] = account;
             var response = await this.connection.Request(request);
 
             // mutates `response` to add warnings
             //handlePartialPayment(req.command, response)
-
             return response;
 
         }

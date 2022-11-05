@@ -55,6 +55,8 @@ namespace Xrpl.Client
             serializerSettings = new JsonSerializerSettings();
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;
             serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            serializerSettings.FloatParseHandling = FloatParseHandling.Double;
+            serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
         }
 
         /// <summary>
@@ -69,10 +71,11 @@ namespace Xrpl.Client
             var hasTimer = this.timeoutsAwaitingResponse.TryRemove(id, out var timer);
             if (hasTimer)
                 timer.Stop();
+            this.DeletePromise(id, taskInfo);
             var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
             var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("TrySetResult");
             setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });
-            this.DeletePromise(id, taskInfo);
+            //this.DeletePromise(id, taskInfo);
         }
 
         /// <summary>
@@ -84,21 +87,20 @@ namespace Xrpl.Client
             {
                 throw new XrplError($"No existing promise with id {id}");
             }
-            // todo: should stop task timout if need to
-            //clearTimeout(promise)
             var hasTimer = this.timeoutsAwaitingResponse.TryRemove(id, out var timer);
             if (hasTimer)
                 timer.Stop();
+            this.DeletePromise(id, taskInfo);
             var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("TrySetException", new Type[] { typeof(Exception) }, null);
             setException.Invoke(taskInfo.TaskCompletionResult, new[] { error });
-            this.DeletePromise(id, taskInfo);
+            //this.DeletePromise(id, taskInfo);
         }
 
         /// <summary>
         /// </summary>
         public void RejectAll(Exception error)
         {
-            Debug.WriteLine($"REJECT ALL: {promisesAwaitingResponse.Count}");
+            //Debug.WriteLine($"REJECT ALL: {promisesAwaitingResponse.Count}");
             foreach (var id in this.promisesAwaitingResponse.Keys)
             {
                 this.Reject(id, error);
@@ -133,8 +135,7 @@ namespace Xrpl.Client
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
-            var typeInfo = request.GetType().GetProperty("Command");
-            taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
+            taskInfo.RemoveUponCompletion = true;
             taskInfo.Type = typeof(T);
 
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
@@ -182,8 +183,7 @@ namespace Xrpl.Client
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
-            var typeInfo = request.GetType().GetProperty("Command");
-            taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
+            taskInfo.RemoveUponCompletion = true;
             taskInfo.Type = typeof(Dictionary<string, dynamic>);
 
             promisesAwaitingResponse.TryAdd(newId, taskInfo);

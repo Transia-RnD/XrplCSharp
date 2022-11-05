@@ -2,22 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.WebSockets;
-using System.Text.Encodings.Web;
-using Microsoft.VisualBasic.FileIO;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Org.BouncyCastle.Asn1.Ocsp;
-using Xrpl.AddressCodec;
-using Xrpl.Client.Exceptions;
-using Xrpl.Models.Methods;
-using Xrpl.Models.Subscriptions;
-using Xrpl.Utils.Hashes.ShaMap;
-using static Org.BouncyCastle.Math.EC.ECCurve;
-using static Xrpl.Client.RequestManager;
-using System.Timers;
 using System.Threading.Tasks;
-using System.Threading;
-using Timer = System.Timers.Timer;
+using Newtonsoft.Json;
+using Xrpl.Client.Exceptions;
+using System.Timers;
+using static Xrpl.Client.RequestManager;
+using Xrpl.AddressCodec;
+using Xrpl.Models.Subscriptions;
+using Xrpl.Models.Methods;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/client/connection.ts
 
@@ -123,6 +115,7 @@ namespace Xrpl.Client
             config = options ?? new ConnectionOptions();
             config.timeout = TIMEOUT * 1000;
             config.connectionTimeout = CONNECTION_TIMEOUT * 1000;
+
         }
 
         public bool IsConnected()
@@ -179,13 +172,13 @@ namespace Xrpl.Client
             this.ws.OnConnectionError += (c, e) => timer.Stop();
             this.ws.OnDisconnect += (c, e) => OnceClose((WebSocketClient)c, e);
             this.ws.OnDisconnect += (c, e) => timer.Stop();
-            this.ws.ConnectAsync();
+            Task task = this.ws.ConnectAsync();
             return this.connectionManager.AwaitConnection();
         }
 
         public Task<int> Disconnect()
         {
-            Debug.WriteLine("DISCONNECTING...");
+            //Debug.WriteLine("DISCONNECTING...");
             ////this.ClearHeartbeatInterval();
             //if (this.reconnectTimeoutID != null)
             //{
@@ -194,7 +187,7 @@ namespace Xrpl.Client
             //}
             if (this.State() == WebSocketState.Closed)
             {
-                Debug.WriteLine("WS CLOSED");
+                //Debug.WriteLine("WS CLOSED");
                 var p1 = new TaskCompletionSource<int>();
                 p1.TrySetResult(0);
                 return p1.Task;
@@ -202,7 +195,7 @@ namespace Xrpl.Client
 
             if (this.ws == null)
             {
-                Debug.WriteLine("WS NULL");
+                //Debug.WriteLine("WS NULL");
                 var p1 = new TaskCompletionSource<int>();
                 p1.TrySetResult(0);
                 return p1.Task;
@@ -212,10 +205,10 @@ namespace Xrpl.Client
 
             if (this.ws != null)
             {
-                Debug.WriteLine("WS NO NULL");
+                //Debug.WriteLine("WS NO NULL");
                 this.ws.OnDisconnect += (c, e) =>
                 {
-                    Debug.WriteLine("INSIDE DISCONNECT");
+                    //Debug.WriteLine("INSIDE DISCONNECT");
                     promise.TrySetResult(((int)WebSocketCloseStatus.NormalClosure));
                 };
             }
@@ -227,7 +220,7 @@ namespace Xrpl.Client
             /// </summary>
             if (this.ws != null && this.State() != WebSocketState.CloseReceived)
             {
-                Debug.WriteLine("CLOSING...");
+                //Debug.WriteLine("CLOSING...");
                 this.ws.Close(WebSocketCloseStatus.NormalClosure);
             }
             return promise.Task;
@@ -253,16 +246,16 @@ namespace Xrpl.Client
 
         private void OnConnectionFailed(WebSocketClient client)
         {
-             Debug.WriteLine($"OnConnectionFailed: NO error.Message");
+            //Debug.WriteLine($"OnConnectionFailed: NO error.Message");
             //clearTimeout(connectionTimeoutID))
             timer.Stop();
             this.connectionManager.RejectAllAwaiting(new NotConnectedError());
         }
 
-        private void WebsocketSendAsync(string message)
+        private async void WebsocketSendAsync(string message)
         {
              //Debug.WriteLine($"CLIENT: SEND: {message}");
-            this.ws.SendMessageAsync(message);
+            await this.ws.SendMessageAsync(message);
         }
 
         public Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request, int? timeout = null)
@@ -323,7 +316,7 @@ namespace Xrpl.Client
         //private void OnceOpen(int connectionTimeoutID)
         private async void OnceOpen(WebSocketClient client)
         {
-            Debug.WriteLine("ONCE OPEN");
+            //Debug.WriteLine("ONCE OPEN");
             if (this.ws == null)
             {
                 throw new XrplError("onceOpen: ws is null");
@@ -352,7 +345,7 @@ namespace Xrpl.Client
         //private void OnceClose(int? code = null, string? reason = null)
         private void OnceClose(WebSocketClient client, EventArgs error)
         {
-            Debug.WriteLine("ONCE CLOSE");
+            //Debug.WriteLine("ONCE CLOSE");
             if (this.ws == null)
             {
                 throw new XrplError("OnceClose: ws is null");
@@ -365,6 +358,7 @@ namespace Xrpl.Client
             string reason = null;
             if (code == null)
             {
+                //Debug.WriteLine("CODE == NULL");
                 //string reasonText = reason ? reason.ToString() : null;
                 string reasonText = reason;
                 // eslint-disable-next-line no-Debug -- The error is helpful for debugging.
@@ -378,12 +372,12 @@ namespace Xrpl.Client
                  * Error code 1011 represents an Internal Error according to
                  * https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
                  */
-                Debug.WriteLine("DISCONNECT1");
-                //this.OnDisconnect(1011);
+                //Debug.WriteLine("DISCONNECT1");
+                this.OnDisconnect(1011);
             }
             else
             {
-                Debug.WriteLine("DISCONNECT2");
+                //Debug.WriteLine("DISCONNECT2");
                 this.OnDisconnect(code);
             }
 
@@ -399,16 +393,14 @@ namespace Xrpl.Client
 
         private void OnMessage(string message, WebSocketClient client)
         {
-            Debug.WriteLine($"CLIENT: RECV: {message}");
+            Debug.WriteLine($"ON RESPONSE: {DateTime.Now}");
             BaseResponse data;
             try
             {
                 data = JsonConvert.DeserializeObject<BaseResponse>(message);
-                //Debug.WriteLine($"CLIENT: RECV: {data.Id}");
             }
             catch (Exception error)
             {
-                //Debug.WriteLine($"CLIENT: RECV ERROR: {error.Message}");
                 this.OnError("error", "badMessage", error.Message, message);
                 return;
             }
@@ -425,7 +417,8 @@ namespace Xrpl.Client
                 {
                     case ResponseStreamType.ledgerClosed:
                         {
-                            var response = JsonConvert.DeserializeObject<LedgerStream>(message);
+                            Debug.WriteLine($"LEDGER STREAM: {message}");
+                            object response = JsonConvert.DeserializeObject<object>(message.ToString());
                             OnLedgerClosed?.Invoke(response);
                             break;
                         }
@@ -438,7 +431,6 @@ namespace Xrpl.Client
                     case ResponseStreamType.transaction:
                         {
                             var response = JsonConvert.DeserializeObject<TransactionStream>(message);
-                            Debug.WriteLine(response);
                             OnTransaction?.Invoke(response);
                             break;
                         }

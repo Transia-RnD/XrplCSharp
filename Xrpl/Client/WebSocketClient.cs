@@ -10,7 +10,7 @@ namespace Xrpl.Client
 {
     //credit: https://github.com/Badiboy/WebSocketWrapper/blob/master/WebSocketWrapper.cs
 
-    internal class WebSocketClient : IDisposable
+    public class WebSocketClient : IDisposable
     {
 
         //private Action<WebSocketClient> _onConnected;
@@ -99,6 +99,7 @@ namespace Xrpl.Client
         /// <returns>The task object representing the asynchronous operation.</returns>
         public async Task SendMessageAsync(string message)
         {
+            //Debug.WriteLine($"WS: SENT: {message}");
             if (this.ws.State != WebSocketState.Open)
             {
                 throw new Exception("Connection is not open.");
@@ -118,7 +119,7 @@ namespace Xrpl.Client
                     count = messageBuffer.Length - offset;
                 }
                 //Debug.WriteLine($"CLIENT WS BUFFER: {messageBuffer.Length}");
-                await this.ws.SendAsync(new ArraySegment<byte>(messageBuffer, offset, count), WebSocketMessageType.Binary, lastMessage, cancellationToken);
+                await this.ws.SendAsync(new ArraySegment<byte>(messageBuffer, offset, count), WebSocketMessageType.Binary, lastMessage, CancellationToken.None);
             }
         }
 
@@ -129,21 +130,21 @@ namespace Xrpl.Client
         /// <returns>The task object representing the asynchronous operation.</returns>
         private async Task CatchMessagesAsync()
         {
-            //Debug.WriteLine("WS: CONNECTED");
+            Debug.WriteLine("WS: CONNECTED");
             byte[] buffer = new byte[this.receiveChunkSize];
 
             while (this.ws.State == WebSocketState.Open)
             {
                 try
                 {
-                    //Debug.WriteLine("WS: RECEIVED");
+                    Debug.WriteLine("WS: RECEIVED");
                     var stringResult = new StringBuilder();
 
                     WebSocketReceiveResult result;
                     do
                     {
-                        result = await this.ws.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationToken);
-                        //Debug.WriteLine("WS: RESULT");
+                        result = await this.ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                        Debug.WriteLine("WS: RESULT");
                         if (result.MessageType == WebSocketMessageType.Close)
                         {
                             this.RaiseClosed();
@@ -163,10 +164,12 @@ namespace Xrpl.Client
                 }
                 catch (Exception exception)
                 {
+                    Debug.WriteLine($"WS: EXCEPTION: {exception.Message}");
                     this.RaiseError(exception);
                 }
             }
 
+            Debug.WriteLine("WS: CLOSING");
             this.RaiseClosed();
         }
 
@@ -216,6 +219,7 @@ namespace Xrpl.Client
 
         public void Close(WebSocketCloseStatus code, string? message = null)
         {
+            //Debug.WriteLine("WS: CLOSE");
             this.ws.CloseAsync(code, message, cancellationToken);
             this.RaiseClosed();
         }

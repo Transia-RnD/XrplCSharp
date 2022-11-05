@@ -124,7 +124,7 @@ namespace Xrpl.Models.Methods
         /// ledgerClosed indicates this is from the ledger stream
         /// </summary>
         [JsonProperty("type")]
-        public ResponseStreamType Type { get; set; }
+        public ResponseStreamType Type = ResponseStreamType.ledgerClosed;
         /// <summary>
         /// The reference transaction cost as of this ledger version, in drops of XRP.<br/>
         /// If this ledger version includes a SetFee pseudo-transaction the new transaction cost applies starting with the following ledger version.
