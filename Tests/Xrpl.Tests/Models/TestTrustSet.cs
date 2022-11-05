@@ -16,10 +16,10 @@ namespace XrplTests.Xrpl.Models
     /// Providing runtime verification testing for each specific transaction type.
     /// </summary>
     [TestClass]
-    public class TestTrustSet
+    public class TestUTrustSet
     {
 
-        public Dictionary<string, dynamic> trustSet;
+        public static Dictionary<string, dynamic> trustSet;
 
         [ClassInitialize]
         public void MyClassInitializeAsync(TestContext testContext)
