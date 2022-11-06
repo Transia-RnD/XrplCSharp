@@ -33,36 +33,38 @@ namespace Xrpl.Models.Utils
             {
                 return;
             }
+            tx["Flags"] = (uint)Flags;
+            return;
             //todo unattainable code
 
-            tx["Flags"] = tx["TransactionType"] switch
-            {
-                TransactionType.AccountSet => ConvertAccountSetFlagsToNumber(Flags),
-                //TransactionType.AccountDelete => expr,
-                //TransactionType.CheckCancel => expr,
-                //TransactionType.CheckCash => expr,
-                //TransactionType.CheckCreate => expr,
-                //TransactionType.DepositPreauth => expr,
-                //TransactionType.EscrowCancel => expr,
-                //TransactionType.EscrowCreate => expr,
-                //TransactionType.EscrowFinish => expr,
-                //TransactionType.NFTokenAcceptOffer => expr,
-                //TransactionType.NFTokenBurn => expr,
-                //TransactionType.NFTokenCancelOffer => expr,
-                //TransactionType.NFTokenCreateOffer => expr,
-                //TransactionType.NFTokenMint => expr,
-                //TransactionType.OfferCancel => expr,
-                TransactionType.OfferCreate => ConvertOfferCreateFlagsToNumber(Flags),
-                TransactionType.Payment => ConvertPaymentTransactionFlagsToNumber(Flags),
-                TransactionType.PaymentChannelClaim => ConvertPaymentChannelClaimFlagsToNumber(Flags),
-                //TransactionType.PaymentChannelCreate => expr,
-                //TransactionType.PaymentChannelFund => expr,
-                //TransactionType.SetRegularKey => expr,
-                //TransactionType.SignerListSet => expr,
-                //TransactionType.TicketCreate => expr,
-                TransactionType.TrustSet => ConvertTrustSetFlagsToNumber(Flags),
-                _ => 0
-            };
+            //tx["Flags"] = tx["TransactionType"] switch
+            //{
+            //    TransactionType.AccountSet => ConvertAccountSetFlagsToNumber(Flags),
+            //    //TransactionType.AccountDelete => expr,
+            //    //TransactionType.CheckCancel => expr,
+            //    //TransactionType.CheckCash => expr,
+            //    //TransactionType.CheckCreate => expr,
+            //    //TransactionType.DepositPreauth => expr,
+            //    //TransactionType.EscrowCancel => expr,
+            //    //TransactionType.EscrowCreate => expr,
+            //    //TransactionType.EscrowFinish => expr,
+            //    //TransactionType.NFTokenAcceptOffer => expr,
+            //    //TransactionType.NFTokenBurn => expr,
+            //    //TransactionType.NFTokenCancelOffer => expr,
+            //    //TransactionType.NFTokenCreateOffer => expr,
+            //    //TransactionType.NFTokenMint => expr,
+            //    //TransactionType.OfferCancel => expr,
+            //    TransactionType.OfferCreate => ConvertOfferCreateFlagsToNumber(Flags),
+            //    TransactionType.Payment => ConvertPaymentTransactionFlagsToNumber(Flags),
+            //    TransactionType.PaymentChannelClaim => ConvertPaymentChannelClaimFlagsToNumber(Flags),
+            //    //TransactionType.PaymentChannelCreate => expr,
+            //    //TransactionType.PaymentChannelFund => expr,
+            //    //TransactionType.SetRegularKey => expr,
+            //    //TransactionType.SignerListSet => expr,
+            //    //TransactionType.TicketCreate => expr,
+            //    TransactionType.TrustSet => ConvertTrustSetFlagsToNumber(Flags),
+            //    _ => 0
+            //};
         }
 
         public static uint ConvertAccountSetFlagsToNumber(object flags)

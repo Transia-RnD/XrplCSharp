@@ -155,6 +155,7 @@ namespace Xrpl.Models.Transaction
                 throw new ValidationError("NFTokenCreateOffer: missing field NFTokenID");
             if (!tx.TryGetValue("Amount", out var Amount) || Amount is null || !Common.IsAmount(Amount))
                 throw new ValidationError("NFTokenCreateOffer: invalid Amount");
+            
             if (tx.TryGetValue("Flags", out var Flags) &&
                 Flags is uint {} flags 
                 && Utils.Index.IsFlagEnabled(flags,(uint)NFTokenCreateOfferFlags.tfSellNFToken))

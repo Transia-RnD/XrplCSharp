@@ -54,7 +54,7 @@ namespace Xrpl.Models.Transaction
         public static async Task ValidateNFTokenCancelOffer(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
-            if (!tx.TryGetValue("NFTokenOffers ", out var NFTokenOffers) || NFTokenOffers is not List<dynamic> { } offers)
+            if (!tx.TryGetValue("NFTokenOffers", out var NFTokenOffers) || NFTokenOffers is not List<dynamic> { } offers)
                 throw new ValidationError("NFTokenCancelOffer : missing field NFTokenOffers ");
 
             if (offers.Count == 0)

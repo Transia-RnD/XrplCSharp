@@ -65,8 +65,8 @@ namespace Xrpl.Models.Transaction
         public static async Task ValidateNFTokenBurn(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
-            if (!tx.TryGetValue("NFTokenID ", out var NFTokenID) || NFTokenID is null)
-                throw new ValidationError("NFTokenID : missing field NFTokenID ");
+            if (!tx.TryGetValue("NFTokenID", out var NFTokenID) || NFTokenID is null)
+                throw new ValidationError("NFTokenID: missing field NFTokenID ");
         }
 
     }
