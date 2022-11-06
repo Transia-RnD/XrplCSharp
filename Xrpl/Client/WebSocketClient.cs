@@ -92,7 +92,7 @@ namespace Xrpl.Client
             await ws.ConnectAsync(server, cancellation.Token);
             //this.worker.RunWorkerAsync();
             catchMessagesTask = CatchMessagesAsync(cancellation.Token);
-            RaiseConnected();
+            await RaiseConnected();
         }
 
         /// <summary>
@@ -186,9 +186,10 @@ namespace Xrpl.Client
         /// <summary>
         /// Raises the <see cref="Connected"/> event.
         /// </summary>
-        private void RaiseConnected()
+        private Task RaiseConnected()
         {
             OnConnected?.Invoke(this, EventArgs.Empty);
+            return Task.CompletedTask;
         }
 
         /// <summary>
