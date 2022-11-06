@@ -71,11 +71,11 @@ var client = new WebSocketClient(server);
 
 await client.ConnectAsync();
 
-bool isFinished = false;
+//bool isFinished = false;
 client.OnMessageReceived += (ws, message) =>
 {
     Console.WriteLine(message);
-    isFinished = true;
+    //isFinished = true;
 };
 
 var request = new SubscribeRequest()
@@ -93,9 +93,10 @@ serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
 string jsonString = JsonConvert.SerializeObject(request, serializerSettings);
 await client.SendMessageAsync(jsonString);
 
-while (!isFinished)
-{
-    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-}
+//while (!isFinished)
+//{
+//    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+//}
 
+Console.ReadLine();
 

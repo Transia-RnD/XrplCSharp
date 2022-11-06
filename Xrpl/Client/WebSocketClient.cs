@@ -34,30 +34,32 @@ namespace Xrpl.Client
         /// </summary>
         private readonly int receiveChunkSize;
 
-        /// <summary>
-        /// The background worker used to manage the reception of messages.
-        /// </summary>
-        private readonly BackgroundWorker worker;
+        ///// <summary>
+        ///// The background worker used to manage the reception of messages.
+        ///// </summary>
+        //private readonly BackgroundWorker worker;
+
+        private Task catchMessagesTask;
 
         private readonly string uri;
 
-        private readonly CancellationToken cancellationToken;
+        private readonly CancellationTokenSource cancellation;
 
 
         public WebSocketClient(string uri)
         {
             this.uri = uri;
-            this.sendChunkSize = 1024;
-            this.receiveChunkSize = 1048576;
+            sendChunkSize = 1024;
+            receiveChunkSize = 1048576;
             int keepAlive = 5;
 
-            cancellationToken = new CancellationTokenSource().Token;
+            cancellation = new();
 
-            this.ws = new ClientWebSocket();
-            this.ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(keepAlive);
+            ws = new ClientWebSocket();
+            ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(keepAlive);
 
-            this.worker = new BackgroundWorker();
-            this.worker.DoWork += (s, e) => this.CatchMessagesAsync().Wait();
+            //this.worker = new BackgroundWorker();
+            //this.worker.DoWork += (s, e) => this.CatchMessagesAsync().Wait();
         }
 
         /// <summary>
@@ -86,10 +88,11 @@ namespace Xrpl.Client
         /// <returns>The task object representing the asynchronous operation.</returns>
         public async Task ConnectAsync()
         {
-            Uri server = new Uri(this.uri);
-            await this.ws.ConnectAsync(server, cancellationToken);
-            this.worker.RunWorkerAsync();
-            this.RaiseConnected();
+            Uri server = new Uri(uri);
+            await ws.ConnectAsync(server, cancellation.Token);
+            //this.worker.RunWorkerAsync();
+            catchMessagesTask = CatchMessagesAsync(cancellation.Token);
+            RaiseConnected();
         }
 
         /// <summary>
@@ -100,18 +103,18 @@ namespace Xrpl.Client
         public async Task SendMessageAsync(string message)
         {
             //Debug.WriteLine($"WS: SENT: {message}");
-            if (this.ws.State != WebSocketState.Open)
+            if (ws.State != WebSocketState.Open)
             {
                 throw new Exception("Connection is not open.");
             }
 
             byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
-            int messagesCount = (int)Math.Ceiling((double)messageBuffer.Length / this.sendChunkSize);
+            int messagesCount = (int)Math.Ceiling((double)messageBuffer.Length / sendChunkSize);
 
             for (int i = 0; i < messagesCount; i++)
             {
-                int offset = (this.sendChunkSize * i);
-                int count = this.sendChunkSize;
+                int offset = (sendChunkSize * i);
+                int count = sendChunkSize;
                 bool lastMessage = ((i + 1) == messagesCount);
 
                 if ((count * (i + 1)) > messageBuffer.Length)
@@ -119,7 +122,7 @@ namespace Xrpl.Client
                     count = messageBuffer.Length - offset;
                 }
                 //Debug.WriteLine($"CLIENT WS BUFFER: {messageBuffer.Length}");
-                await this.ws.SendAsync(new ArraySegment<byte>(messageBuffer, offset, count), WebSocketMessageType.Binary, lastMessage, CancellationToken.None);
+                await ws.SendAsync(new ArraySegment<byte>(messageBuffer, offset, count), WebSocketMessageType.Binary, lastMessage, CancellationToken.None).ConfigureAwait(false);
             }
         }
 
@@ -128,12 +131,12 @@ namespace Xrpl.Client
         /// Catches all the messages send by the server and raises <see cref="MessageReceived"/> events.
         /// </summary>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        private async Task CatchMessagesAsync()
+        private async Task CatchMessagesAsync(CancellationToken Cancel)
         {
             //Debug.WriteLine("WS: CONNECTED");
-            byte[] buffer = new byte[this.receiveChunkSize];
+            byte[] buffer = new byte[receiveChunkSize];
 
-            while (this.ws.State == WebSocketState.Open)
+            while (ws.State == WebSocketState.Open)
             {
                 try
                 {
@@ -143,11 +146,13 @@ namespace Xrpl.Client
                     WebSocketReceiveResult result;
                     do
                     {
-                        result = await this.ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                        Cancel.ThrowIfCancellationRequested();
+
+                        result = await ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None).ConfigureAwait(false);
                         //Debug.WriteLine("WS: RESULT");
                         if (result.MessageType == WebSocketMessageType.Close)
                         {
-                            this.RaiseClosed();
+                            await RaiseClosed();
                             return;
                         }
                         else
@@ -157,20 +162,25 @@ namespace Xrpl.Client
                         }
                     }
                     while (!result.EndOfMessage);
+
                     {
                         //Debug.WriteLine("WS: EndOfMessage");
-                        this.RaiseMessageReceived(stringResult.ToString());
+                        await RaiseMessageReceived(stringResult.ToString());
                     }
+                }
+                catch (OperationCanceledException exception) when (exception.CancellationToken == Cancel)
+                {
+                    throw;
                 }
                 catch (Exception exception)
                 {
                     //Debug.WriteLine($"WS: EXCEPTION: {exception.Message}");
-                    this.RaiseError(exception);
+                    await RaiseError(exception);
                 }
             }
 
             //Debug.WriteLine("WS: CLOSING");
-            this.RaiseClosed();
+            await RaiseClosed();
         }
 
         /// <summary>
@@ -178,36 +188,38 @@ namespace Xrpl.Client
         /// </summary>
         private void RaiseConnected()
         {
-            this.OnConnected?.Invoke(this, EventArgs.Empty);
+            OnConnected?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
         /// Raises the <see cref="Closed"/> event.
         /// </summary>
-        private void RaiseClosed()
+        private Task RaiseClosed()
         {
-            this.OnDisconnect?.Invoke(this, EventArgs.Empty);
+            OnDisconnect?.Invoke(this, EventArgs.Empty);
+            return Task.CompletedTask;
         }
 
         /// <summary>
         /// Raises the <see cref="Error"/> event.
         /// </summary>
         /// <param name="exception">The catched exception.</param>
-        private void RaiseError(Exception exception)
+        private Task RaiseError(Exception exception)
         {
             if (exception == null)
             {
                 throw new ArgumentNullException(nameof(exception));
             }
 
-            this.OnConnectionError?.Invoke(this, exception);
+            OnConnectionError?.Invoke(this, exception);
+            return Task.CompletedTask;
         }
 
         /// <summary>
         /// Raises the <see cref="MessageReceived"/> event.
         /// </summary>
         /// <param name="message">The message received.</param>
-        private void RaiseMessageReceived(string message)
+        private Task RaiseMessageReceived(string message)
         {
             Debug.WriteLine($"WS RECEIVED: {DateTime.Now}");
             if (message == null)
@@ -215,14 +227,15 @@ namespace Xrpl.Client
                 throw new ArgumentNullException(nameof(message));
             }
 
-            this.OnMessageReceived?.Invoke(this, message);
+            OnMessageReceived?.Invoke(this, message);
+            return Task.CompletedTask;
         }
 
-        public void Close(WebSocketCloseStatus code, string? message = null)
+        public async Task Close(WebSocketCloseStatus code, string? message = null)
         {
             //Debug.WriteLine("WS: CLOSE");
-            this.ws.CloseAsync(code, message, cancellationToken);
-            this.RaiseClosed();
+            await ws.CloseAsync(code, message, cancellation.Token);
+            await RaiseClosed();
         }
 
         /// <summary>
@@ -230,7 +243,9 @@ namespace Xrpl.Client
         /// </summary>
         public void Dispose()
         {
-            this.ws.Dispose();
+            cancellation.Cancel();
+            ws.Dispose();
+            cancellation.Dispose();
         }
     }
 }
