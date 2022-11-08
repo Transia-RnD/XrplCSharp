@@ -12,6 +12,8 @@ using Xrpl.Client.Extensions;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
 using Xrpl.Models.Ledger;
+using Xrpl.Models.Utils;
+using Index = Xrpl.Models.Utils.Index;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/common.ts
 
@@ -19,7 +21,9 @@ namespace Xrpl.Models.Transaction
 {
     public class Common
     {
-        static int ISSUED_CURRENCY_SIZE = 3;
+        const int ISSUED_CURRENCY_SIZE = 3;
+        private const int SIGNER_SIZE = 3;
+        private const int MEMO_SIZE = 3;
 
         public static bool IsRecord(dynamic value)
         {
@@ -49,6 +53,43 @@ namespace Xrpl.Models.Transaction
         {
             return amount is string || IsIssuedCurrency(amount);
         }
+
+
+        /// <summary>
+        /// Verify the form and type of Signer at runtime.
+        /// </summary>
+        /// <param name="signer">The object to check the form and type of.</param>
+        /// <returns>Whether the Signer is malformed.</returns>
+        public static bool IsSigner(dynamic signer)
+        {
+            if (signer is not Dictionary<string, dynamic> { Count: SIGNER_SIZE } value)
+                return false;
+
+            return (value.TryGetValue("Account", out var account) && account is string { }) &&
+                   (value.TryGetValue("TxnSignature", out var TxnSignature) && TxnSignature is string { }) &&
+                   (value.TryGetValue("SigningPubKey", out var SigningPubKey) && SigningPubKey is string { });
+        }
+        /// <summary>
+        /// Verify the form and type of Memo at runtime.
+        /// </summary>
+        /// <param name="memo">The object to check the form and type of.</param>
+        /// <returns>Whether the Memo is malformed.</returns>
+        public static bool IsMemo(dynamic memo)
+        {
+            if (memo is not Dictionary<string, dynamic> {  } value)
+                return false;
+
+            var size = value.Count;
+
+            var valid_data = !value.TryGetValue("MemoData", out var MemoData) || MemoData is string { };
+            var valid_format = !value.TryGetValue("MemoFormat", out var MemoFormat) || MemoData is string { };
+            var valid_type = !value.TryGetValue("MemoType", out var MemoType) || MemoData is string { };
+
+            return size is >= 1 and <= MEMO_SIZE && valid_data && valid_format && valid_type
+                   && value.OnlyHasFields(new[] { "MemoFormat", "MemoData", "MemoType" });
+        }
+
+
         /// <summary>
         /// Parse the value of an amount, expressed either in XRP or as an Issued Currency, into a number.
         /// </summary>
@@ -137,24 +178,32 @@ namespace Xrpl.Models.Transaction
             }
 
             // eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- Only used by JS
-            if (tx.TryGetValue("Memos", out var Memos) && Memos is List<dynamic> { } memos)
+            tx.TryGetValue("Memos", out var Memos);
+            if (Memos is not null)
             {
-                foreach (dynamic memo in memos)
-                {
-                    if (memo is not Memo)
-                        throw new ValidationError("BaseTransaction: invalid Memos");
-                }
+                if (Memos is not IEnumerable<dynamic> { } memos)
+                    throw new ValidationError("BaseTransaction: invalid Memos");
 
+                if (memos.Any(memo => !Common.IsMemo(memo)))
+                {
+                    throw new ValidationError("BaseTransaction: invalid Memos");
+                }
             }
 
             // eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- Only used by JS
+            tx.TryGetValue("Signers", out var Signers);
 
-            if (tx.TryGetValue("Signers", out var Signers) && Signers is List<dynamic> { Count: > 0 } signers)
+            if (Signers is not null)
             {
-                foreach (dynamic signer in signers)
+                if (Signers is not List<dynamic> signers)
+                    throw new ValidationError("BaseTransaction: invalid Signers");
+
+                if (signers.ToArray().Length == 0)
+                    throw new ValidationError("BaseTransaction: invalid Signers");
+
+                if (signers.Any(signer => !Common.IsSigner(signer)))
                 {
-                    if (signer is not Signer)
-                        throw new ValidationError("BaseTransaction: invalid Signers");
+                    throw new ValidationError("BaseTransaction: invalid Signers");
                 }
 
             }
