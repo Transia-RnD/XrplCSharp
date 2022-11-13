@@ -30,6 +30,7 @@ namespace XrplTests.Xrpl
             {
                 Console.WriteLine($"DISCONECTED CODE: {code}");
                 Console.WriteLine("DISCONECTED");
+                return Task.CompletedTask;
             };
             await client.Connect();
             return this;
