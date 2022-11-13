@@ -62,29 +62,29 @@ namespace XrplTests.Xrpl.ClientLib
                 //isFinished = true;
             };
 
-            var subscribe = await client.Subscribe(
-            new SubscribeRequest()
-            {
-                Streams = new List<string>(new[]
-                {
-                    "ledger",
-                })
-            });
-
-            //var request = new SubscribeRequest()
+            //var subscribe = await client.Subscribe(
+            //new SubscribeRequest()
             //{
             //    Streams = new List<string>(new[]
-            //        {
-            //            "ledger",
-            //        })
-            //};
-            //var serializerSettings = new JsonSerializerSettings();
-            //serializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            //serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            //serializerSettings.FloatParseHandling = FloatParseHandling.Double;
-            //serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
-            //string jsonString = JsonConvert.SerializeObject(request, serializerSettings);
-            //await client.connection.WebsocketSendAsync(jsonString);
+            //    {
+            //        "ledger",
+            //    })
+            //});
+
+            var request = new SubscribeRequest()
+            {
+                Streams = new List<string>(new[]
+                    {
+                        "ledger",
+                    })
+            };
+            var serializerSettings = new JsonSerializerSettings();
+            serializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            serializerSettings.FloatParseHandling = FloatParseHandling.Double;
+            serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
+            string jsonString = JsonConvert.SerializeObject(request, serializerSettings);
+            await client.connection.WebsocketSendAsync(jsonString);
 
             Debug.WriteLine($"BEFORE: {DateTime.Now}");
             //System.Threading.Thread.Sleep(TimeSpan.FromSeconds(8));

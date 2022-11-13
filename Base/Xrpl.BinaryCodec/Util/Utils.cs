@@ -701,7 +701,7 @@ namespace Xrpl.BinaryCodec.Util
         {
             byte[] HASH_CHANNEL_SIGN = { 0x43, 0x4C, 0x4D, 0x00 };
             byte[] AMOUNT_HEX_ARRAY = Bits.GetBytes(amount);
-            byte[] CHANNEL_HEX_ARRAY = Convert.FromHexString(channelHex);
+            byte[] CHANNEL_HEX_ARRAY = channelHex.FromHex();
 
             byte[] rv = new byte[HASH_CHANNEL_SIGN.Length + CHANNEL_HEX_ARRAY.Length + AMOUNT_HEX_ARRAY.Length];
             System.Buffer.BlockCopy(HASH_CHANNEL_SIGN, 0, rv, 0, HASH_CHANNEL_SIGN.Length);
