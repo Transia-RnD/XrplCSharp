@@ -26,6 +26,12 @@ namespace XrplTests.Xrpl
             });
             tcpListenerThread.Start();
             client = new XrplClient($"ws://127.0.0.1:{port}");
+            client.OnDisconnect += (code) =>
+            {
+                Console.WriteLine($"DISCONECTED CODE: {code}");
+                Console.WriteLine("DISCONECTED");
+                return null;
+            };
             await client.Connect();
             return this;
         }

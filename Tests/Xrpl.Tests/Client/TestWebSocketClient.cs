@@ -37,15 +37,32 @@ namespace XrplTests.Xrpl.ClientLib
 
             client.OnLedgerClosed += (message) =>
             {
-                Debug.WriteLine($"RECEIVED: {DateTime.Now}");
+                Debug.WriteLine($"LEDGER RECEIVED: {DateTime.Now}");
+                Debug.WriteLine(message);
                 //Console.WriteLine($"LEDGER CALLBACK: {message}");
                 isFinished = true;
+                return null;
+            };
+
+            //client.connection.ws.OnMessageReceived += (ws, message) =>
+            //{
+            //    Debug.WriteLine($"RECEIVED: {DateTime.Now}");
+            //    //Debug.WriteLine(message);
+            //    isFinished = true;
+            //};
+
+            client.OnError += (e, er, err, d) =>
+            {
+                Console.WriteLine($"ERROR CALLBACK");
+                //isFinished = true;
+                return null;
             };
 
             client.OnDisconnect += (c) =>
             {
                 //Console.WriteLine($"DISCONNECT CALLBACK: {c}");
                 //isFinished = true;
+                return null;
             };
 
             var subscribe = await client.Subscribe(
@@ -56,6 +73,21 @@ namespace XrplTests.Xrpl.ClientLib
                     "ledger",
                 })
             });
+
+            //var request = new SubscribeRequest()
+            //{
+            //    Streams = new List<string>(new[]
+            //        {
+            //            "ledger",
+            //        })
+            //};
+            //var serializerSettings = new JsonSerializerSettings();
+            //serializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            //serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            //serializerSettings.FloatParseHandling = FloatParseHandling.Double;
+            //serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
+            //string jsonString = JsonConvert.SerializeObject(request, serializerSettings);
+            //await client.connection.WebsocketSendAsync(jsonString);
 
             Debug.WriteLine($"BEFORE: {DateTime.Now}");
             //System.Threading.Thread.Sleep(TimeSpan.FromSeconds(8));
@@ -101,7 +133,7 @@ namespace XrplTests.Xrpl.ClientLib
             bool isFinished = false;
             client.OnMessageReceived += (ws, message) =>
             {
-                Debug.WriteLine($"RECEIVED: {DateTime.Now}");
+                Debug.WriteLine($"LEDGER RECEIVED: {DateTime.Now}");
                 //Debug.WriteLine(message);
                 isFinished = true;
             };
