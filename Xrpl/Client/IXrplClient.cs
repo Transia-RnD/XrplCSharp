@@ -24,15 +24,15 @@ using Submit = Xrpl.Models.Transaction.Submit;
 namespace Xrpl.Client
 {
 
-    public delegate Task OnError(string error, string errorMessage, string message, dynamic data);
-    public delegate Task OnConnected();
-    public delegate Task OnDisconnect(int? code);
-    public delegate Task OnLedgerClosed(object response);
-    public delegate Task OnTransaction(TransactionStream response);
-    public delegate Task OnManifestReceived(ValidationStream response);
-    public delegate Task OnPeerStatusChange(PeerStatusStream response);
-    public delegate Task OnConsensusPhase(ConsensusStream response);
-    public delegate Task OnPathFind(PathFindStream response);
+    public delegate void OnError(string error, string errorMessage, string message, dynamic data);
+    public delegate void OnConnected();
+    public delegate void OnDisconnect(int? code);
+    public delegate void OnLedgerClosed(object response);
+    public delegate void OnTransaction(TransactionStream response);
+    public delegate void OnManifestReceived(ValidationStream response);
+    public delegate void OnPeerStatusChange(PeerStatusStream response);
+    public delegate void OnConsensusPhase(ConsensusStream response);
+    public delegate void OnPathFind(PathFindStream response);
 
 
     public interface IXrplClient : IDisposable

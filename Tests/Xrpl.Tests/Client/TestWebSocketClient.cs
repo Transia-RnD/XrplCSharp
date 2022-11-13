@@ -41,7 +41,6 @@ namespace XrplTests.Xrpl.ClientLib
                 Debug.WriteLine(message);
                 //Console.WriteLine($"LEDGER CALLBACK: {message}");
                 isFinished = true;
-                return null;
             };
 
             //client.connection.ws.OnMessageReceived += (ws, message) =>
@@ -55,14 +54,12 @@ namespace XrplTests.Xrpl.ClientLib
             {
                 Console.WriteLine($"ERROR CALLBACK");
                 //isFinished = true;
-                return null;
             };
 
             client.OnDisconnect += (c) =>
             {
                 //Console.WriteLine($"DISCONNECT CALLBACK: {c}");
                 //isFinished = true;
-                return null;
             };
 
             var subscribe = await client.Subscribe(
