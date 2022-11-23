@@ -26,11 +26,11 @@ namespace XrplTests.Xrpl
             runner = await new SetupUnitClient().SetupClient();
         }
 
-        [ClassCleanup]
-        public static async Task MyClassCleanupAsync()
-        {
-            await runner.client.Disconnect();
-        }
+        //[ClassCleanup]
+        //public static async Task MyClassCleanupAsync()
+        //{
+        //    await runner.client.Disconnect();
+        //}
 
         [TestMethod]
         public void TestDefaultOptions()
@@ -57,7 +57,7 @@ namespace XrplTests.Xrpl
 
         [TestMethod]
         [ExpectedException(typeof(NotConnectedError))]
-        public void TestNotConnectedError()
+        public async void TestNotConnectedError()
         {
             ConnectionOptions options = new ConnectionOptions();
             Connection connection = new Connection("url", options);
@@ -67,7 +67,7 @@ namespace XrplTests.Xrpl
                 { "command", "ledger" },
                 { "ledger_index", "validated" },
             };
-            connection.Request(tx, null);
+            await connection.Request(tx, null);
         }
 
         [TestMethod]

@@ -26,11 +26,11 @@ namespace XrplTests.Xrpl.ClientLib.Integration
         }
 
         
-        [ClassCleanup]
-        public static async Task MyClassCleanupAsync()
-        {
-            await runner.client.Disconnect();
-        }
+        //[ClassCleanup]
+        //public static async Task MyClassCleanupAsync()
+        //{
+        //    await runner.client.Disconnect();
+        //}
 
         [TestMethod]
         public async Task TestRequestMethod()

@@ -178,7 +178,7 @@ namespace Xrpl.Client
 
         public async Task<int> Disconnect()
         {
-            //Debug.WriteLine("DISCONNECTING...");
+            Debug.WriteLine("DISCONNECTING...");
             ////this.ClearHeartbeatInterval();
             //if (this.reconnectTimeoutID != null)
             //{
@@ -187,23 +187,23 @@ namespace Xrpl.Client
             //}
             if (this.State() == WebSocketState.Closed)
             {
-                //Debug.WriteLine("WS CLOSED");
+                Debug.WriteLine("WS CLOSED");
                 return 0;
             }
 
             if (this.ws == null)
             {
-                //Debug.WriteLine("WS NULL");
+                Debug.WriteLine("WS NULL");
                 return 0;
             }
 
             var result = 0;
             if (this.ws != null)
             {
-                //Debug.WriteLine("WS NO NULL");
+                Debug.WriteLine("WS NO NULL");
                 this.ws.OnDisconnect += (c, e) =>
                 {
-                    //Debug.WriteLine("INSIDE DISCONNECT");
+                    Debug.WriteLine("INSIDE DISCONNECT");
                     result = (int)WebSocketCloseStatus.NormalClosure;
                 };
             }
@@ -215,7 +215,7 @@ namespace Xrpl.Client
             /// </summary>
             if (this.ws != null && this.State() != WebSocketState.CloseReceived)
             {
-                //Debug.WriteLine("CLOSING...");
+                Debug.WriteLine("CLOSING...");
                 await this.ws.Close(WebSocketCloseStatus.NormalClosure);
             }
             return result;
