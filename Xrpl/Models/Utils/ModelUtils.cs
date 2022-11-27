@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace Xrpl.Models.Utils //todo ?
 {
-    internal static class Index
+    public static class Index
     {
         /// <summary>
         /// Verify that all fields of an object are in fields.

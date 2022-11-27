@@ -72,7 +72,7 @@ namespace Xrpl.Models.Transaction
 
             if (!tx.TryGetValue("SignerEntries", out var SignerEntries) || SignerEntries is null)
                 throw new ValidationError("SignerListSet: missing field SignerEntries");
-            if (SignerEntries is not List<SignerEntry> entries)
+            if (SignerEntries is not List<dynamic> entries)
                 throw new ValidationError("SignerListSet: invalid SignerEntries");
 
             if(entries.Count==0)
@@ -82,13 +82,19 @@ namespace Xrpl.Models.Transaction
                 throw new ValidationError($"SignerListSet: maximum of {MAX_SIGNERS} members allowed in SignerEntries");
 
 
-            foreach (SignerEntry entry in entries)
+            foreach (dynamic entry_val in entries)
             {
-                var wallet = entry.WalletLocator;
-                if (wallet is not null && !Regex.IsMatch(wallet, @"^[0-9A-Fa-f]{64}$"))
-                    throw new ValidationError($"SignerListSet: WalletLocator in SignerEntry must be a 256-bit (32-byte) hexadecimal value");
-            }
+                if (entry_val.TryGetValue("SignerEntry", out dynamic entry))
+                {
+                    if (entry.TryGetValue("WalletLocator", out dynamic val))
+                    {
+                        
+                        if (val.ToString() is string { } WalletLocator && !Regex.IsMatch(WalletLocator, @"^[0-9A-Fa-f]{64}$"))
+                            throw new ValidationError($"SignerListSet: WalletLocator in SignerEntry must be a 256-bit (32-byte) hexadecimal value");
 
+                    }
+                }
+            }
         }
     }
 

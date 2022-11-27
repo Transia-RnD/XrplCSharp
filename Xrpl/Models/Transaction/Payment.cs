@@ -215,9 +215,10 @@ namespace Xrpl.Models.Transaction
 
         public static Task CheckPartialPayment(Dictionary<string, dynamic> tx)
         {
-            tx.TryGetValue("Flags", out var flags);
+            if (!tx.TryGetValue("DeliverMin", out var DeliverMin)) 
+                return Task.CompletedTask;
 
-            if (tx.TryGetValue("DeliverMin", out var DeliverMin) )
+            if (tx.TryGetValue("Flags", out var flags))
             {
                 if (flags is null)
                     throw new ValidationError("PaymentTransaction: tfPartialPayment flag required with DeliverMin");
@@ -226,31 +227,42 @@ namespace Xrpl.Models.Transaction
             //todo check func
             var isTfPartialPayment = flags is uint { } flag
                 ? Index.IsFlagEnabled(flag, (uint)PaymentFlags.tfPartialPayment)
-                : flags is PaymentFlags && flags == PaymentFlags.tfPartialPayment;
-
+                : flags is PaymentFlags f 
+                    ? flags == PaymentFlags.tfPartialPayment 
+                    : CheckFlag<PaymentFlags>(flags, "tfPartialPayment");
             if (!isTfPartialPayment)
                 throw new ValidationError("PaymentTransaction: tfPartialPayment flag required with DeliverMin");
             if (!Common.IsAmount(DeliverMin))
                 throw new ValidationError("PaymentTransaction: invalid DeliverMin");
+
             return Task.CompletedTask;
         }
-
-        public static bool IsPathStep(dynamic pathStep)
+        static bool CheckFlag<T>(Dictionary<string,dynamic> flag, string type) where T:Enum
         {
-            if (pathStep.ContainsKey("account") && pathStep["account"] is not string { } account)
+            if (flag.TryGetValue(type, out var f) && f is bool == true)
+            {
+                return true;
+            }
+
+            return false;
+
+        }
+        public static bool IsPathStep(Dictionary<string, dynamic> pathStep)
+        {
+            if (pathStep.TryGetValue("account", out var acc) && acc is not string { })
                 return false;
-            if (pathStep.ContainsKey("currency") && pathStep["currency"] is not string { } currency)
+            if (pathStep.TryGetValue("currency", out var currency) && currency is not string { })
                 return false;
-            if (pathStep.ContainsKey("issuer") && pathStep["issuer"] is not string { } issuer)
+            if (pathStep.TryGetValue("issuer", out var issuer) && issuer is not string { })
                 return false;
 
-            if (pathStep.ContainsKey("account") && !pathStep.ContainsKey("currency") && !pathStep.ContainsKey("issuer"))
+            if (acc is not null && currency is null && issuer is null)
                 return true;
-            if (pathStep.ContainsKey("currency") || pathStep.ContainsKey("issuer"))
+            if (currency is not null || issuer is not null)
                 return true;
             return false;
         }
-        public static bool IsPaths(Dictionary<string, dynamic> paths)
+        public static bool IsPaths(List<Dictionary<string, dynamic>> paths)
         {
             foreach (var path in paths)
             {
@@ -268,7 +280,7 @@ namespace Xrpl.Models.Transaction
             foreach (var c in paths)
             {
                 if (c is null || c.Count == 0) return false;
-                if (!IsPaths(paths)) return false;
+                if (!IsPaths(c)) return false;
             }
             return true;
         }

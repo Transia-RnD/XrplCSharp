@@ -33,7 +33,7 @@ namespace Xrpl.Models.Transaction
 
             // eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- okay here
             Flags.SetTransactionFlagsToNumber(tx);
-
+            
             switch (type)
             {
                 case "AccountDelete":

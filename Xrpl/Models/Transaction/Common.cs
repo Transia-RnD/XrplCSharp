@@ -82,8 +82,8 @@ namespace Xrpl.Models.Transaction
             var size = value.Count;
 
             var valid_data = !value.TryGetValue("MemoData", out var MemoData) || MemoData is string { };
-            var valid_format = !value.TryGetValue("MemoFormat", out var MemoFormat) || MemoData is string { };
-            var valid_type = !value.TryGetValue("MemoType", out var MemoType) || MemoData is string { };
+            var valid_format = !value.TryGetValue("MemoFormat", out var MemoFormat) || MemoFormat is string { };
+            var valid_type = !value.TryGetValue("MemoType", out var MemoType) || MemoType is string { };
 
             return size is >= 1 and <= MEMO_SIZE && valid_data && valid_format && valid_type
                    && value.OnlyHasFields(new[] { "MemoFormat", "MemoData", "MemoType" });
