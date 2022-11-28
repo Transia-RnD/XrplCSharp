@@ -71,7 +71,13 @@ namespace Xrpl.Models.Methods
         /// a negative Balance means that the perspective account owes value.
         /// </summary>
         [JsonIgnore]
-        public decimal BalanceAsNumber => decimal.Parse(Balance, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture);
+        public decimal BalanceAsNumber => decimal.Parse(Balance, NumberStyles.AllowLeadingSign
+                                                                 | (NumberStyles.AllowLeadingSign & NumberStyles.AllowDecimalPoint)
+                                                                 | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
+                                                                 | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                                                 | (NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                                                 | NumberStyles.AllowExponent
+                                                                 | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 
         /// <summary>
         /// A Currency Code identifying what currency this trust line can hold.

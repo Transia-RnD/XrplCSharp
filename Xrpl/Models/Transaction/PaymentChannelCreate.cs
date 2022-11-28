@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using Newtonsoft.Json;
+
+using Xrpl.Client.Exceptions;
 using Xrpl.Client.Json.Converters;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelCreate.ts
@@ -105,4 +110,41 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public uint? SourceTag { get; set; }
     }
+
+    public partial class Validation
+    {
+        /// <summary>
+        /// Verify the form and type of a PaymentChannelCreate at runtime.
+        /// </summary>
+        /// <param name="tx"> A PaymentChannelCreate Transaction.</param>
+        /// <exception cref="ValidationError">When the PaymentChannelCreate is malformed.</exception>
+        public static async Task ValidatePaymentChannelCreate(Dictionary<string, dynamic> tx)
+        {
+            await Common.ValidateBaseTransaction(tx);
+
+
+            if (!tx.TryGetValue("Amount", out var Amount) || Amount is null)
+                throw new ValidationError("PaymentChannelCreate: missing field Amount");
+            if (Amount is not string)
+                throw new ValidationError("PaymentChannelCreate: Amount must be a string");
+            if (!tx.TryGetValue("Destination", out var Destination) || Destination is null)
+                throw new ValidationError("PaymentChannelCreate: missing field Destination");
+            if (Destination is not string)
+                throw new ValidationError("PaymentChannelCreate: Destination must be a string");
+            if (!tx.TryGetValue("SettleDelay", out var SettleDelay) || SettleDelay is null)
+                throw new ValidationError("PaymentChannelCreate: missing field SettleDelay");
+            if (SettleDelay is not uint)
+                throw new ValidationError("PaymentChannelCreate: SettleDelay must be a number");
+            if (!tx.TryGetValue("PublicKey", out var PublicKey) || PublicKey is null)
+                throw new ValidationError("PaymentChannelCreate: missing field PublicKey");
+            if (PublicKey is not string)
+                throw new ValidationError("PaymentChannelCreate: PublicKey must be a string");
+            if (tx.TryGetValue("CancelAfter", out var CancelAfter) && CancelAfter is not uint)
+                throw new ValidationError("PaymentChannelCreate: CancelAfter must be a number");
+            if (tx.TryGetValue("DestinationTag", out var DestinationTag) && DestinationTag is not uint)
+                throw new ValidationError("PaymentChannelCreate: DestinationTag must be a number");
+
+        }
+    }
+
 }

@@ -2,6 +2,10 @@
 
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/escrowFinish.ts
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xrpl.Client.Exceptions;
+
 namespace Xrpl.Models.Transaction
 {
     /// <inheritdoc cref="IEscrowFinish" />
@@ -71,4 +75,37 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public string Owner { get; set; }
     }
+
+    public partial class Validation
+    {
+        /// <summary>
+        /// Verify the form and type of a EscrowFinish at runtime.
+        /// </summary>
+        /// <param name="tx"> A EscrowFinish Transaction.</param>
+        /// <exception cref="ValidationError">When the EscrowFinish is malformed.</exception>
+        public static async Task ValidateEscrowFinish(Dictionary<string, dynamic> tx)
+        {
+            await Common.ValidateBaseTransaction(tx);
+
+            if (!tx.TryGetValue("Owner", out var Owner) || Owner is null)
+                throw new ValidationError("EscrowFinish: missing field Owner");
+
+            if (Owner is not string)
+                throw new ValidationError("EscrowFinish: Owner must be a string");
+
+
+            
+            if (!tx.TryGetValue("OfferSequence", out var OfferSequence) || OfferSequence is null)
+                throw new ValidationError("EscrowFinish: missing field OfferSequence");
+            if (OfferSequence is not uint)
+                throw new ValidationError("EscrowFinish: Destination must be a number");
+
+            if (tx.TryGetValue("Condition", out var Condition) && Condition is not string)
+                throw new ValidationError("EscrowFinish: Condition must be a string");
+            if (tx.TryGetValue("Fulfillment", out var Fulfillment) && Fulfillment is not string)
+                throw new ValidationError("EscrowFinish: Fulfillment must be a string");
+
+        }
+    }
+
 }

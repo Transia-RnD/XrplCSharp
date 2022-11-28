@@ -2,6 +2,10 @@
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/NFTokenBurn.ts
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xrpl.Client.Exceptions;
+
 namespace Xrpl.Models.Transaction
 {
     /// <inheritdoc cref="INFTokenBurn" />
@@ -48,5 +52,22 @@ namespace Xrpl.Models.Transaction
 
         /// <inheritdoc />
         public string Owner { get; set; }
+    }
+
+    public partial class Validation
+    {
+        /// <summary>
+        /// Verify the form and type of an NFTokenBurn at runtime.
+        /// </summary>
+        /// <param name="tx"> An NFTokenBurn Transaction.</param>
+        /// <returns></returns>
+        /// <exception cref="ValidationError">When the NFTokenBurn is Malformed.</exception>
+        public static async Task ValidateNFTokenBurn(Dictionary<string, dynamic> tx)
+        {
+            await Common.ValidateBaseTransaction(tx);
+            if (!tx.TryGetValue("NFTokenID", out var NFTokenID) || NFTokenID is null)
+                throw new ValidationError("NFTokenID: missing field NFTokenID ");
+        }
+
     }
 }

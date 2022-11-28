@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using Newtonsoft.Json;
+
+using Xrpl.Client.Exceptions;
 using Xrpl.Client.Json.Converters;
 
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelFund.ts
@@ -64,4 +69,30 @@ namespace Xrpl.Models.Transaction
         [JsonConverter(typeof(RippleDateTimeConverter))]
         public DateTime? Expiration { get; set; }
     }
+
+    public partial class Validation
+    {
+        /// <summary>
+        /// Verify the form and type of a PaymentChannelFund at runtime.
+        /// </summary>
+        /// <param name="tx"> A PaymentChannelFund Transaction.</param>
+        /// <exception cref="ValidationError">When the PaymentChannelFund is malformed.</exception>
+        public static async Task ValidatePaymentChannelFund(Dictionary<string, dynamic> tx)
+        {
+            await Common.ValidateBaseTransaction(tx);
+
+
+            if (!tx.TryGetValue("Channel", out var Channel) || Channel is null)
+                throw new ValidationError("PaymentChannelFund: missing field Channel");
+            if (Channel is not string)
+                throw new ValidationError("PaymentChannelFund: Channel must be a string");
+            if (!tx.TryGetValue("Amount", out var Amount) || Amount is null)
+                throw new ValidationError("PaymentChannelFund: missing Amount");
+            if (Amount is not string)
+                throw new ValidationError("PaymentChannelFund: Amount must be a string");
+            if (tx.TryGetValue("Expiration", out var Expiration) && Expiration is not uint)
+                throw new ValidationError("PaymentChannelFund: Expiration must be a number");
+        }
+    }
+
 }

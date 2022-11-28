@@ -3,6 +3,9 @@
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/NFTokenAcceptOffer.ts
 
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xrpl.Client.Exceptions;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
 
@@ -85,4 +88,46 @@ namespace Xrpl.Models.Transaction
         [JsonConverter(typeof(CurrencyConverter))]
         public Currency NFTokenBrokerFee { get; set; }
     }
+
+    public partial class Validation
+    {
+        public static Task ValidateNFTokenBrokerFee(Dictionary<string, dynamic> tx)
+        {
+            if (!tx.TryGetValue("NFTokenBrokerFee", out var NFTokenBrokerFee) || NFTokenBrokerFee is null)
+                throw new ValidationError("NFTokenAcceptOffer: invalid NFTokenBrokerFee");
+
+            var value = Common.ParseAmountValue(NFTokenBrokerFee);
+            if (double.IsNaN(value))
+                throw new ValidationError("NFTokenAcceptOffer: invalid NFTokenBrokerFee");
+            if (value <= 0)
+                throw new ValidationError("NFTokenAcceptOffer: NFTokenBrokerFee must be greater than 0; omit if there is no fee");
+
+            if (!tx.TryGetValue("NFTokenSellOffer", out var NFTokenSellOffer) ||
+                !tx.TryGetValue("NFTokenBuyOffer", out var NFTokenBuyOffer) ||
+                NFTokenSellOffer is null || NFTokenBuyOffer is null)
+                throw new ValidationError("NFTokenAcceptOffer: both NFTokenSellOffer and NFTokenBuyOffer must be set if using brokered mode");
+
+            return Task.CompletedTask;
+        }
+        /// <summary>
+        /// Verify the form and type of an NFTokenAcceptOffer at runtime.
+        /// </summary>
+        /// <param name="tx">An NFTokenAcceptOffer Transaction.</param>
+        /// <exception cref="ValidationError">When the NFTokenAcceptOffer is Malformed.</exception>
+        public static async Task ValidateNFTokenAcceptOffer(Dictionary<string, dynamic> tx)
+        {
+            await Common.ValidateBaseTransaction(tx);
+
+            var can_get_value_NFTokenSellOffer = tx.TryGetValue("NFTokenSellOffer", out var NFTokenSellOffer);
+            var can_get_value_NFTokenBuyOffer = tx.TryGetValue("NFTokenBuyOffer", out var NFTokenBuyOffer);
+
+            if (tx.TryGetValue("NFTokenBrokerFee", out var NFTokenBrokerFee) && NFTokenBrokerFee is not null)
+                await ValidateNFTokenBrokerFee(tx);
+
+            if ((!can_get_value_NFTokenSellOffer && !can_get_value_NFTokenBuyOffer) || (NFTokenSellOffer is null && NFTokenBuyOffer is null))
+                throw new ValidationError("NFTokenAcceptOffer: must set either NFTokenSellOffer or NFTokenBuyOffer");
+        }
+
+    }
+
 }

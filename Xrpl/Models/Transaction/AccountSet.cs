@@ -1,5 +1,11 @@
 ﻿// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/accountSet.ts
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Xrpl.Client.Exceptions;
+
 namespace Xrpl.Models.Transaction
 {
     /// <summary>
@@ -150,6 +156,62 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public uint? TransferRate { get; set; }
         /// <inheritdoc />
-        public uint? TickSize { get; set; }        
+        public uint? TickSize { get; set; }
     }
+
+    public partial class Validation
+    {
+        private const uint MIN_TICK_SIZE = 3;
+
+        private const uint MAX_TICK_SIZE = 15;
+
+        /// <summary>
+        /// Verify the form and type of a AccountSet at runtime.
+        /// </summary>
+        /// <param name="tx"> A AccountSet Transaction.</param>
+        /// <exception cref="ValidationError">When the AccountSet is malformed.</exception>
+        public static async Task ValidateAccountSet(Dictionary<string, dynamic> tx)
+        {
+            await Common.ValidateBaseTransaction(tx);
+            if (tx.TryGetValue("ClearFlag", out var ClearFlag) && ClearFlag is not null)
+            {
+                if (ClearFlag is not uint { } flag )
+                    throw new ValidationError("AccountSet: invalid ClearFlag");
+
+                if (Enum.GetValues<AccountSetTfFlags>().All(c => (uint)c != flag))
+                    throw new ValidationError("AccountSet: invalid ClearFlag");
+            }
+            if (tx.TryGetValue("Domain", out var Domain) && Domain is not string { })
+                throw new ValidationError("AccountSet: invalid Domain");
+
+            if (tx.TryGetValue("EmailHash", out var EmailHash) && EmailHash is not string { })
+                throw new ValidationError("AccountSet: invalid EmailHash");
+
+            if (tx.TryGetValue("MessageKey", out var MessageKey) && MessageKey is not string { })
+                throw new ValidationError("AccountSet: invalid MessageKey");
+
+            if (tx.TryGetValue("SetFlag", out var SetFlag) && SetFlag is not null)
+            {
+                if (SetFlag is not uint { })
+                    throw new ValidationError("AccountSet: invalid SetFlag");
+
+                if (Enum.GetValues<AccountSetTfFlags>().All(c => (uint)c != SetFlag))
+                    throw new ValidationError("AccountSet: missing field Destination");
+            }
+
+            if (tx.TryGetValue("TransferRate", out var TransferRate) && TransferRate is not uint { })
+                throw new ValidationError("AccountSet: invalid TransferRate");
+
+            if (tx.TryGetValue("TickSize", out var TickSize) && TickSize is not null)
+            {
+                if (TickSize is not uint { } size)
+                    throw new ValidationError("AccountSet: invalid TickSize");
+
+                if (size is < MIN_TICK_SIZE or > MAX_TICK_SIZE)
+                    throw new ValidationError("AccountSet: invalid TickSize");
+            }
+
+        }
+    }
+
 }

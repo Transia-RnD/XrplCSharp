@@ -1,4 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using Xrpl.BinaryCodec.Types;
+using Xrpl.Client.Exceptions;
+using Xrpl.Models.Utils;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/NFTokenMint.ts
 
@@ -106,4 +112,29 @@ namespace Xrpl.Models.Transaction
         /// <inheritdoc />
         public string URI { get; set; }
     }
+
+    public partial class Validation
+    {
+        //https://github.com/XRPLF/xrpl.js/blob/b40a519a0d949679a85bf442be29026b76c63a22/packages/xrpl/src/models/transactions/NFTokenMint.ts#L100
+        /// <summary>
+        /// Verify the form and type of an NFTokenMint at runtime.
+        /// </summary>
+        /// <param name="tx"> An NFTokenMint Transaction.</param>
+        /// <exception cref="ValidationError">When the NFTokenMint is Malformed.</exception>
+        public static async Task ValidateNFTokenMint(Dictionary<string, dynamic> tx)
+        {
+            await Common.ValidateBaseTransaction(tx);
+
+            if (tx.TryGetValue("Account", out var Account) && tx.TryGetValue("Issuer", out var Issuer) && Account == Issuer)
+                throw new ValidationError("NFTokenMint: Issuer must not be equal to Account");
+
+            if (tx.TryGetValue("URI", out var URI) && URI is string { Length: > 0 } uri && !uri.IsHex())
+                throw new ValidationError("NFTokenMint: URI must be in hex format"); 
+            
+            if (!tx.TryGetValue("NFTokenTaxon", out var NFTokenTaxon) || NFTokenTaxon is null)
+                throw new ValidationError("NFTokenMint: missing field NFTokenTaxon");
+
+        }
+    }
+
 }
