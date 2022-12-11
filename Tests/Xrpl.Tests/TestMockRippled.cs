@@ -47,7 +47,7 @@ namespace XrplTests.Xrpl
         }
 
         //[TestMethod]
-        //[ExpectedException(typeof(XrplError), "")]
+        //[ExpectedException(typeof(XrplException), "")]
         //public async Task TestErrorMockNotProvided()
         //{
         //    ServerInfoRequest request = new ServerInfoRequest();

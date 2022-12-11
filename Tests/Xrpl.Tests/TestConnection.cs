@@ -56,8 +56,8 @@ namespace XrplTests.Xrpl
         //}
 
         [TestMethod]
-        [ExpectedException(typeof(NotConnectedError))]
-        public async void TestNotConnectedError()
+        [ExpectedException(typeof(NotConnectedException))]
+        public async void TestNotConnectedException()
         {
             ConnectionOptions options = new ConnectionOptions();
             Connection connection = new Connection("url", options);
@@ -122,7 +122,7 @@ namespace XrplTests.Xrpl
         //}
 
         [TestMethod]
-        [ExpectedException(typeof(XrplError))]
+        [ExpectedException(typeof(XrplException))]
         public async Task TestNoCrashError()
         {
             runner.mockedRippled.suppressOutput = true;

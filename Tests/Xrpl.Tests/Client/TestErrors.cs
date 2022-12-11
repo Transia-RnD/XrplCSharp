@@ -14,14 +14,14 @@ namespace XrplTests.Xrpl.ClientLib
         //[TestMethod]
         //public void TestErrorWithData()
         //{
-        //    XrplError error = new XrplError("_message_", "_data_");
-        //    Assert.AreEqual("[XrplError(_message_, '_data_')]", error.ToString());
+        //    XrplException error = new XrplException("_message_", "_data_");
+        //    Assert.AreEqual("[XrplException(_message_, '_data_')]", error.ToString());
         //}
 
         [TestMethod]
         public void TestErrorNotFound()
         {
-            XrplError error = new NotFoundError();
+            XrplException error = new NotFoundException();
             Assert.AreEqual("Xrpl.Client.Exceptions.NotFoundError: Not Found", error.ToString());
         }
     }

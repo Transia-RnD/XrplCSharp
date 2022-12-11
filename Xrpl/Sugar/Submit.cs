@@ -52,7 +52,7 @@ namespace Xrpl.Sugar
         public static async Task<Submit> SubmitRequest(IXrplClient client, string signedTransaction, bool failHard)
         {
             //if (!isSigned(signedTransaction)) {
-            //    throw new ValidationError('Transaction must be signed')
+            //    throw new ValidationException('Transaction must be signed')
             //}
 
             //string signedTxEncoded = typeof signedTransaction === 'string' ? signedTransaction : encode(signedTransaction)
@@ -88,7 +88,7 @@ namespace Xrpl.Sugar
 
             if (wallet == null)
             {
-                throw new ValidationError("Wallet must be provided when submitting an unsigned transaction");
+                throw new ValidationException("Wallet must be provided when submitting an unsigned transaction");
             }
             Dictionary<string, dynamic> tx = transaction;
             //let tx =

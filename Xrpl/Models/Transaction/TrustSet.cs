@@ -127,22 +127,22 @@ namespace Xrpl.Models.Transaction
             //ValidateBaseTransaction(tx)
             if (tx["LimitAmount"] == null)
             {
-                throw new ValidationError("TrustSet: missing field LimitAmount");
+                throw new ValidationException("TrustSet: missing field LimitAmount");
             }
             // TODO: Review this function
             if (!Common.IsAmount(tx["LimitAmount"]))
             {
-                throw new ValidationError("TrustSet: invalid LimitAmount");
+                throw new ValidationException("TrustSet: invalid LimitAmount");
             }
 
             if (tx["QualityIn"] != null && tx["QualityIn"] is uint)
             {
-                throw new ValidationError("TrustSet: invalid QualityIn");
+                throw new ValidationException("TrustSet: invalid QualityIn");
             }
 
             if (tx["QualityOut"] != null && tx["QualityOut"] is uint)
             {
-                throw new ValidationError("TrustSet: invalid QualityOut");
+                throw new ValidationException("TrustSet: invalid QualityOut");
             }
         }
     }

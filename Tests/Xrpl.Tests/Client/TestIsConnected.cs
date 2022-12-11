@@ -19,11 +19,11 @@ namespace XrplTests.Xrpl.ClientLib
             runner = await new SetupUnitClient().SetupClient();
         }
 
-        [ClassCleanup]
-        public static void MyClassCleanupAsync()
-        {
-            runner.client.Disconnect().Wait();
-        }
+        //[ClassCleanup]
+        //public static void MyClassCleanupAsync()
+        //{
+        //    runner.client.Disconnect().Wait();
+        //}
 
         [TestMethod]
         public async Task TestConnectedDisconnect()

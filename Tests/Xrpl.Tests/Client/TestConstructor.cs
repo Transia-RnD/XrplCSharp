@@ -49,7 +49,7 @@ namespace XrplTests.Xrpl.ClientLib
         }
 
         //[TestMethod]
-        //[ExpectedException(typeof(XrplError))]
+        //[ExpectedException(typeof(XrplException))]
         //public void TestInvalidServer()
         //{
         //    new XrplClient("wss://s:1");

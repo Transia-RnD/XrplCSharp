@@ -117,7 +117,7 @@ namespace Xrpl.Sugar
             {
                 if (tField != null && (int)tField != classicAccount.Tag)
                 {
-                    throw new ValidationError($"The { tagField }, if present, must match the tag of the { accountField} X - address");
+                    throw new ValidationException($"The { tagField }, if present, must match the tag of the { accountField} X - address");
                 }
                 // eslint-disable-next-line no-param-reassign -- param reassign is safe
                 tx[tagField] = classicAccount.Tag;
@@ -131,7 +131,7 @@ namespace Xrpl.Sugar
                 CodecAddress codecAddress = XrplAddressCodec.XAddressToClassicAddress(account);
                 if (expectedTag != null && codecAddress.Tag != expectedTag)
                 {
-                    throw new ValidationError("address includes a tag that does not match the tag specified in the transaction");
+                    throw new ValidationException("address includes a tag that does not match the tag specified in the transaction");
                 }
                 return new AddressNTag { ClassicAddress = codecAddress.ClassicAddress, Tag = codecAddress.Tag };
             }
@@ -167,7 +167,7 @@ namespace Xrpl.Sugar
 
             if (fee == null)
             {
-                await Task.FromException(new XrplError("Could not fetch Owner Reserve."));
+                await Task.FromException(new XrplException("Could not fetch Owner Reserve."));
             }
             return new BigInteger(Convert.ToByte(fee));
         }
@@ -231,7 +231,7 @@ namespace Xrpl.Sugar
             TaskCompletionSource task = new TaskCompletionSource();
             if (response.AccountObjectList.Count > 0)
             {
-                task.TrySetException(new XrplError($"Account {(string)tx["Account"]} cannot be deleted; there are Escrows, PayChannels, RippleStates, or Checks associated with the account."));
+                task.TrySetException(new XrplException($"Account {(string)tx["Account"]} cannot be deleted; there are Escrows, PayChannels, RippleStates, or Checks associated with the account."));
             }
             task.TrySetResult();
         }

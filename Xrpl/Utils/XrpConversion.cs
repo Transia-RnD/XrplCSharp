@@ -98,13 +98,13 @@ namespace Xrpl.Utils
             // check that the value is valid and actually a number
             if (!(dropsToConvert is string) && drops != null)
             {
-                throw new ValidationError($"dropsToXrp: invalid value '{dropsToConvert}', should be a BigNumber or string - encoded number.");
+                throw new ValidationException($"dropsToXrp: invalid value '{dropsToConvert}', should be a BigNumber or string - encoded number.");
             }
 
             // drops are only whole units
             if (drops.Contains("."))
             {
-                throw new ValidationError("dropsToXrp: value '${drops}' has too many decimal places.");
+                throw new ValidationException("dropsToXrp: value '${drops}' has too many decimal places.");
             }
 
             /*
@@ -114,7 +114,7 @@ namespace Xrpl.Utils
              */
             //if (!SANITY_CHECK.exec(drops))
             //{
-            //    throw new ValidationError(
+            //    throw new ValidationException(
             //        "dropsToXrp: failed sanity check -" +
             //        " value '${drops}'," +
             //        " does not match(^-?[0 - 9] +$)."
@@ -149,7 +149,7 @@ namespace Xrpl.Utils
             // check that the value is valid and actually a number
             if (!(xrpToConvert is string) && xrp != null)
             {
-                throw new ValidationError($"xrpToConvert: invalid value '{xrpToConvert}', should be a BigInteger or string - encoded number.");
+                throw new ValidationException($"xrpToConvert: invalid value '{xrpToConvert}', should be a BigInteger or string - encoded number.");
             }
 
             // drops are only whole units
@@ -157,12 +157,12 @@ namespace Xrpl.Utils
             string[] components = xrp.TrimEnd('0').Split('.');
             if (components.Length > 2)
             {
-                throw new ValidationError("xrpToDrops: failed sanity check - value '${xrp}' has too many decimal points.");
+                throw new ValidationException("xrpToDrops: failed sanity check - value '${xrp}' has too many decimal points.");
             }
             string fraction = components.Length > 1 && components[1] != null ? components[1] : "0";
             if (fraction.Length > MAX_FRACTION_LENGTH)
             {
-                throw new ValidationError($"xrpToDrops: value '{xrp}' has too many decimal places.");
+                throw new ValidationException($"xrpToDrops: value '{xrp}' has too many decimal places.");
             }
             // TODO: SHOULD BE BASE 10
             return new BigInteger(decimal.Parse(xrpToConvert, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent) * (decimal)new BigInteger(DROPS_PER_XRP)).ToString();

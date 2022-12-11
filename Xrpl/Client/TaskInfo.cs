@@ -17,5 +17,4 @@ namespace Xrpl.Client
             RemoveUponCompletion = true;
         }
     }
-    
 }

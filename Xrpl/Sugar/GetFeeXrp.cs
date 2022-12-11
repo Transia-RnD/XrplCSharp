@@ -33,7 +33,7 @@ namespace Xrpl.Sugar
             double? baseFee = serverInfo.Info.ValidatedLedger.BaseFeeXrp;
             if (baseFee == null)
             {
-                throw new XrplError("getFeeXrp: Could not get base_fee_xrp from server_info");
+                throw new XrplException("getFeeXrp: Could not get base_fee_xrp from server_info");
             }
             decimal baseFeeXrp = decimal.Parse(baseFee.ToString(), System.Globalization.NumberStyles.AllowExponent);
 

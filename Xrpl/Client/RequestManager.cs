@@ -17,6 +17,7 @@ using Org.BouncyCastle.Asn1.Ocsp;
 using System.Reflection;
 using System.Xml.Linq;
 using Org.BouncyCastle.Utilities;
+using TimeoutException = Xrpl.Client.Exceptions.TimeoutException;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/client/RequestManager.ts
 
@@ -55,8 +56,6 @@ namespace Xrpl.Client
             serializerSettings = new JsonSerializerSettings();
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;
             serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            serializerSettings.FloatParseHandling = FloatParseHandling.Double;
-            serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
         }
 
         /// <summary>
@@ -66,16 +65,15 @@ namespace Xrpl.Client
             var promise = promisesAwaitingResponse.TryGetValue(id, out var taskInfo);
             if (taskInfo == null)
             {
-                throw new XrplError($"No existing promise with id {id}");
+                throw new XrplException($"No existing promise with id {id}");
             }
             var hasTimer = this.timeoutsAwaitingResponse.TryRemove(id, out var timer);
             if (hasTimer)
                 timer.Stop();
-            this.DeletePromise(id, taskInfo);
             var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
             var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("TrySetResult");
             setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });
-            //this.DeletePromise(id, taskInfo);
+            this.DeletePromise(id, taskInfo);
         }
 
         /// <summary>
@@ -85,22 +83,23 @@ namespace Xrpl.Client
             var promise = promisesAwaitingResponse.TryGetValue(id, out var taskInfo);
             if (taskInfo == null)
             {
-                throw new XrplError($"No existing promise with id {id}");
+                throw new XrplException($"No existing promise with id {id}");
             }
+            // todo: should stop task timout if need to
+            //clearTimeout(promise)
             var hasTimer = this.timeoutsAwaitingResponse.TryRemove(id, out var timer);
             if (hasTimer)
                 timer.Stop();
-            this.DeletePromise(id, taskInfo);
             var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("TrySetException", new Type[] { typeof(Exception) }, null);
             setException.Invoke(taskInfo.TaskCompletionResult, new[] { error });
-            //this.DeletePromise(id, taskInfo);
+            this.DeletePromise(id, taskInfo);
         }
 
         /// <summary>
         /// </summary>
         public void RejectAll(Exception error)
         {
-            //Debug.WriteLine($"REJECT ALL: {promisesAwaitingResponse.Count}");
+            Debug.WriteLine($"REJECT ALL: {promisesAwaitingResponse.Count}");
             foreach (var id in this.promisesAwaitingResponse.Keys)
             {
                 this.Reject(id, error);
@@ -128,20 +127,21 @@ namespace Xrpl.Client
 
             if (this.promisesAwaitingResponse.ContainsKey(newId))
             {
-                throw new XrplError($"Response with id '${newId}' is already pending");
+                throw new XrplException($"Response with id '${newId}' is already pending");
             }
 
             TaskCompletionSource<dynamic> task = new TaskCompletionSource<dynamic>();
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.RemoveUponCompletion = true;
+            var typeInfo = request.GetType().GetProperty("Command");
+            taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
             taskInfo.Type = typeof(T);
 
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
 
             Timer timer = new Timer(timeout);
-            timer.Elapsed += (sender, e) => this.Reject(newId, new TimeoutError());
+            timer.Elapsed += (sender, e) => this.Reject(newId, new TimeoutException());
             timer.Start();
             timeoutsAwaitingResponse.TryAdd(newId, timer);
 
@@ -176,20 +176,21 @@ namespace Xrpl.Client
 
             if (this.promisesAwaitingResponse.ContainsKey(newId))
             {
-                throw new XrplError($"Response with id '${newId}' is already pending");
+                throw new XrplException($"Response with id '${newId}' is already pending");
             }
 
             TaskCompletionSource<Dictionary<string, dynamic>> task = new TaskCompletionSource<Dictionary<string, dynamic>>();
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.RemoveUponCompletion = true;
+            var typeInfo = request.GetType().GetProperty("Command");
+            taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
             taskInfo.Type = typeof(Dictionary<string, dynamic>);
 
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
 
             Timer timer = new Timer(timeout);
-            timer.Elapsed += (sender, e) => this.Reject(newId, new TimeoutError());
+            timer.Elapsed += (sender, e) => this.Reject(newId, new TimeoutException());
             timer.Start();
             timeoutsAwaitingResponse.TryAdd(newId, timer);
 
@@ -205,7 +206,7 @@ namespace Xrpl.Client
         {
             if (response.Id == null)
             {
-                throw new XrplError("Valid id not found in response");
+                throw new XrplException("Valid id not found in response");
             }
 
             if (!promisesAwaitingResponse.ContainsKey((Guid)response.Id))
@@ -216,20 +217,20 @@ namespace Xrpl.Client
 
             if (response.Status == null)
             {
-                ResponseFormatError error = new ResponseFormatError("Response has no status");
+                ResponseFormatException error = new ResponseFormatException("Response has no status");
                 this.Reject((Guid)response.Id, error);
             }
 
             if (response.Status == "error")
             {
-                XrplError error = new XrplError(response.ErrorMessage ?? response.Error);
+                XrplException error = new XrplException(response.ErrorMessage ?? response.Error);
                 this.Reject((Guid)response.Id, error);
                 return;
             }
 
             if (response.Status != "success")
             {
-                XrplError error = new XrplError($"unrecognized response.status: ${response.Status ?? ""}");
+                XrplException error = new XrplException($"unrecognized response.status: ${response.Status ?? ""}");
                 this.Reject((Guid)response.Id, error);
                 return;
             }
@@ -244,4 +245,3 @@ namespace Xrpl.Client
         }
     }
 }
-

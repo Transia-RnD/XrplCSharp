@@ -14,7 +14,7 @@ namespace Xrpl.Utils.Hashes
             //Dictionary<string, dynamic> txObject = tx.ToObject<Dictionary<string, dynamic>>();
             //if (!txObject.ContainsKey("TxnSignature") && !txObject.ContainsKey("Signers"))
             //{
-            //    new ValidationError("The transaction must be signed to hash it.");
+            //    new ValidationException("The transaction must be signed to hash it.");
             //}
             //return B16.Encode(Sha512.Half(input: Address.Codec.Utils.FromHexToBytes(txBlob), prefix: (uint)HashPrefix.TransactionId));
         }

@@ -9,32 +9,31 @@ namespace Xrpl.Client
 {
     public class ConnectionManager
     {
-        private List<TaskCompletionSource> PromisesAwaitingConnection = new List<TaskCompletionSource>();
+        private List<(Action resolve, Action<Exception> reject)> promisesAwaitingConnection = new List<(Action resolve, Action<Exception> reject)>();
 
         public void ResolveAllAwaiting()
         {
-            this.PromisesAwaitingConnection.ForEach((p) =>
+            foreach (var (resolve, _) in promisesAwaitingConnection)
             {
-                p.TrySetResult();
-            });
-            this.PromisesAwaitingConnection = new List<TaskCompletionSource>();
+                resolve();
+            }
+            promisesAwaitingConnection = new List<(Action resolve, Action<Exception> reject)>();
         }
 
         public void RejectAllAwaiting(Exception error)
         {
-            this.PromisesAwaitingConnection.ForEach((p) =>
+            foreach (var (_, reject) in promisesAwaitingConnection)
             {
-                p.TrySetException(error);
-            });
-            this.PromisesAwaitingConnection = new List<TaskCompletionSource>();
+                reject(error);
+            }
+            promisesAwaitingConnection = new List<(Action resolve, Action<Exception> reject)>();
         }
 
-        public Task AwaitConnection()
+        public async Task AwaitConnection()
         {
-            TaskCompletionSource task = new TaskCompletionSource();
-            this.PromisesAwaitingConnection.Add(task);
-            return task.Task;
+            var tcs = new TaskCompletionSource<object>();
+            promisesAwaitingConnection.Add((() => tcs.SetResult(null), (ex) => tcs.SetException(ex)));
+            await tcs.Task;
         }
     }
 }
-

@@ -88,7 +88,7 @@ namespace Xrpl.Models.Utils
             {
                 if (flagEnum[flag] == null)
                 {
-                    throw new ValidationError("flag ${ flag } doesn't exist in flagEnum: ${JSON.stringify(flagEnum)}");
+                    throw new ValidationException("flag ${ flag } doesn't exist in flagEnum: ${JSON.stringify(flagEnum)}");
                 }
                 return flags[flag] != null ? resultFlags | flagEnum[flag] : resultFlags;
             });

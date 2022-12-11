@@ -14,7 +14,7 @@ namespace Xrpl.Client
     {
 
         //private Action<WebSocketClient> _onConnected;
-        //private Action<Exception, WebSocketClient> _onConnectionError;
+        //private Action<Exception, WebSocketClient> _onConnectionException;
         //private Action<byte[], WebSocketClient> _onMessageBinary;
         //private Action<string, WebSocketClient> _onMessageString;
         //private Action<WebSocketClient> _onDisconnected;
@@ -75,7 +75,7 @@ namespace Xrpl.Client
         /// <summary>
         /// Raised when an error occurs during the reception of a message.
         /// </summary>
-        public event EventHandler<Exception> OnConnectionError;
+        public event EventHandler<Exception> OnConnectionException;
 
         /// <summary>
         /// Raised when a new message is received.
@@ -211,7 +211,7 @@ namespace Xrpl.Client
                 throw new ArgumentNullException(nameof(exception));
             }
 
-            OnConnectionError?.Invoke(this, exception);
+            OnConnectionException?.Invoke(this, exception);
             return Task.CompletedTask;
         }
 

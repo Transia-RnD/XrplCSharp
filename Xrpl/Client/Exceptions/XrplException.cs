@@ -10,102 +10,107 @@ namespace Xrpl.Client.Exceptions
         public RippleException(string message, Exception? InnerException) : base(message, InnerException) { }
     }
 
-    public class XrplError : Exception
+    public class XrplException : Exception
     {
         //public readonly string message;
         //public readonly byte[]? data;
 
-        //public XrplError(byte[]? data, string message = "")
+        //public XrplException(byte[]? data, string message = "")
         //{
         //    //this.name = this.constructor.name; 
         //    this.message = message;
         //    this.data = data;
         //}
 
-        public XrplError() { }
+        public XrplException() { }
 
-        public XrplError(string message) : base(message) { }
-        public XrplError(string message, Exception? InnerException) : base(message, InnerException) { }
-        //public XrplError(string message, dynamic data) : base(message, data) { }
+        public XrplException(string message) : base(message) { }
+        public XrplException(string message, Exception? InnerException) : base(message, InnerException) { }
+        //public XrplException(string message, dynamic data) : base(message, data) { }
     }
 
     /// <summary>
-    /// Error thrown when rippled responds with an error.
+    /// Exception thrown when rippled responds with an Exception.
     /// </summary>
-    public class RippledError : XrplError { }
+    public class RippledException : XrplException {
+        public RippledException(string message, dynamic data = null) : base(message)
+        {
+        }
+    }
     /// <summary>
-    /// Error thrown when xrpl.js cannot specify error type.
+    /// Exception thrown when xrpl.js cannot specify Exception type.
     /// </summary>
-    public class UnexpectedError : XrplError { }
+    public class UnexpectedException : XrplException { }
     /// <summary>
-    /// Error thrown when xrpl.js has an error with connection to rippled.
+    /// Exception thrown when xrpl.js has an Exception with connection to rippled.
     /// </summary>
-    public class ConnectionError : XrplError
+    public class ConnectionException : XrplException
     {
-        public ConnectionError(string message) : base(message)
+        public ConnectionException(string message) : base(message)
         {
         }
     }
     /// <summary>
-    /// Error thrown when xrpl.js is not connected to rippled server.
+    /// Exception thrown when xrpl.js is not connected to rippled server.
     /// </summary>
-    public class NotConnectedError : XrplError {
-        public NotConnectedError(string message = null) : base(message)
-        {
-        }
-    }
-    /// <summary>
-    /// Error thrown when xrpl.js has disconnected from rippled server.
-    /// </summary>
-    public class DisconnectedError : XrplError
+    public class NotConnectedException : XrplException
     {
-        public DisconnectedError(string message) : base(message)
+        public NotConnectedException(string message = null) : base(message)
         {
         }
     }
     /// <summary>
-    /// Error thrown when rippled is not initialized.
+    /// Exception thrown when xrpl.js has disconnected from rippled server.
     /// </summary>
-    public class RippledNotInitializedError : XrplError { }
-    /// <summary>
-    /// Error thrown when xrpl.js times out.
-    /// </summary>
-    public class TimeoutError : XrplError { }
-    /// <summary>
-    /// Error thrown when xrpl.js sees a response in the wrong format.
-    /// </summary>
-    public class ResponseFormatError : XrplError
+    public class DisconnectedException : XrplException
     {
-        public ResponseFormatError(string message) : base(message)
+        public DisconnectedException(string message) : base(message)
         {
         }
     }
     /// <summary>
-    /// Error thrown when xrpl.js sees a malformed transaction.
+    /// Exception thrown when rippled is not initialized.
     /// </summary>
-    public class ValidationError : XrplError
+    public class RippledNotInitializedException : XrplException { }
+    /// <summary>
+    /// Exception thrown when xrpl.js times out.
+    /// </summary>
+    public class TimeoutException : XrplException { }
+    /// <summary>
+    /// Exception thrown when xrpl.js sees a response in the wrong format.
+    /// </summary>
+    public class ResponseFormatException : XrplException
     {
-        public ValidationError(string message = null) : base(message)
+        public ResponseFormatException(string message, dynamic data = null) : base(message)
         {
         }
     }
     /// <summary>
-    /// Error thrown when a client cannot generate a wallet from the testnet/devnet
+    /// Exception thrown when xrpl.js sees a malformed transaction.
+    /// </summary>
+    public class ValidationException : XrplException
+    {
+        public ValidationException(string message = null) : base(message)
+        {
+        }
+    }
+    /// <summary>
+    /// Exception thrown when a client cannot generate a wallet from the testnet/devnet
     /// faucets, or when the client cannot infer the faucet URL(i.e.when the Client
     /// is connected to mainnet).
     /// </summary>
-    public class XRPLFaucetError : XrplError
+    public class XRPLFaucetException : XrplException
     {
-        public XRPLFaucetError(string message = null) : base(message)
+        public XRPLFaucetException(string message = null) : base(message)
         {
         }
     }
     /// <summary>
-    /// Error thrown when xrpl.js cannot retrieve a transaction, ledger, account, etc.
+    /// Exception thrown when xrpl.js cannot retrieve a transaction, ledger, account, etc.
     /// From rippled.
     /// </summary>
-    public class NotFoundError : XrplError
+    public class NotFoundException : XrplException
     {
-        public NotFoundError(string message = "Not Found") : base(message) { }
+        public NotFoundException(string message = "Not Found") : base(message) { }
     }
 }

@@ -105,7 +105,7 @@ namespace XrplTests.Xrpl.ClientLib
         }
 
         [TestMethod]
-        //[ExpectedException(typeof(NotConnectedError))]
+        //[ExpectedException(typeof(NotConnectedException))]
         public void TestAutofillDeteteBlockers()
         {
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>

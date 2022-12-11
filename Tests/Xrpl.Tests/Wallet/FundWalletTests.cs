@@ -70,11 +70,11 @@ namespace Xrpl.Tests.Wallet.Tests
             catch (InvalidCastException err)
             {
                 aTimer.Enabled = false;
-                if (err is RippledError)
+                if (err is RippledException)
                 {
-                    throw new XRPLFaucetError($"Unable to check if the address {_address} balance has increased.Error: {"err.message"}");
+                    throw new XRPLFaucetException($"Unable to check if the address {_address} balance has increased.Error: {"err.message"}");
                 }
-                throw new XRPLFaucetError($"Unable to check if the address {_address} balance has increased.Error: {"err.message"}");
+                throw new XRPLFaucetException($"Unable to check if the address {_address} balance has increased.Error: {"err.message"}");
             }
         }
 

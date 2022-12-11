@@ -238,12 +238,12 @@ namespace XrplTests.Xrpl
                     var _command = request.TryGetValue("command", out var command);
                     if (request["id"] == null)
                     {
-                        throw new XrplError($"Request has no id: {JsonConvert.SerializeObject(request)}");
+                        throw new XrplException($"Request has no id: {JsonConvert.SerializeObject(request)}");
                     }
                     //Debug.WriteLine($"SERVER RECV ID: {request["id"]}");
                     if (!_command)
                     {
-                        throw new XrplError($"Request has no command: {JsonConvert.SerializeObject(request)}");
+                        throw new XrplException($"Request has no command: {JsonConvert.SerializeObject(request)}");
                     }
                     if (command == "ping")
                     {
@@ -259,10 +259,10 @@ namespace XrplTests.Xrpl
                     }
                     else
                     {
-                        throw new XrplError($"No event handler registered in mock rippled for {request["command"]}");
+                        throw new XrplException($"No event handler registered in mock rippled for {request["command"]}");
                     }
                 }
-                catch (XrplError err)
+                catch (XrplException err)
                 {
                     if (!this.suppressOutput)
                     {
