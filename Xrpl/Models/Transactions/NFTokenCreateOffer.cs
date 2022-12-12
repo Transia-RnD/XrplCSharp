@@ -123,16 +123,16 @@ namespace Xrpl.Models.Transactions
         public static Task ValidateNFTokenSellOfferCases(Dictionary<string, dynamic> tx)
         {
             if (tx.TryGetValue("Owner", out var Owner) && Owner is not null)
-                throw new ValidationError("NFTokenCreateOffer: Owner must not be present for sell offers");
+                throw new ValidationException("NFTokenCreateOffer: Owner must not be present for sell offers");
             return Task.CompletedTask;
         }
         public static Task ValidateNFTokenBuyOfferCases(Dictionary<string, dynamic> tx)
         {
             if (!tx.TryGetValue("Owner", out var Owner) || Owner is null)
-                throw new ValidationError("NFTokenCreateOffer: Owner must not be present for sell offers");
+                throw new ValidationException("NFTokenCreateOffer: Owner must not be present for sell offers");
 
             if (!tx.TryGetValue("Amount", out var Amount) || Common.ParseAmountValue(Amount) <= 0)
-                throw new ValidationError("NFTokenCreateOffer: Amount must be greater than 0 for buy offers");
+                throw new ValidationException("NFTokenCreateOffer: Amount must be greater than 0 for buy offers");
 
             return Task.CompletedTask;
         }
@@ -141,20 +141,20 @@ namespace Xrpl.Models.Transactions
         /// </summary>
         /// <param name="tx">An NFTokenCreateOffer Transaction.</param>
         /// <returns>When the NFTokenCreateOffer is Malformed.</returns>
-        /// <exception cref="ValidationError"></exception>
+        /// <exception cref="ValidationException"></exception>
         public static Task ValidateNFTokenCreateOffer(Dictionary<string, dynamic> tx)
         {
             Common.ValidateBaseTransaction(tx);
 
             if (tx.TryGetValue("Account", out var Account) && tx.TryGetValue("Owner", out var Owner) && Account == Owner)
-                throw new ValidationError("NFTokenCreateOffer: Owner and Account must not be equal");
+                throw new ValidationException("NFTokenCreateOffer: Owner and Account must not be equal");
 
             if (tx.TryGetValue("Destination", out var Destination) && Account == Destination)
-                throw new ValidationError("NFTokenCreateOffer: Destination and Account must not be equal");
+                throw new ValidationException("NFTokenCreateOffer: Destination and Account must not be equal");
             if (!tx.TryGetValue("NFTokenID", out var NFTokenID) || NFTokenID is null)
-                throw new ValidationError("NFTokenCreateOffer: missing field NFTokenID");
+                throw new ValidationException("NFTokenCreateOffer: missing field NFTokenID");
             if (!tx.TryGetValue("Amount", out var Amount) || Amount is null || !Common.IsAmount(Amount))
-                throw new ValidationError("NFTokenCreateOffer: invalid Amount");
+                throw new ValidationException("NFTokenCreateOffer: invalid Amount");
             
             if (tx.TryGetValue("Flags", out var Flags) &&
                 Flags is uint {} flags 

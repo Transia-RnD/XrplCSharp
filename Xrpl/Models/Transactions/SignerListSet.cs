@@ -60,26 +60,26 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a SignerListSet at runtime.
         /// </summary>
         /// <param name="tx"> A SignerListSet Transaction.</param>
-        /// <exception cref="ValidationError">When the SignerListSet is malformed.</exception>
+        /// <exception cref="ValidationException">When the SignerListSet is malformed.</exception>
         public static async Task ValidateSignerListSet(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (!tx.TryGetValue("SignerQuorum", out var SignerQuorum) || SignerQuorum is null)
-                throw new ValidationError("SignerListSet: missing field SignerQuorum");
+                throw new ValidationException("SignerListSet: missing field SignerQuorum");
             if (SignerQuorum is not uint)
-                throw new ValidationError("SignerListSet: invalid SignerQuorum");
+                throw new ValidationException("SignerListSet: invalid SignerQuorum");
 
 
             if (!tx.TryGetValue("SignerEntries", out var SignerEntries) || SignerEntries is null)
-                throw new ValidationError("SignerListSet: missing field SignerEntries");
+                throw new ValidationException("SignerListSet: missing field SignerEntries");
             if (SignerEntries is not List<dynamic> entries)
-                throw new ValidationError("SignerListSet: invalid SignerEntries");
+                throw new ValidationException("SignerListSet: invalid SignerEntries");
 
             if(entries.Count==0)
-                throw new ValidationError("SignerListSet: need at least 1 member in SignerEntries");
+                throw new ValidationException("SignerListSet: need at least 1 member in SignerEntries");
 
             if(entries.Count> MAX_SIGNERS)
-                throw new ValidationError($"SignerListSet: maximum of {MAX_SIGNERS} members allowed in SignerEntries");
+                throw new ValidationException($"SignerListSet: maximum of {MAX_SIGNERS} members allowed in SignerEntries");
 
 
             foreach (dynamic entry_val in entries)
@@ -90,7 +90,7 @@ namespace Xrpl.Models.Transactions
                     {
                         
                         if (val.ToString() is string { } WalletLocator && !Regex.IsMatch(WalletLocator, @"^[0-9A-Fa-f]{64}$"))
-                            throw new ValidationError($"SignerListSet: WalletLocator in SignerEntry must be a 256-bit (32-byte) hexadecimal value");
+                            throw new ValidationException($"SignerListSet: WalletLocator in SignerEntry must be a 256-bit (32-byte) hexadecimal value");
 
                     }
                 }

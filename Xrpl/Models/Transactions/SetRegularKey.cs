@@ -47,13 +47,13 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a SetRegularKey at runtime.
         /// </summary>
         /// <param name="tx"> A SetRegularKey Transaction.</param>
-        /// <exception cref="ValidationError">When the SetRegularKey is malformed.</exception>
+        /// <exception cref="ValidationException">When the SetRegularKey is malformed.</exception>
         public static async Task ValidateSetRegularKey(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 
             if (tx.TryGetValue("RegularKey", out var RegularKey) && RegularKey is not string)
-                throw new ValidationError("SetRegularKey: RegularKey must be a string");
+                throw new ValidationException("SetRegularKey: RegularKey must be a string");
         }
     }
 

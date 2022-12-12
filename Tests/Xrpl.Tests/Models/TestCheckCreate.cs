@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 
 namespace XrplTests.Xrpl.Models
 {
@@ -44,8 +45,8 @@ namespace XrplTests.Xrpl.Models
                 {"DestinationTag", 1u},
                 {"Fee", "12"},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateCheckCreate(tx), "CheckCreate: invalid Destination");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(tx), "CheckCreate: invalid Destination");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateCheckCreate(tx), "CheckCreate: invalid Destination");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(tx), "CheckCreate: invalid Destination");
         }
         [TestMethod]
         public async Task TestVerify_InValid_SendMax()
@@ -61,8 +62,8 @@ namespace XrplTests.Xrpl.Models
                 {"DestinationTag", 1u},
                 {"Fee", "12"},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateCheckCreate(tx), "CheckCreate: invalid SendMax");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(tx), "CheckCreate: invalid SendMax");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateCheckCreate(tx), "CheckCreate: invalid SendMax");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(tx), "CheckCreate: invalid SendMax");
         }
         [TestMethod]
         public async Task TestVerify_InValid_DestinationTag()
@@ -78,8 +79,8 @@ namespace XrplTests.Xrpl.Models
                 {"DestinationTag", "1"},
                 {"Fee", "12"},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateCheckCreate(tx), "CheckCreate: invalid DestinationTag");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(tx), "CheckCreate: invalid DestinationTag");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateCheckCreate(tx), "CheckCreate: invalid DestinationTag");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(tx), "CheckCreate: invalid DestinationTag");
         }
         [TestMethod]
         public async Task TestVerify_InValid_Expiration()
@@ -95,8 +96,8 @@ namespace XrplTests.Xrpl.Models
                 {"DestinationTag", 1u},
                 {"Fee", "12"},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateCheckCreate(tx), "CheckCreate: invalid Expiration");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(tx), "CheckCreate: invalid Expiration");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateCheckCreate(tx), "CheckCreate: invalid Expiration");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(tx), "CheckCreate: invalid Expiration");
         }
         [TestMethod]
         public async Task TestVerify_InValid_InvoiceID()
@@ -112,8 +113,8 @@ namespace XrplTests.Xrpl.Models
                 {"DestinationTag", 1u},
                 {"Fee", "12"},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateCheckCreate(tx), "CheckCreate: invalid InvoiceID");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(tx), "CheckCreate: invalid InvoiceID");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateCheckCreate(tx), "CheckCreate: invalid InvoiceID");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(tx), "CheckCreate: invalid InvoiceID");
         }
     }
 

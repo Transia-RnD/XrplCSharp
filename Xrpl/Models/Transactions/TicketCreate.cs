@@ -48,19 +48,19 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a TicketCreate at runtime.
         /// </summary>
         /// <param name="tx"> A TicketCreate Transaction.</param>
-        /// <exception cref="ValidationError">When the TicketCreate is malformed.</exception>
+        /// <exception cref="ValidationException">When the TicketCreate is malformed.</exception>
         public static async Task ValidateTicketCreate(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 
 
             if (!tx.TryGetValue("TicketCount", out var TicketCount) || TicketCount is null)
-                throw new ValidationError("TicketCreate: missing field TicketCount");
+                throw new ValidationException("TicketCreate: missing field TicketCount");
             if (TicketCount is not uint count)
-                throw new ValidationError("TicketCreate: TicketCount must be a number");
+                throw new ValidationException("TicketCreate: TicketCount must be a number");
 
             if(count is < 1 or > MAX_TICKETS)
-                throw new ValidationError("TicketCreate: TicketCount must be an integer from 1 to 250");
+                throw new ValidationException("TicketCreate: TicketCount must be an integer from 1 to 250");
 
         }
     }

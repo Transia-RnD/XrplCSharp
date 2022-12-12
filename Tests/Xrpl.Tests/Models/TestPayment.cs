@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 
 namespace XrplTests.Xrpl.Models
 {
@@ -66,43 +67,43 @@ namespace XrplTests.Xrpl.Models
                 {"MemoData", "32324324"},
                 {"MemoType", 121221},
             }};
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(payment), "BaseTransaction: invalid Memos");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(payment), "BaseTransaction: invalid Memos");
             payment.Remove("Memos");
 
             // throws when Amount is missing
             payment.Remove("Amount");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePayment(payment), "PaymentTransaction: missing Amount");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(payment), "PaymentTransaction: missing Amount");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePayment(payment), "PaymentTransaction: missing Amount");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(payment), "PaymentTransaction: missing Amount");
             payment["Amount"] = "1234";
 
             // throws when Amount is invalid
             payment["Amount"] = 1234;
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePayment(payment), "PaymentTransaction: invalid Amount");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(payment), "PaymentTransaction: invalid Amount");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePayment(payment), "PaymentTransaction: invalid Amount");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(payment), "PaymentTransaction: invalid Amount");
             payment["Amount"] = "1234";
 
             // throws when Destination is missing
             payment.Remove("Destination");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePayment(payment), "PaymentTransaction: missing field Destination");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(payment), "PaymentTransaction: missing field Destination");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePayment(payment), "PaymentTransaction: missing field Destination");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(payment), "PaymentTransaction: missing field Destination");
             payment["Destination"] = "rfkE1aSy9G8Upk4JssnwBxhEv5p4mn2KTy";
 
             // throws when Destination is invalid
             payment["Destination"] = 7896214;
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePayment(payment), "PaymentTransaction: invalid Destination");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(payment), "PaymentTransaction: invalid Destination");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePayment(payment), "PaymentTransaction: invalid Destination");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(payment), "PaymentTransaction: invalid Destination");
             payment["Destination"] = "rfkE1aSy9G8Upk4JssnwBxhEv5p4mn2KTy";
 
             // throws when DestinationTag is not a number
             payment["DestinationTag"] = "1";
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePayment(payment), "PaymentTransaction: DestinationTag must be a number");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(payment), "PaymentTransaction: DestinationTag must be a number");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePayment(payment), "PaymentTransaction: DestinationTag must be a number");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(payment), "PaymentTransaction: DestinationTag must be a number");
             payment["DestinationTag"] = 1u;
 
             // throws when InvoiceID is not a string
             payment["InvoiceID"] = 19832;
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePayment(payment), "PaymentTransaction: InvoiceID must be a string");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(payment), "PaymentTransaction: InvoiceID must be a string");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePayment(payment), "PaymentTransaction: InvoiceID must be a string");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(payment), "PaymentTransaction: InvoiceID must be a string");
             payment["InvoiceID"] = "6F1DFD1D0FE8A32E40E1F2C05CF1C15545BAB56B617F9C6C2D63A6B704BEF59B";
 
             // throws when Paths is invalid
@@ -116,8 +117,8 @@ namespace XrplTests.Xrpl.Models
                     }
                 }
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePayment(payment), "PaymentTransaction: invalid Paths");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(payment), "PaymentTransaction: invalid Paths");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePayment(payment), "PaymentTransaction: invalid Paths");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(payment), "PaymentTransaction: invalid Paths");
             payment["Paths"] = new List<List<Dictionary<string, dynamic>>>()
             {
                 new List<Dictionary<string, dynamic>>()
@@ -132,8 +133,8 @@ namespace XrplTests.Xrpl.Models
 
             // throws when SendMax is invalid
             payment["SendMax"] = 100000000;
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePayment(payment), "PaymentTransaction: invalid SendMax");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(payment), "PaymentTransaction: invalid SendMax");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePayment(payment), "PaymentTransaction: invalid SendMax");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(payment), "PaymentTransaction: invalid SendMax");
             payment["SendMax"] = "100000000";
 
             // verifies valid DeliverMin with tfPartialPayment flag set as a number
@@ -161,15 +162,15 @@ namespace XrplTests.Xrpl.Models
             {
                 { "tfPartialPayment", true },
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePayment(payment), "PaymentTransaction: invalid DeliverMin");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(payment), "PaymentTransaction: invalid DeliverMin");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePayment(payment), "PaymentTransaction: invalid DeliverMin");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(payment), "PaymentTransaction: invalid DeliverMin");
             payment["Flags"] = 2147483648u;
             payment.Remove("DeliverMin");
 
             //throws when tfPartialPayment flag is missing with valid DeliverMin
             payment["DeliverMin"] = "10000";
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePayment(payment), "PaymentTransaction: tfPartialPayment flag required with DeliverMin");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(payment), "PaymentTransaction: tfPartialPayment flag required with DeliverMin");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePayment(payment), "PaymentTransaction: tfPartialPayment flag required with DeliverMin");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(payment), "PaymentTransaction: tfPartialPayment flag required with DeliverMin");
             payment.Remove("DeliverMin");
         }
     }

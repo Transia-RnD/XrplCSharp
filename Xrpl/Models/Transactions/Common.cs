@@ -95,7 +95,7 @@ namespace Xrpl.Models.Transactions
         /// </summary>
         /// <param name="amount"> An Amount to parse for its value.</param>
         /// <returns></returns>
-        /// <exception cref="ValidationError">The parsed amount value, or null if the amount count not be parsed.</exception>
+        /// <exception cref="ValidationException">The parsed amount value, or null if the amount count not be parsed.</exception>
         public static double ParseAmountValue(dynamic amount)
         {
             if (!Common.IsAmount(amount))
@@ -130,51 +130,51 @@ namespace Xrpl.Models.Transactions
         /// </summary>
         /// <param name="tx">An interface w/ common transaction fields.</param>
         /// <returns></returns>
-        /// <exception cref="ValidationError"> When the common param is malformed.</exception>
+        /// <exception cref="ValidationException"> When the common param is malformed.</exception>
         public static Task ValidateBaseTransaction(Dictionary<string, dynamic> tx)
         {
             if (!tx.TryGetValue("Account", out var Account) || Account is null)
             {
-                throw new ValidationError("BaseTransaction: missing field Account");
+                throw new ValidationException("BaseTransaction: missing field Account");
             }
 
             if (Account is not string { })
             {
-                throw new ValidationError("BaseTransaction: Account not string");
+                throw new ValidationException("BaseTransaction: Account not string");
             }
 
             if (!tx.TryGetValue("TransactionType", out var TransactionType) || TransactionType is null)
             {
-                throw new ValidationError("BaseTransaction: missing field TransactionType");
+                throw new ValidationException("BaseTransaction: missing field TransactionType");
             }
 
             if (TransactionType is not string)
             {
-                throw new ValidationError("BaseTransaction: TransactionType not string");
+                throw new ValidationException("BaseTransaction: TransactionType not string");
             }
 
 
             if (Enum.GetValues<TransactionType>().All(type => type.ToString() != $"{TransactionType}"))
             {
-                throw new ValidationError("BaseTransaction: Unknown TransactionType");
+                throw new ValidationException("BaseTransaction: Unknown TransactionType");
             }
 
             if (tx.TryGetValue("Fee", out var Fee) && Fee is not string { })
             {
-                throw new ValidationError("BaseTransaction: invalid Fee");
+                throw new ValidationException("BaseTransaction: invalid Fee");
             }
 
             if (tx.TryGetValue("Sequence", out var Sequence) && Sequence is not uint { })
             {
-                throw new ValidationError("BaseTransaction: invalid Sequence");
+                throw new ValidationException("BaseTransaction: invalid Sequence");
             }
             if (tx.TryGetValue("AccountTxnID", out var AccountTxnID) && AccountTxnID is not string { })
             {
-                throw new ValidationError("BaseTransaction: invalid AccountTxnID");
+                throw new ValidationException("BaseTransaction: invalid AccountTxnID");
             }
             if (tx.TryGetValue("LastLedgerSequence", out var LastLedgerSequence) && LastLedgerSequence is not uint { })
             {
-                throw new ValidationError("BaseTransaction: invalid LastLedgerSequence");
+                throw new ValidationException("BaseTransaction: invalid LastLedgerSequence");
             }
 
             // eslint-disable-next-line @typescript-eslint/consistent-type-assertions -- Only used by JS
@@ -182,11 +182,11 @@ namespace Xrpl.Models.Transactions
             if (Memos is not null)
             {
                 if (Memos is not IEnumerable<dynamic> { } memos)
-                    throw new ValidationError("BaseTransaction: invalid Memos");
+                    throw new ValidationException("BaseTransaction: invalid Memos");
 
                 if (memos.Any(memo => !Common.IsMemo(memo)))
                 {
-                    throw new ValidationError("BaseTransaction: invalid Memos");
+                    throw new ValidationException("BaseTransaction: invalid Memos");
                 }
             }
 
@@ -196,33 +196,33 @@ namespace Xrpl.Models.Transactions
             if (Signers is not null)
             {
                 if (Signers is not List<dynamic> signers)
-                    throw new ValidationError("BaseTransaction: invalid Signers");
+                    throw new ValidationException("BaseTransaction: invalid Signers");
 
                 if (signers.ToArray().Length == 0)
-                    throw new ValidationError("BaseTransaction: invalid Signers");
+                    throw new ValidationException("BaseTransaction: invalid Signers");
 
                 if (signers.Any(signer => !Common.IsSigner(signer)))
                 {
-                    throw new ValidationError("BaseTransaction: invalid Signers");
+                    throw new ValidationException("BaseTransaction: invalid Signers");
                 }
 
             }
 
             if (tx.TryGetValue("SourceTag", out var SourceTag) && SourceTag is not uint { })
             {
-                throw new ValidationError("BaseTransaction: invalid SourceTag");
+                throw new ValidationException("BaseTransaction: invalid SourceTag");
             }
             if (tx.TryGetValue("SigningPubKey", out var SigningPubKey) && SigningPubKey is not string { })
             {
-                throw new ValidationError("BaseTransaction: invalid SigningPubKey");
+                throw new ValidationException("BaseTransaction: invalid SigningPubKey");
             }
             if (tx.TryGetValue("TicketSequence", out var TicketSequence) && TicketSequence is not uint { })
             {
-                throw new ValidationError("BaseTransaction: invalid TicketSequence");
+                throw new ValidationException("BaseTransaction: invalid TicketSequence");
             }
             if (tx.TryGetValue("TxnSignature", out var TxnSignature) && TxnSignature is not string { })
             {
-                throw new ValidationError("BaseTransaction: invalid TxnSignature");
+                throw new ValidationException("BaseTransaction: invalid TxnSignature");
             }
             return Task.CompletedTask;
         }

@@ -76,22 +76,22 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a PaymentChannelFund at runtime.
         /// </summary>
         /// <param name="tx"> A PaymentChannelFund Transaction.</param>
-        /// <exception cref="ValidationError">When the PaymentChannelFund is malformed.</exception>
+        /// <exception cref="ValidationException">When the PaymentChannelFund is malformed.</exception>
         public static async Task ValidatePaymentChannelFund(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 
 
             if (!tx.TryGetValue("Channel", out var Channel) || Channel is null)
-                throw new ValidationError("PaymentChannelFund: missing field Channel");
+                throw new ValidationException("PaymentChannelFund: missing field Channel");
             if (Channel is not string)
-                throw new ValidationError("PaymentChannelFund: Channel must be a string");
+                throw new ValidationException("PaymentChannelFund: Channel must be a string");
             if (!tx.TryGetValue("Amount", out var Amount) || Amount is null)
-                throw new ValidationError("PaymentChannelFund: missing Amount");
+                throw new ValidationException("PaymentChannelFund: missing Amount");
             if (Amount is not string)
-                throw new ValidationError("PaymentChannelFund: Amount must be a string");
+                throw new ValidationException("PaymentChannelFund: Amount must be a string");
             if (tx.TryGetValue("Expiration", out var Expiration) && Expiration is not uint)
-                throw new ValidationError("PaymentChannelFund: Expiration must be a number");
+                throw new ValidationException("PaymentChannelFund: Expiration must be a number");
         }
     }
 

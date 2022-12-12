@@ -58,17 +58,17 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a AccountDelete at runtime.
         /// </summary>
         /// <param name="tx"> A AccountDelete Transaction.</param>
-        /// <exception cref="ValidationError">When the AccountDelete is malformed.</exception>
+        /// <exception cref="ValidationException">When the AccountDelete is malformed.</exception>
         public static async Task ValidateAccountDelete(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (!tx.TryGetValue("Destination", out var Destination) || Destination is null)
-                throw new ValidationError("AccountDelete: missing field Destination");
+                throw new ValidationException("AccountDelete: missing field Destination");
             if (Destination is not string { })
-                throw new ValidationError("AccountDelete: invalid Destination");
+                throw new ValidationException("AccountDelete: invalid Destination");
 
             if (tx.TryGetValue("DestinationTag", out var DestinationTag) && DestinationTag is not uint { })
-                throw new ValidationError("AccountDelete: invalid DestinationTag");
+                throw new ValidationException("AccountDelete: invalid DestinationTag");
         }
     }
 

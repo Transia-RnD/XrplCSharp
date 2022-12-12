@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 
 namespace XrplTests.Xrpl.Models
 {
@@ -88,7 +89,7 @@ namespace XrplTests.Xrpl.Models
                 {"Fee", "5000000"},
                 {"Sequence", 2470665u},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(offer), "NFTokenCreateOffer: Owner and Account must not be equal - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(offer), "NFTokenCreateOffer: Owner and Account must not be equal - no ERROR");
         }
         [TestMethod]
         public async Task TestVerify_Invalid_Account_is_Destination()
@@ -105,7 +106,7 @@ namespace XrplTests.Xrpl.Models
                 {"Fee", "5000000"},
                 {"Sequence", 2470665u},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(offer), "NFTokenCreateOffer: Destination and Account must not be equal - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(offer), "NFTokenCreateOffer: Destination and Account must not be equal - no ERROR");
         }
 
         [TestMethod]
@@ -122,7 +123,7 @@ namespace XrplTests.Xrpl.Models
                 {"Fee", "5000000"},
                 {"Sequence", 2470665u},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(offer), "NFTokenCreateOffer:  missing field NFTokenID - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(offer), "NFTokenCreateOffer:  missing field NFTokenID - no ERROR");
         }
         [TestMethod]
         public async Task TestVerify_Invalid_Amount()
@@ -139,7 +140,7 @@ namespace XrplTests.Xrpl.Models
                 {"Fee", "5000000"},
                 {"Sequence", 2470665u},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(offer), "NFTokenCreateOffer: invalid Amount - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(offer), "NFTokenCreateOffer: invalid Amount - no ERROR");
         }
 
         [TestMethod]
@@ -156,7 +157,7 @@ namespace XrplTests.Xrpl.Models
                 {"Fee", "5000000"},
                 {"Sequence", 2470665u},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(offer), "NFTokenCreateOffer: invalid Amount - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(offer), "NFTokenCreateOffer: invalid Amount - no ERROR");
         }
         [TestMethod]
         public async Task TestVerify_Invalid_Owner_for_sell_offer()
@@ -173,7 +174,7 @@ namespace XrplTests.Xrpl.Models
                 {"Fee", "5000000"},
                 {"Sequence", 2470665u},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(offer), "NFTokenCreateOffer: Owner must not be present for sell offers - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(offer), "NFTokenCreateOffer: Owner must not be present for sell offers - no ERROR");
         }
 
         [TestMethod]
@@ -189,7 +190,7 @@ namespace XrplTests.Xrpl.Models
                 {"Fee", "5000000"},
                 {"Sequence", 2470665u},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(offer), "NFTokenCreateOffer: Owner must be present for buy offers - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(offer), "NFTokenCreateOffer: Owner must be present for buy offers - no ERROR");
         }
 
         [TestMethod]
@@ -206,7 +207,7 @@ namespace XrplTests.Xrpl.Models
                 {"Fee", "5000000"},
                 {"Sequence", 2470665u},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(offer), "NFTokenCreateOffer: Amount must be greater than 0 for buy offers - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(offer), "NFTokenCreateOffer: Amount must be greater than 0 for buy offers - no ERROR");
         }
 
 

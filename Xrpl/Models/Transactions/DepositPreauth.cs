@@ -55,7 +55,7 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a DepositPreauth at runtime.
         /// </summary>
         /// <param name="tx"> A DepositPreauth Transaction.</param>
-        /// <exception cref="ValidationError">When the DepositPreauth is malformed.</exception>
+        /// <exception cref="ValidationException">When the DepositPreauth is malformed.</exception>
         public static async Task ValidateDepositPreauth(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
@@ -64,23 +64,23 @@ namespace Xrpl.Models.Transactions
             tx.TryGetValue("Unauthorize", out var Unauthorize);
 
             if (Authorize is null && Unauthorize is null)
-                throw new ValidationError("DepositPreauth: must provide either Authorize or Unauthorize field ");
+                throw new ValidationException("DepositPreauth: must provide either Authorize or Unauthorize field ");
 
             if (Authorize is not null && Unauthorize is not null)
-                throw new ValidationError("DepositPreauth: can't provide both Authorize and Unauthorize fields");
+                throw new ValidationException("DepositPreauth: can't provide both Authorize and Unauthorize fields");
             if (Authorize is { } aut)
             {
                 if (aut is not string { })
-                    throw new ValidationError("DepositPreauth:  Authorize must be a string");
+                    throw new ValidationException("DepositPreauth:  Authorize must be a string");
                 if (tx["Account"] == aut)
-                    throw new ValidationError("DepositPreauth:  Account can't preauthorize its own address");
+                    throw new ValidationException("DepositPreauth:  Account can't preauthorize its own address");
             }
             if (Unauthorize is { } un_aut)
             {
                 if (un_aut is not string { })
-                    throw new ValidationError("DepositPreauth:  Unauthorize must be a string");
+                    throw new ValidationException("DepositPreauth:  Unauthorize must be a string");
                 if (tx["Account"] == un_aut)
-                    throw new ValidationError("DepositPreauth:  Account can't unauthorize its own address");
+                    throw new ValidationException("DepositPreauth:  Account can't unauthorize its own address");
             }
 
 

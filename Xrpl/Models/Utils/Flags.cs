@@ -108,7 +108,7 @@ namespace Xrpl.Models.Utils
             {
                 if (!flagEnum.TryGetValue(f, out var e))
                 {
-                    throw new ValidationError($"flag {flags} doesn't exist in flagEnum: {flagEnum}");
+                    throw new ValidationException($"flag {flags} doesn't exist in flagEnum: {flagEnum}");
                 }
 
                 flagEnum.TryGetValue(f, out uint flag);

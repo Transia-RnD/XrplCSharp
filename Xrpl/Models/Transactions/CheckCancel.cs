@@ -46,12 +46,12 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a CheckCancel at runtime.
         /// </summary>
         /// <param name="tx"> A CheckCancel Transaction.</param>
-        /// <exception cref="ValidationError">When the CheckCancel is malformed.</exception>
+        /// <exception cref="ValidationException">When the CheckCancel is malformed.</exception>
         public static async Task ValidateCheckCancel(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (tx.TryGetValue("CheckID", out var CheckID) && CheckID is not string {})
-                throw new ValidationError("CheckCancel: invalid CheckID");
+                throw new ValidationException("CheckCancel: invalid CheckID");
         }
     }
 

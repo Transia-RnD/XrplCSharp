@@ -117,32 +117,32 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a PaymentChannelCreate at runtime.
         /// </summary>
         /// <param name="tx"> A PaymentChannelCreate Transaction.</param>
-        /// <exception cref="ValidationError">When the PaymentChannelCreate is malformed.</exception>
+        /// <exception cref="ValidationException">When the PaymentChannelCreate is malformed.</exception>
         public static async Task ValidatePaymentChannelCreate(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 
 
             if (!tx.TryGetValue("Amount", out var Amount) || Amount is null)
-                throw new ValidationError("PaymentChannelCreate: missing field Amount");
+                throw new ValidationException("PaymentChannelCreate: missing field Amount");
             if (Amount is not string)
-                throw new ValidationError("PaymentChannelCreate: Amount must be a string");
+                throw new ValidationException("PaymentChannelCreate: Amount must be a string");
             if (!tx.TryGetValue("Destination", out var Destination) || Destination is null)
-                throw new ValidationError("PaymentChannelCreate: missing field Destination");
+                throw new ValidationException("PaymentChannelCreate: missing field Destination");
             if (Destination is not string)
-                throw new ValidationError("PaymentChannelCreate: Destination must be a string");
+                throw new ValidationException("PaymentChannelCreate: Destination must be a string");
             if (!tx.TryGetValue("SettleDelay", out var SettleDelay) || SettleDelay is null)
-                throw new ValidationError("PaymentChannelCreate: missing field SettleDelay");
+                throw new ValidationException("PaymentChannelCreate: missing field SettleDelay");
             if (SettleDelay is not uint)
-                throw new ValidationError("PaymentChannelCreate: SettleDelay must be a number");
+                throw new ValidationException("PaymentChannelCreate: SettleDelay must be a number");
             if (!tx.TryGetValue("PublicKey", out var PublicKey) || PublicKey is null)
-                throw new ValidationError("PaymentChannelCreate: missing field PublicKey");
+                throw new ValidationException("PaymentChannelCreate: missing field PublicKey");
             if (PublicKey is not string)
-                throw new ValidationError("PaymentChannelCreate: PublicKey must be a string");
+                throw new ValidationException("PaymentChannelCreate: PublicKey must be a string");
             if (tx.TryGetValue("CancelAfter", out var CancelAfter) && CancelAfter is not uint)
-                throw new ValidationError("PaymentChannelCreate: CancelAfter must be a number");
+                throw new ValidationException("PaymentChannelCreate: CancelAfter must be a number");
             if (tx.TryGetValue("DestinationTag", out var DestinationTag) && DestinationTag is not uint)
-                throw new ValidationError("PaymentChannelCreate: DestinationTag must be a number");
+                throw new ValidationException("PaymentChannelCreate: DestinationTag must be a number");
 
         }
     }

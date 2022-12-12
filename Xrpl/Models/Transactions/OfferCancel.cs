@@ -47,15 +47,15 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a OfferCancel at runtime.
         /// </summary>
         /// <param name="tx"> A OfferCancel Transaction.</param>
-        /// <exception cref="ValidationError">When the OfferCancel is malformed.</exception>
+        /// <exception cref="ValidationException">When the OfferCancel is malformed.</exception>
         public static async Task ValidateOfferCancel(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (!tx.TryGetValue("OfferSequence", out var OfferSequence) || OfferSequence is null)
-                throw new ValidationError("OfferCancel: missing field OfferSequence");
+                throw new ValidationException("OfferCancel: missing field OfferSequence");
 
             if (OfferSequence is not uint { })
-                throw new ValidationError("OfferCancel: OfferSequence must be a number");
+                throw new ValidationException("OfferCancel: OfferSequence must be a number");
         }
     }
 

@@ -12,7 +12,7 @@ using Xrpl.Wallet;
 namespace Xrpl.Tests.Wallet.Tests
 {
     [TestClass]
-    public class FundWalletTests
+    public class TestUFundWallet
     {
         //[TestMethod]
         public async Task TestUFaucetHostsAsync()
@@ -26,7 +26,7 @@ namespace Xrpl.Tests.Wallet.Tests
     }
 
     [TestClass]
-    public class TestTimer
+    public class TestUTimer
     {
 
         private static int attempts = 1;

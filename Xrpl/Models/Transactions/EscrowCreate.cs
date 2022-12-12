@@ -120,45 +120,45 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a EscrowCreate at runtime.
         /// </summary>
         /// <param name="tx"> A EscrowCreate Transaction.</param>
-        /// <exception cref="ValidationError">When the EscrowCreate is malformed.</exception>
+        /// <exception cref="ValidationException">When the EscrowCreate is malformed.</exception>
         public static async Task ValidateEscrowCreate(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             tx.TryGetValue("Amount", out var Amount);
 
             if (Amount is null)
-                throw new ValidationError("EscrowCreate: missing field Amount");
+                throw new ValidationException("EscrowCreate: missing field Amount");
 
             if (Amount is not string)
-                throw new ValidationError("EscrowCreate: Amount must be a string");
+                throw new ValidationException("EscrowCreate: Amount must be a string");
 
 
             tx.TryGetValue("Destination", out var Destination);
             if (Destination is null)
-                throw new ValidationError("EscrowCreate: missing field Destination");
+                throw new ValidationException("EscrowCreate: missing field Destination");
             if (Destination is not string)
-                throw new ValidationError("EscrowCreate: Destination must be a string");
+                throw new ValidationException("EscrowCreate: Destination must be a string");
 
             tx.TryGetValue("CancelAfter", out var CancelAfter);
             tx.TryGetValue("FinishAfter", out var FinishAfter);
             tx.TryGetValue("Condition", out var Condition);
 
             if (CancelAfter is null && FinishAfter is null)
-                throw new ValidationError("EscrowCreate: Either CancelAfter or FinishAfter must be specified");
+                throw new ValidationException("EscrowCreate: Either CancelAfter or FinishAfter must be specified");
 
             if (FinishAfter is null && Condition is null)
-                throw new ValidationError("EscrowCreate: Either Condition or FinishAfter must be specified");
+                throw new ValidationException("EscrowCreate: Either Condition or FinishAfter must be specified");
 
             if (CancelAfter is not null && CancelAfter is not uint)
-                throw new ValidationError("EscrowCreate: CancelAfter must be a number");
+                throw new ValidationException("EscrowCreate: CancelAfter must be a number");
             if (FinishAfter is not null && FinishAfter is not uint)
-                throw new ValidationError("EscrowCreate: FinishAfter must be a number");
+                throw new ValidationException("EscrowCreate: FinishAfter must be a number");
             if (Condition is not null && Condition is not string)
-                throw new ValidationError("EscrowCreate: Condition must be a string");
+                throw new ValidationException("EscrowCreate: Condition must be a string");
 
             tx.TryGetValue("DestinationTag", out var DestinationTag);
             if (Destination is not null && DestinationTag is not uint)
-                throw new ValidationError("EscrowCreate: DestinationTag must be a number");
+                throw new ValidationException("EscrowCreate: DestinationTag must be a number");
         }
     }
 

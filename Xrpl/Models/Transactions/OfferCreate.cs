@@ -128,25 +128,25 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a OfferCreate at runtime.
         /// </summary>
         /// <param name="tx"> A OfferCreate Transaction.</param>
-        /// <exception cref="ValidationError">When the OfferCreate is malformed.</exception>
+        /// <exception cref="ValidationException">When the OfferCreate is malformed.</exception>
         public static async Task ValidateOfferCreate(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 
             if (!tx.TryGetValue("TakerGets", out var TakerGets) || TakerGets is null)
-                throw new ValidationError("OfferCreate: missing field TakerGets");
+                throw new ValidationException("OfferCreate: missing field TakerGets");
             if (!tx.TryGetValue("TakerPays", out var TakerPays) || TakerPays is null)
-                throw new ValidationError("OfferCreate: missing field TakerPays");
+                throw new ValidationException("OfferCreate: missing field TakerPays");
 
             if (TakerGets is not string && !Common.IsAmount(TakerGets))
-                throw new ValidationError("OfferCreate: invalid TakerGets");
+                throw new ValidationException("OfferCreate: invalid TakerGets");
             if (TakerPays is not string && !Common.IsAmount(TakerPays))
-                throw new ValidationError("OfferCreate: invalid TakerGets");
+                throw new ValidationException("OfferCreate: invalid TakerGets");
 
             if (tx.TryGetValue("Expiration", out var Expiration) && Expiration is not uint { })
-                throw new ValidationError("OfferCreate: invalid Expiration");
+                throw new ValidationException("OfferCreate: invalid Expiration");
             if (tx.TryGetValue("OfferSequence", out var OfferSequence) && OfferSequence is not uint { })
-                throw new ValidationError("OfferCreate: invalid OfferSequence");
+                throw new ValidationException("OfferCreate: invalid OfferSequence");
 
         }
     }

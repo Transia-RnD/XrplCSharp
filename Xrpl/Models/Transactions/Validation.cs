@@ -11,7 +11,7 @@ using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Subscriptions;
 using Xrpl.Models.Utils;
 
-namespace Xrpl.Models.Transaction
+namespace Xrpl.Models.Transactions
 {
     public static partial class Validation
     {
@@ -19,15 +19,15 @@ namespace Xrpl.Models.Transaction
         /// Verify the form and type of a TrustSet at runtime.
         /// </summary>
         /// <param name="tx"> A TrustSet Transaction.</param>
-        /// <exception cref="ValidationError">When the TrustSet is malformed.</exception>
+        /// <exception cref="ValidationException">When the TrustSet is malformed.</exception>
         public static async Task Validate(Dictionary<string, dynamic> tx)
         {
             tx.TryGetValue("TransactionType", out var type);
 
             if(type is null)
-                throw new ValidationError("Object does not have a `TransactionType`");
+                throw new ValidationException("Object does not have a `TransactionType`");
             if(type is not string)
-                throw new ValidationError("Object's `TransactionType` is not a string");
+                throw new ValidationException("Object's `TransactionType` is not a string");
 
             //var value = JsonConvert.DeserializeObject<TransactionCommon>(tx as dynamic);
 
@@ -133,7 +133,7 @@ namespace Xrpl.Models.Transaction
                     break;
 
                 default:
-                    throw new ValidationError($"Invalid field TransactionType: {type}");
+                    throw new ValidationException($"Invalid field TransactionType: {type}");
             }
         }
     }

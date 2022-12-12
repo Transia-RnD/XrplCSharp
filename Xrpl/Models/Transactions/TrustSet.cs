@@ -129,21 +129,21 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a TrustSet at runtime.
         /// </summary>
         /// <param name="tx"> A TrustSet Transaction.</param>
-        /// <exception cref="ValidationError">When the TrustSet is malformed.</exception>
+        /// <exception cref="ValidationException">When the TrustSet is malformed.</exception>
         public static async Task ValidateTrustSet(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (!tx.TryGetValue("LimitAmount", out var LimitAmount) || LimitAmount is null)
-                throw new ValidationError("TrustSet: missing field LimitAmount");
+                throw new ValidationException("TrustSet: missing field LimitAmount");
             // TODO: Review this function
             if (!Common.IsAmount(LimitAmount))
-                throw new ValidationError("TrustSet: invalid LimitAmount");
+                throw new ValidationException("TrustSet: invalid LimitAmount");
 
             if (tx.TryGetValue("QualityIn", out var QualityIn) && QualityIn is not uint { })
-                throw new ValidationError("TrustSet: invalid QualityIn");
+                throw new ValidationException("TrustSet: invalid QualityIn");
 
             if (tx.TryGetValue("QualityOut", out var QualityOut) && QualityOut is not uint { })
-                throw new ValidationError("TrustSet: invalid QualityOut");
+                throw new ValidationException("TrustSet: invalid QualityOut");
         }
     }
 }

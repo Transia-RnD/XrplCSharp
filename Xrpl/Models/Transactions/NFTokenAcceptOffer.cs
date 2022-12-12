@@ -94,18 +94,18 @@ namespace Xrpl.Models.Transactions
         public static Task ValidateNFTokenBrokerFee(Dictionary<string, dynamic> tx)
         {
             if (!tx.TryGetValue("NFTokenBrokerFee", out var NFTokenBrokerFee) || NFTokenBrokerFee is null)
-                throw new ValidationError("NFTokenAcceptOffer: invalid NFTokenBrokerFee");
+                throw new ValidationException("NFTokenAcceptOffer: invalid NFTokenBrokerFee");
 
             var value = Common.ParseAmountValue(NFTokenBrokerFee);
             if (double.IsNaN(value))
-                throw new ValidationError("NFTokenAcceptOffer: invalid NFTokenBrokerFee");
+                throw new ValidationException("NFTokenAcceptOffer: invalid NFTokenBrokerFee");
             if (value <= 0)
-                throw new ValidationError("NFTokenAcceptOffer: NFTokenBrokerFee must be greater than 0; omit if there is no fee");
+                throw new ValidationException("NFTokenAcceptOffer: NFTokenBrokerFee must be greater than 0; omit if there is no fee");
 
             if (!tx.TryGetValue("NFTokenSellOffer", out var NFTokenSellOffer) ||
                 !tx.TryGetValue("NFTokenBuyOffer", out var NFTokenBuyOffer) ||
                 NFTokenSellOffer is null || NFTokenBuyOffer is null)
-                throw new ValidationError("NFTokenAcceptOffer: both NFTokenSellOffer and NFTokenBuyOffer must be set if using brokered mode");
+                throw new ValidationException("NFTokenAcceptOffer: both NFTokenSellOffer and NFTokenBuyOffer must be set if using brokered mode");
 
             return Task.CompletedTask;
         }
@@ -113,7 +113,7 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of an NFTokenAcceptOffer at runtime.
         /// </summary>
         /// <param name="tx">An NFTokenAcceptOffer Transaction.</param>
-        /// <exception cref="ValidationError">When the NFTokenAcceptOffer is Malformed.</exception>
+        /// <exception cref="ValidationException">When the NFTokenAcceptOffer is Malformed.</exception>
         public static async Task ValidateNFTokenAcceptOffer(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
@@ -125,7 +125,7 @@ namespace Xrpl.Models.Transactions
                 await ValidateNFTokenBrokerFee(tx);
 
             if ((!can_get_value_NFTokenSellOffer && !can_get_value_NFTokenBuyOffer) || (NFTokenSellOffer is null && NFTokenBuyOffer is null))
-                throw new ValidationError("NFTokenAcceptOffer: must set either NFTokenSellOffer or NFTokenBuyOffer");
+                throw new ValidationException("NFTokenAcceptOffer: must set either NFTokenSellOffer or NFTokenBuyOffer");
         }
 
     }

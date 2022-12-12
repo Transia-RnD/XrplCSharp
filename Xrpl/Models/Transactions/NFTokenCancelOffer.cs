@@ -50,15 +50,15 @@ namespace Xrpl.Models.Transactions
         /// </summary>
         /// <param name="tx">An NFTokenCancelOffer Transaction.</param>
         /// <returns></returns>
-        /// <exception cref="ValidationError">When the NFTokenCancelOffer is Malformed.</exception>
+        /// <exception cref="ValidationException">When the NFTokenCancelOffer is Malformed.</exception>
         public static async Task ValidateNFTokenCancelOffer(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (!tx.TryGetValue("NFTokenOffers", out var NFTokenOffers) || NFTokenOffers is not List<dynamic> { } offers)
-                throw new ValidationError("NFTokenCancelOffer : missing field NFTokenOffers ");
+                throw new ValidationException("NFTokenCancelOffer : missing field NFTokenOffers ");
 
             if (offers.Count == 0)
-                throw new ValidationError("NFTokenCancelOffer: empty field NFTokenOffers");
+                throw new ValidationException("NFTokenCancelOffer: empty field NFTokenOffers");
         }
 
     }

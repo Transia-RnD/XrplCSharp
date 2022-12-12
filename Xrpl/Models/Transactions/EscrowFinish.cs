@@ -82,28 +82,28 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a EscrowFinish at runtime.
         /// </summary>
         /// <param name="tx"> A EscrowFinish Transaction.</param>
-        /// <exception cref="ValidationError">When the EscrowFinish is malformed.</exception>
+        /// <exception cref="ValidationException">When the EscrowFinish is malformed.</exception>
         public static async Task ValidateEscrowFinish(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 
             if (!tx.TryGetValue("Owner", out var Owner) || Owner is null)
-                throw new ValidationError("EscrowFinish: missing field Owner");
+                throw new ValidationException("EscrowFinish: missing field Owner");
 
             if (Owner is not string)
-                throw new ValidationError("EscrowFinish: Owner must be a string");
+                throw new ValidationException("EscrowFinish: Owner must be a string");
 
 
             
             if (!tx.TryGetValue("OfferSequence", out var OfferSequence) || OfferSequence is null)
-                throw new ValidationError("EscrowFinish: missing field OfferSequence");
+                throw new ValidationException("EscrowFinish: missing field OfferSequence");
             if (OfferSequence is not uint)
-                throw new ValidationError("EscrowFinish: Destination must be a number");
+                throw new ValidationException("EscrowFinish: Destination must be a number");
 
             if (tx.TryGetValue("Condition", out var Condition) && Condition is not string)
-                throw new ValidationError("EscrowFinish: Condition must be a string");
+                throw new ValidationException("EscrowFinish: Condition must be a string");
             if (tx.TryGetValue("Fulfillment", out var Fulfillment) && Fulfillment is not string)
-                throw new ValidationError("EscrowFinish: Fulfillment must be a string");
+                throw new ValidationException("EscrowFinish: Fulfillment must be a string");
 
         }
     }

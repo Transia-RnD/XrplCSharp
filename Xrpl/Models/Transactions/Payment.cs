@@ -183,32 +183,32 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a Payment at runtime.
         /// </summary>
         /// <param name="tx"> A Payment Transaction.</param>
-        /// <exception cref="ValidationError">When the Payment is malformed.</exception>
+        /// <exception cref="ValidationException">When the Payment is malformed.</exception>
         public static async Task ValidatePayment(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 
             if (!tx.TryGetValue("Amount", out var Amount) || Amount is null)
-                throw new ValidationError("PaymentTransaction: missing field Amount");
+                throw new ValidationException("PaymentTransaction: missing field Amount");
 
             if (!Common.IsAmount(Amount))
-                throw new ValidationError("PaymentTransaction: invalid Amount");
+                throw new ValidationException("PaymentTransaction: invalid Amount");
 
 
             if (!tx.TryGetValue("Destination", out var Destination) || Destination is null)
-                throw new ValidationError("PaymentTransaction: missing field Destination");
+                throw new ValidationException("PaymentTransaction: missing field Destination");
             if (!Common.IsAmount(Destination))
-                throw new ValidationError("PaymentTransaction: invalid Destination");
+                throw new ValidationException("PaymentTransaction: invalid Destination");
 
             if (tx.TryGetValue("DestinationTag", out var DestinationTag) && DestinationTag is not uint { })
-                throw new ValidationError("PaymentTransaction: DestinationTag must be a number");
+                throw new ValidationException("PaymentTransaction: DestinationTag must be a number");
 
             if (tx.TryGetValue("InvoiceID", out var InvoiceID) && InvoiceID is not string { })
-                throw new ValidationError("PaymentTransaction: InvoiceID must be a string");
+                throw new ValidationException("PaymentTransaction: InvoiceID must be a string");
             if (tx.TryGetValue("Paths", out var Paths) && !IsPaths(Paths as List<List<Dictionary<string, dynamic>>>))
-                throw new ValidationError("PaymentTransaction: invalid Paths");
+                throw new ValidationException("PaymentTransaction: invalid Paths");
             if (tx.TryGetValue("SendMax", out var SendMax) && !Common.IsAmount(SendMax))
-                throw new ValidationError("PaymentTransaction: invalid SendMax");
+                throw new ValidationException("PaymentTransaction: invalid SendMax");
 
             await CheckPartialPayment(tx);
         }
@@ -221,7 +221,7 @@ namespace Xrpl.Models.Transactions
             if (tx.TryGetValue("Flags", out var flags))
             {
                 if (flags is null)
-                    throw new ValidationError("PaymentTransaction: tfPartialPayment flag required with DeliverMin");
+                    throw new ValidationException("PaymentTransaction: tfPartialPayment flag required with DeliverMin");
             }
 
             //todo check func
@@ -231,9 +231,9 @@ namespace Xrpl.Models.Transactions
                     ? flags == PaymentFlags.tfPartialPayment 
                     : CheckFlag<PaymentFlags>(flags, "tfPartialPayment");
             if (!isTfPartialPayment)
-                throw new ValidationError("PaymentTransaction: tfPartialPayment flag required with DeliverMin");
+                throw new ValidationException("PaymentTransaction: tfPartialPayment flag required with DeliverMin");
             if (!Common.IsAmount(DeliverMin))
-                throw new ValidationError("PaymentTransaction: invalid DeliverMin");
+                throw new ValidationException("PaymentTransaction: invalid DeliverMin");
 
             return Task.CompletedTask;
         }

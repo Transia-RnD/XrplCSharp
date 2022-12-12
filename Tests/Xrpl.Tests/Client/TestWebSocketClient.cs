@@ -23,7 +23,7 @@ using Timer = System.Timers.Timer;
 namespace XrplTests.Xrpl.ClientLib
 {
     [TestClass]
-    public class TestUEmpty
+    public class TestUWebSocketClient
     {
 
         [TestMethod]

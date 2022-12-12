@@ -9,7 +9,7 @@ using Xrpl.Utils.Hashes;
 namespace XrplTests.Xrpl.Utils
 {
     [TestClass]
-    public class TestHashes
+    public class TestUHashes
     {
         [TestMethod]
         public void TestLedgerSpaceHex()

@@ -61,12 +61,12 @@ namespace Xrpl.Models.Transactions
         /// </summary>
         /// <param name="tx"> An NFTokenBurn Transaction.</param>
         /// <returns></returns>
-        /// <exception cref="ValidationError">When the NFTokenBurn is Malformed.</exception>
+        /// <exception cref="ValidationException">When the NFTokenBurn is Malformed.</exception>
         public static async Task ValidateNFTokenBurn(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
             if (!tx.TryGetValue("NFTokenID", out var NFTokenID) || NFTokenID is null)
-                throw new ValidationError("NFTokenID: missing field NFTokenID ");
+                throw new ValidationException("NFTokenID: missing field NFTokenID ");
         }
 
     }

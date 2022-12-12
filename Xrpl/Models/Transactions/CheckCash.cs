@@ -69,7 +69,7 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a CheckCash at runtime.
         /// </summary>
         /// <param name="tx"> A CheckCash Transaction.</param>
-        /// <exception cref="ValidationError">When the CheckCash is malformed.</exception>
+        /// <exception cref="ValidationException">When the CheckCash is malformed.</exception>
         public static async Task ValidateCheckCash(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
@@ -77,17 +77,17 @@ namespace Xrpl.Models.Transactions
             tx.TryGetValue("DeliverMin", out var DeliverMin);
 
             if (Amount is null && DeliverMin is null)
-                throw new ValidationError("CheckCash: must have either Amount or DeliverMin");
+                throw new ValidationException("CheckCash: must have either Amount or DeliverMin");
 
             if (Amount is not null && DeliverMin is not null)
-                throw new ValidationError("CheckCash: cannot have both Amount and DeliverMin");
+                throw new ValidationException("CheckCash: cannot have both Amount and DeliverMin");
             if (Amount is not null && !Common.IsAmount(Amount))
-                throw new ValidationError("CheckCash: invalid Amount");
+                throw new ValidationException("CheckCash: invalid Amount");
             if (DeliverMin is not null && !Common.IsAmount(DeliverMin))
-                throw new ValidationError("CheckCash: invalid DeliverMin");
+                throw new ValidationException("CheckCash: invalid DeliverMin");
 
             if (tx.TryGetValue("CheckID", out var CheckID) && CheckID is not string { })
-                throw new ValidationError("CheckCash: invalid CheckID");
+                throw new ValidationException("CheckCash: invalid CheckID");
         }
     }
 

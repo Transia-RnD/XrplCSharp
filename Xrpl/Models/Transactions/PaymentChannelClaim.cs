@@ -136,25 +136,25 @@ namespace Xrpl.Models.Transactions
         /// Verify the form and type of a PaymentChannelClaim at runtime.
         /// </summary>
         /// <param name="tx"> A PaymentChannelClaim Transaction.</param>
-        /// <exception cref="ValidationError">When the PaymentChannelClaim is malformed.</exception>
+        /// <exception cref="ValidationException">When the PaymentChannelClaim is malformed.</exception>
         public static async Task ValidatePaymentChannelClaim(Dictionary<string, dynamic> tx)
         {
             await Common.ValidateBaseTransaction(tx);
 
 
             if (!tx.TryGetValue("Channel", out var Channel) || Channel is null)
-                throw new ValidationError("PaymentChannelClaim: missing field Channel");
+                throw new ValidationException("PaymentChannelClaim: missing field Channel");
             if(Channel is not string)
-                throw new ValidationError("PaymentChannelClaim: Channel must be a string");
+                throw new ValidationException("PaymentChannelClaim: Channel must be a string");
 
             if (tx.TryGetValue("Balance", out var Balance) && Balance is not string)
-                throw new ValidationError("PaymentChannelClaim: Balance must be a string");
+                throw new ValidationException("PaymentChannelClaim: Balance must be a string");
             if (tx.TryGetValue("Amount", out var Amount) && Amount is not string)
-                throw new ValidationError("PaymentChannelClaim: Amount must be a string");
+                throw new ValidationException("PaymentChannelClaim: Amount must be a string");
             if (tx.TryGetValue("Signature", out var Signature) && Signature is not string)
-                throw new ValidationError("PaymentChannelClaim: Signature must be a string");
+                throw new ValidationException("PaymentChannelClaim: Signature must be a string");
             if (tx.TryGetValue("PublicKey", out var PublicKey) && PublicKey is not string)
-                throw new ValidationError("PaymentChannelClaim: PublicKey must be a string");
+                throw new ValidationException("PaymentChannelClaim: PublicKey must be a string");
 
         }
     }
