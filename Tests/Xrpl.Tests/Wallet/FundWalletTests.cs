@@ -101,7 +101,7 @@ namespace Xrpl.Tests.Wallet.Tests
         }
 
         //[TestMethod]
-        public async Task TestUTimer()
+        public async Task TestTimer()
         {
             string serverUrl = "wss://s.altnet.rippletest.net:51233";
             XrplClient client = new XrplClient(serverUrl);
