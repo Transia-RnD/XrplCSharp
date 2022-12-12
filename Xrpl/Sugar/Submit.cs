@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Xrpl.Client;
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Methods;
@@ -100,6 +101,7 @@ namespace Xrpl.Sugar
             {
                 tx = await client.Autofill(tx);
             }
+            Debug.WriteLine(JsonConvert.SerializeObject(tx));
             return wallet.Sign(tx, false).TxBlob;
         }
     }

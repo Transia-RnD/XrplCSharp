@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -40,16 +42,17 @@ namespace XrplTests.Xrpl.ClientLib.Integration
 
             Submit paymentChannelResponse = await runner.client.Submit(setupJson, runner.wallet);
 
-            await Utils.TestTransaction(runner.client, setupJson, runner.wallet);
-            
+            // USE SUBMIT ^^ TO GET THE RESPONSE
+            //await Utils.TestTransaction(runner.client, setupJson, runner.wallet);
+
             // actually test PaymentChannelClaim
             PaymentChannelClaim tx = new PaymentChannelClaim
             {
                Account = runner.wallet.ClassicAddress,
                Channel = Hashes.HashPaymentChannel(
-                    runner.wallet.PublicKey,
+                    runner.wallet.ClassicAddress,
                     wallet2.ClassicAddress,
-                    paymentChannelResponse.TxJson.Sequence
+                    (int)paymentChannelResponse.TxJson.Sequence
                 ),
                 Amount = "100"
             };

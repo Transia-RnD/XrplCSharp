@@ -143,9 +143,9 @@ namespace Xrpl.BinaryCodec.Types
                 }
                 var fieldForType = Field.Values[pair.Key];
                 var jsonForField = pair.Value;
-                Debug.WriteLine(pair.Key);
-                Debug.WriteLine(fieldForType);
-                Debug.WriteLine(jsonForField);
+                // Debug.WriteLine(pair.Key);
+                // Debug.WriteLine(fieldForType);
+                // Debug.WriteLine(jsonForField);
                 ISerializedType st;
                 try
                 {
