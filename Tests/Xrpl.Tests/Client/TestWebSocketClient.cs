@@ -37,7 +37,7 @@ namespace XrplTests.Xrpl.ClientLib
         }
 
         [TestMethod]
-        public async Task TestSubscribeWebSocket()
+        public async Task _TestSubscribeWebSocket()
         {
 
             bool isTested = false;
@@ -128,7 +128,7 @@ namespace XrplTests.Xrpl.ClientLib
 
 
         [TestMethod]
-        public async Task TestWebSocketClientTimeout()
+        public async Task _TestWebSocketClientTimeout()
         {
             bool isFinished = false;
 

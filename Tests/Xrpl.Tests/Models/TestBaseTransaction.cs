@@ -205,7 +205,7 @@ namespace XrplTests.Xrpl.Models
                     },
                 }},
             };
-            await Assert.ThrowsExceptionAsync<ValidationException>(() => Common.ValidateBaseTransaction(tx), "BaseTransaction: invalid Memo - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Common.ValidateBaseTransaction(tx), "BaseTransaction: invalid Memos");
         }
     }
 
