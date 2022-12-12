@@ -93,7 +93,7 @@ namespace Xrpl.Models.Transactions
             if (!tx.TryGetValue("Destination", out var Destination) || Destination is not { })
                 throw new ValidationException("CheckCreate: missing field Destination");
 
-            if (SendMax is not string { } || !Common.IsIssuedCurrency(SendMax))
+            if (SendMax is not string { } && !Common.IsIssuedCurrency(SendMax))
                 throw new ValidationException("CheckCreate: invalid SendMax");
 
             if (Destination is not string { })
