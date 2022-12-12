@@ -1,4 +1,8 @@
-﻿using Xrpl.Models.Common;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using Xrpl.Client.Exceptions;
+using Xrpl.Models.Common;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/checkCash.ts
@@ -58,4 +62,33 @@ namespace Xrpl.Models.Transactions
         /// <inheritdoc />
         public Currency? DeliverMin { get; set; }  
     }
+
+    public partial class Validation
+    {
+        /// <summary>
+        /// Verify the form and type of a CheckCash at runtime.
+        /// </summary>
+        /// <param name="tx"> A CheckCash Transaction.</param>
+        /// <exception cref="ValidationError">When the CheckCash is malformed.</exception>
+        public static async Task ValidateCheckCash(Dictionary<string, dynamic> tx)
+        {
+            await Common.ValidateBaseTransaction(tx);
+            tx.TryGetValue("Amount", out var Amount);
+            tx.TryGetValue("DeliverMin", out var DeliverMin);
+
+            if (Amount is null && DeliverMin is null)
+                throw new ValidationError("CheckCash: must have either Amount or DeliverMin");
+
+            if (Amount is not null && DeliverMin is not null)
+                throw new ValidationError("CheckCash: cannot have both Amount and DeliverMin");
+            if (Amount is not null && !Common.IsAmount(Amount))
+                throw new ValidationError("CheckCash: invalid Amount");
+            if (DeliverMin is not null && !Common.IsAmount(DeliverMin))
+                throw new ValidationError("CheckCash: invalid DeliverMin");
+
+            if (tx.TryGetValue("CheckID", out var CheckID) && CheckID is not string { })
+                throw new ValidationError("CheckCash: invalid CheckID");
+        }
+    }
+
 }

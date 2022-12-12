@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using Newtonsoft.Json;
+
+using Xrpl.Client.Exceptions;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
 
@@ -116,4 +121,34 @@ namespace Xrpl.Models.Transactions
         [JsonConverter(typeof(CurrencyConverter))]
         public Currency TakerPays { get; set; }
     }
+
+    public partial class Validation
+    {
+        /// <summary>
+        /// Verify the form and type of a OfferCreate at runtime.
+        /// </summary>
+        /// <param name="tx"> A OfferCreate Transaction.</param>
+        /// <exception cref="ValidationError">When the OfferCreate is malformed.</exception>
+        public static async Task ValidateOfferCreate(Dictionary<string, dynamic> tx)
+        {
+            await Common.ValidateBaseTransaction(tx);
+
+            if (!tx.TryGetValue("TakerGets", out var TakerGets) || TakerGets is null)
+                throw new ValidationError("OfferCreate: missing field TakerGets");
+            if (!tx.TryGetValue("TakerPays", out var TakerPays) || TakerPays is null)
+                throw new ValidationError("OfferCreate: missing field TakerPays");
+
+            if (TakerGets is not string && !Common.IsAmount(TakerGets))
+                throw new ValidationError("OfferCreate: invalid TakerGets");
+            if (TakerPays is not string && !Common.IsAmount(TakerPays))
+                throw new ValidationError("OfferCreate: invalid TakerGets");
+
+            if (tx.TryGetValue("Expiration", out var Expiration) && Expiration is not uint { })
+                throw new ValidationError("OfferCreate: invalid Expiration");
+            if (tx.TryGetValue("OfferSequence", out var OfferSequence) && OfferSequence is not uint { })
+                throw new ValidationError("OfferCreate: invalid OfferSequence");
+
+        }
+    }
+
 }

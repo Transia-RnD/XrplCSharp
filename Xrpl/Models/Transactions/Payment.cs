@@ -1,9 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Principal;
+using System.Threading.Tasks;
+
 using Newtonsoft.Json;
+
+using Xrpl.Client.Exceptions;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
 using Xrpl.Models.Methods;
+using Xrpl.Models.Utils;
+
+using static System.Net.WebRequestMethods;
+using Index = Xrpl.Models.Utils.Index;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/payment.ts
 
@@ -166,4 +176,114 @@ namespace Xrpl.Models.Transactions
         [JsonConverter(typeof(CurrencyConverter))]
         public Currency DeliverMin { get; set; }
     }
+
+    public partial class Validation
+    {
+        /// <summary>
+        /// Verify the form and type of a Payment at runtime.
+        /// </summary>
+        /// <param name="tx"> A Payment Transaction.</param>
+        /// <exception cref="ValidationError">When the Payment is malformed.</exception>
+        public static async Task ValidatePayment(Dictionary<string, dynamic> tx)
+        {
+            await Common.ValidateBaseTransaction(tx);
+
+            if (!tx.TryGetValue("Amount", out var Amount) || Amount is null)
+                throw new ValidationError("PaymentTransaction: missing field Amount");
+
+            if (!Common.IsAmount(Amount))
+                throw new ValidationError("PaymentTransaction: invalid Amount");
+
+
+            if (!tx.TryGetValue("Destination", out var Destination) || Destination is null)
+                throw new ValidationError("PaymentTransaction: missing field Destination");
+            if (!Common.IsAmount(Destination))
+                throw new ValidationError("PaymentTransaction: invalid Destination");
+
+            if (tx.TryGetValue("DestinationTag", out var DestinationTag) && DestinationTag is not uint { })
+                throw new ValidationError("PaymentTransaction: DestinationTag must be a number");
+
+            if (tx.TryGetValue("InvoiceID", out var InvoiceID) && InvoiceID is not string { })
+                throw new ValidationError("PaymentTransaction: InvoiceID must be a string");
+            if (tx.TryGetValue("Paths", out var Paths) && !IsPaths(Paths as List<List<Dictionary<string, dynamic>>>))
+                throw new ValidationError("PaymentTransaction: invalid Paths");
+            if (tx.TryGetValue("SendMax", out var SendMax) && !Common.IsAmount(SendMax))
+                throw new ValidationError("PaymentTransaction: invalid SendMax");
+
+            await CheckPartialPayment(tx);
+        }
+
+        public static Task CheckPartialPayment(Dictionary<string, dynamic> tx)
+        {
+            if (!tx.TryGetValue("DeliverMin", out var DeliverMin)) 
+                return Task.CompletedTask;
+
+            if (tx.TryGetValue("Flags", out var flags))
+            {
+                if (flags is null)
+                    throw new ValidationError("PaymentTransaction: tfPartialPayment flag required with DeliverMin");
+            }
+
+            //todo check func
+            var isTfPartialPayment = flags is uint { } flag
+                ? Index.IsFlagEnabled(flag, (uint)PaymentFlags.tfPartialPayment)
+                : flags is PaymentFlags f 
+                    ? flags == PaymentFlags.tfPartialPayment 
+                    : CheckFlag<PaymentFlags>(flags, "tfPartialPayment");
+            if (!isTfPartialPayment)
+                throw new ValidationError("PaymentTransaction: tfPartialPayment flag required with DeliverMin");
+            if (!Common.IsAmount(DeliverMin))
+                throw new ValidationError("PaymentTransaction: invalid DeliverMin");
+
+            return Task.CompletedTask;
+        }
+        static bool CheckFlag<T>(Dictionary<string,dynamic> flag, string type) where T:Enum
+        {
+            if (flag.TryGetValue(type, out var f) && f is bool == true)
+            {
+                return true;
+            }
+
+            return false;
+
+        }
+        public static bool IsPathStep(Dictionary<string, dynamic> pathStep)
+        {
+            if (pathStep.TryGetValue("account", out var acc) && acc is not string { })
+                return false;
+            if (pathStep.TryGetValue("currency", out var currency) && currency is not string { })
+                return false;
+            if (pathStep.TryGetValue("issuer", out var issuer) && issuer is not string { })
+                return false;
+
+            if (acc is not null && currency is null && issuer is null)
+                return true;
+            if (currency is not null || issuer is not null)
+                return true;
+            return false;
+        }
+        public static bool IsPaths(List<Dictionary<string, dynamic>> paths)
+        {
+            foreach (var path in paths)
+            {
+                if (!IsPathStep(path))
+                    return false;
+            }
+
+            return true;
+
+        }
+        public static bool IsPaths(List<List<Dictionary<string, dynamic>>> paths)
+        {
+            if (paths is null || paths.Count == 0)
+                return false;
+            foreach (var c in paths)
+            {
+                if (c is null || c.Count == 0) return false;
+                if (!IsPaths(c)) return false;
+            }
+            return true;
+        }
+    }
+
 }

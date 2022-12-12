@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using Newtonsoft.Json;
+
 using Xrpl.Client.Exceptions;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
@@ -54,7 +57,7 @@ namespace Xrpl.Models.Transactions
 
         /// <inheritdoc />
         [JsonConverter(typeof(CurrencyConverter))]
-        public Currency LimitAmount {get; set; }
+        public Currency LimitAmount { get; set; }
 
         /// <inheritdoc />
         public uint? QualityIn { get; set; }
@@ -119,31 +122,28 @@ namespace Xrpl.Models.Transactions
         public uint? QualityOut { get; set; }
     }
 
-    class Validation
+    public partial class Validation
     {
-        public void ValidateTrustSet(Dictionary<string, dynamic> tx)
+        //https://github.com/XRPLF/xrpl.js/blob/b40a519a0d949679a85bf442be29026b76c63a22/packages/xrpl/src/models/transactions/trustSet.ts#L127
+        /// <summary>
+        /// Verify the form and type of a TrustSet at runtime.
+        /// </summary>
+        /// <param name="tx"> A TrustSet Transaction.</param>
+        /// <exception cref="ValidationError">When the TrustSet is malformed.</exception>
+        public static async Task ValidateTrustSet(Dictionary<string, dynamic> tx)
         {
-            // TODO: Write this function
-            //ValidateBaseTransaction(tx)
-            if (tx["LimitAmount"] == null)
-            {
-                throw new ValidationException("TrustSet: missing field LimitAmount");
-            }
+            await Common.ValidateBaseTransaction(tx);
+            if (!tx.TryGetValue("LimitAmount", out var LimitAmount) || LimitAmount is null)
+                throw new ValidationError("TrustSet: missing field LimitAmount");
             // TODO: Review this function
-            if (!Common.IsAmount(tx["LimitAmount"]))
-            {
-                throw new ValidationException("TrustSet: invalid LimitAmount");
-            }
+            if (!Common.IsAmount(LimitAmount))
+                throw new ValidationError("TrustSet: invalid LimitAmount");
 
-            if (tx["QualityIn"] != null && tx["QualityIn"] is uint)
-            {
-                throw new ValidationException("TrustSet: invalid QualityIn");
-            }
+            if (tx.TryGetValue("QualityIn", out var QualityIn) && QualityIn is not uint { })
+                throw new ValidationError("TrustSet: invalid QualityIn");
 
-            if (tx["QualityOut"] != null && tx["QualityOut"] is uint)
-            {
-                throw new ValidationException("TrustSet: invalid QualityOut");
-            }
+            if (tx.TryGetValue("QualityOut", out var QualityOut) && QualityOut is not uint { })
+                throw new ValidationError("TrustSet: invalid QualityOut");
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿using Xrpl.Models.Common;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using Xrpl.Client.Exceptions;
+using Xrpl.Models.Common;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/checkCreate.ts
 
@@ -70,6 +74,40 @@ namespace Xrpl.Models.Transactions
         /// <inheritdoc />
         public uint? Expiration { get; set; }
         /// <inheritdoc />
-        public uint? InvoiceID { get; set; }       
+        public uint? InvoiceID { get; set; }
     }
+
+    public partial class Validation
+    {
+        /// <summary>
+        /// Verify the form and type of a CheckCreate at runtime.
+        /// </summary>
+        /// <param name="tx"> A CheckCreate Transaction.</param>
+        /// <exception cref="ValidationError">When the CheckCreate is malformed.</exception>
+        public static async Task ValidateCheckCreate(Dictionary<string, dynamic> tx)
+        {
+            await Common.ValidateBaseTransaction(tx);
+
+            if (!tx.TryGetValue("SendMax", out var SendMax) || SendMax is null)
+                throw new ValidationError("CheckCreate: missing field SendMax");
+            if (!tx.TryGetValue("Destination", out var Destination) || Destination is not { })
+                throw new ValidationError("CheckCreate: missing field Destination");
+
+            if (SendMax is not string { } || !Common.IsIssuedCurrency(SendMax))
+                throw new ValidationError("CheckCreate: invalid SendMax");
+
+            if (Destination is not string { })
+                throw new ValidationError("CheckCreate: invalid Destination");
+
+            if (tx.TryGetValue("DestinationTag", out var DestinationTag) && DestinationTag is not uint { })
+                throw new ValidationError("CheckCreate: missing field DestinationTag");
+            if (tx.TryGetValue("Expiration", out var Expiration) && Expiration is not uint { })
+                throw new ValidationError("CheckCreate: missing field Expiration");
+            if (tx.TryGetValue("InvoiceID", out var InvoiceID) && InvoiceID is not string { })
+                throw new ValidationError("CheckCreate: missing field InvoiceID");
+
+
+        }
+    }
+
 }
