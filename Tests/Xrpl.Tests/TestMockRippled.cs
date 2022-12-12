@@ -15,20 +15,6 @@ namespace XrplTests.Xrpl
     public class TestUMockRippled
     {
 
-        //public static SetupUnitClient runner;
-
-        //[ClassInitialize]
-        //public static async Task MyClassInitializeAsync(TestContext testContext)
-        //{
-        //    runner = await new SetupUnitClient().SetupClient();
-        //}
-
-        //[ClassCleanup]
-        //public static async Task MyClassCleanupAsync(TestContext testContext)
-        //{
-        //    runner.client.Disconnect();
-        //}
-
         //[TestMethod]
         public void TestErrorMockNotProvided()
         {

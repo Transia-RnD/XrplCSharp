@@ -7,7 +7,7 @@ using Xrpl.BinaryCodec;
 using Xrpl.BinaryCodec.Types;
 using Xrpl.Client.Exceptions;
 using Xrpl.Keypairs;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/wallet/index.ts

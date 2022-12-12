@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Text;
@@ -8,244 +7,113 @@ using System.Threading.Tasks;
 
 namespace Xrpl.Client
 {
-    //credit: https://github.com/Badiboy/WebSocketWrapper/blob/master/WebSocketWrapper.cs
 
     public class WebSocketClient : IDisposable
     {
 
-        //private Action<WebSocketClient> _onConnected;
-        //private Action<Exception, WebSocketClient> _onConnectionException;
-        //private Action<byte[], WebSocketClient> _onMessageBinary;
-        //private Action<string, WebSocketClient> _onMessageString;
-        //private Action<WebSocketClient> _onDisconnected;
+        private ClientWebSocket _client;
+        private CancellationTokenSource _cancellationTokenSource;
+        private CancellationToken _cancellationToken;
+        private Uri _uri;
+        private string _name;
+        public bool _isConnected;
+        private bool _isDisposed;
 
-        /// <summary>
-        /// The encapsulated websocket client.
-        /// </summary>
-        private readonly ClientWebSocket ws;
-
-        /// <summary>
-        /// The size of the message send to the server.
-        /// </summary>
-        private readonly int sendChunkSize;
-
-        /// <summary>
-        /// The default size of the accepted messages.
-        /// </summary>
-        private readonly int receiveChunkSize;
-
-        ///// <summary>
-        ///// The background worker used to manage the reception of messages.
-        ///// </summary>
-        //private readonly BackgroundWorker worker;
-
-        private Task catchMessagesTask;
-
-        private readonly string uri;
-
-        private readonly CancellationTokenSource cancellation;
-
+        public event Action<CancellationTokenSource> OnConnected;
+        public event Action<string> OnMessageReceived;
+        public event Action<Exception> OnError;
+        public event Action<Exception> OnConnectionException;
+        public event Action<int> OnDisconnect;
 
         public WebSocketClient(string uri)
         {
-            this.uri = uri;
-            sendChunkSize = 1024;
-            receiveChunkSize = 1048576;
-            int keepAlive = 5;
-
-            cancellation = new();
-
-            ws = new ClientWebSocket();
-            ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(keepAlive);
-
-            //this.worker = new BackgroundWorker();
-            //this.worker.DoWork += (s, e) => this.CatchMessagesAsync().Wait();
+            _uri = new Uri(uri);
+            _name = "xrpl";
+            _client = new ClientWebSocket();
+            _cancellationTokenSource = new CancellationTokenSource();
+            _cancellationToken = _cancellationTokenSource.Token;
         }
 
-        /// <summary>
-        /// Raised when the websocket is connected.
-        /// </summary>
-        public event EventHandler OnConnected;
-
-        /// <summary>
-        /// Raised when the websocket is closed.
-        /// </summary>
-        public event EventHandler OnDisconnect;
-
-        /// <summary>
-        /// Raised when an error occurs during the reception of a message.
-        /// </summary>
-        public event EventHandler<Exception> OnConnectionException;
-
-        /// <summary>
-        /// Raised when a new message is received.
-        /// </summary>
-        public event EventHandler<string> OnMessageReceived;
-
-        /// <summary>
-        /// Connects to a WebSocket server as an asynchronous operation.
-        /// </summary>
-        /// <returns>The task object representing the asynchronous operation.</returns>
         public async Task ConnectAsync()
         {
-            Uri server = new Uri(uri);
-            await ws.ConnectAsync(server, cancellation.Token);
-            //this.worker.RunWorkerAsync();
-            catchMessagesTask = CatchMessagesAsync(cancellation.Token);
-            RaiseConnected();
-        }
-
-        /// <summary>
-        /// Sends a message back to the websocket server.
-        /// </summary>
-        /// <param name="message">The message to be send.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public async Task SendMessageAsync(string message)
-        {
-            //Debug.WriteLine($"WS: SENT: {message}");
-            if (ws.State != WebSocketState.Open)
+            try
             {
-                throw new Exception("Connection is not open.");
+                await _client.ConnectAsync(_uri, _cancellationToken);
+                _isConnected = true;
+                OnConnected?.Invoke(_cancellationTokenSource);
+                await ReceiveAsync();
             }
-
-            byte[] messageBuffer = Encoding.UTF8.GetBytes(message);
-            int messagesCount = (int)Math.Ceiling((double)messageBuffer.Length / sendChunkSize);
-
-            for (int i = 0; i < messagesCount; i++)
+            catch (Exception ex)
             {
-                int offset = (sendChunkSize * i);
-                int count = sendChunkSize;
-                bool lastMessage = ((i + 1) == messagesCount);
-
-                if ((count * (i + 1)) > messageBuffer.Length)
-                {
-                    count = messageBuffer.Length - offset;
-                }
-                //Debug.WriteLine($"CLIENT WS BUFFER: {messageBuffer.Length}");
-                await ws.SendAsync(new ArraySegment<byte>(messageBuffer, offset, count), WebSocketMessageType.Binary, lastMessage, CancellationToken.None).ConfigureAwait(false);
+                OnConnectionException?.Invoke(ex);
             }
         }
 
-
-        /// <summary>
-        /// Catches all the messages send by the server and raises <see cref="MessageReceived"/> events.
-        /// </summary>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        private async Task CatchMessagesAsync(CancellationToken Cancel)
+        public async Task Send(string message)
         {
-            //Debug.WriteLine("WS: CONNECTED");
-            byte[] buffer = new byte[receiveChunkSize];
-
-            while (ws.State == WebSocketState.Open)
+            byte[] data = Encoding.UTF8.GetBytes(message);
+            if (_isConnected)
             {
                 try
                 {
-                    //Debug.WriteLine("WS: RECEIVED");
-                    var stringResult = new StringBuilder();
-
-                    WebSocketReceiveResult result;
-                    do
-                    {
-                        Cancel.ThrowIfCancellationRequested();
-
-                        result = await ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None).ConfigureAwait(false);
-                        //Debug.WriteLine("WS: RESULT");
-                        if (result.MessageType == WebSocketMessageType.Close)
-                        {
-                            await RaiseClosed();
-                            return;
-                        }
-                        else
-                        {
-                            string str = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                            stringResult.Append(str);
-                        }
-                    }
-                    while (!result.EndOfMessage);
-
-                    {
-                        //Debug.WriteLine("WS: EndOfMessage");
-                        await RaiseMessageReceived(stringResult.ToString());
-                    }
+                    await _client.SendAsync(new ArraySegment<byte>(data), WebSocketMessageType.Binary, true, _cancellationToken);
                 }
-                catch (OperationCanceledException exception) when (exception.CancellationToken == Cancel)
+                catch (Exception ex)
                 {
-                    throw;
+                    OnError?.Invoke(ex);
                 }
-                catch (Exception exception)
+            }
+        }
+
+        public async Task ReceiveAsync()
+        {
+            if (_isConnected)
+            {
+                try
                 {
-                    //Debug.WriteLine($"WS: EXCEPTION: {exception.Message}");
-                    await RaiseError(exception);
+                    var buffer = new byte[1024 * 4];
+                    var result = await _client.ReceiveAsync(new ArraySegment<byte>(buffer), _cancellationToken);
+                    // Debug.WriteLine("WS: RESULT");
+                    if (result.MessageType == WebSocketMessageType.Close)
+                    {
+                        await _client.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, _cancellationToken);
+                        OnDisconnect?.Invoke(((int)WebSocketCloseStatus.NormalClosure));
+                    }
+                    else
+                    {
+                        // Debug.WriteLine("WS: OnMessageReceived");
+                        OnMessageReceived?.Invoke(Encoding.UTF8.GetString(buffer));
+                        await ReceiveAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (_isConnected)
+                        OnError?.Invoke(ex);
                 }
             }
-
-            //Debug.WriteLine("WS: CLOSING");
-            await RaiseClosed();
         }
 
-        /// <summary>
-        /// Raises the <see cref="Connected"/> event.
-        /// </summary>
-        private void RaiseConnected()
+        public void Close(int? code = (int)WebSocketCloseStatus.NormalClosure)
         {
-            OnConnected?.Invoke(this, EventArgs.Empty);
-        }
-
-        /// <summary>
-        /// Raises the <see cref="Closed"/> event.
-        /// </summary>
-        private Task RaiseClosed()
-        {
-            OnDisconnect?.Invoke(this, EventArgs.Empty);
-            return Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// Raises the <see cref="Error"/> event.
-        /// </summary>
-        /// <param name="exception">The catched exception.</param>
-        private Task RaiseError(Exception exception)
-        {
-            if (exception == null)
+            if (_isConnected)
             {
-                throw new ArgumentNullException(nameof(exception));
+                _cancellationTokenSource.Cancel();
+                _client.Abort();
+                _client.Dispose();
+                _isConnected = false;
+                OnDisconnect?.Invoke((int)code);
             }
-
-            OnConnectionException?.Invoke(this, exception);
-            return Task.CompletedTask;
         }
 
-        /// <summary>
-        /// Raises the <see cref="MessageReceived"/> event.
-        /// </summary>
-        /// <param name="message">The message received.</param>
-        private Task RaiseMessageReceived(string message)
-        {
-            Debug.WriteLine($"WS RECEIVED: {DateTime.Now}");
-            if (message == null)
-            {
-                throw new ArgumentNullException(nameof(message));
-            }
-
-            OnMessageReceived?.Invoke(this, message);
-            return Task.CompletedTask;
-        }
-
-        public async Task Close(WebSocketCloseStatus code, string? message = null)
-        {
-            //Debug.WriteLine("WS: CLOSE");
-            await ws.CloseAsync(code, message, cancellation.Token);
-            await RaiseClosed();
-        }
-
-        /// <summary>
-        /// Disposes the encapsulated websocket client.
-        /// </summary>
         public void Dispose()
         {
-            cancellation.Cancel();
-            ws.Dispose();
-            cancellation.Dispose();
+            if (!_isDisposed)
+            {
+                Close();
+                _cancellationTokenSource.Dispose();
+                _isDisposed = true;
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Xrpl.Client;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 using Xrpl.Utils.Hashes;
 using Xrpl.Wallet;
 using ICurrency = Xrpl.Models.Common.Currency;

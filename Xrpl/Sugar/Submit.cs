@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Xrpl.Client;
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Methods;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/submit.ts

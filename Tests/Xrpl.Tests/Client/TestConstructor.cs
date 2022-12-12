@@ -16,18 +16,6 @@ namespace XrplTests.Xrpl.ClientLib
 
         //public static SetupUnitClient runner;
 
-        //[ClassInitialize]
-        //public static async Task MyClassInitializeAsync(TestContext testContext)
-        //{
-        //    runner = await new SetupUnitClient().SetupClient();
-        //}
-
-        //[ClassCleanup]
-        //public static void MyClassCleanupAsync()
-        //{
-        //    runner.client.Disconnect().Wait();
-        //}
-
         [TestMethod]
         public void TestImplicitPort()
         {

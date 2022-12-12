@@ -22,7 +22,7 @@ namespace XrplTests.Xrpl.ClientLib
         public void TestErrorNotFound()
         {
             XrplException error = new NotFoundException();
-            Assert.AreEqual("Xrpl.Client.Exceptions.NotFoundError: Not Found", error.ToString());
+            Assert.AreEqual("Xrpl.Client.Exceptions.NotFoundException: Not Found", error.ToString());
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.WebSockets;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -9,6 +11,7 @@ using Xrpl.Models.Methods;
 using Xrpl.Models.Subscriptions;
 using Xrpl.Sugar;
 using XrplTests.Xrpl.MockRippled;
+using Timer = System.Timers.Timer;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/client/subscribe.ts
@@ -21,14 +24,14 @@ namespace XrplTests.Xrpl.ClientLib
 
         public static SetupUnitClient runner;
 
-        [ClassInitialize]
-        public static async Task MyClassInitializeAsync(TestContext testContext)
+        [TestInitialize]
+        public async Task MyTestInitializeAsync()
         {
             runner = await new SetupUnitClient().SetupClient();
         }
 
-        [ClassCleanup]
-        public static async Task MyClassCleanupAsync()
+        [TestCleanup]
+        public async Task MyTestCleanupAsync()
         {
             await runner.client.Disconnect();
         }
@@ -45,37 +48,6 @@ namespace XrplTests.Xrpl.ClientLib
                 { "command", "subscribe" },
             };
             await runner.client.Request(tx);
-        }
-
-        [TestMethod]
-        public async Task TestSubscribe1()
-        {
-            var server = "wss://xrplcluster.com/";
-
-            var client = new XrplClient(server);
-
-            client.Connect().Wait();
-
-            client.OnConnected += () =>
-            {
-                //Console.WriteLine("CONNECTED");
-                return Task.CompletedTask;
-            };
-
-            var subscribe = await runner.client.Subscribe(
-            new SubscribeRequest()
-            {
-                Streams = new List<string>(new[]
-                {
-                    "ledger",
-                })
-            });
-            //Console.WriteLine(subscribe);
-
-            while (client.connection.State() == WebSocketState.Open)
-            {
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            }
         }
 
         [TestMethod]
@@ -175,6 +147,104 @@ namespace XrplTests.Xrpl.ClientLib
         //    string jsonString = "{\"type\":\"manifestReceived\"}";
         //    runner.client.connection.OnMessage(jsonString);
         //}
+    }
+
+    [TestClass]
+    public class TestISubscribe
+    {
+
+        [TestMethod]
+        public async Task TestSubscribe()
+        {
+            bool isTested = false;
+            bool isFinished = false;
+
+            var server = "wss://xrplcluster.com/";
+
+            var client = new XrplClient(server);
+
+            client.OnConnected += () =>
+            {
+                Console.WriteLine("CONNECTED");
+                return Task.CompletedTask;
+            };
+
+            client.OnDisconnect += (code) =>
+            {
+                Console.WriteLine($"DISCONNECTED: {code}");
+                isFinished = true;
+                return Task.CompletedTask;
+            };
+
+            client.OnLedgerClosed += (message) =>
+            {
+                Console.WriteLine($"MESSAGE RECEIVED: {message}");
+                //Dictionary<string, dynamic> json = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(message);
+                //if (message["type"] == "ledgerClosed")
+                //{
+                //    isTested = true;
+                //    isFinished = true;
+                //}
+                isTested = true;
+                isFinished = true;
+                return Task.CompletedTask;
+            };
+
+            Timer timer = new Timer(5000);
+            timer.Elapsed += (sender, e) =>
+            {
+                client.Disconnect();
+                isFinished = true;
+            };
+            timer.Start();
+
+            //client.connection.ws = client.connection.CreateWebSocket(server, null);
+
+            //_ = client.connection.ws.ConnectAsync();
+
+            //while (!client.connection.ws._isConnected)
+            //{
+            //    Debug.WriteLine($"CONNECTING... {DateTime.Now}");
+            //    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            //}
+
+            await client.connection.Connect();
+
+            //var subscribe = await client.Subscribe(
+            //new SubscribeRequest()
+            //{
+            //    Streams = new List<string>(new[]
+            //    {
+            //        "ledger",
+            //    })
+            //});
+            var request = new SubscribeRequest()
+            {
+                Streams = new List<string>(new[]
+                    {
+                        "ledger",
+                    })
+            };
+            var serializerSettings = new JsonSerializerSettings();
+            serializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            serializerSettings.FloatParseHandling = FloatParseHandling.Double;
+            serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
+            string jsonString = JsonConvert.SerializeObject(request, serializerSettings);
+            await client.connection.WebsocketSendAsync(client.connection.ws, jsonString);
+
+            Debug.WriteLine($"BEFORE: {DateTime.Now}");
+
+            while (!isFinished)
+            {
+                Debug.WriteLine($"WAITING: {DateTime.Now}");
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
+            Debug.WriteLine($"AFTER: {DateTime.Now}");
+            Debug.WriteLine($"IS FINISHED: {isFinished}");
+            Debug.WriteLine($"IS TESTER: {isTested}");
+            Assert.IsTrue(isTested);
+        }
     }
 }
 

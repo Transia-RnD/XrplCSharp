@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Xrpl.Client;
 using Xrpl.Wallet;
 
@@ -16,7 +18,22 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             wallet = XrplWallet.Generate();
             var promise = new TaskCompletionSource();
             client = new XrplClient(serverUrl);
-            client.Connect();
+            client.OnConnected += () =>
+            {
+                Console.WriteLine($"SetupIntegration CONNECTED");
+                return Task.CompletedTask;
+            };
+            client.OnDisconnect += (code) =>
+            {
+                Console.WriteLine($"SetupIntegration DISCONNECTED: {code}");
+                return Task.CompletedTask;
+            };
+            client.OnError += (error, errorMessage, message, data) =>
+            {
+                Console.WriteLine($"SetupIntegration ERROR: {message}");
+                return Task.CompletedTask;
+            };
+            await client.Connect();
             await Utils.FundAccount(client, wallet);
             return this;
         }

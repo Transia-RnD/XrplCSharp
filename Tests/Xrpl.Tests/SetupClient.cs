@@ -26,10 +26,19 @@ namespace XrplTests.Xrpl
             });
             tcpListenerThread.Start();
             client = new XrplClient($"ws://127.0.0.1:{port}");
+            client.OnConnected += () =>
+            {
+                //Console.WriteLine("SETUP CLIENT: CONECTED");
+                return Task.CompletedTask;
+            };
             client.OnDisconnect += (code) =>
             {
-                Console.WriteLine($"DISCONECTED CODE: {code}");
-                Console.WriteLine("DISCONECTED");
+                //Console.WriteLine("SETUP CLIENT: DISCONECTED");
+                return Task.CompletedTask;
+            };
+            client.OnError += (e, em, m, d) =>
+            {
+                //Console.WriteLine($"SETUP CLIENT: ERROR: {e}");
                 return Task.CompletedTask;
             };
             await client.Connect();

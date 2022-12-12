@@ -11,12 +11,12 @@ using Xrpl.Client.Exceptions;
 using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
 using Xrpl.Models.Subscriptions;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 using Xrpl.Sugar;
 using Xrpl.Wallet;
 using static Xrpl.Client.Connection;
-using BookOffers = Xrpl.Models.Transaction.BookOffers;
-using Submit = Xrpl.Models.Transaction.Submit;
+using BookOffers = Xrpl.Models.Transactions.BookOffers;
+using Submit = Xrpl.Models.Transactions.Submit;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/client/index.ts
 
@@ -337,15 +337,15 @@ namespace Xrpl.Client
         }
 
         /// <inheritdoc />
-        public Task Connect()
+        public async Task Connect()
         {
-            return connection.Connect();
+            await connection.Connect();
         }
 
         /// <inheritdoc />
-        public Task Disconnect()
+        public async Task Disconnect()
         {
-            return connection.Disconnect();
+            await connection.Disconnect();
         }
 
         /// <inheritdoc />
@@ -573,7 +573,6 @@ namespace Xrpl.Client
         /// <inheritdoc />
         public async Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request)
         {
-            Debug.WriteLine("DEBUG0");
             //string account = request["Account"] ? EnsureClassicAddress((string)request["account"]) : null;
             //request["Account"] = account;
             var response = await this.connection.Request(request);

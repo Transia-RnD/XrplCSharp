@@ -70,6 +70,7 @@ namespace Xrpl.Client
             var hasTimer = this.timeoutsAwaitingResponse.TryRemove(id, out var timer);
             if (hasTimer)
                 timer.Stop();
+            //Debug.WriteLine(response.Result.ToString());
             var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
             var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("TrySetResult");
             setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });
@@ -99,7 +100,7 @@ namespace Xrpl.Client
         /// </summary>
         public void RejectAll(Exception error)
         {
-            Debug.WriteLine($"REJECT ALL: {promisesAwaitingResponse.Count}");
+            // Debug.WriteLine($"REJECT ALL: {promisesAwaitingResponse.Count}");
             foreach (var id in this.promisesAwaitingResponse.Keys)
             {
                 this.Reject(id, error);
@@ -134,8 +135,7 @@ namespace Xrpl.Client
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
-            var typeInfo = request.GetType().GetProperty("Command");
-            taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
+            taskInfo.RemoveUponCompletion = true;
             taskInfo.Type = typeof(T);
 
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
@@ -179,12 +179,18 @@ namespace Xrpl.Client
                 throw new XrplException($"Response with id '${newId}' is already pending");
             }
 
+            //throw new Exception("SOMETHNG");
+
             TaskCompletionSource<Dictionary<string, dynamic>> task = new TaskCompletionSource<Dictionary<string, dynamic>>();
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
-            var typeInfo = request.GetType().GetProperty("Command");
-            taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
+            taskInfo.RemoveUponCompletion = true;
+            //var typeInfo = request.GetType().GetProperty("Command");
+            //if (typeInfo != null)
+            //{
+            //    taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
+            //}
             taskInfo.Type = typeof(Dictionary<string, dynamic>);
 
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
@@ -211,7 +217,7 @@ namespace Xrpl.Client
 
             if (!promisesAwaitingResponse.ContainsKey((Guid)response.Id))
             {
-                // Debug.WriteLine("Valid id not found in promises");
+                Debug.WriteLine("Valid id not found in promises");
                 return;
             }
 

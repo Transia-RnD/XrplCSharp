@@ -20,17 +20,17 @@ namespace XrplTests.Xrpl
 
         public static SetupUnitClient runner;
 
-        [ClassInitialize]
-        public static async Task MyClassInitializeAsync(TestContext testContext)
+        [TestInitialize]
+        public async Task MyTestInitializeAsync()
         {
             runner = await new SetupUnitClient().SetupClient();
         }
 
-        //[ClassCleanup]
-        //public static async Task MyClassCleanupAsync()
-        //{
-        //    await runner.client.Disconnect();
-        //}
+        [TestCleanup]
+        public async Task MyTestCleanupAsync()
+        {
+            await runner.client.Disconnect();
+        }
 
         [TestMethod]
         public void TestDefaultOptions()
@@ -42,12 +42,12 @@ namespace XrplTests.Xrpl
             Assert.IsTrue(connection.config.authorization == null);
         }
 
-        [TestMethod]
-        public void TestMultipleDisconnect()
-        {
-            runner.client.Disconnect();
-            runner.client.Disconnect();
-        }
+        //[TestMethod]
+        //public async void TestMultipleDisconnect()
+        //{
+        //    await runner.client.Disconnect();
+        //    await runner.client.Disconnect();
+        //}
 
         //[TestMethod]
         //public void TestReconnect()
@@ -71,7 +71,7 @@ namespace XrplTests.Xrpl
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.AggregateException))]
+        [ExpectedException(typeof(DisconnectedException))]
         public async Task TestDisconnectedError()
         {
             Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
@@ -81,7 +81,6 @@ namespace XrplTests.Xrpl
                    { "closeServer", true },
                 } },
             };
-            //string jtoken = JsonConvert.SerializeObject(tx);
             await runner.client.Request(tx);
         }
 

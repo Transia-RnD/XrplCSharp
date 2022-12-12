@@ -3,7 +3,7 @@
 using System;
 using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/ledger/Offer.ts

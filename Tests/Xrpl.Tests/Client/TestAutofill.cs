@@ -21,17 +21,17 @@ namespace XrplTests.Xrpl.ClientLib
 
         public static SetupUnitClient runner;
 
-        [ClassInitialize]
-        public static async Task MyClassInitializeAsync(TestContext testContext)
+        [TestInitialize]
+        public async Task MyTestInitializeAsync()
         {
             runner = await new SetupUnitClient().SetupClient();
         }
 
-        //[ClassCleanup]
-        //public static async Task MyClassCleanupAsync()
-        //{
-        //    await runner.client.Disconnect();
-        //}
+        [TestCleanup]
+        public async Task MyTestCleanupAsync()
+        {
+            await runner.client.Disconnect();
+        }
 
         [TestMethod]
         public async Task TestNoAutofill()
@@ -237,7 +237,7 @@ namespace XrplTests.Xrpl.ClientLib
                 { "Sequence", Sequence },
             };
 
-            string ledgerString = "{\"status\":\"success\",\"type\":\"response\",\"result\":{\"ledger_index\":9038214,},}";
+            string ledgerString = "{\"id\":0,\"status\":\"success\",\"type\":\"response\",\"result\":{\"ledger\":{\"ledger_index\":\"9038214\",}}}";
             Dictionary<string, dynamic> ledgerData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(ledgerString);
 
             runner.mockedRippled.AddResponse("ledger", ledgerData);

@@ -16,14 +16,14 @@ namespace XrplTests.Xrpl.ClientLib
 
         public static SetupUnitClient runner;
 
-        [ClassInitialize]
-        public static async Task MyClassInitializeAsync(TestContext testContext)
+        [TestInitialize]
+        public async Task MyTestInitializeAsync()
         {
             runner = await new SetupUnitClient().SetupClient();
         }
 
-        [ClassCleanup]
-        public static async Task MyClassCleanupAsync()
+        [TestCleanup]
+        public async Task MyTestCleanupAsync()
         {
             await runner.client.Disconnect();
         }

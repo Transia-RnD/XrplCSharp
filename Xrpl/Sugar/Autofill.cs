@@ -61,24 +61,25 @@ namespace Xrpl.Sugar
             bool hasTT = tx.TryGetValue("TransactionType", out var tt);
             if (!tx.ContainsKey("Sequence"))
             {
+                // Debug.WriteLine("MISSING: Sequence");
                 promises.Add(SetNextValidSequenceNumber(client, tx));
             }
             if (!tx.ContainsKey("Fee"))
             {
+                // Debug.WriteLine("MISSING: Fee");
                 promises.Add(CalculateFeePerTransactionType(client, tx, signersCount ?? 0));
             }
             if (!tx.ContainsKey("LastLedgerSequence"))
             {
+                // Debug.WriteLine("MISSING: LastLedgerSequence");
                 promises.Add(SetLatestValidatedLedgerSequence(client, tx));
             }
             if (tt == "AccountDelete")
             {
+                // Debug.WriteLine("MISSING: AccountDelete");
                 promises.Add(CheckAccountDeleteBlockers(client, tx));
             }
-            foreach (var promise in promises)
-            {
-                await promise;
-            }
+            await Task.WhenAll(promises);
             string jsonData = JsonConvert.SerializeObject(tx);
             return tx;
         }

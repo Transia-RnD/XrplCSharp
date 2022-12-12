@@ -126,7 +126,8 @@ namespace XrplTests.Xrpl.MockRippled
                 count++;
             }
 
-            // Return the decoded message 
+            // Return the decoded message
+            //Debug.WriteLine($"MOCK SERVER DATA: {Encoding.Default.GetString(Data, dataIndex, frameData.DataLength)}");
             return Encoding.Default.GetString(Data, dataIndex, frameData.DataLength);
         }
 

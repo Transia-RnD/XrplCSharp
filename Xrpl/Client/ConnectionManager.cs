@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Xrpl.Client.Exceptions;
 
@@ -9,30 +10,32 @@ namespace Xrpl.Client
 {
     public class ConnectionManager
     {
-        private List<(Action resolve, Action<Exception> reject)> promisesAwaitingConnection = new List<(Action resolve, Action<Exception> reject)>();
+        private List<(Action resolve, Action<Exception> reject)> PromisesAwaitingConnection = new List<(Action resolve, Action<Exception> reject)>();
 
         public void ResolveAllAwaiting()
         {
-            foreach (var (resolve, _) in promisesAwaitingConnection)
+            foreach (var (resolve, _) in PromisesAwaitingConnection)
             {
                 resolve();
             }
-            promisesAwaitingConnection = new List<(Action resolve, Action<Exception> reject)>();
+
+            PromisesAwaitingConnection = new List<(Action resolve, Action<Exception> reject)>();
         }
 
         public void RejectAllAwaiting(Exception error)
         {
-            foreach (var (_, reject) in promisesAwaitingConnection)
+            foreach (var (_, reject) in PromisesAwaitingConnection)
             {
                 reject(error);
             }
-            promisesAwaitingConnection = new List<(Action resolve, Action<Exception> reject)>();
+
+            PromisesAwaitingConnection = new List<(Action resolve, Action<Exception> reject)>();
         }
 
         public async Task AwaitConnection()
         {
             var tcs = new TaskCompletionSource<object>();
-            promisesAwaitingConnection.Add((() => tcs.SetResult(null), (ex) => tcs.SetException(ex)));
+            PromisesAwaitingConnection.Add((() => tcs.SetResult(null), (ex) => tcs.SetException(ex)));
             await tcs.Task;
         }
     }

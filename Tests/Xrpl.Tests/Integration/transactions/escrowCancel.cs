@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using Xrpl.Models.Common;
 using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/escrowCancel.ts
@@ -56,8 +56,10 @@ namespace XrplTests.Xrpl.ClientLib.Integration
 
             TxRequest request2 = new TxRequest(escrow.PreviousTxnID);
             TransactionResponseCommon response2 = await runner.client.Tx(request2);
+            Debug.WriteLine(response2);
             uint sequence = (uint)response2.Sequence;
 
+            Debug.WriteLine(sequence);
             // actual test - EscrowCancel
             EscrowCancel tx = new EscrowCancel
             {
