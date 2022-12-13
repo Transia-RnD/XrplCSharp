@@ -55,7 +55,13 @@ namespace Xrpl.Models
         /// <summary>Set aside one or more sequence numbers as Tickets.</summary>
         TicketCreate,
         /// <summary>Add or modify a trust line.</summary>
-        TrustSet
+        TrustSet,
+        /// <summary> AMMBid is used for submitting a vote for the trading fee of an AMM Instance. </summary>
+        AMMBid,
+        /// <summary>
+        /// AMMCreate is used to create AccountRoot and the corresponding AMM ledger entries.
+        /// </summary>
+        AMMCreate,
     }
     /// <summary>
     /// Each ledger version's state data is a set of ledger objects, sometimes called ledger entries,

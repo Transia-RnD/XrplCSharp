@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
+using Xrpl.BinaryCodec.Types;
+using Xrpl.Models.Subscriptions;
 
 using static Xrpl.Models.Common.Common;
-using Xrpl.BinaryCodec.Types;
-using Xrpl.Models.Methods;
-using Xrpl.Models.Subscriptions;
-using System.Security.Principal;
 
 namespace Xrpl.Models.Methods
 {
-    public class AMMInfo
-    {
-
-    }
     /// <summary>
     /// The `amm_info` command retrieves information about an AMM instance.
     /// </summary>
