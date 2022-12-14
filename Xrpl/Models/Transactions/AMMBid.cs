@@ -85,7 +85,7 @@ namespace Xrpl.Models.Transactions
                 throw new ValidationException("AMMBid: missing field Asset");
             }
 
-            if (!Xrpl.Models.Transactions.Common.IsIssuedCurrency(Asset1))
+            if (!Xrpl.Models.Transactions.Common.IsIssue(Asset1))
             {
                 throw new ValidationException("AMMBid: Asset must be an Issue");
             }
@@ -95,7 +95,7 @@ namespace Xrpl.Models.Transactions
                 throw new ValidationException("AMMBid: missing field Asset2");
             }
 
-            if (!Xrpl.Models.Transactions.Common.IsIssuedCurrency(Asset2))
+            if (!Xrpl.Models.Transactions.Common.IsIssue(Asset2))
             {
                 throw new ValidationException("AMMBid: Asset2 must be an Issue");
             }
