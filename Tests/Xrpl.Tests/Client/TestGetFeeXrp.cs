@@ -10,7 +10,7 @@ using Xrpl.Sugar;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/client/getFeeXrp.ts
 
-namespace XrplTests.Xrpl.ClientLib
+namespace Xrpl.Tests.ClientLib
 {
     [TestClass]
     public class TestUGetFeeXrp

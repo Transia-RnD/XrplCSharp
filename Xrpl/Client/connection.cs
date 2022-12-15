@@ -62,7 +62,7 @@ namespace Xrpl.Client
             public Dictionary<string, dynamic> headers { get; set; }
         }
 
-        public WebSocketClient CreateWebSocket(string url, ConnectionOptions config)
+        static WebSocketClient CreateWebSocket(string url, ConnectionOptions config)
         {
             // Client or Creation...
             //ClientWebSocketOptions options = new ClientWebSocketOptions()
@@ -93,7 +93,7 @@ namespace Xrpl.Client
             //  (value) => value == null,
             //)
             //const websocketOptions = { ...options, ...optionsOverrides };
-            return new WebSocketClient(url); // todo add options
+            return WebSocketClient.Create(url); // todo add options
         }
 
         int TIMEOUT = 20;
@@ -159,16 +159,16 @@ namespace Xrpl.Client
                 throw new XrplException("Connect: created null websocket");
             }
 
-            this.ws.OnConnected += async (t) => await OnceOpen(t);
-            this.ws.OnConnectionException += async (e) => await OnConnectionFailed(e);
-            this.ws.OnConnectionException += (e) => timer.Stop();
+            //this.ws.OnConnected += async (ws, t) => await OnceOpen(t);
+            //this.ws.OnConnectionException += async (ws, e) => await OnConnectionFailed(e);
+            //this.ws.OnConnectionException += (ws, e) => timer.Stop();
 
-            this.ws.OnMessageReceived += async (m) => await IOnMessage(m);
-            this.ws.OnError += async (e) => await OnConnectionFailed(e);
-            this.ws.OnDisconnect += async (c) => await OnceClose(c);
-            this.ws.OnDisconnect += (c) => timer.Stop();
+            //this.ws.OnMessageReceived += async (ws, m) => await IOnMessage(m);
+            //this.ws.OnException += async (ws, e) => await OnConnectionFailed(e);
+            //this.ws.OnDisconnect += async (ws, c) => await OnceClose(c);
+            //this.ws.OnDisconnect += (ws, c) => timer.Stop();
 
-            _ = this.ws.ConnectAsync();
+            _ = this.ws.Connect();
 
             return this.connectionManager.AwaitConnection();
         }
@@ -182,7 +182,7 @@ namespace Xrpl.Client
             var result = 0;
             if (ws != null)
             {
-                ws.Close(INTENTIONAL_DISCONNECT_CODE);
+                ws.Disconnect();
                 //ws.OnDisconnect += (code) => { result = code; };
             }
 
@@ -201,15 +201,15 @@ namespace Xrpl.Client
                 * don't have a listener on "error" node would log a warning on error.
                 */
                 //});
-                this.ws.Close();
+                this.ws.Disconnect();
                 this.ws = null;
             }
             this.connectionManager.RejectAllAwaiting(new NotConnectedException(error.Message));
         }
 
-        public async Task WebsocketSendAsync(WebSocketClient ws, string message)
+        public void WebsocketSendAsync(WebSocketClient ws, string message)
         {
-            await ws.Send(message);
+            ws.SendMessage(message);
         }
 
         public async Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request, int? timeout = null)
@@ -222,7 +222,7 @@ namespace Xrpl.Client
             try
             {
                 //Debug.WriteLine($"CONN SEND: {_request.Id}");
-                await this.WebsocketSendAsync(this.ws, _request.Message);
+                WebsocketSendAsync(this.ws, _request.Message);
             }
             catch (EncodingFormatException error)
             {
@@ -242,7 +242,7 @@ namespace Xrpl.Client
             try
             {
                 //Debug.WriteLine($"CONN SEND: {_request.Id}");
-                await this.WebsocketSendAsync(this.ws, _request.Message);
+                WebsocketSendAsync(this.ws, _request.Message);
             }
             catch (EncodingFormatException error)
             {
@@ -266,7 +266,7 @@ namespace Xrpl.Client
             return this.ws != null;
         }
 
-        private async Task OnceOpen(CancellationTokenSource connectionTimeoutID)
+        private async Task OnceOpen(CancellationToken connectionTimeoutID)
         {
             //Debug.WriteLine("ONCE OPEN");
             if (this.ws == null)
@@ -298,11 +298,11 @@ namespace Xrpl.Client
         //private void OnceClose(int? code = null, string? reason = null)
         private async Task OnceClose(int? code)
         {
-            //Debug.WriteLine("ONCE CLOSE");
-            if (this.ws == null)
-            {
-                throw new XrplException("OnceClose: ws is null");
-            }
+            Debug.WriteLine("ONCE CLOSE");
+            //if (this.ws == null)
+            //{
+            //    throw new XrplException("OnceClose: ws is null");
+            //}
             //this.clearHeartbeatInterval();
             this.requestManager.RejectAll(new DisconnectedException($"websocket was closed, {"SOME"}"));
             //this.ws.removeAllListeners();

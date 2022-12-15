@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Diagnostics;
 
-namespace XrplTests.Xrpl.MockRippled
+namespace Xrpl.Tests.MockRippled
 {
     /// <summary>
     /// Holds data for a encoded message frame

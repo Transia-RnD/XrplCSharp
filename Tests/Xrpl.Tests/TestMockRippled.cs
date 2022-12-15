@@ -9,7 +9,7 @@ using Timer = System.Timers.Timer;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/mockRippledTest.ts
 
-namespace XrplTests.Xrpl
+namespace Xrpl.Tests
 {
     [TestClass]
     public class TestUMockRippled

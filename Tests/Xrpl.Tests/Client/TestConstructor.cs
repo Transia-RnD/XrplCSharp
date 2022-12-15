@@ -8,7 +8,7 @@ using Xrpl.Client.Exceptions;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/client/constructor.ts
 
-namespace XrplTests.Xrpl.ClientLib
+namespace Xrpl.Tests.ClientLib
 {
     [TestClass]
     public class TestUConstructor

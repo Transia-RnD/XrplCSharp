@@ -9,7 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
 
-namespace XrplTests.Xrpl.MockRippled
+namespace Xrpl.Tests.MockRippled
 {
     /// <summary>
     /// Handler for when a message was received
@@ -17,7 +17,7 @@ namespace XrplTests.Xrpl.MockRippled
     public class OnMessageReceivedHandler : EventArgs
     {
         /// <summary>The client that send the message</summary>
-        private Client _client;
+        private MockClient _client;
 
         /// <summary>The message the client sent</summary>
         private string _message;
@@ -25,7 +25,7 @@ namespace XrplTests.Xrpl.MockRippled
         /// <summary>Create a new message received event handler</summary>
         /// <param name="Client">The client that sent the message</param>
         /// <param name="Message">The message the client sent</param>
-        public OnMessageReceivedHandler(Client Client, string Message)
+        public OnMessageReceivedHandler(MockClient Client, string Message)
         {
             this._client = Client;
             this._message = Message;
@@ -33,7 +33,7 @@ namespace XrplTests.Xrpl.MockRippled
 
         /// <summary>Get the client that sent the received message</summary>
         /// <returns>The client that sent the message</returns>
-        public Client GetClient()
+        public MockClient GetClient()
         {
             return _client;
         }
@@ -53,7 +53,7 @@ namespace XrplTests.Xrpl.MockRippled
     public class OnSendMessageHandler : EventArgs
     {
         /// <summary>The client the message was sent to</summary>
-        private Client _client;
+        private MockClient _client;
 
         /// <summary>The message that was sent to the client</summary>
         private string _message;
@@ -61,7 +61,7 @@ namespace XrplTests.Xrpl.MockRippled
         /// <summary>Create a new handler for when a message was sent</summary>
         /// <param name="Client">The client the message was sent to</param>
         /// <param name="Message">The message that was sent to the client</param>
-        public OnSendMessageHandler(Client Client, string Message)
+        public OnSendMessageHandler(MockClient Client, string Message)
         {
             this._client = Client;
             this._message = Message;
@@ -69,7 +69,7 @@ namespace XrplTests.Xrpl.MockRippled
 
         /// <summary>The client the message was sent to</summary>
         /// <returns>The client receiver</returns>
-        public Client GetClient()
+        public MockClient GetClient()
         {
             return _client;
         }
@@ -88,18 +88,18 @@ namespace XrplTests.Xrpl.MockRippled
     public class OnClientConnectedHandler : EventArgs
     {
         /// <summary>The client that connected to the server</summary>
-        private Client _client;
+        private MockClient _client;
 
         /// <summary>Create a new event handler for when a client connected</summary>
         /// <param name="Client">The client that connected</param>
-        public OnClientConnectedHandler(Client Client)
+        public OnClientConnectedHandler(MockClient Client)
         {
             this._client = Client;
         }
 
         /// <summary>Get the client that was connected</summary>
         /// <returns>The client that connected </returns>
-        public Client GetClient()
+        public MockClient GetClient()
         {
             return _client;
         }
@@ -111,18 +111,18 @@ namespace XrplTests.Xrpl.MockRippled
     public class OnClientDisconnectedHandler : EventArgs
     {
         /// <summary>The client that diconnected</summary>
-        private Client _client;
+        private MockClient _client;
 
         /// <summary>Create a new handler for when a client disconnects</summary>
         /// <param name="Client">The disconnected client</param>
-        public OnClientDisconnectedHandler(Client Client)
+        public OnClientDisconnectedHandler(MockClient Client)
         {
             this._client = Client;
         }
 
         /// <summary>Gets the client that disconnected</summary>
         /// <returns>The disconnected client</returns>
-        public Client GetClient()
+        public MockClient GetClient()
         {
             return _client;
         }
@@ -142,7 +142,7 @@ namespace XrplTests.Xrpl.MockRippled
         private IPEndPoint _endPoint;
 
         /// <summary>The connected clients to the server </summary>
-        private List<Client> _clients = new List<Client>();
+        private List<MockClient> _clients = new List<MockClient>();
 
         #endregion
 
@@ -187,7 +187,7 @@ namespace XrplTests.Xrpl.MockRippled
         /// <summary>Gets a connected client at the given index</summary>
         /// <param name="Index">The connected client array index</param>
         /// <returns>The connected client at the index, returns null if the index is out of bounds</returns>
-        public Client GetConnectedClient(int Index)
+        public MockClient GetConnectedClient(int Index)
         {
             if (Index < 0 || Index >= _clients.Count) return null;
             return _clients[Index];
@@ -196,9 +196,9 @@ namespace XrplTests.Xrpl.MockRippled
         /// <summary>Gets a connected client with the given guid</summary>
         /// <param name="Guid">The Guid of the client to get</param>
         /// <returns>The client with the given id, return null if no client with the guid could be found</returns>
-        public Client GetConnectedClient(string Guid)
+        public MockClient GetConnectedClient(string Guid)
         {
-            foreach (Client client in _clients)
+            foreach (MockClient client in _clients)
             {
                 if (client.GetGuid() == Guid) return client;
             }
@@ -208,9 +208,9 @@ namespace XrplTests.Xrpl.MockRippled
         /// <summary>Gets a connected client with the given socket</summary>
         /// <param name="Socket">The socket of the client </param>
         /// <returns>The connected client with the given socket, returns null if no client with the socket was found</returns>
-        public Client GetConnectedClient(Socket Socket)
+        public MockClient GetConnectedClient(Socket Socket)
         {
-            foreach (Client client in _clients)
+            foreach (MockClient client in _clients)
             {
                 if (client.GetSocket() == Socket) return client;
             }
@@ -272,7 +272,7 @@ namespace XrplTests.Xrpl.MockRippled
 
                 // Create a new client object and add 
                 // it to the list of connected clients
-                Client client = new Client(this, clientSocket);
+                MockClient client = new MockClient(this, clientSocket);
                 _clients.Add(client);
 
                 // Call the event when a client has connected to the listen server 
@@ -292,7 +292,7 @@ namespace XrplTests.Xrpl.MockRippled
         /// <summary>Called when a message was recived, calls the OnMessageReceived event</summary>
         /// <param name="Client">The client that sent the message</param>
         /// <param name="Message">The message that the client sent</param>
-        public void ReceiveMessage(Client Client, string Message)
+        public void ReceiveMessage(MockClient Client, string Message)
         {
             if (OnMessageReceived == null) throw new Exception("Server error: event OnMessageReceived is not bound!");
             OnMessageReceived(this, new OnMessageReceivedHandler(Client, Message));
@@ -300,7 +300,7 @@ namespace XrplTests.Xrpl.MockRippled
 
         /// <summary>Called when a client disconnectes, calls event OnClientDisconnected</summary>
         /// <param name="Client">The client that disconnected</param>
-        public void ClientDisconnect(Client Client)
+        public void ClientDisconnect(MockClient Client)
         {
             // Remove the client from the connected clients list
             _clients.Remove(Client);
@@ -317,7 +317,7 @@ namespace XrplTests.Xrpl.MockRippled
         /// <summary>Send a message to a connected client</summary>
         /// <param name="Client">The client to send the data to</param>
         /// <param name="Data">The data to send the client</param>
-        public void SendMessage(Client Client, string Data)
+        public void SendMessage(MockClient Client, string Data)
         {
             // Create a websocket frame around the data to send
             byte[] frameMessage = Helpers.GetFrameFromString(Data);

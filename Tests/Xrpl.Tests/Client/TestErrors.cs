@@ -6,7 +6,7 @@ using Xrpl.Client.Exceptions;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/client/errors.ts
 
-namespace XrplTests.Xrpl.ClientLib
+namespace Xrpl.Tests.ClientLib
 {
     [TestClass]
     public class TestUErrors

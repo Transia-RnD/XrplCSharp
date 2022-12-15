@@ -9,12 +9,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
 
-namespace XrplTests.Xrpl.MockRippled
+namespace Xrpl.Tests.MockRippled
 {
     ///<summary>
     /// Object for all connectecd clients
     /// </summary>
-    public partial class Client
+    public partial class MockClient
     {
 
         #region Fields
@@ -38,7 +38,7 @@ namespace XrplTests.Xrpl.MockRippled
         /// <summary>Create a new object for a connected client</summary>
         /// <param name="Server">The server object instance that the client is connected to</param>
         /// <param name="Socket">The socket of the connected client</param>
-        public Client(Server Server, Socket Socket)
+        public MockClient(Server Server, Socket Socket)
         {
             this._server = Server;
             this._socket = Socket;

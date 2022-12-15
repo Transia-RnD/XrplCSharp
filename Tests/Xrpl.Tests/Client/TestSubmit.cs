@@ -12,7 +12,7 @@ using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/client/submit.ts
 
-namespace XrplTests.Xrpl.ClientLib
+namespace Xrpl.Tests.ClientLib
 {
     [TestClass]
     public class TestUSubmit

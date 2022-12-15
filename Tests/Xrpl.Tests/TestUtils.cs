@@ -4,7 +4,7 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace XrplTests.Xrpl
+namespace Xrpl.Tests
 {
     public class TestUtils
     {
