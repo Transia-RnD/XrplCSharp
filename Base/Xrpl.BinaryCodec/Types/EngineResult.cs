@@ -58,6 +58,11 @@ namespace Xrpl.BinaryCodec.Types
         public static readonly EngineResult temUNCERTAIN = Add(nameof(temUNCERTAIN), -272, "In process of determining result. Never returned.");
         public static readonly EngineResult temUNKNOWN = Add(nameof(temUNKNOWN), -271, "The transactions requires logic not implemented yet.");
 
+        public static readonly EngineResult temSEQ_AND_TICKET = Add(nameof(temSEQ_AND_TICKET), -263, "");
+        public static readonly EngineResult temBAD_NFTOKEN_TRANSFER_FEE = Add(nameof(temBAD_NFTOKEN_TRANSFER_FEE), -262, "");
+        public static readonly EngineResult temBAD_AMM_OPTIONS = Add(nameof(temBAD_AMM_OPTIONS), -261, "");
+        public static readonly EngineResult temBAD_AMM_TOKENS = Add(nameof(temBAD_AMM_TOKENS), -260, "");
+
         public static readonly EngineResult tefFAILURE = Add(nameof(tefFAILURE), -199, "Failed to apply.");
         public static readonly EngineResult tefALREADY = Add(nameof(tefALREADY), -198, "The exact transaction was already in this ledger.");
         public static readonly EngineResult tefBAD_ADD_AUTH = Add(nameof(tefBAD_ADD_AUTH), -197, "Not authorized to add account.");
@@ -83,6 +88,9 @@ namespace Xrpl.BinaryCodec.Types
         public static readonly EngineResult terPRE_SEQ = Add(nameof(terPRE_SEQ), -92, "Missing/inapplicable prior transaction.");
         public static readonly EngineResult terLAST = Add(nameof(terLAST), -91, "Process last.");
         public static readonly EngineResult terNO_RIPPLE = Add(nameof(terNO_RIPPLE), -90, "Process last.");
+        public static readonly EngineResult terQUEUED = Add(nameof(terQUEUED), -89, "");
+        public static readonly EngineResult terPRE_TICKET = Add(nameof(terPRE_TICKET), -88, "");
+        public static readonly EngineResult terNO_AMM = Add(nameof(terNO_AMM), -87, "");
 
         public static readonly EngineResult tesSUCCESS = Add(nameof(tesSUCCESS), 0, "The transaction was applied.");
         public static readonly EngineResult tecCLAIM = Add(nameof(tecCLAIM), 100, "Fee claimed. Sequence used. No action.");
@@ -116,7 +124,22 @@ namespace Xrpl.BinaryCodec.Types
         public static readonly EngineResult tecDST_TAG_NEEDED = Add(nameof(tecDST_TAG_NEEDED), 143, "A destination tag is required.");
         public static readonly EngineResult tecINTERNAL = Add(nameof(tecINTERNAL), 144, "An internal error has occurred during processing.");
         public static readonly EngineResult tecOVERSIZE = Add(nameof(tecOVERSIZE), 145, "Object exceeded serialization limits.");
-        
+
+        public static readonly EngineResult tecCANT_ACCEPT_OWN_NFTOKEN_OFFER = Add(nameof(tecCANT_ACCEPT_OWN_NFTOKEN_OFFER), 158, "");
+        public static readonly EngineResult tecINSUFFICIENT_FUNDS = Add(nameof(tecINSUFFICIENT_FUNDS), 159, "");
+        public static readonly EngineResult tecOBJECT_NOT_FOUND = Add(nameof(tecOBJECT_NOT_FOUND), 160, "");
+        public static readonly EngineResult tecINSUFFICIENT_PAYMENT = Add(nameof(tecINSUFFICIENT_PAYMENT), 161, "");
+        public static readonly EngineResult tecUNFUNDED_AMM = Add(nameof(tecUNFUNDED_AMM), 162, "");
+        public static readonly EngineResult tecAMM_BALANCE = Add(nameof(tecAMM_BALANCE), 163, "");
+        public static readonly EngineResult tecAMM_FAILED_DEPOSIT = Add(nameof(tecAMM_FAILED_DEPOSIT), 164, "");
+        public static readonly EngineResult tecAMM_FAILED_WITHDRAW = Add(nameof(tecAMM_FAILED_WITHDRAW), 165, "");
+        public static readonly EngineResult tecAMM_INVALID_TOKENS = Add(nameof(tecAMM_INVALID_TOKENS), 166, "");
+        public static readonly EngineResult tecAMM_EXISTS = Add(nameof(tecAMM_EXISTS), 167, "");
+        public static readonly EngineResult tecAMM_FAILED_BID = Add(nameof(tecAMM_FAILED_BID), 168, "");
+        public static readonly EngineResult tecAMM_FAILED_VOTE = Add(nameof(tecAMM_FAILED_VOTE), 169, "");
+
+
+
         // ReSharper restore InconsistentNaming
         public bool ShouldClaimFee()
         {
