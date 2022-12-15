@@ -2,7 +2,7 @@
 
 //todo not found doc
 
-namespace Xrpl.BinaryCodec.Types
+namespace Xrpl.BinaryCodec.Enums
 {
     public class EngineResult : SerializedEnumItem<byte>
     {
