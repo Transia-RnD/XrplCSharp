@@ -14,36 +14,36 @@ namespace Xrpl.Models.Transactions
     /// Enum representing values for AMMWithdrawFlags Transaction Flags  
     /// </summary>
     /// <category>Transaction Flags</category>
-    public enum AMMWithdrawFlags
+    public enum AMMWithdrawFlags : uint
     {
         /// <summary>
         /// Perform a double-asset withdrawal and receive the specified amount of LP Tokens.
         /// </summary>
-        tfLPToken = 0x00010000,//65536
+        tfLPToken = 65536,//0x00010000
         /// <summary>
         /// 	Perform a double-asset withdrawal returning all your LP Tokens.
         /// </summary>
-        tfWithdrawAll = 0x00020000,//131072
+        tfWithdrawAll =131072,//0x00020000
         /// <summary>
         /// Perform a single-asset withdrawal returning all of your LP Tokens.
         /// </summary>
-        tfOneAssetWithdrawAll = 0x00040000,//262144
+        tfOneAssetWithdrawAll = 262144,//0x00040000
         /// <summary>
         /// Perform a single-asset withdrawal with a specified amount of the asset to withdrawal.
         /// </summary>
-        tfSingleAsset = 0x00080000,//524288
+        tfSingleAsset = 524288,//0x00080000
         /// <summary>
         /// Perform a double-asset withdrawal with specified amounts of both assets.
         /// </summary>
-        tfTwoAsset = 0x00100000,//1048576
+        tfTwoAsset = 1048576,//0x00100000
         /// <summary>
         /// Perform a single-asset withdrawal and receive the specified amount of LP Tokens.
         /// </summary>
-        tfOneAssetLPToken = 0x00200000,//2097152
+        tfOneAssetLPToken = 2097152,//0x00200000
         /// <summary>
         /// Perform a single-asset withdrawal with a specified effective price.
         /// </summary>
-        tfLimitLPToken = 0x00400000 //4194304
+        tfLimitLPToken = 4194304 //0x00400000
     }
 
     //public interface AMMWithdrawFlagsInterface : GlobalFlags

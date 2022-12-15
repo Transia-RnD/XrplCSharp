@@ -13,28 +13,28 @@ namespace Xrpl.Models.Transactions
     /// <summary>
     /// Enum representing values for AMMDeposit Transaction Flags.
     /// </summary>
-    public enum AMMDepositFlags
+    public enum AMMDepositFlags : uint
     {
         /// <summary>
         /// Perform a double-asset deposit and receive the specified amount of LP Tokens.
         /// </summary>
-        tfLPToken = 0x00010000,//65536
+        tfLPToken = 65536,//0x00010000
         /// <summary>
         /// Perform a single-asset deposit with a specified amount of the asset to deposit.
         /// </summary>
-        tfSingleAsset = 0x00080000,//524288
+        tfSingleAsset = 524288,//0x00080000
         /// <summary>
         /// Perform a double-asset deposit with specified amounts of both assets.
         /// </summary>
-        tfTwoAsset = 0x00100000,//1048576
+        tfTwoAsset = 1048576,//0x00100000
         /// <summary>
         /// Perform a single-asset deposit and receive the specified amount of LP Tokens.
         /// </summary>
-        tfOneAssetLPToken = 0x00200000,//2097152
+        tfOneAssetLPToken = 2097152,//0x00200000
         /// <summary>
         /// Perform a single-asset deposit with a specified effective price.
         /// </summary>
-        tfLimitLPToken = 0x00400000//4194304
+        tfLimitLPToken = 4194304 //0x00400000
     };
 
     //public interface AMMDepositFlagsInterface : GlobalFlags

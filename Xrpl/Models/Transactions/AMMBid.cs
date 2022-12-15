@@ -112,7 +112,7 @@ namespace Xrpl.Models.Transactions
 
             if (tx.TryGetValue("AuthAccounts", out var AuthAccounts) && AuthAccounts is not null)
             {
-                if (AuthAccounts is not List<dynamic> auth_accounts )
+                if (AuthAccounts is not List<Dictionary<string,dynamic>> auth_accounts )
                 {
                     throw new ValidationException("AMMBid: AuthAccounts must be an AuthAccount array");
                 }
