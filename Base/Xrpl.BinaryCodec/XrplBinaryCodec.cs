@@ -2,8 +2,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
-using Xrpl.BinaryCodec.Binary;
-using Xrpl.BinaryCodec.Hashing;
+using Xrpl.BinaryCodec.Serdes;
 using Xrpl.BinaryCodec.Types;
 using Xrpl.BinaryCodec.Util;
 
@@ -23,7 +22,7 @@ namespace Xrpl.BinaryCodec
         /// <returns>JToken</returns>
         public static JToken Decode(string binary)
         {
-            var stobject = StObject.FromHex(binary);
+            var stobject = STObject.FromHex(binary);
             return stobject.ToJson();
         }
 
@@ -102,7 +101,7 @@ namespace Xrpl.BinaryCodec
                 list.Put(prefix);
             }
 
-            StObject so = StObject.FromJson(json, signingOnly);
+            STObject so = STObject.FromJson(json, signingOnly);
             list.Put(so.ToBytes());
 
             if (suffix != null)

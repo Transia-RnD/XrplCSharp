@@ -1,6 +1,6 @@
 ﻿//using System;
 //using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using Xrpl.BinaryCodec.Binary;
+//using Xrpl.BinaryCodec.Serdes;
 //using Xrpl.BinaryCodec.Types;
 //using Xrpl.BinaryCodec.Tests;
 

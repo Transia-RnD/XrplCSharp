@@ -1,157 +1,196 @@
-﻿using Newtonsoft.Json.Linq;
-
-using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Xrpl.BinaryCodec.Binary;
+using System.Text;
+using System.Threading.Tasks;
+using System.Numerics;
+using Xrpl.BinaryCodec.Serdes;
+using Xrpl.BinaryCodec.Types;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/amount.ts
 
 namespace Xrpl.BinaryCodec.Types
 {
-    public class Amount : ISerializedType
+    public class Amount
     {
-        public bool IsNative()
+        public static Amount DefaultAmount = new Amount(new byte[] { 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+
+        public byte[] bytes { get; set; }
+
+        public Amount(byte[] bytes)
         {
-            return (this.Value.ToBytes()[0] & 0x80) == 0;
+            this.bytes = bytes;
         }
 
-        public readonly AccountId Issuer;
-        public readonly Currency Currency;
-        //public bool IsNative => Currency.IsNative;
-        public AmountValue Value;
-
-        public const int MaximumIouPrecision = 16;
-
-        public Amount(AmountValue value, Currency currency = null, AccountId issuer = null)
+        public static Amount From(object value)
         {
-            Currency = currency ?? Currency.Xrp;
-            Issuer = issuer ?? (Currency.IsNative ? AccountId.Zero : AccountId.Neutral);
-            Value = value;
-        }
-
-        public Amount(string v = "0", Currency c = null, AccountId i = null) :
-                      this(AmountValue.FromString(v, c == null || c.IsNative), c, i)
-        {
-        }
-
-        public Amount(decimal value, Currency currency, AccountId issuer = null) :
-            this(value.ToString(CultureInfo.InvariantCulture), currency, issuer)
-        {
-        }
-
-        public void ToBytes(IBytesSink sink)
-        {
-            sink.Put(Value.ToBytes());
-            if (!IsNative())
+            if (value is Amount)
             {
-                Currency.ToBytes(sink);
-                Issuer.ToBytes(sink);
+                return (Amount)value;
             }
-        }
 
-        public JToken ToJson()
-        {
-            if (this.IsNative())
+            byte[] amount = new byte[8];
+
+            if (value is string)
             {
-                return Value.ToString();
+                AssertXrpIsValid((string)value);
+
+                BigInteger number = BigInteger.Parse((string)value);
+
+                byte[] intBuf = new byte[8];
+                byte[] msb = BitConverter.GetBytes(number >> 32);
+                byte[] lsb = BitConverter.GetBytes(number & 0x00000000ffffffff);
+
+                Array.Copy(msb, 0, intBuf, 0, 4);
+                Array.Copy(lsb, 0, intBuf, 4, 4);
+
+                amount = intBuf;
+
+                amount[0] |= 0x40;
+
+                return new Amount(amount);
             }
-            return new JObject
-            {
-                ["value"] = Value.ToString(),
-                ["currency"] = Currency,
-                ["issuer"] = Issuer,
-            };
-        }
 
-        public static Amount FromJson(JToken token)
-        {
-            switch (token.Type)
+            if (value is AmountObject)
             {
-                case JTokenType.String:
+                AmountObject amountObject = (AmountObject)value;
 
-                    return new Amount(token.ToString());
-                case JTokenType.Integer:
-                    return (ulong)token;
-                case JTokenType.Object:
-                    if ((string)token["currency"] == "XRP")
+                BigInteger number = BigInteger.Parse(amountObject.value);
+                AssertIouIsValid(number);
+
+                if (number == 0)
+                {
+                    amount[0] |= 0x80;
+                }
+                else
+                {
+                    string integerNumberString = number.ToString();
+
+                    BigInteger num = BigInteger.Parse(integerNumberString);
+                    byte[] intBuf = new byte[8];
+                    byte[] msb = BitConverter.GetBytes(num >> 32);
+                    byte[] lsb = BitConverter.GetBytes(num & 0x00000000ffffffff);
+
+                    Array.Copy(msb, 0, intBuf, 0, 4);
+                    Array.Copy(lsb, 0, intBuf, 4, 4);
+
+                    amount = intBuf;
+
+                    amount[0] |= 0x80;
+
+                    if (number > 0)
                     {
-                        return new Amount(token["value"].ToString());
+                        amount[0] |= 0x40;
                     }
-                    var valueToken = token["value"];
-                    var currencyToken = token["currency"];
-                    var issuerToken = token["issuer"];
 
-                    if (valueToken == null)
-                        throw new InvalidJsonException("Amount object must contain property `value`.");
+                    int exponent = number.ToString().Length - 15;
+                    int exponentByte = 97 + exponent;
+                    amount[0] |= (byte)(exponentByte >> 2);
+                    amount[1] |= (byte)((exponentByte & 0x03) << 6);
+                }
 
-                    if (currencyToken == null)
-                        throw new InvalidJsonException("Amount object must contain property `currency`.");
+                byte[] currency = Currency.From(amountObject.currency).bytes;
+                byte[] issuer = AccountID.From(amountObject.issuer).bytes;
+                return new Amount(amount.Concat(currency).Concat(issuer).ToArray());
+            }
 
-                    if (issuerToken == null)
-                        throw new InvalidJsonException("Amount object must contain property `issuer`.");
+            throw new Exception("Invalid type to construct an Amount");
+        }
 
-                    if (token.Children().Count() > 3)
-                        throw new InvalidJsonException("Amount object has too many properties.");
+        public static Amount FromParser(BinaryParser parser)
+        {
+            bool isXRP = (parser.Peek() & 0x80) == 0x80;
+            int numBytes = isXRP ? 48 : 8;
+            return new Amount(parser.Read(numBytes));
+        }
 
-                    if (valueToken.Type != JTokenType.String)
-                        throw new InvalidJsonException("Property `value` must be string.");
+        public object ToJSON()
+        {
+            if (IsNative())
+            {
+                byte[] bytes = this.bytes;
+                bool isPositive = (bytes[0] & 0x40) == 0x40;
+                string sign = isPositive ? "" : "-";
+                bytes[0] &= 0x3f;
 
-                    if (currencyToken.Type != JTokenType.String)
-                        throw new InvalidJsonException("Property `currency` must be string.");
+                BigInteger msb = BitConverter.ToUInt32(bytes, 0);
+                BigInteger lsb = BitConverter.ToUInt32(bytes, 4);
+                BigInteger num = (msb << 32) | lsb;
 
-                    if (issuerToken.Type != JTokenType.String)
-                        throw new InvalidJsonException("Property `issuer` must be string.");
+                return sign + num.ToString();
+            }
+            else
+            {
+                BinaryParser parser = new BinaryParser(this.ToString());
+                byte[] mantissa = parser.Read(8);
+                Currency currency = Currency.FromParser(parser);
+                AccountID issuer = AccountID.FromParser(parser);
 
-                    return new Amount((string)valueToken, (string)currencyToken, (string)issuerToken);
-                default:
-                    throw new InvalidJsonException("Can not create Amount from `{token}`");
+                byte b1 = mantissa[0];
+                byte b2 = mantissa[1];
+
+                bool isPositive = (b1 & 0x40) == 0x40;
+                string sign = isPositive ? "" : "-";
+                int exponent = ((b1 & 0x3f) << 2) + ((b2 & 0xff) >> 6) - 97;
+
+                mantissa[0] = 0;
+                mantissa[1] &= 0x3f;
+                BigInteger value = BigInteger.Parse(sign + "0x" + BitConverter.ToString(mantissa).Replace("-", ""));
+                AssertIouIsValid(value);
+
+                return new AmountObject
+                {
+                    value = value.ToString(),
+                    currency = currency.ToJSON(),
+                    issuer = issuer.ToJSON()
+                };
             }
         }
 
-        public static implicit operator Amount(ulong a)
+        private static void AssertXrpIsValid(string amount)
         {
-            return new Amount(a.ToString("D"));
+            if (amount.IndexOf('.') != -1)
+            {
+                throw new Exception(amount + " is an illegal amount");
+            };
+
+            decimal value = decimal.Parse(amount);
+            if (value != 0)
+            {
+                if (value < 0.000001m || value > 10000000000000000m)
+                {
+                    throw new Exception(amount + " is an illegal amount");
+                }
+            }
         }
 
-        public static implicit operator Amount(string v)
+        private static void AssertIouIsValid(BigInteger value)
         {
-            return new Amount(v);
+            if (value != 0)
+            {
+                int p = value.ToString().Length;
+                int e = value.ToString().Length - 15;
+                if (p > 16 || e > 80 || e < -96)
+                {
+                    throw new Exception("Decimal precision out of range");
+                }
+                VerifyNoDecimal(value);
+            }
         }
 
-        public static Amount FromParser(BinaryParser parser, int? hint = null)
+        private static void VerifyNoDecimal(BigInteger value)
         {
-            var value = AmountValue.FromParser(parser);
-            if (!value.IsIou) return new Amount(value);
-            var curr = Currency.FromParser(parser);
-            var issuer = AccountId.FromParser(parser);
-            return new Amount(value, curr, issuer);
+            string integerNumberString = value.ToString();
+
+            if (integerNumberString.IndexOf('.') != -1)
+            {
+                throw new Exception("Decimal place found in integerNumberString");
+            }
         }
 
-        public decimal DecimalValue()
+        private bool IsNative()
         {
-            return decimal.Parse(Value.ToString(), NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture);
-        }
-
-        public static Amount operator *(Amount a, decimal b)
-        {
-            return new Amount(
-                (a.DecimalValue() * b).ToString(CultureInfo.InvariantCulture),
-                              a.Currency, a.Issuer);
-        }
-
-        public static bool operator <(decimal a, Amount b)
-        {
-            return a < b.DecimalValue();
-        }
-
-        public static bool operator >(decimal a, Amount b)
-        {
-            return a > b.DecimalValue();
-        }
-
-        public Amount NewValue(decimal @decimal)
-        {
-            return new Amount(@decimal, Currency, Issuer);
+            return (this.bytes[0] & 0x80) == 0;
         }
     }
 }

@@ -1,80 +1,84 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
 using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Serdes;
 using Xrpl.BinaryCodec.Enums;
 
-//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/st-array.ts
-//https://xrpl.org/serialization.html#array-fields
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/st-array.ts
 
 namespace Xrpl.BinaryCodec.Types
 {
-    /// <summary>
-    /// Class for serializing and deserializing Arrays of Objects
-    /// </summary>
-    public class StArray : List<StObject>, ISerializedType
+    public class STArray : SerializedType
     {
-        /// <summary>
-        ///  Construct an STArray from an Array of JSON Objects
-        /// </summary>
-        /// <param name="collection"> Array of JSON Objects</param>
-        public StArray(IEnumerable<StObject> collection) : base(collection)
-        {
-        }
-        /// <summary>
-        ///  Construct an STArray 
-        /// </summary>
-        public StArray()
-        {
-        }
+        private static readonly byte[] ARRAY_END_MARKER = new byte[] { 0xf1 };
+        private const string ARRAY_END_MARKER_NAME = "ArrayEndMarker";
+        private static readonly byte[] OBJECT_END_MARKER = new byte[] { 0xe1 };
 
-        /// <inheritdoc />
-        public void ToBytes(IBytesSink sink)
+        public static STArray FromParser(BinaryParser parser)
         {
-            foreach (var so in this)
-            {
-                so.ToBytes(sink);
-            }
-        }
+            var bytes = new List<byte[]>();
 
-        /// <inheritdoc />
-        public JToken ToJson()
-        {
-            var arr = new JArray();
-            foreach (var so in this)
-            {
-                arr.Add(so.ToJson());
-            }
-            return arr;
-        }
-        /// <summary> Deserialize StArray </summary>
-        /// <param name="token">json token</param>
-        /// <returns></returns>
-        public static StArray FromJson(JToken token)
-        {
-            return new StArray(token.Select(StObject.FromJson));
-        }
-        /// <summary>
-        /// Construct a StArray from a BinaryParser
-        /// </summary>
-        /// <param name="parser">A BinaryParser to read StArray from</param>
-        /// <returns></returns>
-        public static StArray FromParser(BinaryParser parser, int? hint = null)
-        {
-            var stArray = new StArray();
             while (!parser.End())
             {
                 var field = parser.ReadField();
-                if (field == Field.ArrayEndMarker)
+                if (field.Name == ARRAY_END_MARKER_NAME)
                 {
                     break;
                 }
-                var outer = new StObject {
-                    [(StObjectField) field] =
-                        StObject.FromParser(parser) };
-                stArray.Add(outer);
+
+                bytes.Add(field.Header);
+                bytes.Add(parser.ReadFieldValue(field).ToBytes());
+                bytes.Add(OBJECT_END_MARKER);
             }
-            return stArray;
+
+            bytes.Add(ARRAY_END_MARKER);
+            return new STArray(bytes.SelectMany(x => x).ToArray());
+        }
+
+        public static STArray From<T>(T value) where T : STArray, IEnumerable<JsonObject>
+        {
+            if (value is STArray)
+            {
+                return value;
+            }
+
+            if (value.Any() && value.First() is JsonObject)
+            {
+                var bytes = new List<byte[]>();
+                foreach (var obj in value)
+                {
+                    bytes.Add(STObject.From(obj).ToBytes());
+                }
+
+                bytes.Add(ARRAY_END_MARKER);
+                return new STArray(bytes.SelectMany(x => x).ToArray());
+            }
+
+            throw new Exception("Cannot construct STArray from value given");
+        }
+
+        public JsonObject[] ToJson()
+        {
+            var result = new List<JsonObject>();
+
+            var arrayParser = new BinaryParser(this.ToString());
+
+            while (!arrayParser.End())
+            {
+                var field = arrayParser.ReadField();
+                if (field.Name == ARRAY_END_MARKER_NAME)
+                {
+                    break;
+                }
+
+                var outer = new JsonObject();
+                outer[field.Name] = STObject.FromParser(arrayParser).ToJson();
+                result.Add(outer);
+            }
+
+            return result.ToArray();
         }
     }
 }

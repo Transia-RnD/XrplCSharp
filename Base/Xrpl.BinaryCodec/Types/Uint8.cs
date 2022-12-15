@@ -1,48 +1,73 @@
-﻿using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodec.Binary;
+﻿using System;
+using Newtonsoft.Json.Linq;
+using Xrpl.BinaryCodec.Serdes;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/uint-8.ts
 
 namespace Xrpl.BinaryCodec.Types
 {
     /// <summary>
-    ///  Derived UInt class for serializing/deserializing 8 bit UInt
+    /// Derived UInt class for serializing/deserializing 8 bit UInt
     /// </summary>
-    public class Uint8 : Uint<byte>
+    public class UInt8 : UInt
     {
         /// <summary>
-        /// create instance of this value
+        /// The width of the UInt8 in bytes
         /// </summary>
-        /// <param name="value">byte value</param>
-        public Uint8(byte value) : base(value)
+        protected static readonly int width = 8 / 8; // 1
+
+        /// <summary>
+        /// The default UInt8
+        /// </summary>
+        public static readonly UInt8 defaultUInt8 = new UInt8(new byte[UInt8.width]);
+
+        /// <summary>
+        /// Construct a UInt8 object from a byte array
+        /// </summary>
+        /// <param name="bytes">The byte array to construct the UInt8 from</param>
+        public UInt8(byte[] bytes) : base(bytes ?? UInt8.defaultUInt8.bytes)
         {
         }
 
-        /// <inheritdoc />
-        public override byte[] ToBytes() => new [] {Value};
-
-        /// <summary> Deserialize Uint8 </summary>
-        /// <param name="token">json token</param>
-        /// <returns>Uint8 value</returns>
-        public static Uint8 FromJson(JToken token) => (byte) token;
+        /// <summary>
+        /// Construct a UInt8 object from a BinaryParser
+        /// </summary>
+        /// <param name="parser">The BinaryParser to construct the UInt8 from</param>
+        /// <returns>The UInt8 object</returns>
+        public static UInt fromParser(BinaryParser parser)
+        {
+            return new UInt8(parser.read(UInt8.width));
+        }
 
         /// <summary>
-        /// create instance of this value
+        /// Construct a UInt8 object from a number
         /// </summary>
-        /// <param name="v">byte value</param>
-        public static implicit operator Uint8(byte v) => new Uint8(v);
+        /// <param name="val">The UInt8 object or number to construct the UInt8 from</param>
+        /// <returns>The UInt8 object</returns>
+        public static UInt8 from(UInt8 val)
+        {
+            if (val is UInt8)
+            {
+                return val;
+            }
+
+            if (typeof(val) is int)
+            {
+                byte[] buf = new byte[UInt8.width];
+                buf.writeUInt8(val, 0);
+                return new UInt8(buf);
+            }
+
+            throw new Exception("Cannot construct UInt8 from given value");
+        }
 
         /// <summary>
-        /// create instance of this value
+        /// Get the value of a UInt8 object
         /// </summary>
-        /// <param name="v">int value</param>
-        public static Uint8 FromValue(int v) => new Uint8((byte)v);
-
-        /// <summary>
-        /// Construct a Uint8 from a BinaryParser
-        /// </summary>
-        /// <param name="parser">A BinaryParser to read Uint8 from</param>
-        /// <returns></returns>
-        public static Uint8 FromParser(BinaryParser parser, int? hint=null) => parser.ReadOne();
+        /// <returns>The number represented by this.bytes</returns>
+        public int valueOf()
+        {
+            return this.bytes.readUInt8(0);
+        }
     }
 }

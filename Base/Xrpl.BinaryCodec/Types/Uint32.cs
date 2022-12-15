@@ -1,5 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodec.Binary;
+﻿using System;
+using Newtonsoft.Json.Linq;
+using Xrpl.BinaryCodec.Serdes;
 using Xrpl.BinaryCodec.Util;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/uint-32.ts
@@ -9,61 +10,73 @@ namespace Xrpl.BinaryCodec.Types
     /// <summary>
     /// Derived UInt class for serializing/deserializing 32 bit UInt
     /// </summary>
-    public class Uint32 : Uint<uint>
+    public class UInt32 : UInt
     {
         /// <summary>
-        /// create instance of this value
+        /// The width of the UInt32 in bytes
         /// </summary>
-        /// <param name="value">uint value</param>
-        public Uint32(uint value) : base(value)
+        protected static readonly int width = 32 / 8; // 4
+
+        /// <summary>
+        /// The default UInt32
+        /// </summary>
+        public static readonly UInt32 defaultUInt32 = new UInt32(new byte[width]);
+
+        /// <summary>
+        /// Construct a UInt32 object from a byte array
+        /// </summary>
+        /// <param name="bytes">The byte array to construct the UInt32 from</param>
+        public UInt32(byte[] bytes) : base(bytes ?? defaultUInt32.bytes)
         {
         }
 
         /// <summary>
-        /// create instance of this value
+        /// Construct a UInt32 object from a BinaryParser
         /// </summary>
-        /// <param name="value">byte value</param>
-        public Uint32(byte value) : base(value)
+        /// <param name="parser">The BinaryParser to construct the UInt32 from</param>
+        /// <returns>The UInt32 object</returns>
+        public static UInt fromParser(BinaryParser parser)
         {
+            return new UInt32(parser.read(width));
         }
 
-        /// <summary> Deserialize Uint32 </summary>
-        /// <param name="token">json token</param>
-        /// <returns>Uint32 value</returns>
-        public static Uint32 FromJson(JToken token) => (uint)token;
+        /// <summary>
+        /// Construct a UInt32 object from a number
+        /// </summary>
+        /// <param name="val">The UInt32 object or number to construct the UInt32 from</param>
+        /// <returns>The UInt32 object</returns>
+        public static UInt32 from(UInt32 val)
+        {
+            if (val is UInt32)
+            {
+                return val;
+            }
+
+            byte[] buf = new byte[width];
+
+            if (val is string)
+            {
+                int num = int.Parse(val);
+                buf.writeUInt32BE(num, 0);
+                return new UInt32(buf);
+            }
+
+            if (val is int)
+            {
+                buf.writeUInt32BE(val, 0);
+                return new UInt32(buf);
+            }
+
+            throw new Exception("Cannot construct UInt32 from given value");
+        }
 
         /// <summary>
-        /// create instance of this value
+        /// Get the value of a UInt32 object
         /// </summary>
-        /// <param name="v">uint value</param>
-        public static implicit operator Uint32(uint v) => new Uint32(v);
-
-        /// <summary>
-        /// create instance of this value
-        /// </summary>
-        /// <param name="v">byte value</param>
-        public static implicit operator Uint32(byte v) => new Uint32(v);
-
-        /// <summary>
-        /// create instance of this value
-        /// </summary>
-        /// <param name="v">uint value</param>
-        public static implicit operator uint(Uint32 v) => v.Value;
-
-        /// <inheritdoc />
-        public override byte[] ToBytes() => Bits.GetBytes(Value);
-
-        /// <summary>
-        /// create instance of this value
-        /// </summary>
-        /// <param name="v">int value</param>
-        public static Uint32 FromValue(int v) => new Uint32((byte)v);
-
-        /// <summary>
-        /// Construct a Uint16 from a BinaryParser
-        /// </summary>
-        /// <param name="parser">A BinaryParser to read Uint16 from</param>
-        /// <returns></returns>
-        public static Uint32 FromParser(BinaryParser parser, int? hint=null) => Bits.ToUInt32(parser.Read(4), 0);
+        /// <returns>The number represented by this.bytes</returns>
+        public int valueOf()
+        {
+            return this.bytes.readUInt32BE(0);
+        }
     }
 }

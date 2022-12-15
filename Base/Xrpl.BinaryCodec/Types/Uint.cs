@@ -1,43 +1,44 @@
 ﻿using System;
 using System.Globalization;
+using System.Numerics;
 using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Serdes;
+using static Xrpl.BinaryCodec.Types.SerializedType;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/uint.ts
 
 namespace Xrpl.BinaryCodec.Types
 {
-    /// <summary>
-    /// Base class for serializing and deserializing unsigned integers.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public abstract class Uint<T> : ISerializedType where T: struct, IConvertible
+    public class UInt : Comparable
     {
+        protected static int width;
+
         /// <summary>
-        /// integers value
+        /// Compares two numbers
         /// </summary>
-        public readonly T Value;
-        /// <summary>
-        /// create instance of this integer value
-        /// </summary>
-        /// <param name="value"></param>
-        protected Uint(T value)
+        /// <param name="n1">First number</param>
+        /// <param name="n2">Second number</param>
+        /// <returns>-1 if n1 is less than n2, 0 if n1 is equal to n2, 1 if n1 is greater than n2</returns>
+        public static int Compare(BigInteger n1, BigInteger n2)
         {
-            Value = value;
+            return n1 < n2 ? -1 : n1 == n2 ? 0 : 1;
         }
 
-        /// <inheritdoc />
-        public void ToBytes(IBytesSink sink) => sink.Put(ToBytes());
+        public UInt(byte[] bytes) : base(bytes)
+        {
+        }
 
-        /// <inheritdoc />
-        public virtual JToken ToJson() => Convert.ToUInt32(Value);
+        public int CompareTo(UInt other)
+        {
+            return Compare((BigInteger)this.ValueOf, (BigInteger)other.ValueOf);
+        }
 
-        /// <inheritdoc />
-        public override string ToString() => Value.ToString(CultureInfo.InvariantCulture);
+        public object ToJSON()
+        {
+            var val = this.ValueOf;
+            return val is int ? val : val.ToString();
+        }
 
-        /// <summary>
-        /// convert to bytes array
-        /// </summary>
-        public abstract byte[] ToBytes();
+        public object ValueOf { get; }
     }
 }

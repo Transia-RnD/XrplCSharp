@@ -1,257 +1,294 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Xrpl.BinaryCodec.Binary;
+using System.Text;
+using System.Threading.Tasks;
+using Org.BouncyCastle.Bcpg.OpenPgp;
+using Xrpl.BinaryCodec.Serdes;
+using Xrpl.BinaryCodec.Types;
+using static Xrpl.BinaryCodec.Types.Hop;
 
-//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/path-set.ts
-//https://xrpl.org/serialization.html#pathset-fields
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/path-set.ts
 
 namespace Xrpl.BinaryCodec.Types
 {
-    /// <summary> The object representation of a Hop, an issuer AccountID, an account AccountID, and a Currency </summary>
-    public class PathHop
+    public class Hop : SerializedType
     {
-        #region Constant for masking types of a Hop
-
-        /// <summary> TypeAccount const byte </summary>
-        public const byte TypeAccount = 0x01;
-        /// <summary> TypeCurrency const byte </summary>
-        public const byte TypeCurrency = 0x10;
-        /// <summary> type issuer const byte </summary>
-        public const byte TypeIssuer = 0x20;
-
-        #endregion
-        /// <summary> account AccountID </summary>
-        public readonly AccountId Account;
-        /// <summary> issuer AccountID </summary>
-        public readonly AccountId Issuer;
-        /// <summary> Currency </summary>
-        public readonly Currency Currency;
-        /// <summary> Hop type </summary>
-        public readonly int Type;
-        /// <summary> Create a Hop </summary>
-        /// <param name="account">account AccountID</param>
-        /// <param name="issuer">issuer AccountID</param>
-        /// <param name="currency">Currency</param>
-        public PathHop(AccountId account, AccountId issuer, Currency currency)
-        {
-            Account = account;
-            Issuer = issuer;
-            Currency = currency;
-            Type = SynthesizeType();
-        }
-        /// <summary> Deserialize Hot </summary>
-        /// <param name="json">json token</param>
-        /// <returns></returns>
-        public static PathHop FromJson(JToken json)
-        {
-            return new PathHop(json["account"], json["issuer"], json["currency"]);
-        }
-        /// <summary> check that hop has issuer AccountID </summary>
-        public bool HasIssuer() => Issuer != null;
-        /// <summary> check that hop has currency</summary>
-        public bool HasCurrency() => Currency != null;
-        /// <summary> check that hop has account AccountID </summary>
-        public bool HasAccount() => Account != null;
         /// <summary>
-        /// generate type for current hop
+        /// 
         /// </summary>
-        /// <returns></returns>
-        public int SynthesizeType()
+        public class HopObject : JsonObject
         {
-            var type = 0;
+            /// <summary>
+            /// 
+            /// </summary>
+            public string issuer { get; set; }
 
-            if (HasAccount())
-            {
-                type |= TypeAccount;
-            }
-            if (HasCurrency())
-            {
-                type |= TypeCurrency;
-            }
-            if (HasIssuer())
-            {
-                type |= TypeIssuer;
-            }
-            return type;
+            /// <summary>
+            /// 
+            /// </summary>
+            public string account { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public string currency { get; set; }
         }
-        /// <summary> Serialize Hop  </summary>
-        /// <returns></returns>
-        public JObject ToJson()
-        {
-            var hop = new JObject {["type"] = Type};
 
-            if (HasAccount())
-            {
-                hop["account"] = Account;
-            }
-            if (HasCurrency())
-            {
-                hop["currency"] = Currency;
-            }
-            if (HasIssuer())
-            {
-                hop["issuer"] = Issuer;
-            }
+        public static readonly byte PATHSET_END_BYTE = 0x00;
+        public static readonly byte PATH_SEPARATOR_BYTE = 0xff;
+
+        public static readonly byte TYPE_ACCOUNT = 0x01;
+        public static readonly byte TYPE_CURRENCY = 0x10;
+        public static readonly byte TYPE_ISSUER = 0x20;
+
+        public static Hop From(Hop hop)
+        {
             return hop;
         }
-    }
-    /// <summary> Class for serializing/deserializing Paths </summary>
-    public class Path : List<PathHop>
-    {
-        /// <summary> construct a Path </summary>
-        public Path()
+
+        public static Hop From(HopObject hopObject)
         {
-        }
-        /// <summary>
-        /// construct a Path from an Enumerable of Hops
-        /// </summary>
-        /// <param name="enumerable">Path or array of HopObjects to construct a Path</param>
-        public Path(IEnumerable<PathHop> enumerable) : base(enumerable)
-        {
-        }
-        /// <summary> Deserialize Path </summary>
-        /// <param name="json">json token</param>
-        /// <returns></returns>
-        public static Path FromJson(JToken json) => new Path(json.Select(PathHop.FromJson));
-        /// <summary> Serialize Path  </summary>
-        /// <returns></returns>
-        public JArray ToJson()
-        {
-            var array = new JArray();
-            foreach (var hop in this)
+            var bytes = new List<byte>();
+            bytes.Add(0);
+
+            if (hopObject.account != null)
             {
-                array.Add(hop.ToJson());
+                bytes.AddRange(AccountID.From(hopObject.account).ToBytes());
+                bytes[0] |= TYPE_ACCOUNT;
             }
-            return array;
+
+            if (hopObject.currency != null)
+            {
+                bytes.AddRange(Currency.From(hopObject.currency).ToBytes());
+                bytes[0] |= TYPE_CURRENCY;
+            }
+
+            if (hopObject.issuer != null)
+            {
+                bytes.AddRange(AccountID.From(hopObject.issuer).ToBytes());
+                bytes[0] |= TYPE_ISSUER;
+            }
+
+            return new Hop(bytes.ToArray());
+        }
+
+        public static Hop FromParser(BinaryParser parser)
+        {
+            var type = parser.ReadUInt8();
+            var bytes = new List<byte>();
+            bytes.Add(type);
+
+            if ((type & TYPE_ACCOUNT) != 0)
+            {
+                bytes.AddRange(parser.Read(AccountID.WIDTH));
+            }
+
+            if ((type & TYPE_CURRENCY) != 0)
+            {
+                bytes.AddRange(parser.Read(Currency.WIDTH));
+            }
+
+            if ((type & TYPE_ISSUER) != 0)
+            {
+                bytes.AddRange(parser.Read(AccountID.WIDTH));
+            }
+
+            return new Hop(bytes.ToArray());
+        }
+
+        public Hop(byte[] bytes) : base(bytes)
+        {
+        }
+
+        public HopObject ToJSON()
+        {
+            var hopParser = new BinaryParser(this.bytes);
+            var type = hopParser.ReadUInt8();
+
+            string account = null;
+            string currency = null;
+            string issuer = null;
+
+            if ((type & TYPE_ACCOUNT) != 0)
+            {
+                account = (AccountID.FromParser(hopParser) as AccountID).ToJSON();
+            }
+
+            if ((type & TYPE_CURRENCY) != 0)
+            {
+                currency = (Currency.FromParser(hopParser) as Currency).ToJSON();
+            }
+
+            if ((type & TYPE_ISSUER) != 0)
+            {
+                issuer = (AccountID.FromParser(hopParser) as AccountID).ToJSON();
+            }
+
+            var result = new HopObject();
+            if (account != null)
+            {
+                result.account = account;
+            }
+
+            if (issuer != null)
+            {
+                result.issuer = issuer;
+            }
+
+            if (currency != null)
+            {
+                result.currency = currency;
+            }
+
+            return result;
+        }
+
+        public byte Type()
+        {
+            return this.bytes[0];
         }
     }
-    /// <summary> Deserialize and Serialize the PathSet type </summary>
-    public class PathSet : List<Path>, ISerializedType
+
+    /// <summary>
+    /// Class for serializing/deserializing Paths
+    /// </summary>
+    public class Path : SerializedType
     {
-
-        #region Constants for separating Paths in a PathSet
         /// <summary>
-        /// PathSeparator const
+        /// construct a Path from an array of Hops
         /// </summary>
-        public const byte PathSeparatorByte = 0xFF;
-        /// <summary>
-        /// PathsetEnd const
-        /// </summary>
-        public const byte PathsetEndByte = 0x00;
-
-        #endregion
-        /// <summary> Construct a PathSet </summary>
-        private PathSet()
+        /// <param name="value">Path or array of HopObjects to construct a Path</param>
+        /// <returns>the Path</returns>
+        public static Path From(object value)
         {
-            
+            if (value is Path)
+            {
+                return (Path)value;
+            }
+
+            List<byte[]> bytes = new List<byte[]>();
+            foreach (HopObject hop in (List<HopObject>)value)
+            {
+                bytes.Add(Hop.From(hop).ToBytes());
+            }
+
+            return new Path(Utils.Concat(bytes));
         }
+
+        /// <summary>
+        /// Read a Path from a BinaryParser
+        /// </summary>
+        /// <param name="parser">BinaryParser to read Path from</param>
+        /// <returns>the Path represented by the bytes read from the BinaryParser</returns>
+        public static Path FromParser(BinaryParser parser)
+        {
+            List<byte[]> bytes = new List<byte[]>();
+            while (!parser.End())
+            {
+                bytes.Add(Hop.FromParser(parser).ToBytes());
+
+                if (parser.Peek() == PATHSET_END_BYTE || parser.Peek() == PATH_SEPARATOR_BYTE)
+                {
+                    break;
+                }
+            }
+            return new Path(Utils.Concat(bytes));
+        }
+
+        /// <summary>
+        /// Get the JSON representation of this Path
+        /// </summary>
+        /// <returns>an Array of HopObject constructed from this.bytes</returns>
+        public List<HopObject> ToJSON()
+        {
+            List<HopObject> json = new List<HopObject>();
+            BinaryParser pathParser = new BinaryParser(this.ToString());
+
+            while (!pathParser.End())
+            {
+                json.Add(Hop.FromParser(pathParser).ToJSON());
+            }
+
+            return json;
+        }
+    }
+
+    /// <summary>
+    /// Deserialize and Serialize the PathSet type
+    /// </summary>
+    public class PathSet : SerializedType
+    {
         /// <summary>
         /// Construct a PathSet from an Array of Arrays representing paths
         /// </summary>
-        /// <param name="collection">A PathSet or Array of Array of HopObjects</param>
-        public PathSet(IEnumerable<Path> collection) : base(collection)
+        /// <param name="value">A PathSet or Array of Array of HopObjects</param>
+        /// <returns>the PathSet constructed from value</returns>
+        public static PathSet From(object value)
         {
+            if (value is PathSet)
+            {
+                return (PathSet)value;
+            }
+
+            if (IsPathSet(value))
+            {
+                List<byte[]> bytes = new List<byte[]>();
+
+                foreach (var path in (object[])value)
+                {
+                    bytes.Add(Path.From(path).ToBytes());
+                    bytes.Add(new byte[] { PATH_SEPARATOR_BYTE });
+                }
+
+                bytes[bytes.Count - 1] = new byte[] { PATHSET_END_BYTE };
+
+                return new PathSet(bytes.ToArray());
+            }
+
+            throw new Exception("Cannot construct PathSet from given value");
         }
 
-        /// <inheritdoc />
-        public void ToBytes(IBytesSink buffer)
-        {
-            var n = 0;
-            foreach (var path in this)
-            {
-                if (n++ != 0)
-                {
-                    buffer.Put(PathSeparatorByte);
-                }
-                foreach (var hop in path)
-                {
-                    buffer.Put((byte)hop.Type);
-                    if (hop.HasAccount())
-                    {
-                        buffer.Put(hop.Account.Buffer);
-                    }
-                    if (hop.HasCurrency())
-                    {
-                        buffer.Put(hop.Currency.Buffer);
-                    }
-                    if (hop.HasIssuer())
-                    {
-                        buffer.Put(hop.Issuer.Buffer);
-                    }
-                }
-            }
-            buffer.Put(PathsetEndByte);
-        }
-        /// <summary>
-        /// Get the JSON representation of this PathSet
-        /// </summary>
-        /// <returns>Array of Array of HopObjects, representing this PathSet</returns>
-        public JToken ToJson()
-        {
-            var array = new JArray();
-            foreach (var path in this)
-            {
-                array.Add(path.ToJson());
-            }
-            return array;
-        }
-        /// <summary> Deserialize PathSet </summary>
-        /// <param name="token">json token</param>
-        /// <returns></returns>
-        public static PathSet FromJson(JToken token)
-        {
-            return new PathSet(token.Select(Path.FromJson));
-        }
         /// <summary>
         /// Construct a PathSet from a BinaryParser
         /// </summary>
         /// <param name="parser">A BinaryParser to read PathSet from</param>
-        /// <returns></returns>
-        public static PathSet FromParser(BinaryParser parser, int? hint=null)
+        /// <returns>the PathSet read from parser</returns>
+        public static PathSet FromParser(BinaryParser parser)
         {
-            var pathSet = new PathSet();
-            Path path = null;
+            List<byte[]> bytes = new List<byte[]>();
+
             while (!parser.End())
             {
-                byte type = parser.ReadOne();
-                if (type == PathsetEndByte)
+                bytes.Add(Path.FromParser(parser).ToBytes());
+                bytes.Add(parser.Read(1));
+
+                if (bytes[bytes.Count - 1][0] == PATHSET_END_BYTE)
                 {
                     break;
                 }
-                if (path == null)
-                {
-                    path = new Path();
-                    pathSet.Add(path);
-                }
-                if (type == PathSeparatorByte)
-                {
-                    path = null;
-                    continue;
-                }
-
-                AccountId account = null;
-                AccountId issuer = null;
-                Currency currency = null;
-
-                if ((type & PathHop.TypeAccount) != 0)
-                {
-                    account = AccountId.FromParser(parser);
-                }
-                if ((type & PathHop.TypeCurrency) != 0)
-                {
-                    currency = Currency.FromParser(parser);
-                }
-                if ((type & PathHop.TypeIssuer) != 0)
-                {
-                    issuer = AccountId.FromParser(parser);
-                }
-                var hop = new PathHop(account, issuer, currency);
-                path.Add(hop);
-
             }
-            return pathSet;
+
+            return new PathSet(bytes.ToArray());
         }
 
+        /// <summary>
+        /// Get the JSON representation of this PathSet
+        /// </summary>
+        /// <returns>an Array of Array of HopObjects, representing this PathSet</returns>
+        public object[] ToJSON()
+        {
+            List<object[]> json = new List<object[]>();
+            BinaryParser pathParser = new BinaryParser(this.ToString());
+
+            while (!pathParser.End())
+            {
+                json.Add(Path.FromParser(pathParser).ToJSON());
+                pathParser.Skip(1);
+            }
+
+            return json.ToArray();
+        }
     }
 }

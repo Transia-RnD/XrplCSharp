@@ -1,5 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodec.Binary;
+﻿using System;
+using Newtonsoft.Json.Linq;
+using Xrpl.BinaryCodec.Serdes;
 using Xrpl.BinaryCodec.Util;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/uint-16.ts
@@ -7,51 +8,67 @@ using Xrpl.BinaryCodec.Util;
 namespace Xrpl.BinaryCodec.Types
 {
     /// <summary>
-    ///  Derived UInt class for serializing/deserializing 16 bit UInt
+    /// Derived UInt class for serializing/deserializing 16 bit UInt
     /// </summary>
-    public class Uint16 : Uint<ushort>
+    public class UInt16 : UInt
     {
         /// <summary>
-        /// create instance of this value
+        /// The width of the UInt16 in bytes
         /// </summary>
-        /// <param name="value">ushort value</param>
-        public Uint16(ushort value) : base(value)
+        protected static readonly int width = 16 / 8; // 2
+
+        /// <summary>
+        /// The default UInt16
+        /// </summary>
+        public static readonly UInt16 defaultUInt16 = new UInt16(new byte[UInt16.width]);
+
+        /// <summary>
+        /// Construct a UInt16 object from a byte array
+        /// </summary>
+        /// <param name="bytes">The byte array to construct the UInt16 from</param>
+        public UInt16(byte[] bytes) : base(bytes ?? UInt16.defaultUInt16.bytes)
         {
         }
 
         /// <summary>
-        /// create instance of this value
+        /// Construct a UInt16 object from a BinaryParser
         /// </summary>
-        /// <param name="value">byte value</param>
-        public Uint16(byte value) : base(value)
+        /// <param name="parser">The BinaryParser to construct the UInt16 from</param>
+        /// <returns>The UInt16 object</returns>
+        public static UInt fromParser(BinaryParser parser)
         {
+            return new UInt16(parser.read(UInt16.width));
         }
 
-        /// <summary> Deserialize Uint16 </summary>
-        /// <param name="token">json token</param>
-        /// <returns>Uint16 value</returns>
-        public static Uint16 FromJson(JToken token) => (ushort) token;
+        /// <summary>
+        /// Construct a UInt16 object from a number
+        /// </summary>
+        /// <param name="val">The UInt16 object or number to construct the UInt16 from</param>
+        /// <returns>The UInt16 object</returns>
+        public static UInt16 from(UInt16 val)
+        {
+            if (val is UInt16)
+            {
+                return val;
+            }
+
+            if (typeof(val) is int)
+            {
+                byte[] buf = new byte[UInt16.width];
+                buf.writeUInt16BE(val, 0);
+                return new UInt16(buf);
+            }
+
+            throw new Exception("Can not construct UInt16 with given value");
+        }
 
         /// <summary>
-        /// create instance of this value
+        /// Get the value of a UInt16 object
         /// </summary>
-        /// <param name="v">ushort value</param>
-        public static implicit operator Uint16(ushort v) => new Uint16(v);
-
-        /// <inheritdoc />
-        public override byte[] ToBytes() => Bits.GetBytes(Value);
-
-        /// <summary>
-        /// create instance of this value
-        /// </summary>
-        /// <param name="v">int value</param>
-        public static Uint16 FromValue(int v) => new Uint16((byte)v);
-
-        /// <summary>
-        /// Construct a Uint16 from a BinaryParser
-        /// </summary>
-        /// <param name="parser">A BinaryParser to read Uint16 from</param>
-        /// <returns></returns>
-        public static Uint16 FromParser(BinaryParser parser, int? hint=null) => Bits.ToUInt16(parser.Read(2), 0);
+        /// <returns>The number represented by this.bytes</returns>
+        public int valueOf()
+        {
+            return this.bytes.readUInt16BE(0);
+        }
     }
 }

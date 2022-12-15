@@ -1,52 +1,96 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
-using Xrpl.BinaryCodec.Binary;
+using System.Text;
+using Xrpl.BinaryCodec.Serdes;
 using Xrpl.BinaryCodec.Util;
+using static Xrpl.BinaryCodec.Types.SerializedType;
 
-//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/hash.ts
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/hash.ts
 
 namespace Xrpl.BinaryCodec.Types
 {
     /// <summary>
-    /// The XRP Ledger has several "hash" types: Hash128, Hash160, and Hash256.<br/>
-    /// These fields contain arbitrary binary data of the given number of bits, which may or may not represent the result of a hash operation.<br/>
-    /// All such fields are serialized as the specific number of bits, with no length indicator, in big-endian byte order.<br/>
-    ///
     /// Base class defining how to encode and decode hashes
     /// </summary>
-    public abstract class Hash : ISerializedType, IEquatable<Hash>
+    public abstract class Hash : Comparable
     {
-        /// <summary> Bytes buffer </summary>
-        public readonly byte[] Buffer;
         /// <summary>
-        /// Defines how to construct Hash from buffer 
+        /// The width of the hash
         /// </summary>
-        /// <param name="buffer">bytes buffer</param>
-        protected Hash(byte[] buffer)
+        public static readonly int Width;
+
+        protected Hash(byte[] bytes) : base(bytes)
         {
-            Buffer = buffer;
+            this.bytes = bytes;
         }
 
-        /// <summary> Hash to bytes </summary>
-        /// <param name="sink"> Bytes Sink </param>
-        public void ToBytes(IBytesSink sink)
+        protected Hash(object value)
         {
-            sink.Put(Buffer);
+            Value = value;
         }
-        /// <summary> hash to json string </summary>
-        public JToken ToJson() => ToString();
+
+        public object Value { get; }
 
         /// <summary>
-        /// check hash to equal
+        /// Construct a Hash object from an existing Hash object or a hex-string
         /// </summary>
-        /// <param name="other">other hash</param>
-        /// <returns></returns>
-        public bool Equals(Hash other) => other is not null && other.Buffer.SequenceEqual(Buffer);
-        /// <summary> hash to string value </summary>
-        /// <returns></returns>
-        public override string ToString() => B16.Encode(Buffer);
+        /// <param name="value">A hash object or hex-string of a hash</param>
+        /// <returns>The hash object</returns>
+        public static Hash From<T>(T value) where T : Hash, IEquatable<string>
+        {
+            if (value is Hash)
+            {
+                return value;
+            }
 
-        public static explicit operator string(Hash h) => h.ToHex();
+            if (value is string)
+            {
+                return new Hash(Encoding.UTF8.GetBytes(value));
+            }
+
+            throw new Exception("Cannot construct Hash from given value");
+        }
+
+        /// <summary>
+        /// Read a Hash object from a BinaryParser
+        /// </summary>
+        /// <param name="parser">BinaryParser to read the hash from</param>
+        /// <param name="hint">length of the bytes to read, optional</param>
+        /// <returns>The hash object</returns>
+        public static Hash FromParser(BinaryParser parser, int? hint = null)
+        {
+            return new Hash(parser.Read(hint ?? Width));
+        }
+
+        /// <summary>
+        /// Overloaded operator for comparing two hash objects
+        /// </summary>
+        /// <param name="other">The Hash to compare this to</param>
+        /// <returns>The comparison result</returns>
+        public int CompareTo(Hash other)
+        {
+            return this.bytes.CompareTo(From(other).Bytes);
+        }
+
+        /// <summary>
+        /// Returns four bits at the specified depth within a hash
+        /// </summary>
+        /// <param name="depth">The depth of the four bits</param>
+        /// <returns>The number represented by the four bits</returns>
+        public int Nibblet(int depth)
+        {
+            int byteIx = depth > 0 ? (depth / 2) | 0 : 0;
+            int b = this.bytes[byteIx];
+            if (depth % 2 == 0)
+            {
+                b = (b & 0xf0) >> 4;
+            }
+            else
+            {
+                b = b & 0x0f;
+            }
+            return b;
+        }
     }
 }

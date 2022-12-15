@@ -1,62 +1,95 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Serdes;
 
-//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/vector-256.ts
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/vector-256.ts
 
 namespace Xrpl.BinaryCodec.Types
 {
     /// <summary>
     /// Class for serializing and deserializing vectors of Hash256
     /// </summary>
-    public class Vector256 : List<Hash256>, ISerializedType
+    public class Vector256 : SerializedType
     {
-        private Vector256(IEnumerable<Hash256> enumerable) : base (enumerable) {}
+        public Vector256(byte[] bytes)
+        {
+            Bytes = bytes;
+        }
+
+        public byte[] Bytes { get; }
+
         /// <summary>
-        /// Construct a Vector256
+        /// TypeGuard for Array<string>
         /// </summary>
-        public Vector256()
+        /// <param name="arg"></param>
+        /// <returns></returns>
+        private static bool IsStrings(object arg)
         {
+            return arg is string[] && (arg as string[]).Length == 0; // todo: fix see original
         }
 
-        /// <inheritdoc />
-        public void ToBytes(IBytesSink sink)
-        {
-            foreach (var hash in this)
-            {
-                hash.ToBytes(sink);
-            }
-        }
-
-        /// <inheritdoc />
-        public JToken ToJson()
-        {
-            var arr = new JArray();
-            foreach (var hash in this)
-            {
-                arr.Add(hash.ToJson());
-            }
-            return arr;
-        }
-        /// <summary> Deserialize Vector256 </summary>
-        /// <param name="token">json token</param>
-        /// <returns>Vector256 value</returns>
-        public static Vector256 FromJson(JToken token) => new Vector256(token.Select(Hash256.FromJson));
         /// <summary>
         /// Construct a Vector256 from a BinaryParser
         /// </summary>
-        /// <param name="parser">A BinaryParser to read Vector256 from</param>
-        /// <returns></returns>
-        public static Vector256 FromParser(BinaryParser parser, int? hint=null)
+        /// <param name="parser">BinaryParser to</param>
+        /// <param name="hint">length of the vector, in bytes, optional</param>
+        /// <returns>a Vector256 object</returns>
+        public static Vector256 FromParser(BinaryParser parser, int? hint = null)
         {
-            var vec = new Vector256();
-            hint ??= parser.Size - parser.Pos();
-            for (int i = 0; i < hint / 32; i++)
+            var bytesList = new BytesList();
+            var bytes = hint ?? parser.Size();
+            var hashes = bytes / 32;
+            for (var i = 0; i < hashes; i++)
             {
-                vec.Add(Hash256.FromParser(parser));
+                Hash256.FromParser(parser).ToBytesSink(bytesList);
             }
-            return vec;
+            return new Vector256(bytesList.ToBytes());
+        }
+
+        /// <summary>
+        /// Construct a Vector256 object from an array of hashes
+        /// </summary>
+        /// <param name="value">A Vector256 object or array of hex-strings representing Hash256's</param>
+        /// <returns>a Vector256 object</returns>
+        public static Vector256 From(object value)
+        {
+            if (value is Vector256)
+            {
+                return (Vector256)value;
+            }
+
+            if (IsStrings(value))
+            {
+                var bytesList = new BytesList();
+                foreach (var hash in value as string[])
+                {
+                    Hash256.From(hash).ToBytesSink(bytesList);
+                }
+                return new Vector256(bytesList.ToBytes());
+            }
+
+            throw new Exception("Cannot construct Vector256 from given value");
+        }
+
+        /// <summary>
+        /// Return an Array of hex-strings represented by this.bytes
+        /// </summary>
+        /// <returns>An Array of strings representing the Hash256 objects</returns>
+        public string[] ToJson()
+        {
+            if (this.Bytes.Length % 32 != 0)
+            {
+                throw new Exception("Invalid bytes for Vector256");
+            }
+
+            var result = new List<string>();
+            for (var i = 0; i < this.Bytes.Length; i += 32)
+            {
+                result.Add(this.Bytes.Skip(i).Take(32).ToArray().ToHex().ToUpper());
+            }
+            return result.ToArray();
         }
     }
 }

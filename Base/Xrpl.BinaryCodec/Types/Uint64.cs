@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
-
+using System.Numerics;
 using System.Text.RegularExpressions;
-using Xrpl.BinaryCodec.Binary;
+using System.Threading.Tasks;
+using Xrpl.BinaryCodec.Serdes;
 using Xrpl.BinaryCodec.Util;
 
 // https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/uint-64.ts
@@ -9,83 +10,88 @@ using Xrpl.BinaryCodec.Util;
 
 namespace Xrpl.BinaryCodec.Types
 {
-    /// <summary>
-    /// Derived UInt class for serializing/deserializing 64 bit UInt
-    /// </summary>
-    public class Uint64 : Uint<ulong>
+    public class UInt64 : UInt
     {
-        static string HEX_REGEX = @"^[a-fA-F0-9]{1,16}$";
+        private static readonly int width = 64 / 8;
+        public static readonly UInt64 defaultUInt64 = new UInt64(new byte[width]);
 
-        /// <summary>
-        /// create instance of this value
-        /// </summary>
-        /// <param name="value">ulong value</param>
-        public Uint64(ulong value) : base(value)
+        public UInt64(byte[] bytes) : base(bytes ?? defaultUInt64.bytes)
         {
         }
 
-        /// <summary>
-        /// create instance of this value
-        /// </summary>
-        /// <param name="value">byte value</param>
-        public Uint64(byte value) : base(value)
+        public static UInt fromParser(BinaryParser parser)
         {
+            return new UInt64(parser.read(width));
         }
 
-        /// <inheritdoc />
-        public override byte[] ToBytes() => Bits.GetBytes(Value);
-
-        /// <inheritdoc />
-        public override string ToString() => B16.Encode(ToBytes());
-
-        /// <summary> Deserialize Uint64 </summary>
-        /// <param name="token">json token</param>
-        /// <returns>Uint64 value</returns>
-        public static Uint64 FromJson(JToken token) => Bits.ToUInt64(B16.Decode(token.ToString()), 0);
-
-        public static implicit operator Uint64(ulong v) => new Uint64(v);
-
-        /// <summary>
-        /// create instance of this value
-        /// </summary>
-        /// <param name="v">byte value</param>
-        public static implicit operator Uint64(byte v) => new Uint64(v);
-
-        /// <summary>
-        /// create instance of this value from string
-        /// </summary>
-        public static Uint64 FromValue(int v)
+        public static UInt64 from(object val)
         {
-            byte[] valueBytes = Bits.GetBytes(v);
-            return new Uint64(Bits.ToUInt32(valueBytes, 0));
-        }
-
-        /// <summary>
-        /// create instance of this value from string
-        /// </summary>
-        public static Uint64 FromValue(string v)
-        {
-            Regex rg = new Regex(HEX_REGEX);
-            if (rg.Matches(v).Count == 0)
+            if (val is UInt64)
             {
-                throw new BinaryCodecException($"{v} is not a valid hex string");
+                return (UInt64)val;
             }
 
-            string strBuf = v.PadRight(16, '0');
-            return new Uint64(Bits.ToUInt64(strBuf.FromHex(), 0));
+            byte[] buf = new byte[width];
+
+            if (val is int)
+            {
+                if ((int)val < 0)
+                {
+                    throw new Exception("value must be an unsigned integer");
+                }
+
+                BigInteger number = new BigInteger((int)val);
+
+                byte[][] intBuf = new byte[2][];
+                intBuf[0] = new byte[4];
+                intBuf[1] = new byte[4];
+                intBuf[0].writeUInt32BE(number.shiftRight(32), 0);
+                intBuf[1].writeUInt32BE(number.and(mask), 0);
+
+                return new UInt64(Buffer.concat(intBuf));
+            }
+
+            if (val is string)
+            {
+                if (!HEX_REGEX.test(val))
+                {
+                    throw new Exception($"{val} is not a valid hex-string");
+                }
+
+                string strBuf = val.padStart(16, '0');
+                buf = Buffer.from(strBuf, "hex");
+                return new UInt64(buf);
+            }
+
+            if (val is BigInteger)
+            {
+                byte[][] intBuf = new byte[2][];
+                intBuf[0] = new byte[4];
+                intBuf[1] = new byte[4];
+                intBuf[0].writeUInt32BE(number.shiftRight(32), 0);
+                intBuf[1].writeUInt32BE(number.and(mask), 0);
+
+                return new UInt64(Buffer.concat(intBuf));
+            }
+
+            throw new Exception("Cannot construct UInt64 from given value");
         }
 
-        /// <inheritdoc />
-        public override JToken ToJson()
+        public string toJSON()
         {
-            return ToBytes().ToHex();
+            return this.bytes.ToString("hex").toUpperCase();
         }
 
-        /// <summary>
-        /// Construct a Uint64 from a BinaryParser
-        /// </summary>
-        /// <param name="parser">A BinaryParser to read Uint64 from</param>
-        /// <returns></returns>
-        public static Uint64 FromParser(BinaryParser parser, int? hint=null) => Bits.ToUInt64(parser.Read(8), 0);
+        public BigInteger valueOf()
+        {
+            BigInteger msb = new BigInteger(this.bytes.slice(0, 4).readUInt32BE(0));
+            BigInteger lsb = new BigInteger(this.bytes.slice(4).readUInt32BE(0));
+            return msb.shiftLeft(new BigInteger(32)).or(lsb);
+        }
+
+        public byte[] toBytes()
+        {
+            return this.bytes;
+        }
     }
 }

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Org.BouncyCastle.Utilities;
-using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Serdes;
 using Xrpl.BinaryCodec.Types;
 
 // https://github.com/XRPLF/xrpl-py/blob/master/tests/unit/core/binarycodec/test_binary_parser.py

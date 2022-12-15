@@ -1,186 +1,113 @@
 ﻿using System;
-using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodec.Binary;
-using Xrpl.BinaryCodec.Util;
+using System.Text.RegularExpressions;
+using System.Linq;
+using Xrpl.BinaryCodec.Enums;
+using Xrpl.BinaryCodec.Types;
 
-//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/currency.ts
-//https://xrpl.org/currency-formats.html#currency-formats
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/currency.ts
 
 namespace Xrpl.BinaryCodec.Types
 {
-    /// <summary>
-    /// Class defining how to encode and decode Currencies
-    /// </summary>
     public class Currency : Hash160
     {
-        /// <summary>
-        ///  ISO code of this currency
-        /// </summary>
-        public readonly string IsoCode;
-        /// <summary>
-        /// Test if this amount is in units of Native Currency(XRP)
-        /// </summary>
-        public readonly bool IsNative;
-        /// <summary>
-        /// Native XRP Currency
-        /// </summary>
-        public static readonly Currency Xrp = new Currency(new byte[20]);
-        /// <summary>
-        /// Constructs a Currency object
-        /// </summary>
-        /// <param name="buffer">bytes buffer</param>
-        public Currency(byte[] buffer) : base(buffer)
-        {
-            IsoCode = GetCurrencyCodeFromTlcBytes(buffer, out IsNative);
-        }
-        /// <summary>
-        /// get currency code from bytes
-        /// </summary>
-        /// <param name="bytes">bytes</param>
-        /// <param name="isNative">will true if currency is XRP</param>
-        /// <returns></returns>
-        public static string GetCurrencyCodeFromTlcBytes(byte[] bytes, out bool isNative)
-        {
-            int i;
-            var zeroInNonCurrencyBytes = true;
-            var allZero = true;
+        public static readonly Currency XRP = new Currency(new byte[20]);
 
-            for (i = 0; i < 20; i++)
+        private readonly string _iso;
+
+        public Currency(byte[] bytes) : base(bytes)
+        {
+            var hex = Bytes.ToHex();
+            if (Regex.IsMatch(hex, "^0{40}$"))
             {
-                allZero = allZero && bytes[i] == 0;
-                zeroInNonCurrencyBytes = zeroInNonCurrencyBytes && 
-                    (i == 12 || i == 13 || i == 14 || bytes[i] == 0); 
+                _iso = "XRP";
             }
-            if (allZero)
+            else if (Regex.IsMatch(hex, "^0{24}[\x00-\x7F]{6}0{10}$"))
             {
-                isNative = true;
-                return "XRP";
+                _iso = IsoCodeFromHex(Bytes.Slice(12, 15));
             }
-            if (zeroInNonCurrencyBytes)
+            else
             {
-                isNative = false;
-                return IsoCodeFromBytesAndOffset(bytes, 12);
+                _iso = null;
             }
-            isNative = false;
+        }
+
+        public string Iso()
+        {
+            return _iso;
+        }
+
+        public static Currency From(Hash160 value)
+        {
+            if (value is Currency)
+            {
+                return (Currency)value;
+            }
+
+            if (value is string)
+            {
+                return new Currency(BytesFromRepresentation((string)value));
+            }
+
+            throw new Exception("Cannot construct Currency from value given");
+        }
+
+        public string ToJson()
+        {
+            var iso = Iso();
+            if (iso != null)
+            {
+                return iso;
+            }
+            return Bytes.ToHex().ToUpper();
+        }
+
+        private static byte[] BytesFromRepresentation(string input)
+        {
+            if (!IsValidRepresentation(input))
+            {
+                throw new Exception($"Unsupported Currency representation: {input}");
+            }
+            return input.Length == 3 ? IsoToBytes(input) : input.HexToBytes();
+        }
+
+        private static bool IsValidRepresentation(string input)
+        {
+            return input.Length == 3 || IsHex(input);
+        }
+
+        private static bool IsHex(string hex)
+        {
+            return Regex.IsMatch(hex, "^[A-F0-9]{40}$");
+        }
+
+        private static byte[] IsoToBytes(string iso)
+        {
+            var bytes = new byte[20];
+            if (iso != "XRP")
+            {
+                var isoBytes = iso.Split("").Map(c => c.CharCodeAt(0));
+                bytes.Set(isoBytes, 12);
+            }
+            return bytes;
+        }
+
+        private static string IsoCodeFromHex(byte[] code)
+        {
+            var iso = code.ToString();
+            if (iso == "XRP")
+            {
+                return null;
+            }
+            if (IsIsoCode(iso))
+            {
+                return iso;
+            }
             return null;
         }
 
-        private static char CharFrom(byte[] bytes, int i)
+        private static bool IsIsoCode(string iso)
         {
-            return (char)bytes[i];
+            return Regex.IsMatch(iso, "^[A-Z0-9a-z?!@#$%^&*(){}[\\]|]{3}$");
         }
-        /// <summary>
-        /// Return the ISO code of this currency
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="offset"></param>
-        /// <returns></returns>
-        private static string IsoCodeFromBytesAndOffset(byte[] bytes, int offset)
-        {
-            var a = CharFrom(bytes, offset);
-            var b = CharFrom(bytes, offset + 1);
-            var c = CharFrom(bytes, offset + 2);
-            return "" + a + b + c;
-        }
-        /// <summary>
-        /// decode currency from json field
-        /// </summary>
-        /// <param name="token">json field</param>
-        /// <returns></returns>
-        public new static Currency FromJson(JToken token)
-        {
-            return token == null ? null : FromString(token.ToString());
-        }
-        /// <summary>
-        /// decode currency from string
-        /// </summary>
-        /// <param name="str">string currency code</param>
-        /// <returns></returns>
-        /// <exception cref="InvalidOperationException"></exception>
-        public static Currency FromString(string str)
-        {
-            if (str == "XRP")
-            {
-                return Xrp;
-            }
-            // ReSharper disable once SwitchStatementMissingSomeCases
-            switch (str.Length)
-            {
-                case 40:
-                    return new Currency(B16.Decode(str));
-                case 3:
-                    return new Currency(EncodeCurrency(str));
-            }
-            throw new InvalidOperationException(
-                "Currency must either be a 3 letter iso code " +
-                "or a 20 byte hash encoded in hexadecimal"
-            );
-        }
-
-        /// <summary>
-        /// The following are static methods, legacy from when there was no
-        /// usage of Currency objects, just String with "XRP" ambiguity.
-        /// </summary>
-        /// <param name="currencyCode">currency code</param>
-        /// <returns></returns>
-        public static byte[] EncodeCurrency(string currencyCode)
-        {
-            byte[] currencyBytes = new byte[20];
-            currencyBytes[12] = (byte)char.ConvertToUtf32(currencyCode, 0);
-            currencyBytes[13] = (byte)char.ConvertToUtf32(currencyCode, 1);
-            currencyBytes[14] = (byte)char.ConvertToUtf32(currencyCode, 2);
-            return currencyBytes;
-        }
-
-        public static implicit operator Currency(string v)
-        {
-            return FromString(v);
-        }
-        public static implicit operator Currency(JToken v)
-        {
-            return FromJson(v);
-        }
-        public static implicit operator JToken(Currency v)
-        {
-            return v.ToString();
-        }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            if (IsoCode != null)
-            {
-                return IsoCode;
-            }
-            return base.ToString();
-        }
-        /// <summary>
-        /// Defines how to read a Currency from a BinaryParser
-        /// </summary>
-        /// <param name="parser">The binary parser to read Currency</param>
-        /// <returns>A Blob object</returns>
-        public new static Currency FromParser(BinaryParser parser, int? hint = null)
-        {
-            return new Currency(parser.Read(20));
-        }
-
-        //public static UnissuedAmount operator /(decimal v, Currency c)
-        //{
-        //    if (c == Xrp)
-        //    {
-        //        v *= 1e6m;
-        //    }
-        //    return new UnissuedAmount(v, c);
-        //}
-
-        public static Issue operator /(Currency c, AccountId ac)
-        {
-            return new Issue();        //todo ?
-        }
-    }
-
-    public class Issue
-    {
-        //todo ?
     }
 }
