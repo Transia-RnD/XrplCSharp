@@ -30,6 +30,14 @@ namespace XrplTests.Xrpl.ClientLib.Integration
         public async Task TestRequestMethod()
         {
             XrplWallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
+
+            var promises = new List<Task>();
+            for (var iter = 0; iter < 256; iter++)
+            {
+                promises.Add(Utils.LedgerAccept(runner.client));
+            }
+            await Task.WhenAll(promises);
+
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Validated);
             AccountChannelsRequest request = new AccountChannelsRequest(runner.wallet.ClassicAddress) { LedgerIndex = index };
             AccountChannels response = await runner.client.AccountChannels(request);

@@ -135,7 +135,7 @@ namespace Xrpl.Models.Methods
         public AccountingStateSummary AccountingStateSummary { get; set; }
 
         [JsonProperty("time")]
-        public int Time { get; set; }
+        public string Time { get; set; }
 
         /// <summary>
         /// Number of consecutive seconds that the server has been operational.
