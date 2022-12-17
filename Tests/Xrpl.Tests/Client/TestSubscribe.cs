@@ -149,7 +149,7 @@ namespace Xrpl.Tests.ClientLib
     }
 
     [TestClass]
-    public class TestISubscribe
+    public class TestSSubscribe
     {
 
         [TestMethod]
