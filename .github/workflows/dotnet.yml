@@ -71,7 +71,7 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test Unit
+    - name: Test Integration
       run: dotnet test --no-build --verbosity normal --filter "TestI"
       env:
         HOST: localhost
