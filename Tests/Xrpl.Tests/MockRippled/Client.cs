@@ -104,9 +104,13 @@ namespace XrplTests.Xrpl.MockRippled
 
                 // Read the incomming message
                 byte[] messageBuffer = new byte[GetSocket().Available];
-                // Debug.WriteLine($"AVAILABLE: {messageBuffer.Length}");
-                int bytesReceived = GetSocket().Receive(messageBuffer, messageBuffer.Length, SocketFlags.None);
-                // Debug.WriteLine($"RECEIVED: {bytesReceived}");
+                if (messageBuffer.Length == 0)
+                {
+                    return;
+                }
+                //Debug.WriteLine($"AVAILABLE: {messageBuffer.Length}");
+                int bytesReceived = GetSocket().Receive(messageBuffer);
+                //Debug.WriteLine($"RECEIVED: {by,tesReceived}");
 
                 // Resize the byte array to remove whitespaces 
                 if (bytesReceived < messageBuffer.Length) Array.Resize<byte>(ref messageBuffer, bytesReceived);
@@ -125,7 +129,7 @@ namespace XrplTests.Xrpl.MockRippled
                 GetServer().ReceiveMessage(this, Helpers.GetDataFromFrame(messageBuffer));
 
                 // Start to receive messages again
-                //GetSocket().BeginReceive(new byte[] { 0 }, 0, 0, SocketFlags.None, messageCallback, null);
+                GetSocket().BeginReceive(new byte[] { 0 }, 0, 0, SocketFlags.None, messageCallback, null);
 
             }
             catch (Exception exception)

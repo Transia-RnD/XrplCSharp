@@ -1,10 +1,11 @@
 ﻿#nullable enable
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using Xrpl.BinaryCodec.Types;
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Methods;
+
+// https://github.com/XRPLF/xrpl.js/blob/amm/packages/xrpl/src/models/transactions/AMMBid.ts
 
 namespace Xrpl.Models.Transactions
 {
