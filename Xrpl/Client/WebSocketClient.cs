@@ -15,7 +15,7 @@ namespace Xrpl.Client
     {
 
         private const int ReceiveChunkSize = 1048576;
-        private const int SendChunkSize = 1024;
+        private const int SendChunkSize = 1048576;
 
         private ClientWebSocket _ws;
         private readonly Uri _uri;
@@ -26,6 +26,7 @@ namespace Xrpl.Client
         private Func<Exception, WebSocketClient, Task> _onConnectionError;
         private Func<byte[], WebSocketClient, Task> _onMessageBinary;
         private Func<string, WebSocketClient, Task> _onMessageString;
+        private Func<Exception, WebSocketClient, Task> _onError;
         private Func<WebSocketClient, Task> _onDisconnected;
         private Func<WebSocketClient, Task> _onClosed;
 
@@ -108,6 +109,19 @@ namespace Xrpl.Client
             if (_cancellationTokenSource.IsCancellationRequested)
                 return this;
             _onConnectionError = onConnectionError;
+            return this;
+        }
+
+        /// <summary>
+        /// Set the Action to call when the connection fails.
+        /// </summary>
+        /// <param name="onConnectionError">The Action to call</param>
+        /// <returns>Self</returns>
+        internal WebSocketClient OnError(Func<Exception, WebSocketClient, Task> onError)
+        {
+            if (_cancellationTokenSource.IsCancellationRequested)
+                return this;
+            _onError = onError;
             return this;
         }
 
@@ -256,7 +270,7 @@ namespace Xrpl.Client
                     }
                     catch (Exception e)
                     {
-
+                        CallOnError(e);
                     }
                 Dispose();
                 _ws = null;
@@ -329,6 +343,12 @@ namespace Xrpl.Client
         {
             Debug.WriteLine(e);
             _onConnectionError?.Invoke(e, this);
+        }
+
+        private void CallOnError(Exception e)
+        {
+            Debug.WriteLine(e);
+            _onError?.Invoke(e, this);
         }
 
         public bool IsDisposed;

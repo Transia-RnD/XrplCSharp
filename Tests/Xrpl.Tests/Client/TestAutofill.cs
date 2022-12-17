@@ -211,7 +211,6 @@ namespace Xrpl.Tests.ClientLib
             string serverInfo1String = "{\"id\":0,\"status\":\"success\",\"type\":\"response\",\"result\":{\"info\":{\"build_version\":\"0.24.0-rc1\",\"complete_ledgers\":\"32570-6595042\",\"hostid\":\"ARTS\",\"io_latency_ms\":1,\"last_close\":{\"converge_time_s\":2.007,\"proposers\":4},\"load_factor\":1,\"peers\":53,\"pubkey_node\":\"n94wWvFUmaKGYrKUGgpv1DyYgDeXRGdACkNQaSe7zJiy5Znio7UC\",\"server_state\":\"full\",\"validated_ledger\":{\"age\":5,\"base_fee_xrp\":0.00001,\"hash\":\"4482DEE5362332F54A4036ED57EE1767C9F33CF7CE5A6670355C16CECE381D46\",\"reserve_base_xrp\":20,\"reserve_inc_xrp\":5,\"seq\":6595042},\"validation_quorum\":3}}}";
             Dictionary<string, dynamic> serverInfo1Data = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(serverInfo1String);
 
-
             string accountObjectsString = "{\"id\":1,\"status\":\"success\",\"type\":\"response\",\"result\":{\"account\":\"r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59\",\"account_objects\":[],\"ledger_hash\":\"053DF17D2289D1C4971C22F235BC1FCA7D4B3AE966F842E5819D0749E0B8ECD3\",\"ledger_index\":14378733,\"validated\":true}}";
             Dictionary<string, dynamic> accountObjectsData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(accountObjectsString);
 

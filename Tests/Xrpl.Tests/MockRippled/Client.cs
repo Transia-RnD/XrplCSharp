@@ -104,9 +104,13 @@ namespace Xrpl.Tests.MockRippled
 
                 // Read the incomming message
                 byte[] messageBuffer = new byte[GetSocket().Available];
-                // Debug.WriteLine($"AVAILABLE: {messageBuffer.Length}");
+                if (messageBuffer.Length == 0)
+                {
+                    return;
+                }
+                 Debug.WriteLine($"AVAILABLE: {messageBuffer.Length}");
                 int bytesReceived = GetSocket().Receive(messageBuffer, messageBuffer.Length, SocketFlags.None);
-                // Debug.WriteLine($"RECEIVED: {bytesReceived}");
+                 Debug.WriteLine($"RECEIVED: {bytesReceived}");
 
                 // Resize the byte array to remove whitespaces 
                 if (bytesReceived < messageBuffer.Length) Array.Resize<byte>(ref messageBuffer, bytesReceived);
@@ -114,7 +118,13 @@ namespace Xrpl.Tests.MockRippled
                 // Get the opcode of the frame
                 EOpcodeType opcode = Helpers.GetFrameOpcode(messageBuffer);
 
+                Debug.WriteLine(opcode);
                 // If the connection was closed
+                if (opcode == EOpcodeType.Pong)
+                {
+                    return;
+                }
+
                 if (opcode == EOpcodeType.ClosedConnection)
                 {
                     GetServer().ClientDisconnect(this);

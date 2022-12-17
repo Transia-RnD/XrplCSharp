@@ -159,16 +159,23 @@ namespace Xrpl.Client
                 throw new XrplException("Connect: created null websocket");
             }
 
-            //this.ws.OnConnected += async (ws, t) => await OnceOpen(t);
-            //this.ws.OnConnectionException += async (ws, e) => await OnConnectionFailed(e);
-            //this.ws.OnConnectionException += (ws, e) => timer.Stop();
+            ws.OnConnect(async (ws) => { await OnceOpen(); });
 
-            //this.ws.OnMessageReceived += async (ws, m) => await IOnMessage(m);
-            //this.ws.OnException += async (ws, e) => await OnConnectionFailed(e);
-            //this.ws.OnDisconnect += async (ws, c) => await OnceClose(c);
-            //this.ws.OnDisconnect += (ws, c) => timer.Stop();
+            ws.OnConnectionError(async (e, ws) => {
+                timer.Stop();
+                await OnConnectionFailed(e);
+            });
+
+            ws.OnMessageReceived(async (m, ws) => { await IOnMessage(m); });
+            //ws.OnError(async (e, ws) => { await OnConnectionFailed(e); });
+            ws.OnDisconnect(async (ws) => {
+                timer.Stop();
+                await OnceClose(1000);
+            });
 
             _ = this.ws.Connect();
+
+            Debug.WriteLine("CONNECTED");
 
             return this.connectionManager.AwaitConnection();
         }
@@ -266,7 +273,7 @@ namespace Xrpl.Client
             return this.ws != null;
         }
 
-        private async Task OnceOpen(CancellationToken connectionTimeoutID)
+        private async Task OnceOpen()
         {
             //Debug.WriteLine("ONCE OPEN");
             if (this.ws == null)
