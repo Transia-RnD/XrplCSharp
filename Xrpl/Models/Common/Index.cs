@@ -103,6 +103,17 @@ namespace Xrpl.Models.Common
                 }
             }
         }
+        #region Overrides of Object
+
+        public override string ToString() => CurrencyValidName == "XRP" ? $"XRP: {ValueAsXrp:0.######}" : $"{CurrencyValidName}: {ValueAsNumber:0.###############}";
+        public override bool Equals(object o) => o is Currency model && model.Issuer == Issuer && model.CurrencyCode == CurrencyCode;
+
+        public static bool operator ==(Currency c1, Currency c2) => c1.Equals(c2);
+
+        public static bool operator !=(Currency c1, Currency c2) => !c1.Equals(c2);
+
+        #endregion
+
     }
 
     public class LedgerIndex
