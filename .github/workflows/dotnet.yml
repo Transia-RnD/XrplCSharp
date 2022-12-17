@@ -8,18 +8,20 @@ on:
     branches: [ main, 1.x ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
 
 jobs:
   build-and-lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ['6.0.x' ]
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use .NET "6.0.x"
-      uses: actions/setup-dotnet@v1
+    - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: ${{ matrix.dotnet-version }}
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -28,13 +30,16 @@ jobs:
 
   unit:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ['6.0.x' ]
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use .NET "6.0.x"
-      uses: actions/setup-dotnet@v1
+    - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: ${{ matrix.dotnet-version }}
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -44,6 +49,9 @@ jobs:
 
   integration:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ['6.0.x' ]
 
     services:
       rippled:
@@ -55,10 +63,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use .NET "6.0.x"
-      uses: actions/setup-dotnet@v1
+    - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: ${{ matrix.dotnet-version }}
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
