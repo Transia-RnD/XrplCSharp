@@ -4,6 +4,8 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Diagnostics;
+using System.Globalization;
 using Xrpl.Utils;
 
 namespace XrplTests.Xrpl.Utils
@@ -32,7 +34,8 @@ namespace XrplTests.Xrpl.Utils
         {
             var rippleTime = 0;
             var isoTime = "2000-01-01T00:00:00.000Z";
-            Assert.AreEqual(rippleTime, DateTimeUtils.ISOTimeToRippleTime(isoTime));
+            var date = DateTime.ParseExact(isoTime, "yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture).ToUniversalTime();
+            Assert.AreEqual(rippleTime, DateTimeUtils.ISOTimeToRippleTime(date));
         }
 
         [TestMethod]

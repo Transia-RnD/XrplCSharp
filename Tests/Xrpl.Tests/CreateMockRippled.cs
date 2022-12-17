@@ -231,7 +231,7 @@ namespace Xrpl.Tests
             server.OnMessageReceived += (object sender, OnMessageReceivedHandler e) =>
             {
                 string jsonStr = e.GetMessage();
-                Debug.WriteLine($"SERVER RECV: {jsonStr}");
+                //Debug.WriteLine($"SERVER RECV: {jsonStr}");
                 Dictionary<string, dynamic> request = null;
                 try
                 {

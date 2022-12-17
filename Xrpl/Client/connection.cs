@@ -175,8 +175,6 @@ namespace Xrpl.Client
 
             _ = this.ws.Connect();
 
-            Debug.WriteLine("CONNECTED");
-
             return this.connectionManager.AwaitConnection();
         }
 
@@ -305,7 +303,7 @@ namespace Xrpl.Client
         //private void OnceClose(int? code = null, string? reason = null)
         private async Task OnceClose(int? code)
         {
-            Debug.WriteLine("ONCE CLOSE");
+            //Debug.WriteLine("ONCE CLOSE");
             //if (this.ws == null)
             //{
             //    throw new XrplException("OnceClose: ws is null");

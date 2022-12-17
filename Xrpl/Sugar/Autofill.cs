@@ -61,26 +61,27 @@ namespace Xrpl.Sugar
             bool hasTT = tx.TryGetValue("TransactionType", out var tt);
             if (!tx.ContainsKey("Sequence"))
             {
-                // Debug.WriteLine("MISSING: Sequence");
+                 //Debug.WriteLine("MISSING: Sequence");
                 promises.Add(SetNextValidSequenceNumber(client, tx));
             }
             if (!tx.ContainsKey("Fee"))
             {
-                // Debug.WriteLine("MISSING: Fee");
+                 //Debug.WriteLine("MISSING: Fee");
                 promises.Add(CalculateFeePerTransactionType(client, tx, signersCount ?? 0));
             }
             if (!tx.ContainsKey("LastLedgerSequence"))
             {
-                // Debug.WriteLine("MISSING: LastLedgerSequence");
+                 //Debug.WriteLine("MISSING: LastLedgerSequence");
                 promises.Add(SetLatestValidatedLedgerSequence(client, tx));
             }
             if (tt == "AccountDelete")
             {
-                // Debug.WriteLine("MISSING: AccountDelete");
+                 //Debug.WriteLine("MISSING: AccountDelete");
                 promises.Add(CheckAccountDeleteBlockers(client, tx));
             }
             await Task.WhenAll(promises);
             string jsonData = JsonConvert.SerializeObject(tx);
+            //Debug.WriteLine("FINISHED AUTOFILL");
             return tx;
         }
 
@@ -162,15 +163,15 @@ namespace Xrpl.Sugar
 
         public static async Task<BigInteger> FetchAccountDeleteFee(IXrplClient client)
         {
-            ServerInfoRequest request = new ServerInfoRequest();
-            ServerInfo data = await client.ServerInfo(request);
-            uint? fee = data.Info.ValidatedLedger.ReserveIncXrp;
+            ServerStateRequest request = new ServerStateRequest();
+            ServerState data = await client.ServerState(request);
+            uint? fee = data.State.ValidatedLedger.ReserveInc;
 
             if (fee == null)
             {
                 await Task.FromException(new XrplException("Could not fetch Owner Reserve."));
             }
-            return new BigInteger(Convert.ToByte(fee));
+            return BigInteger.Parse(fee.ToString());
         }
 
         public static async Task CalculateFeePerTransactionType(IXrplClient client, Dictionary<string, dynamic> tx, int signersCount = 0)

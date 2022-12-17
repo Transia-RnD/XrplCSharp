@@ -205,23 +205,23 @@ namespace Xrpl.Tests.ClientLib
             string ledgerString = "{\"id\":0,\"status\":\"success\",\"type\":\"response\",\"result\":{\"ledger\":{\"account_hash\":\"EC028EC32896D537ECCA18D18BEBE6AE99709FEFF9EF72DBD3A7819E918D8B96\",\"close_time\":464908910,\"parent_close_time\":464908900,\"close_time_human\":\"2014-Sep-2421:21:50\",\"close_time_resolution\":10,\"closed\":true,\"close_flags\":0,\"ledger_hash\":\"0F7ED9F40742D8A513AE86029462B7A6768325583DF8EE21B7EC663019DD6A0F\",\"ledger_index\":\"9038214\",\"parent_hash\":\"4BB9CBE44C39DC67A1BE849C7467FE1A6D1F73949EA163C38A0121A15E04FFDE\",\"total_coins\":\"99999973964317514\",\"transaction_hash\":\"ECB730839EB55B1B114D5D1AD2CD9A932C35BA9AB6D3A8C2F08935EAC2BAC239\",\"transactions\":[\"1FC4D12C30CE206A6E23F46FAC62BD393BE9A79A1C452C6F3A04A13BC7A5E5A3\",\"E25C38FDB8DD4A2429649588638EE05D055EE6D839CABAF8ABFB4BD17CFE1F3E\"]},\"ledger_hash\":\"1723099E269C77C4BDE86C83FA6415D71CF20AA5CB4A94E5C388ED97123FB55B\",\"ledger_index\":9038214,\"validated\":true}}";
             Dictionary<string, dynamic> ledgerData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(ledgerString);
 
-            string serverInfoString = "{\"status\":\"success\",\"type\":\"response\",\"result\":{\"state\":{\"validated_ledger\":{\"reserve_inc\":2000000,},},},}";
-            Dictionary<string, dynamic> serverInfoData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(serverInfoString);
+            string serverStateString = "{\"status\":\"success\",\"type\":\"response\",\"result\":{\"state\":{\"validated_ledger\":{\"reserve_inc\":2000000,},},},}";
+            Dictionary<string, dynamic> serverStateData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(serverStateString);
 
-            string serverInfo1String = "{\"id\":0,\"status\":\"success\",\"type\":\"response\",\"result\":{\"info\":{\"build_version\":\"0.24.0-rc1\",\"complete_ledgers\":\"32570-6595042\",\"hostid\":\"ARTS\",\"io_latency_ms\":1,\"last_close\":{\"converge_time_s\":2.007,\"proposers\":4},\"load_factor\":1,\"peers\":53,\"pubkey_node\":\"n94wWvFUmaKGYrKUGgpv1DyYgDeXRGdACkNQaSe7zJiy5Znio7UC\",\"server_state\":\"full\",\"validated_ledger\":{\"age\":5,\"base_fee_xrp\":0.00001,\"hash\":\"4482DEE5362332F54A4036ED57EE1767C9F33CF7CE5A6670355C16CECE381D46\",\"reserve_base_xrp\":20,\"reserve_inc_xrp\":5,\"seq\":6595042},\"validation_quorum\":3}}}";
-            Dictionary<string, dynamic> serverInfo1Data = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(serverInfo1String);
+            string serverInfoString = "{\"id\":0,\"status\":\"success\",\"type\":\"response\",\"result\":{\"info\":{\"build_version\":\"0.24.0-rc1\",\"complete_ledgers\":\"32570-6595042\",\"hostid\":\"ARTS\",\"io_latency_ms\":1,\"last_close\":{\"converge_time_s\":2.007,\"proposers\":4},\"load_factor\":1,\"peers\":53,\"pubkey_node\":\"n94wWvFUmaKGYrKUGgpv1DyYgDeXRGdACkNQaSe7zJiy5Znio7UC\",\"server_state\":\"full\",\"validated_ledger\":{\"age\":5,\"base_fee_xrp\":0.00001,\"hash\":\"4482DEE5362332F54A4036ED57EE1767C9F33CF7CE5A6670355C16CECE381D46\",\"reserve_base_xrp\":20,\"reserve_inc_xrp\":5,\"seq\":6595042},\"validation_quorum\":3}}}";
+            Dictionary<string, dynamic> serverInfoData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(serverInfoString);
 
             string accountObjectsString = "{\"id\":1,\"status\":\"success\",\"type\":\"response\",\"result\":{\"account\":\"r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59\",\"account_objects\":[],\"ledger_hash\":\"053DF17D2289D1C4971C22F235BC1FCA7D4B3AE966F842E5819D0749E0B8ECD3\",\"ledger_index\":14378733,\"validated\":true}}";
             Dictionary<string, dynamic> accountObjectsData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(accountObjectsString);
 
             runner.mockedRippled.AddResponse("account_info", accountInfoData);
             runner.mockedRippled.AddResponse("ledger", ledgerData);
+            runner.mockedRippled.AddResponse("server_state", serverStateData);
             runner.mockedRippled.AddResponse("server_info", serverInfoData);
-            runner.mockedRippled.AddResponse("server_info", serverInfo1Data);
-            runner.mockedRippled.AddResponse("server_info", accountObjectsData);
+            runner.mockedRippled.AddResponse("account_objects", accountObjectsData);
 
             Dictionary<string, dynamic> txResult = await runner.client.Autofill(tx);
-            Assert.IsTrue("200000" == txResult["Fee"]);
+            Assert.IsTrue("2000000" == txResult["Fee"]);
         }
 
         [TestMethod]

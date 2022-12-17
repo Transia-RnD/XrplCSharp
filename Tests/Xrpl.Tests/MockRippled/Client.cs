@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics;
+using Org.BouncyCastle.Bcpg;
+using System.Drawing;
 
 namespace Xrpl.Tests.MockRippled
 {
@@ -103,14 +105,17 @@ namespace Xrpl.Tests.MockRippled
                 GetSocket().EndReceive(AsyncResult);
 
                 // Read the incomming message
-                byte[] messageBuffer = new byte[GetSocket().Available];
+                byte[] messageBuffer = new byte[1024 * 10];
                 if (messageBuffer.Length == 0)
                 {
                     return;
                 }
-                 Debug.WriteLine($"AVAILABLE: {messageBuffer.Length}");
                 int bytesReceived = GetSocket().Receive(messageBuffer, messageBuffer.Length, SocketFlags.None);
-                 Debug.WriteLine($"RECEIVED: {bytesReceived}");
+
+                if (bytesReceived == 0)
+                {
+                    return;
+                }
 
                 // Resize the byte array to remove whitespaces 
                 if (bytesReceived < messageBuffer.Length) Array.Resize<byte>(ref messageBuffer, bytesReceived);
@@ -118,7 +123,6 @@ namespace Xrpl.Tests.MockRippled
                 // Get the opcode of the frame
                 EOpcodeType opcode = Helpers.GetFrameOpcode(messageBuffer);
 
-                Debug.WriteLine(opcode);
                 // If the connection was closed
                 if (opcode == EOpcodeType.Pong)
                 {
@@ -132,7 +136,41 @@ namespace Xrpl.Tests.MockRippled
                 }
 
                 // Pass the message to the server event to handle the logic
-                GetServer().ReceiveMessage(this, Helpers.GetDataFromFrame(messageBuffer));
+                var readableBytes = messageBuffer.Length;
+                while (readableBytes > 0)
+                {
+                    // Get the frame data
+                    //Debug.WriteLine($"AVAIL LEN: {readableBytes}");
+                    SFrameMaskData frameData = Helpers.GetFrameData(messageBuffer);
+
+                    // Get the decode frame key from the frame data
+                    byte[] decodeKey = new byte[4];
+                    for (int i = 0; i < 4; i++) decodeKey[i] = messageBuffer[frameData.KeyIndex + i];
+
+                    int dataIndex = frameData.KeyIndex + 4;
+                    int count = 0;
+
+                    //Debug.WriteLine($"DATA INDEX: {dataIndex}");
+
+                    // Decode the data using the key
+                    for (int i = dataIndex; i < frameData.TotalLenght; i++)
+                    {
+                        //Debug.WriteLine($"DECODE KEY: {i}");
+                        messageBuffer[i] = (byte)(messageBuffer[i] ^ decodeKey[count % 4]);
+                        count++;
+                    }
+
+                    // Return the decoded message
+                    //Debug.WriteLine($"READING: {frameData.TotalLenght}");
+
+                    string message = Encoding.Default.GetString(messageBuffer, dataIndex, frameData.DataLength);
+                    GetServer().ReceiveMessage(this, message);
+                    readableBytes -= frameData.TotalLenght;
+
+                    byte[] newArray = new byte[messageBuffer.Length - frameData.TotalLenght];
+                    Buffer.BlockCopy(messageBuffer, frameData.TotalLenght, newArray, 0, newArray.Length);
+                    messageBuffer = newArray;
+                }
 
                 // Start to receive messages again
                 GetSocket().BeginReceive(new byte[] { 0 }, 0, 0, SocketFlags.None, messageCallback, null);

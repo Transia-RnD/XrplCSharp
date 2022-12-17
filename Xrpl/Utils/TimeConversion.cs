@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/timeConversion.ts
 
@@ -21,12 +22,23 @@ namespace Xrpl.Utils
 
         public static string RippleTimeToISOTime(long rippleTime)
         {
-            return new DateTime(RippleTimeToUnixTime(rippleTime)).ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+            var timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            dateTime = dateTime.AddMilliseconds(RippleTimeToUnixTime(rippleTime)).ToUniversalTime();
+            return dateTime.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
         }
 
         public static long ISOTimeToRippleTime(string iso8601)
         {
-            return UnixTimeToRippleTime(DateTime.Parse(iso8601).Ticks / TimeSpan.TicksPerMillisecond);
+            var date = DateTime.ParseExact(iso8601, "yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture).ToUniversalTime();
+            var milliseconds = (long)date.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+            return UnixTimeToRippleTime(milliseconds);
+        }
+
+        public static long ISOTimeToRippleTime(DateTime date)
+        {
+            var milliseconds = (long)date.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+            return UnixTimeToRippleTime(milliseconds);
         }
     }
 }

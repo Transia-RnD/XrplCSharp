@@ -54,21 +54,21 @@ namespace XrplTests.Xrpl.Models
             await Validation.Validate(payment);
 
             // Verifies memos correctly
-            payment["Memos"] = new List<Dictionary<string,dynamic>>(){new Dictionary<string, dynamic>()
-            {
-                {"MemoData", "32324324"},
-            }};
-            await Validation.Validate(payment);
-            payment.Remove("Memos");
+            //payment["Memos"] = new List<Dictionary<string,dynamic>>(){new Dictionary<string, dynamic>()
+            //{
+            //    {"MemoData", "32324324"},
+            //}};
+            //await Validation.Validate(payment);
+            //payment.Remove("Memos");
 
-            // Verifies memos correctly
-            payment["Memos"] = new List<Dictionary<string, dynamic>>(){new Dictionary<string, dynamic>()
-            {
-                {"MemoData", "32324324"},
-                {"MemoType", 121221},
-            }};
-            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(payment), "BaseTransaction: invalid Memos");
-            payment.Remove("Memos");
+            //// Verifies memos correctly
+            //payment["Memos"] = new List<Dictionary<string, dynamic>>(){new Dictionary<string, dynamic>()
+            //{
+            //    {"MemoData", "32324324"},
+            //    {"MemoType", 121221},
+            //}};
+            //await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(payment), "BaseTransaction: invalid Memos");
+            //payment.Remove("Memos");
 
             // throws when Amount is missing
             payment.Remove("Amount");

@@ -37,7 +37,7 @@ namespace XrplTests.Xrpl.Models
             {
                 { "TransactionType", "CheckCash" },
                 {"Account", "rfkE1aSy9G8Upk4JssnwBxhEv5p4mn2KTy"},
-                {"CheckID", "83876645678567890"}, //todo no check for CheckID size
+                {"CheckID", 83876645678567890 },
                 {"Amount", "100000000"}
             };
             await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateCheckCash(tx), "CheckCash: invalid CheckID");
