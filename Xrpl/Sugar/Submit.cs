@@ -101,7 +101,6 @@ namespace Xrpl.Sugar
             {
                 tx = await client.Autofill(tx);
             }
-            Debug.WriteLine(JsonConvert.SerializeObject(tx));
             return wallet.Sign(tx, false).TxBlob;
         }
     }

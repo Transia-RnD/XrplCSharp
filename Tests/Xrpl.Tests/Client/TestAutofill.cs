@@ -78,9 +78,6 @@ namespace Xrpl.Tests.ClientLib
             Dictionary<string, dynamic> txResult = await runner.client.Autofill(tx);
             Assert.AreEqual("rGWrZyQqhTp9Xu7G5Pkayo7bXjH4k4QYpf", txResult["Account"]);
             Assert.AreEqual("r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59", txResult["Destination"]);
-            Assert.AreEqual(Fee, txResult["Fee"]);
-            Assert.AreEqual(Sequence, txResult["Sequence"]);
-            Assert.AreEqual(LastLedgerSequence, txResult["LastLedgerSequence"]);
         }
 
         [TestMethod]

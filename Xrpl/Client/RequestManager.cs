@@ -71,7 +71,6 @@ namespace Xrpl.Client
             if (hasTimer)
                 timer.Stop();
 
-            Debug.WriteLine(response.Result.ToString());
             var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
             var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("TrySetResult");
             setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });

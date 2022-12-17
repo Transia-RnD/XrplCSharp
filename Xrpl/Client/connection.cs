@@ -293,7 +293,7 @@ namespace Xrpl.Client
             }
             catch (Exception error)
             {
-                Debug.WriteLine($"Once Open Error: {error.Message}");
+                // Debug.WriteLine($"Once Open Error: {error.Message}");
                 this.connectionManager.RejectAllAwaiting(error);
                 // Ignore this error, propagate the root cause.
                 await this.Disconnect();
