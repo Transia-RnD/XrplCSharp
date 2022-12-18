@@ -1,7 +1,7 @@
 ﻿#nullable enable
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Xrpl.BinaryCodec.Types;
+
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Methods;
 
@@ -23,13 +23,13 @@ namespace Xrpl.Models.Transactions
         }
 
         /// <inheritdoc />
-        public Models.Common.Common.IssuedCurrency Asset { get; set; }
+        public Xrpl.Models.Common.Currency Asset { get; set; }
         /// <inheritdoc />
-        public Models.Common.Common.IssuedCurrency Asset2 { get; set; }
+        public Xrpl.Models.Common.Currency Asset2 { get; set; }
         /// <inheritdoc />
-        public Amount? BidMin { get; set; }
+        public Xrpl.Models.Common.Currency? BidMin { get; set; }
         /// <inheritdoc />
-        public Amount? BidMax { get; set; }
+        public Xrpl.Models.Common.Currency? BidMax { get; set; }
         /// <inheritdoc />
         public List<AuthAccount> AuthAccounts { get; set; }
     }
@@ -43,23 +43,23 @@ namespace Xrpl.Models.Transactions
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
-        public Models.Common.Common.IssuedCurrency Asset { get; set; }
+        public Xrpl.Models.Common.Currency Asset { get; set; }
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
-        public Models.Common.Common.IssuedCurrency Asset2 { get; set; }
+        public Xrpl.Models.Common.Currency Asset2 { get; set; }
         /// <summary>
         /// This field represents the minimum price that the bidder wants to pay for the slot.
         /// It is specified in units of LPToken.If specified let BidMin be X and let
         /// the slot-price computed by price scheduling algorithm be Y, then bidder always pays
         /// the max(X, Y).
         /// </summary>
-        public Amount? BidMin { get; set; }
+        public Xrpl.Models.Common.Currency? BidMin { get; set; }
         /// <summary>
         /// This field represents the maximum price that the bidder wants to pay for the slot.
         /// It is specified in units of LPToken.
         /// </summary>
-        public Amount? BidMax { get; set; }
+        public Xrpl.Models.Common.Currency? BidMax { get; set; }
         /// <summary>
         /// This field represents an array of XRPL account IDs that are authorized to trade
         /// at the discounted fee against the AMM instance.

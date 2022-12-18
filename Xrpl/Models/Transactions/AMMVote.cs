@@ -15,9 +15,9 @@ namespace Xrpl.Models.Transactions
             TransactionType = TransactionType.AMMVote;
         }
         /// <inheritdoc />
-        public IssuedCurrency Asset { get; set; }
+        public Xrpl.Models.Common.Currency Asset { get; set; }
         /// <inheritdoc />
-        public IssuedCurrency Asset2 { get; set; }
+        public Xrpl.Models.Common.Currency Asset2 { get; set; }
         /// <inheritdoc />
         public uint TradingFee { get; set; }
     }
@@ -27,11 +27,11 @@ namespace Xrpl.Models.Transactions
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
-        public IssuedCurrency Asset { get; set; }
+        public Xrpl.Models.Common.Currency Asset { get; set; }
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
-        public IssuedCurrency Asset2 { get; set; }
+        public Xrpl.Models.Common.Currency Asset2 { get; set; }
         /// <summary>
         /// Specifies the fee, in basis point.
         /// Valid values for this field are between 0 and 1000 inclusive.

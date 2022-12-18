@@ -21,9 +21,9 @@ namespace Xrpl.Models.Transactions
         }
 
         /// <inheritdoc />
-        public Amount Amount { get; set; }
+        public Xrpl.Models.Common.Currency Amount { get; set; }
         /// <inheritdoc />
-        public Amount Amount2 { get; set; }
+        public Xrpl.Models.Common.Currency Amount2 { get; set; }
         /// <inheritdoc />
         public uint TradingFee { get; set; }
     }
@@ -36,11 +36,11 @@ namespace Xrpl.Models.Transactions
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
-        public Amount Amount { get; set; }
+        public Xrpl.Models.Common.Currency Amount { get; set; }
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
-        public Amount Amount2 { get; set; }
+        public Xrpl.Models.Common.Currency Amount2 { get; set; }
         /// <summary>
         /// Specifies the fee, in basis point, to be charged
         /// to the traders for the trades executed against the AMM instance.

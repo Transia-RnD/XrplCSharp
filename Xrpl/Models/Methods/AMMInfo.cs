@@ -22,12 +22,12 @@ namespace Xrpl.Models.Methods
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.<br/>
         /// Both asset and asset2 must be defined to specify an AMM instance.
         /// </summary>
-        public IssuedCurrency Asset { get; set; }
+        public Common.Currency Asset { get; set; }
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.<br/>
         /// Both asset and asset2 must be defined to specify an AMM instance.
         /// </summary>
-        public IssuedCurrency Asset2 { get; set; }
+        public Common.Currency Asset2 { get; set; }
     }
 
     public interface IAuthAccount
@@ -76,7 +76,7 @@ namespace Xrpl.Models.Methods
         /// <summary>
         /// The amount the auction owner paid to win this slot, in LPTokens.
         /// </summary>
-        public Amount Price { get; set; }
+        public Xrpl.Models.Common.Currency Price { get; set; }
     }
     /// <summary>
     /// Response expected from an <see cref="AMMInfoRequest"/>.
@@ -90,11 +90,11 @@ namespace Xrpl.Models.Methods
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
-        public IssuedCurrency Asset { get; set; }
+        public Common.Currency Asset { get; set; }
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
-        public IssuedCurrency Asset2 { get; set; }
+        public Common.Currency Asset2 { get; set; }
         /// <summary>
         /// Details of the current owner of the auction slot.
         /// </summary>
@@ -104,7 +104,7 @@ namespace Xrpl.Models.Methods
         /// The holders of these tokens can vote on the AMM's trading fee in proportion to their holdings,
         /// or redeem the tokens for a share of the AMM's assets which grows with the trading fees collected.
         /// </summary>
-        public IssuedCurrencyAmount LPTokenBalance { get; set; }
+        public Common.Currency LPTokenBalance { get; set; }
         /// <summary>
         /// Specifies the fee, in basis point, to be charged to the traders for the trades
         /// executed against the AMM instance.<br/>

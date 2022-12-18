@@ -63,22 +63,22 @@ namespace Xrpl.Models.Transactions
             TransactionType = TransactionType.AMMDeposit;
         }
         /// <inheritdoc />
-        public IssuedCurrency Asset { get; set; }
+        public Xrpl.Models.Common.Currency Asset { get; set; }
 
         /// <inheritdoc />
-        public IssuedCurrency Asset2 { get; set; }
+        public Xrpl.Models.Common.Currency Asset2 { get; set; }
 
         /// <inheritdoc />
-        public IssuedCurrencyAmount? LPTokenOut { get; set; }
+        public Xrpl.Models.Common.Currency? LPTokenOut { get; set; }
 
         /// <inheritdoc />
-        public Amount? Amount { get; set; }
+        public Xrpl.Models.Common.Currency? Amount { get; set; }
 
         /// <inheritdoc />
-        public Amount? Amount2 { get; set; }
+        public Xrpl.Models.Common.Currency? Amount2 { get; set; }
 
         /// <inheritdoc />
-        public Amount? EPrice { get; set; }
+        public Xrpl.Models.Common.Currency? EPrice { get; set; }
     }
 
     /// <summary>
@@ -96,32 +96,32 @@ namespace Xrpl.Models.Transactions
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
-        public IssuedCurrency Asset { get; set; }
+        public Xrpl.Models.Common.Currency Asset { get; set; }
 
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
-        public IssuedCurrency Asset2 { get; set; }
+        public Xrpl.Models.Common.Currency Asset2 { get; set; }
 
         /// <summary>
         /// Specifies the amount of shares of the AMM instance pools that the trader wants to redeem or trade in.
         /// </summary>
-        public IssuedCurrencyAmount? LPTokenOut { get; set; }
+        public Xrpl.Models.Common.Currency? LPTokenOut { get; set; }
 
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance to deposit more of its value.
         /// </summary>
-        public Amount? Amount { get; set; }
+        public Xrpl.Models.Common.Currency? Amount { get; set; }
 
         /// <summary>
         /// Specifies the other pool asset of the AMM instance to deposit more of its value.
         /// </summary>
-        public Amount? Amount2 { get; set; }
+        public Xrpl.Models.Common.Currency? Amount2 { get; set; }
 
         /// <summary>
         /// Specifies the maximum effective-price that LPTokenOut can be traded out.
         /// </summary>
-        public Amount? EPrice { get; set; }
+        public Xrpl.Models.Common.Currency? EPrice { get; set; }
     }
 
 
