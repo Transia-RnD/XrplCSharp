@@ -3,7 +3,7 @@ using Xrpl.BinaryCodec.Enums;
 
 //todo not found doc
 
-namespace Xrpl.BinaryCodec.Types
+namespace Xrpl.BinaryCodec.Enums
 {
     public class LedgerEntryType : SerializedEnumItem<ushort>
     {

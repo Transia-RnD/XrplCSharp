@@ -1,4 +1,6 @@
-﻿namespace Xrpl.BinaryCodec.Enums
+﻿using Xrpl.BinaryCodec.Types;
+
+namespace Xrpl.BinaryCodec.Enums
 {
     public class FieldType : EnumItem
     {
@@ -24,6 +26,7 @@
         public static readonly FieldType Hash160 = new FieldType(nameof(Hash160), 17);
         public static readonly FieldType PathSet = new FieldType(nameof(PathSet), 18);
         public static readonly FieldType Vector256 = new FieldType(nameof(Vector256), 19);
+        public static readonly FieldType Issue = new FieldType(nameof(Issue), 24);
         public static readonly FieldType Transaction = new FieldType(nameof(Transaction), 10001);
         public static readonly FieldType LedgerEntry = new FieldType(nameof(LedgerEntry), 10002);
         public static readonly FieldType Validation = new FieldType(nameof(Validation), 10003);

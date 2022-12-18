@@ -55,6 +55,8 @@ namespace Xrpl.Models.Utils
                         "OfferCreate" => ConvertOfferCreateFlagsToNumber(Flags),
                         "Payment" => ConvertPaymentTransactionFlagsToNumber(Flags),
                         "PaymentChannelClaim" => ConvertPaymentChannelClaimFlagsToNumber(Flags),
+                        "AMMDeposit" => ConvertAMMDepositFlagsToNumber(Flags),
+                        "AMMWithdraw" => ConvertAMMWithdrawFlagsToNumber(Flags),
                         //TransactionType.PaymentChannelCreate => expr,
                         //TransactionType.PaymentChannelFund => expr,
                         //TransactionType.SetRegularKey => expr,
@@ -67,6 +69,18 @@ namespace Xrpl.Models.Utils
             }
         }
 
+        public static uint ConvertAMMDepositFlagsToNumber(dynamic flags)
+        {
+            if (flags is not Dictionary<string, dynamic> flag)
+                return 0;
+            return ReduceFlags(flag, Enum.GetValues<AMMDepositFlags>().ToDictionary(c => c.ToString(), c => (uint)c));
+        }
+        public static uint ConvertAMMWithdrawFlagsToNumber(dynamic flags)
+        {
+            if (flags is not Dictionary<string, dynamic> flag)
+                return 0;
+            return ReduceFlags(flag, Enum.GetValues<AMMWithdrawFlags>().ToDictionary(c => c.ToString(), c => (uint)c));
+        }
         public static uint ConvertAccountSetFlagsToNumber(dynamic flags)
         {
             if (flags is not Dictionary<string, dynamic> flag)

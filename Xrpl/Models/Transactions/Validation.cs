@@ -1,14 +1,7 @@
-﻿using Newtonsoft.Json;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Xrpl.Client.Exceptions;
-using Xrpl.Client.Json.Converters;
-using Xrpl.Models.Subscriptions;
 using Xrpl.Models.Utils;
 
 namespace Xrpl.Models.Transactions
@@ -130,6 +123,21 @@ namespace Xrpl.Models.Transactions
 
                 case "TrustSet":
                     await ValidateTrustSet(tx);
+                    break;
+                case "AMMBid":
+                    await ValidateAMMBid(tx);
+                    break;
+                case "AMMDeposit":
+                    await ValidateAMMDeposit(tx);
+                    break;
+                case "AMMCreate":
+                    await ValidateAMMCreate(tx);
+                    break;
+                case "AMMVote":
+                    await ValidateAMMVote(tx);
+                    break;
+                case "AMMWithdraw":
+                    await ValidateAMMWithdraw(tx);
                     break;
 
                 default:

@@ -92,13 +92,13 @@ namespace Xrpl.Models.Transaction
             }
         }
 
-        public static Dictionary<BinaryCodec.Types.TransactionType, TxFormat> Formats;
+        public static Dictionary<BinaryCodec.Enums.TransactionType, TxFormat> Formats;
 
         static TxFormat()
         {
-            Formats = new Dictionary<BinaryCodec.Types.TransactionType, TxFormat>
+            Formats = new Dictionary<BinaryCodec.Enums.TransactionType, TxFormat>
             {
-                [BinaryCodec.Types.TransactionType.Payment] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.Payment] = new TxFormat
                 {
                     [Field.Destination] = Requirement.Required,
                     [Field.Amount] = Requirement.Required,
@@ -108,7 +108,7 @@ namespace Xrpl.Models.Transaction
                     [Field.DestinationTag] = Requirement.Optional,
                     [Field.DeliverMin] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.EscrowCreate] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.EscrowCreate] = new TxFormat
                 {
                     [Field.Amount] = Requirement.Required,
                     [Field.Destination] = Requirement.Required,
@@ -117,14 +117,14 @@ namespace Xrpl.Models.Transaction
                     [Field.FinishAfter] = Requirement.Optional,
                     [Field.DestinationTag] = Requirement.Optional,
                 },
-                [BinaryCodec.Types.TransactionType.EscrowFinish] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.EscrowFinish] = new TxFormat
                 {
                     [Field.Owner] = Requirement.Required,
                     [Field.OfferSequence] = Requirement.Required,
                     [Field.Condition] = Requirement.Optional,
                     [Field.Fulfillment] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.AccountSet] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.AccountSet] = new TxFormat
                 {
                     [Field.EmailHash] = Requirement.Optional,
                     [Field.WalletLocator] = Requirement.Optional,
@@ -136,40 +136,40 @@ namespace Xrpl.Models.Transaction
                     [Field.ClearFlag] = Requirement.Optional,
                     [Field.TickSize] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.EscrowCancel] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.EscrowCancel] = new TxFormat
                 {
                     [Field.Owner] = Requirement.Required,
                     [Field.OfferSequence] = Requirement.Required
                 },
-                [BinaryCodec.Types.TransactionType.SetRegularKey] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.SetRegularKey] = new TxFormat
                 {
                     [Field.RegularKey] = Requirement.Optional
                 },
                 // 6
-                [BinaryCodec.Types.TransactionType.OfferCreate] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.OfferCreate] = new TxFormat
                 {
                     [Field.TakerPays] = Requirement.Required,
                     [Field.TakerGets] = Requirement.Required,
                     [Field.Expiration] = Requirement.Optional,
                     [Field.OfferSequence] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.OfferCancel] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.OfferCancel] = new TxFormat
                 {
                     [Field.OfferSequence] = Requirement.Required
                 },
                 // 9
-                [BinaryCodec.Types.TransactionType.TicketCreate] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.TicketCreate] = new TxFormat
                 {
                     [Field.Target] = Requirement.Optional,
                     [Field.Expiration] = Requirement.Optional
                 },
                 // 11
-                [BinaryCodec.Types.TransactionType.SignerListSet] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.SignerListSet] = new TxFormat
                 {
                     [Field.SignerQuorum] = Requirement.Required,
                     [Field.SignerEntries] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.PaymentChannelCreate] = new TxFormat()
+                [BinaryCodec.Enums.TransactionType.PaymentChannelCreate] = new TxFormat()
                 {
                     [Field.Destination] = Requirement.Required,
                     [Field.Amount] = Requirement.Required,
@@ -178,13 +178,13 @@ namespace Xrpl.Models.Transaction
                     [Field.CancelAfter] = Requirement.Optional,
                     [Field.DestinationTag] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.PaymentChannelFund] = new TxFormat()
+                [BinaryCodec.Enums.TransactionType.PaymentChannelFund] = new TxFormat()
                 {
                     [Field.Channel] = Requirement.Required,
                     [Field.Amount] = Requirement.Required,
                     [Field.Expiration] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.PaymentChannelClaim] = new TxFormat()
+                [BinaryCodec.Enums.TransactionType.PaymentChannelClaim] = new TxFormat()
                 {
                     [Field.Channel] = Requirement.Required,
                     [Field.Amount] = Requirement.Optional,
@@ -192,7 +192,7 @@ namespace Xrpl.Models.Transaction
                     [Field.Signature] = Requirement.Optional,
                     [Field.PublicKey] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.CheckCreate] = new TxFormat()
+                [BinaryCodec.Enums.TransactionType.CheckCreate] = new TxFormat()
                 {
                     [Field.Channel] = Requirement.Required,
                     [Field.Amount] = Requirement.Optional,
@@ -200,7 +200,7 @@ namespace Xrpl.Models.Transaction
                     [Field.Signature] = Requirement.Optional,
                     [Field.PublicKey] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.CheckCash] = new TxFormat()
+                [BinaryCodec.Enums.TransactionType.CheckCash] = new TxFormat()
                 {
                     [Field.Channel] = Requirement.Required,
                     [Field.Amount] = Requirement.Optional,
@@ -208,7 +208,7 @@ namespace Xrpl.Models.Transaction
                     [Field.Signature] = Requirement.Optional,
                     [Field.PublicKey] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.CheckCancel] = new TxFormat()
+                [BinaryCodec.Enums.TransactionType.CheckCancel] = new TxFormat()
                 {
                     [Field.Channel] = Requirement.Required,
                     [Field.Amount] = Requirement.Optional,
@@ -216,7 +216,7 @@ namespace Xrpl.Models.Transaction
                     [Field.Signature] = Requirement.Optional,
                     [Field.PublicKey] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.DepositPreauth] = new TxFormat()
+                [BinaryCodec.Enums.TransactionType.DepositPreauth] = new TxFormat()
                 {
                     [Field.Channel] = Requirement.Required,
                     [Field.Amount] = Requirement.Optional,
@@ -224,30 +224,30 @@ namespace Xrpl.Models.Transaction
                     [Field.Signature] = Requirement.Optional,
                     [Field.PublicKey] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.TrustSet] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.TrustSet] = new TxFormat
                 {
                     [Field.LimitAmount] = Requirement.Optional,
                     [Field.QualityIn] = Requirement.Optional,
                     [Field.QualityOut] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.AccountDelete] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.AccountDelete] = new TxFormat
                 {
                     [Field.Destination] = Requirement.Required,
                     [Field.DestinationTag] = Requirement.Optional,
                 },
 
-                [BinaryCodec.Types.TransactionType.NFTokenMint] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.NFTokenMint] = new TxFormat
                 {
                     [Field.NFTokenTaxon] = Requirement.Required,
                     [Field.Issuer] = Requirement.Optional,
                     [Field.TransferFee] = Requirement.Optional,
                     [Field.URI] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.NFTokenBurn] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.NFTokenBurn] = new TxFormat
                 {
                     [Field.NFTokenID] = Requirement.Required
                 },
-                [BinaryCodec.Types.TransactionType.NFTokenCreateOffer] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.NFTokenCreateOffer] = new TxFormat
                 {
                     [Field.NFTokenID] = Requirement.Required,
                     [Field.Amount] = Requirement.Required,
@@ -255,15 +255,15 @@ namespace Xrpl.Models.Transaction
                     [Field.Destination] = Requirement.Optional,
                     [Field.Expiration] = Requirement.Optional
                 },
-                [BinaryCodec.Types.TransactionType.NFTokenCancelOffer] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.NFTokenCancelOffer] = new TxFormat
                 {
                     [Field.NFTokenOffers] = Requirement.Required
                 },
-                [BinaryCodec.Types.TransactionType.NFTokenAcceptOffer] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.NFTokenAcceptOffer] = new TxFormat
                 {
                     [Field.NFTokenID] = Requirement.Required
                 },
-                [BinaryCodec.Types.TransactionType.UNLModify] = new TxFormat
+                [BinaryCodec.Enums.TransactionType.UNLModify] = new TxFormat
                 {
                     [Field.LedgerSequence] = Requirement.Optional,
                     [Field.BaseFee] = Requirement.Required,

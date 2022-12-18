@@ -1,10 +1,13 @@
-﻿using Newtonsoft.Json;
-
+﻿using System.Collections.Generic;
 using System.Globalization;
+using Newtonsoft.Json;
+using Xrpl.BinaryCodec.Types;
+using Xrpl.Models.Ledger;
 using Xrpl.Client.Extensions;
 
+//https://xrpl.org/ledger-header.html#ledger-index
 //https://xrpl.org/currency-formats.html#currency-formats
-//https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/common/index.ts
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/common/index.ts
 
 namespace Xrpl.Models.Common
 {
@@ -100,5 +103,133 @@ namespace Xrpl.Models.Common
                 }
             }
         }
+        #region Overrides of Object
+
+        public override string ToString() => CurrencyValidName == "XRP" ? $"XRP: {ValueAsXrp:0.######}" : $"{CurrencyValidName}: {ValueAsNumber:0.###############}";
+        public override bool Equals(object o) => o is Currency model && model.Issuer == Issuer && model.CurrencyCode == CurrencyCode;
+
+        public static bool operator ==(Currency c1, Currency c2) => c1.Equals(c2);
+
+        public static bool operator !=(Currency c1, Currency c2) => !c1.Equals(c2);
+
+        #endregion
+
+    }
+
+    public class LedgerIndex
+    {
+        public LedgerIndex(uint index)
+        {
+            Index = index;
+        }
+
+        public LedgerIndex(LedgerIndexType ledgerIndexType)
+        {
+            LedgerIndexType = ledgerIndexType;
+        }
+
+        public uint? Index { get; set; }
+        /// <summary>
+        /// Index type<br/>
+        /// validated<br/>
+        /// closed<br/>
+        /// current<br/>
+        /// </summary>
+        public LedgerIndexType LedgerIndexType { get; set; }
+    }
+
+    /// <summary> common class </summary>
+    public class Common
+    {
+        public enum LedgerIndex
+        {
+            Validated,
+            Closed,
+            Current
+        }
+
+        public enum AccountObjectType
+        {
+            Check,
+            DepositPreauth,
+            Escrow,
+            NftOffer,
+            Offer,
+            PaymentChannel,
+            SignerList,
+            Ticket,
+            State
+        }
+
+        public class MemoEntry
+        {
+            public string MemoData { get; set; }
+            public string MemoType { get; set; }
+            public string MemoFormat { get; set; }
+        }
+
+        public class ISigner
+        {
+            public SignerEntry Signer { get; set; }
+        }
+
+        public class IssuedCurrencyAmount
+        {
+            [JsonProperty("currency")]
+            public string Currency { get; set; }
+
+            [JsonProperty("value")]
+            public string Value { get; set; }
+
+            [JsonProperty("issuer")]
+            public string Issuer { get; set; }
+        }
+
+        public class IMemo
+        {
+            public MemoEntry Memo { get; set; }
+        }
+
+        public enum StreamType
+        {
+            Consensus,
+            Ledger,
+            Manifests,
+            PeerStatus,
+            Transactions,
+            TransactionsProposed,
+            Server,
+            Validations
+        }
+
+        public class PathStep
+        {
+            public string Account { get; set; }
+            public string Currency { get; set; }
+            public string Issuer { get; set; }
+        }
+
+        public class Path
+        {
+            public List<PathStep> PathStep { get; set; }
+        }
+
+        public class ResponseOnlyTxInfo
+        {
+            public int Date { get; set; }
+            public string Hash { get; set; }
+            public int LedgerIndex { get; set; }
+        }
+
+        public class NFTOffer
+        {
+            public Amount Amount { get; set; }
+            public int Flags { get; set; }
+            public string NftOfferIndex { get; set; }
+            public string Owner { get; set; }
+            public string Destination { get; set; }
+            public int Expiration { get; set; }
+        }
     }
 }
+

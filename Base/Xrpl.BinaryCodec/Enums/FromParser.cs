@@ -1,4 +1,5 @@
 ﻿using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Types;
 
 namespace Xrpl.BinaryCodec.Enums
 {

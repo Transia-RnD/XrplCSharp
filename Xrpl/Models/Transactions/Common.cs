@@ -124,6 +124,24 @@ namespace Xrpl.Models.Transactions
                 CultureInfo.InvariantCulture);
         }
         /// <summary>
+        /// Verify the form and type of an Issue at runtime.
+        /// </summary>
+        /// <param name="input">The object to check the form and type of.</param>
+        /// <returns>Whether the Issue is malformed.</returns>
+        public static bool IsIssue(dynamic input)
+        {
+            if (!IsRecord(input))
+                return false;
+            if (input is not Dictionary<string, dynamic> issue)
+                return false;
+
+
+            var length = issue.Count;
+            issue.TryGetValue("currency", out var currency);
+            issue.TryGetValue("issuer", out var issuer);
+            return (length == 1 && currency == "XRP") || (length == 2 && currency is string && issuer is string);
+        }
+        /// <summary>
         /// Verify the common fields of a transaction.<br/>
         /// The validate functionality will be optional, and will check transaction form at runtime.
         /// This should be called any time a transaction will be verified.
