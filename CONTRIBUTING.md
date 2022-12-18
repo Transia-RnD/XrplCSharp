@@ -43,6 +43,14 @@ dotnet test --no-build --verbosity normal --filter "TestU"
 
 ### Integration Tests
 
+Single
+
+```bash
+dotnet test --no-build --verbosity normal --filter "TestITrustSet"
+```
+
+All
+
 ```bash
 # sets up the rippled standalone Docker container - you can skip this step if you already have it set up
 docker run -p 6006:6006 -it natenichols/rippled-standalone:latest

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 
 namespace XrplTests.Xrpl.Models
 {
@@ -45,32 +46,32 @@ namespace XrplTests.Xrpl.Models
 
             // throws w/ missing Amount
             channel.Remove("Amount");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePaymentChannelFund(channel), "PaymentChannelFund: missing Amount");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(channel), "PaymentChannelFund: missing Amount");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePaymentChannelFund(channel), "PaymentChannelFund: missing Amount");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(channel), "PaymentChannelFund: missing Amount");
             channel["Amount"] = "200000";
 
             // throws w/ missing Channel
             channel.Remove("Channel");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePaymentChannelFund(channel), "PaymentChannelFund: missing Channel");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(channel), "PaymentChannelFund: missing Channel");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePaymentChannelFund(channel), "PaymentChannelFund: missing Channel");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(channel), "PaymentChannelFund: missing Channel");
             channel["Channel"] = "C1AE6DDDEEC05CF2978C0BAD6FE302948E9533691DC749DCDD3B9E5992CA6198";
 
             // throws w/ Amount must be a string
             channel["Amount"] = 100;
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePaymentChannelFund(channel), "PaymentChannelFund: Amount must be a string");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(channel), "PaymentChannelFund: Amount must be a string");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePaymentChannelFund(channel), "PaymentChannelFund: Amount must be a string");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(channel), "PaymentChannelFund: Amount must be a string");
             channel["Amount"] = "1000000";
 
             // throws w/ Channel must be a string
             channel["Channel"] = 1000;
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePaymentChannelFund(channel), "PaymentChannelFund: Channel must be a string");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(channel), "PaymentChannelFund: Channel must be a string");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePaymentChannelFund(channel), "PaymentChannelFund: Channel must be a string");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(channel), "PaymentChannelFund: Channel must be a string");
             channel["Channel"] = "C1AE6DDDEEC05CF2978C0BAD6FE302948E9533691DC749DCDD3B9E5992CA6198";
 
             // throws w/ Expiration must be a string
             channel["Expiration"] = "10";
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidatePaymentChannelFund(channel), "PaymentChannelFund: Expiration must be a number");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(channel), "PaymentChannelFund: Expiration must be a number");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePaymentChannelFund(channel), "PaymentChannelFund: Expiration must be a number");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(channel), "PaymentChannelFund: Expiration must be a number");
             channel["Expiration"] = 543171558u;
 
         }

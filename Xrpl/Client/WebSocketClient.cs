@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.WebSockets;
@@ -9,35 +11,39 @@ using System.Threading.Tasks;
 namespace Xrpl.Client
 {
     //credit: https://github.com/Badiboy/WebSocketWrapper/blob/master/WebSocketWrapper.cs
-    internal class WebSocketClient : IDisposable
+    public class WebSocketClient : IDisposable
     {
 
         private const int ReceiveChunkSize = 1048576;
-        private const int SendChunkSize = 1024;
+        private const int SendChunkSize = 1048576;
 
         private ClientWebSocket _ws;
         private readonly Uri _uri;
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private readonly CancellationToken _cancellationToken;
 
-        private Action<WebSocketClient> _onConnected;
-        private Action<Exception, WebSocketClient> _onConnectionError;
-        private Action<byte[], WebSocketClient> _onMessageBinary;
-        private Action<string, WebSocketClient> _onMessageString;
-        private Action<WebSocketClient> _onDisconnected;
+        private Func<WebSocketClient, Task> _onConnected;
+        private Func<Exception, WebSocketClient, Task> _onConnectionError;
+        private Func<byte[], WebSocketClient, Task> _onMessageBinary;
+        private Func<string, WebSocketClient, Task> _onMessageString;
+        private Func<Exception, WebSocketClient, Task> _onError;
+        private Func<WebSocketClient, Task> _onDisconnected;
+        private Func<WebSocketClient, Task> _onClosed;
 
         protected WebSocketClient(string uri)
         {
             _uri = new Uri(uri);
             _cancellationToken = _cancellationTokenSource.Token;
         }
+        /// <summary> cancel work </summary>
+        public void Cancel() => _cancellationTokenSource.Cancel();
 
         /// <summary>
         /// Creates a new instance.
         /// </summary>
         /// <param name="uri">The URI of the WebSocket server.</param>
         /// <returns>Instance of the created WebSocketWrapper</returns>
-        internal static WebSocketClient Create(string uri)
+        public static WebSocketClient Create(string uri)
         {
             return new WebSocketClient(uri);
         }
@@ -46,7 +52,7 @@ namespace Xrpl.Client
         /// Connects to the WebSocket server.
         /// </summary>
         /// <returns>Self</returns>
-        internal WebSocketClient Connect()
+        public WebSocketClient Connect()
         {
             if (_ws == null)
             {
@@ -71,7 +77,7 @@ namespace Xrpl.Client
         /// <summary>
         /// Get the current state of the WebSocket client.
         /// </summary>
-        internal WebSocketState State
+        public WebSocketState State
         {
             get
             {
@@ -87,7 +93,7 @@ namespace Xrpl.Client
         /// </summary>
         /// <param name="onConnect">The Action to call</param>
         /// <returns>Self</returns>
-        internal WebSocketClient OnConnect(Action<WebSocketClient> onConnect)
+        internal WebSocketClient OnConnect(Func<WebSocketClient, Task> onConnect)
         {
             _onConnected = onConnect;
             return this;
@@ -98,9 +104,24 @@ namespace Xrpl.Client
         /// </summary>
         /// <param name="onConnectionError">The Action to call</param>
         /// <returns>Self</returns>
-        internal WebSocketClient OnConnectionError(Action<Exception, WebSocketClient> onConnectionError)
+        internal WebSocketClient OnConnectionError(Func<Exception, WebSocketClient, Task> onConnectionError)
         {
+            if (_cancellationTokenSource.IsCancellationRequested)
+                return this;
             _onConnectionError = onConnectionError;
+            return this;
+        }
+
+        /// <summary>
+        /// Set the Action to call when the connection fails.
+        /// </summary>
+        /// <param name="onConnectionError">The Action to call</param>
+        /// <returns>Self</returns>
+        internal WebSocketClient OnError(Func<Exception, WebSocketClient, Task> onError)
+        {
+            if (_cancellationTokenSource.IsCancellationRequested)
+                return this;
+            _onError = onError;
             return this;
         }
 
@@ -109,9 +130,22 @@ namespace Xrpl.Client
         /// </summary>
         /// <param name="onDisconnect">The Action to call</param>
         /// <returns>Self</returns>
-        internal WebSocketClient OnDisconnect(Action<WebSocketClient> onDisconnect)
+        internal WebSocketClient OnDisconnect(Func<WebSocketClient, Task> onDisconnect)
         {
             _onDisconnected = onDisconnect;
+            return this;
+        }
+
+        /// <summary>
+        /// Set the Action to call when the connection has been closed.
+        /// </summary>
+        /// <param name="onClosed">The Action to call</param>
+        /// <returns>Self</returns>
+        internal WebSocketClient OnClosed(Func<WebSocketClient, Task> onClosed)
+        {
+            if (_cancellationTokenSource.IsCancellationRequested)
+                return this;
+            _onClosed = onClosed;
             return this;
         }
 
@@ -120,8 +154,10 @@ namespace Xrpl.Client
         /// </summary>
         /// <param name="onMessage">The Action to call.</param>
         /// <returns>Self</returns>
-        internal WebSocketClient OnBinaryMessage(Action<byte[], WebSocketClient> onMessage)
+        internal WebSocketClient OnBinaryMessage(Func<byte[], WebSocketClient, Task> onMessage)
         {
+            if (_cancellationTokenSource.IsCancellationRequested)
+                return this;
             _onMessageBinary = onMessage;
             return this;
         }
@@ -131,35 +167,41 @@ namespace Xrpl.Client
         /// </summary>
         /// <param name="onMessage">The Action to call.</param>
         /// <returns>Self</returns>
-        internal WebSocketClient OnMessageReceived(Action<string, WebSocketClient> onMessage)
+        internal WebSocketClient OnMessageReceived(Func<string, WebSocketClient, Task> onMessage)
         {
+            if (_cancellationTokenSource.IsCancellationRequested)
+                return this;
             _onMessageString = onMessage;
             return this;
-        }
-
-        /// <summary>
-        /// Send a byte array to the WebSocket server.
-        /// </summary>
-        /// <param name="data">The data to send</param>
-        internal void SendMessage(byte[] data)
-        {
-            SendMessageAsync(data);
         }
 
         /// <summary>
         /// Send a UTF8 string to the WebSocket server.
         /// </summary>
         /// <param name="message">The message to send</param>
-        internal void SendMessage(string message)
+        public void SendMessage(string message)
         {
-            SendMessage(Encoding.UTF8.GetBytes(message));
+            SendMessageAsync(Encoding.UTF8.GetBytes(message));
         }
 
+        /// <summary>
+        /// Send a byte array to the WebSocket server.
+        /// </summary>
+        /// <param name="message">The data to send</param>
         private async void SendMessageAsync(byte[] message)
         {
+            if (_ws is null)
+                return;
             if (_ws.State != WebSocketState.Open)
             {
-                throw new Exception("Connection is not open.");
+                try
+                {
+                    Connect();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Connection is not open.");
+                }
             }
 
             var messagesCount = (int)Math.Ceiling((double)message.Length / SendChunkSize);
@@ -175,7 +217,18 @@ namespace Xrpl.Client
                     count = message.Length - offset;
                 }
 
-                await _ws.SendAsync(new ArraySegment<byte>(message, offset, count), WebSocketMessageType.Text, lastMessage, _cancellationToken);
+                try
+                {
+                    await _ws.SendAsync(new ArraySegment<byte>(message, offset, count), WebSocketMessageType.Binary, lastMessage, _cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
+                catch (Exception e)
+                {
+                    return;
+                }
             }
         }
 
@@ -187,9 +240,20 @@ namespace Xrpl.Client
                 CallOnConnected();
                 StartListen();
             }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+            catch (ObjectDisposedException)
+            {
+                if (!IsDisposed)
+                    Dispose();
+                return;
+            }
             catch (Exception e)
             {
-                _ws.Dispose();
+
+                _ws?.Dispose();
                 _ws = null;
                 CallOnConnectionError(e);
             }
@@ -200,10 +264,15 @@ namespace Xrpl.Client
             if (_ws != null)
             {
                 if (_ws.State != WebSocketState.Open)
-                {
-                    await _ws.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
-                }
-                _ws.Dispose();
+                    try
+                    {
+                        await _ws.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                    }
+                    catch (Exception e)
+                    {
+                        CallOnError(e);
+                    }
+                Dispose();
                 _ws = null;
                 CallOnDisconnected();
             }
@@ -215,9 +284,9 @@ namespace Xrpl.Client
 
             try
             {
-                while (_ws.State == WebSocketState.Open)
+                while (_ws is { State: WebSocketState.Open })
                 {
-                    byte[] byteResult = new byte[0];
+                    byte[] byteResult = Array.Empty<byte>();
 
                     WebSocketReceiveResult result;
                     do
@@ -226,6 +295,7 @@ namespace Xrpl.Client
 
                         if (result.MessageType == WebSocketMessageType.Close)
                         {
+                            _onClosed?.Invoke(this);
                             Disconnect();
                         }
                         else
@@ -238,56 +308,55 @@ namespace Xrpl.Client
                     CallOnMessage(byteResult);
                 }
             }
-            catch (Exception)
+            catch (OperationCanceledException)
             {
-                //CallOnDisconnected();
+                return;
+            }
+            catch (Exception e)
+            {
+                _onConnectionError?.Invoke(e, this);
                 Disconnect();
             }
-            /*
-                        finally
-                        {
-                            _ws.Dispose();
-                        }
-            */
         }
 
         private void CallOnMessage(byte[] result)
         {
-            if (_onMessageBinary != null)
-                RunInTask(() => _onMessageBinary(result, this));
-
-            if (_onMessageString != null)
-                RunInTask(() => _onMessageString(Encoding.UTF8.GetString(result), this));
+            //Debug.WriteLine("WS: Message");
+            _onMessageBinary?.Invoke(result, this);
+            _onMessageString?.Invoke(Encoding.UTF8.GetString(result), this);
         }
 
 
         private void CallOnDisconnected()
         {
-            if (_onDisconnected != null)
-                RunInTask(() => _onDisconnected(this));
+            //Debug.WriteLine("WS: Disconnected");
+            _onDisconnected?.Invoke(this);
         }
 
         private void CallOnConnected()
         {
-            if (_onConnected != null)
-                RunInTask(() => _onConnected(this));
+            //Debug.WriteLine("WS: Connected");
+            _onConnected?.Invoke(this);
         }
 
         private void CallOnConnectionError(Exception e)
         {
-            if (_onConnectionError != null)
-                RunInTask(() => _onConnectionError(e, this));
-            else
-                throw e;
+            //Debug.WriteLine("WS: Conn Error");
+            _onConnectionError?.Invoke(e, this);
         }
 
-        private static void RunInTask(Action action)
+        private void CallOnError(Exception e)
         {
-            Task.Factory.StartNew(action);
+            //Debug.WriteLine("WS: Error");
+            _onError?.Invoke(e, this);
         }
 
+        public bool IsDisposed;
         public void Dispose()
         {
+            if(_cancellationTokenSource?.IsCancellationRequested==true)
+                _cancellationTokenSource.Cancel();
+            IsDisposed = true;
             _ws?.Dispose();
             _cancellationTokenSource?.Dispose();
         }

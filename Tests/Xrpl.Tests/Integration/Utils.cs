@@ -6,10 +6,11 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Xrpl.Client;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 using Xrpl.Utils.Hashes;
 using Xrpl.Wallet;
 using ICurrency = Xrpl.Models.Common.Currency;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/utils.ts
 
@@ -23,8 +24,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
 
         public static async Task LedgerAccept(IXrplClient client)
         {
-            var request = new RippleRequest { Command = "ledger_accept" };
-            //await client.connection.request(request);
+            var request = new BaseRequest { Command = "ledger_accept" };
             await client.AnyRequest(request);
         }
 

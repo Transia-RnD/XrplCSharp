@@ -6,48 +6,60 @@ using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Org.BouncyCastle.Ocsp;
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
 using Xrpl.Models.Subscriptions;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 using Xrpl.Sugar;
 using Xrpl.Wallet;
-using BookOffers = Xrpl.Models.Transaction.BookOffers;
-using Submit = Xrpl.Models.Transaction.Submit;
+using static Xrpl.Client.Connection;
+using BookOffers = Xrpl.Models.Transactions.BookOffers;
+using Submit = Xrpl.Models.Transactions.Submit;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/client/index.ts
+
 // https://xrpl.org/public-api-methods.html
 namespace Xrpl.Client
 {
-    public delegate void OnRippleResponse(string response);
-    public delegate void OnLedgerStreamResponse(LedgerStreamResponseResult response);
-    public delegate void OnValidationsStreamResponse(ValidationsStreamResponseResult response);
-    public delegate void OnTransactionStreamResponse(TransactionStreamResponseResult response);
-    public delegate void OnPeerStatusStreamResponse(PeerStatusStreamResponseResult response);
-    public delegate void OnConsensusStreamResponse(ConsensusStreamResponseResult response);
-    public delegate void OnPathFindStream(PathFindStreamResult response);
-    public delegate void OnErrorResponse(ErrorResponse response);
+
+    public delegate Task OnError(string error, string errorMessage, string message, dynamic data);
+    public delegate Task OnConnected();
+    public delegate Task OnDisconnect(int? code);
+    public delegate Task OnLedgerClosed(object response);
+    public delegate Task OnTransaction(TransactionStream response);
+    public delegate Task OnManifestReceived(ValidationStream response);
+    public delegate Task OnPeerStatusChange(PeerStatusStream response);
+    public delegate Task OnConsensusPhase(ConsensusStream response);
+    public delegate Task OnPathFind(PathFindStream response);
+
 
     public interface IXrplClient : IDisposable
     {
-        double FeeCushion { get; set; }
-        string MaxFeeXRP { get; set; }
+        Connection connection { get; set; }
+        double feeCushion { get; set; }
+        string maxFeeXRP { get; set; }
 
-        event OnLedgerStreamResponse OnLedgerClosed;
-        event OnValidationsStreamResponse OnValidation;
-        event OnTransactionStreamResponse OnTransaction;
-        event OnPeerStatusStreamResponse OnPeerStatusChange;
-        event OnConsensusStreamResponse OnConsensusPhase;
-        event OnPathFindStream OnPathFind;
-        event OnErrorResponse OnError;
-        event OnRippleResponse OnResponse;
+        event OnError OnError;
+        event OnConnected OnConnected;
+        event OnDisconnect OnDisconnect;
+        event OnLedgerClosed OnLedgerClosed;
+        event OnTransaction OnTransaction;
+        event OnManifestReceived OnManifestReceived;
+        event OnPeerStatusChange OnPeerStatusChange;
+        event OnConsensusPhase OnConsensusPhase;
+        event OnPathFind OnPathFind;
 
         #region Server
+        /// <summary> the url </summary>
+        string Url();
         /// <summary> connect to the server </summary>
-        void Connect();
+        Task Connect();
         /// <summary> Disconnect from server </summary>
-        void Disconnect();
+        Task Disconnect();
+        /// <summary> if the websocket is connected </summary>
+        bool IsConnected();
         /// <summary> The subscribe method requests periodic notifications from the server when certain events happen. </summary>
         /// <param name="request">An <see cref="SubscribeRequest"/> request.</param>
         /// <returns></returns>
@@ -67,6 +79,10 @@ namespace Xrpl.Client
         /// <param name="request">An <see cref="ServerInfoRequest"/> request.</param>
         /// <returns>A <see cref="ServerInfo"/> response.</returns>
         Task<ServerInfo> ServerInfo(ServerInfoRequest request);
+        /// <summary> The server_state command asks the server for a human-readable version of various information about the rippled server being queried. </summary>
+        /// <param name="request">An <see cref="ServerStateRequest"/> request.</param>
+        /// <returns>A <see cref="ServerState"/> response.</returns>
+        Task<ServerState> ServerState(ServerStateRequest request);
         /// <summary> The fee command reports the current state of the open-ledger requirements for the transaction cost. </summary>
         /// <param name="request">An <see cref="FeeRequest"/> request.</param>
         /// <returns>An <see cref="Models.Methods.Fee"/> response.</returns>
@@ -160,13 +176,13 @@ namespace Xrpl.Client
         #endregion
 
         #region Transactions
-        //https://xrpl.org/transaction-methods.html
-        /// <summary>
-        /// The submit method applies a transaction and sends it to the network to be confirmed and included in future ledgers.
-        /// </summary>
-        /// <param name="request">An <see cref="SubmitRequest"/> request.</param>
-        /// <returns>An <see cref="Models.Transaction.Submit"/> response.</returns>
-        Task<Submit> Submit(SubmitRequest request);
+        ////https://xrpl.org/transaction-methods.html
+        ///// <summary>
+        ///// The submit method applies a transaction and sends it to the network to be confirmed and included in future ledgers.
+        ///// </summary>
+        ///// <param name="request">An <see cref="SubmitRequest"/> request.</param>
+        ///// <returns>An <see cref="Models.Transaction.Submit"/> response.</returns>
+        //Task<Submit> Submit(SubmitRequest request);
         /// <summary>
         /// 
         /// </summary>
@@ -251,9 +267,10 @@ namespace Xrpl.Client
         // Task<ServerState> ServerState(ServerStateRequest request);
         //Task<SubmitMultisign> SubmitMultisign(SubmitMultisignRequest request);
         //Task<TransactionEntry> TransactionEntry(TransactionEntryRequest request);
-        Task<object> AnyRequest(RippleRequest request);
+        Task<object> AnyRequest(BaseRequest request);
 
         Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request);
+        Task<T> GRequest<T, R>(R request);
 
         // Sugars
         Task<Dictionary<string, dynamic>> Autofill(Dictionary<string, dynamic> tx);
@@ -264,39 +281,81 @@ namespace Xrpl.Client
 
     public class XrplClient : IXrplClient
     {
-        public double FeeCushion { get; set; }
-        public string MaxFeeXRP { get; set; }
-        public event OnLedgerStreamResponse OnLedgerClosed;
-        public event OnValidationsStreamResponse OnValidation;
-        public event OnTransactionStreamResponse OnTransaction;
-        public event OnPeerStatusStreamResponse OnPeerStatusChange;
-        public event OnConsensusStreamResponse OnConsensusPhase;
-        public event OnPathFindStream OnPathFind;
-        public event OnErrorResponse OnError;
-        public event OnRippleResponse OnResponse;
 
-        /// <summary> Current web socket client state </summary>
-        public WebSocketState SocketState => client.State;
-
-        public readonly string url;
-        private readonly WebSocketClient client;
-        private readonly ConcurrentDictionary<Guid, TaskInfo> tasks;
-        private readonly JsonSerializerSettings serializerSettings;
-
-        public XrplClient(string server, double? feeCushion = 1.2, string? maxFeeXRP = "2")
+        public class ClientOptions : ConnectionOptions
         {
-            FeeCushion = feeCushion ?? FeeCushion;
-            MaxFeeXRP = maxFeeXRP ?? MaxFeeXRP;
-            url = server;
-            tasks = new ConcurrentDictionary<Guid, TaskInfo>();
-            serializerSettings = new JsonSerializerSettings();
-            serializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            public double? feeCushion { get; set; }
+            public string? maxFeeXRP { get; set; }
+        }
 
-            client = WebSocketClient.Create(server);
-            OnResponse += OnMessageReceived;
-            client.OnMessageReceived(MessageReceived);
-            client.OnConnectionError(Error);
+        public Connection connection { get; set; }
+        public double feeCushion { get; set; }
+        public string maxFeeXRP { get; set; }
+
+        public event OnError OnError;
+        public event OnConnected OnConnected;
+        public event OnDisconnect OnDisconnect;
+        public event OnLedgerClosed OnLedgerClosed;
+        public event OnTransaction OnTransaction;
+        public event OnManifestReceived OnManifestReceived;
+        public event OnPeerStatusChange OnPeerStatusChange;
+        public event OnConsensusPhase OnConsensusPhase;
+        public event OnPathFind OnPathFind;
+
+        ///// <summary> Current web socket client state </summary>
+        //public WebSocketState SocketState => client.State;
+
+        private readonly ConcurrentDictionary<int, TaskInfo> tasks;
+
+        public XrplClient(string server, ClientOptions? options = null)
+        {
+
+            if (!IsValidWss(server))
+            {
+                throw new Exception("Invalid WSS Server Url");
+            }
+            feeCushion = options?.feeCushion ?? 1.2;
+            maxFeeXRP = options?.maxFeeXRP ?? "2";
+
+            connection = new Connection(server, options);
+            connection.OnError += (e, em, m, d) => OnError(e, em, m, d);
+            connection.OnConnected += () => OnConnected();
+            connection.OnDisconnect += (c) => OnDisconnect(c);
+            connection.OnLedgerClosed += (s) => OnLedgerClosed(s);
+            connection.OnTransaction += (s) => OnTransaction(s);
+            connection.OnManifestReceived += (s) => OnManifestReceived(s);
+            connection.OnPeerStatusChange += (s) => OnPeerStatusChange(s);
+            connection.OnConsensusPhase += (s) => OnConsensusPhase(s);
+            connection.OnPathFind += (s) => OnPathFind(s);
+        }
+
+        /// <inheritdoc />
+        public string Url()
+        {
+            return this.connection.GetUrl();
+        }
+
+        public bool IsValidWss(string server)
+        {
+            return true;
+        }
+
+        /// <inheritdoc />
+        public async Task Connect()
+        {
+            await connection.Connect();
+        }
+
+        /// <inheritdoc />
+        public async Task Disconnect()
+        {
+            await connection.Disconnect();
+        }
+
+        /// <inheritdoc />
+        public bool IsConnected()
+        {
+            return this.connection.IsConnected();
         }
 
         // SUGARS
@@ -322,740 +381,236 @@ namespace Xrpl.Client
             return BalancesSugar.GetXrpBalance(this, address);
         }
 
-        /// <inheritdoc />
-        public void Connect()
-        {
-            client.OnMessageReceived(MessageReceived);
-            client.Connect();
-            do
-            {
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            } while (client.State != WebSocketState.Open);
-        }
-        /// <inheritdoc />
-        public void Disconnect()
-        {
-            client.Disconnect();
-        }
-
         // REQUESTS
         /// <inheritdoc />
         public Task<AccountChannels> AccountChannels(AccountChannelsRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<AccountChannels> task = new TaskCompletionSource<AccountChannels>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(AccountChannels);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<AccountChannels, AccountChannelsRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<AccountCurrencies> AccountCurrencies(AccountCurrenciesRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<AccountCurrencies> task = new TaskCompletionSource<AccountCurrencies>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(AccountCurrencies);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<AccountCurrencies, AccountCurrenciesRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<AccountInfo> AccountInfo(AccountInfoRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<AccountInfo> task = new TaskCompletionSource<AccountInfo>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(AccountInfo);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<AccountInfo, AccountInfoRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<AccountLines> AccountLines(AccountLinesRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<AccountLines> task = new TaskCompletionSource<AccountLines>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(AccountLines);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<AccountLines, AccountLinesRequest>(request);
         }
-
 
         /// <inheritdoc />
         public Task<AccountNFTs> AccountNFTs(AccountNFTsRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<AccountNFTs> task = new TaskCompletionSource<AccountNFTs>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(AccountNFTs);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<AccountNFTs, AccountNFTsRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<AccountObjects> AccountObjects(AccountObjectsRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<AccountObjects> task = new TaskCompletionSource<AccountObjects>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(AccountObjects);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<AccountObjects, AccountObjectsRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<AccountOffers> AccountOffers(AccountOffersRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<AccountOffers> task = new TaskCompletionSource<AccountOffers>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(AccountOffers);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<AccountOffers, AccountOffersRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<AccountTransactions> AccountTransactions(AccountTransactionsRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<AccountTransactions> task = new TaskCompletionSource<AccountTransactions>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(AccountTransactions);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<AccountTransactions, AccountTransactionsRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<BookOffers> BookOffers(BookOffersRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<BookOffers> task = new TaskCompletionSource<BookOffers>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(BookOffers);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<BookOffers, BookOffersRequest>(request);
         }
 
         //public Task<DepositAuthorized> DepositAuthorized(DepositAuthorizedRequest request)
         //{
-        //    var command = JsonConvert.SerializeObject(request, serializerSettings);
-        //    TaskCompletionSource<DepositAuthorized> task = new TaskCompletionSource<DepositAuthorized>();
-
-        //    TaskInfo taskInfo = new TaskInfo();
-        //    taskInfo.TaskId = request.Id;
-        //    taskInfo.TaskCompletionResult = task;
-        //    taskInfo.Type = typeof(DepositAuthorized);
-
-        //    tasks.TryAdd(request.Id, taskInfo);
-
-        //    client.SendMessage(command);
-        //    return task.Task;
+        //    return this.GRequest<DepositAuthorized, DepositAuthorizedRequest>(request);
         //}
-
-
 
         /// <inheritdoc />
         public Task<LOLedger> Ledger(LedgerRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<LOLedger> task = new TaskCompletionSource<LOLedger>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = Guid.Parse("1A3B944E-3632-467B-A53A-206305310BAE");
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(LOLedger);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<LOLedger, LedgerRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<LOBaseLedger> LedgerClosed(LedgerClosedRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<LOBaseLedger> task = new TaskCompletionSource<LOBaseLedger>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(LOBaseLedger);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
-
+            return this.GRequest<LOBaseLedger, LedgerClosedRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<LOLedgerCurrentIndex> LedgerCurrent(LedgerCurrentRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<LOLedgerCurrentIndex> task = new TaskCompletionSource<LOLedgerCurrentIndex>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(LOLedgerCurrentIndex);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<LOLedgerCurrentIndex, LedgerCurrentRequest>(request);
         }
         /// <inheritdoc />
         public Task<LOLedgerData> LedgerData(LedgerDataRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<LOLedgerData> task = new TaskCompletionSource<LOLedgerData>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(LOLedgerData);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<LOLedgerData, LedgerDataRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<LOLedgerEntry> LedgerEntry(LedgerEntryRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<LOLedgerEntry> task = new TaskCompletionSource<LOLedgerEntry>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(LOLedgerEntry);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<LOLedgerEntry, LedgerEntryRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<Fee> Fee(FeeRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<Fee> task = new TaskCompletionSource<Fee>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(Fee);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<Fee, FeeRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<GatewayBalances> GatewayBalances(GatewayBalancesRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<GatewayBalances> task = new TaskCompletionSource<GatewayBalances>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(GatewayBalances);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<GatewayBalances, GatewayBalancesRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<NFTBuyOffers> NFTBuyOffers(NFTBuyOffersRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<NFTBuyOffers> task = new TaskCompletionSource<NFTBuyOffers>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(NFTBuyOffers);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<NFTBuyOffers, NFTBuyOffersRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<NFTSellOffers> NFTSellOffers(NFTSellOffersRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<NFTSellOffers> task = new TaskCompletionSource<NFTSellOffers>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(NFTSellOffers);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<NFTSellOffers, NFTSellOffersRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<NoRippleCheck> NoRippleCheck(NoRippleCheckRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<NoRippleCheck> task = new TaskCompletionSource<NoRippleCheck>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(NoRippleCheck);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<NoRippleCheck, NoRippleCheckRequest>(request);
         }
 
         //public Task<PathFind> PathFind(PathFindRequest request)
         //{
-        //    var command = JsonConvert.SerializeObject(request, serializerSettings);
-        //    TaskCompletionSource<PathFind> task = new TaskCompletionSource<PathFind>();
-
-        //    TaskInfo taskInfo = new TaskInfo();
-        //    taskInfo.TaskId = request.Id;
-        //    taskInfo.TaskCompletionResult = task;
-        //    taskInfo.Type = typeof(PathFind);
-
-        //    tasks.TryAdd(request.Id, taskInfo);
-
-        //    client.SendMessage(command);
-        //    return task.Task;
+        //    return this.GRequest<object, PingRequest>(request);
         //}
 
         /// <inheritdoc />
         public Task<object> Ping(PingRequest request)
         {
-            //RippleRequest request = new RippleRequest();
-            //request.Command = "ping";
-
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<object> task = new TaskCompletionSource<object>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(object);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<object, PingRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<object> Random(RandomRequest request)
         {
-            //RippleRequest request = new RippleRequest();
-            //request.Command = "ping";
-
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<object> task = new TaskCompletionSource<object>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(object);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<object, RandomRequest>(request);
         }
 
         //public Task<RipplePathFind> RipplePathFind(RipplePathFindRequest request)
         //{
-        //    //RippleRequest request = new RippleRequest();
-        //    //request.Command = "ping";
-
-        //    var command = JsonConvert.SerializeObject(request, serializerSettings);
-        //    TaskCompletionSource<RipplePathFind> task = new TaskCompletionSource<RipplePathFind>();
-
-        //    TaskInfo taskInfo = new TaskInfo();
-        //    taskInfo.TaskId = request.Id;
-        //    taskInfo.TaskCompletionResult = task;
-        //    taskInfo.Type = typeof(RipplePathFind);
-
-        //    tasks.TryAdd(request.Id, taskInfo);
-
-        //    client.SendMessage(command);
-        //    return task.Task;
+        //    return this.GRequest<object, PingRequest>(request);
         //}
 
-        /// <inheritdoc />
         public Task<ServerInfo> ServerInfo(ServerInfoRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<ServerInfo> task = new TaskCompletionSource<ServerInfo>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(ServerInfo);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<ServerInfo, ServerInfoRequest>(request);
         }
 
-        //public Task<ServerState> ServerState(ServerStateRequest request)
-        //{
-        //    /// <inheritdoc />
-        //    var command = JsonConvert.SerializeObject(request, serializerSettings);
-        //    TaskCompletionSource<ServerState> task = new TaskCompletionSource<ServerState>();
-
-        //    TaskInfo taskInfo = new TaskInfo();
-        //    taskInfo.TaskId = request.Id;
-        //    taskInfo.TaskCompletionResult = task;
-        //    taskInfo.Type = typeof(ServerState);
-
-        //    tasks.TryAdd(request.Id, taskInfo);
-
-        //    client.SendMessage(command);
-        //    return task.Task;
-        //}
+        public Task<ServerState> ServerState(ServerStateRequest request)
+        {
+            return this.GRequest<ServerState, ServerStateRequest>(request);
+        }
 
         /// <inheritdoc />
-        public Task<Submit> Submit(SubmitRequest request)
-        {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<Submit> task = new TaskCompletionSource<Submit>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(Submit);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
-        }
+        //public Task<Submit> Submit(SubmitRequest request)
+        //{
+        //    return this.GRequest<Submit, SubmitRequest>(request);
+        //}
 
         //public Task<SubmitMultisign> SubmitMultisign(SubmitMultisignRequest request, Wallet wallet)
         //{
-        //    var command = JsonConvert.SerializeObject(request, serializerSettings);
-        //    TaskCompletionSource<SubmitMultisign> task = new TaskCompletionSource<SubmitMultisign>();
-
-        //    TaskInfo taskInfo = new TaskInfo();
-        //    taskInfo.TaskId = request.Id;
-        //    taskInfo.TaskCompletionResult = task;
-        //    taskInfo.Type = typeof(SubmitMultisign);
-
-        //    tasks.TryAdd(request.Id, taskInfo);
-
-        //    client.SendMessage(command);
-        //    return task.Task;
+        //    return this.GRequest<SubmitMultisign, SubmitMultisignRequest>(request);
         //}
 
         /// <inheritdoc />
         public Task<object> Subscribe(SubscribeRequest request)
         {
 
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<object> task = new TaskCompletionSource<object>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.RemoveUponCompletion = false;
-            taskInfo.Type = typeof(object);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<object, SubscribeRequest>(request);
         }
 
         /// <inheritdoc />
         public Task<object> Unsubscribe(UnsubscribeRequest request)
         {
 
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<object> task = new TaskCompletionSource<object>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.RemoveUponCompletion = false;
-            taskInfo.Type = typeof(object);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<object, UnsubscribeRequest>(request);
         }
 
         //public Task<TransactionEntry> TransactionEntry(TransactionEntryRequest request)
         //{
-        //    var command = JsonConvert.SerializeObject(request, serializerSettings);
-        //    TaskCompletionSource<TransactionEntry> task = new TaskCompletionSource<TransactionEntry>();
-
-        //    TaskInfo taskInfo = new TaskInfo();
-        //    taskInfo.TaskId = request.Id;
-        //    taskInfo.TaskCompletionResult = task;
-        //    taskInfo.Type = typeof(TransactionEntry);
-
-        //    tasks.TryAdd(request.Id, taskInfo);
-
-        //    client.SendMessage(command);
-        //    return task.Task;
+        //    return this.GRequest<TransactionEntry, TransactionEntryRequest>(request);
         //}
 
         /// <inheritdoc />
         public Task<TransactionResponseCommon> Tx(TxRequest request)
         {
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<TransactionResponseCommon> task = new TaskCompletionSource<TransactionResponseCommon>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(TransactionResponseCommon);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<TransactionResponseCommon, TxRequest>(request);
         }
 
         /// <inheritdoc />
-        public Task<object> AnyRequest(RippleRequest request)
+        public Task<object> AnyRequest(BaseRequest request)
         {
-
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<object> task = new TaskCompletionSource<object>();
-
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request.Id;
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(RippleRequest);
-
-            tasks.TryAdd(request.Id, taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
+            return this.GRequest<object, BaseRequest>(request);
         }
 
         /// <inheritdoc />
-        public Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request)
+        public async Task<Dictionary<string, dynamic>> Request(Dictionary<string, dynamic> request)
         {
+            //string account = request["Account"] ? EnsureClassicAddress((string)request["account"]) : null;
+            //request["Account"] = account;
+            var response = await this.connection.Request(request);
 
-            var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<Dictionary<string, dynamic>> task = new TaskCompletionSource<Dictionary<string, dynamic>>();
+            // mutates `response` to add warnings
+            //handlePartialPayment(req.command, response)
+            return response;
 
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = request["id"];
-            taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(Dictionary<string, dynamic>);
-
-            tasks.TryAdd(request["id"], taskInfo);
-
-            client.SendMessage(command);
-            return task.Task;
         }
 
-        private static void Error(Exception ex, WebSocketClient client)
+        /// <inheritdoc />
+        public async Task<T> GRequest<T, R>(R request)
         {
-            throw new Exception(ex.Message, ex);
+            //string account = request["Account"] ? EnsureClassicAddress((string)request["account"]) : null;
+            //request["Account"] = account;
+            var response = await this.connection.GRequest<T, R>(request);
+
+            // mutates `response` to add warnings
+            //handlePartialPayment(req.command, response)
+
+            return response;
         }
 
-        private void MessageReceived(string s, WebSocketClient client)
+        public string EnsureClassicAddress(string address)
         {
-            if (string.IsNullOrWhiteSpace(s))
-                return;
-
-            var json = JObject.Parse(s);
-            var can_get_type = json.TryGetValue("type", out var responseType);
-            if (!can_get_type)
-                throw new ArgumentNullException("type", "Unknown response type");
-            Enum.TryParse(responseType.ToString(), out ResponseStreamType type);
-
-            switch (type)
-            {
-                case ResponseStreamType.response:
-                    {
-                        OnResponse?.Invoke(s);
-                        break;
-                    }
-                case ResponseStreamType.connected:
-                    {
-                        break;
-                    }
-                case ResponseStreamType.disconnected:
-                    {
-                        break;
-                    }
-                case ResponseStreamType.ledgerClosed:
-                    {
-                        var response = JsonConvert.DeserializeObject<LedgerStreamResponseResult>(s);
-                        OnLedgerClosed?.Invoke(response);
-                        break;
-                    }
-                case ResponseStreamType.validationReceived:
-                    {
-                        var response = JsonConvert.DeserializeObject<ValidationsStreamResponseResult>(s);
-                        OnValidation?.Invoke(response);
-                        break;
-                    }
-                case ResponseStreamType.transaction:
-                    {
-                        var response = JsonConvert.DeserializeObject<TransactionStreamResponseResult>(s);
-                        OnTransaction?.Invoke(response);
-                        break;
-                    }
-                case ResponseStreamType.peerStatusChange:
-                    {
-                        var response = JsonConvert.DeserializeObject<PeerStatusStreamResponseResult>(s);
-                        OnPeerStatusChange?.Invoke(response);
-                        break;
-                    }
-                case ResponseStreamType.consensusPhase:
-                    {
-                        var response = JsonConvert.DeserializeObject<ConsensusStreamResponseResult>(s);
-                        OnConsensusPhase?.Invoke(response);
-                        break;
-                    }
-                case ResponseStreamType.path_find:
-                    {
-                        var response = JsonConvert.DeserializeObject<PathFindStreamResult>(s);
-                        OnPathFind?.Invoke(response);
-                        break;
-                    }
-                case ResponseStreamType.error:
-                    {
-                        var response = JsonConvert.DeserializeObject<ErrorResponse>(s);
-                        OnError?.Invoke(response);
-                        break;
-                    }
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private void OnMessageReceived(string s)
-        {
-            var response = JsonConvert.DeserializeObject<BaseResponse>(s);
-
-            try
-            {
-                var taskInfoResult = tasks.TryGetValue(response.Id, out var taskInfo);
-                if (taskInfoResult == false) throw new Exception("Task not found");
-
-                if (response.Status == "success")
-                {
-                    var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
-                    var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("SetResult");
-                    setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });
-
-                    if (taskInfo.RemoveUponCompletion)
-                    {
-                        tasks.TryRemove(response.Id, out taskInfo);
-                    }
-                }
-                else if (response.Status == "error")
-                {
-                    var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("SetException", new Type[] { typeof(Exception) }, null);
-
-                    RippleException exception = new RippleException(response.Error);
-                    setException.Invoke(taskInfo.TaskCompletionResult, new[] { exception });
-
-                    tasks.TryRemove(response.Id, out taskInfo);
-                }
-            }
-            catch (Exception e)
-            {
-                var taskInfoResult = tasks.TryGetValue(response.Id, out var taskInfo);
-                var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("SetException", new Type[] { typeof(Exception) }, null);
-
-                RippleException exception = new RippleException(response.Error ?? e.Message, e);
-                setException.Invoke(taskInfo.TaskCompletionResult, new[] { exception });
-
-                tasks.TryRemove(response.Id, out taskInfo);
-            }
-
+            return address;
         }
 
         #region IDisposable
 
         public void Dispose()
         {
-            client?.Disconnect();
-            client?.Dispose();
+            // todo: should check for ws...
+            connection?.Disconnect();
         }
 
         #endregion

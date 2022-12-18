@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using Xrpl.Models.Common;
 using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/accountDelete.ts
@@ -30,6 +30,14 @@ namespace XrplTests.Xrpl.ClientLib.Integration
         public async Task TestRequestMethod()
         {
             XrplWallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
+
+            var promises = new List<Task>();
+            for (var iter = 0; iter < 256; iter++)
+            {
+                promises.Add(Utils.LedgerAccept(runner.client));
+            }
+            await Task.WhenAll(promises);
+
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Validated);
             AccountChannelsRequest request = new AccountChannelsRequest(runner.wallet.ClassicAddress) { LedgerIndex = index };
             AccountChannels response = await runner.client.AccountChannels(request);
@@ -40,7 +48,6 @@ namespace XrplTests.Xrpl.ClientLib.Integration
                 Destination = wallet2.ClassicAddress,
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
-            //Debug.WriteLine(JsonConvert.SerializeObject(txJson));
             await Utils.TestTransaction(runner.client, txJson, runner.wallet);
         }
     }

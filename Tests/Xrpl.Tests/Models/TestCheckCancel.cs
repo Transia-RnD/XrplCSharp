@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 
 namespace XrplTests.Xrpl.Models
 {
@@ -33,11 +34,11 @@ namespace XrplTests.Xrpl.Models
             var tx = new Dictionary<string, dynamic>
             {
                 { "TransactionType", "CheckCancel" },
-                {"Account", "rWYkbWkCeg8dP6rXALnjgZSjjLyih5NXm"},
-                {"CheckID", "4964734566545678"}, //todo no check for CheckID size
+                {"Account", "rWYkbWkCeg8dP6rXALnjgZSjjLyih5NXm" },
+                {"CheckID", 4964734566545678 }, //todo no check for CheckID size
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateCheckCancel(tx));
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(tx));
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateCheckCancel(tx));
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(tx));
         }
     }
 

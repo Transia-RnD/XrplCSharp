@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 using System.Collections.Generic;
+using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Methods;
 
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/ledgerData.ts
@@ -37,8 +38,8 @@ namespace Xrpl.Models.Ledger
 
     public class LedgerDataBinaryOrJson
     {
-        [JsonProperty("marker")]
-        public string Data { get; set; }
+        //[JsonProperty("data")]
+        //public string Data { get; set; }
 
         public BaseLedgerEntry LedgerObject { get; set; }
     }

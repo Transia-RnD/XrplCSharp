@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 
 //https://xrpl.org/transaction-types.html
 

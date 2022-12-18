@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Xrpl.Client;
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Methods;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/submit.ts
@@ -50,7 +53,7 @@ namespace Xrpl.Sugar
         public static async Task<Submit> SubmitRequest(IXrplClient client, string signedTransaction, bool failHard)
         {
             //if (!isSigned(signedTransaction)) {
-            //    throw new ValidationError('Transaction must be signed')
+            //    throw new ValidationException('Transaction must be signed')
             //}
 
             //string signedTxEncoded = typeof signedTransaction === 'string' ? signedTransaction : encode(signedTransaction)
@@ -58,7 +61,8 @@ namespace Xrpl.Sugar
             string signedTxEncoded = signedTransaction;
             //SubmitBlobRequest request = new SubmitBlobRequest { Command = "submit", TxBlob = signedTxEncoded, FailHard = isAccountDelete(signedTransaction) || failHard };
             SubmitRequest request = new SubmitRequest { Command = "submit", TxBlob = signedTxEncoded, FailHard = false  };
-            return await client.Submit(request);
+            var response = await client.GRequest<Submit, SubmitRequest>(request);
+            return response;
         }
 
         /// <summary>
@@ -85,7 +89,7 @@ namespace Xrpl.Sugar
 
             if (wallet == null)
             {
-                throw new ValidationError("Wallet must be provided when submitting an unsigned transaction");
+                throw new ValidationException("Wallet must be provided when submitting an unsigned transaction");
             }
             Dictionary<string, dynamic> tx = transaction;
             //let tx =

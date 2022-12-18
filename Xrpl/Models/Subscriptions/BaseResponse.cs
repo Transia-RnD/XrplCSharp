@@ -14,14 +14,8 @@ namespace Xrpl.Models.Subscriptions
         /// (WebSocket only) ID provided in the request that prompted this response
         /// </summary>
         [JsonProperty("id")]
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
-        [JsonProperty("error")]
-        public string Error { get; set; }
-        /// <summary>
-        /// (WebSocket only) The value success indicates the request was successfully received and understood by the server.<br/>
-        /// Some client libraries omit this field on success.
-        /// </summary>
         [JsonProperty("status")]
         public string Status { get; set; }
         /// <summary>
@@ -32,6 +26,18 @@ namespace Xrpl.Models.Subscriptions
         public string Type { get; set; }
         /// <summary>
         /// The result of the query; contents vary depending on the command.
+        /// </summary>
+        [JsonProperty("error")]
+        public string Error { get; set; }
+        /// <summary>
+        /// (WebSocket only) The value success indicates the request was successfully received and understood by the server.<br/>
+        /// Some client libraries omit this field on success.
+        /// </summary>
+        [JsonProperty("error_message")]
+        public string ErrorMessage { get; set; }
+        /// <summary>
+        /// (WebSocket only) The value success indicates the request was successfully received and understood by the server.<br/>
+        /// Some client libraries omit this field on success.
         /// </summary>
         [JsonProperty("result")]
         public object Result { get; set; }

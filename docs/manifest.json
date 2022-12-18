@@ -1553,10 +1553,10 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "reference/Xrpl.Client.Exceptions.ValidationError.yml",
+      "source_relative_path": "reference/Xrpl.Client.Exceptions.ValidationException.yml",
       "output": {
         ".html": {
-          "relative_path": "reference/Xrpl.Client.Exceptions.ValidationError.html",
+          "relative_path": "reference/Xrpl.Client.Exceptions.ValidationException.html",
           "hash": "CAF/Z5DlF4LGN27l+VaJhHF2lT0Rj7HAysTIGbbiOlA="
         }
       },

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection.Metadata;
 using Org.BouncyCastle.Utilities.Encoders;
 using System.Text;
 using Xrpl.Keypairs.Utils;
@@ -12,7 +11,7 @@ namespace Xrpl.Keypairs
         internal static string ConvertStringToHex(this string input)
         {
             var bytes = Encoding.UTF8.GetBytes(input);
-            return Convert.ToHexString(bytes);
+            return Hex.ToHexString(bytes);
         }
 
         internal static string FromHexString(this string input)

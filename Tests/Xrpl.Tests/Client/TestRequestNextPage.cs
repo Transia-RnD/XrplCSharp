@@ -2,13 +2,13 @@
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/client/requestNextPage.ts
 
-namespace XrplTests.Xrpl.ClientLib
+namespace Xrpl.Tests.ClientLib
 {
-    public class TestRequestNextPage
+    public class TestURequestNextPage
     {
-        public TestRequestNextPage()
-        {
-        }
+        //public TestRequestNextPage()
+        //{
+        //}
     }
 }
 

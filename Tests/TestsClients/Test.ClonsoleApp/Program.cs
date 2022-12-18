@@ -1,43 +1,92 @@
 ﻿//See https://aka.ms/new-console-template for more information
 
-using System.Threading.Channels;
-using System;
-
+using System.Net.WebSockets;
+using Newtonsoft.Json;
 using Xrpl.Client;
 using Xrpl.Models.Methods;
 
 Console.WriteLine("Hello, World!");
 
-var server = "wss://xrplcluster.com/";
+//var server = "wss://xrplcluster.com/";
 
-var client = new XrplClient(server);
+//var client = new XrplClient(server);
 
-client.Connect();
-var account_response = await client.AccountChannels(new AccountChannelsRequest("rUtssZDe6QgC3GLxuU6EC1tQ8nYBb5F87b"){Limit = 400});
-var channels = account_response.Channels;
-while (account_response.Marker is not null)
-{
-    account_response = await client.AccountChannels(new AccountChannelsRequest("rUtssZDe6QgC3GLxuU6EC1tQ8nYBb5F87b") { Limit = 50 ,Marker = account_response.Marker});
-    if (account_response.Channels.Count > 0)
-        channels.AddRange(account_response.Channels);
-}
+//client.OnConnected += () =>
+//{
+//    Console.WriteLine("CONNECTED");
+//    return Task.CompletedTask;
+//};
 
-var subscribe = await client.Subscribe(
-    new SubscribeRequest()
-    {
-        Streams = new List<string>(new[]
-        {
-            "transactions",
-        })
-    });
-Console.WriteLine(subscribe);
+//client.OnDisconnect += (code) =>
+//{
+//    Console.WriteLine($"DISCONECTED CODE: {code}");
+//    Console.WriteLine("DISCONECTED");
+//    return Task.CompletedTask;
+//};
 
-client.OnTransaction += Response =>
-{
-    Console.WriteLine(Response.Transaction.TransactionType.ToString());
-};
+//client.OnError += (errorCode, errorMessage, error, data) =>
+//{
+//    Console.WriteLine(errorCode);
+//    Console.WriteLine(errorMessage);
+//    Console.WriteLine(data);
+//    return Task.CompletedTask;
+//};
 
-Console.ReadLine();
+//client.OnTransaction += Response =>
+//{
+//    Console.WriteLine(Response.Transaction.TransactionType.ToString());
+//    return Task.CompletedTask;
+//};
+
+//client.OnLedgerClosed += r =>
+//{
+//    Console.WriteLine("CALLBACK");
+//    Console.WriteLine(r);
+//    return Task.CompletedTask;
+//};
+
+//await client.Connect();
 
 
+//var subscribe = await client.Subscribe(
+//new SubscribeRequest()
+//{
+//    Streams = new List<string>(new[]
+//    {
+//        "ledger",
+//    })
+//});
+
+//Console.ReadLine();
+
+
+//var server = "wss://xrplcluster.com/";
+
+//var client = new WebSocketClient(server);
+
+//client.OnConnected += async (t) =>
+//{
+//    Console.WriteLine("CONNECTED");
+//    var request = new SubscribeRequest()
+//    {
+//        Streams = new List<string>(new[]
+//        {
+//        "ledger",
+//    })
+//    };
+//    var serializerSettings = new JsonSerializerSettings();
+//    serializerSettings.NullValueHandling = NullValueHandling.Ignore;
+//    serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+//    serializerSettings.FloatParseHandling = FloatParseHandling.Double;
+//    serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
+//    string jsonString = JsonConvert.SerializeObject(request, serializerSettings);
+//    await client.Send(jsonString);
+//};
+
+//client.OnMessageReceived += (message) =>
+//{
+//    Console.WriteLine(message);
+//};
+
+//await client.ConnectAsync();
 

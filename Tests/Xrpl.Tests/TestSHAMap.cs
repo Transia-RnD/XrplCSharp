@@ -2,13 +2,13 @@
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/shamap.ts
 
-namespace XrplTests.Xrpl
+namespace Xrpl.Tests
 {
-    public class TestSHAMap
+    public class TestUSHAMap
     {
-        public TestSHAMap()
-        {
-        }
+        //public TestSHAMap()
+        //{
+        //}
     }
 }
 

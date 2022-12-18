@@ -27,28 +27,26 @@ namespace Xrpl.Sugar
         // <returns>The most recently validated ledger index.</returns>
         public async static Task<string> GetFeeXrp(IXrplClient client, double? cushion = null)
         {
-            //double feeCushion = cushion ?? client.feeCushion;
-            double feeCushion = (double)cushion;
-
+            double feeCushion = cushion ?? client.feeCushion;
             ServerInfoRequest request = new ServerInfoRequest();
             ServerInfo serverInfo = await client.ServerInfo(request);
-            double baseFee = serverInfo.Info.ValidatedLedger.BaseFeeXrp;
-            Debug.WriteLine(baseFee);
+            double? baseFee = serverInfo.Info.ValidatedLedger.BaseFeeXrp;
             if (baseFee == null)
             {
-                throw new XrplError("getFeeXrp: Could not get base_fee_xrp from server_info");
+                throw new XrplException("getFeeXrp: Could not get base_fee_xrp from server_info");
             }
-            BigInteger baseFeeXrp = new BigInteger(baseFee);
+            decimal baseFeeXrp = decimal.Parse(baseFee.ToString(), System.Globalization.NumberStyles.AllowExponent);
 
             if (serverInfo.Info.LoadFactor == null)
             {
                 // https://github.com/ripple/rippled/issues/3812#issuecomment-816871100
                 serverInfo.Info.LoadFactor = 1;
             }
-            BigInteger fee = baseFeeXrp * BigInteger.Parse(serverInfo.Info.LoadFactor.ToString()) * BigInteger.Parse(feeCushion.ToString());
+
+            decimal fee = baseFeeXrp * decimal.Parse(serverInfo.Info.LoadFactor.ToString()) * ((decimal)feeCushion);
 
             // Cap fee to `client.maxFeeXRP`
-            fee = BigInteger.Min(fee, BigInteger.Parse(client.MaxFeeXRP));
+            fee = Math.Min(fee, decimal.Parse(client.maxFeeXRP));
             // Round fee to 6 decimal places
             // TODO: Review To Fixed
             return fee.ToString();

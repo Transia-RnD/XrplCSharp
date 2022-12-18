@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 
 namespace XrplTests.Xrpl.Models
 {
@@ -39,8 +40,8 @@ namespace XrplTests.Xrpl.Models
                 {"Sequence", 2470665u},
                 { "Flags", 2147483648u},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateAccountDelete(tx), "AccountDelete: missing field Destination - no ERROR");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(tx), "AccountDelete: missing field Destination - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateAccountDelete(tx), "AccountDelete: missing field Destination - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(tx), "AccountDelete: missing field Destination - no ERROR");
         }
         [TestMethod]
         public async Task TestVerify_Invalid_Destination()
@@ -54,8 +55,8 @@ namespace XrplTests.Xrpl.Models
                 {"Sequence", 2470665u},
                 { "Flags", 2147483648u},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateAccountDelete(tx), "AccountDelete: invalid Destination - no ERROR");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(tx), "AccountDelete: invalid Destination - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateAccountDelete(tx), "AccountDelete: invalid Destination - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(tx), "AccountDelete: invalid Destination - no ERROR");
         }
         [TestMethod]
         public async Task TestVerify_Invalid_DestinationTag()
@@ -70,8 +71,8 @@ namespace XrplTests.Xrpl.Models
                 {"Sequence", 2470665u},
                 { "Flags", 2147483648u},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateAccountDelete(tx), "AccountDelete: invalid DestinationTag - no ERROR");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(tx), "AccountDelete: invalid DestinationTag - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateAccountDelete(tx), "AccountDelete: invalid DestinationTag - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(tx), "AccountDelete: invalid DestinationTag - no ERROR");
         }
 
     }

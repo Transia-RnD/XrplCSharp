@@ -19,12 +19,12 @@ namespace Xrpl.Wallet
         /// </summary>
         /// <param name="txs">An array of signed Transactions (in object or blob form) to combine into a single signed Transaction.</param>
         /// <returns>A single signed Transaction which has all Signers from transactions within it.</returns>
-        /// <throws>        * @throws ValidationError; There were no transactions given to sign. The SigningPubKey field is not the empty string in any given transaction. Any transaction is missing a Signers field.</throws>
+        /// <throws>        * @throws ValidationException; There were no transactions given to sign. The SigningPubKey field is not the empty string in any given transaction. Any transaction is missing a Signers field.</throws>
         public static string Multisign(Dictionary<string, dynamic>[] txs)
         {
             if (txs.Length == 0)
             {
-                throw new ValidationError("There were 0 transactions to multisign");
+                throw new ValidationException("There were 0 transactions to multisign");
             }
             foreach (Dictionary<string, dynamic> i in txs)
             {
@@ -32,11 +32,11 @@ namespace Xrpl.Wallet
                 //TxFormat.Validate(tx);
                 if (tx["Signers"] == null || tx["Signers"].Length == 0)
                 {
-                    throw new ValidationError("For multisigning all transactions must include a Signers field containing an array of signatures. You may have forgotten to pass the 'forMultisign' parameter when signing.");
+                    throw new ValidationException("For multisigning all transactions must include a Signers field containing an array of signatures. You may have forgotten to pass the 'forMultisign' parameter when signing.");
                 }
                 if (tx["SigningPubKey"] != "")
                 {
-                    throw new ValidationError("SigningPubKey must be an empty string for all transactions when multisigning.");
+                    throw new ValidationException("SigningPubKey must be an empty string for all transactions when multisigning.");
                 }
             }
 
@@ -101,7 +101,7 @@ namespace Xrpl.Wallet
         /// </summary>
         /// <param name="transactions">An array of Transactions which are expected to be equal other than 'Signers'.</param>
         /// <returns>Returns true if tx has a valid signature, and returns false otherwise.</returns>
-        /// <throws>ValidationError if the transactions are not equal in any field other than 'Signers'.</throws>
+        /// <throws>ValidationException if the transactions are not equal in any field other than 'Signers'.</throws>
         public static void ValidateTransactionEquivalence(Dictionary<string, dynamic>[] transactions)
         {
             Dictionary<string, dynamic>  exampleTx = transactions[0];
@@ -109,7 +109,7 @@ namespace Xrpl.Wallet
             string exampleTransaction = exampleTx.ToString();
             //if (transactions.Slice(1).Some(tx) != exampleTransaction)
             //{
-            //    throw new ValidationError("txJSON is not the same for all signedTransactions");
+            //    throw new ValidationException("txJSON is not the same for all signedTransactions");
             //}
         }
 

@@ -1,14 +1,14 @@
-﻿
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/client/requestAll.ts
 
-namespace XrplTests.Xrpl.ClientLib
+namespace Xrpl.Tests.ClientLib
 {
-    public class TestRequestAll
+    public class TestURequestAll
     {
-        public TestRequestAll()
-        {
-        }
+        //public TestRequestAll()
+        //{
+        //}
     }
 }
 

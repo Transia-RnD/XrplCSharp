@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/submit.ts
 namespace Xrpl.Models.Methods
@@ -8,7 +8,7 @@ namespace Xrpl.Models.Methods
     /// The submit method applies a transaction and sends it to the network to be  confirmed and included in future ledgers.<br/>
     /// Expects a response in the form of a  <see cref="Submit"/> .
     /// </summary>
-    public class SubmitRequest : RippleRequest
+    public class SubmitRequest : BaseRequest
     {
         public SubmitRequest()
         {

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 
 namespace XrplTests.Xrpl.Models
 {
@@ -78,14 +79,14 @@ namespace XrplTests.Xrpl.Models
 
             // throws w/ missing SignerQuorum
             signerListSetTx.Remove("SignerQuorum");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateSignerListSet(signerListSetTx), "SignerListSet: missing field SignerQuorum");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(signerListSetTx), "SignerListSet: missing field SignerQuorum");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateSignerListSet(signerListSetTx), "SignerListSet: missing field SignerQuorum");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(signerListSetTx), "SignerListSet: missing field SignerQuorum");
             signerListSetTx["RegularKey"] = "rAR8rR8sUkBoCZFawhkWzY4Y5YoyuznwD";
 
             // throws w/ missing SignerEntries
             signerListSetTx["SignerEntries"] = new List<dynamic>();
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateSignerListSet(signerListSetTx), "SignerListSet: need at least 1 member in SignerEntries");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(signerListSetTx), "SignerListSet: need at least 1 member in SignerEntries");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateSignerListSet(signerListSetTx), "SignerListSet: need at least 1 member in SignerEntries");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(signerListSetTx), "SignerListSet: need at least 1 member in SignerEntries");
             signerListSetTx["SignerEntries"] = new List<dynamic>()
             {
                 new Dictionary<string, dynamic>()
@@ -122,8 +123,8 @@ namespace XrplTests.Xrpl.Models
 
             // throws w/ missing SignerEntries
             signerListSetTx["SignerEntries"] = "khgfgyhujk";
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateSignerListSet(signerListSetTx), "SignerListSet: invalid SignerEntries");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(signerListSetTx), "SignerListSet: invalid SignerEntries");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateSignerListSet(signerListSetTx), "SignerListSet: invalid SignerEntries");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(signerListSetTx), "SignerListSet: invalid SignerEntries");
             signerListSetTx["SignerEntries"] = new List<dynamic>()
             {
                 new Dictionary<string, dynamic>()
@@ -210,8 +211,8 @@ namespace XrplTests.Xrpl.Models
 
                     }));
             var error = "SignerListSet: maximum of 32 members allowed in SignerEntries";
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateSignerListSet(signerListSetTx), error);
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(signerListSetTx), error);
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateSignerListSet(signerListSetTx), error);
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(signerListSetTx), error);
             signerListSetTx["SignerEntries"] = new List<dynamic>()
             {
                 new Dictionary<string, dynamic>()
@@ -345,8 +346,8 @@ namespace XrplTests.Xrpl.Models
                     },
                 },
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateSignerListSet(signerListSetTx), "SignerListSet: WalletLocator in SignerEntry must be a 256-bit (32-byte) hexadecimal value");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(signerListSetTx), "SignerListSet: WalletLocator in SignerEntry must be a 256-bit (32-byte) hexadecimal value");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateSignerListSet(signerListSetTx), "SignerListSet: WalletLocator in SignerEntry must be a 256-bit (32-byte) hexadecimal value");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(signerListSetTx), "SignerListSet: WalletLocator in SignerEntry must be a 256-bit (32-byte) hexadecimal value");
             signerListSetTx["SignerEntries"] = new List<dynamic>()
             {
                 new Dictionary<string, dynamic>()

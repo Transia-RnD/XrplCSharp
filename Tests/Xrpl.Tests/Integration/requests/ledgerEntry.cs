@@ -2,6 +2,7 @@
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/requests/ledgerEntry.ts
 
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xrpl.Models.Common;
@@ -23,13 +24,18 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             runner = await new SetupIntegration().SetupClient(ServerUrl.serverUrl);
         }
 
-        [TestMethod]
-        public async Task TestRequestMethod()
-        {
-            LedgerIndex index = new LedgerIndex(LedgerIndexType.Validated);
-            LedgerEntryRequest request = new LedgerEntryRequest();
-            LOLedgerEntry response = await runner.client.LedgerEntry(request);
-            Assert.IsNotNull(response);
-        }
+        //[TestMethod]
+        //public async Task TestRequestMethod()
+        //{
+        //    LedgerIndex li = new LedgerIndex(LedgerIndexType.Validated);
+        //    LedgerDataRequest request1 = new LedgerDataRequest() { LedgerIndex = li };
+        //    LOLedgerData response1 = await runner.client.LedgerData(request1);
+        //    Debug.WriteLine(response1.State[0].LedgerObject);
+        //    string index = response1.State[0].LedgerObject.Index;
+
+        //    LedgerEntryRequest request = new LedgerEntryRequest() { Index = index, LedgerIndex = li };
+        //    LOLedgerEntry response = await runner.client.LedgerEntry(request);
+        //    Assert.IsNotNull(response);
+        //}
     }
 }

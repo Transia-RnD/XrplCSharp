@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 
 namespace XrplTests.Xrpl.Models
 {
@@ -44,31 +45,31 @@ namespace XrplTests.Xrpl.Models
             //throws when both Authorize and Unauthorize are provided
             depositPreauth["Unauthorize"] = "raKEEVSGnKSD9Zyvxu4z6Pqpm4ABH8FS6n";
             depositPreauth["Authorize"] = "rsA2LpzuawewSBQXkiju3YQTMzW13pAAdW";
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateDepositPreauth(depositPreauth), "DepositPreauth: can't provide both Authorize and Unauthorize fields");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(depositPreauth), "DepositPreauth: can't provide both Authorize and Unauthorize fields");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateDepositPreauth(depositPreauth), "DepositPreauth: can't provide both Authorize and Unauthorize fields");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(depositPreauth), "DepositPreauth: can't provide both Authorize and Unauthorize fields");
             depositPreauth.Remove("Authorize");
             depositPreauth.Remove("Unauthorize");
 
             //throws when neither Authorize nor Unauthorize are provided
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateDepositPreauth(depositPreauth), "DepositPreauth: must provide either Authorize or Unauthorize field");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(depositPreauth), "DepositPreauth: must provide either Authorize or Unauthorize field");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateDepositPreauth(depositPreauth), "DepositPreauth: must provide either Authorize or Unauthorize field");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(depositPreauth), "DepositPreauth: must provide either Authorize or Unauthorize field");
 
             //throws when Authorize is not a string
             depositPreauth["Authorize"] = 1234;
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateDepositPreauth(depositPreauth), "DepositPreauth: Authorize must be a string");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(depositPreauth), "DepositPreauth: Authorize must be a string");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateDepositPreauth(depositPreauth), "DepositPreauth: Authorize must be a string");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(depositPreauth), "DepositPreauth: Authorize must be a string");
             depositPreauth.Remove("Authorize");
 
             //throws when Unauthorize is not a string
             depositPreauth["Unauthorize"] = 1234;
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateDepositPreauth(depositPreauth), "DepositPreauth: Unauthorize must be a string");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(depositPreauth), "DepositPreauth: Unauthorize must be a string");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateDepositPreauth(depositPreauth), "DepositPreauth: Unauthorize must be a string");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(depositPreauth), "DepositPreauth: Unauthorize must be a string");
             depositPreauth.Remove("Unauthorize");
 
             //throws when an Account attempts to unauthorize its own address
             depositPreauth["Unauthorize"] = depositPreauth["Authorize"] = "rsA2LpzuawewSBQXkiju3YQTMzW13pAAdW";
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.ValidateDepositPreauth(depositPreauth), "DepositPreauth: Account can't unauthorize its own address");
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(depositPreauth), "DepositPreauth: Account can't unauthorize its own address");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidateDepositPreauth(depositPreauth), "DepositPreauth: Account can't unauthorize its own address");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(depositPreauth), "DepositPreauth: Account can't unauthorize its own address");
             depositPreauth.Remove("Authorize");
             depositPreauth.Remove("Unauthorize");
 

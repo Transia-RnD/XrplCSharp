@@ -5,7 +5,7 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 
 using Xrpl.Client.Exceptions;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/utils/flags.ts
 
@@ -108,7 +108,7 @@ namespace Xrpl.Models.Utils
             {
                 if (!flagEnum.TryGetValue(f, out var e))
                 {
-                    throw new ValidationError($"flag {flags} doesn't exist in flagEnum: {flagEnum}");
+                    throw new ValidationException($"flag {flags} doesn't exist in flagEnum: {flagEnum}");
                 }
 
                 flagEnum.TryGetValue(f, out uint flag);

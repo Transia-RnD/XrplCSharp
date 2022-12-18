@@ -1,12 +1,20 @@
 ﻿
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/testUtils.ts
 
-namespace XrplTests.Xrpl
+using System.Net;
+using System.Net.Sockets;
+
+namespace Xrpl.Tests
 {
     public class TestUtils
     {
-        public TestUtils()
+        static public int GetFreePort()
         {
+            TcpListener l = new TcpListener(IPAddress.Loopback, 0);
+            l.Start();
+            int port = ((IPEndPoint)l.LocalEndpoint).Port;
+            l.Stop();
+            return port;
         }
     }
 }

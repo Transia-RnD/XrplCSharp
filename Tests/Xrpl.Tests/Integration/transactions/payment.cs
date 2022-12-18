@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Xrpl.Models.Common;
-using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 using Xrpl.Wallet;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/transactions/payment.ts
@@ -32,7 +32,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             {
                 Account = runner.wallet.ClassicAddress,
                 Destination = wallet2.ClassicAddress,
-                Amount = new Currency { ValueAsXrp = 10000 }
+                Amount = new Currency { ValueAsXrp = 1 }
             };
             Dictionary<string, dynamic> setupJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(setupTx.ToJson());
             await Utils.TestTransaction(runner.client, setupJson, runner.wallet);
