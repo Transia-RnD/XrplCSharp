@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Xrpl.BinaryCodec.Types;
 using Xrpl.Client.Exceptions;
 
+using static Xrpl.Models.Common.Common;
+
 namespace Xrpl.Models.Transactions
 {
     public class AMMVote : TransactionCommon, IAMMVote
@@ -13,9 +15,9 @@ namespace Xrpl.Models.Transactions
             TransactionType = TransactionType.AMMVote;
         }
         /// <inheritdoc />
-        public Issue Asset { get; set; }
+        public IssuedCurrency Asset { get; set; }
         /// <inheritdoc />
-        public Issue Asset2 { get; set; }
+        public IssuedCurrency Asset2 { get; set; }
         /// <inheritdoc />
         public uint TradingFee { get; set; }
     }
@@ -25,11 +27,11 @@ namespace Xrpl.Models.Transactions
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
-        public Issue Asset { get; set; }
+        public IssuedCurrency Asset { get; set; }
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
-        public Issue Asset2 { get; set; }
+        public IssuedCurrency Asset2 { get; set; }
         /// <summary>
         /// Specifies the fee, in basis point.
         /// Valid values for this field are between 0 and 1000 inclusive.

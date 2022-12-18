@@ -71,10 +71,10 @@ namespace Xrpl.Models.Transactions
         #region Implementation of IAMMWithdraw
 
         /// <inheritdoc />
-        public Issue Asset { get; set; }
+        public IssuedCurrency Asset { get; set; }
 
         /// <inheritdoc />
-        public Issue Asset2 { get; set; }
+        public IssuedCurrency Asset2 { get; set; }
 
         /// <inheritdoc />
         public IssuedCurrencyAmount LPTokenIn { get; set; }
@@ -100,12 +100,12 @@ namespace Xrpl.Models.Transactions
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
-        Issue Asset { get; set; }
+        IssuedCurrency Asset { get; set; }
 
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
-        Issue Asset2 { get; set; }
+        IssuedCurrency Asset2 { get; set; }
 
         /// <summary>
         /// Specifies the amount of shares of the AMM instance pools that the trader

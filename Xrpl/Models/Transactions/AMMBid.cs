@@ -23,9 +23,9 @@ namespace Xrpl.Models.Transactions
         }
 
         /// <inheritdoc />
-        public Issue Asset { get; set; }
+        public Models.Common.Common.IssuedCurrency Asset { get; set; }
         /// <inheritdoc />
-        public Issue Asset2 { get; set; }
+        public Models.Common.Common.IssuedCurrency Asset2 { get; set; }
         /// <inheritdoc />
         public Amount? BidMin { get; set; }
         /// <inheritdoc />
@@ -43,11 +43,11 @@ namespace Xrpl.Models.Transactions
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
-        public Issue Asset { get; set; }
+        public Models.Common.Common.IssuedCurrency Asset { get; set; }
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
-        public Issue Asset2 { get; set; }
+        public Models.Common.Common.IssuedCurrency Asset2 { get; set; }
         /// <summary>
         /// This field represents the minimum price that the bidder wants to pay for the slot.
         /// It is specified in units of LPToken.If specified let BidMin be X and let

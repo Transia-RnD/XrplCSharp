@@ -22,12 +22,12 @@ namespace Xrpl.Models.Methods
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.<br/>
         /// Both asset and asset2 must be defined to specify an AMM instance.
         /// </summary>
-        public Issue Asset { get; set; }
+        public IssuedCurrency Asset { get; set; }
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.<br/>
         /// Both asset and asset2 must be defined to specify an AMM instance.
         /// </summary>
-        public Issue Asset2 { get; set; }
+        public IssuedCurrency Asset2 { get; set; }
     }
 
     public interface IAuthAccount
@@ -90,11 +90,11 @@ namespace Xrpl.Models.Methods
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
-        public Issue Asset { get; set; }
+        public IssuedCurrency Asset { get; set; }
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
-        public Issue Asset2 { get; set; }
+        public IssuedCurrency Asset2 { get; set; }
         /// <summary>
         /// Details of the current owner of the auction slot.
         /// </summary>

@@ -63,10 +63,10 @@ namespace Xrpl.Models.Transactions
             TransactionType = TransactionType.AMMDeposit;
         }
         /// <inheritdoc />
-        public Issue Asset { get; set; }
+        public IssuedCurrency Asset { get; set; }
 
         /// <inheritdoc />
-        public Issue Asset2 { get; set; }
+        public IssuedCurrency Asset2 { get; set; }
 
         /// <inheritdoc />
         public IssuedCurrencyAmount? LPTokenOut { get; set; }
@@ -96,12 +96,12 @@ namespace Xrpl.Models.Transactions
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
-        public Issue Asset { get; set; }
+        public IssuedCurrency Asset { get; set; }
 
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
-        public Issue Asset2 { get; set; }
+        public IssuedCurrency Asset2 { get; set; }
 
         /// <summary>
         /// Specifies the amount of shares of the AMM instance pools that the trader wants to redeem or trade in.
