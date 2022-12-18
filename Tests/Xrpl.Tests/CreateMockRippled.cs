@@ -14,12 +14,12 @@ using Org.BouncyCastle.Asn1.Ocsp;
 using Org.BouncyCastle.Utilities.Net;
 using Xrpl.AddressCodec;
 using Xrpl.Client.Exceptions;
-using XrplTests.Xrpl.MockRippled;
+using Xrpl.Tests.MockRippled;
 using IPAddress = System.Net.IPAddress;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/createMockRippled.ts
 
-namespace XrplTests.Xrpl
+namespace Xrpl.Tests
 {
     public static class Logger
     {
@@ -114,7 +114,7 @@ namespace XrplTests.Xrpl
             return functionOrObject;
         }
 
-        void TestCommand(Client client, Dictionary<string, dynamic> request)
+        void TestCommand(MockClient client, Dictionary<string, dynamic> request)
         {
             JToken jdata = request["data"];
             Dictionary<string, dynamic> data = jdata.ToObject<Dictionary<string, dynamic>>();
@@ -126,7 +126,8 @@ namespace XrplTests.Xrpl
             data.TryGetValue("closeServer", out var closeServer);
             data.TryGetValue("delayedResponseIn", out var delayedResponseIn);
 
-            if (disconnectIn != null) {
+            if (disconnectIn != null)
+            {
                 Dictionary<string, dynamic> response = new Dictionary<string, dynamic>
                 {
                     { "result", new Dictionary<string, dynamic>() {} },
@@ -191,7 +192,7 @@ namespace XrplTests.Xrpl
             }
         }
 
-        void Send(Client client, string message)
+        void Send(MockClient client, string message)
         {
             try
             {
@@ -204,7 +205,7 @@ namespace XrplTests.Xrpl
             }
         }
 
-        void Ping(Client client, Dictionary<string, dynamic> request)
+        void Ping(MockClient client, Dictionary<string, dynamic> request)
         {
             Dictionary<string, dynamic> response = new Dictionary<string, dynamic>
             {

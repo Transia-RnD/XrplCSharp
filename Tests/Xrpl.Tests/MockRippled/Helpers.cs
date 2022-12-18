@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Diagnostics;
 
-namespace XrplTests.Xrpl.MockRippled
+namespace Xrpl.Tests.MockRippled
 {
     /// <summary>
     /// Holds data for a encoded message frame
@@ -64,9 +64,18 @@ namespace XrplTests.Xrpl.MockRippled
             // Get the opcode of the frame
             int opcode = Data[0] - 128;
 
+            //Debug.WriteLine($"0 DATA [1]: {Data[1]}");
+            //Debug.WriteLine($"0 DATA: {Data[1] - 128}");
+            //Debug.WriteLine($"0 DATA LEN: {(Data[1] - 128)}");
+
+            //Debug.WriteLine($"1 DATA [1]: {Data[1]}");
+            //Debug.WriteLine($"1 DATA: {Data[1] - 128}");
+            //Debug.WriteLine($"1 DATA LEN: {BitConverter.ToInt16(new byte[] { Data[3], Data[2] }, 0)}");
+
             // If the length of the message is in the 2 first indexes
             if (Data[1] - 128 <= 125)
             {
+                //Debug.WriteLine("0HERE");
                 int dataLength = (Data[1] - 128);
                 return new SFrameMaskData(dataLength, 2, dataLength + 6, (EOpcodeType)opcode);
             }
@@ -74,6 +83,7 @@ namespace XrplTests.Xrpl.MockRippled
             // If the length of the message is in the following two indexes
             if (Data[1] - 128 == 126)
             {
+                //Debug.WriteLine("1HERE");
                 // Combine the bytes to get the length
                 int dataLength = BitConverter.ToInt16(new byte[] { Data[3], Data[2] }, 0);
                 return new SFrameMaskData(dataLength, 4, dataLength + 8, (EOpcodeType)opcode);
@@ -82,6 +92,7 @@ namespace XrplTests.Xrpl.MockRippled
             // If the data length is in the following 8 indexes
             if (Data[1] - 128 == 127)
             {
+                //Debug.WriteLine("2HERE");
                 // Get the following 8 bytes to combine to get the data 
                 byte[] combine = new byte[8];
                 for (int i = 0; i < 8; i++) combine[i] = Data[i + 2];
@@ -102,33 +113,6 @@ namespace XrplTests.Xrpl.MockRippled
         public static EOpcodeType GetFrameOpcode(byte[] Frame)
         {
             return (EOpcodeType)Frame[0] - 128;
-        }
-
-        /// <summary>Gets the decoded frame data from the given byte array</summary>
-        /// <param name="Data">The byte array to decode</param>
-        /// <returns>The decoded data</returns>
-        public static string GetDataFromFrame(byte[] Data)
-        {
-            // Get the frame data
-            SFrameMaskData frameData = GetFrameData(Data);
-
-            // Get the decode frame key from the frame data
-            byte[] decodeKey = new byte[4];
-            for (int i = 0; i < 4; i++) decodeKey[i] = Data[frameData.KeyIndex + i];
-
-            int dataIndex = frameData.KeyIndex + 4;
-            int count = 0;
-
-            // Decode the data using the key
-            for (int i = dataIndex; i < frameData.TotalLenght; i++)
-            {
-                Data[i] = (byte)(Data[i] ^ decodeKey[count % 4]);
-                count++;
-            }
-
-            // Return the decoded message
-            //Debug.WriteLine($"MOCK SERVER DATA: {Encoding.Default.GetString(Data, dataIndex, frameData.DataLength)}");
-            return Encoding.Default.GetString(Data, dataIndex, frameData.DataLength);
         }
 
         /// <summary>Checks if a byte array is valid</summary>

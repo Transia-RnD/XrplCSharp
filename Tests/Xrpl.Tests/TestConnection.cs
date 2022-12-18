@@ -11,7 +11,7 @@ using static Xrpl.Client.Connection;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/connection.ts
 
-namespace XrplTests.Xrpl
+namespace Xrpl.Tests
 {
 
     [TestClass]

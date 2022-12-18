@@ -10,13 +10,12 @@ using Xrpl.Client;
 using Xrpl.Models.Methods;
 using Xrpl.Models.Subscriptions;
 using Xrpl.Sugar;
-using XrplTests.Xrpl.MockRippled;
 using Timer = System.Timers.Timer;
 
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/client/subscribe.ts
 
-namespace XrplTests.Xrpl.ClientLib
+namespace Xrpl.Tests.ClientLib
 {
     [TestClass]
     public class TestUSubscribe
@@ -150,7 +149,7 @@ namespace XrplTests.Xrpl.ClientLib
     }
 
     [TestClass]
-    public class TestISubscribe
+    public class TestSSubscribe
     {
 
         [TestMethod]
@@ -231,7 +230,7 @@ namespace XrplTests.Xrpl.ClientLib
             serializerSettings.FloatParseHandling = FloatParseHandling.Double;
             serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
             string jsonString = JsonConvert.SerializeObject(request, serializerSettings);
-            await client.connection.WebsocketSendAsync(client.connection.ws, jsonString);
+            client.connection.WebsocketSendAsync(client.connection.ws, jsonString);
 
             Debug.WriteLine($"BEFORE: {DateTime.Now}");
 

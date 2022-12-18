@@ -70,7 +70,7 @@ namespace Xrpl.Client
             var hasTimer = this.timeoutsAwaitingResponse.TryRemove(id, out var timer);
             if (hasTimer)
                 timer.Stop();
-            //Debug.WriteLine(response.Result.ToString());
+
             var deserialized = JsonConvert.DeserializeObject(response.Result.ToString(), taskInfo.Type, serializerSettings);
             var setResult = taskInfo.TaskCompletionResult.GetType().GetMethod("TrySetResult");
             setResult.Invoke(taskInfo.TaskCompletionResult, new[] { deserialized });

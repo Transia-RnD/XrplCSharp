@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-//https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/serverInfo.ts
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/serverInfo.ts
 
 namespace Xrpl.Models.Methods
 {
@@ -27,7 +27,7 @@ namespace Xrpl.Models.Methods
     /// The possible responses follow a range of ascending interaction, with each later value superseding the previous one.<br/>
     /// <a>https://xrpl.org/rippled-server-states.html</a>
     /// </summary>
-    public enum ServerState
+    public enum ServerStateInner
     {
         /// <summary>
         /// The server is not connected to the XRP Ledger peer-to-peer network whatsoever.<br/>
@@ -156,7 +156,7 @@ namespace Xrpl.Models.Methods
         /// </summary>
         [JsonProperty("server_state")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public ServerState ServerState { get; set; }
+        public ServerStateInner ServerState { get; set; }
 
         /// <summary>
         /// A map of various server states with information about the time the   server spends in each.<br/>

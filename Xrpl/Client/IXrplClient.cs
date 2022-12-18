@@ -79,6 +79,10 @@ namespace Xrpl.Client
         /// <param name="request">An <see cref="ServerInfoRequest"/> request.</param>
         /// <returns>A <see cref="ServerInfo"/> response.</returns>
         Task<ServerInfo> ServerInfo(ServerInfoRequest request);
+        /// <summary> The server_state command asks the server for a human-readable version of various information about the rippled server being queried. </summary>
+        /// <param name="request">An <see cref="ServerStateRequest"/> request.</param>
+        /// <returns>A <see cref="ServerState"/> response.</returns>
+        Task<ServerState> ServerState(ServerStateRequest request);
         /// <summary> The fee command reports the current state of the open-ledger requirements for the transaction cost. </summary>
         /// <param name="request">An <see cref="FeeRequest"/> request.</param>
         /// <returns>An <see cref="Models.Methods.Fee"/> response.</returns>
@@ -523,10 +527,10 @@ namespace Xrpl.Client
             return this.GRequest<ServerInfo, ServerInfoRequest>(request);
         }
 
-        //public Task<ServerState> ServerState(ServerStateRequest request)
-        //{
-        //    return this.GRequest<object, PingRequest>(request);
-        //}
+        public Task<ServerState> ServerState(ServerStateRequest request)
+        {
+            return this.GRequest<ServerState, ServerStateRequest>(request);
+        }
 
         /// <inheritdoc />
         //public Task<Submit> Submit(SubmitRequest request)

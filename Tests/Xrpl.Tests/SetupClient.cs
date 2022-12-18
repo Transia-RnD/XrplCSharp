@@ -7,7 +7,7 @@ using Xrpl.Client.Exceptions;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/setupClient.ts
 
-namespace XrplTests.Xrpl
+namespace Xrpl.Tests
 {
     public class SetupUnitClient
     {

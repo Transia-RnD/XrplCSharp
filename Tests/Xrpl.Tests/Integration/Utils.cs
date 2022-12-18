@@ -25,7 +25,6 @@ namespace XrplTests.Xrpl.ClientLib.Integration
         public static async Task LedgerAccept(IXrplClient client)
         {
             var request = new BaseRequest { Command = "ledger_accept" };
-            //await client.connection.request(request);
             await client.AnyRequest(request);
         }
 
