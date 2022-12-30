@@ -250,7 +250,7 @@ namespace Xrpl.Models.Transactions
         /// <inheritdoc />
         public uint? LastLedgerSequence { get; set; }
         /// <inheritdoc />
-        public List<Memo> Memos { get; set; }
+        public List<MemoWrapper> Memos { get; set; }
         /// <inheritdoc />
         public uint? Sequence { get; set; }
         /// <inheritdoc />
@@ -575,7 +575,7 @@ namespace Xrpl.Models.Transactions
         /// <summary>
         /// Additional arbitrary information used to identify this transaction.
         /// </summary>
-        List<Memo> Memos { get; set; }
+        List<MemoWrapper> Memos { get; set; }
 
         /// <summary>
         /// Transaction metadata is a section of data that gets added to a transaction after it is processed.<br/>
@@ -653,7 +653,7 @@ namespace Xrpl.Models.Transactions
         public uint? LastLedgerSequence { get; set; }
 
         /// <inheritdoc/>
-        public List<Memo> Memos { get; set; }
+        public List<MemoWrapper> Memos { get; set; }
         /// <inheritdoc/>
         public uint? Sequence { get; set; }
         /// <inheritdoc/>
