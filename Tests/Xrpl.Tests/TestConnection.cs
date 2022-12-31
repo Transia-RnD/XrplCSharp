@@ -57,7 +57,7 @@ namespace Xrpl.Tests
 
         [TestMethod]
         [ExpectedException(typeof(NotConnectedException))]
-        public async void TestNotConnectedException()
+        public async Task TestNotConnectedException()
         {
             ConnectionOptions options = new ConnectionOptions();
             Connection connection = new Connection("url", options);
