@@ -5,7 +5,7 @@ name: .NET CI
 
 on:
   push:
-    branches: [ main, 1.x ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -13,34 +13,34 @@ on:
 jobs:
   build-and-lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet: [ '6.0.x' ]
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use .NET "6.0.x"
-      uses: actions/setup-dotnet@v1
+    - name: Use .NET "${{ matrix.dotnet }}"
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
+        dotnet-version: ${{ matrix.dotnet }}
     - name: Build
-      run: dotnet build --no-restore
-    # MISSING LINT
+      run: dotnet build
+    # - name: Lint
+    #   run: dotnet lint
 
   unit:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use .NET "6.0.x"
-      uses: actions/setup-dotnet@v1
+    - name: Use .NET "${{ matrix.dotnet }}"
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
+        dotnet-version: ${{ matrix.dotnet }}
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build
     - name: Test Unit
-      run: dotnet test --no-build --verbosity normal --filter "TestU"
+      run: dotnet test --verbosity normal --filter "TestU"
 
   integration:
     runs-on: ubuntu-latest
@@ -55,16 +55,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use .NET "6.0.x"
-      uses: actions/setup-dotnet@v1
+    - name: Use .NET "${{ matrix.dotnet }}"
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: ${{ matrix.dotnet }}
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build
     - name: Test Unit
-      run: dotnet test --no-build --verbosity normal --filter "TestI"
+      run: dotnet test --verbosity normal --filter "TestI"
       env:
         HOST: localhost
         PORT: ${{ job.services.rippled.ports['6006'] }}
