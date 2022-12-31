@@ -22,7 +22,7 @@ dotnet --version
 ### Build
 
 ```bash
-dotnet build --no-restore
+dotnet build
 ```
 
 ## Run the linter
@@ -31,31 +31,23 @@ dotnet build --no-restore
 dotnet lint
 ```
 
-## Running Tests
-For integration tests, we use a `rippled` node in standalone mode to test XRPLSwift code against. To set this up, you can either run `rippled` locally, or set up the Docker container `natenichols/rippled-standalone:latest` for this purpose. The latter will require you to [install Docker](https://docs.docker.com/get-docker/).
-
 ### Unit Tests
 
 ```bash
-dotnet build --no-restore
-dotnet test --no-build --verbosity normal --filter "TestU"
+dotnet build
+dotnet test --verbosity normal --filter "TestU"
 ```
 
 ### Integration Tests
 
-Single
-
-```bash
-dotnet test --no-build --verbosity normal --filter "TestITrustSet"
-```
-
-All
+## Running Tests
+For integration tests, we use a `rippled` node in standalone mode to test XRPLSwift code against. To set this up, you can either run `rippled` locally, or set up the Docker container `natenichols/rippled-standalone:latest` for this purpose. The latter will require you to [install Docker](https://docs.docker.com/get-docker/).
 
 ```bash
 # sets up the rippled standalone Docker container - you can skip this step if you already have it set up
 docker run -p 6006:6006 -it natenichols/rippled-standalone:latest
-dotnet build --no-restore
-dotnet test --no-build --verbosity normal --filter "TestI"
+dotnet build
+dotnet test--verbosity normal --filter "TestI"
 ```
 
 ## Generate reference docs
