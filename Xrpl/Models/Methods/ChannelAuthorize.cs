@@ -26,7 +26,7 @@ namespace Xrpl.Models.Methods
     /// 	"amount": "1000000",
     /// }
     /// </code>
-    public class ChannelAuthorizeRequest : RippleRequest
+    public class ChannelAuthorizeRequest : BaseRequest
     {
         public ChannelAuthorizeRequest()
         {

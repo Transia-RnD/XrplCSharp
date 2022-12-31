@@ -119,7 +119,7 @@ namespace Xrpl.Wallet
 
             if (tx.ContainsKey("TxnSignature") || tx.ContainsKey("Signers"))
             {
-                new ValidationError("txJSON must not contain `TxnSignature` or `Signers` properties");
+                new ValidationException("txJSON must not contain `TxnSignature` or `Signers` properties");
             }
 
             JObject txToSignAndEncode = JToken.FromObject(transaction).ToObject<JObject>();

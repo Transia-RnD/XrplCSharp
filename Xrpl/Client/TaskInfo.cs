@@ -2,7 +2,7 @@
 
 namespace Xrpl.Client
 {
-    internal class TaskInfo
+    public class TaskInfo
     {
         public Guid TaskId { get; set; }
 
@@ -17,5 +17,4 @@ namespace Xrpl.Client
             RemoveUponCompletion = true;
         }
     }
-    
 }

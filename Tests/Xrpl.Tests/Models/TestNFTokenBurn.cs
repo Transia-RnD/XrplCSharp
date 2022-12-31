@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 
 namespace XrplTests.Xrpl.Models
 {
@@ -47,7 +48,7 @@ namespace XrplTests.Xrpl.Models
                 {"Sequence", 2470665u},
                 {"Flags", 2147483648u},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(offer), "NFTokenBurn: missing field NFTokenID - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(offer), "NFTokenBurn: missing field NFTokenID - no ERROR");
         }
     }
 }

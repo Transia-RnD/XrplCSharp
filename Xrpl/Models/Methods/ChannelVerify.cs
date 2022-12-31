@@ -20,7 +20,7 @@ namespace Xrpl.Models.Methods
     /// 	"amount": "1000000"
     /// }
     /// </code>
-    public class ChannelVerifyRequest : RippleRequest
+    public class ChannelVerifyRequest : BaseRequest
     {
         public ChannelVerifyRequest()
         {

@@ -10441,25 +10441,25 @@ references:
   commentId: T:Xrpl.Client.Exceptions.UnexpectedError
   fullName: Xrpl.Client.Exceptions.UnexpectedError
   nameWithType: UnexpectedError
-- uid: Xrpl.Client.Exceptions.ValidationError
-  name: ValidationError
-  href: reference/Xrpl.Client.Exceptions.ValidationError.html
-  commentId: T:Xrpl.Client.Exceptions.ValidationError
-  fullName: Xrpl.Client.Exceptions.ValidationError
-  nameWithType: ValidationError
-- uid: Xrpl.Client.Exceptions.ValidationError.#ctor(System.String)
-  name: ValidationError(String)
-  href: reference/Xrpl.Client.Exceptions.ValidationError.html#Xrpl_Client_Exceptions_ValidationError__ctor_System_String_
-  commentId: M:Xrpl.Client.Exceptions.ValidationError.#ctor(System.String)
-  fullName: Xrpl.Client.Exceptions.ValidationError.ValidationError(System.String)
-  nameWithType: ValidationError.ValidationError(String)
-- uid: Xrpl.Client.Exceptions.ValidationError.#ctor*
-  name: ValidationError
-  href: reference/Xrpl.Client.Exceptions.ValidationError.html#Xrpl_Client_Exceptions_ValidationError__ctor_
-  commentId: Overload:Xrpl.Client.Exceptions.ValidationError.#ctor
+- uid: Xrpl.Client.Exceptions.ValidationException
+  name: ValidationException
+  href: reference/Xrpl.Client.Exceptions.ValidationException.html
+  commentId: T:Xrpl.Client.Exceptions.ValidationException
+  fullName: Xrpl.Client.Exceptions.ValidationException
+  nameWithType: ValidationException
+- uid: Xrpl.Client.Exceptions.ValidationException.#ctor(System.String)
+  name: ValidationException(String)
+  href: reference/Xrpl.Client.Exceptions.ValidationException.html#Xrpl_Client_Exceptions_ValidationException__ctor_System_String_
+  commentId: M:Xrpl.Client.Exceptions.ValidationException.#ctor(System.String)
+  fullName: Xrpl.Client.Exceptions.ValidationException.ValidationException(System.String)
+  nameWithType: ValidationException.ValidationException(String)
+- uid: Xrpl.Client.Exceptions.ValidationException.#ctor*
+  name: ValidationException
+  href: reference/Xrpl.Client.Exceptions.ValidationException.html#Xrpl_Client_Exceptions_ValidationException__ctor_
+  commentId: Overload:Xrpl.Client.Exceptions.ValidationException.#ctor
   isSpec: "True"
-  fullName: Xrpl.Client.Exceptions.ValidationError.ValidationError
-  nameWithType: ValidationError.ValidationError
+  fullName: Xrpl.Client.Exceptions.ValidationException.ValidationException
+  nameWithType: ValidationException.ValidationException
 - uid: Xrpl.Client.Exceptions.XrplError
   name: XrplError
   href: reference/Xrpl.Client.Exceptions.XrplError.html

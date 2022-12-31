@@ -207,7 +207,7 @@ namespace Xrpl.Wallet
                     { "contentType", response.Content.Headers.GetValues("Content-Type").First() },
                     { "body", body },
                 };
-                return await Task.FromException<Funded>(new XRPLFaucetError($"Content type is not application json {errorResponse.ToString()}"));
+                return await Task.FromException<Funded>(new XRPLFaucetException($"Content type is not application json {errorResponse.ToString()}"));
             }
         }
 
@@ -222,7 +222,7 @@ namespace Xrpl.Wallet
             string classicAddress = faucetWallet.Account.ClassicAddress;
             if (classicAddress == null)
             {
-                return await Task.FromException<Funded>(new XRPLFaucetError("The faucet account is undefined"));
+                return await Task.FromException<Funded>(new XRPLFaucetException("The faucet account is undefined"));
             }
             try
             {
@@ -248,14 +248,14 @@ namespace Xrpl.Wallet
                 }
                 else
                 {
-                    throw new XRPLFaucetError($"Unable to fund address with faucet after waiting {INTERVAL_SECONDS} * {MAX_ATTEMPTS} seconds");
+                    throw new XRPLFaucetException($"Unable to fund address with faucet after waiting {INTERVAL_SECONDS} * {MAX_ATTEMPTS} seconds");
                 }
             }
             catch (Exception err)
             {
                 if (err is Exception)
                 {
-                    return await Task.FromException<Funded>(new XRPLFaucetError(err.Message));
+                    return await Task.FromException<Funded>(new XRPLFaucetException(err.Message));
                 }
                 return await Task.FromException<Funded>(err);
             }
@@ -301,11 +301,11 @@ namespace Xrpl.Wallet
             catch (InvalidCastException err)
             {
                 aTimer.Enabled = false;
-                if (err is RippledError)
+                if (err is RippledException)
                 {
-                    throw new XRPLFaucetError($"Unable to check if the address {_address} balance has increased.Error: {"err.message"}");
+                    throw new XRPLFaucetException($"Unable to check if the address {_address} balance has increased.Error: {"err.message"}");
                 }
-                throw new XRPLFaucetError($"Unable to check if the address {_address} balance has increased.Error: {"err.message"}");
+                throw new XRPLFaucetException($"Unable to check if the address {_address} balance has increased.Error: {"err.message"}");
             }
         }
 
@@ -332,7 +332,7 @@ namespace Xrpl.Wallet
 
         public static string GetFaucetHost(XrplClient client)
         {
-            string connectionUrl = client.url;
+            string connectionUrl = client.Url();
             // 'altnet' for Ripple Testnet server and 'testnet' for XRPL Labs Testnet server
             if (connectionUrl.Contains("altnet") || connectionUrl.Contains("testnet"))
             {
@@ -349,7 +349,7 @@ namespace Xrpl.Wallet
                 return FaucetNetwork.NFTDevnet;
             }
 
-            throw new XRPLFaucetError("Faucet URL is not defined or inferrable.");
+            throw new XRPLFaucetException("Faucet URL is not defined or inferrable.");
         }
     }
 }

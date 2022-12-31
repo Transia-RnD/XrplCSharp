@@ -7,24 +7,26 @@ using Xrpl.Client;
 using Xrpl.Client.Exceptions;
 using Xrpl.Wallet;
 
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/wallet/fundWallet.ts
+
 namespace Xrpl.Tests.Wallet.Tests
 {
     [TestClass]
-    public class FundWalletTests
+    public class TestUFundWallet
     {
-        [TestMethod]
+        //[TestMethod]
         public async Task TestUFaucetHostsAsync()
         {
             string serverUrl = "wss://s.altnet.rippletest.net:51233";
             XrplClient client = new XrplClient(serverUrl);
-            client.Connect();
+            await client.Connect();
             XrplWallet wallet = XrplWallet.Generate();
             await WalletSugar.FundWallet(client, wallet);
         }
     }
 
     [TestClass]
-    public class TestTimer
+    public class TestUTimer
     {
 
         private static int attempts = 1;
@@ -56,7 +58,7 @@ namespace Xrpl.Tests.Wallet.Tests
                 }
                 catch (RippleException err)
                 {
-                    Debug.WriteLine(err);
+                    Console.WriteLine(err);
                     /* newBalance remains undefined */
                 }
                 if (newBalance > _originalBalance)
@@ -68,11 +70,11 @@ namespace Xrpl.Tests.Wallet.Tests
             catch (InvalidCastException err)
             {
                 aTimer.Enabled = false;
-                if (err is RippledError)
+                if (err is RippledException)
                 {
-                    throw new XRPLFaucetError($"Unable to check if the address {_address} balance has increased.Error: {"err.message"}");
+                    throw new XRPLFaucetException($"Unable to check if the address {_address} balance has increased.Error: {"err.message"}");
                 }
-                throw new XRPLFaucetError($"Unable to check if the address {_address} balance has increased.Error: {"err.message"}");
+                throw new XRPLFaucetException($"Unable to check if the address {_address} balance has increased.Error: {"err.message"}");
             }
         }
 
@@ -98,12 +100,12 @@ namespace Xrpl.Tests.Wallet.Tests
 
         }
 
-        [TestMethod]
-        public async Task TestUTimer()
+        //[TestMethod]
+        public async Task TestTimer()
         {
             string serverUrl = "wss://s.altnet.rippletest.net:51233";
             XrplClient client = new XrplClient(serverUrl);
-            client.Connect();
+            await client.Connect();
             XrplWallet wallet = XrplWallet.Generate();
             await GetUpdatedBalance(client, wallet.ClassicAddress, 0);
         }

@@ -88,15 +88,15 @@ namespace XrplTests.Xrpl.Utils
         [TestMethod]
         public void TestInvalidXrpToDropsDecimalError()
         {
-            Assert.ThrowsException<ValidationError>(() => XrpConversion.XrpToDrops("1.1234567"));
-            Assert.ThrowsException<ValidationError>(() => XrpConversion.XrpToDrops("0.0000001"));
+            Assert.ThrowsException<ValidationException>(() => XrpConversion.XrpToDrops("1.1234567"));
+            Assert.ThrowsException<ValidationException>(() => XrpConversion.XrpToDrops("0.0000001"));
         }
 
         [TestMethod]
         public void TestInvalidXrpToDropsValueError()
         {
             Assert.ThrowsException<FormatException>(() => XrpConversion.XrpToDrops("FOO"));
-            Assert.ThrowsException<ValidationError>(() => XrpConversion.XrpToDrops("1e-7"));
+            Assert.ThrowsException<ValidationException>(() => XrpConversion.XrpToDrops("1e-7"));
             Assert.ThrowsException<FormatException>(() => XrpConversion.XrpToDrops("2,0"));
             Assert.ThrowsException<FormatException>(() => XrpConversion.XrpToDrops("."));
         }

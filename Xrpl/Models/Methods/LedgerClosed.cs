@@ -12,7 +12,7 @@ namespace Xrpl.Models.Methods
     ///     "command": "ledger_current"
     /// }  ```.
     /// </code>
-    public class LedgerClosedRequest : RippleRequest
+    public class LedgerClosedRequest : BaseRequest
     {
         public LedgerClosedRequest()
         {

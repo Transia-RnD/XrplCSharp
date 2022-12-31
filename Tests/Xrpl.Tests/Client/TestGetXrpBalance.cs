@@ -2,13 +2,13 @@
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/client/getXrpBalance.ts
 
-namespace XrplTests.Xrpl.ClientLib
+namespace Xrpl.Tests.ClientLib
 {
-    public class TestGetXrpBalance
+    public class TestUGetXrpBalance
     {
-        public TestGetXrpBalance()
-        {
-        }
+        //public TestGetXrpBalance()
+        //{
+        //}
     }
 }
 

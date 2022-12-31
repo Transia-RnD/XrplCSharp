@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Xrpl.Client.Exceptions;
 
 using Xrpl.Models.Transaction;
+using Xrpl.Models.Transactions;
 using Xrpl.Utils;
 
 //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/models/NFTokenMint.ts
@@ -51,7 +52,7 @@ namespace XrplTests.Xrpl.Models
                 {"TransferFee", 1},
                 {"URI", "http://xrpl.org".ConvertStringToHex()},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(offer), "NFTokenMint: missing field NFTokenTaxon - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(offer), "NFTokenMint: missing field NFTokenTaxon - no ERROR");
         }
         [TestMethod]
         public async Task TestVerify_Invalid_Account_is_Issuer()
@@ -68,7 +69,7 @@ namespace XrplTests.Xrpl.Models
                 {"TransferFee", 1},
                 {"URI", "http://xrpl.org".ConvertStringToHex()},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(offer), "NFTokenMint: Issuer must not be equal to Account - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(offer), "NFTokenMint: Issuer must not be equal to Account - no ERROR");
         }
         [TestMethod]
         public async Task TestVerify_Invalid_URI_not_in_hex_format()
@@ -85,7 +86,7 @@ namespace XrplTests.Xrpl.Models
                 {"TransferFee", 1},
                 {"URI", "http://xrpl.org"},
             };
-            await Assert.ThrowsExceptionAsync<ValidationError>(() => Validation.Validate(offer), "NFTokenMint:  URI must be in hex format - no ERROR");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(offer), "NFTokenMint:  URI must be in hex format - no ERROR");
         }
     }
 
