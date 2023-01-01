@@ -15,8 +15,8 @@ namespace XrplTests.Xrpl.ClientLib.Integration
 
         public async Task<SetupIntegration> SetupClient(string serverUrl)
         {
-            wallet = XrplWallet.Generate();
-            var promise = new TaskCompletionSource();
+            //wallet = XrplWallet.Generate();
+            wallet = XrplWallet.FromSeed("sEdVde8yawSEXuUGK2sQqQc5XMdqLp5");
             client = new XrplClient(serverUrl);
             client.OnConnected += () =>
             {
@@ -34,7 +34,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
                 return Task.CompletedTask;
             };
             await client.Connect();
-            await Utils.FundAccount(client, wallet);
+            await Utils.FundNative(client, wallet);
             return this;
         }
     }

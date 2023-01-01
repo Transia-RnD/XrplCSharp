@@ -1,16 +1,22 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xrpl.Models.Methods;
+
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+
+using Xrpl.Models.Common;
+using Xrpl.Models.Methods;
 using Xrpl.Client;
 using Xrpl.Models.Transactions;
 using Xrpl.Utils.Hashes;
 using Xrpl.Wallet;
 using ICurrency = Xrpl.Models.Common.Currency;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+using System.Diagnostics;
+using Xrpl.BinaryCodec.Types;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/integration/utils.ts
 
@@ -28,7 +34,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             await client.AnyRequest(request);
         }
 
-        public static async Task FundAccount(IXrplClient client, XrplWallet wallet)
+        public static async Task FundNative(IXrplClient client, XrplWallet wallet)
         {
             Payment payment = new Payment
             {
@@ -47,10 +53,135 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             await VerifySubmittedTransaction(client, response.TxJson);
         }
 
+        /// <summary> currency with issuer </summary>
+        public class IntegrationIC
+        {
+            public string Issuer { get; set; }
+            public string IOAccount { get; set; }
+            public string IOSeed { get; set; }
+        }
+
+        public static async Task<IntegrationIC> IssueIC(IXrplClient client)
+        {
+            XrplWallet cold = XrplWallet.Generate();
+            XrplWallet hot = XrplWallet.Generate();
+            await FundNative(client, cold);
+            await FundNative(client, hot);
+            // ACCOUNT SET
+            AccountSet atx = new AccountSet
+            {
+                Account = cold.ClassicAddress,
+                SetFlag = 8
+            };
+            Dictionary<string, dynamic> atxJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(atx.ToJson());
+            Submit aresponse = await client.Submit(atxJson, cold);
+            if (aresponse.EngineResult != "tesSUCCESS")
+            {
+                throw new Exception($"Response not successful, {aresponse.EngineResult}");
+            }
+            await LedgerAccept(client);
+            aresponse.TxJson.Property("hash").Remove();
+            await VerifySubmittedTransaction(client, aresponse.TxJson);
+
+            // TRUSTLINE
+            TrustSet tltx = new TrustSet
+            {
+                Account = hot.ClassicAddress,
+                LimitAmount = new ICurrency
+                {
+                    CurrencyCode = "USD",
+                    Issuer = cold.ClassicAddress,
+                    Value = "10000000000"
+                }
+            };
+            Dictionary<string, dynamic> tltxJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tltx.ToJson());
+            Submit tlresponse = await client.Submit(tltxJson, hot);
+            if (tlresponse.EngineResult != "tesSUCCESS")
+            {
+                throw new Exception($"Response not successful, {tlresponse.EngineResult}");
+            }
+            await LedgerAccept(client);
+            tlresponse.TxJson.Property("hash").Remove();
+            await VerifySubmittedTransaction(client, tlresponse.TxJson);
+
+            // PAYMENT
+            Payment ptx = new Payment
+            {
+                Account = cold.ClassicAddress,
+                Destination = hot.ClassicAddress,
+                Amount = new ICurrency
+                {
+                    Value = "400000",
+                    CurrencyCode = "USD",
+                    Issuer = cold.ClassicAddress
+                }
+            };
+            Dictionary<string, dynamic> ptxJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(ptx.ToJson());
+            Submit presponse = await client.Submit(ptxJson, cold);
+            if (presponse.EngineResult != "tesSUCCESS")
+            {
+                throw new Exception($"Response not successful, {presponse.EngineResult}");
+            }
+            await LedgerAccept(client);
+            presponse.TxJson.Property("hash").Remove();
+            await VerifySubmittedTransaction(client, presponse.TxJson);
+            return new IntegrationIC()
+            {
+                Issuer = cold.ClassicAddress,
+                IOAccount = hot.ClassicAddress,
+                IOSeed = hot.Seed,
+            };
+        }
+
+        public static async Task FundIC(IXrplClient client, XrplWallet wallet, IntegrationIC ic)
+        {
+            // TRUSTLINE
+            TrustSet tltx = new TrustSet
+            {
+                Account = wallet.ClassicAddress,
+                LimitAmount = new ICurrency
+                {
+                    CurrencyCode = "USD",
+                    Issuer = ic.Issuer,
+                    Value = "10000000000"
+                }
+            };
+            Dictionary<string, dynamic> tltxJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tltx.ToJson());
+            Submit tlresponse = await client.Submit(tltxJson, wallet);
+            if (tlresponse.EngineResult != "tesSUCCESS")
+            {
+                throw new Exception($"Response not successful, {tlresponse.EngineResult}");
+            }
+            await LedgerAccept(client);
+            tlresponse.TxJson.Property("hash").Remove();
+            await VerifySubmittedTransaction(client, tlresponse.TxJson);
+
+            // PAYMENT
+            Payment ptx = new Payment
+            {
+                Account = ic.IOAccount,
+                Destination = wallet.ClassicAddress,
+                Amount = new ICurrency {
+                    Value = "1000",
+                    CurrencyCode = "USD",
+                    Issuer = ic.Issuer
+                }
+            };
+            Dictionary<string, dynamic> ptxJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(ptx.ToJson());
+            Submit presponse = await client.Submit(ptxJson, XrplWallet.FromSeed(ic.IOSeed));
+            if (presponse.EngineResult != "tesSUCCESS")
+            {
+                throw new Exception($"Response not successful, {presponse.EngineResult}");
+            }
+            await LedgerAccept(client);
+            presponse.TxJson.Property("hash").Remove();
+            await VerifySubmittedTransaction(client, presponse.TxJson);
+        }
+
         public static async Task<XrplWallet> GenerateFundedWallet(IXrplClient client)
         {
             XrplWallet wallet = XrplWallet.Generate();
-            await FundAccount(client, wallet);
+            await FundNative(client, wallet);
             return wallet;
         }
 

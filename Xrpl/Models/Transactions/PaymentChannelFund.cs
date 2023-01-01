@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
+using Xrpl.Models.Common;
 using Xrpl.Client.Exceptions;
 using Xrpl.Client.Json.Converters;
 
@@ -23,7 +24,7 @@ namespace Xrpl.Models.Transactions
         public string Channel { get; set; }
 
         /// <inheritdoc />
-        public string Amount { get; set; }
+        public Currency Amount { get; set; }
 
         /// <inheritdoc />
         [JsonConverter(typeof(RippleDateTimeConverter))]
@@ -40,7 +41,7 @@ namespace Xrpl.Models.Transactions
         /// Amount of XRP in drops to add to the channel.<br/>
         /// Must be a positive amount of XRP.
         /// </summary>
-        string Amount { get; set; }
+        Currency Amount { get; set; }
         /// <summary>
         /// The unique ID of the channel to fund as a 64-character hexadecimal string.
         /// </summary>
@@ -60,7 +61,7 @@ namespace Xrpl.Models.Transactions
     public class PaymentChannelFundResponse : TransactionResponseCommon, IPaymentChannelFund
     {
         /// <inheritdoc />
-        public string Amount { get; set; }
+        public Currency Amount { get; set; }
 
         /// <inheritdoc />
         public string Channel { get; set; }
@@ -88,8 +89,8 @@ namespace Xrpl.Models.Transactions
                 throw new ValidationException("PaymentChannelFund: Channel must be a string");
             if (!tx.TryGetValue("Amount", out var Amount) || Amount is null)
                 throw new ValidationException("PaymentChannelFund: missing Amount");
-            if (Amount is not string)
-                throw new ValidationException("PaymentChannelFund: Amount must be a string");
+            if (Amount is not Currency)
+                throw new ValidationException("PaymentChannelFund: Amount must be a Currency");
             if (tx.TryGetValue("Expiration", out var Expiration) && Expiration is not uint)
                 throw new ValidationException("PaymentChannelFund: Expiration must be a number");
         }

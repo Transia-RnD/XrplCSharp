@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
+using Xrpl.Models.Common;
 using Xrpl.Client.Exceptions;
 using Xrpl.Client.Json.Converters;
 
@@ -20,7 +21,7 @@ namespace Xrpl.Models.Transactions
         }
 
         /// <inheritdoc />
-        public string Amount { get; set; }
+        public Currency Amount { get; set; }
 
         /// <inheritdoc />
         public string Destination { get; set; }
@@ -53,7 +54,7 @@ namespace Xrpl.Models.Transactions
         /// While the channel is open, the XRP can only go to the Destination address.<br/>
         /// When the channel closes, any unclaimed XRP is returned to the source address's balance.
         /// </summary>
-        string Amount { get; set; }
+        Currency Amount { get; set; }
         /// <summary>
         /// The time, in seconds since the Ripple Epoch, when this channel expires.<br/>
         /// Any transaction that would modify the channel after this time closes the channel without otherwise affecting it.<br/>
@@ -89,7 +90,7 @@ namespace Xrpl.Models.Transactions
     public class PaymentChannelCreateResponse : TransactionResponseCommon, IPaymentChannelCreate
     {
         /// <inheritdoc />
-        public string Amount { get; set; }
+        public Currency Amount { get; set; }
 
         /// <inheritdoc />
         public string Destination { get; set; }
@@ -125,8 +126,8 @@ namespace Xrpl.Models.Transactions
 
             if (!tx.TryGetValue("Amount", out var Amount) || Amount is null)
                 throw new ValidationException("PaymentChannelCreate: missing field Amount");
-            if (Amount is not string)
-                throw new ValidationException("PaymentChannelCreate: Amount must be a string");
+            if (Amount is not Currency)
+                throw new ValidationException("PaymentChannelCreate: Amount must be a Currency");
             if (!tx.TryGetValue("Destination", out var Destination) || Destination is null)
                 throw new ValidationException("PaymentChannelCreate: missing field Destination");
             if (Destination is not string)

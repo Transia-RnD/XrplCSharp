@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Xrpl.Models.Common;
 using Xrpl.Client.Exceptions;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelClaim.ts
@@ -46,7 +47,7 @@ namespace Xrpl.Models.Transactions
         public string Balance { get; set; }
 
         /// <inheritdoc />
-        public string Amount { get; set; }
+        public Currency Amount { get; set; }
 
         /// <inheritdoc />
         public new PaymentChannelClaimFlags? Flags { get; set; }
@@ -83,7 +84,7 @@ namespace Xrpl.Models.Transactions
         /// This must match the amount in the signed message.<br/>
         /// This is the cumulative amount of XRP that can be dispensed by the channel, including XRP previously redeemed.
         /// </summary>
-        string Amount { get; set; }
+        Currency Amount { get; set; }
         /// <summary>
         /// Total amount of XRP, in drops, delivered by this channel after processing this claim.<br/>
         /// Required to deliver XRP.<br/>
@@ -117,7 +118,7 @@ namespace Xrpl.Models.Transactions
     public class PaymentChannelClaimResponse : TransactionResponseCommon, IPaymentChannelClaim
     {
         /// <inheritdoc />
-        public string Amount { get; set; }
+        public Currency Amount { get; set; }
         /// <inheritdoc />
         public string Balance { get; set; }
         /// <inheritdoc />
@@ -149,8 +150,8 @@ namespace Xrpl.Models.Transactions
 
             if (tx.TryGetValue("Balance", out var Balance) && Balance is not string)
                 throw new ValidationException("PaymentChannelClaim: Balance must be a string");
-            if (tx.TryGetValue("Amount", out var Amount) && Amount is not string)
-                throw new ValidationException("PaymentChannelClaim: Amount must be a string");
+            if (tx.TryGetValue("Amount", out var Amount) && Amount is not Currency)
+                throw new ValidationException("PaymentChannelClaim: Amount must be a Currency");
             if (tx.TryGetValue("Signature", out var Signature) && Signature is not string)
                 throw new ValidationException("PaymentChannelClaim: Signature must be a string");
             if (tx.TryGetValue("PublicKey", out var PublicKey) && PublicKey is not string)
