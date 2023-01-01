@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 
 using System;
+
+using Xrpl.Models.Common;
 using Xrpl.Client.Json.Converters;
 
 
@@ -41,14 +43,16 @@ namespace Xrpl.Models.Ledger
         /// This is initially set by the transaction that created the channel and
         /// can be increased if the source address sends a PaymentChannelFund transaction.
         /// </summary>
-        public string Amount { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount { get; set; }
         /// <summary>
         /// Total XRP, in drops, already paid out by the channel.<br/>
         /// The difference between this value and the Amount field
         /// is how much XRP can still be paid to the destination address with PaymentChannelClaim transactions.<br/>
         /// If the channel closes, the remaining difference is returned to the source address.
         /// </summary>
-        public string Balance { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Balance { get; set; }
         /// <summary>
         /// Public key, in hexadecimal, of the key pair that can be used to sign claims against this channel.<br/>
         /// This can be any valid secp256k1 or Ed25519 public key.<br/>

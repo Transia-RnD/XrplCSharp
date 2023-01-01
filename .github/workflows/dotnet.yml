@@ -47,11 +47,11 @@ jobs:
 
     services:
       rippled:
-        image: natenichols/rippled-standalone:latest
+        image: gcr.io/metaxrplorer/dangell7-icv2-standalone:1
         ports:
-        - 6006:6006
+        - 6008:6008
         options:
-          --health-cmd="wget localhost:6006 || exit 1" --health-interval=5s --health-retries=10 --health-timeout=2s
+          --health-cmd="wget localhost:6008 || exit 1" --health-interval=5s --health-retries=10 --health-timeout=2s
 
     steps:
     - uses: actions/checkout@v3
@@ -63,8 +63,8 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build
-    - name: Test Unit
+    - name: Test Integration
       run: dotnet test --verbosity normal --filter "TestI"
       env:
         HOST: localhost
-        PORT: ${{ job.services.rippled.ports['6006'] }}
+        PORT: ${{ job.services.rippled.ports['6008'] }}

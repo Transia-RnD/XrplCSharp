@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+using Newtonsoft.Json;
+
+using Xrpl.Models.Common;
 using Xrpl.Client.Json.Converters;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/methods/accountChannels.ts
@@ -56,13 +58,15 @@ namespace Xrpl.Models.Methods
         /// The total amount of XRP, in drops allocated to this channel.
         /// </summary>
         [JsonProperty("amount")]
-        public string Amount { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount { get; set; }
         /// <summary>
         /// The total amount of XRP, in drops, paid out from this channel, as of the ledger version used.<br/>
         /// (You can calculate the amount of XRP left in the channel by subtracting balance from amount.)
         /// </summary>
         [JsonProperty("balance")]
-        public string Balance { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Balance { get; set; }
         /// <summary>
         /// A unique ID for this channel, as a 64-character hexadecimal string.<br/>
         /// This is also the ID of the channel object in the ledger's state data.
