@@ -38,7 +38,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             PaymentChannelCreate setupTx = new PaymentChannelCreate
             {
                 Account = runner.wallet.ClassicAddress,
-                Amount = new Currency() { ValueAsXrp = 13100000 },
+                Amount = new Currency() { ValueAsXrp = 100 },
                 Destination = wallet2.ClassicAddress,
                 SettleDelay = 86400,
                 PublicKey = runner.wallet.PublicKey
