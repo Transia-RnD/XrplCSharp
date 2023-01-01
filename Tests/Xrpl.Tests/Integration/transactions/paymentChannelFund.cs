@@ -38,7 +38,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             PaymentChannelCreate setupTx = new PaymentChannelCreate
             {
                 Account = runner.wallet.ClassicAddress,
-                Amount = new Currency() { ValueAsXrp = 10000000 },
+                Amount = new Currency() { ValueAsXrp = 100 },
                 Destination = wallet2.ClassicAddress,
                 SettleDelay = 86400,
                 PublicKey = runner.wallet.PublicKey
@@ -59,7 +59,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
                     wallet2.ClassicAddress,
                     (int)paymentChannelResponse.TxJson.Sequence
                 ),
-                Amount = new Currency() { ValueAsXrp = 10000000 }
+                Amount = new Currency() { ValueAsXrp = 100 }
             };
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
             await Utils.TestTransaction(runner.client, txJson, runner.wallet);
@@ -76,7 +76,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
                 Amount = new Currency()
                 {
                     CurrencyCode = "USD",
-                    Issuer = "r9E2S3K7Y57tUozVbCGVK7EVyQQPrh3Lvd",
+                    Issuer = ic.Issuer,
                     Value = "100",
                 },
                 Destination = wallet2.ClassicAddress,
@@ -102,7 +102,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
                 Amount = new Currency()
                 {
                     CurrencyCode = "USD",
-                    Issuer = "r9E2S3K7Y57tUozVbCGVK7EVyQQPrh3Lvd",
+                    Issuer = ic.Issuer,
                     Value = "100",
                 },
             };
