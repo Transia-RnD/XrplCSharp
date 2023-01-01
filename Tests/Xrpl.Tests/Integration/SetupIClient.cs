@@ -15,8 +15,7 @@ namespace XrplTests.Xrpl.ClientLib.Integration
 
         public async Task<SetupIntegration> SetupClient(string serverUrl)
         {
-            //wallet = XrplWallet.Generate();
-            wallet = XrplWallet.FromSeed("sEdVde8yawSEXuUGK2sQqQc5XMdqLp5");
+            wallet = XrplWallet.Generate();
             client = new XrplClient(serverUrl);
             client.OnConnected += () =>
             {
