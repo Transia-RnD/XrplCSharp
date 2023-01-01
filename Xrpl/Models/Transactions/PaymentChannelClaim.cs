@@ -44,7 +44,7 @@ namespace Xrpl.Models.Transactions
         public string Channel { get; set; }
 
         /// <inheritdoc />
-        public string Balance { get; set; }
+        public Currency Balance { get; set; }
 
         /// <inheritdoc />
         public Currency Amount { get; set; }
@@ -91,7 +91,7 @@ namespace Xrpl.Models.Transactions
         /// Must be more than the total amount delivered by the channel so far, but not greater than the Amount of the signed claim.<br/>
         /// Must be provided except when closing the channel.
         /// </summary>
-        string Balance { get; set; }
+        Currency Balance { get; set; }
         /// <summary>
         /// The unique ID of the channel as a 64-character hexadecimal string.
         /// </summary>
@@ -120,7 +120,7 @@ namespace Xrpl.Models.Transactions
         /// <inheritdoc />
         public Currency Amount { get; set; }
         /// <inheritdoc />
-        public string Balance { get; set; }
+        public Currency Balance { get; set; }
         /// <inheritdoc />
         public string Channel { get; set; }
         /// <inheritdoc />
@@ -148,8 +148,8 @@ namespace Xrpl.Models.Transactions
             if(Channel is not string)
                 throw new ValidationException("PaymentChannelClaim: Channel must be a string");
 
-            if (tx.TryGetValue("Balance", out var Balance) && Balance is not string)
-                throw new ValidationException("PaymentChannelClaim: Balance must be a string");
+            if (tx.TryGetValue("Balance", out var Balance) && Balance is not Currency)
+                throw new ValidationException("PaymentChannelClaim: Balance must be a Currency");
             if (tx.TryGetValue("Amount", out var Amount) && Amount is not Currency)
                 throw new ValidationException("PaymentChannelClaim: Amount must be a Currency");
             if (tx.TryGetValue("Signature", out var Signature) && Signature is not string)

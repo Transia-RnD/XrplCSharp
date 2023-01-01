@@ -5,6 +5,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using Xrpl.Models.Common;
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Transaction;
 using Xrpl.Models.Transactions;
@@ -23,7 +25,7 @@ namespace XrplTests.Xrpl.Models
             {
                 {"TransactionType", "PaymentChannelCreate"},
                 {"Account", "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn"},
-                {"Amount", "1000000"},
+                {"Amount", new Currency() { ValueAsXrp = 10000000 }},
                 {"Destination", "rsA2LpzuawewSBQXkiju3YQTMzW13pAAdW"},
                 {"SettleDelay", 86400u},
                 {"PublicKey", "32D2471DB72B27E3310F355BB33E339BF26F8392D5A93D3BC0FC3B566612DA0F0A"},
@@ -78,8 +80,8 @@ namespace XrplTests.Xrpl.Models
 
             // throws w/ Amount must be a string
             channel["Amount"] = 1000000;
-            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePaymentChannelCreate(channel), "PaymentChannelCreate: Amount must be a string");
-            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(channel), "PaymentChannelCreate: Amount must be a string");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.ValidatePaymentChannelCreate(channel), "PaymentChannelCreate: Amount must be a Currency");
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(channel), "PaymentChannelCreate: Amount must be a Currency");
             channel["Amount"] = "1000000";
 
             // throws w/ Destination must be a string

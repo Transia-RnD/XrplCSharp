@@ -103,6 +103,7 @@ namespace Xrpl.Wallet
             public static readonly string Testnet = "faucet.altnet.rippletest.net";
             public static readonly string Devnet = "faucet.devnet.rippletest.net";
             public static readonly string NFTDevnet = "faucet-nft.ripple.com";
+            public static readonly string ICV2 = "icv2.faucet.transia.co";
         }
 
         public static async Task<Funded> FundWallet(XrplClient client, XrplWallet? wallet = null, string? faucetHost = null)
