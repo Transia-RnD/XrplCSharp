@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Newtonsoft.Json;
+
 using Xrpl.Models.Common;
 using Xrpl.Client.Exceptions;
+using Xrpl.Client.Json.Converters;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/paymentChannelClaim.ts
 
@@ -44,9 +47,11 @@ namespace Xrpl.Models.Transactions
         public string Channel { get; set; }
 
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency Balance { get; set; }
 
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency Amount { get; set; }
 
         /// <inheritdoc />
@@ -118,8 +123,10 @@ namespace Xrpl.Models.Transactions
     public class PaymentChannelClaimResponse : TransactionResponseCommon, IPaymentChannelClaim
     {
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency Amount { get; set; }
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency Balance { get; set; }
         /// <inheritdoc />
         public string Channel { get; set; }

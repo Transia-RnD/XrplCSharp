@@ -24,6 +24,7 @@ namespace Xrpl.Models.Transactions
         public string Channel { get; set; }
 
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency Amount { get; set; }
 
         /// <inheritdoc />
@@ -61,6 +62,7 @@ namespace Xrpl.Models.Transactions
     public class PaymentChannelFundResponse : TransactionResponseCommon, IPaymentChannelFund
     {
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency Amount { get; set; }
 
         /// <inheritdoc />
