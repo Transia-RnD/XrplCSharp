@@ -28,12 +28,10 @@ namespace Xrpl.Models.Transactions
         public string Destination { get; set; }
 
         /// <inheritdoc />
-        [JsonConverter(typeof(RippleDateTimeConverter))]
-        public DateTime? CancelAfter { get; set; }
+        public uint? CancelAfter { get; set; }
 
         /// <inheritdoc />
-        [JsonConverter(typeof(RippleDateTimeConverter))]
-        public DateTime? FinishAfter { get; set; }
+        public uint? FinishAfter { get; set; }
 
         /// <inheritdoc />
         public string Condition { get; set; }
@@ -61,7 +59,7 @@ namespace Xrpl.Models.Transactions
         /// This value is immutable; the funds can only be returned the sender after.<br/>
         /// this time.
         /// </summary>
-        DateTime? CancelAfter { get; set; }
+        uint? CancelAfter { get; set; }
         /// <summary>
         /// Hex value representing a PREIMAGE-SHA-256 crypto-condition.<br/>
         /// The funds can.<br/>
@@ -82,7 +80,7 @@ namespace Xrpl.Models.Transactions
         /// This value is immutable; the funds cannot move.<br/>
         /// until this time is reached.
         /// </summary>
-        DateTime? FinishAfter { get; set; }
+        uint? FinishAfter { get; set; }
         uint? SourceTag { get; set; } //todo unknown field
     }
 
@@ -97,12 +95,10 @@ namespace Xrpl.Models.Transactions
         public string Destination { get; set; }
 
         /// <inheritdoc />
-        [JsonConverter(typeof(RippleDateTimeConverter))]
-        public DateTime? CancelAfter { get; set; }
+        public uint? CancelAfter { get; set; }
 
         /// <inheritdoc />
-        [JsonConverter(typeof(RippleDateTimeConverter))]
-        public DateTime? FinishAfter { get; set; }
+        public uint? FinishAfter { get; set; }
 
         /// <inheritdoc />
         public string Condition { get; set; }

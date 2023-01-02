@@ -76,8 +76,7 @@ namespace Xrpl.Models.Ledger
         /// This value is rounded based on the close_time_resolution.
         /// </summary>
         [JsonProperty("close_time")]
-        [JsonConverter(typeof(RippleDateTimeConverter))]
-        public DateTime CloseTime { get; set; }
+        public uint CloseTime { get; set; }
         /// <summary>
         /// The approximate time this ledger was closed, in human-readable format.<br/>
         /// Always uses the UTC time zone.
