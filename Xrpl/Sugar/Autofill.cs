@@ -181,7 +181,8 @@ namespace Xrpl.Sugar
             var baseFee = BigInteger.Parse(netFeeDrops, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent);
 
             // EscrowFinish Transaction with Fulfillment
-            if (tx["TransactionType"] == "EscrowFinish" && tx["Fulfillment"] != null)
+            bool has_fulfillment = tx.TryGetValue("Fulfillment", out var Fulfillment);
+            if (tx["TransactionType"] == "EscrowFinish" && has_fulfillment)
             {
                 double fulfillmentBytesSize = Math.Ceiling((double)tx["Fulfillment"].Length / 2);
                 // 10 drops × (33 + (Fulfillment size in bytes / 16))
