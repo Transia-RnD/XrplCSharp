@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using Xrpl.BinaryCodec.Enums;
 
-//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/serdes/binary-parser.ts#L9
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/serdes/binary-parser.ts
 
 namespace Xrpl.BinaryCodec.Binary
 {
@@ -33,6 +34,8 @@ namespace Xrpl.BinaryCodec.Binary
         public abstract void Skip(int n);
         /// <summary>  read the byte from the BinaryParser by current cursor position </summary>
         public abstract byte ReadOne();
+
+        public abstract byte ReadUInt8();
         /// <summary>  read the first n bytes from the BinaryParser </summary>
         /// <param name="n">The number of bytes to read</param>
         /// <returns>The bytes</returns>
@@ -46,7 +49,9 @@ namespace Xrpl.BinaryCodec.Binary
         public Field ReadField()
         {
             var fieldCode = ReadFieldCode();
+            Debug.WriteLine(fieldCode);
             var field = Field.Values[fieldCode];
+            Debug.WriteLine(field.Name);
             if (field == null)
             {
                 throw new InvalidOperationException(
@@ -62,21 +67,30 @@ namespace Xrpl.BinaryCodec.Binary
         /// <returns>Field ordinal</returns>
         public int ReadFieldCode()
         {
-            var tagByte = ReadOne();
-
-            var typeBits = (tagByte & 0xFF) >> 4;
-            if (typeBits == 0)
+            var type = ReadUInt8();
+            var nth = type & 15;
+            type >>= 4;
+           
+            if (type == 0)
             {
-                typeBits = ReadOne();
+                type = ReadUInt8();
+                Debug.WriteLine(type);
+                if (type == 0 || type < 16)
+                {
+                    throw new BinaryCodecException("Cannot read FieldOrdinal, type_code out of range");
+                }
             }
 
-            var fieldBits = tagByte & 0x0F;
-            if (fieldBits == 0)
+            if (nth == 0)
             {
-                fieldBits = ReadOne();
+                nth = ReadUInt8();
+                Debug.WriteLine(nth);
+                if (nth == 0 || nth < 16)
+                {
+                    throw new BinaryCodecException("Cannot read FieldOrdinal, type_code out of range");
+                }
             }
-
-            return typeBits << 16 | fieldBits;
+            return (type << 16) | nth;
         }
         /// <summary>
         /// Reads variable length encoded bytes
@@ -85,7 +99,7 @@ namespace Xrpl.BinaryCodec.Binary
         /// <exception cref="InvalidOperationException">Invalid variable length indicator</exception>
         public int ReadVlLength()
         {
-            var b1 = ReadOneInt();
+            var b1 = ReadUInt8();
             int result;
 
             switch (b1)
@@ -94,14 +108,14 @@ namespace Xrpl.BinaryCodec.Binary
                     break;
                 case <= 240:
                 {
-                    var b2 = ReadOneInt();
+                    var b2 = ReadUInt8();
                     result = 193 + (b1 - 193) * 256 + b2;
                     break;
                 }
                 case <= 254:
                 {
-                    var b2 = ReadOneInt();
-                    var b3 = ReadOneInt();
+                    var b2 = ReadUInt8();
+                    var b3 = ReadUInt8();
                     result = 12481 + (b1 - 241) * 65536 + b2 * 256 + b3;
                     break;
                 }
