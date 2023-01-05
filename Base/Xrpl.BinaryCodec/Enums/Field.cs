@@ -69,9 +69,10 @@ namespace Xrpl.BinaryCodec.Enums
                    Type == FieldType.AccountId;
         }
 
-        public static readonly Field Transaction = new Field(nameof(Transaction), 1, FieldType.Transaction);
-        public static readonly Field LedgerEntry = new Field(nameof(LedgerEntry), 1, FieldType.LedgerEntry);
-        public static readonly Field Validation = new Field(nameof(Validation), 1, FieldType.Validation);
+        public static readonly Field Transaction = new Field(nameof(Transaction), 1, FieldType.Transaction, isSigningField: false);
+        public static readonly Field LedgerEntry = new Field(nameof(LedgerEntry), 1, FieldType.LedgerEntry, isSigningField: false);
+        public static readonly Field Validation = new Field(nameof(Validation), 1, FieldType.Validation, isSigningField: false);
+        public static readonly Field Metadata = new Field(nameof(Metadata), 1, FieldType.Metadata, isSigningField: false);
 
         public static readonly Uint8Field CloseResolution = new Uint8Field(nameof(CloseResolution), 1);
         public static readonly Uint8Field Method = new Uint8Field(nameof(Method), 2);
@@ -215,9 +216,9 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly BlobField PublicKey = new BlobField(nameof(PublicKey), 1);
         public static readonly BlobField MessageKey = new BlobField(nameof(MessageKey), 2);
         public static readonly BlobField SigningPubKey = new BlobField(nameof(SigningPubKey), 3);
-        public static readonly BlobField TxnSignature = new BlobField(nameof(TxnSignature), 4, isSigningField:false);
+        public static readonly BlobField TxnSignature = new BlobField(nameof(TxnSignature), 4, isSigningField: false);
         public static readonly BlobField URI = new BlobField(nameof(URI), 5);
-        public static readonly BlobField Signature = new BlobField(nameof(Signature), 6);
+        public static readonly BlobField Signature = new BlobField(nameof(Signature), 6, isSigningField: false);
         public static readonly BlobField Domain = new BlobField(nameof(Domain), 7);
         public static readonly BlobField FundCode = new BlobField(nameof(FundCode), 8);
         public static readonly BlobField RemoveCode = new BlobField(nameof(RemoveCode), 9);
@@ -228,7 +229,7 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly BlobField MemoFormat = new BlobField(nameof(MemoFormat), 14);
         public static readonly BlobField Fulfillment = new BlobField(nameof(Fulfillment), 16);
         public static readonly BlobField Condition = new BlobField(nameof(Condition), 17);
-        public static readonly BlobField MasterSignature = new BlobField(nameof(MasterSignature), 18);
+        public static readonly BlobField MasterSignature = new BlobField(nameof(MasterSignature), 18, isSigningField: false);
         public static readonly BlobField UNLModifyValidator = new BlobField(nameof(UNLModifyValidator), 19);
         public static readonly BlobField ValidatorToDisable = new BlobField(nameof(ValidatorToDisable), 20);
         public static readonly BlobField ValidatorToReEnable = new BlobField(nameof(ValidatorToReEnable), 21);
@@ -278,7 +279,7 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly StObjectField HookParameter = new StObjectField(nameof(HookParameter), 23);
         public static readonly StObjectField HookGrant = new StObjectField(nameof(HookGrant), 24);
         
-        public static readonly StArrayField Signers = new StArrayField(nameof(Signers), 3, isSigningField:false);
+        public static readonly StArrayField Signers = new StArrayField(nameof(Signers), 3, isSigningField: false);
         public static readonly StArrayField SignerEntries = new StArrayField(nameof(SignerEntries), 4);
         public static readonly StArrayField Template = new StArrayField(nameof(Template), 5);
         public static readonly StArrayField Necessary = new StArrayField(nameof(Necessary), 6);
@@ -293,15 +294,15 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly StArrayField HookParameters = new StArrayField(nameof(HookParameters), 19);
         public static readonly StArrayField HookGrants = new StArrayField(nameof(HookGrants), 19);
 
-        public static readonly Field Generic = new Field(nameof(Generic), 0, FieldType.Unknown);
-        public static readonly Field Invalid = new Field(nameof(Invalid), -1, FieldType.Unknown);
+        public static readonly Field Generic = new Field(nameof(Generic), 0, FieldType.Unknown, isSigningField: false);
+        public static readonly Field Invalid = new Field(nameof(Invalid), -1, FieldType.Unknown, isSigningField: false);
         
         // Out of order
         public static readonly Hash256Field TicketID = new Hash256Field(nameof(TicketID), 20);
-        public static readonly Hash256Field hash = new Hash256Field(nameof(hash), 257);
-        public static readonly Hash256Field index = new Hash256Field(nameof(index), 258);
-        public static readonly AmountField taker_gets_funded = new AmountField(nameof(taker_gets_funded), 258);
-        public static readonly AmountField taker_pays_funded = new AmountField(nameof(taker_pays_funded), 259);
+        public static readonly Hash256Field hash = new Hash256Field(nameof(hash), 257, isSigningField: false);
+        public static readonly Hash256Field index = new Hash256Field(nameof(index), 258, isSigningField: false);
+        public static readonly AmountField taker_gets_funded = new AmountField(nameof(taker_gets_funded), 258, isSigningField: false);
+        public static readonly AmountField taker_pays_funded = new AmountField(nameof(taker_pays_funded), 259, isSigningField: false);
         public static readonly AccountIdField Target = new AccountIdField(nameof(Target), 7);
         public static readonly StObjectField ObjectEndMarker = new StObjectField(nameof(ObjectEndMarker), 1);
         public static readonly StArrayField ArrayEndMarker = new StArrayField(nameof(ArrayEndMarker), 1);
