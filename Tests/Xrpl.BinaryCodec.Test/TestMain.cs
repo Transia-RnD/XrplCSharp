@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using Xrpl.AddressCodec;
 using Xrpl.BinaryCodec.Ledger;
 using Xrpl.BinaryCodec.Types;
+using static Xrpl.AddressCodec.B58;
 
 // https://github.com/XRPLF/xrpl-py/blob/master/tests/unit/core/binarycodec/test_main.py
 
@@ -16,7 +17,7 @@ namespace Xrpl.BinaryCodec.Tests
     //[TestClass]
     //public class TestUBinarySimple
     //{
-    //    static Dictionary<string, dynamic> TX_JSON = new Dictionary<string, dynamic>
+    //static Dictionary<string, dynamic> TX_JSON = new Dictionary<string, dynamic>
     //    {
     //        { "Account", "r9LqNeG6qHxjeUocjvVki2XR35weJ9mZgQ" },
     //        { "Destination", "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh" },
@@ -123,14 +124,16 @@ namespace Xrpl.BinaryCodec.Tests
         public void CheckBinaryAndJson(TestData test)
         {
             Assert.AreEqual(XrplBinaryCodec.Encode(test.json), test.binary);
-            //Dictionary<string, dynamic> result = XrplBinaryCodec.Decode(test.binary).ToObject<Dictionary<string, dynamic>>();
-            //Assert.IsTrue(result.ContentEquals(test.json.ToObject<Dictionary<string, dynamic>>()));
+            Dictionary<string, dynamic> result = XrplBinaryCodec.Decode(test.binary).ToObject<Dictionary<string, dynamic>>();
+            Debug.WriteLine(JsonConvert.SerializeObject(result));
+            Debug.WriteLine(JsonConvert.SerializeObject(test.json.ToObject<Dictionary<string, dynamic>>()));
+            ExtensionHelpers.StrictDictEqual(result, test.json.ToObject<Dictionary<string, dynamic>>());
         }
 
         public void CheckXaddressJsons(TestXData test)
         {
             Assert.AreEqual(XrplBinaryCodec.Encode(test.xjson), XrplBinaryCodec.Encode(test.rjson));
-            //Assert.IsTrue(XrplBinaryCodec.Decode(XrplBinaryCodec.Encode(test.xjson)) == test.rjson);
+            Assert.IsTrue(XrplBinaryCodec.Decode(XrplBinaryCodec.Encode(test.xjson)) == test.rjson);
         }
 
         public void MakeSuite(string name, TestData[] entries)
@@ -188,5 +191,69 @@ namespace Xrpl.BinaryCodec.Tests
         //        Assert.AreEqual(jsonData, decoded.ToJson());
         //    }
         //}
+    }
+
+    [TestClass]
+    public class TestUBinarySigning
+    {
+        int MaxDiff = 1000;
+
+        static Dictionary<string, dynamic> TX_JSON = new Dictionary<string, dynamic>
+        {
+            { "Account", "r9LqNeG6qHxjeUocjvVki2XR35weJ9mZgQ" },
+            { "Amount", "1000" },
+            { "Destination", "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh" },
+            { "Fee", "10" },
+            { "Flags", 2147483648 },
+            { "Sequence", 1 },
+            { "TransactionType", "Payment" },
+            { "TxnSignature", "30440220718D264EF05CAED7C781FF6DE298DCAC68D002562C9BF3A07C1E721B420C0DAB02203A5A4779EF4D2CCC7BC3EF886676D803A9981B928D3B8ACA483B80ECA3CD7B9B" },
+            { "Signature", "30440220718D264EF05CAED7C781FF6DE298DCAC68D002562C9BF3A07C1E721B420C0DAB02203A5A4779EF4D2CCC7BC3EF886676D803A9981B928D3B8ACA483B80ECA3CD7B9B" },
+            { "SigningPubKey", "ED5F5AC8B98974A3CA843326D9B88CEBD0560177B973EE0B149F782CFAA06DC66A" },
+        };
+
+        static Dictionary<string, dynamic> MULTISIG_JSON = new Dictionary<string, dynamic>
+        {
+            { "Account", "r9LqNeG6qHxjeUocjvVki2XR35weJ9mZgQ" },
+            { "Amount", "1000" },
+            { "Destination", "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh" },
+            { "Fee", "10" },
+            { "Flags", 2147483648 },
+            { "Sequence", 1 },
+            { "TransactionType", "Payment" },
+            { "TxnSignature", "30440220718D264EF05CAED7C781FF6DE298DCAC68D002562C9BF3A07C1E721B420C0DAB02203A5A4779EF4D2CCC7BC3EF886676D803A9981B928D3B8ACA483B80ECA3CD7B9B" },
+            { "Signature", "30440220718D264EF05CAED7C781FF6DE298DCAC68D002562C9BF3A07C1E721B420C0DAB02203A5A4779EF4D2CCC7BC3EF886676D803A9981B928D3B8ACA483B80ECA3CD7B9B" },
+            { "SigningPubKey", "" },
+
+        };
+
+        [TestMethod]
+        public void TestSingleSigning()
+        {
+            var expected = "53545800120000228000000024000000016140000000000003E868400000000000000A7321ED5F5AC8B98974A3CA843326D9B88CEBD0560177B973EE0B149F782CFAA06DC66A81145B812C9D57731E27A2DA8B1830195F88EF32A3B68314B5F762798A53D543A014CAF8B297CFF8F2F937E8";
+            Assert.AreEqual(XrplBinaryCodec.EncodeForSigning(TX_JSON), expected);
+        }
+
+        [TestMethod]
+        public void TestClaim()
+        {
+            var channel = "43904CBFCDCEC530B4037871F86EE90BF799DF8D2E0EA564BC8A3F332E4F5FB1";
+            var amount = "1000";
+            Dictionary<string, dynamic> TX_JSON = new Dictionary<string, dynamic>
+            {
+                { "amount", amount },
+                { "channel", channel },
+            };
+            var expected = "434C4D0043904CBFCDCEC530B4037871F86EE90BF799DF8D2E0EA564BC8A3F332E4F5FB100000000000003E8";
+            Assert.AreEqual(XrplBinaryCodec.EncodeForSigningClaim(TX_JSON), expected);
+        }
+
+        [TestMethod]
+        public void TestMultiSig()
+        {
+            var signingAccount = "rJZdUusLDtY9NEsGea7ijqhVrXv98rYBYN";
+            var expected = "534D5400120000228000000024000000016140000000000003E868400000000000000A730081145B812C9D57731E27A2DA8B1830195F88EF32A3B68314B5F762798A53D543A014CAF8B297CFF8F2F937E8C0A5ABEF242802EFED4B041E8F2D4A8CC86AE3D1";
+            Assert.AreEqual(XrplBinaryCodec.EncodeForMulitSigning(MULTISIG_JSON, signingAccount), expected);
+        }
     }
 }
