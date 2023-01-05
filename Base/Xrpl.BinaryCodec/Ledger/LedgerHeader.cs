@@ -71,7 +71,7 @@ namespace Xrpl.BinaryCodec.Ledger
         /// <returns></returns>
         public Hash256 Hash()
         {
-            var hasher = new Sha512((uint) HashPrefix.LedgerMaster);
+            var hasher = new Sha512((uint) HashPrefix.LedgerHeader);
             ToBytes(hasher);
             return new Hash256(hasher.Finish256());
         }

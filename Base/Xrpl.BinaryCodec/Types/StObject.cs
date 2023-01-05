@@ -8,8 +8,7 @@ using Xrpl.BinaryCodec.Enums;
 using Xrpl.BinaryCodec.Hashing;
 using Xrpl.BinaryCodec.Util;
 
-//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/st-object.ts
-//https://xrpl.org/serialization.html#object-fields
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/st-object.ts
 
 namespace Xrpl.BinaryCodec.Types
 {
@@ -91,7 +90,6 @@ namespace Xrpl.BinaryCodec.Types
                 // end hint
                 hint = parser.Pos() + hint;
             }
-
             while (!parser.End(hint))
             {
                 var field = parser.ReadField();
@@ -143,9 +141,6 @@ namespace Xrpl.BinaryCodec.Types
                 }
                 var fieldForType = Field.Values[pair.Key];
                 var jsonForField = pair.Value;
-                // Debug.WriteLine(pair.Key);
-                // Debug.WriteLine(fieldForType);
-                // Debug.WriteLine(jsonForField);
                 ISerializedType st;
                 try
                 {
@@ -230,7 +225,7 @@ namespace Xrpl.BinaryCodec.Types
         public byte[] SigningData()
         {
             var list = new BytesList();
-            list.Put(HashPrefix.TxSign.Bytes());
+            list.Put(HashPrefix.TransactionSig.Bytes());
             ToBytes(list, f => f.IsSigningField);
             return list.Bytes();
         }
