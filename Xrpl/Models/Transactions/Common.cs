@@ -681,7 +681,7 @@ namespace Xrpl.Models.Transactions
             JsonSerializerSettings serializerSettings = new JsonSerializerSettings();
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;
             serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-
+            
             return JsonConvert.SerializeObject(this, serializerSettings);
         }
     }

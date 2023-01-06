@@ -321,7 +321,6 @@ namespace Xrpl.Client
 
         private void CallOnMessage(byte[] result)
         {
-            //Debug.WriteLine("WS: Message");
             _onMessageBinary?.Invoke(result, this);
             _onMessageString?.Invoke(Encoding.UTF8.GetString(result), this);
         }
@@ -329,25 +328,21 @@ namespace Xrpl.Client
 
         private void CallOnDisconnected()
         {
-            //Debug.WriteLine("WS: Disconnected");
             _onDisconnected?.Invoke(this);
         }
 
         private void CallOnConnected()
         {
-            //Debug.WriteLine("WS: Connected");
             _onConnected?.Invoke(this);
         }
 
         private void CallOnConnectionError(Exception e)
         {
-            //Debug.WriteLine("WS: Conn Error");
             _onConnectionError?.Invoke(e, this);
         }
 
         private void CallOnError(Exception e)
         {
-            //Debug.WriteLine("WS: Error");
             _onError?.Invoke(e, this);
         }
 

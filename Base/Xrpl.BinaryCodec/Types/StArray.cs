@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Xrpl.BinaryCodec.Binary;
 using Xrpl.BinaryCodec.Enums;
 
-//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/types/st-array.ts
-//https://xrpl.org/serialization.html#array-fields
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/types/st-array.ts
 
 namespace Xrpl.BinaryCodec.Types
 {
@@ -69,10 +69,10 @@ namespace Xrpl.BinaryCodec.Types
                 {
                     break;
                 }
-                var outer = new StObject {
-                    [(StObjectField) field] =
-                        StObject.FromParser(parser) };
-                stArray.Add(outer);
+                var so = new StObject();
+                var sizeHint = field.IsVlEncoded ? parser.ReadVlLength() : (int?)null;
+                so.Fields[field] = field.FromParser(parser);
+                stArray.Add(so);
             }
             return stArray;
         }

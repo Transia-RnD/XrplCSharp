@@ -34,7 +34,7 @@ namespace Xrpl.Models.Ledger
         /// <summary>
         /// An array of Signer Entry objects representing the parties who are part of this signer list.
         /// </summary>
-        public List<SignerEntry> SignerEntries { get; set; }
+        public List<SignerEntryWrapper> SignerEntries { get; set; }
         /// <summary>
         /// An ID for this signer list.<br/>
         /// Currently always set to 0.<br/>
@@ -50,6 +50,11 @@ namespace Xrpl.Models.Ledger
         /// The index of the ledger that contains the transaction that most recently modified this object.
         /// </summary>
         public uint PreviousTxnLgrSeq { get; set; }
+    }
+
+    public class SignerEntryWrapper
+    {
+        public SignerEntry SignerEntry { get; set; }
     }
 
     //https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/common/index.ts#L67

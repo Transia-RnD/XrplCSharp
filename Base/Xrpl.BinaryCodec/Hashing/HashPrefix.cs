@@ -1,4 +1,4 @@
-﻿//https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/hash-prefixes.ts
+﻿// https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-binary-codec/src/hash-prefixes.ts
 
 namespace Xrpl.BinaryCodec.Hashing
 {
@@ -6,17 +6,17 @@ namespace Xrpl.BinaryCodec.Hashing
     public enum HashPrefix : uint
     {
         /// <summary>
-        /// transaction
+        /// TransactionId
         /// </summary>
         TransactionId = 0x54584E00u,
         /// <summary>
-        /// transaction plus metadata
+        /// Transaction
         /// </summary>
-        TxNode = 0x534E4400u,
+        Transaction = 0x534E4400u,
         /// <summary>
-        /// account state
+        /// AccountStateEntry
         /// </summary>
-        LeafNode = 0x4D4C4E00u,
+        AccountStateEntry = 0x4D4C4E00u,
         /// <summary>
         /// inner node in tree
         /// </summary>
@@ -24,18 +24,26 @@ namespace Xrpl.BinaryCodec.Hashing
         /// <summary>
         /// ledger master data for signing
         /// </summary>
-        LedgerMaster = 0x4C575200u,
+        LedgerHeader = 0x4C575200u,
         /// <summary>
-        /// inner transaction to sign
+        /// TransactionSig
         /// </summary>
-        TxSign = 0x53545800u,
+        TransactionSig = 0x53545800u,
         /// <summary>
-        /// Validation for signing
+        /// TransactionMultiSig
+        /// </summary>
+        TransactionMultiSig = 0x534D5400u,
+        /// <summary>
+        /// Validation
         /// </summary>
         Validation = 0x56414C00u,
         /// <summary>
-        /// Proposal for signing
+        /// Proposal
         /// </summary>
-        Proposal = 0x50525000u
+        Proposal = 0x50525000u,
+        /// <summary>
+        /// PaymentChannelClaim
+        /// </summary>
+        PaymentChannelClaim = 0x434C4D00u,
     }
 }

@@ -31,7 +31,7 @@ namespace Xrpl.BinaryCodec.ShaMapTree
 
         public HashPrefix Prefix()
         {
-            return HashPrefix.LeafNode;
+            return HashPrefix.AccountStateEntry;
         }
 
         public Hash256 Index()
