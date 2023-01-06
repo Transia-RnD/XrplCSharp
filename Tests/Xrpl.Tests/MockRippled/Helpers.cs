@@ -64,18 +64,9 @@ namespace Xrpl.Tests.MockRippled
             // Get the opcode of the frame
             int opcode = Data[0] - 128;
 
-            //Debug.WriteLine($"0 DATA [1]: {Data[1]}");
-            //Debug.WriteLine($"0 DATA: {Data[1] - 128}");
-            //Debug.WriteLine($"0 DATA LEN: {(Data[1] - 128)}");
-
-            //Debug.WriteLine($"1 DATA [1]: {Data[1]}");
-            //Debug.WriteLine($"1 DATA: {Data[1] - 128}");
-            //Debug.WriteLine($"1 DATA LEN: {BitConverter.ToInt16(new byte[] { Data[3], Data[2] }, 0)}");
-
             // If the length of the message is in the 2 first indexes
             if (Data[1] - 128 <= 125)
             {
-                //Debug.WriteLine("0HERE");
                 int dataLength = (Data[1] - 128);
                 return new SFrameMaskData(dataLength, 2, dataLength + 6, (EOpcodeType)opcode);
             }
@@ -83,7 +74,6 @@ namespace Xrpl.Tests.MockRippled
             // If the length of the message is in the following two indexes
             if (Data[1] - 128 == 126)
             {
-                //Debug.WriteLine("1HERE");
                 // Combine the bytes to get the length
                 int dataLength = BitConverter.ToInt16(new byte[] { Data[3], Data[2] }, 0);
                 return new SFrameMaskData(dataLength, 4, dataLength + 8, (EOpcodeType)opcode);
@@ -92,7 +82,6 @@ namespace Xrpl.Tests.MockRippled
             // If the data length is in the following 8 indexes
             if (Data[1] - 128 == 127)
             {
-                //Debug.WriteLine("2HERE");
                 // Get the following 8 bytes to combine to get the data 
                 byte[] combine = new byte[8];
                 for (int i = 0; i < 8; i++) combine[i] = Data[i + 2];

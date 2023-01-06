@@ -51,7 +51,6 @@ namespace Xrpl.Sugar
         public static async Task<Dictionary<string, dynamic>> Autofill(IXrplClient client, Dictionary<string, dynamic> transaction, int? signersCount)
         {
 
-            //Debug.WriteLine((string)transaction["TransactionType"]);
             Dictionary<string, dynamic> tx = transaction;
 
             SetValidAddresses(tx);
@@ -61,27 +60,22 @@ namespace Xrpl.Sugar
             bool hasTT = tx.TryGetValue("TransactionType", out var tt);
             if (!tx.ContainsKey("Sequence"))
             {
-                 //Debug.WriteLine("MISSING: Sequence");
                 promises.Add(SetNextValidSequenceNumber(client, tx));
             }
             if (!tx.ContainsKey("Fee"))
             {
-                 //Debug.WriteLine("MISSING: Fee");
                 promises.Add(CalculateFeePerTransactionType(client, tx, signersCount ?? 0));
             }
             if (!tx.ContainsKey("LastLedgerSequence"))
             {
-                 //Debug.WriteLine("MISSING: LastLedgerSequence");
                 promises.Add(SetLatestValidatedLedgerSequence(client, tx));
             }
             if (tt == "AccountDelete")
             {
-                 //Debug.WriteLine("MISSING: AccountDelete");
                 promises.Add(CheckAccountDeleteBlockers(client, tx));
             }
             await Task.WhenAll(promises);
             string jsonData = JsonConvert.SerializeObject(tx);
-            //Debug.WriteLine("FINISHED AUTOFILL");
             return tx;
         }
 
@@ -114,7 +108,6 @@ namespace Xrpl.Sugar
             var tinfo = tx.TryGetValue(tagField, out var tField);
 
             // XRPL: Does bool or int. Smells.
-            //if (classicAccount.Tag != null && classicAccount.Tag != false)
             if (classicAccount.Tag != null)
             {
                 if (tField != null && (int)tField != classicAccount.Tag)

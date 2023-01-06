@@ -49,9 +49,7 @@ namespace Xrpl.BinaryCodec.Binary
         public Field ReadField()
         {
             var fieldCode = ReadFieldCode();
-            Debug.WriteLine(fieldCode);
             var field = Field.Values[fieldCode];
-            Debug.WriteLine(field.Name);
             if (field == null)
             {
                 throw new InvalidOperationException(
@@ -74,7 +72,6 @@ namespace Xrpl.BinaryCodec.Binary
             if (type == 0)
             {
                 type = ReadUInt8();
-                Debug.WriteLine(type);
                 if (type == 0 || type < 16)
                 {
                     throw new BinaryCodecException("Cannot read FieldOrdinal, type_code out of range");
@@ -84,7 +81,6 @@ namespace Xrpl.BinaryCodec.Binary
             if (nth == 0)
             {
                 nth = ReadUInt8();
-                Debug.WriteLine(nth);
                 if (nth == 0 || nth < 16)
                 {
                     throw new BinaryCodecException("Cannot read FieldOrdinal, type_code out of range");

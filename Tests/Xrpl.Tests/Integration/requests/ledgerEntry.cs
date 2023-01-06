@@ -30,7 +30,6 @@ namespace XrplTests.Xrpl.ClientLib.Integration
         //    LedgerIndex li = new LedgerIndex(LedgerIndexType.Validated);
         //    LedgerDataRequest request1 = new LedgerDataRequest() { LedgerIndex = li };
         //    LOLedgerData response1 = await runner.client.LedgerData(request1);
-        //    Debug.WriteLine(response1.State[0].LedgerObject);
         //    string index = response1.State[0].LedgerObject.Index;
 
         //    LedgerEntryRequest request = new LedgerEntryRequest() { Index = index, LedgerIndex = li };

@@ -36,7 +36,6 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             LOLedger ledgerResponse = await runner.client.Ledger(request);
             LedgerEntity ledgerEntity = (LedgerEntity)ledgerResponse.LedgerEntity;
             uint closeTime = ledgerEntity.CloseTime;
-            Debug.WriteLine(closeTime);
 
             XrplWallet wallet2 = await Utils.GenerateFundedWallet(runner.client);
             EscrowCreate setupTx = new EscrowCreate

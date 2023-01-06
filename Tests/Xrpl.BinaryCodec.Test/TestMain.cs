@@ -125,8 +125,6 @@ namespace Xrpl.BinaryCodec.Tests
         {
             Assert.AreEqual(XrplBinaryCodec.Encode(test.json), test.binary);
             Dictionary<string, dynamic> result = XrplBinaryCodec.Decode(test.binary).ToObject<Dictionary<string, dynamic>>();
-            Debug.WriteLine(JsonConvert.SerializeObject(result));
-            Debug.WriteLine(JsonConvert.SerializeObject(test.json.ToObject<Dictionary<string, dynamic>>()));
             ExtensionHelpers.StrictDictEqual(result, test.json.ToObject<Dictionary<string, dynamic>>());
         }
 

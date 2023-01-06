@@ -56,7 +56,6 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             TxRequest request2 = new TxRequest(escrow.PreviousTxnID);
             TransactionResponseCommon response2 = await runner.client.Tx(request2);
             uint sequence = (uint)response2.Sequence;
-            Debug.WriteLine(sequence);
 
             // actual test - EscrowFinish
             EscrowFinish tx = new EscrowFinish

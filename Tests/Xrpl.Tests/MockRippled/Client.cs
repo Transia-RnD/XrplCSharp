@@ -140,7 +140,6 @@ namespace Xrpl.Tests.MockRippled
                 while (readableBytes > 0)
                 {
                     // Get the frame data
-                    //Debug.WriteLine($"AVAIL LEN: {readableBytes}");
                     SFrameMaskData frameData = Helpers.GetFrameData(messageBuffer);
 
                     // Get the decode frame key from the frame data
@@ -150,18 +149,14 @@ namespace Xrpl.Tests.MockRippled
                     int dataIndex = frameData.KeyIndex + 4;
                     int count = 0;
 
-                    //Debug.WriteLine($"DATA INDEX: {dataIndex}");
-
                     // Decode the data using the key
                     for (int i = dataIndex; i < frameData.TotalLenght; i++)
                     {
-                        //Debug.WriteLine($"DECODE KEY: {i}");
                         messageBuffer[i] = (byte)(messageBuffer[i] ^ decodeKey[count % 4]);
                         count++;
                     }
 
                     // Return the decoded message
-                    //Debug.WriteLine($"READING: {frameData.TotalLenght}");
 
                     string message = Encoding.Default.GetString(messageBuffer, dataIndex, frameData.DataLength);
                     GetServer().ReceiveMessage(this, message);
@@ -178,7 +173,6 @@ namespace Xrpl.Tests.MockRippled
             }
             catch (Exception exception)
             {
-                Debug.WriteLine($"MOCK CLIENT ERROR: {exception.Message}");
                 GetSocket().Close();
                 GetSocket().Dispose();
                 GetServer().ClientDisconnect(this);

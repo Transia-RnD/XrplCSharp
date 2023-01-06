@@ -87,7 +87,6 @@ namespace Xrpl.Client
                 throw new XrplException($"No existing promise with id {id}");
             }
             // todo: should stop task timout if need to
-            //clearTimeout(promise)
             var hasTimer = this.timeoutsAwaitingResponse.TryRemove(id, out var timer);
             if (hasTimer)
                 timer.Stop();
@@ -100,7 +99,6 @@ namespace Xrpl.Client
         /// </summary>
         public void RejectAll(Exception error)
         {
-            // Debug.WriteLine($"REJECT ALL: {promisesAwaitingResponse.Count}");
             foreach (var id in this.promisesAwaitingResponse.Keys)
             {
                 this.Reject(id, error);
@@ -172,25 +170,17 @@ namespace Xrpl.Client
             request["id"] = newId;
 
             string newRequest = JsonConvert.SerializeObject(request, serializerSettings);
-            //Debug.WriteLine($"CLIENT SEND: {newRequest}");
 
             if (this.promisesAwaitingResponse.ContainsKey(newId))
             {
                 throw new XrplException($"Response with id '${newId}' is already pending");
             }
 
-            //throw new Exception("SOMETHNG");
-
             TaskCompletionSource<Dictionary<string, dynamic>> task = new TaskCompletionSource<Dictionary<string, dynamic>>();
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = newId;
             taskInfo.TaskCompletionResult = task;
             taskInfo.RemoveUponCompletion = true;
-            //var typeInfo = request.GetType().GetProperty("Command");
-            //if (typeInfo != null)
-            //{
-            //    taskInfo.RemoveUponCompletion = (string)typeInfo.GetValue(request) == "subscribe" ? false : true;
-            //}
             taskInfo.Type = typeof(Dictionary<string, dynamic>);
 
             promisesAwaitingResponse.TryAdd(newId, taskInfo);
