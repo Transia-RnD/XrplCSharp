@@ -47,7 +47,7 @@ For integration tests, we use a `rippled` node in standalone mode to test XRPLSw
 # sets up the rippled standalone Docker container - you can skip this step if you already have it set up
 docker run -p 6006:6006 -it natenichols/rippled-standalone:latest
 dotnet build
-dotnet test--verbosity normal --filter "TestI"
+dotnet test --verbosity normal --filter "TestI"
 ```
 
 ## Generate reference docs
