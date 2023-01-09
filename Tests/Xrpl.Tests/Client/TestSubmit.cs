@@ -10,7 +10,7 @@ using Xrpl.Client;
 using Xrpl.Models.Transactions;
 using Xrpl.Wallet;
 
-// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/client/submit.ts
+// https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/client/submit.test.ts
 
 namespace Xrpl.Tests.ClientLib
 {
@@ -71,6 +71,57 @@ namespace Xrpl.Tests.ClientLib
             {
 
                 Submit response = await runner.client.Submit(tx, wallet);
+                Assert.AreEqual("tesSUCCESS", response.EngineResult);
+            }
+            catch (Exception error)
+            {
+                Debug.WriteLine(error);
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public async Task TestSubmitSignedTx()
+        {
+            Dictionary<string, dynamic> tx = new Dictionary<string, dynamic>
+            {
+                { "TransactionType", "Payment" },
+                { "Sequence", 1 },
+                { "LastLedgerSequence", 12312 },
+                { "Amount", "20000000" },
+                { "Fee", "12" },
+                { "SigningPubKey", "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D" },
+                { "TxnSignature", "3045022100B3D311371EDAB371CD8F2B661A04B800B61D4B132E09B7B0712D3B2F11B1758302203906B44C4A150311D74FF6A35B146763C0B5B40AC30BD815113F058AA17B3E63" },
+                { "Account", "rhvh5SrgBL5V8oeV9EpDuVszeJSSCEkbPc" },
+                { "Destination", "rQ3PTWGLCbPz8ZCicV5tCX3xuymojTng5r" },
+            };
+            try
+            {
+                string submitString = "{\"id\":0,\"status\":\"success\",\"type\":\"response\",\"result\":{\"success\":true,\"engine_result\":\"tesSUCCESS\",\"engine_result_code\":0,\"engine_result_message\":\"Thetransactionwasapplied.Onlyfinalinavalidatedledger.\",\"tx_blob\":\"1200002280000000240000016861D4838D7EA4C6800000000000000000000000000055534400000000004B4E9C06F24296074F7BC48F92A97916C6DC5EA9684000000000002710732103AB40A0490F9B7ED8DF29D246BF2D6269820A0EE7742ACDD457BEA7C7D0931EDB7446304402200E5C2DD81FDF0BE9AB2A8D797885ED49E804DBF28E806604D878756410CA98B102203349581946B0DDA06B36B35DBC20EDA27552C1F167BCF5C6ECFF49C6A46F858081144B4E9C06F24296074F7BC48F92A97916C6DC5EA983143E9D4A2B8AA0780F682D136F7A56D6724EF53754\",\"tx_json\":{\"Account\":\"rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn\",\"Amount\":{\"currency\":\"USD\",\"issuer\":\"rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn\",\"value\":\"1\"},\"Destination\":\"ra5nK24KXen9AHvsdFTKHSANinZseWnPcX\",\"Fee\":\"10000\",\"Flags\":2147483648,\"Sequence\":360,\"SigningPubKey\":\"03AB40A0490F9B7ED8DF29D246BF2D6269820A0EE7742ACDD457BEA7C7D0931EDB\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"304402200E5C2DD81FDF0BE9AB2A8D797885ED49E804DBF28E806604D878756410CA98B102203349581946B0DDA06B36B35DBC20EDA27552C1F167BCF5C6ECFF49C6A46F8580\",\"hash\":\"4D5D90890F8D49519E4151938601EF3D0B30B16CD6A519D9C99102C9FA77F7E0\"}}}";
+                Dictionary<string, dynamic> submitData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(submitString);
+                runner.mockedRippled.AddResponse("submit", submitData);
+
+                Submit response = await runner.client.Submit(tx);
+                Assert.AreEqual("tesSUCCESS", response.EngineResult);
+            }
+            catch (Exception error)
+            {
+                Debug.WriteLine(error);
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public async Task TestSubmitSignedTxBlob()
+        {
+            try
+            {
+                string signed = "1200002400000001201B00003018614000000001312D0068400000000000000C7321030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D74473045022100B3D311371EDAB371CD8F2B661A04B800B61D4B132E09B7B0712D3B2F11B1758302203906B44C4A150311D74FF6A35B146763C0B5B40AC30BD815113F058AA17B3E6381142AF1861DEC1316AEEC995C94FF9E2165B1B784608314FDB08D07AAA0EB711793A3027304D688E10C3648";
+                string submitString = "{\"id\":0,\"status\":\"success\",\"type\":\"response\",\"result\":{\"success\":true,\"engine_result\":\"tesSUCCESS\",\"engine_result_code\":0,\"engine_result_message\":\"Thetransactionwasapplied.Onlyfinalinavalidatedledger.\",\"tx_blob\":\"1200002280000000240000016861D4838D7EA4C6800000000000000000000000000055534400000000004B4E9C06F24296074F7BC48F92A97916C6DC5EA9684000000000002710732103AB40A0490F9B7ED8DF29D246BF2D6269820A0EE7742ACDD457BEA7C7D0931EDB7446304402200E5C2DD81FDF0BE9AB2A8D797885ED49E804DBF28E806604D878756410CA98B102203349581946B0DDA06B36B35DBC20EDA27552C1F167BCF5C6ECFF49C6A46F858081144B4E9C06F24296074F7BC48F92A97916C6DC5EA983143E9D4A2B8AA0780F682D136F7A56D6724EF53754\",\"tx_json\":{\"Account\":\"rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn\",\"Amount\":{\"currency\":\"USD\",\"issuer\":\"rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn\",\"value\":\"1\"},\"Destination\":\"ra5nK24KXen9AHvsdFTKHSANinZseWnPcX\",\"Fee\":\"10000\",\"Flags\":2147483648,\"Sequence\":360,\"SigningPubKey\":\"03AB40A0490F9B7ED8DF29D246BF2D6269820A0EE7742ACDD457BEA7C7D0931EDB\",\"TransactionType\":\"Payment\",\"TxnSignature\":\"304402200E5C2DD81FDF0BE9AB2A8D797885ED49E804DBF28E806604D878756410CA98B102203349581946B0DDA06B36B35DBC20EDA27552C1F167BCF5C6ECFF49C6A46F8580\",\"hash\":\"4D5D90890F8D49519E4151938601EF3D0B30B16CD6A519D9C99102C9FA77F7E0\"}}}";
+                Dictionary<string, dynamic> submitData = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(submitString);
+                runner.mockedRippled.AddResponse("submit", submitData);
+
+                Submit response = await runner.client.Submit(signed);
                 Assert.AreEqual("tesSUCCESS", response.EngineResult);
             }
             catch (Exception error)

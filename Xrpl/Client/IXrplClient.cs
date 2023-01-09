@@ -193,6 +193,7 @@ namespace Xrpl.Client
         /// <param name="wallet"></param>//todo add description
         /// <returns>An <see cref="Models.Transaction.Submit"/> response.</returns>
         Task<Submit> Submit(Dictionary<string, dynamic> tx, XrplWallet wallet);
+        Task<Submit> Submit(string tx);
         /// <summary>
         /// The tx method retrieves information on a single transaction, by its identifying hash
         /// </summary>
@@ -368,6 +369,18 @@ namespace Xrpl.Client
         public Task<Submit> Submit(Dictionary<string, dynamic> tx, XrplWallet wallet)
         {
             return SubmitSugar.Submit(this, tx, true, false, wallet);
+        }
+
+        /// <inheritdoc />
+        public Task<Submit> Submit(Dictionary<string, dynamic> tx)
+        {
+            return SubmitSugar.Submit(this, tx, true, false, null);
+        }
+
+        /// <inheritdoc />
+        public Task<Submit> Submit(string tx)
+        {
+            return SubmitSugar.Submit(this, tx, true, false, null);
         }
 
         /// <inheritdoc />
