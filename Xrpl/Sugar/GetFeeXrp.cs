@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using Xrpl.Client;
@@ -13,6 +14,7 @@ namespace Xrpl.Sugar
     public static class GetFeeXrpSugar
     {
         private const int NUM_DECIMAL_PLACES = 6;
+        private const int BASE_10 = 10;
 
         /// <summary>
         /// Calculates the current transaction fee for the ledger.

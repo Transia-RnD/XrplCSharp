@@ -191,7 +191,7 @@ namespace Xrpl.Client
         /// To be successful, the weights of the signatures must be equal or higher than the quorum of the SignerList.
         /// </param>
         /// <param name="wallet"></param>//todo add description
-        /// <returns>An <see cref="Models.Transaction.Submit"/> response.</returns>
+        /// <returns>An <see cref="Models.Transactions.Submit"/> response.</returns>
         Task<Submit> Submit(Dictionary<string, dynamic> tx, XrplWallet wallet);
         /// <summary>
         /// The tx method retrieves information on a single transaction, by its identifying hash
@@ -251,7 +251,7 @@ namespace Xrpl.Client
         /// The book_offers method retrieves a list of offers, also known as the order book , between two currencies
         /// </summary>
         /// <param name="request">An <see cref="BookOffersRequest"/> request.</param>
-        /// <returns>An <see cref="Models.Transaction.BookOffers"/> response.</returns>
+        /// <returns>An <see cref="Models.Transactions.BookOffers"/> response.</returns>
         Task<BookOffers> BookOffers(BookOffersRequest request);
         /// <summary>
         /// The random command provides a random number to be used as a source of entropy for random number generation by clients.<br/>
