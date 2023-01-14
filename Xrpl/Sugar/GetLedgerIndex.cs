@@ -11,14 +11,14 @@ using Xrpl.Models.Methods;
 
 namespace Xrpl.Sugar
 {
-    public class GetLedgerSugar
+    public static class GetLedgerSugar
     {
         /// <summary>
         /// Returns the index of the most recently validated ledger.
         /// </summary>
         /// <param name="client">The Client used to connect to the ledger.</param>
         // <returns>The most recently validated ledger index.</returns>
-        public static async Task<uint> GetLedgerIndex(IXrplClient client)
+        public static async Task<uint> GetLedgerIndex(this IXrplClient client)
         {
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Current);
             LedgerRequest request = new LedgerRequest() { LedgerIndex = index };

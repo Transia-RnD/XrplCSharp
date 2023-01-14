@@ -10,9 +10,9 @@ using Xrpl.Models.Methods;
 
 namespace Xrpl.Sugar
 {
-    public class GetFeeXrpSugar
+    public static class GetFeeXrpSugar
     {
-        private static int NUM_DECIMAL_PLACES = 6;
+        private const int NUM_DECIMAL_PLACES = 6;
 
         /// <summary>
         /// Calculates the current transaction fee for the ledger.
@@ -21,7 +21,7 @@ namespace Xrpl.Sugar
         /// <param name="client">The Client used to connect to the ledger.</param>
         /// <param name="cushion">The fee cushion to use</param>
         /// <returns>The transaction fee</returns>
-        public static async Task<string> GetFeeXrp(IXrplClient client, double? cushion = null)
+        public static async Task<string> GetFeeXrp(this IXrplClient client, double? cushion = null)
         {
             double feeCushion = cushion ?? client.feeCushion;
             ServerInfoRequest request = new ServerInfoRequest();
