@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
+
 using Xrpl.Client;
 using Xrpl.Models.Common;
 using Xrpl.Models.Ledger;
@@ -9,7 +13,7 @@ using Xrpl.Models.Methods;
 
 namespace Xrpl.Sugar
 {
-    public class BalancesSugar
+    public static class BalancesSugar
     {
         public class Balance
         {
@@ -23,8 +27,19 @@ namespace Xrpl.Sugar
             public string? LedgerHash { get; set; }
             public LedgerIndex? LedgerIndex { get; set; }
             public string Peer { get; set; }
-            public int Limit { get; set; }
+            public int? Limit { get; set; }
         }
+
+        public static IEnumerable<Balance> FormatBalances(this IEnumerable<TrustLine> trustlines) =>
+            trustlines.Select(Map);
+
+        public static Balance Map(this TrustLine trustline) =>
+                    new Balance()
+                    {
+                        value = trustline.Balance,
+                        currency = trustline.Currency,
+                        issuer = trustline.Account,
+                    };
 
         /// <summary>
         /// Get the XRP balance for an account.
@@ -34,7 +49,7 @@ namespace Xrpl.Sugar
         /// <param name="lederIndex">Retrieve the account balances at a given ledgerIndex.</param>
         /// <param name="ledgerHash">Retrieve the account balances at the ledger with a given ledger_hash.</param>
         /// <returns/> The XRP balance of the account (as a string).
-        public static async Task<string> GetXrpBalance(XrplClient client, string address, string? ledgerHash = null, LedgerIndex? lederIndex = null)
+        public static async Task<string> GetXrpBalance(this XrplClient client, string address, string? ledgerHash = null, LedgerIndex? lederIndex = null)
         {
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Validated);
             AccountInfoRequest xrpRequest = new AccountInfoRequest(address)
@@ -47,38 +62,41 @@ namespace Xrpl.Sugar
             return accountInfo.AccountData.Balance.ValueAsXrp.ToString();
         }
 
-        //public async Task<List<Balance>> GetBalances(XrplClient client, string address, GetBalancesOptions options = null)
-        //{
-        //    var balances = new List<Balance>();
-        //    var xrpPromise = Task.FromResult("");
-        //    if (options?.Peer == null)
-        //    {
-        //        xrpPromise = GetXrpBalance(client, address, options?.LedgerHash, options?.LedgerIndex);
-        //    }
+        public static async Task<List<Balance>> GetBalances(this XrplClient client, string address, GetBalancesOptions options = null)
+        {
+            var linesRequest = new AccountLinesRequest(address)
+            {
+                Command = "account_lines",
+                LedgerIndex = options?.LedgerIndex ?? new LedgerIndex(LedgerIndexType.Validated),
+                LedgerHash = options?.LedgerHash,
+                Peer = options?.Peer,
+                Limit = options?.Limit
+            };
 
-        //    var linesRequest = new AccountLinesRequest
-        //    {
-        //        Command = "account_lines",
-        //        Account = address,
-        //        LedgerIndex = options?.LedgerIndex ?? new LedgerIndex(LedgerIndexType.Validated),
-        //        LedgerHash = options?.LedgerHash,
-        //        Peer = options?.Peer,
-        //        Limit = options?.Limit
-        //    };
-        //    var linesPromise = RequestAll(linesRequest);
+            var response = await client.AccountLines(linesRequest);
+            var lines = response.TrustLines;
+            while (response.Marker is not null && lines.Count > 0)
+            {
+                linesRequest.Marker = response.Marker;
+                response = await client.AccountLines(linesRequest);
+                if (response.TrustLines.Count > 0)
+                    lines.AddRange(response.TrustLines);
+                if (options?.Limit is not null && lines.Count >= options.Limit)
+                    break;
+            }
+            var balances = lines.FormatBalances().ToList();
 
-        //    await Task.WhenAll(xrpPromise, linesPromise).ContinueWith(async (t) =>
-        //    {
-        //        var xrpBalance = await xrpPromise;
-        //        var linesResponses = await linesPromise;
-        //        var accountLinesBalance = linesResponses.SelectMany(response => FormatBalances(response.Result.Lines));
-        //        if (xrpBalance != "")
-        //        {
-        //            balances.Add(new Balance { Currency = "XRP", Value = xrpBalance });
-        //        }
-        //        balances.AddRange(accountLinesBalance);
-        //    });
-        //    return balances.Take(options?.Limit ?? balances.Count).ToList();
-        //}
+            if (options?.Peer == null)
+            {
+                var xrp_balance = await GetXrpBalance(client, address, options?.LedgerHash, options?.LedgerIndex);
+                if (!string.IsNullOrWhiteSpace(xrp_balance))
+                {
+                    balances.Insert(0, new Balance { currency = "XRP", value = xrp_balance });
+                }
+
+            }
+
+            return balances;
+        }
     }
 }

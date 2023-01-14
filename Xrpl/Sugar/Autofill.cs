@@ -1,27 +1,20 @@
-﻿using System;
-using System.Linq;
+﻿using Newtonsoft.Json;
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Numerics;
 using System.Threading.Tasks;
+
 using Xrpl.AddressCodec;
+using Xrpl.Client;
+using Xrpl.Client.Exceptions;
 using Xrpl.Models.Common;
 using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
-using System.Numerics;
-using static Xrpl.AddressCodec.XrplAddressCodec;
-using System.Collections.Generic;
-using Xrpl.Client;
-using Xrpl.Client.Exceptions;
 using Xrpl.Utils;
-using System.Globalization;
-using Newtonsoft.Json.Linq;
-using Org.BouncyCastle.Math.EC.Multiplier;
-using Xrpl.BinaryCodec.Types;
-using System.IO;
-using System.Diagnostics;
-using Newtonsoft.Json;
-using Org.BouncyCastle.Asn1.Ocsp;
-using Xrpl.BinaryCodec.Enums;
-using Org.BouncyCastle.Utilities;
-using System.Security.Principal;
+
+using static Xrpl.AddressCodec.XrplAddressCodec;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/autofill.ts
 
