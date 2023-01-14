@@ -602,7 +602,7 @@ namespace Xrpl.Client
 
         public string EnsureClassicAddress(string address)
         {
-            return address;
+            return Xrpl.Sugar.Utils.EnsureClassicAddress(address);
         }
 
         #region IDisposable
