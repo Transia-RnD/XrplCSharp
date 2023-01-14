@@ -361,13 +361,13 @@ namespace Xrpl.Client
         // SUGARS
         public Task<Dictionary<string, dynamic>> Autofill(Dictionary<string, dynamic> tx)
         {
-            return AutofillSugar.Autofill(this, tx, null);
+            return this.Autofill(tx, null);
         }
 
         /// <inheritdoc />
         public Task<Submit> Submit(Dictionary<string, dynamic> tx, XrplWallet wallet)
         {
-            return SubmitSugar.Submit(this, tx, true, false, wallet);
+            return this.Submit(tx, true, false, wallet);
         }
 
         /// <inheritdoc />
