@@ -261,7 +261,10 @@ namespace Xrpl.Models.Transaction
                 },
                 [BinaryCodec.Types.TransactionType.NFTokenAcceptOffer] = new TxFormat
                 {
-                    [Field.NFTokenID] = Requirement.Required
+                    //[Field.NFTokenID] = Requirement.Required, //no need this field
+                    [Field.NFTokenSellOffer] = Requirement.Optional,
+                    [Field.NFTokenBuyOffer] = Requirement.Optional,
+                    [Field.NFTokenBrokerFee] = Requirement.Optional,
                 },
                 [BinaryCodec.Types.TransactionType.UNLModify] = new TxFormat
                 {
