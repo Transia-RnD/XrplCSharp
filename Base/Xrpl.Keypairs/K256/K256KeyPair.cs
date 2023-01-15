@@ -32,7 +32,7 @@ namespace Xrpl.Keypairs.K256
 
         public string Pk()
         {
-            return $"00{FromBytesToHex(this._privKey.ToByteArrayUnsigned())}";
+            return $"00{_privKey.ToByteArrayUnsigned().FromBytesToHex()}";
         }
 
         public static byte[] Sign(byte[] message, byte[] privateKey)

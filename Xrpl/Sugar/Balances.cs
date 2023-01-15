@@ -13,22 +13,23 @@ using Xrpl.Models.Methods;
 
 namespace Xrpl.Sugar
 {
+    public class Balance
+    {
+        public string Value { get; set; }
+        public string Currency { get; set; }
+        public string Issuer { get; set; }
+    }
+
+    public class GetBalancesOptions
+    {
+        public string? LedgerHash { get; set; }
+        public LedgerIndex? LedgerIndex { get; set; }
+        public string Peer { get; set; }
+        public int? Limit { get; set; }
+    }
+
     public static class BalancesSugar
     {
-        public class Balance
-        {
-            public string value { get; set; }
-            public string currency { get; set; }
-            public string issuer { get; set; }
-        }
-
-        public class GetBalancesOptions
-        {
-            public string? LedgerHash { get; set; }
-            public LedgerIndex? LedgerIndex { get; set; }
-            public string Peer { get; set; }
-            public int? Limit { get; set; }
-        }
 
         public static IEnumerable<Balance> FormatBalances(this IEnumerable<TrustLine> trustlines) =>
             trustlines.Select(Map);
@@ -36,9 +37,9 @@ namespace Xrpl.Sugar
         public static Balance Map(this TrustLine trustline) =>
                     new Balance()
                     {
-                        value = trustline.Balance,
-                        currency = trustline.Currency,
-                        issuer = trustline.Account,
+                        Value = trustline.Balance,
+                        Currency = trustline.Currency,
+                        Issuer = trustline.Account,
                     };
 
         /// <summary>
@@ -91,7 +92,7 @@ namespace Xrpl.Sugar
                 var xrp_balance = await GetXrpBalance(client, address, options?.LedgerHash, options?.LedgerIndex);
                 if (!string.IsNullOrWhiteSpace(xrp_balance))
                 {
-                    balances.Insert(0, new Balance { currency = "XRP", value = xrp_balance });
+                    balances.Insert(0, new Balance { Currency = "XRP", Value = xrp_balance });
                 }
 
             }
