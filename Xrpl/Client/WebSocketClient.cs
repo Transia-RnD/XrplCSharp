@@ -52,7 +52,7 @@ namespace Xrpl.Client
         /// Connects to the WebSocket server.
         /// </summary>
         /// <returns>Self</returns>
-        public WebSocketClient Connect()
+        public async Task<WebSocketClient> Connect()
         {
             if (_ws == null)
             {
@@ -60,7 +60,7 @@ namespace Xrpl.Client
                 _ws.Options.KeepAliveInterval = TimeSpan.FromSeconds(20);
             }
 
-            ConnectAsync();
+            await ConnectAsync();
             return this;
         }
 
@@ -196,7 +196,7 @@ namespace Xrpl.Client
             {
                 try
                 {
-                    Connect();
+                    _ = Connect();
                 }
                 catch (Exception e)
                 {
@@ -232,7 +232,7 @@ namespace Xrpl.Client
             }
         }
 
-        private async void ConnectAsync()
+        private async Task ConnectAsync()
         {
             try
             {

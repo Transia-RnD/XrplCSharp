@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xrpl.Client;
 using Xrpl.Client.Exceptions;
+using Timer = System.Timers.Timer;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/setupClient.ts
 
@@ -25,20 +26,22 @@ namespace Xrpl.Tests
                 _mockedServerPort = port;
             });
             tcpListenerThread.Start();
+            Timer timer = new Timer(25000);
+            timer.Elapsed += (sender, e) => tcpListenerThread.Abort();
             client = new XrplClient($"ws://127.0.0.1:{port}");
             client.OnConnected += () =>
             {
-                //Console.WriteLine("SETUP CLIENT: CONECTED");
+                Debug.WriteLine("SETUP CLIENT: CONECTED");
                 return Task.CompletedTask;
             };
             client.OnDisconnect += (code) =>
             {
-                //Console.WriteLine("SETUP CLIENT: DISCONECTED");
+                Debug.WriteLine("SETUP CLIENT: DISCONECTED");
                 return Task.CompletedTask;
             };
             client.OnError += (e, em, m, d) =>
             {
-                //Console.WriteLine($"SETUP CLIENT: ERROR: {e}");
+                Debug.WriteLine($"SETUP CLIENT: ERROR: {e}");
                 return Task.CompletedTask;
             };
             await client.Connect();
