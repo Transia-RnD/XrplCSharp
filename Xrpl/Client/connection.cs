@@ -126,17 +126,17 @@ namespace Xrpl.Client
 
         public Timer timer;
 
-        public Task Connect()
+        public async Task Connect()
         {
             if (this.IsConnected())
             {
                 var p1 = new TaskCompletionSource();
                 p1.TrySetResult();
-                return p1.Task;
+                await p1.Task;
             }
             if (this.State() == WebSocketState.Connecting)
             {
-                this.connectionManager.AwaitConnection();
+                await this.connectionManager.AwaitConnection();
             }
             if (this.url == null)
             {
@@ -173,9 +173,9 @@ namespace Xrpl.Client
                 await OnceClose(1000);
             });
 
-            _ = this.ws.Connect();
+            await this.ws.Connect();
 
-            return this.connectionManager.AwaitConnection();
+            this.connectionManager.AwaitConnection();
         }
 
         public async Task<int> Disconnect()
@@ -347,6 +347,7 @@ namespace Xrpl.Client
             try
             {
                 data = JsonConvert.DeserializeObject<BaseResponse>(message);
+                Console.WriteLine(message);
             }
             catch (Exception error)
             {
