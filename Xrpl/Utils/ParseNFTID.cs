@@ -1,8 +1,10 @@
 using System;
 using System.Reflection.Emit;
 using Xrpl.AddressCodec;
+using Xrpl.BinaryCodec.Util;
 using Xrpl.Client.Exceptions;
 using Xrpl.Models.Common;
+using Xrpl.BinaryCodec.Hashing;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/utils/parseNFTokenID.ts
 
