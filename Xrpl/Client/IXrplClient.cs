@@ -27,7 +27,7 @@ namespace Xrpl.Client
     public delegate Task OnError(string error, string errorMessage, string message, dynamic data);
     public delegate Task OnConnected();
     public delegate Task OnDisconnect(int? code);
-    public delegate Task OnLedgerClosed(object response);
+    public delegate Task OnLedgerClosed(LedgerStream response);
     public delegate Task OnTransaction(TransactionStream response);
     public delegate Task OnManifestReceived(ValidationStream response);
     public delegate Task OnPeerStatusChange(PeerStatusStream response);

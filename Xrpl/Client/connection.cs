@@ -347,7 +347,6 @@ namespace Xrpl.Client
             try
             {
                 data = JsonConvert.DeserializeObject<BaseResponse>(message);
-                Console.WriteLine(message);
             }
             catch (Exception error)
             {
@@ -370,7 +369,7 @@ namespace Xrpl.Client
                 {
                     case ResponseStreamType.ledgerClosed:
                         {
-                            object response = JsonConvert.DeserializeObject<object>(message.ToString());
+                            var response = JsonConvert.DeserializeObject<LedgerStream>(message);
 
                             if (OnLedgerClosed is not null)
                                 await OnLedgerClosed?.Invoke(response)!;
