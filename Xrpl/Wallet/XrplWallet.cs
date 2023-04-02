@@ -45,7 +45,7 @@ namespace Xrpl.Wallet
         {
             this.PublicKey = publicKey;
             this.PrivateKey = privateKey;
-            this.ClassicAddress = masterAddress != null ? masterAddress : XrplKeypairs.DeriveAddress(publicKey);
+            this.ClassicAddress = masterAddress ?? XrplKeypairs.DeriveAddress(publicKey);
             this.Seed = seed;
         }
 
@@ -78,10 +78,22 @@ namespace Xrpl.Wallet
         /// <returns>A Wallet derived from an entropy.</returns>
         public static XrplWallet FromEntropy(byte[] entropy, string? masterAddress = null, string? algorithm = null)
         {
-            string falgorithm = algorithm != null ? algorithm : XrplWallet.DEFAULT_ALGORITHM;
+            string falgorithm = algorithm ?? XrplWallet.DEFAULT_ALGORITHM;
             string seed = XrplKeypairs.GenerateSeed(entropy, falgorithm);
             return XrplWallet.DeriveWallet(seed, masterAddress, falgorithm);
         }
+
+        /// <summary>
+        /// Creates a Wallet from xumm numbers.
+        /// </summary>
+        /// <returns>A Wallet from xumm numbers.</returns>
+        public static XrplWallet FromXummNumbers(string[] numbers)
+        {
+            byte[] entropy = XummExtension.EntropyFromXummNumbers(numbers);
+            return FromEntropy(entropy);
+        }
+
+
 
         /// <summary>
         /// Derive a Wallet from a seed.
