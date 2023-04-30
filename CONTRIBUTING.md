@@ -111,7 +111,7 @@ ___
 3. Create a new branch to capture updates that take place during this process. `git checkout -b <BRANCH_NAME>`
 <!-- 4. Run `npm run docgen` if the docs were modified in this release to update them. -->
 <!-- 5. Run `npm run build` to triple check the build still works -->
-6. Update the version in the `xrpl.c.csproj` file.
+6. Update the version in the `XrplCSharp.csproj` file and all of the sub packages.
 <!-- 6. Run `npx lerna version --no-git-tag-version` - This creates a draft PR and release tags for the new version. -->
 <!-- 7. For each changed package, pick what the new version should be. Lerna will bump the versions, commit version bumps to `main`, and create a new git tag for each published package. -->
 <!-- 8. Run `npm i` to update the package-lock with the updated versions -->
