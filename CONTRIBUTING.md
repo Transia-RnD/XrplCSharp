@@ -110,8 +110,8 @@ ___
 2. Checkout `main` and `git pull`.
 3. Create a new branch to capture updates that take place during this process. `git checkout -b <BRANCH_NAME>`
 <!-- 4. Run `npm run docgen` if the docs were modified in this release to update them. -->
-5. Run `npm run build` to triple check the build still works
-6. Update the version in the `xrpl.c.csproj` file.
+<!-- 5. Run `npm run build` to triple check the build still works -->
+6. Update the version in the `XrplCSharp.csproj` file and all of the sub packages.
 <!-- 6. Run `npx lerna version --no-git-tag-version` - This creates a draft PR and release tags for the new version. -->
 <!-- 7. For each changed package, pick what the new version should be. Lerna will bump the versions, commit version bumps to `main`, and create a new git tag for each published package. -->
 <!-- 8. Run `npm i` to update the package-lock with the updated versions -->
@@ -119,9 +119,12 @@ ___
 10. Checkout `main` and `git pull`
 11. Deploy using nuget
 <!-- 12. If it asks for it, you may need your [npmjs.com](https://npmjs.com) OTP (one-time password) to complete publication. -->
-13. Create a new branch to capture the updated packages from the release (`git checkout -b <BRANCH_NAME>`)
-14. Make a PR to merge those changes into `main`
-
+13. Create a new PR from `main` branch into `nuget_publish` and merge it.
+14. `Action` for publish will start automaticaly. Wait for the publication to complete in the `Action` section.
+```
+the package will be placed in nuget and git.Nuget(git owner @dangell7 )
+before push you need to create nuget api key in project settings, if you still not have it)
+```
 ___
 NOW YOU HAVE PUBLISHED! But you're not done; we have to notify people!
 ___
@@ -134,6 +137,8 @@ ___
 21. Edit the name of the release to match the tag (IE <version\>) and edit the description as you see fit.
 22. Repeat steps 19-21 for each release.
 23. Send an email to [xrpl-announce](https://groups.google.com/g/xrpl-announce).
+
+
 
 ## Mailing Lists
 We have a low-traffic mailing list for announcements of new `XrplCSharp` releases. (About 1 email every couple of weeks)
