@@ -82,7 +82,7 @@ namespace MyApp
                 Sequence = accountInfo.AccountData.Sequence
             };
 
-            // sign the transaction
+            // sign and submit the transaction
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
             Submit response = await client.Submit(txJson, wallet);
             Console.WriteLine(response);
