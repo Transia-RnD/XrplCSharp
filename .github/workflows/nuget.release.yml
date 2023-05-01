@@ -7,7 +7,7 @@ on:
     branches: [ release ]
 
 jobs:
-  build:
+  release:
 
     runs-on: ubuntu-latest
 
@@ -33,7 +33,7 @@ jobs:
           dotnet pack Xrpl/Xrpl.csproj -c Release
           
     - name: Push package
-      run: dotnet nuget push "**/*.nupkg" --skip-duplicate --source https://nuget.pkg.github.com/dangell7/index.json -k ${{secrets.GITHUB_TOKEN}}     
+      run: dotnet nuget push "**/*.nupkg" --skip-duplicate --source https://nuget.pkg.github.com/dangell7/index.json -k ${{ secrets.GITHUB_TOKEN }}
   
     - name: Publishing
       run: dotnet nuget push "**/*.nupkg" -k ${{ secrets.NUGET_API_KEY }} --skip-duplicate -s https://api.nuget.org/v3/index.json
