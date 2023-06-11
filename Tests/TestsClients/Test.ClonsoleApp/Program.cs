@@ -56,7 +56,7 @@ namespace MyApp
 
             var client = new XrplClient("wss://s.altnet.rippletest.net:51233");
 
-            client.OnConnected += async () =>
+            client.connection.OnConnected += async () =>
             {
                 Console.WriteLine("CONNECTED");
             };
@@ -97,7 +97,7 @@ namespace MyApp
 
             var client = new XrplClient(server);
 
-            client.OnConnected += async () =>
+            client.connection.OnConnected += async () =>
             {
                 Console.WriteLine("CONNECTED");
                 var subscribe = await client.Subscribe(
@@ -110,14 +110,14 @@ namespace MyApp
                 });
             };
 
-            client.OnDisconnect += (code) =>
+            client.connection.OnDisconnect += (code) =>
             {
                 Console.WriteLine($"DISCONECTED CODE: {code}");
                 Console.WriteLine("DISCONECTED");
                 return Task.CompletedTask;
             };
 
-            client.OnError += (errorCode, errorMessage, error, data) =>
+            client.connection.OnError += (errorCode, errorMessage, error, data) =>
             {
                 Console.WriteLine(errorCode);
                 Console.WriteLine(errorMessage);
@@ -125,13 +125,13 @@ namespace MyApp
                 return Task.CompletedTask;
             };
 
-            client.OnTransaction += Response =>
+            client.connection.OnTransaction += Response =>
             {
                 Console.WriteLine(Response.Transaction.TransactionType.ToString());
                 return Task.CompletedTask;
             };
 
-            client.OnLedgerClosed += r =>
+            client.connection.OnLedgerClosed += r =>
             {
                 Console.WriteLine($"MESSAGE RECEIVED: {r}");
                 isFinished = true;

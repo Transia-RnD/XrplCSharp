@@ -67,7 +67,7 @@ namespace Xrpl.Tests.ClientLib
         public void TestEmitsTransaction()
         {
             bool isDone = false;
-            runner.client.OnTransaction += r =>
+            runner.client.connection.OnTransaction += r =>
             {
                 Assert.IsTrue(r.Type == ResponseStreamType.transaction);
                 isDone = true;
@@ -86,7 +86,7 @@ namespace Xrpl.Tests.ClientLib
         [TestMethod]
         public void TestEmitsLedger()
         {
-            runner.client.OnLedgerClosed += r =>
+            runner.client.connection.OnLedgerClosed += r =>
             {
                 //Assert.IsTrue(r.Type == ResponseStreamType.ledgerClosed);
                 return Task.CompletedTask;
@@ -99,7 +99,7 @@ namespace Xrpl.Tests.ClientLib
         [TestMethod]
         public void TestEmitsPeerStatusChange()
         {
-            runner.client.OnPeerStatusChange += r =>
+            runner.client.connection.OnPeerStatusChange += r =>
             {
                 Assert.IsTrue(r.Type == ResponseStreamType.consensusPhase);
                 return Task.CompletedTask;
@@ -112,7 +112,7 @@ namespace Xrpl.Tests.ClientLib
         [TestMethod]
         public void TestEmitsPathFind()
         {
-            runner.client.OnPathFind += r =>
+            runner.client.connection.OnPathFind += r =>
             {
                 Assert.IsTrue(r.Type == ResponseStreamType.path_find);
                 return Task.CompletedTask;
@@ -125,7 +125,7 @@ namespace Xrpl.Tests.ClientLib
         [TestMethod]
         public void TestEmitsValidationReceived()
         {
-            runner.client.OnManifestReceived += r =>
+            runner.client.connection.OnManifestReceived += r =>
             {
                 Assert.IsTrue(r.Type == ResponseStreamType.validationReceived);
                 return Task.CompletedTask;
@@ -162,20 +162,20 @@ namespace Xrpl.Tests.ClientLib
 
             var client = new XrplClient(server);
 
-            client.OnConnected += () =>
+            client.connection.OnConnected += () =>
             {
                 Console.WriteLine("CONNECTED");
                 return Task.CompletedTask;
             };
 
-            client.OnDisconnect += (code) =>
+            client.connection.OnDisconnect += (code) =>
             {
                 Console.WriteLine($"DISCONNECTED: {code}");
                 isFinished = true;
                 return Task.CompletedTask;
             };
 
-            client.OnLedgerClosed += (message) =>
+            client.connection.OnLedgerClosed += (message) =>
             {
                 Console.WriteLine($"MESSAGE RECEIVED: {message}");
                 //Dictionary<string, dynamic> json = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(message);

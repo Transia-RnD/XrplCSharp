@@ -14,6 +14,7 @@ using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
 using Xrpl.Models.Ledger;
 using Xrpl.Models.Utils;
+
 using Index = Xrpl.Models.Utils.Index;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/models/transactions/common.ts
@@ -77,7 +78,7 @@ namespace Xrpl.Models.Transactions
         /// <returns>Whether the Memo is malformed.</returns>
         public static bool IsMemo(dynamic memo)
         {
-            if (memo is not Dictionary<string, dynamic> {  } value)
+            if (memo is not Dictionary<string, dynamic> { } value)
                 return false;
 
             var size = value.Count;
@@ -251,6 +252,7 @@ namespace Xrpl.Models.Transactions
         public uint? LastLedgerSequence { get; set; }
         /// <inheritdoc />
         public List<MemoWrapper> Memos { get; set; }
+
         /// <inheritdoc />
         public uint? Sequence { get; set; }
         /// <inheritdoc />
@@ -297,6 +299,11 @@ namespace Xrpl.Models.Transactions
 
             return JsonConvert.SerializeObject(this, serializerSettings);
         }
+
+        /// <inheritdoc />
+        public uint? SourceTag { get; set; }
+        /// <inheritdoc />
+        public uint? TicketSequence { get; set; }
 
         //todo not found fields -  SourceTag?: number, TicketSequence?: number
     }
@@ -576,6 +583,8 @@ namespace Xrpl.Models.Transactions
         /// Additional arbitrary information used to identify this transaction.
         /// </summary>
         List<MemoWrapper> Memos { get; set; }
+        [JsonIgnore]
+        public string MemoValue => Memos is not { } memos ? null : memos.Aggregate(string.Empty, (current, memo) => current + $"{memo.Memo.MemoData.FromHexString()}");
 
         /// <summary>
         /// Transaction metadata is a section of data that gets added to a transaction after it is processed.<br/>
@@ -622,7 +631,17 @@ namespace Xrpl.Models.Transactions
         /// </summary>
         /// <returns></returns>
         string ToJson();
-        //todo not found fields - SourceTag: Number (UInt32), TicketSequence:Number(UInt32), TxnSignature:string
+        /// <summary>
+        /// (Optional) Arbitrary integer used to identify the reason for this payment, or a sender on whose behalf this transaction is made.<br/>
+        /// Conventionally, a refund should specify the initial payment's SourceTag as the refund payment's DestinationTag.
+        /// </summary>
+        public uint? SourceTag { get; set; }
+        /// <summary>
+        /// (Optional) The sequence number of the ticket to use in place of a Sequence number.<br/>
+        /// If this is provided, Sequence must be 0. Cannot be used with AccountTxnID.
+        /// </summary>
+        public uint? TicketSequence { get; set; }
+
     }
 
     /// <summary>
@@ -654,6 +673,8 @@ namespace Xrpl.Models.Transactions
 
         /// <inheritdoc/>
         public List<MemoWrapper> Memos { get; set; }
+        [JsonIgnore]
+        public string MemoValue => Memos is not { } memos ? null : memos.Aggregate(string.Empty, (current, memo) => current + $"{memo.Memo.MemoData.FromHexString()}");
         /// <inheritdoc/>
         public uint? Sequence { get; set; }
         /// <inheritdoc/>
@@ -681,8 +702,13 @@ namespace Xrpl.Models.Transactions
             JsonSerializerSettings serializerSettings = new JsonSerializerSettings();
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;
             serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            
+
             return JsonConvert.SerializeObject(this, serializerSettings);
         }
+
+        /// <inheritdoc />
+        public uint? SourceTag { get; set; }
+        /// <inheritdoc />
+        public uint? TicketSequence { get; set; }
     }
 }

@@ -55,7 +55,22 @@ namespace Xrpl.Models
         /// <summary>Set aside one or more sequence numbers as Tickets.</summary>
         TicketCreate,
         /// <summary>Add or modify a trust line.</summary>
-        TrustSet
+        TrustSet,
+        /// <summary>
+        /// An EnableAmendment pseudo-transaction marks a change in the status of a proposed amendment when it:<br/>
+        /// * Gains supermajority approval from validators.<br/>
+        /// * Loses supermajority approval.<br/>
+        /// * Is enabled on the XRP Ledger protocol.
+        /// </summary>
+        EnableAmendment,
+        /// <summary>
+        /// A SetFee pseudo-transaction marks a change in transaction cost or reserve requirements as a result of Fee Voting.
+        /// </summary>
+        SetFee,
+        /// <summary>
+        /// A UNLModify pseudo-transaction marks a change to the Negative UNL, indicating that a trusted validator has gone offline or come back online.
+        /// </summary>
+        UNLModify
     }
     /// <summary>
     /// Each ledger version's state data is a set of ledger objects, sometimes called ledger entries,

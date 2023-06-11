@@ -98,7 +98,13 @@ namespace Xrpl.Models.Methods
         /// The maximum amount of currency that the issuer account is willing to owe the perspective account. 
         /// </summary>
         [JsonIgnore]
-        public decimal LimitAsNumber => decimal.Parse(Limit, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+        public double LimitAsNumber => double.Parse(Limit, NumberStyles.AllowLeadingSign
+                                                           | (NumberStyles.AllowLeadingSign & NumberStyles.AllowDecimalPoint)
+                                                           | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
+                                                           | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                                           | (NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                                           | NumberStyles.AllowExponent
+                                                           | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
         /// <summary>
         /// The maximum amount of currency that the issuer account is willing to owe the perspective account.
         /// </summary>
@@ -106,7 +112,13 @@ namespace Xrpl.Models.Methods
         public string LimitPeer { get; set; }
 
         [JsonIgnore]
-        public decimal LimitPeerAsNumber => decimal.Parse(LimitPeer, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+        public decimal LimitPeerAsNumber => decimal.Parse(LimitPeer, NumberStyles.AllowLeadingSign
+                                                                     | (NumberStyles.AllowLeadingSign & NumberStyles.AllowDecimalPoint)
+                                                                     | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
+                                                                     | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                                                     | (NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                                                     | NumberStyles.AllowExponent
+                                                                     | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
         /// <summary>
         /// Rate at which the account values incoming balances on this trust line, as a ratio of this value per 1 billion units.<br/>
         /// (For example, a value of 500 million represents a 0.5:1 ratio.)<br/>

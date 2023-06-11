@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xrpl.Models;
 using Xrpl.Models.Ledger;
+using Xrpl.Models.Methods;
 
 namespace Xrpl.Client.Json.Converters
 {
@@ -31,10 +32,11 @@ namespace Xrpl.Client.Json.Converters
                 LedgerEntryType.PayChannel => JsonConvert.DeserializeObject<LOPayChannel>($"{field}"),
                 LedgerEntryType.RippleState => JsonConvert.DeserializeObject<LORippleState>($"{field}"),
                 LedgerEntryType.SignerList => JsonConvert.DeserializeObject<LOSignerList>($"{field}"),
+                LedgerEntryType.NFTokenOffer => JsonConvert.DeserializeObject<LONFTokenOffer>($"{field}"),
                 //LedgerEntryType.NegativeUNL => expr,
                 //LedgerEntryType.NFTokenOffer => expr,
-                //LedgerEntryType.NFTokenPage => expr,
-                //LedgerEntryType.Ticket => expr,
+                LedgerEntryType.NFTokenPage => JsonConvert.DeserializeObject<LONFTokenPage>($"{field}"),
+                LedgerEntryType.Ticket => JsonConvert.DeserializeObject<LOTicket>($"{field}"),
                 //LedgerEntryType.Check => expr,
                 //LedgerEntryType.DepositPreauth => expr,
                 _ => throw new ArgumentOutOfRangeException()
@@ -81,8 +83,12 @@ namespace Xrpl.Client.Json.Converters
                     return new LORippleState();
                 case "LOSignerList":
                     return new LOSignerList();
-                // case "Ticket":
-                //     return new LOTicket();
+                case "LONFTokenOffer":
+                    return new LONFTokenOffer();
+                case "LONFTokenPage":
+                    return new LONFTokenPage();
+                case "LOTicket":
+                    return new LOTicket();
             }
 
             string ledgerEntryType = jObject.Property("LedgerEntryType")?.Value.ToString();
@@ -99,8 +105,8 @@ namespace Xrpl.Client.Json.Converters
                 "RippleState" => new LORippleState(),
                 "SignerList" => new LOSignerList(),
                 //"NegativeUNL" => new NegativeUNL(),
-                //"NFTokenOffer" => new NFTokenOffer(),
-                //"NFTokenPage" => new NFTokenPage(),
+                "NFTokenOffer" => new LONFTokenOffer(),
+                "NFTokenPage" => new LONFTokenPage(),
                 "Ticket" => new LOTicket(),
                 "Check" => new LOCheck(),
                 "DepositPreauth" => new LODepositPreauth(),
