@@ -41,15 +41,15 @@ namespace Xrpl.Client
         double feeCushion { get; set; }
         string maxFeeXRP { get; set; }
 
-        event OnError OnError;
-        event OnConnected OnConnected;
-        event OnDisconnect OnDisconnect;
-        event OnLedgerClosed OnLedgerClosed;
-        event OnTransaction OnTransaction;
-        event OnManifestReceived OnManifestReceived;
-        event OnPeerStatusChange OnPeerStatusChange;
-        event OnConsensusPhase OnConsensusPhase;
-        event OnPathFind OnPathFind;
+        //event OnError OnError;
+        //event OnConnected OnConnected;
+        //event OnDisconnect OnDisconnect;
+        //event OnLedgerClosed OnLedgerClosed;
+        //event OnTransaction OnTransaction;
+        //event OnManifestReceived OnManifestReceived;
+        //event OnPeerStatusChange OnPeerStatusChange;
+        //event OnConsensusPhase OnConsensusPhase;
+        //event OnPathFind OnPathFind;
 
         #region Server
         /// <summary> the url </summary>
@@ -193,6 +193,7 @@ namespace Xrpl.Client
         /// <param name="wallet"></param>//todo add description
         /// <returns>An <see cref="Models.Transactions.Submit"/> response.</returns>
         Task<Submit> Submit(Dictionary<string, dynamic> tx, XrplWallet wallet);
+        Task<Submit> Submit(ITransactionCommon tx, XrplWallet wallet);
         /// <summary>
         /// The tx method retrieves information on a single transaction, by its identifying hash
         /// </summary>
@@ -292,15 +293,15 @@ namespace Xrpl.Client
         public double feeCushion { get; set; }
         public string maxFeeXRP { get; set; }
 
-        public event OnError OnError;
-        public event OnConnected OnConnected;
-        public event OnDisconnect OnDisconnect;
-        public event OnLedgerClosed OnLedgerClosed;
-        public event OnTransaction OnTransaction;
-        public event OnManifestReceived OnManifestReceived;
-        public event OnPeerStatusChange OnPeerStatusChange;
-        public event OnConsensusPhase OnConsensusPhase;
-        public event OnPathFind OnPathFind;
+        //public event OnError OnError;
+        //public event OnConnected OnConnected;
+        //public event OnDisconnect OnDisconnect;
+        //public event OnLedgerClosed OnLedgerClosed;
+        //public event OnTransaction OnTransaction;
+        //public event OnManifestReceived OnManifestReceived;
+        //public event OnPeerStatusChange OnPeerStatusChange;
+        //public event OnConsensusPhase OnConsensusPhase;
+        //public event OnPathFind OnPathFind;
 
         ///// <summary> Current web socket client state </summary>
         //public WebSocketState SocketState => client.State;
@@ -318,15 +319,15 @@ namespace Xrpl.Client
             maxFeeXRP = options?.maxFeeXRP ?? "2";
 
             connection = new Connection(server, options);
-            connection.OnError += (e, em, m, d) => OnError(e, em, m, d);
-            connection.OnConnected += () => OnConnected();
-            connection.OnDisconnect += (c) => OnDisconnect(c);
-            connection.OnLedgerClosed += (s) => OnLedgerClosed(s);
-            connection.OnTransaction += (s) => OnTransaction(s);
-            connection.OnManifestReceived += (s) => OnManifestReceived(s);
-            connection.OnPeerStatusChange += (s) => OnPeerStatusChange(s);
-            connection.OnConsensusPhase += (s) => OnConsensusPhase(s);
-            connection.OnPathFind += (s) => OnPathFind(s);
+            //connection.OnError += (e, em, m, d) => OnError?.Invoke(e, em, m, d);
+            //connection.OnConnected += () => OnConnected?.Invoke();
+            //connection.OnDisconnect += (c) => OnDisconnect?.Invoke(c);
+            //connection.OnLedgerClosed += (s) => OnLedgerClosed?.Invoke(s);
+            //connection.OnTransaction += (s) => OnTransaction?.Invoke(s);
+            //connection.OnManifestReceived += (s) => OnManifestReceived?.Invoke(s);
+            //connection.OnPeerStatusChange += (s) => OnPeerStatusChange?.Invoke(s);
+            //connection.OnConsensusPhase += (s) => OnConsensusPhase?.Invoke(s);
+            //connection.OnPathFind += (s) => OnPathFind?.Invoke(s);
         }
 
         /// <inheritdoc />
@@ -368,6 +369,12 @@ namespace Xrpl.Client
         public Task<Submit> Submit(Dictionary<string, dynamic> tx, XrplWallet wallet)
         {
             return this.Submit(tx, true, false, wallet);
+        }
+        /// <inheritdoc />
+        public Task<Submit> Submit(ITransactionCommon tx, XrplWallet wallet)
+        {
+            Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
+            return SubmitSugar.Submit(this, txJson, true, false, wallet);
         }
 
         /// <inheritdoc />

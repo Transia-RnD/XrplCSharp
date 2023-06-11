@@ -71,7 +71,7 @@ namespace Xrpl.Models.Utils
         {
             if (flags is not Dictionary<string, dynamic> flag)
                 return 0;
-            return ReduceFlags(flag, Enum.GetValues<AccountSetTfFlags>().ToDictionary(c => c.ToString(), c => (uint)c));
+            return ReduceFlags(flag, Enum.GetValues<AccountSetAsfFlags>().ToDictionary(c => c.ToString(), c => (uint)c));
         }
 
         public static uint ConvertOfferCreateFlagsToNumber(dynamic flags)

@@ -10,14 +10,16 @@ A pure C# implementation for interacting with the XRP Ledger, the `XrplCSharp` l
 ```csharp
 // create a network client
 using System.Diagnostics;
-using Xrpl.ClientLib;
-using Xrpl.WalletLib;
-using Xrpl.Models.Methods;
-Client client = new Client("wss://s.altnet.rippletest.net:51233");
-client.Connect();
+using Xrpl.Client;
+var client = new XrplClient("wss://s.altnet.rippletest.net:51233");
+client.OnConnected += async () =>
+{
+    Debug.WriteLine("CONNECTED");
+};
+await client.Connect();
 
 // create a wallet on the testnet
-Wallet testWallet = Wallet.Generate();
+XrplWallet testWallet = XrplWallet.Generate();
 await WalletSugar.FundWallet(client, testWallet);
 Debug.WriteLine(testWallet);
 // public_key: ED3CC1BBD0952A60088E89FA502921895FC81FBD79CAE9109A8FE2D23659AD5D56
@@ -53,10 +55,10 @@ The `XrplCSharp` library is available on [DotNet](https://dotnet.microsoft.com/)
 
 
 ```
-dotnet add package XrplCSharp --version 2.0.0
+dotnet add package XrplCSharp --version 1.0.0
 ```
 
-The library supports [Dotnet 5](https://dotnet.microsoft.com/) and later.
+The library supports [Dotnet 6](https://dotnet.microsoft.com/) and later.
 
 <!-- [![Supported Versions](https://img.shields.io/pypi/pyversions/XrplCSharp.svg)](https://pypi.org/project/xrpl-py) -->
 
@@ -86,28 +88,33 @@ The following sections describe some of the most commonly used modules in the `X
 
 ### Network client
 
-Use the `Xrpl.ClientLib` library to create a network client for connecting to the XRP Ledger.
+Use the `Xrpl.Client` library to create a network client for connecting to the XRP Ledger.
 
 ```csharp
-using Xrpl;
-IClient client = new Client("wss://s.altnet.rippletest.net:51233");
-client.Connect();
+using System.Diagnostics;
+using Xrpl.Client;
+var client = new XrplClient("wss://s.altnet.rippletest.net:51233");
+client.OnConnected += async () =>
+{
+    Debug.WriteLine("CONNECTED");
+};
+await client.Connect();
 ```
 
 ### Manage keys and wallets
 
-#### `Xrpl.WalletLib`
+#### `Xrpl.Wallet`
 
-Use the [`Xrpl.WalletLib`](https://transia-rnd.github.io/XrplCSharp/xrpl.wallet.html) module to create a wallet from a given seed or or via a [Testnet faucet](https://xrpl.org/xrp-testnet-faucet.html).
+Use the [`Xrpl.Wallet`](https://transia-rnd.github.io/XrplCSharp/xrpl.wallet.html) module to create a wallet from a given seed or or via a [Testnet faucet](https://xrpl.org/xrp-testnet-faucet.html).
 
 To create a wallet from a seed (in this case, the value generated using [`Xrpl.Keypairs`](#xrpl-keypairs)):
 
 ```csharp
 using System.Diagnostics;
-using Xrpl.WalletLib;
+using Xrpl.Wallet;
 // ...
 string seed = "s";
-Wallet wallet = Wallet.FromSeed(seed);
+XrplWallet wallet = XrplWallet.FromSeed(seed);
 Debug.WriteLine(wallet);
 // pub_key: ED46949E414A3D6D758D347BAEC9340DC78F7397FEE893132AAF5D56E4D7DE77B0
 // priv_key: -HIDDEN-
@@ -117,25 +124,26 @@ Debug.WriteLine(wallet);
 To create a wallet from a Testnet faucet:
 
 ```csharp
-using Xrpl.WalletLib;
-Wallet testWallet = Wallet.Generate();
+using System.Diagnostics;
+using Xrpl.Wallet;
+XrplWallet testWallet = XrplWallet.Generate();
 await WalletSugar.FundWallet(client, testWallet);
 Debug.WriteLine(testWallet.ClassicAddress);
 # Classic address: rEQB2hhp3rg7sHj6L8YyR4GG47Cb7pfcuw
 ```
 
-#### `Xrpl.KeypairsLib`
+#### `Xrpl.Keypairs`
 
-Use the [`Xrpl.KeypairsLib`](https://transia-rnd.github.io/XrplCSharp/xrpl.core.keypairs.html#module-xrpl.core.keypairs) module to generate seeds and derive keypairs and addresses from those seed values.
+Use the [`Xrpl.Keypairs`](https://transia-rnd.github.io/XrplCSharp/xrpl.core.keypairs.html#module-xrpl.core.keypairs) module to generate seeds and derive keypairs and addresses from those seed values.
 
 Here's an example of how to generate a `seed` value and derive an [XRP Ledger "classic" address](https://xrpl.org/cryptographic-keys.html#account-id-and-address) from that seed.
 
 
 ```csharp
 using System.Diagnostics;
-using Xrpl.KeypairsLib;
+using Xrpl.Wallet;
 // ...
-Wallet wallet = Wallet.Generate();
+XrplWallet wallet = XrplWallet.Generate();
 string publicKey = wallet.PublicKey;
 string privateKey = wallet.PrivateKey;
 Debug.WriteLine("Here's the public key:");
@@ -174,29 +182,24 @@ using Xrpl.Models.Methods;
 using Newtonsoft.Json;
 // ...
 string classicAddress = "rBtXmAdEYcno9LWRnAGfT9qBxCeDvuVRZo";
-AccountInfoRequest request = new AccountInfoRequest(classicAddress);
+AccountInfoRequest request = new AccountInfoRequest(wallet.ClassicAddress);
 AccountInfo accountInfo = await client.AccountInfo(request);
 
 // prepare the transaction
 // the amount is expressed in drops, not XRP
 // see https://xrpl.org/basic-data-types.html#specifying-currency-amounts
-IPayment paymentTransaction = new Payment()
+IPayment tx = new Payment()
 {
-    Account = classicAddress,
+    Account = wallet.ClassicAddress,
     Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT",
-    Amount = new Currency { ValueAsXrp = 1 },
+    Amount = new Xrpl.Models.Common.Currency { ValueAsXrp = 1 },
     Sequence = accountInfo.AccountData.Sequence
 };
 
-// sign the transaction
-Dictionary<string, dynamic> paymentJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(paymentTransaction.ToJson());
-SignatureResult signedTx = wallet.Sign(paymentJson);
-
 // submit the transaction
-SubmitRequest request1 = new SubmitRequest();
-request1.TxBlob = signedTx.TxBlob;
-
-Submit result = await client.Submit(request1);
+Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
+Submit response = await client.Submit(txJson, wallet);
+Debug.WriteLine(response);
 ```
 
 #### Get fee from the XRP Ledger

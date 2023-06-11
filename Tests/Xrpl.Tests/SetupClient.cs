@@ -29,17 +29,17 @@ namespace Xrpl.Tests
             Timer timer = new Timer(25000);
             timer.Elapsed += (sender, e) => tcpListenerThread.Abort();
             client = new XrplClient($"ws://127.0.0.1:{port}");
-            client.OnConnected += () =>
+            client.connection.OnConnected += () =>
             {
                 Debug.WriteLine("SETUP CLIENT: CONECTED");
                 return Task.CompletedTask;
             };
-            client.OnDisconnect += (code) =>
+            client.connection.OnDisconnect += (code) =>
             {
                 Debug.WriteLine("SETUP CLIENT: DISCONECTED");
                 return Task.CompletedTask;
             };
-            client.OnError += (e, em, m, d) =>
+            client.connection.OnError += (e, em, m, d) =>
             {
                 Debug.WriteLine($"SETUP CLIENT: ERROR: {e}");
                 return Task.CompletedTask;

@@ -45,7 +45,7 @@ namespace Xrpl.Tests.ClientLib
 
             var client = new XrplClient(server);
 
-            client.OnConnected += async () =>
+            client.connection.OnConnected += async () =>
             {
                 Console.WriteLine("CONNECTED");
                 var subscribe = await client.Subscribe(
@@ -58,7 +58,7 @@ namespace Xrpl.Tests.ClientLib
                 });
             };
 
-            client.OnError += (error, errorMessage, message, data) =>
+            client.connection.OnError += (error, errorMessage, message, data) =>
             {
                 Console.WriteLine($"CONN ERROR: {error}");
                 Console.WriteLine($"CONN ERROR MESSAGE: {errorMessage}");
@@ -68,14 +68,14 @@ namespace Xrpl.Tests.ClientLib
                 return Task.CompletedTask;
             };
 
-            client.OnDisconnect += (code) =>
+            client.connection.OnDisconnect += (code) =>
             {
                 Console.WriteLine($"DISCONNECTED: {code}");
                 isFinished = true;
                 return Task.CompletedTask;
             };
 
-            client.OnLedgerClosed += (message) =>
+            client.connection.OnLedgerClosed += (message) =>
             {
                 Console.WriteLine($"LEDGER CLOSED: {message}");
                 isFinished = true;

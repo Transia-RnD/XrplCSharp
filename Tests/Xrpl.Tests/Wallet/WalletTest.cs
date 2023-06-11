@@ -769,7 +769,7 @@ namespace Xrpl.Tests.Wallet.Tests.XummNumbers
         [TestMethod]
         public void TestVerify_EntropyFromXummNumbers()
         {
-            XrplWallet result = XrplWallet.FromXummNumbers(xummNumbers);
+            XrplWallet result = XrplWallet.FromXummNumbers(xummNumbers, "secp256k1");
             //sEdVLhsR1xkLWWLX9KbErLTo6EEaHFi WRONG SEED
             //rJP8D3Mpntnp7T1YZyz51xwtdeYKcz5hpR WRONG ADDRESS
 
@@ -782,7 +782,7 @@ namespace Xrpl.Tests.Wallet.Tests.XummNumbers
         public void TestVerify_InValid_EntropyFromXummNumbers()
         {
             var numbers = new string[8];
-            Array.Copy(xummNumbers,numbers,8);
+            Array.Copy(xummNumbers, numbers, 8);
             numbers[0] = "556862";
             Assert.ThrowsException<ArgumentException>(() => XrplWallet.FromXummNumbers(numbers), "Wrong numbers");
         }
@@ -790,33 +790,34 @@ namespace Xrpl.Tests.Wallet.Tests.XummNumbers
         [TestMethod]
         public void TestVerify_CheckXummSum()
         {
-           var number = xummNumbers[0];
-           var position = 0;
-           var valid_sum = XummExtension.CheckXummSum(position, number);
-           Assert.AreEqual(true, valid_sum);
+            var number = xummNumbers[0];
+            var position = 0;
+            var valid_sum = XummExtension.CheckXummSum(position, number);
+            Assert.AreEqual(true, valid_sum);
 
-           number = xummNumbers[2];
-           position = 2;
-           valid_sum = XummExtension.CheckXummSum(position, number);
-           Assert.AreEqual(true, valid_sum);
+            number = xummNumbers[2];
+            position = 2;
+            valid_sum = XummExtension.CheckXummSum(position, number);
+            Assert.AreEqual(true, valid_sum);
 
-           number = xummNumbers[6];
-           position = 6;
-           valid_sum = XummExtension.CheckXummSum(position, number);
-           Assert.AreEqual(true, valid_sum);
+            number = xummNumbers[6];
+            position = 6;
+            valid_sum = XummExtension.CheckXummSum(position, number);
+            Assert.AreEqual(true, valid_sum);
 
-           number = xummNumbers[7];
-           position = 7;
-           valid_sum = XummExtension.CheckXummSum(position, number);
-           Assert.AreEqual(true, valid_sum);
+            number = xummNumbers[7];
+            position = 7;
+            valid_sum = XummExtension.CheckXummSum(position, number);
+            Assert.AreEqual(true, valid_sum);
         }
         [TestMethod]
         public void TestVerify_InValid_CheckXummSum()
         {
-           var number = xummNumbers[3];
-           var position = 2;
-           var valid_sum = XummExtension.CheckXummSum(position, number);
-           Assert.AreNotEqual(true, valid_sum);
+            var number = xummNumbers[3];
+            var position = 2;
+            var valid_sum = XummExtension.CheckXummSum(position, number);
+            Assert.AreNotEqual(true, valid_sum);
         }
     }
 }
+

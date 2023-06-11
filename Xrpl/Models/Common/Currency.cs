@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
 
+using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
+
 using Xrpl.Client.Extensions;
 
 //https://xrpl.org/currency-formats.html#currency-formats
@@ -51,23 +54,54 @@ namespace Xrpl.Models.Common
         /// Readable currency name 
         /// </summary>
         [JsonIgnore]
-        public string CurrencyValidName => CurrencyCode is { Length: > 0 } row ? row.Length > 3 ? row.FromHexString().Trim('\0') : row : string.Empty;
+        public string CurrencyValidName => CurrencyCode is { Length: > 0 } row
+            ? row.Length > 3
+                ? IsHexCurrencyCode(row)
+                    ? row.FromHexString().Trim('\0')
+                    : row
+                : row
+            : string.Empty;
         /// <summary>
         /// decimal currency amount (drops for XRP)
         /// </summary>
         [JsonIgnore]
         public decimal ValueAsNumber
         {
-            get => string.IsNullOrWhiteSpace(Value)
-                ? 0
-                : decimal.Parse(Value, 
-                    NumberStyles.AllowLeadingSign 
-                    | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
-                    | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
-                    | (NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
-                    | NumberStyles.AllowExponent
-                    | NumberStyles.AllowDecimalPoint,
-                    CultureInfo.InvariantCulture);
+            get
+            {
+                try
+                {
+                    return string.IsNullOrWhiteSpace(Value)
+                        ? 0
+                        : decimal.Parse(
+                            Value,
+                            NumberStyles.AllowLeadingSign
+                            | (NumberStyles.AllowLeadingSign & NumberStyles.AllowDecimalPoint)
+                            | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
+                            | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                            | (NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                            | NumberStyles.AllowExponent
+                            | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+
+                }
+                catch (Exception e)
+                {
+                    try
+                    {
+                        var num = double.Parse(Value, (NumberStyles.Float & NumberStyles.AllowExponent) | NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+                        var valid = $"{num:#########e00}";
+                        if (valid.Contains('+'))
+                            return decimal.MaxValue;
+                        else
+                            return 0;
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine(exception);
+                        throw;
+                    }
+                }
+            }
 
             set => Value = value.ToString(CurrencyCode == "XRP"
                 ? "G0"
@@ -100,5 +134,17 @@ namespace Xrpl.Models.Common
                 }
             }
         }
+        /// <summary>
+        /// check currency code for HEX 
+        /// </summary>
+        /// <param name="code">currency code</param>
+        /// <returns></returns>
+        public static bool IsHexCurrencyCode(string code) => Regex.IsMatch(code, @"[0-9a-fA-F]{40}", RegexOptions.IgnoreCase);
+        #region Overrides of Object
+
+        public override string ToString() => CurrencyValidName == "XRP" ? $"XRP: {ValueAsXrp:0.######}" : $"{CurrencyValidName}: {ValueAsNumber:0.###############}";
+
+        #endregion
+
     }
 }

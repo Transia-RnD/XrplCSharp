@@ -36,9 +36,9 @@ namespace Xrpl.Client.Json.Converters
             {
                 "AccountSet" => new AccountSetResponse(),
                 "AccountDelete" => new AccountDeleteResponse(),
-                "CheckCancel" => new AccountDeleteResponse(),
-                "CheckCash" => new AccountDeleteResponse(),
-                "CheckCreate" => new AccountDeleteResponse(),
+                "CheckCancel" => new CheckCancelResponse(),
+                "CheckCash" => new CheckCashResponse(),
+                "CheckCreate" => new CheckCancelResponse(),
                 "DepositPreauth" => new DepositPreauthResponse(),
                 "EscrowCancel" => new EscrowCancelResponse(),
                 "EscrowCreate" => new EscrowCreateResponse(),
@@ -58,6 +58,9 @@ namespace Xrpl.Client.Json.Converters
                 "SignerListSet" => new SignerListSetResponse(),
                 "TicketCreate" => new TicketCreateResponse(),
                 "TrustSet" => new TrustSetResponse(),
+                "EnableAmendment" => new EnableAmendmentResponse(),
+                "SetFee" => new SetFeeResponse(),
+                "UNLModify" => new UNLModifyResponse(),
                 _ => throw new Exception("Can't create transaction type" + transactionType)
             };
         }
