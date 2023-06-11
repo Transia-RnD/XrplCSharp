@@ -24,6 +24,7 @@ namespace Xrpl.Models.Transaction
             this[Field.Fee] = Requirement.Required;
             this[Field.Sequence] = Requirement.Required;
             this[Field.SigningPubKey] = Requirement.Required;
+            this[Field.TicketSequence] = Requirement.Optional;
 
             this[Field.Flags] = Requirement.Optional;
             this[Field.SourceTag] = Requirement.Optional;
@@ -134,7 +135,8 @@ namespace Xrpl.Models.Transaction
                     [Field.TransferRate] = Requirement.Optional,
                     [Field.SetFlag] = Requirement.Optional,
                     [Field.ClearFlag] = Requirement.Optional,
-                    [Field.TickSize] = Requirement.Optional
+                    [Field.TickSize] = Requirement.Optional,
+                    [Field.NFTokenMinter] = Requirement.Optional
                 },
                 [BinaryCodec.Types.TransactionType.EscrowCancel] = new TxFormat
                 {
@@ -161,7 +163,8 @@ namespace Xrpl.Models.Transaction
                 [BinaryCodec.Types.TransactionType.TicketCreate] = new TxFormat
                 {
                     [Field.Target] = Requirement.Optional,
-                    [Field.Expiration] = Requirement.Optional
+                    [Field.Expiration] = Requirement.Optional,
+                    [Field.TicketCount] = Requirement.Required
                 },
                 // 11
                 [BinaryCodec.Types.TransactionType.SignerListSet] = new TxFormat
@@ -245,7 +248,8 @@ namespace Xrpl.Models.Transaction
                 },
                 [BinaryCodec.Types.TransactionType.NFTokenBurn] = new TxFormat
                 {
-                    [Field.NFTokenID] = Requirement.Required
+                    [Field.NFTokenID] = Requirement.Required,
+                    [Field.Owner] = Requirement.Optional
                 },
                 [BinaryCodec.Types.TransactionType.NFTokenCreateOffer] = new TxFormat
                 {
