@@ -90,10 +90,11 @@ namespace Xrpl.Sugar
         /// <returns></returns>
         public static async Task<Submit> SubmitRequest(this IXrplClient client, object signedTransaction, bool failHard)
         {
-            if (!IsSigned(signedTransaction))
-            {
-                throw new ValidationException("Transaction must be signed");
-            }
+            //todo activate after fix
+            //if (!IsSigned(signedTransaction))
+            //{
+            //    throw new ValidationException("Transaction must be signed");
+            //}
 
             string signedTxEncoded = signedTransaction is string transaction ? transaction : XrplBinaryCodec.Encode(signedTransaction);
             SubmitRequest request = new SubmitRequest { Command = "submit", TxBlob = signedTxEncoded, FailHard = failHard };
