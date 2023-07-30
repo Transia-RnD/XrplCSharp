@@ -34,6 +34,11 @@ namespace Xrpl.Models.Transactions
         public string TxBlob { get; set; }
 
         /// <summary>
+        /// Next account sequence number.
+        /// </summary>
+        [JsonProperty("account_sequence_next")]
+        public uint? AccountSequenceNext { get; set; }
+        /// <summary>
         /// The complete transaction in JSON format.
         /// </summary>
         [JsonProperty("tx_json")]
