@@ -112,7 +112,7 @@ namespace Xrpl.Models.Methods
         public string LimitPeer { get; set; }
 
         [JsonIgnore]
-        public decimal LimitPeerAsNumber => decimal.Parse(LimitPeer, NumberStyles.AllowLeadingSign
+        public double LimitPeerAsNumber => double.Parse(LimitPeer, NumberStyles.AllowLeadingSign
                                                                      | (NumberStyles.AllowLeadingSign & NumberStyles.AllowDecimalPoint)
                                                                      | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
                                                                      | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
