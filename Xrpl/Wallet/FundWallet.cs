@@ -288,6 +288,10 @@ namespace Xrpl.Wallet
                 {
                     newBalance = Convert.ToDouble(await _client.GetXrpBalance(_address));
                 }
+                catch (XrplException err)
+                {
+
+                }
                 catch (RippleException err)
                 {
                     /* newBalance remains undefined */
