@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
+using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Ledger;
 
 namespace Xrpl.Models.Methods;
@@ -25,7 +27,7 @@ public class LONFTokenPage : BaseLedgerEntry
     /// This specification places an upper bound of 32 NFToken objects per page.
     /// Objects are sorted from low to high with the NFTokenID used as the sorting parameter..
     /// </summary>
-    public List<NFT> NFTokens { get; set; }
+    public List<NFToken> NFTokens { get; set; }
 
     /// <summary>
     /// The locator of the previous page, if any. Details about this field and how it should be used are outlined below.
@@ -41,15 +43,7 @@ public class LONFTokenPage : BaseLedgerEntry
     public long PreviousTxnLgrSeq { get; set; }
 }
 
-
-public class NFTPage
-{
-    public string Flags { get; set; }
-    public List<Dictionary<string, NFToken>> NFTokens { get; set; }
-
-    public List<NFToken> NFTs => NFTokens.SelectMany(c => c.Values).ToList();
-}
-
+[JsonConverter(typeof(LONFTokenConverter))]
 public class NFToken
 {
     public string NFTokenID { get; set; }
