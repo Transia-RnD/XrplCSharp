@@ -90,10 +90,11 @@ namespace Xrpl.Models.Common
                     {
                         var num = double.Parse(Value, (NumberStyles.Float & NumberStyles.AllowExponent) | NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
                         var valid = $"{num:#########e00}";
-                        if (valid.Contains('+'))
-                            return decimal.MaxValue;
-                        else
+                        if (valid.Contains("e-"))
                             return 0;
+                        if (valid.Contains('-'))
+                            return decimal.MinValue;
+                        return decimal.MaxValue;
                     }
                     catch (Exception exception)
                     {
