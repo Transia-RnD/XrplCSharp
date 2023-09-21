@@ -412,6 +412,17 @@ namespace Xrpl.Models.Transactions
         public string TransactionResult { get; set; }
 
         /// <summary>
+        /// OfferID for create NFT offers.
+        /// </summary>
+        [JsonProperty("offer_id")]
+        public string OfferID { get; set; }
+        /// <summary>
+        /// NFTokenID for nft accept offer.
+        /// </summary>
+        [JsonProperty("nftoken_id")]
+        public string NFTokenID { get; set; }
+
+        /// <summary>
         /// (Omitted for non-Payment transactions) The Currency Amount actually received by the Destination account.<br/>
         /// Use this field to determine how much was delivered, regardless of whether the transaction is a partial payment.<br/>
         /// See this description for details.

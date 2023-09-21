@@ -100,13 +100,13 @@ namespace Xrpl.Client
         int CONNECTION_TIMEOUT = 5;
         int INTENTIONAL_DISCONNECT_CODE = 4000;
 
-        public readonly string url;
+        public string url { get; private set; }
         public WebSocketClient ws;
 
         private int? reconnectTimeoutID = null;
         private int? heartbeatIntervalID = null;
 
-        public readonly ConnectionOptions config;
+        public ConnectionOptions config { get; private set; }
         public RequestManager requestManager = new RequestManager();
         public ConnectionManager connectionManager = new ConnectionManager();
 
@@ -119,6 +119,16 @@ namespace Xrpl.Client
 
         }
 
+        public async Task ChangeServer(string server, ConnectionOptions? options = null)
+        {
+            await Disconnect();
+            url = server;
+            config = options ?? new ConnectionOptions();
+            config.timeout = TIMEOUT * 1000;
+            config.connectionTimeout = CONNECTION_TIMEOUT * 1000;
+            await Task.Delay(3000);
+            await Connect();
+        }
         public bool IsConnected()
         {
             return this.State() == WebSocketState.Open;

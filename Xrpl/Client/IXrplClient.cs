@@ -15,6 +15,8 @@ using Xrpl.Models.Transactions;
 using Xrpl.Sugar;
 using Xrpl.Wallet;
 using static Xrpl.Client.Connection;
+using static Xrpl.Client.XrplClient;
+
 using BookOffers = Xrpl.Models.Transactions.BookOffers;
 using Submit = Xrpl.Models.Transactions.Submit;
 
@@ -277,6 +279,7 @@ namespace Xrpl.Client
         Task<Dictionary<string, dynamic>> Autofill(Dictionary<string, dynamic> tx);
         Task<uint> GetLedgerIndex();
         Task<string> GetXrpBalance(string address);
+        Task ChangeServer(string server, ClientOptions? options = null);
 
     }
 
@@ -330,6 +333,18 @@ namespace Xrpl.Client
             //connection.OnPathFind += (s) => OnPathFind?.Invoke(s);
         }
 
+        public async Task ChangeServer(string server, ClientOptions? options = null)
+        {
+            if (!IsValidWss(server))
+            {
+                throw new Exception("Invalid WSS Server Url");
+            }
+            feeCushion = options?.feeCushion ?? 1.2;
+            maxFeeXRP = options?.maxFeeXRP ?? "2";
+
+            await connection.ChangeServer(server, options);
+        }
+
         /// <inheritdoc />
         public string Url()
         {
@@ -374,7 +389,7 @@ namespace Xrpl.Client
         public Task<Submit> Submit(ITransactionCommon tx, XrplWallet wallet)
         {
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
-            return SubmitSugar.Submit(this, txJson, true, false, wallet);
+            return this.Submit(txJson, true, false, wallet);
         }
 
         /// <inheritdoc />

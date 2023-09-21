@@ -80,7 +80,7 @@ namespace Xrpl.Models.Methods
         /// <summary>
         /// The unscrambled version of this token's taxon. Several tokens with the same taxon might represent instances of a limited series.
         /// </summary>
-        [JsonProperty("token_taxon")]
+        [JsonProperty("NFTokenTaxon")]
         public uint NFTokenTaxon { get; set; }
         /// <summary>
         /// The URI data associated with this NFToken, in hexadecimal.

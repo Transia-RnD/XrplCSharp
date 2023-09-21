@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 using Xrpl.Client.Exceptions;
+using Xrpl.Client.Json.Converters;
 using Xrpl.Models.Common;
 
 
@@ -19,8 +20,10 @@ namespace Xrpl.Models.Transactions
         /// <inheritdoc />
         public string CheckID { get; set; }
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency? Amount { get; set; }
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency? DeliverMin { get; set; }
     }
 
@@ -41,6 +44,7 @@ namespace Xrpl.Models.Transactions
         /// You.<br/>
         /// must provide either this field or DeliverMin.
         /// </summary>
+        [JsonConverter(typeof(CurrencyConverter))]
         Currency? Amount { get; set; }
         /// <summary>
         /// Redeem the Check for at least this amount and for as much as possible.<br/>
@@ -48,6 +52,7 @@ namespace Xrpl.Models.Transactions
         /// transaction.<br/>
         /// You must provide either this field or Amount.
         /// </summary>
+        [JsonConverter(typeof(CurrencyConverter))]
         Currency? DeliverMin { get; set; }
     }
 
@@ -57,9 +62,11 @@ namespace Xrpl.Models.Transactions
         /// <inheritdoc />
         public string CheckID { get; set; }
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency? Amount { get; set; }
 
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency? DeliverMin { get; set; }  
     }
 
