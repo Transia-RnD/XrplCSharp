@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Xrpl.BinaryCodec.Types;
 using Xrpl.Client.Exceptions;
-
-using static Xrpl.Models.Common.Common;
 
 namespace Xrpl.Models.Transactions
 {

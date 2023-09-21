@@ -133,6 +133,9 @@ namespace Xrpl.Models.Transactions
                 case "AMMCreate":
                     await ValidateAMMCreate(tx);
                     break;
+                case "AMMDelete":
+                    await ValidateAMMDelete(tx);
+                    break;
                 case "AMMVote":
                     await ValidateAMMVote(tx);
                     break;

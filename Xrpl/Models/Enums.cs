@@ -63,6 +63,10 @@ namespace Xrpl.Models
         /// </summary>
         AMMCreate,
         /// <summary>
+        /// Delete an empty Automated Market Maker (AMM) instance that could not be fully deleted automatically.
+        /// </summary>
+        AMMDelete,
+        /// <summary>
         /// AMMDeposit is the deposit transaction used to add liquidity to the AMM instance pool,
         /// thus obtaining some share of the instance's pools in the form of LPTokenOut.
         /// </summary>
@@ -151,7 +155,8 @@ namespace Xrpl.Models
         /// <summary>
         /// A record of preauthorization for sending payments to an account that requires authorization.
         /// </summary>
-        DepositPreauth
+        DepositPreauth,
+        AMM
     }
 
     public enum StreamType

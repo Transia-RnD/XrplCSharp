@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Xrpl.Client.Exceptions;
+using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
 
 // https://github.com/XRPLF/xrpl.js/blob/amm/packages/xrpl/src/models/transactions/AMMBid.ts
@@ -121,7 +122,27 @@ namespace Xrpl.Models.Transactions
                 {
                     throw new ValidationException($"AMMBid: AuthAccounts length must not be greater than {MAX_AUTH_ACCOUNTS}");
                 }
+
+                ValidateAuthAccounts(tx["Account"], auth_accounts);
             }
+        }
+
+        public static async Task<bool> ValidateAuthAccounts(string senderAddress, List<Dictionary<string, dynamic>> authAccounts)
+        {
+            foreach (var account in authAccounts)
+            {
+                if (!account.TryGetValue("AuthAccount", out var auth) || auth is not Dictionary<string, dynamic> { } auth_acc)
+                    throw new ValidationException("AMMBid: invalid AuthAccounts");
+
+                if (!auth_acc.TryGetValue("Account", out var acc) || acc is null)
+                    throw new ValidationException("AMMBid: invalid AuthAccounts");
+                if (acc is not string {})
+                    throw new ValidationException("AMMBid: invalid AuthAccounts");
+                if (acc is string {} s && s == senderAddress )
+                    throw new ValidationException("AMMBid: AuthAccounts must not include sender's address");
+            }
+
+            return true;
         }
     }
 }
