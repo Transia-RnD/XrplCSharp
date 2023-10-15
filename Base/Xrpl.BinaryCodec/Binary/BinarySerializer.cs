@@ -1,5 +1,6 @@
 ﻿using System;
 using Xrpl.BinaryCodec.Enums;
+using Xrpl.BinaryCodec.Types;
 
 //https://github.com/XRPLF/xrpl.js/blob/8a9a9bcc28ace65cde46eed5010eb8927374a736/packages/ripple-binary-codec/src/serdes/binary-serializer.ts#L52
 

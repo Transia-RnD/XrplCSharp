@@ -61,12 +61,25 @@ namespace Xrpl.Models.Utils
                         //TransactionType.SignerListSet => expr,
                         //TransactionType.TicketCreate => expr,
                         "TrustSet" => ConvertTrustSetFlagsToNumber(Flags),
+                        "AMMDeposit" => ConvertAMMDepositFlagsToNumber(Flags),
+                        "AMMWithdraw" => ConvertAMMWithdrawFlagsToNumber(Flags),
                         _ => 0
                     };
                     break;
             }
         }
-
+        public static uint ConvertAMMDepositFlagsToNumber(dynamic flags)
+        {
+            if (flags is not Dictionary<string, dynamic> flag)
+                return 0;
+            return ReduceFlags(flag, Enum.GetValues<AMMDepositFlags>().ToDictionary(c => c.ToString(), c => (uint)c));
+        }
+        public static uint ConvertAMMWithdrawFlagsToNumber(dynamic flags)
+        {
+            if (flags is not Dictionary<string, dynamic> flag)
+                return 0;
+            return ReduceFlags(flag, Enum.GetValues<AMMWithdrawFlags>().ToDictionary(c => c.ToString(), c => (uint)c));
+        }
         public static uint ConvertAccountSetFlagsToNumber(dynamic flags)
         {
             if (flags is not Dictionary<string, dynamic> flag)

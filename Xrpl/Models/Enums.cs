@@ -70,7 +70,32 @@ namespace Xrpl.Models
         /// <summary>
         /// A UNLModify pseudo-transaction marks a change to the Negative UNL, indicating that a trusted validator has gone offline or come back online.
         /// </summary>
-        UNLModify
+        UNLModify,
+        /// <summary> AMMBid is used for submitting a vote for the trading fee of an AMM Instance. </summary>
+        AMMBid,
+        /// <summary>
+        /// AMMCreate is used to create AccountRoot and the corresponding AMM ledger entries.
+        /// </summary>
+        AMMCreate,
+        /// <summary>
+        /// Delete an empty Automated Market Maker (AMM) instance that could not be fully deleted automatically.
+        /// </summary>
+        AMMDelete,
+        /// <summary>
+        /// AMMDeposit is the deposit transaction used to add liquidity to the AMM instance pool,
+        /// thus obtaining some share of the instance's pools in the form of LPTokenOut.
+        /// </summary>
+        AMMDeposit,
+        /// <summary>
+        /// AMMVote is used for submitting a vote for the trading fee of an AMM Instance.
+        /// </summary>
+        AMMVote,
+        /// <summary>
+        /// AMMWithdraw is the withdraw transaction used to remove liquidity from the AMM
+        /// instance pool, thus redeeming some share of the pools that one owns in the form
+        /// of LPTokenIn.
+        /// </summary>
+        AMMWithdraw,
     }
     /// <summary>
     /// Each ledger version's state data is a set of ledger objects, sometimes called ledger entries,
@@ -144,7 +169,8 @@ namespace Xrpl.Models
         /// <summary>
         /// A record of preauthorization for sending payments to an account that requires authorization.
         /// </summary>
-        DepositPreauth
+        DepositPreauth,
+        AMM
     }
 
     public enum StreamType

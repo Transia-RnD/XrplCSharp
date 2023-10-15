@@ -132,6 +132,21 @@ namespace Xrpl.Models.Transactions
                     await ValidateTrustSet(tx);
                     break;
 
+                case "AMMBid":
+                    await ValidateAMMBid(tx);
+                    break;
+                case "AMMDeposit":
+                    await ValidateAMMDeposit(tx);
+                    break;
+                case "AMMCreate":
+                    await ValidateAMMCreate(tx);
+                    break;
+                case "AMMVote":
+                    await ValidateAMMVote(tx);
+                    break;
+                case "AMMWithdraw":
+                    await ValidateAMMWithdraw(tx);
+                    break;
                 default:
                     throw new ValidationException($"Invalid field TransactionType: {type}");
             }

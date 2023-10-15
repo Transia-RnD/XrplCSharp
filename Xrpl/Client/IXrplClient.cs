@@ -388,7 +388,9 @@ namespace Xrpl.Client
         /// <inheritdoc />
         public Task<Submit> Submit(ITransactionCommon tx, XrplWallet wallet)
         {
-            Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
+            var json = tx.ToJson();
+            //var json = JsonConvert.SerializeObject(tx);
+            Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(json);
             return this.Submit(txJson, true, false, wallet);
         }
 

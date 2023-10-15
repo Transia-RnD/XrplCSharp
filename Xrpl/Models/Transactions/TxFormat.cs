@@ -278,6 +278,50 @@ namespace Xrpl.Models.Transaction
                     [Field.ReserveBase] = Requirement.Required,
                     [Field.ReserveIncrement] = Requirement.Required
                 },
+                [BinaryCodec.Types.TransactionType.AMMBid] = new TxFormat
+                {
+                    [Field.Asset] = Requirement.Required,
+                    [Field.Asset2] = Requirement.Required,
+                    [Field.BidMin] = Requirement.Optional,
+                    [Field.BidMax] = Requirement.Optional,
+                    [Field.AuthAccounts] = Requirement.Optional
+                },
+                [BinaryCodec.Types.TransactionType.AMMCreate] = new TxFormat
+                {
+                    [Field.Amount] = Requirement.Required,
+                    [Field.Amount2] = Requirement.Required,
+                    [Field.TradingFee] = Requirement.Required,
+                },
+                [BinaryCodec.Types.TransactionType.AMMDelete] = new TxFormat
+                {
+                    [Field.Asset] = Requirement.Required,
+                    [Field.Asset2] = Requirement.Required,
+                },
+                [BinaryCodec.Types.TransactionType.AMMDeposit] = new TxFormat
+                {
+                    [Field.Asset] = Requirement.Required,
+                    [Field.Asset2] = Requirement.Required,
+                    [Field.Amount] = Requirement.Optional,
+                    [Field.Amount2] = Requirement.Optional,
+                    [Field.EPrice] = Requirement.Optional,
+                    [Field.LPTokenOut] = Requirement.Optional,
+                },
+                [BinaryCodec.Types.TransactionType.AMMVote] = new TxFormat
+                {
+                    [Field.Asset] = Requirement.Required,
+                    [Field.Asset2] = Requirement.Required,
+                    [Field.TradingFee] = Requirement.Required,
+                },
+                [BinaryCodec.Types.TransactionType.AMMWithdraw] = new TxFormat
+                {
+                    [Field.Asset] = Requirement.Required,
+                    [Field.Asset2] = Requirement.Required,
+                    [Field.Amount] = Requirement.Optional,
+                    [Field.Amount2] = Requirement.Optional,
+                    [Field.EPrice] = Requirement.Optional,
+                    [Field.LPTokenIn] = Requirement.Optional,
+                },
+
             };
         }
     }
