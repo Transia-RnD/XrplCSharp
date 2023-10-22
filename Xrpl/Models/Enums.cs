@@ -96,6 +96,10 @@ namespace Xrpl.Models
         /// of LPTokenIn.
         /// </summary>
         AMMWithdraw,
+        /// <summary>
+        /// The Clawback transaction is used by the token issuer to claw back issued tokens from a holder.
+        /// </summary>
+        Clawback,
     }
     /// <summary>
     /// Each ledger version's state data is a set of ledger objects, sometimes called ledger entries,

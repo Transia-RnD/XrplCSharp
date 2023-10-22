@@ -33,7 +33,7 @@ namespace Xrpl.Client.Json.Converters
                 LedgerEntryType.RippleState => JsonConvert.DeserializeObject<LORippleState>($"{field}"),
                 LedgerEntryType.SignerList => JsonConvert.DeserializeObject<LOSignerList>($"{field}"),
                 LedgerEntryType.NFTokenOffer => JsonConvert.DeserializeObject<LONFTokenOffer>($"{field}"),
-                //LedgerEntryType.NegativeUNL => expr,
+                LedgerEntryType.NegativeUNL => JsonConvert.DeserializeObject<LONegativeUNL>($"{field}"),
                 //LedgerEntryType.NFTokenOffer => expr,
                 LedgerEntryType.NFTokenPage => JsonConvert.DeserializeObject<LONFTokenPage>($"{field}"),
                 LedgerEntryType.Ticket => JsonConvert.DeserializeObject<LOTicket>($"{field}"),
@@ -90,6 +90,8 @@ namespace Xrpl.Client.Json.Converters
                     return new LONFTokenPage();
                 case "LOTicket":
                     return new LOTicket();
+                case "LONegativeUNL":
+                    return new LONegativeUNL();
                 case "LOAmm":
                     return new LOAmm();
             }
@@ -107,7 +109,7 @@ namespace Xrpl.Client.Json.Converters
                 "PayChannel" => new LOPayChannel(),
                 "RippleState" => new LORippleState(),
                 "SignerList" => new LOSignerList(),
-                //"NegativeUNL" => new NegativeUNL(),
+                "NegativeUNL" => new LONegativeUNL(),
                 "NFTokenOffer" => new LONFTokenOffer(),
                 "NFTokenPage" => new LONFTokenPage(),
                 "Ticket" => new LOTicket(),
