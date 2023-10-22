@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Xrpl.Client.Exceptions;
+using Xrpl.Client.Json.Converters;
+using Xrpl.Models.Common;
+using Xrpl.Models.Ledger;
+
+using static Xrpl.Models.Common.Common;
 
 namespace Xrpl.Models.Transactions
 {
@@ -25,11 +31,11 @@ namespace Xrpl.Models.Transactions
         }
 
         /// <inheritdoc />
-        public Xrpl.Models.Common.Currency Asset { get; set; }
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset { get; set; }
         /// <inheritdoc />
-        public Xrpl.Models.Common.Currency Asset2 { get; set; }
-        /// <inheritdoc />
-        public uint TradingFee { get; set; }
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset2 { get; set; }
     }
     /// <summary>
     /// Delete an empty Automated Market Maker (AMM) instance that could not be fully deleted automatically.
@@ -46,11 +52,26 @@ namespace Xrpl.Models.Transactions
         /// <summary>
         /// The definition for one of the assets in the AMM's pool.
         /// </summary>
-        public Xrpl.Models.Common.Currency Asset { get; set; }
+        public IssuedCurrency Asset { get; set; }
         /// <summary>
         /// The definition for the other asset in the AMM's pool.
         /// </summary>
-        public Xrpl.Models.Common.Currency Asset2 { get; set; }
+        public IssuedCurrency Asset2 { get; set; }
+    }
+
+    /// <inheritdoc cref="IAMMDelete" />
+    public class AMMDeleteResponse : TransactionResponseCommon, IAMMDelete
+    {
+        #region Implementation of IAMMDelete
+
+        /// <inheritdoc />
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset2 { get; set; }
+
+        #endregion
     }
 
     public partial class Validation

@@ -2,10 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 using Xrpl.Client.Exceptions;
+using Xrpl.Client.Json.Converters;
+using Xrpl.Models.Common;
 using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
+
+using static Xrpl.Models.Common.Common;
 
 // https://github.com/XRPLF/xrpl.js/blob/amm/packages/xrpl/src/models/transactions/AMMBid.ts
 
@@ -25,12 +29,16 @@ namespace Xrpl.Models.Transactions
         }
 
         /// <inheritdoc />
-        public Xrpl.Models.Common.Currency Asset { get; set; }
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset { get; set; }
         /// <inheritdoc />
-        public Xrpl.Models.Common.Currency Asset2 { get; set; }
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset2 { get; set; }
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Xrpl.Models.Common.Currency? BidMin { get; set; }
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Xrpl.Models.Common.Currency? BidMax { get; set; }
         /// <inheritdoc />
         public List<AuthAccount> AuthAccounts { get; set; }
@@ -45,11 +53,11 @@ namespace Xrpl.Models.Transactions
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
-        public Xrpl.Models.Common.Currency Asset { get; set; }
+        public IssuedCurrency Asset { get; set; }
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
-        public Xrpl.Models.Common.Currency Asset2 { get; set; }
+        public IssuedCurrency Asset2 { get; set; }
         /// <summary>
         /// This field represents the minimum price that the bidder wants to pay for the slot.
         /// It is specified in units of LPToken.If specified let BidMin be X and let
@@ -70,6 +78,28 @@ namespace Xrpl.Models.Transactions
         public List<AuthAccount> AuthAccounts { get; set; }
     }
 
+    /// <inheritdoc cref="IAMMBid" />
+    public class AMMBidResponse : TransactionResponseCommon, IAMMBid
+    {
+        #region Implementation of IAMMBid
+
+        /// <inheritdoc />
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset2 { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency? BidMin { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency? BidMax { get; set; }
+        /// <inheritdoc />
+        public List<AuthAccount> AuthAccounts { get; set; }
+
+        #endregion
+    }
     public partial class Validation
     {
         private const int MAX_AUTH_ACCOUNTS = 4;

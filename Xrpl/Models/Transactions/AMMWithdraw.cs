@@ -138,6 +138,34 @@ namespace Xrpl.Models.Transactions
         /// </summary>
         Currency EPrice { get; set; }
     }
+
+    /// <inheritdoc cref="IAMMWithdraw" />
+    public class AMMWithdrawResponse : TransactionResponseCommon, IAMMWithdraw
+    {
+        #region Implementation of IAMMWithdraw
+
+        /// <inheritdoc />
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset2 { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency LPTokenIn { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount2 { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency EPrice { get; set; }
+
+        #endregion
+    }
+
     public partial class Validation
     {
 

@@ -37,6 +37,7 @@ namespace Xrpl.Client.Json.Converters
                 //LedgerEntryType.NFTokenOffer => expr,
                 LedgerEntryType.NFTokenPage => JsonConvert.DeserializeObject<LONFTokenPage>($"{field}"),
                 LedgerEntryType.Ticket => JsonConvert.DeserializeObject<LOTicket>($"{field}"),
+                LedgerEntryType.AMM => JsonConvert.DeserializeObject<LOAmm>($"{field}"),
                 //LedgerEntryType.Check => expr,
                 //LedgerEntryType.DepositPreauth => expr,
                 _ => throw new ArgumentOutOfRangeException()
@@ -89,6 +90,8 @@ namespace Xrpl.Client.Json.Converters
                     return new LONFTokenPage();
                 case "LOTicket":
                     return new LOTicket();
+                case "LOAmm":
+                    return new LOAmm();
             }
 
             string ledgerEntryType = jObject.Property("LedgerEntryType")?.Value.ToString();
@@ -110,6 +113,7 @@ namespace Xrpl.Client.Json.Converters
                 "Ticket" => new LOTicket(),
                 "Check" => new LOCheck(),
                 "DepositPreauth" => new LODepositPreauth(),
+                "Amm" => new LOAmm(),
                 _ => throw new Exception("Can't create ledger type" + ledgerEntryType)
             };
         }

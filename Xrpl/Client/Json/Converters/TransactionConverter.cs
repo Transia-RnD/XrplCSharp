@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Xrpl.Models.Methods;
 using Xrpl.Models.Transactions;
 
 //https://xrpl.org/transaction-types.html
@@ -61,6 +62,12 @@ namespace Xrpl.Client.Json.Converters
                 "EnableAmendment" => new EnableAmendmentResponse(),
                 "SetFee" => new SetFeeResponse(),
                 "UNLModify" => new UNLModifyResponse(),
+                "AMMBid" => new AMMBidResponse(),
+                "AMMCreate" => new AMMCreateResponse(),
+                "AMMDelete" => new AMMDeleteResponse(),
+                "AMMDeposit" => new AMMDepositResponse(),
+                "AMMVote" => new AMMVoteResponse(),
+                "AMMWithdraw" => new AMMWithdrawResponse(),
                 _ => throw new Exception("Can't create transaction type" + transactionType)
             };
         }

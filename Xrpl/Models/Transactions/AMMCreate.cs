@@ -1,10 +1,13 @@
 ﻿#nullable enable
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 using Xrpl.BinaryCodec.Types;
 using Xrpl.Client.Exceptions;
+using Xrpl.Client.Json.Converters;
+using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
+using Currency = Xrpl.Models.Common.Currency;
 
 namespace Xrpl.Models.Transactions
 {
@@ -21,8 +24,10 @@ namespace Xrpl.Models.Transactions
         }
 
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Xrpl.Models.Common.Currency Amount { get; set; }
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Xrpl.Models.Common.Currency Amount2 { get; set; }
         /// <inheritdoc />
         public uint TradingFee { get; set; }
@@ -50,6 +55,23 @@ namespace Xrpl.Models.Transactions
         /// between 0% and 1%.
         /// </summary>
         public uint TradingFee { get; set; }
+    }
+
+    /// <inheritdoc cref="IAMMCreate" />
+    public class AMMCreateResponse : TransactionResponseCommon, IAMMCreate
+    {
+        #region Implementation of IAMMCreate
+
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount2 { get; set; }
+        /// <inheritdoc />
+        public uint TradingFee { get; set; }
+
+        #endregion
     }
 
     public partial class Validation

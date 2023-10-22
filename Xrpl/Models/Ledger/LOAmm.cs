@@ -50,7 +50,7 @@ namespace Xrpl.Models.Ledger
         /// <summary>
         /// A list of vote objects, representing votes on the pool's trading fee..
         /// </summary>
-        public List<IVoteEntry> VoteSlots { get; set; }
+        public List<VoteEntry> VoteSlots { get; set; }
         /// <summary>
         /// The ledger index of the current in-progress ledger, which was used when
         /// retrieving this information.

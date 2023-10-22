@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 using static Xrpl.Models.Common.Common;
 using Xrpl.BinaryCodec.Types;
 using Xrpl.Client.Exceptions;
+using Xrpl.Models.Ledger;
+using Currency = Xrpl.Models.Common.Currency;
+using Xrpl.Client.Json.Converters;
 
 namespace Xrpl.Models.Transactions
 {
@@ -63,21 +66,27 @@ namespace Xrpl.Models.Transactions
             TransactionType = TransactionType.AMMDeposit;
         }
         /// <inheritdoc />
-        public Xrpl.Models.Common.Currency Asset { get; set; }
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset { get; set; }
 
         /// <inheritdoc />
-        public Xrpl.Models.Common.Currency Asset2 { get; set; }
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset2 { get; set; }
 
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Xrpl.Models.Common.Currency? LPTokenOut { get; set; }
 
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Xrpl.Models.Common.Currency? Amount { get; set; }
 
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Xrpl.Models.Common.Currency? Amount2 { get; set; }
 
         /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
         public Xrpl.Models.Common.Currency? EPrice { get; set; }
     }
 
@@ -96,12 +105,12 @@ namespace Xrpl.Models.Transactions
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
-        public Xrpl.Models.Common.Currency Asset { get; set; }
+        public IssuedCurrency Asset { get; set; }
 
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
-        public Xrpl.Models.Common.Currency Asset2 { get; set; }
+        public IssuedCurrency Asset2 { get; set; }
 
         /// <summary>
         /// Specifies the amount of shares of the AMM instance pools that the trader wants to redeem or trade in.
@@ -124,6 +133,32 @@ namespace Xrpl.Models.Transactions
         public Xrpl.Models.Common.Currency? EPrice { get; set; }
     }
 
+    /// <inheritdoc cref="IAMMDeposit" />
+    public class AMMDepositResponse : TransactionResponseCommon, IAMMDeposit
+    {
+        #region Implementation of IAMMDeposit
+
+        /// <inheritdoc />
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset2 { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency LPTokenOut { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount2 { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency EPrice { get; set; }
+
+        #endregion
+    }
 
     public partial class Validation
     {
