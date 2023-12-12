@@ -66,7 +66,8 @@ namespace Xrpl.Sugar
             }
             if (tt == "AccountDelete")
             {
-                promises.Add(client.CheckAccountDeleteBlockers(tx));
+                //todo error here
+                //promises.Add(client.CheckAccountDeleteBlockers(tx));
             }
             await Task.WhenAll(promises);
             string jsonData = JsonConvert.SerializeObject(tx);
