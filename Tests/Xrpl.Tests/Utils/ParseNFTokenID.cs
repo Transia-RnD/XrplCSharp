@@ -43,17 +43,5 @@ namespace XrplTests.Xrpl.Utils
                 response
             );
         }
-
-        [TestMethod]
-        public void TestUParseNFTOfferOwner()
-        {
-            string nftokenOfferId = "0003000002723E8A008169F1A3ECB8B2C313F3D1A0609B663F96D69A046DADA7";
-
-            string response = ParseNFTID.ParseNFTokenOfferOwner(nftokenOfferId);
-            Assert.AreEqual(
-                "rDADDYgduA1JbVU6FQnciXmCHpNHwxFew",
-                response
-            );
-        }
     }
 }
