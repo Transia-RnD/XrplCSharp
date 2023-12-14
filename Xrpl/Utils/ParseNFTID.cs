@@ -71,5 +71,18 @@ namespace Xrpl.Utils
             byte[] response = Sha512.Half(rv);
             return response.ToHex();
         }
+
+        public static string ParseNFTokenOfferOwner(this string nftokenOfferId)
+        {
+            const int expectedLength = 64;
+            if (nftokenOfferId.Length != expectedLength)
+            {
+                throw new XrplException($"Attempting to parse a nftokenID with length ${nftokenOfferId.Length}\n" +
+                                        $", but expected a token with length ${expectedLength}");
+            }
+            string issuer = XrplCodec.EncodeAccountID(nftokenOfferId.Substring(8, 40).FromHexToBytes());
+            return issuer;
+        }
+
     }
 }
