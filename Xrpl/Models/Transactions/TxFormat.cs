@@ -26,6 +26,7 @@ namespace Xrpl.Models.Transaction
             this[Field.SigningPubKey] = Requirement.Required;
             this[Field.TicketSequence] = Requirement.Optional;
 
+            this[Field.NetworkID] = Requirement.Optional;
             this[Field.Flags] = Requirement.Optional;
             this[Field.SourceTag] = Requirement.Optional;
             this[Field.PreviousTxnID] = Requirement.Optional;

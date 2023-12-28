@@ -256,6 +256,8 @@ namespace Xrpl.Models.Transactions
         //    Fee = new Currency { Value = "10" };
         //}
 
+        public uint? NetworkID { get; set; }
+
         /// <inheritdoc />
         public string Account { get; set; }
 
@@ -577,6 +579,7 @@ namespace Xrpl.Models.Transactions
     /// </summary>
     public interface ITransactionCommon
     {
+        public uint? NetworkID { get; set; }
         /// <summary>
         /// This is a required field
         /// The unique address of the account that initiated the transaction.
@@ -684,6 +687,8 @@ namespace Xrpl.Models.Transactions
     [JsonConverter(typeof(TransactionConverter))]
     public abstract class TransactionResponseCommon : BaseTransactionResponse, ITransactionResponseCommon
     {
+        public uint? NetworkID { get; set; }
+
         /// <inheritdoc/>
         public string Account { get; set; }
 

@@ -92,6 +92,7 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly Uint16Field HookStateExecutionIndex = new Uint16Field(nameof(HookStateExecutionIndex), 19);
         public static readonly Uint16Field HookApiVersion = new Uint16Field(nameof(HookApiVersion), 20);
 
+        public static readonly Uint32Field NetworkID = new Uint32Field(nameof(NetworkID), 1);
         public static readonly Uint32Field Flags = new Uint32Field(nameof(Flags), 2);
         public static readonly Uint32Field SourceTag = new Uint32Field(nameof(SourceTag), 3);
         public static readonly Uint32Field Sequence = new Uint32Field(nameof(Sequence), 4);
