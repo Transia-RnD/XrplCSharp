@@ -84,6 +84,17 @@ namespace Xrpl.Models.Methods
         public string BuildVersion { get; set; }
 
         /// <summary>
+        /// he NetworkID field is a protection against "cross-chain" transaction replay attacks,<br/>
+        /// preventing the same transaction from being copied over<br/>
+        /// and executing on a parallel network that it wasn't intended for.<br/>
+        /// For compatibility with existing chains, the NetworkID field<br/>
+        /// must be omitted on any network with a Network ID of 1024 or less,<br/>
+        /// but must be included on any network with a Network ID of 1025 or greater.
+        /// </summary>
+        [JsonProperty("network_id")]
+        public uint? NetworkID { get; set; }
+
+        /// <summary>
         /// Range expression indicating the sequence numbers of the ledger versions the local rippled has in its database.
         /// </summary>
         [JsonProperty("complete_ledgers")]

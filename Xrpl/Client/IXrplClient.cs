@@ -42,6 +42,16 @@ namespace Xrpl.Client
         Connection connection { get; set; }
         double feeCushion { get; set; }
         string maxFeeXRP { get; set; }
+        uint? networkID { get; set; }
+
+        /// <summary>
+        /// Set network id for transactions, required in network where Id > 1024
+        /// </summary>
+        /// <param name="networkID">network id</param>
+        public void SetNetworkId(uint? networkID)
+        {
+            this.networkID = networkID;
+        } 
 
         //event OnError OnError;
         //event OnConnected OnConnected;
@@ -288,6 +298,7 @@ namespace Xrpl.Client
 
         public class ClientOptions : ConnectionOptions
         {
+            public uint? NetworkID { get; set; }
             public double? feeCushion { get; set; }
             public string? maxFeeXRP { get; set; }
         }
@@ -295,6 +306,7 @@ namespace Xrpl.Client
         public Connection connection { get; set; }
         public double feeCushion { get; set; }
         public string maxFeeXRP { get; set; }
+        public uint? networkID { get; set; }
 
         //public event OnError OnError;
         //public event OnConnected OnConnected;
@@ -320,6 +332,7 @@ namespace Xrpl.Client
             }
             feeCushion = options?.feeCushion ?? 1.2;
             maxFeeXRP = options?.maxFeeXRP ?? "2";
+            networkID = options?.NetworkID;
 
             connection = new Connection(server, options);
             //connection.OnError += (e, em, m, d) => OnError?.Invoke(e, em, m, d);
