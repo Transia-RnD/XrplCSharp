@@ -100,6 +100,10 @@ namespace Xrpl.Models
         /// The Clawback transaction is used by the token issuer to claw back issued tokens from a holder.
         /// </summary>
         Clawback,
+        /// <summary>
+        /// Unknown tx Type.
+        /// </summary>
+        Unknown,
     }
     /// <summary>
     /// Each ledger version's state data is a set of ledger objects, sometimes called ledger entries,

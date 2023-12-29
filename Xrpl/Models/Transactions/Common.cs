@@ -685,7 +685,7 @@ namespace Xrpl.Models.Transactions
 
     /// <inheritdoc cref="ITransactionResponseCommon" />
     [JsonConverter(typeof(TransactionConverter))]
-    public abstract class TransactionResponseCommon : BaseTransactionResponse, ITransactionResponseCommon
+    public class TransactionResponseCommon : BaseTransactionResponse, ITransactionResponseCommon
     {
         public uint? NetworkID { get; set; }
 
