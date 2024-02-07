@@ -260,6 +260,13 @@ namespace Xrpl.Client
 
 
         #endregion
+
+        /// <summary>
+        /// The amm_info method gets information about an Automated Market Maker (AMM) instance.
+        /// </summary>
+        /// <param name="request">An <see cref="AMMInfoRequest"/> request.</param>
+        /// <returns>An <see cref="AMMInfoResponse"/> response.</returns>
+        Task<AMMInfoResponse> AmmInfo(AMMInfoRequest request);
         /// <summary>
         /// The book_offers method retrieves a list of offers, also known as the order book , between two currencies
         /// </summary>
@@ -401,6 +408,10 @@ namespace Xrpl.Client
         /// <inheritdoc />
         public Task<Submit> Submit(ITransactionCommon tx, XrplWallet wallet)
         {
+            if (networkID is { } network)
+            {
+                tx.NetworkID = network;
+            }
             var json = tx.ToJson();
             //var json = JsonConvert.SerializeObject(tx);
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(json);
@@ -465,6 +476,12 @@ namespace Xrpl.Client
         public Task<AccountTransactions> AccountTransactions(AccountTransactionsRequest request)
         {
             return this.GRequest<AccountTransactions, AccountTransactionsRequest>(request);
+        }
+
+        /// <inheritdoc />
+        public Task<AMMInfoResponse> AmmInfo(AMMInfoRequest request)
+        {
+            return this.GRequest<AMMInfoResponse, AMMInfoRequest>(request);
         }
 
         /// <inheritdoc />
