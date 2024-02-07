@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 using Xrpl.Client.Json.Converters;
@@ -113,7 +114,7 @@ namespace Xrpl.Models.Ledger
         /// The time when this slot expires, in seconds since the Ripple Epoch.
         /// </summary>
         [JsonProperty("expiration")]
-        public uint Expiration { get; set; }
+        public DateTime? Expiration { get; set; }
         /// <summary>
         /// The amount the auction owner paid to win this slot, in LPTokens.
         /// </summary>
