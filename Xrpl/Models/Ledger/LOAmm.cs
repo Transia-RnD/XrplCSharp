@@ -71,6 +71,7 @@ namespace Xrpl.Models.Ledger
     }
     public class AuthAccount : IAuthAccount
     {
+        [JsonProperty("account")]
         public string Account { get; set; }
     }
 
@@ -103,7 +104,7 @@ namespace Xrpl.Models.Ledger
         /// A list of at most 4 additional accounts that are authorized to trade at the discounted fee for this AMM instance.
         /// </summary>
         [JsonProperty("auth_accounts")]
-        public List<IAuthAccount> AuthAccounts { get; set; }
+        public List<AuthAccount> AuthAccounts { get; set; }
         /// <summary>
         /// The trading fee to be charged to the auction owner, in the same format as TradingFee.<br/>
         /// By default this is 0, meaning that the auction owner can trade at no fee instead of the standard fee for this AMM.

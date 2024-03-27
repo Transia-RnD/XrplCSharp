@@ -53,6 +53,24 @@ public class AMMInfoResponse
 {
     [JsonProperty("amm")]
     public AMMInfo Amm { get; set; }
+    /// <summary>
+    /// The ledger index of the ledger version that was used to generate this response.
+    /// </summary>
+    [JsonProperty("ledger_index")]
+    public int? LedgerIndex { get; set; }
+
+    /// <summary>
+    ///The identifying hash of the ledger that was used to generate this response.
+    /// </summary>
+    [JsonProperty("ledger_hash")]
+    public string? LedgerHash { get; set; }
+
+    /// <summary>
+    /// True if this data is from a validated ledger version;<br/>
+    /// if omitted or set to false, this data is not final.
+    /// </summary>
+    [JsonProperty("validated")]
+    public bool? Validated { get; set; }
 }
 
 public class AMMInfo
@@ -112,22 +130,4 @@ public class AMMInfo
     /// </summary>
     [JsonProperty("vote_slots")]
     public List<VoteEntry> VoteSlots { get; set; }
-
-    /// <summary>
-    /// The ledger index of the ledger version that was used to generate this response.
-    /// </summary>
-    [JsonProperty("ledger_index")]
-    public int? LedgerIndex { get; set; }
-
-    /// <summary>
-    ///The identifying hash of the ledger that was used to generate this response.
-    /// </summary>
-    [JsonProperty("ledger_hash")]
-    public string? LedgerHash { get; set; }
-
-    /// <summary>
-    /// True if this data is from a validated ledger version;<br/>
-    /// if omitted or set to false, this data is not final.
-    /// </summary>
-    public bool? Validated { get; set; }
 }
