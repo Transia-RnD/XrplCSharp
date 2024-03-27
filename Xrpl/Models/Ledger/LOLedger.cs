@@ -65,9 +65,16 @@ namespace Xrpl.Models.Ledger
         [JsonProperty("account_hash")]
         public string AccountHash { get; set; }
 
-        //todo not found field accountState?: LedgerEntry[] All the state information in this ledger.
-        //todo not found field close_flags: number A bit-map of flags relating to the closing of this ledger.
-
+        /// <summary>
+        /// All the state information in this ledger.
+        /// </summary>
+        [JsonProperty("accountState")]
+        public List<LOLedgerEntry> AccountState { get; set; }
+        /// <summary>
+        /// A bit-map of flags relating to the closing of this ledger.
+        /// </summary>
+        [JsonProperty("close_flags")]
+        public uint CloseFlags { get; set; }
         [JsonProperty("accounts")]
         public dynamic[] Accounts { get; set; }
         /// <summary>
@@ -101,7 +108,11 @@ namespace Xrpl.Models.Ledger
         [JsonProperty("ledger_index")]
         public string LedgerIndex { get; set; }
 
-        //todo not found field parent_close_time: number The approximate time at which the previous ledger was closed.
+        /// <summary>
+        /// The approximate time at which the previous ledger was closed.
+        /// </summary>
+        [JsonProperty("parent_close_time")]
+        public uint ParentCloseTime { get; set; }
         /// <summary>
         /// Unique identifying hash of the ledger that came immediately before this one
         /// </summary>

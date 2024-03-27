@@ -42,13 +42,14 @@ namespace Xrpl.BinaryCodec.Binary
         }
         /// <summary> Get all bytes </summary>
         /// <returns>Bytes</returns>
-        public byte[] Bytes()
+        public byte[] ToBytes()
         {
             var n = BytesLength();
             var bytes = new byte[n];
             AddBytes(bytes, 0);
             return bytes;
         }
+
         /// <summary> Hex Lookup </summary>
         public static string[] HexLookup = new string[256];
         static BytesList()

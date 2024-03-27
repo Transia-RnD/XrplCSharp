@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xrpl.Client.Exceptions;
-
+// https://github.com/XRPLF/xrpl.js/blob/b20c05c3680d80344006d20c44b4ae1c3b0ffcac/packages/xrpl/src/models/transactions/accountSet.ts#L11
 namespace Xrpl.Models.Transactions
 {
     /// <summary>
     /// Enum for AccountSet Flags.
     /// </summary>
-    public enum AccountSetTfFlags //todo rename to AccountSetAsfFlags https://github.com/XRPLF/xrpl.js/blob/b20c05c3680d80344006d20c44b4ae1c3b0ffcac/packages/xrpl/src/models/transactions/accountSet.ts#L11
+    public enum AccountSetAsfFlags 
     {
         /// <summary>
         /// Require a destination tag to send transactions to this account.
@@ -97,6 +97,8 @@ namespace Xrpl.Models.Transactions
         public uint? TransferRate { get; set; }
         /// <inheritdoc />
         public uint? TickSize { get; set; }
+        /// <inheritdoc />
+        public string NFTokenMinter { get; set; }
     }
 
     /// <summary>
@@ -136,7 +138,10 @@ namespace Xrpl.Models.Transactions
         /// Valid values are 3 to 15 inclusive, or 0 to disable.
         /// </summary>
         uint? TickSize { get; set; }
-
+        /// <summary>
+        /// Optional) Another account that can mint NFTokens for you. 
+        /// </summary>
+        public string NFTokenMinter { get; set; }
         //todo not found field NFTokenMinter?: string
     }
 
@@ -157,6 +162,9 @@ namespace Xrpl.Models.Transactions
         public uint? TransferRate { get; set; }
         /// <inheritdoc />
         public uint? TickSize { get; set; }
+
+        /// <inheritdoc />
+        public string NFTokenMinter { get; set; }
     }
 
     public partial class Validation
@@ -178,7 +186,7 @@ namespace Xrpl.Models.Transactions
                 if (ClearFlag is not uint { } flag )
                     throw new ValidationException("AccountSet: invalid ClearFlag");
 
-                if (Enum.GetValues<AccountSetTfFlags>().All(c => (uint)c != flag))
+                if (Enum.GetValues<AccountSetAsfFlags>().All(c => (uint)c != flag))
                     throw new ValidationException("AccountSet: invalid ClearFlag");
             }
             if (tx.TryGetValue("Domain", out var Domain) && Domain is not string { })
@@ -195,7 +203,7 @@ namespace Xrpl.Models.Transactions
                 if (SetFlag is not uint { })
                     throw new ValidationException("AccountSet: invalid SetFlag");
 
-                if (Enum.GetValues<AccountSetTfFlags>().All(c => (uint)c != SetFlag))
+                if (Enum.GetValues<AccountSetAsfFlags>().All(c => (uint)c != SetFlag))
                     throw new ValidationException("AccountSet: missing field Destination");
             }
 

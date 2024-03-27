@@ -6,21 +6,21 @@ using System.Linq;
 
 namespace Xrpl.AddressCodec
 {
-    public class Utils
+    public static class Utils
     {
         /// <summary>
         /// from bytes array to hex row
         /// </summary>
         /// <param name="bytes">bytes array</param>
         /// <returns></returns>
-        public static string FromBytesToHex(byte[] bytes) => Hex.ToHexString(bytes).ToUpper();
+        public static string FromBytesToHex(this byte[] bytes) => Hex.ToHexString(bytes).ToUpper();
 
         /// <summary>
         /// hex row to bytes array
         /// </summary>
         /// <param name="hex">hex row</param>
         /// <returns></returns>
-        public static byte[] FromHexToBytes(string hex) => Hex.Decode(hex);
+        public static byte[] FromHexToBytes(this string hex) => Hex.Decode(hex);
 
         /// <summary>
         /// combine bytes arrays to single array

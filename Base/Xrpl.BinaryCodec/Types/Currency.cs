@@ -163,24 +163,5 @@ namespace Xrpl.BinaryCodec.Types
         {
             return new Currency(parser.Read(20));
         }
-
-        //public static UnissuedAmount operator /(decimal v, Currency c)
-        //{
-        //    if (c == Xrp)
-        //    {
-        //        v *= 1e6m;
-        //    }
-        //    return new UnissuedAmount(v, c);
-        //}
-
-        public static Issue operator /(Currency c, AccountId ac)
-        {
-            return new Issue();        //todo ?
-        }
-    }
-
-    public class Issue
-    {
-        //todo ?
     }
 }

@@ -40,7 +40,7 @@ namespace Xrpl.Models.Subscriptions
         /// Some client libraries omit this field on success.
         /// </summary>
         [JsonProperty("result")]
-        public object Result { get; set; }
+        public dynamic Result { get; set; }
         /// <summary>
         /// (May be omitted) If this field is provided, the value is the string load.<br/>
         /// This means the client is approaching the rate limiting threshold where the server will disconnect this client.

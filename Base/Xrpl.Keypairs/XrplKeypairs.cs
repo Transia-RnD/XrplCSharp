@@ -1,11 +1,12 @@
 ﻿using System.Security.Cryptography;
+using System.Text;
+
 using Xrpl.AddressCodec;
 using Xrpl.Keypairs.Ed25519;
 using Xrpl.Keypairs.K256;
-using static Xrpl.AddressCodec.XrplCodec;
+
 using static Xrpl.AddressCodec.Utils;
-using System.Diagnostics;
-using System.Text;
+using static Xrpl.AddressCodec.XrplCodec;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-keypairs/src/index.ts
 
@@ -75,7 +76,7 @@ namespace Xrpl.Keypairs
         /// <returns></returns>
         public static string GetAlgorithmFromKey(string key)
         {
-            byte[] data = FromHexToBytes(key);
+            byte[] data = key.FromHexToBytes();
             return data.Length == 33 && data[0] == 0xED ? "ed25519" : "secp256k1";
         }
 
@@ -94,6 +95,12 @@ namespace Xrpl.Keypairs
             return K256KeyPair.Sign(message, privateKey.FromHex()).ToHex();
         }
 
+        /// <summary> Sing message </summary>
+        /// <param name="HexMessage">Hex Message</param>
+        /// <param name="privateKey">private key</param>
+        /// <returns></returns>
+        public static string Sign(string HexMessage, string privateKey) => Sign(HexMessage.FromHexToBytes(), privateKey);
+
         public static bool Verify(byte[] message, string signature, string publicKey)
         {
             string algorithm = GetAlgorithmFromKey(publicKey);
@@ -102,10 +109,12 @@ namespace Xrpl.Keypairs
                 : K256KeyPair.Verify(signature.FromHex(), message, publicKey.FromHex());
         }
 
+        public static bool Verify(string HexMessage, string signature, string publicKey) => Verify(HexMessage.FromHexToBytes(), signature, publicKey);
+
         public static string DeriveAddressFromBytes(byte[] publicKeyBytes)
             => XrplCodec.EncodeAccountID(Utils.HashUtils.PublicKeyHash(publicKeyBytes));
 
         public static string DeriveAddress(string publicKey)
-            => XrplKeypairs.DeriveAddressFromBytes(FromHexToBytes(publicKey));
+            => XrplKeypairs.DeriveAddressFromBytes(publicKey.FromHexToBytes());
     }
 }

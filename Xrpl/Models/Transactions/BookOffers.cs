@@ -175,6 +175,6 @@ namespace Xrpl.Models.Transactions
         /// For fairness, offers that have the same quality are automatically taken first-in, first-out.
         /// </summary>
         [JsonProperty("quality")]
-        public double? Quality { get; set; }
+        public decimal? Quality { get; set; }
     }
 }

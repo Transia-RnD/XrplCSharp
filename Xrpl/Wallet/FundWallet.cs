@@ -105,7 +105,7 @@ namespace Xrpl.Wallet
             public static readonly string NFTDevnet = "faucet-nft.ripple.com";
         }
 
-        public static async Task<Funded> FundWallet(XrplClient client, XrplWallet? wallet = null, string? faucetHost = null)
+        public static async Task<Funded> FundWallet(IXrplClient client, XrplWallet? wallet = null, string? faucetHost = null)
         {
             //if (!client.IsConnected())
             //{
@@ -138,7 +138,7 @@ namespace Xrpl.Wallet
 
         public static async Task<Funded> ReturnPromise(
               Dictionary<string, dynamic> options,
-              XrplClient client,
+              IXrplClient client,
               double startingBalance,
               XrplWallet walletToFund,
               string postBody
@@ -161,7 +161,7 @@ namespace Xrpl.Wallet
         }
 
         public static Dictionary<string, dynamic> GetHTTPOptions(
-              XrplClient client,
+              IXrplClient client,
               byte[] postBody,
               string hostname
         )
@@ -182,7 +182,7 @@ namespace Xrpl.Wallet
         public static async Task<Funded> OnEnd(
             HttpResponseMessage response,
             byte[] chunks,
-            XrplClient client,
+            IXrplClient client,
             double startingBalance,
             XrplWallet walletToFund
         )
@@ -212,7 +212,7 @@ namespace Xrpl.Wallet
         }
 
         public static async Task<Funded> ProcessSuccessfulResponse(
-              XrplClient client,
+              IXrplClient client,
               string body,
               double startingBalance,
               XrplWallet walletToFund
@@ -267,7 +267,7 @@ namespace Xrpl.Wallet
 
         private static double _originalBalance;
         private static string _address;
-        private static XrplClient _client;
+        private static IXrplClient _client;
 
         private static async void OnTimedEventAsync(Object source, ElapsedEventArgs e)
         {
@@ -287,6 +287,10 @@ namespace Xrpl.Wallet
                 try
                 {
                     newBalance = Convert.ToDouble(await _client.GetXrpBalance(_address));
+                }
+                catch (XrplException err)
+                {
+
                 }
                 catch (RippleException err)
                 {
@@ -310,7 +314,7 @@ namespace Xrpl.Wallet
         }
 
         public static async Task<double> GetUpdatedBalance(
-            XrplClient client,
+            IXrplClient client,
             string address,
             double originalBalance
         )
@@ -330,7 +334,7 @@ namespace Xrpl.Wallet
             return finalBalance;
         }
 
-        public static string GetFaucetHost(XrplClient client)
+        public static string GetFaucetHost(IXrplClient client)
         {
             string connectionUrl = client.Url();
             // 'altnet' for Ripple Testnet server and 'testnet' for XRPL Labs Testnet server

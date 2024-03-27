@@ -152,5 +152,13 @@ namespace Xrpl.Models.Methods
         /// </summary>
         [JsonProperty("marker")]
         public object Marker { get; set; }
+
+        /// <summary>
+        /// Optional) Clio Only Return only transactions of a specific type,<br/>
+        /// such as "Clawback", "AccountSet", "AccountDelete", et al. Case-insensitive.<br/>
+        /// Supports any transaction type except AMM* (See Transaction Types https://xrpl.org/transaction-types.html)
+        /// </summary>
+        [JsonProperty("tx_type")]
+        public string TxType { get; set; }
     }
 }

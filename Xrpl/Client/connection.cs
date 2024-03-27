@@ -100,13 +100,13 @@ namespace Xrpl.Client
         int CONNECTION_TIMEOUT = 5;
         int INTENTIONAL_DISCONNECT_CODE = 4000;
 
-        public readonly string url;
+        public string url { get; private set; }
         public WebSocketClient ws;
 
         private int? reconnectTimeoutID = null;
         private int? heartbeatIntervalID = null;
 
-        public readonly ConnectionOptions config;
+        public ConnectionOptions config { get; private set; }
         public RequestManager requestManager = new RequestManager();
         public ConnectionManager connectionManager = new ConnectionManager();
 
@@ -119,6 +119,16 @@ namespace Xrpl.Client
 
         }
 
+        public async Task ChangeServer(string server, ConnectionOptions? options = null)
+        {
+            await Disconnect();
+            url = server;
+            config = options ?? new ConnectionOptions();
+            config.timeout = TIMEOUT * 1000;
+            config.connectionTimeout = CONNECTION_TIMEOUT * 1000;
+            await Task.Delay(3000);
+            await Connect();
+        }
         public bool IsConnected()
         {
             return this.State() == WebSocketState.Open;
@@ -161,14 +171,16 @@ namespace Xrpl.Client
 
             ws.OnConnect(async (ws) => { await OnceOpen(); });
 
-            ws.OnConnectionError(async (e, ws) => {
+            ws.OnConnectionError(async (e, ws) =>
+            {
                 timer.Stop();
                 await OnConnectionFailed(e);
             });
 
             ws.OnMessageReceived(async (m, ws) => { await IOnMessage(m); });
             //ws.OnError(async (e, ws) => { await OnConnectionFailed(e); });
-            ws.OnDisconnect(async (ws) => {
+            ws.OnDisconnect(async (ws) =>
+            {
                 timer.Stop();
                 await OnceClose(1000);
             });
@@ -284,7 +296,8 @@ namespace Xrpl.Client
                 //this.retryConnectionBackoff.reset();
                 //this.startHeartbeatInterval();
                 this.connectionManager.ResolveAllAwaiting();
-                await this.OnConnected?.Invoke();
+                if (OnConnected is not null)
+                    await this.OnConnected?.Invoke();
             }
             catch (Exception error)
             {
@@ -347,7 +360,6 @@ namespace Xrpl.Client
             try
             {
                 data = JsonConvert.DeserializeObject<BaseResponse>(message);
-                Console.WriteLine(message);
             }
             catch (Exception error)
             {
@@ -370,10 +382,10 @@ namespace Xrpl.Client
                 {
                     case ResponseStreamType.ledgerClosed:
                         {
-                            object response = JsonConvert.DeserializeObject<object>(message.ToString());
+                            var response = JsonConvert.DeserializeObject<LedgerStream>(message);
 
                             if (OnLedgerClosed is not null)
-                                await OnLedgerClosed?.Invoke(response)!;
+                                await OnLedgerClosed.Invoke(response)!;
                             break;
                         }
                     case ResponseStreamType.validationReceived:
@@ -381,7 +393,7 @@ namespace Xrpl.Client
                             var response = JsonConvert.DeserializeObject<ValidationStream>(message);
 
                             if (OnManifestReceived is not null)
-                                await OnManifestReceived?.Invoke(response)!;
+                                await OnManifestReceived.Invoke(response)!;
                             break;
                         }
                     case ResponseStreamType.transaction:
@@ -389,7 +401,7 @@ namespace Xrpl.Client
                             var response = JsonConvert.DeserializeObject<TransactionStream>(message);
 
                             if (OnTransaction is not null)
-                                await OnTransaction?.Invoke(response)!;
+                                await OnTransaction.Invoke(response)!;
                             break;
                         }
                     case ResponseStreamType.peerStatusChange:
@@ -397,7 +409,7 @@ namespace Xrpl.Client
                             var response = JsonConvert.DeserializeObject<PeerStatusStream>(message);
 
                             if (OnPeerStatusChange is not null)
-                                await OnPeerStatusChange?.Invoke(response)!;
+                                await OnPeerStatusChange.Invoke(response)!;
                             break;
                         }
                     case ResponseStreamType.consensusPhase:
@@ -405,7 +417,7 @@ namespace Xrpl.Client
                             var response = JsonConvert.DeserializeObject<ConsensusStream>(message);
 
                             if (OnConsensusPhase is not null)
-                                await OnConsensusPhase?.Invoke(response)!;
+                                await OnConsensusPhase.Invoke(response)!;
                             break;
                         }
                     case ResponseStreamType.path_find:
@@ -413,7 +425,14 @@ namespace Xrpl.Client
                             var response = JsonConvert.DeserializeObject<PathFindStream>(message);
 
                             if (OnPathFind is not null)
-                                await OnPathFind?.Invoke(response)!;
+                                await OnPathFind.Invoke(response)!;
+                            break;
+                        }
+                    case ResponseStreamType.error:
+                        {
+                            var response = JsonConvert.DeserializeObject<ErrorResponse>(message);
+                            if (OnError is not null)
+                                await OnError.Invoke(response.Error, response.ErrorMessage, response.ErrorCode, response);
                             break;
                         }
                     default:
@@ -429,12 +448,12 @@ namespace Xrpl.Client
                 catch (XrplException error)
                 {
                     if (OnError is not null)
-                        await OnError?.Invoke("error", "badMessage", error.Message, error);
+                        await OnError.Invoke("error", "badMessage", error.Message, error);
                 }
                 catch (Exception error)
                 {
                     if (OnError is not null)
-                        await OnError?.Invoke("error", "badMessage", error.Message, error);
+                        await OnError.Invoke("error", "badMessage", error.Message, error);
                 }
             }
         }

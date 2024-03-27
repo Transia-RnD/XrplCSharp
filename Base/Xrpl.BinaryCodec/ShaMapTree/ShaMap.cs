@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Newtonsoft.Json.Linq;
+using Xrpl.BinaryCodec.Enums;
 using Xrpl.BinaryCodec.Types;
 
 namespace Xrpl.BinaryCodec.ShaMapTree

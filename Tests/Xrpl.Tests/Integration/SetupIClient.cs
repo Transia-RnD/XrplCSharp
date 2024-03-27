@@ -18,17 +18,17 @@ namespace XrplTests.Xrpl.ClientLib.Integration
             wallet = XrplWallet.Generate();
             var promise = new TaskCompletionSource();
             client = new XrplClient(serverUrl);
-            client.OnConnected += () =>
+            client.connection.OnConnected += () =>
             {
                 Console.WriteLine($"SetupIntegration CONNECTED");
                 return Task.CompletedTask;
             };
-            client.OnDisconnect += (code) =>
+            client.connection.OnDisconnect += (code) =>
             {
                 Console.WriteLine($"SetupIntegration DISCONNECTED: {code}");
                 return Task.CompletedTask;
             };
-            client.OnError += (error, errorMessage, message, data) =>
+            client.connection.OnError += (error, errorMessage, message, data) =>
             {
                 Console.WriteLine($"SetupIntegration ERROR: {message}");
                 return Task.CompletedTask;

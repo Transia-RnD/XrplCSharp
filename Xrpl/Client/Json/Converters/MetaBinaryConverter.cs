@@ -16,7 +16,7 @@ namespace Xrpl.Client.Json.Converters
         /// <exception cref="NotSupportedException">Cannot write this object type</exception>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            serializer.Serialize(writer, value);
         }
         /// <summary> read  <see cref="Meta"/> from json object </summary>
         /// <param name="reader">json reader</param>

@@ -55,7 +55,55 @@ namespace Xrpl.Models
         /// <summary>Set aside one or more sequence numbers as Tickets.</summary>
         TicketCreate,
         /// <summary>Add or modify a trust line.</summary>
-        TrustSet
+        TrustSet,
+        /// <summary>
+        /// An EnableAmendment pseudo-transaction marks a change in the status of a proposed amendment when it:<br/>
+        /// * Gains supermajority approval from validators.<br/>
+        /// * Loses supermajority approval.<br/>
+        /// * Is enabled on the XRP Ledger protocol.
+        /// </summary>
+        EnableAmendment,
+        /// <summary>
+        /// A SetFee pseudo-transaction marks a change in transaction cost or reserve requirements as a result of Fee Voting.
+        /// </summary>
+        SetFee,
+        /// <summary>
+        /// A UNLModify pseudo-transaction marks a change to the Negative UNL, indicating that a trusted validator has gone offline or come back online.
+        /// </summary>
+        UNLModify,
+        /// <summary> AMMBid is used for submitting a vote for the trading fee of an AMM Instance. </summary>
+        AMMBid,
+        /// <summary>
+        /// AMMCreate is used to create AccountRoot and the corresponding AMM ledger entries.
+        /// </summary>
+        AMMCreate,
+        /// <summary>
+        /// Delete an empty Automated Market Maker (AMM) instance that could not be fully deleted automatically.
+        /// </summary>
+        AMMDelete,
+        /// <summary>
+        /// AMMDeposit is the deposit transaction used to add liquidity to the AMM instance pool,
+        /// thus obtaining some share of the instance's pools in the form of LPTokenOut.
+        /// </summary>
+        AMMDeposit,
+        /// <summary>
+        /// AMMVote is used for submitting a vote for the trading fee of an AMM Instance.
+        /// </summary>
+        AMMVote,
+        /// <summary>
+        /// AMMWithdraw is the withdraw transaction used to remove liquidity from the AMM
+        /// instance pool, thus redeeming some share of the pools that one owns in the form
+        /// of LPTokenIn.
+        /// </summary>
+        AMMWithdraw,
+        /// <summary>
+        /// The Clawback transaction is used by the token issuer to claw back issued tokens from a holder.
+        /// </summary>
+        Clawback,
+        /// <summary>
+        /// Unknown tx Type.
+        /// </summary>
+        Unknown,
     }
     /// <summary>
     /// Each ledger version's state data is a set of ledger objects, sometimes called ledger entries,
@@ -129,7 +177,8 @@ namespace Xrpl.Models
         /// <summary>
         /// A record of preauthorization for sending payments to an account that requires authorization.
         /// </summary>
-        DepositPreauth
+        DepositPreauth,
+        AMM
     }
 
     public enum StreamType

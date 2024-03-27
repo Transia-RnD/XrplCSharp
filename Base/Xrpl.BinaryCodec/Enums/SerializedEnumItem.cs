@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using Newtonsoft.Json.Linq;
 using Xrpl.BinaryCodec.Binary;
+using Xrpl.BinaryCodec.Types;
 using Xrpl.BinaryCodec.Util;
 
 namespace Xrpl.BinaryCodec.Enums

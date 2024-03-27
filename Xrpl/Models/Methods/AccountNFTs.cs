@@ -51,6 +51,20 @@ namespace Xrpl.Models.Methods
     /// </summary>
     public class NFT
     {
+        /// <summary>
+        /// A bit-map of boolean flags enabled for this NFToken.<br/>
+        /// See NFToken Flags for possible values.
+        /// </summary>
+        [JsonProperty("Flags")]
+        public string Flags { get; set; }
+        /// <summary>
+        /// The TransferFee value specifies the percentage fee, in units of 1/100,000, charged by the issuer for secondary sales of the token.
+        /// Valid values for this field are between 0 and 50,000, inclusive.
+        /// A value of 1 is equivalent to 0.001% or 1/10 of a basis point (bps), allowing transfer rates between 0% and 50%.
+        /// </summary>
+        [JsonProperty("TransferFee")]
+        public string TransferFee { get; set; }
+
         [JsonProperty("account")]
         public string Account { get; set; } //todo unknown field
         /// <summary>
@@ -61,17 +75,17 @@ namespace Xrpl.Models.Methods
         /// <summary>
         /// The unique identifier of this NFToken, in hexadecimal.
         /// </summary>
-        [JsonProperty("nft_id")]
+        [JsonProperty("NFTokenID")]
         public string NFTokenID { get; set; }
         /// <summary>
         /// The unscrambled version of this token's taxon. Several tokens with the same taxon might represent instances of a limited series.
         /// </summary>
-        [JsonProperty("token_taxon")]
+        [JsonProperty("NFTokenTaxon")]
         public uint NFTokenTaxon { get; set; }
         /// <summary>
         /// The URI data associated with this NFToken, in hexadecimal.
         /// </summary>
-        [JsonProperty("uri")]
+        [JsonProperty("URI")]
         public string URI { get; set; }
 
         [JsonIgnore]
@@ -84,8 +98,6 @@ namespace Xrpl.Models.Methods
         /// </summary>
         [JsonProperty("nft_serial")]
         public string NFTSerial { get; set; }
-
-        //todo not found field Flags: number (https://xrpl.org/nftoken.html#nftoken-flags)
     }
     /// <summary>
     /// The `account_nfts` method retrieves all of the NFTs currently owned by the  specified account.

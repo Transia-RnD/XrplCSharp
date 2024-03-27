@@ -1,6 +1,8 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+using System;
+
 using Xrpl.Models.Transactions;
 
 //https://xrpl.org/transaction-types.html
@@ -25,20 +27,17 @@ namespace Xrpl.Client.Json.Converters
         /// <summary>
         /// create <see cref="ITransactionResponseCommon"/> 
         /// </summary>
-        /// <param name="objectType"></param>
         /// <param name="jObject">json object LedgerEntity</param>
         /// <returns><see cref="ITransactionResponseCommon"/> </returns>
-        public ITransactionResponseCommon Create(Type objectType, JObject jObject)
+        public ITransactionResponseCommon Create(JObject jObject)
         {
-            var transactionType = jObject.Property("TransactionType");
-
             return jObject.Property("TransactionType")?.Value.ToString() switch
             {
                 "AccountSet" => new AccountSetResponse(),
                 "AccountDelete" => new AccountDeleteResponse(),
-                "CheckCancel" => new AccountDeleteResponse(),
-                "CheckCash" => new AccountDeleteResponse(),
-                "CheckCreate" => new AccountDeleteResponse(),
+                "CheckCancel" => new CheckCancelResponse(),
+                "CheckCash" => new CheckCashResponse(),
+                "CheckCreate" => new CheckCancelResponse(),
                 "DepositPreauth" => new DepositPreauthResponse(),
                 "EscrowCancel" => new EscrowCancelResponse(),
                 "EscrowCreate" => new EscrowCreateResponse(),
@@ -58,8 +57,25 @@ namespace Xrpl.Client.Json.Converters
                 "SignerListSet" => new SignerListSetResponse(),
                 "TicketCreate" => new TicketCreateResponse(),
                 "TrustSet" => new TrustSetResponse(),
-                _ => throw new Exception("Can't create transaction type" + transactionType)
+                "EnableAmendment" => new EnableAmendmentResponse(),
+                "SetFee" => new SetFeeResponse(),
+                "UNLModify" => new UNLModifyResponse(),
+                "AMMBid" => new AMMBidResponse(),
+                "AMMCreate" => new AMMCreateResponse(),
+                "AMMDelete" => new AMMDeleteResponse(),
+                "AMMDeposit" => new AMMDepositResponse(),
+                "AMMVote" => new AMMVoteResponse(),
+                "AMMWithdraw" => new AMMWithdrawResponse(),
+                "Clawback" => new ClawBackResponse(),
+                //_ => throw new Exception("Can't create transaction type" + transactionType)
+                _ => SetUnknownType(jObject),
             };
+        }
+
+        static TransactionResponseCommon SetUnknownType(JObject jObject)
+        {
+            jObject.Property("TransactionType").Value = "Unknown";
+            return new TransactionResponseCommon();
         }
 
         /// <summary> read  <see cref="ITransactionResponseCommon"/>   from json object </summary>
@@ -71,7 +87,8 @@ namespace Xrpl.Client.Json.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             JObject jObject = JObject.Load(reader);
-            ITransactionResponseCommon transactionCommon = Create(objectType, jObject);
+            
+            ITransactionResponseCommon transactionCommon = Create(jObject);
             serializer.Populate(jObject.CreateReader(), transactionCommon);
             return transactionCommon;
         }

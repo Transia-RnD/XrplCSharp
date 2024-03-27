@@ -22,13 +22,13 @@ namespace XrplTests.Xrpl.Utils
         {
             const string nftokenId = "000813886377BBDA772433D7FCF16A9710D9D958D9F7129F376D5FC200005026";
 
-            NFTokenIDData nftokenIDData = ParseNFTID.GetNFTokenIDData(nftokenId);
+            NFTokenIDData nftokenIDData = nftokenId.ParseNFTokenID();
 
-            Assert.AreEqual((UInt32)8, nftokenIDData.Flags);
+            Assert.AreEqual((uint)8, nftokenIDData.Flags);
             Assert.AreEqual("rwhALEr1jdhuxKqoTno8cyGXw9yLSsqC6A", nftokenIDData.Issuer);
             Assert.AreEqual(nftokenId, nftokenIDData.NFTokenID);
-            Assert.AreEqual((UInt32)3, nftokenIDData.Taxon);
-            Assert.AreEqual((UInt32)5000, nftokenIDData.TransferFee);
+            Assert.AreEqual((uint)3, nftokenIDData.Taxon);
+            Assert.AreEqual((uint)5000, nftokenIDData.TransferFee);
         }
 
         [TestMethod]

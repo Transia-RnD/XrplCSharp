@@ -24,7 +24,9 @@ namespace Xrpl.Models.Transaction
             this[Field.Fee] = Requirement.Required;
             this[Field.Sequence] = Requirement.Required;
             this[Field.SigningPubKey] = Requirement.Required;
+            this[Field.TicketSequence] = Requirement.Optional;
 
+            this[Field.NetworkID] = Requirement.Optional;
             this[Field.Flags] = Requirement.Optional;
             this[Field.SourceTag] = Requirement.Optional;
             this[Field.PreviousTxnID] = Requirement.Optional;
@@ -134,7 +136,8 @@ namespace Xrpl.Models.Transaction
                     [Field.TransferRate] = Requirement.Optional,
                     [Field.SetFlag] = Requirement.Optional,
                     [Field.ClearFlag] = Requirement.Optional,
-                    [Field.TickSize] = Requirement.Optional
+                    [Field.TickSize] = Requirement.Optional,
+                    [Field.NFTokenMinter] = Requirement.Optional
                 },
                 [BinaryCodec.Types.TransactionType.EscrowCancel] = new TxFormat
                 {
@@ -161,7 +164,8 @@ namespace Xrpl.Models.Transaction
                 [BinaryCodec.Types.TransactionType.TicketCreate] = new TxFormat
                 {
                     [Field.Target] = Requirement.Optional,
-                    [Field.Expiration] = Requirement.Optional
+                    [Field.Expiration] = Requirement.Optional,
+                    [Field.TicketCount] = Requirement.Required
                 },
                 // 11
                 [BinaryCodec.Types.TransactionType.SignerListSet] = new TxFormat
@@ -245,7 +249,8 @@ namespace Xrpl.Models.Transaction
                 },
                 [BinaryCodec.Types.TransactionType.NFTokenBurn] = new TxFormat
                 {
-                    [Field.NFTokenID] = Requirement.Required
+                    [Field.NFTokenID] = Requirement.Required,
+                    [Field.Owner] = Requirement.Optional
                 },
                 [BinaryCodec.Types.TransactionType.NFTokenCreateOffer] = new TxFormat
                 {
@@ -261,7 +266,10 @@ namespace Xrpl.Models.Transaction
                 },
                 [BinaryCodec.Types.TransactionType.NFTokenAcceptOffer] = new TxFormat
                 {
-                    [Field.NFTokenID] = Requirement.Required
+                    //[Field.NFTokenID] = Requirement.Required, //no need this field
+                    [Field.NFTokenSellOffer] = Requirement.Optional,
+                    [Field.NFTokenBuyOffer] = Requirement.Optional,
+                    [Field.NFTokenBrokerFee] = Requirement.Optional,
                 },
                 [BinaryCodec.Types.TransactionType.UNLModify] = new TxFormat
                 {
@@ -271,6 +279,50 @@ namespace Xrpl.Models.Transaction
                     [Field.ReserveBase] = Requirement.Required,
                     [Field.ReserveIncrement] = Requirement.Required
                 },
+                [BinaryCodec.Types.TransactionType.AMMBid] = new TxFormat
+                {
+                    [Field.Asset] = Requirement.Required,
+                    [Field.Asset2] = Requirement.Required,
+                    [Field.BidMin] = Requirement.Optional,
+                    [Field.BidMax] = Requirement.Optional,
+                    [Field.AuthAccounts] = Requirement.Optional
+                },
+                [BinaryCodec.Types.TransactionType.AMMCreate] = new TxFormat
+                {
+                    [Field.Amount] = Requirement.Required,
+                    [Field.Amount2] = Requirement.Required,
+                    [Field.TradingFee] = Requirement.Required,
+                },
+                [BinaryCodec.Types.TransactionType.AMMDelete] = new TxFormat
+                {
+                    [Field.Asset] = Requirement.Required,
+                    [Field.Asset2] = Requirement.Required,
+                },
+                [BinaryCodec.Types.TransactionType.AMMDeposit] = new TxFormat
+                {
+                    [Field.Asset] = Requirement.Required,
+                    [Field.Asset2] = Requirement.Required,
+                    [Field.Amount] = Requirement.Optional,
+                    [Field.Amount2] = Requirement.Optional,
+                    [Field.EPrice] = Requirement.Optional,
+                    [Field.LPTokenOut] = Requirement.Optional,
+                },
+                [BinaryCodec.Types.TransactionType.AMMVote] = new TxFormat
+                {
+                    [Field.Asset] = Requirement.Required,
+                    [Field.Asset2] = Requirement.Required,
+                    [Field.TradingFee] = Requirement.Required,
+                },
+                [BinaryCodec.Types.TransactionType.AMMWithdraw] = new TxFormat
+                {
+                    [Field.Asset] = Requirement.Required,
+                    [Field.Asset2] = Requirement.Required,
+                    [Field.Amount] = Requirement.Optional,
+                    [Field.Amount2] = Requirement.Optional,
+                    [Field.EPrice] = Requirement.Optional,
+                    [Field.LPTokenIn] = Requirement.Optional,
+                },
+
             };
         }
     }
