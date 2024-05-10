@@ -83,7 +83,7 @@ namespace Xrpl.Tests.ClientLib
                 return Task.CompletedTask;
             };
 
-            Timer timer = new Timer(5000);
+            Timer timer = new Timer(7000);
             timer.Elapsed += (sender, e) =>
             {
                 Debug.WriteLine("TIMEOUT!!");

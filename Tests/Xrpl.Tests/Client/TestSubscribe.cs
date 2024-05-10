@@ -158,7 +158,7 @@ namespace Xrpl.Tests.ClientLib
             bool isTested = false;
             bool isFinished = false;
 
-            var server = "wss://xrplcluster.com/";
+            var server = "wss://s1.ripple.com/";
 
             var client = new XrplClient(server);
 
@@ -189,10 +189,10 @@ namespace Xrpl.Tests.ClientLib
                 return Task.CompletedTask;
             };
 
-            Timer timer = new Timer(5000);
-            timer.Elapsed += (sender, e) =>
+            Timer timer = new Timer(7000);
+            timer.Elapsed += async (sender, e) =>
             {
-                client.Disconnect();
+                await client.Disconnect();
                 isFinished = true;
             };
             timer.Start();
