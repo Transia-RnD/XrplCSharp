@@ -55,8 +55,6 @@ namespace Xrpl.Models.Utils
                         "OfferCreate" => ConvertOfferCreateFlagsToNumber(Flags),
                         "Payment" => ConvertPaymentTransactionFlagsToNumber(Flags),
                         "PaymentChannelClaim" => ConvertPaymentChannelClaimFlagsToNumber(Flags),
-                        "AMMDeposit" => ConvertAMMDepositFlagsToNumber(Flags),
-                        "AMMWithdraw" => ConvertAMMWithdrawFlagsToNumber(Flags),
                         //TransactionType.PaymentChannelCreate => expr,
                         //TransactionType.PaymentChannelFund => expr,
                         //TransactionType.SetRegularKey => expr,
