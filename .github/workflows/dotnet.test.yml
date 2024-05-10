@@ -67,5 +67,5 @@ jobs:
         PORT: ${{ job.services.rippled.ports['6006'] }}
     
     - name: Stop docker container
-        if: always()
-        run: docker stop rippled-service
+      if: always()
+      run: docker stop rippled-service
