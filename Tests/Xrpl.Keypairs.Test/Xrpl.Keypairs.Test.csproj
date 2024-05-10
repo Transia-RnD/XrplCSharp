@@ -1,38 +1,40 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <!-- <TargetFramework>netstandard2.0</TargetFramework> -->
-    <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>XrplTests</RootNamespace>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Microsoft.NET.Test.Sdk" />
-    <None Remove="MSTest.TestFramework" />
-    <None Remove="MSTest.TestAdapter" />
-    <None Remove="Flurl.Http" />
-    <None Remove="Newtonsoft.Json" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
-    <PackageReference Include="Flurl.Http" Version="3.2.4" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Xrpl\Properties\Resources.resx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Keypairs.Tests\Properties\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Base\Xrpl.Keypairs\Xrpl.Keypairs.csproj" />
-  </ItemGroup>
+	<PropertyGroup>
+		<!-- <TargetFramework>netstandard2.0</TargetFramework> -->
+		<TargetFramework>net6.0</TargetFramework>
+		<RootNamespace>XrplTests</RootNamespace>
+	</PropertyGroup>
+	<PropertyGroup>
+		<InvariantGlobalization>true</InvariantGlobalization>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Remove="Microsoft.NET.Test.Sdk" />
+		<None Remove="MSTest.TestFramework" />
+		<None Remove="MSTest.TestAdapter" />
+		<None Remove="Flurl.Http" />
+		<None Remove="Newtonsoft.Json" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
+		<PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
+		<PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
+		<PackageReference Include="Flurl.Http" Version="3.2.4" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Xrpl\Properties\Resources.resx">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Keypairs.Tests\Properties\Resources.Designer.cs">
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Base\Xrpl.Keypairs\Xrpl.Keypairs.csproj" />
+	</ItemGroup>
 </Project>
