@@ -30,5 +30,6 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly FieldType Transaction = new FieldType(nameof(Transaction), 10001);
         public static readonly FieldType LedgerEntry = new FieldType(nameof(LedgerEntry), 10002);
         public static readonly FieldType Validation = new FieldType(nameof(Validation), 10003);
+        public static readonly FieldType Metadata = new FieldType(nameof(Metadata), 10004);
     }
 }

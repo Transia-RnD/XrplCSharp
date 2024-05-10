@@ -38,7 +38,7 @@ namespace Xrpl.BinaryCodec.ShaMapTree
 
         public HashPrefix Prefix()
         {
-            return HashPrefix.TxNode;
+            return HashPrefix.Transaction;
         }
 
         public static TransactionResult FromJson(JToken obj)

@@ -1,92 +1,161 @@
-﻿//See https://aka.ms/new-console-template for more information
+﻿////See https://aka.ms/new-console-template for more information
 
-using System.Net.WebSockets;
+using System.Diagnostics;
 using Newtonsoft.Json;
 using Xrpl.Client;
 using Xrpl.Models.Methods;
+using Xrpl.Models.Transactions;
+using Xrpl.Wallet;
 
-Console.WriteLine("Hello, World!");
+namespace MyApp
+{
+    class Program
+    {
+        static async Task SampleClient()
+        {
+            //using System.Diagnostics;
+            //using Xrpl.Client;
+            //var client = new XrplClient("wss://s.altnet.rippletest.net:51233");
+            //client.OnConnected += async () =>
+            //{
+            //    Console.WriteLine("CONNECTED");
+            //};
+            //await client.Connect();
+        }
 
-//var server = "wss://xrplcluster.com/";
+        static void WalletFromSeed()
+        {
+            //using System.Diagnostics;
+            //using Xrpl.Wallet;
+            string seed = "sEdSuqBPSQaood2DmNYVkwWTn1oQTj2";
+            XrplWallet wallet = XrplWallet.FromSeed(seed);
+            Console.WriteLine(wallet.ClassicAddress);
+            Console.WriteLine(wallet.PrivateKey);
+            Console.WriteLine(wallet.PublicKey);
+            Console.WriteLine(wallet.Seed);
+        }
 
-//var client = new XrplClient(server);
+        static void WalletGenerate()
+        {
+            //using System.Diagnostics;
+            //using Xrpl.Wallet;
+            XrplWallet wallet = XrplWallet.Generate();
+            Console.WriteLine(wallet.ClassicAddress);
+            Console.WriteLine(wallet.PrivateKey);
+            Console.WriteLine(wallet.PublicKey);
+            Console.WriteLine(wallet.Seed);
+        }
 
-//client.OnConnected += () =>
-//{
-//    Console.WriteLine("CONNECTED");
-//    return Task.CompletedTask;
-//};
+        static async Task SubmitTestTx()
+        {
+            //using Newtonsoft.Json;
+            //using Xrpl.Client;
+            //using Xrpl.Models.Methods;
+            //using Xrpl.Models.Transactions;
+            //using Xrpl.Wallet;
 
-//client.OnDisconnect += (code) =>
-//{
-//    Console.WriteLine($"DISCONECTED CODE: {code}");
-//    Console.WriteLine("DISCONECTED");
-//    return Task.CompletedTask;
-//};
+            var client = new XrplClient("wss://s.altnet.rippletest.net:51233");
 
-//client.OnError += (errorCode, errorMessage, error, data) =>
-//{
-//    Console.WriteLine(errorCode);
-//    Console.WriteLine(errorMessage);
-//    Console.WriteLine(data);
-//    return Task.CompletedTask;
-//};
+            client.OnConnected += async () =>
+            {
+                Console.WriteLine("CONNECTED");
+            };
 
-//client.OnTransaction += Response =>
-//{
-//    Console.WriteLine(Response.Transaction.TransactionType.ToString());
-//    return Task.CompletedTask;
-//};
+            await client.Connect();
 
-//client.OnLedgerClosed += r =>
-//{
-//    Console.WriteLine("CALLBACK");
-//    Console.WriteLine(r);
-//    return Task.CompletedTask;
-//};
+            Console.WriteLine("NEXT");
 
-//await client.Connect();
+            string seed = "sEdSuqBPSQaood2DmNYVkwWTn1oQTj2";
+            XrplWallet wallet = XrplWallet.FromSeed(seed);
 
+            AccountInfoRequest request = new AccountInfoRequest(wallet.ClassicAddress);
+            AccountInfo accountInfo = await client.AccountInfo(request);
 
-//var subscribe = await client.Subscribe(
-//new SubscribeRequest()
-//{
-//    Streams = new List<string>(new[]
-//    {
-//        "ledger",
-//    })
-//});
+            // prepare the transaction
+            // the amount is expressed in drops, not XRP
+            // see https://xrpl.org/basic-data-types.html#specifying-currency-amounts
+            IPayment tx = new Payment()
+            {
+                Account = wallet.ClassicAddress,
+                Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT",
+                Amount = new Xrpl.Models.Common.Currency { ValueAsXrp = 1 },
+                Sequence = accountInfo.AccountData.Sequence
+            };
 
-//Console.ReadLine();
+            // sign and submit the transaction
+            Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
+            Submit response = await client.Submit(txJson, wallet);
+            Console.WriteLine(response);
 
+        }
 
-//var server = "wss://xrplcluster.com/";
+        static async Task WebsocketTest()
+        {
+            bool isFinished = false;
 
-//var client = new WebSocketClient(server);
+            var server = "wss://s.altnet.rippletest.net:51233";
 
-//client.OnConnected += async (t) =>
-//{
-//    Console.WriteLine("CONNECTED");
-//    var request = new SubscribeRequest()
-//    {
-//        Streams = new List<string>(new[]
-//        {
-//        "ledger",
-//    })
-//    };
-//    var serializerSettings = new JsonSerializerSettings();
-//    serializerSettings.NullValueHandling = NullValueHandling.Ignore;
-//    serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-//    serializerSettings.FloatParseHandling = FloatParseHandling.Double;
-//    serializerSettings.FloatFormatHandling = FloatFormatHandling.DefaultValue;
-//    string jsonString = JsonConvert.SerializeObject(request, serializerSettings);
-//    await client.Send(jsonString);
-//};
+            var client = new XrplClient(server);
 
-//client.OnMessageReceived += (message) =>
-//{
-//    Console.WriteLine(message);
-//};
+            client.OnConnected += async () =>
+            {
+                Console.WriteLine("CONNECTED");
+                var subscribe = await client.Subscribe(
+                new SubscribeRequest()
+                {
+                    Streams = new List<string>(new[]
+                    {
+                        "ledger",
+                    })
+                });
+            };
 
-//await client.ConnectAsync();
+            client.OnDisconnect += (code) =>
+            {
+                Console.WriteLine($"DISCONECTED CODE: {code}");
+                Console.WriteLine("DISCONECTED");
+                return Task.CompletedTask;
+            };
 
+            client.OnError += (errorCode, errorMessage, error, data) =>
+            {
+                Console.WriteLine(errorCode);
+                Console.WriteLine(errorMessage);
+                Console.WriteLine(data);
+                return Task.CompletedTask;
+            };
+
+            client.OnTransaction += Response =>
+            {
+                Console.WriteLine(Response.Transaction.TransactionType.ToString());
+                return Task.CompletedTask;
+            };
+
+            client.OnLedgerClosed += r =>
+            {
+                Console.WriteLine($"MESSAGE RECEIVED: {r}");
+                isFinished = true;
+                return Task.CompletedTask;
+            };
+            
+            await client.Connect();
+
+            while (!isFinished)
+            {
+                Debug.WriteLine($"WAITING: {DateTime.Now}");
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
+
+            await client.Disconnect();
+        }
+
+        static async Task Main(string[] args)
+        {
+            //await SampleClient();
+            //WalletFromSeed();
+            //WalletGenerate();
+            //await SubmitTestTx();
+            //await WebsocketTest();
+        }
+    }
+}

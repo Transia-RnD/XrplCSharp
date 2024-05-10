@@ -15,7 +15,7 @@ namespace Xrpl.Tests
     public class TestUMockRippled
     {
 
-        //[TestMethod]
+        [TestMethod]
         public void TestErrorMockNotProvided()
         {
             var tcpListenerThread = new Thread(() =>
@@ -24,12 +24,9 @@ namespace Xrpl.Tests
                 mockedRippled.Start();
             });
             tcpListenerThread.Start();
-
-            //Timer timer = new Timer(5000);
-            //timer.Elapsed += (sender, e) => tcpListenerThread.Abort();
-            ////timer.Elapsed += (sender, e) => this.Reject(newId, new TimeoutError());
-            //timer.Start();
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(10));
+            Timer timer = new Timer(5000);
+            timer.Elapsed += (sender, e) => tcpListenerThread.Abort();
+            timer.Start();
         }
 
         //[TestMethod]

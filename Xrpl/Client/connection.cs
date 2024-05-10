@@ -126,17 +126,17 @@ namespace Xrpl.Client
 
         public Timer timer;
 
-        public Task Connect()
+        public async Task Connect()
         {
             if (this.IsConnected())
             {
                 var p1 = new TaskCompletionSource();
                 p1.TrySetResult();
-                return p1.Task;
+                await p1.Task;
             }
             if (this.State() == WebSocketState.Connecting)
             {
-                this.connectionManager.AwaitConnection();
+                await this.connectionManager.AwaitConnection();
             }
             if (this.url == null)
             {
@@ -173,9 +173,9 @@ namespace Xrpl.Client
                 await OnceClose(1000);
             });
 
-            _ = this.ws.Connect();
+            await this.ws.Connect();
 
-            return this.connectionManager.AwaitConnection();
+            this.connectionManager.AwaitConnection();
         }
 
         public async Task<int> Disconnect()
@@ -196,7 +196,6 @@ namespace Xrpl.Client
 
         private async Task OnConnectionFailed(Exception error)
         {
-            Debug.WriteLine($"OnConnectionFailed: {error.Message}");
             if (this.ws != null)
             {
                 //this.ws.RemoveAllListeners();
@@ -226,7 +225,6 @@ namespace Xrpl.Client
             XrplRequest _request = this.requestManager.CreateRequest(request, timeout ?? this.config.timeout);
             try
             {
-                //Debug.WriteLine($"CONN SEND: {_request.Id}");
                 WebsocketSendAsync(this.ws, _request.Message);
             }
             catch (EncodingFormatException error)
@@ -243,10 +241,8 @@ namespace Xrpl.Client
                 throw new NotConnectedException();
             }
             XrplGRequest _request = this.requestManager.CreateGRequest<T, R>(request, timeout ?? this.config.timeout);
-            //Debug.WriteLine(_request.Message);
             try
             {
-                //Debug.WriteLine($"CONN SEND: {_request.Id}");
                 WebsocketSendAsync(this.ws, _request.Message);
             }
             catch (EncodingFormatException error)
@@ -273,7 +269,6 @@ namespace Xrpl.Client
 
         private async Task OnceOpen()
         {
-            //Debug.WriteLine("ONCE OPEN");
             if (this.ws == null)
             {
                 throw new XrplException("onceOpen: ws is null");
@@ -293,7 +288,6 @@ namespace Xrpl.Client
             }
             catch (Exception error)
             {
-                // Debug.WriteLine($"Once Open Error: {error.Message}");
                 this.connectionManager.RejectAllAwaiting(error);
                 // Ignore this error, propagate the root cause.
                 await this.Disconnect();
@@ -303,7 +297,6 @@ namespace Xrpl.Client
         //private void OnceClose(int? code = null, string? reason = null)
         private async Task OnceClose(int? code)
         {
-            //Debug.WriteLine("ONCE CLOSE");
             //if (this.ws == null)
             //{
             //    throw new XrplException("OnceClose: ws is null");
@@ -316,7 +309,6 @@ namespace Xrpl.Client
             string reason = null;
             if (code == null)
             {
-                //Debug.WriteLine("CODE == NULL");
                 //string reasonText = reason ? reason.ToString() : null;
                 string reasonText = reason;
                 // eslint-disable-next-line no-Debug -- The error is helpful for debugging.
@@ -330,13 +322,11 @@ namespace Xrpl.Client
                  * Error code 1011 represents an Internal Error according to
                  * https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
                  */
-                //Debug.WriteLine("DISCONNECT1");
                 if (OnDisconnect is not null)
                     await OnDisconnect?.Invoke(1011)!;
             }
             else
             {
-                //Debug.WriteLine("DISCONNECT2");
                 if (OnDisconnect is not null)
                     await OnDisconnect?.Invoke(code)!;
             }
@@ -357,6 +347,7 @@ namespace Xrpl.Client
             try
             {
                 data = JsonConvert.DeserializeObject<BaseResponse>(message);
+                Console.WriteLine(message);
             }
             catch (Exception error)
             {

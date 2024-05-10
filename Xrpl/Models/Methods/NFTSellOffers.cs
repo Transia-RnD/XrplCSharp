@@ -35,7 +35,7 @@ namespace Xrpl.Models.Methods
         [JsonProperty("flags")]
         public uint Flags { get; set; }
 
-        [JsonProperty("index")]
+        [JsonProperty("nft_offer_index")]
         public string Index { get; set; }
 
         [JsonProperty("owner")]

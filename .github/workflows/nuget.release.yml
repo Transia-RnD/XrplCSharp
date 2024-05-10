@@ -1,0 +1,39 @@
+name: .NET
+
+on:
+  push:
+    branches: [ release ]
+  pull_request:
+    branches: [ release ]
+
+jobs:
+  release:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --filter "TestU"
+      
+    - name: Packing
+      run: |
+          dotnet build Xrpl/Xrpl.csproj -c Release
+          dotnet pack Xrpl/Xrpl.csproj -c Release
+          
+    - name: Push package
+      run: dotnet nuget push "**/*.nupkg" --skip-duplicate --source https://nuget.pkg.github.com/dangell7/index.json -k ${{ secrets.GITHUB_TOKEN }}
+  
+    - name: Publishing
+      run: dotnet nuget push "**/*.nupkg" -k ${{ secrets.NUGET_API_KEY }} --skip-duplicate -s https://api.nuget.org/v3/index.json

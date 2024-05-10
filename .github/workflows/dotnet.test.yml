@@ -1,0 +1,71 @@
+# This workflow will do a clean install of .net dependencies, build the source code and run tests across different versions of .net
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-net-with-github-actions
+
+name: .NET CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet: [ '6.0.x' ]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use .NET "${{ matrix.dotnet }}"
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+    - name: Build
+      run: dotnet build
+    # - name: Lint
+    #   run: dotnet lint
+
+  unit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use .NET "${{ matrix.dotnet }}"
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+    - name: Build
+      run: dotnet build
+    - name: Test Unit
+      run: dotnet test --verbosity normal --filter "TestU"
+
+  integration:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Run docker in background
+        run: |
+          docker run --detach --rm --name rippled-service -p 6006:6006 --volume "${{ github.workspace }}/.ci-config/":"/config/" --health-cmd="wget localhost:6006 || exit 1" --health-interval=5s --health-retries=10 --health-timeout=2s --env "ENV_ARGS=-a --start" --env GITHUB_ACTIONS=true --env CI=true xrpllabsofficial/xrpld:1.12.0
+    
+    - name: Use .NET "${{ matrix.dotnet }}"
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build
+    - name: Test Integration
+      run: dotnet test --verbosity normal --filter "TestI"
+      env:
+        HOST: localhost
+        PORT: ${{ job.services.rippled.ports['6006'] }}
+    
+    - name: Stop docker container
+        if: always()
+        run: docker stop rippled-service

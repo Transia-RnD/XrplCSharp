@@ -15,7 +15,6 @@ namespace XrplTests.Xrpl.Utils
         public void TestLedgerSpaceHex()
         {
             var expectedEntryHex = "0078";
-            Debug.WriteLine(LedgerSpace.Paychan);
             var actualEntryHex = Hashes.LedgerSpaceHex(LedgerSpace.Paychan);
 
             Assert.AreEqual(expectedEntryHex, actualEntryHex);

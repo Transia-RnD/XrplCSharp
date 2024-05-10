@@ -56,7 +56,7 @@ namespace Xrpl.BinaryCodec
         public static string EncodeForSigning(Dictionary<string, dynamic> json)
         {
             JToken token = JToken.FromObject(json);
-            return SerializeJson(token, HashPrefix.TxSign.Bytes(), null, true);
+            return SerializeJson(token, HashPrefix.TransactionSig.Bytes(), null, true);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Xrpl.BinaryCodec
         {
             string accountID = new AccountId(signingAccount).ToHex();
             JToken token = JToken.FromObject(json);
-            return SerializeJson(token, HashPrefix.TxSign.Bytes(), accountID.FromHex(), true);
+            return SerializeJson(token, HashPrefix.TransactionMultiSig.Bytes(), accountID.FromHex(), true);
         }
 
         /// <summary>
