@@ -1,4 +1,5 @@
 ﻿using System;
+using Xrpl.BinaryCodec.Types;
 
 namespace Xrpl.BinaryCodec.Enums
 {
@@ -141,7 +142,6 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly Uint32Field BurnedTokens = new Uint32Field(nameof(BurnedTokens), 44);
         public static readonly Uint32Field HookStateCount = new Uint32Field(nameof(HookStateCount), 45);
         public static readonly Uint32Field EmitGeneration = new Uint32Field(nameof(EmitGeneration), 46);
-
         public static readonly Uint32Field VoteWeight = new Uint32Field(nameof(VoteWeight), 47);
         public static readonly Uint32Field DiscountedFee = new Uint32Field(nameof(DiscountedFee), 48);
 
@@ -227,8 +227,6 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly AmountField Price = new AmountField(nameof(Price), 23);
         public static readonly AmountField LPTokenBalance = new AmountField(nameof(LPTokenBalance), 24);
 
-        public static readonly AmountField HookCallbackFee = new AmountField(nameof(HookCallbackFee), 20);
-
         public static readonly BlobField PublicKey = new BlobField(nameof(PublicKey), 1);
         public static readonly BlobField MessageKey = new BlobField(nameof(MessageKey), 2);
         public static readonly BlobField SigningPubKey = new BlobField(nameof(SigningPubKey), 3);
@@ -263,7 +261,7 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly AccountIdField RegularKey = new AccountIdField(nameof(RegularKey), 8);
         public static readonly AccountIdField NFTokenMinter = new AccountIdField(nameof(NFTokenMinter), 9);
         public static readonly AccountIdField EmitCallback = new AccountIdField(nameof(EmitCallback), 10);
-        public static readonly AccountIdField AMMAccount = new AccountIdField(nameof(AMMAccount), 11); 
+        public static readonly AccountIdField AMMAccount = new AccountIdField(nameof(AMMAccount), 11);
         public static readonly AccountIdField HookAccount = new AccountIdField(nameof(HookAccount), 16);
 
         public static readonly Vector256Field Indexes = new Vector256Field(nameof(Indexes), 1);
@@ -301,8 +299,7 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly StObjectField VoteEntry = new StObjectField(nameof(VoteEntry), 25);
         public static readonly StObjectField AuctionSlot = new StObjectField(nameof(AuctionSlot), 27);
         public static readonly StObjectField AuthAccount = new StObjectField(nameof(AuthAccount), 28);
-
-        public static readonly StArrayField Signers = new StArrayField(nameof(Signers), 3, isSigningField: false);
+        public static readonly StArrayField Signers = new StArrayField(nameof(Signers), 3, isSigningField:false);
         public static readonly StArrayField SignerEntries = new StArrayField(nameof(SignerEntries), 4);
         public static readonly StArrayField Template = new StArrayField(nameof(Template), 5);
         public static readonly StArrayField Necessary = new StArrayField(nameof(Necessary), 6);
@@ -311,7 +308,7 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly StArrayField Memos = new StArrayField(nameof(Memos), 9);
         public static readonly StArrayField NFTokens = new StArrayField(nameof(NFTokens), 10);
         public static readonly StArrayField Hooks = new StArrayField(nameof(Hooks), 11);
-        public static readonly StArrayField VoteSlots = new StArrayField(nameof(VoteSlots), 14); 
+        public static readonly StArrayField VoteSlots = new StArrayField(nameof(VoteSlots), 14);
         public static readonly StArrayField Majorities = new StArrayField(nameof(Majorities), 16);
         public static readonly StArrayField DisabledValidators = new StArrayField(nameof(DisabledValidators), 17);
         public static readonly StArrayField HookExecutions = new StArrayField(nameof(HookExecutions), 18);

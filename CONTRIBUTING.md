@@ -41,11 +41,11 @@ dotnet test --verbosity normal --filter "TestU"
 ### Integration Tests
 
 ## Running Tests
-For integration tests, we use a `rippled` node in standalone mode to test XRPLSwift code against. To set this up, you can either run `rippled` locally, or set up the Docker container `natenichols/rippled-standalone:latest` for this purpose. The latter will require you to [install Docker](https://docs.docker.com/get-docker/).
+For integration tests, we use a `rippled` node in standalone mode to test XRPLSwift code against. To set this up, you can either run `rippled` locally, or set up the Docker container `xrpllabsofficial/xrpld:1.12.0` for this purpose. The latter will require you to [install Docker](https://docs.docker.com/get-docker/).
 
 ```bash
 # sets up the rippled standalone Docker container - you can skip this step if you already have it set up
-docker run -p 6006:6006 -it natenichols/rippled-standalone:latest
+docker run -p 6006:6006 --interactive -t --volume $PWD/.ci-config:/config/ xrpllabsofficial/xrpld:1.12.0 -a --start
 dotnet build
 dotnet test--verbosity normal --filter "TestI"
 ```

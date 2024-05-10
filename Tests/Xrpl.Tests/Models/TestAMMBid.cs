@@ -68,14 +68,6 @@ namespace XrplTests.Xrpl.Models
             //verifies valid AMMBid
             await Validation.Validate(bid);
 
-
-
-
-
-
-
-
-
             //throws w/ missing field Asset
             bid.Remove("Asset");
             await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(bid), "AMMBid: missing field Asset");

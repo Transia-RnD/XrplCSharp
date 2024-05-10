@@ -3,10 +3,11 @@
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/test/models/accountSet.ts
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Xrpl.Client.Exceptions;
-using Xrpl.Models.Transaction;
 using Xrpl.Models.Transactions;
 
 namespace XrplTests.Xrpl.Models

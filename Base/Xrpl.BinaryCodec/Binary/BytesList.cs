@@ -49,7 +49,6 @@ namespace Xrpl.BinaryCodec.Binary
             AddBytes(bytes, 0);
             return bytes;
         }
-
         /// <summary> Hex Lookup </summary>
         public static string[] HexLookup = new string[256];
         static BytesList()
