@@ -3,6 +3,9 @@
 
 name: .NET CI
 
+env:
+  RIPPLED_DOCKER_IMAGE: rippleci/rippled:2.0.0-b4
+
 on:
   push:
     branches: [ main ]
@@ -49,8 +52,8 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Run docker in background
-        run: |
-          docker run --detach --rm --name rippled-service -p 6006:6006 --volume "${{ github.workspace }}/.ci-config/":"/config/" --health-cmd="wget localhost:6006 || exit 1" --health-interval=5s --health-retries=10 --health-timeout=2s --env "ENV_ARGS=-a --start" --env GITHUB_ACTIONS=true --env CI=true xrpllabsofficial/xrpld:1.12.0
+      run: |
+        docker run --detach --rm --name rippled-service -p 6006:6006 --volume "${{ github.workspace }}/.ci-config/":"/opt/ripple/etc/" --health-cmd="wget localhost:6006 || exit 1" --health-interval=5s --health-retries=10 --health-timeout=2s --env GITHUB_ACTIONS=true --env CI=true ${{ env.RIPPLED_DOCKER_IMAGE }} /opt/ripple/bin/rippled -a --conf /opt/ripple/etc/rippled.cfg
     
     - name: Use .NET "${{ matrix.dotnet }}"
       uses: actions/setup-dotnet@v3
@@ -67,5 +70,5 @@ jobs:
         PORT: ${{ job.services.rippled.ports['6006'] }}
     
     - name: Stop docker container
-        if: always()
-        run: docker stop rippled-service
+      if: always()
+      run: docker stop rippled-service

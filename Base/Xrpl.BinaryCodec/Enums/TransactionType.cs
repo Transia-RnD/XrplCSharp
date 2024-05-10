@@ -1,6 +1,6 @@
 ﻿using Xrpl.BinaryCodec.Enums;
 
-namespace Xrpl.BinaryCodec.Types
+namespace Xrpl.BinaryCodec.Enums
 {
     public class TransactionType : SerializedEnumItem<ushort>
     {
@@ -80,6 +80,13 @@ namespace Xrpl.BinaryCodec.Types
         public static readonly TransactionType NFTokenCancelOffer = Add(nameof(NFTokenCancelOffer), 28);
         /// <summary> This transaction accepts an existing offer to buy or sell an existing  NFT. </summary>
         public static readonly TransactionType NFTokenAcceptOffer = Add(nameof(NFTokenAcceptOffer), 29);
+
+        public static readonly TransactionType AMMCreate = Add(nameof(AMMCreate), 35);
+        public static readonly TransactionType AMMDeposit = Add(nameof(AMMDeposit), 36);
+        public static readonly TransactionType AMMWithdraw = Add(nameof(AMMWithdraw), 37);
+        public static readonly TransactionType AMMVote = Add(nameof(AMMVote), 38);
+        public static readonly TransactionType AMMBid = Add(nameof(AMMBid), 39);
+
         // ...
         /// <summary>
         /// This system-generated transaction type is used to update the status of the various amendments. <br/>
