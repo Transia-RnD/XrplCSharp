@@ -15,6 +15,8 @@ using Xrpl.Models.Transactions;
 using Xrpl.Sugar;
 using Xrpl.Wallet;
 using static Xrpl.Client.Connection;
+using static Xrpl.Client.XrplClient;
+
 using BookOffers = Xrpl.Models.Transactions.BookOffers;
 using Submit = Xrpl.Models.Transactions.Submit;
 
@@ -27,7 +29,7 @@ namespace Xrpl.Client
     public delegate Task OnError(string error, string errorMessage, string message, dynamic data);
     public delegate Task OnConnected();
     public delegate Task OnDisconnect(int? code);
-    public delegate Task OnLedgerClosed(object response);
+    public delegate Task OnLedgerClosed(LedgerStream response);
     public delegate Task OnTransaction(TransactionStream response);
     public delegate Task OnManifestReceived(ValidationStream response);
     public delegate Task OnPeerStatusChange(PeerStatusStream response);
@@ -40,16 +42,26 @@ namespace Xrpl.Client
         Connection connection { get; set; }
         double feeCushion { get; set; }
         string maxFeeXRP { get; set; }
+        uint? networkID { get; set; }
 
-        event OnError OnError;
-        event OnConnected OnConnected;
-        event OnDisconnect OnDisconnect;
-        event OnLedgerClosed OnLedgerClosed;
-        event OnTransaction OnTransaction;
-        event OnManifestReceived OnManifestReceived;
-        event OnPeerStatusChange OnPeerStatusChange;
-        event OnConsensusPhase OnConsensusPhase;
-        event OnPathFind OnPathFind;
+        /// <summary>
+        /// Set network id for transactions, required in network where Id > 1024
+        /// </summary>
+        /// <param name="networkID">network id</param>
+        public void SetNetworkId(uint? networkID)
+        {
+            this.networkID = networkID;
+        } 
+
+        //event OnError OnError;
+        //event OnConnected OnConnected;
+        //event OnDisconnect OnDisconnect;
+        //event OnLedgerClosed OnLedgerClosed;
+        //event OnTransaction OnTransaction;
+        //event OnManifestReceived OnManifestReceived;
+        //event OnPeerStatusChange OnPeerStatusChange;
+        //event OnConsensusPhase OnConsensusPhase;
+        //event OnPathFind OnPathFind;
 
         #region Server
         /// <summary> the url </summary>
@@ -191,8 +203,9 @@ namespace Xrpl.Client
         /// To be successful, the weights of the signatures must be equal or higher than the quorum of the SignerList.
         /// </param>
         /// <param name="wallet"></param>//todo add description
-        /// <returns>An <see cref="Models.Transaction.Submit"/> response.</returns>
+        /// <returns>An <see cref="Models.Transactions.Submit"/> response.</returns>
         Task<Submit> Submit(Dictionary<string, dynamic> tx, XrplWallet wallet);
+        Task<Submit> Submit(ITransactionCommon tx, XrplWallet wallet);
         /// <summary>
         /// The tx method retrieves information on a single transaction, by its identifying hash
         /// </summary>
@@ -247,11 +260,18 @@ namespace Xrpl.Client
 
 
         #endregion
+
+        /// <summary>
+        /// The amm_info method gets information about an Automated Market Maker (AMM) instance.
+        /// </summary>
+        /// <param name="request">An <see cref="AMMInfoRequest"/> request.</param>
+        /// <returns>An <see cref="AMMInfoResponse"/> response.</returns>
+        Task<AMMInfoResponse> AmmInfo(AMMInfoRequest request);
         /// <summary>
         /// The book_offers method retrieves a list of offers, also known as the order book , between two currencies
         /// </summary>
         /// <param name="request">An <see cref="BookOffersRequest"/> request.</param>
-        /// <returns>An <see cref="Models.Transaction.BookOffers"/> response.</returns>
+        /// <returns>An <see cref="Models.Transactions.BookOffers"/> response.</returns>
         Task<BookOffers> BookOffers(BookOffersRequest request);
         /// <summary>
         /// The random command provides a random number to be used as a source of entropy for random number generation by clients.<br/>
@@ -276,6 +296,7 @@ namespace Xrpl.Client
         Task<Dictionary<string, dynamic>> Autofill(Dictionary<string, dynamic> tx);
         Task<uint> GetLedgerIndex();
         Task<string> GetXrpBalance(string address);
+        Task ChangeServer(string server, ClientOptions? options = null);
 
     }
 
@@ -284,6 +305,7 @@ namespace Xrpl.Client
 
         public class ClientOptions : ConnectionOptions
         {
+            public uint? NetworkID { get; set; }
             public double? feeCushion { get; set; }
             public string? maxFeeXRP { get; set; }
         }
@@ -291,16 +313,17 @@ namespace Xrpl.Client
         public Connection connection { get; set; }
         public double feeCushion { get; set; }
         public string maxFeeXRP { get; set; }
+        public uint? networkID { get; set; }
 
-        public event OnError OnError;
-        public event OnConnected OnConnected;
-        public event OnDisconnect OnDisconnect;
-        public event OnLedgerClosed OnLedgerClosed;
-        public event OnTransaction OnTransaction;
-        public event OnManifestReceived OnManifestReceived;
-        public event OnPeerStatusChange OnPeerStatusChange;
-        public event OnConsensusPhase OnConsensusPhase;
-        public event OnPathFind OnPathFind;
+        //public event OnError OnError;
+        //public event OnConnected OnConnected;
+        //public event OnDisconnect OnDisconnect;
+        //public event OnLedgerClosed OnLedgerClosed;
+        //public event OnTransaction OnTransaction;
+        //public event OnManifestReceived OnManifestReceived;
+        //public event OnPeerStatusChange OnPeerStatusChange;
+        //public event OnConsensusPhase OnConsensusPhase;
+        //public event OnPathFind OnPathFind;
 
         ///// <summary> Current web socket client state </summary>
         //public WebSocketState SocketState => client.State;
@@ -316,17 +339,30 @@ namespace Xrpl.Client
             }
             feeCushion = options?.feeCushion ?? 1.2;
             maxFeeXRP = options?.maxFeeXRP ?? "2";
+            networkID = options?.NetworkID;
 
             connection = new Connection(server, options);
-            connection.OnError += (e, em, m, d) => OnError(e, em, m, d);
-            connection.OnConnected += () => OnConnected();
-            connection.OnDisconnect += (c) => OnDisconnect(c);
-            connection.OnLedgerClosed += (s) => OnLedgerClosed(s);
-            connection.OnTransaction += (s) => OnTransaction(s);
-            connection.OnManifestReceived += (s) => OnManifestReceived(s);
-            connection.OnPeerStatusChange += (s) => OnPeerStatusChange(s);
-            connection.OnConsensusPhase += (s) => OnConsensusPhase(s);
-            connection.OnPathFind += (s) => OnPathFind(s);
+            //connection.OnError += (e, em, m, d) => OnError?.Invoke(e, em, m, d);
+            //connection.OnConnected += () => OnConnected?.Invoke();
+            //connection.OnDisconnect += (c) => OnDisconnect?.Invoke(c);
+            //connection.OnLedgerClosed += (s) => OnLedgerClosed?.Invoke(s);
+            //connection.OnTransaction += (s) => OnTransaction?.Invoke(s);
+            //connection.OnManifestReceived += (s) => OnManifestReceived?.Invoke(s);
+            //connection.OnPeerStatusChange += (s) => OnPeerStatusChange?.Invoke(s);
+            //connection.OnConsensusPhase += (s) => OnConsensusPhase?.Invoke(s);
+            //connection.OnPathFind += (s) => OnPathFind?.Invoke(s);
+        }
+
+        public async Task ChangeServer(string server, ClientOptions? options = null)
+        {
+            if (!IsValidWss(server))
+            {
+                throw new Exception("Invalid WSS Server Url");
+            }
+            feeCushion = options?.feeCushion ?? 1.2;
+            maxFeeXRP = options?.maxFeeXRP ?? "2";
+
+            await connection.ChangeServer(server, options);
         }
 
         /// <inheritdoc />
@@ -361,13 +397,25 @@ namespace Xrpl.Client
         // SUGARS
         public Task<Dictionary<string, dynamic>> Autofill(Dictionary<string, dynamic> tx)
         {
-            return AutofillSugar.Autofill(this, tx, null);
+            return this.Autofill(tx, null);
         }
 
         /// <inheritdoc />
         public Task<Submit> Submit(Dictionary<string, dynamic> tx, XrplWallet wallet)
         {
-            return SubmitSugar.Submit(this, tx, true, false, wallet);
+            return this.Submit(tx, true, false, wallet);
+        }
+        /// <inheritdoc />
+        public Task<Submit> Submit(ITransactionCommon tx, XrplWallet wallet)
+        {
+            if (networkID is { } network)
+            {
+                tx.NetworkID = network;
+            }
+            var json = tx.ToJson();
+            //var json = JsonConvert.SerializeObject(tx);
+            Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(json);
+            return this.Submit(txJson, true, false, wallet);
         }
 
         /// <inheritdoc />
@@ -428,6 +476,12 @@ namespace Xrpl.Client
         public Task<AccountTransactions> AccountTransactions(AccountTransactionsRequest request)
         {
             return this.GRequest<AccountTransactions, AccountTransactionsRequest>(request);
+        }
+
+        /// <inheritdoc />
+        public Task<AMMInfoResponse> AmmInfo(AMMInfoRequest request)
+        {
+            return this.GRequest<AMMInfoResponse, AMMInfoRequest>(request);
         }
 
         /// <inheritdoc />
@@ -602,7 +656,7 @@ namespace Xrpl.Client
 
         public string EnsureClassicAddress(string address)
         {
-            return address;
+            return Xrpl.Sugar.Utils.EnsureClassicAddress(address);
         }
 
         #region IDisposable

@@ -29,9 +29,9 @@ namespace Xrpl.Keypairs.Ed25519
             return new EdKeyPair(publicKey, expandedPrivateKey);
         }
 
-        public string Id() => prefix + FromBytesToHex(this._pubBytes);
+        public string Id() => prefix + _pubBytes.FromBytesToHex();
 
-        public string Pk() => prefix + FromBytesToHex(this._privBytes[0..32]);
+        public string Pk() => prefix + _privBytes[0..32].FromBytesToHex();
 
         public static byte[] Sign(byte[] message, byte[] privateKey) => Chaos.NaCl.Ed25519.Sign(message, privateKey);
 

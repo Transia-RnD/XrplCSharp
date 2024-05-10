@@ -15,15 +15,15 @@ namespace Xrpl.Models.Common
 
         public string NFTokenID { get; set; }
 
-        public UInt32 Flags { get; set; }
+        public uint Flags { get; set; }
 
-        public UInt32 TransferFee { get; set; }
+        public uint TransferFee { get; set; }
 
         public string Issuer { get; set; }
 
-        public UInt32 Taxon { get; set; }
+        public uint Taxon { get; set; }
 
-        public UInt32 Sequence { get; set; }
+        public uint Sequence { get; set; }
     }
 }
 

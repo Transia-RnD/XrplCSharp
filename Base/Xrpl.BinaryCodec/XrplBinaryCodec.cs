@@ -53,7 +53,7 @@ namespace Xrpl.BinaryCodec
         /// </summary>
         /// <param name="json"></param>
         /// <returns>string</returns>
-        public static string EncodeForSigning(Dictionary<string, dynamic> json)
+        public static string EncodeForSigning(object json)
         {
             JToken token = JToken.FromObject(json);
             return SerializeJson(token, HashPrefix.TransactionSig.Bytes(), null, true);
@@ -62,10 +62,12 @@ namespace Xrpl.BinaryCodec
         /// <summary>
         /// Encode a `payment channel <a href="https://xrpl.org/payment-channels.html">here</a>`_ Claim to be signed.
         /// </summary>
-        /// <param name="json"></param>
+        /// <param name="obj"></param>
         /// <returns>string</returns> The binary-encoded claim, ready to be signed.
-        public static string EncodeForSigningClaim(Dictionary<string, dynamic> json)
+        public static string EncodeForSigningClaim(object obj)
         {
+            JToken json = JToken.FromObject(obj);
+
             byte[] prefix = Bits.GetBytes(PAYMENT_CHANNEL_CLAIM_PREFIX);
             byte[] channel = Hash256.FromHex((string)json["channel"]).Buffer;
             byte[] amount = Uint64.FromValue(int.Parse((string)json["amount"])).ToBytes();
@@ -82,7 +84,7 @@ namespace Xrpl.BinaryCodec
         /// <param name="json"></param>
         /// <param name="signingAccount"></param>
         /// <returns>string</returns>
-        public static string EncodeForMulitSigning(Dictionary<string, dynamic> json, string signingAccount)
+        public static string EncodeForMulitSigning(object json, string signingAccount)
         {
             string accountID = new AccountId(signingAccount).ToHex();
             JToken token = JToken.FromObject(json);
@@ -92,7 +94,7 @@ namespace Xrpl.BinaryCodec
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="token"></param>
+        /// <param name="json"></param>
         /// <returns>string</returns>
         public static string SerializeJson(JToken json, byte[]? prefix = null, byte[]? suffix = null, bool signingOnly = false)
         {

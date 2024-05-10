@@ -1,6 +1,6 @@
 ﻿using Xrpl.BinaryCodec.Enums;
 
-namespace Xrpl.BinaryCodec.Enums
+namespace Xrpl.BinaryCodec.Types
 {
     public class TransactionType : SerializedEnumItem<ushort>
     {
@@ -86,6 +86,7 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly TransactionType AMMWithdraw = Add(nameof(AMMWithdraw), 37);
         public static readonly TransactionType AMMVote = Add(nameof(AMMVote), 38);
         public static readonly TransactionType AMMBid = Add(nameof(AMMBid), 39);
+        public static readonly TransactionType AMMDelete = Add(nameof(AMMDelete), 40);
 
         // ...
         /// <summary>

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 using static Xrpl.Models.Common.Common;
-using Xrpl.BinaryCodec.Types;
 using Xrpl.Client.Exceptions;
+using Xrpl.Models.Common;
+using Xrpl.Client.Json.Converters;
 
 namespace Xrpl.Models.Transactions
 {
@@ -71,22 +72,28 @@ namespace Xrpl.Models.Transactions
         #region Implementation of IAMMWithdraw
 
         /// <inheritdoc />
-        public Xrpl.Models.Common.Currency Asset { get; set; }
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset { get; set; }
 
         /// <inheritdoc />
-        public Xrpl.Models.Common.Currency Asset2 { get; set; }
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset2 { get; set; }
 
         /// <inheritdoc />
-        public Xrpl.Models.Common.Currency LPTokenIn { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency LPTokenIn { get; set; }
 
         /// <inheritdoc />
-        public Amount Amount { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount { get; set; }
 
         /// <inheritdoc />
-        public Amount Amount2 { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount2 { get; set; }
 
         /// <inheritdoc />
-        public Amount EPrice { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency EPrice { get; set; }
 
         #endregion
     }
@@ -100,37 +107,65 @@ namespace Xrpl.Models.Transactions
         /// <summary>
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
-        Xrpl.Models.Common.Currency Asset { get; set; }
+        IssuedCurrency Asset { get; set; }
 
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
-        Xrpl.Models.Common.Currency Asset2 { get; set; }
+        IssuedCurrency Asset2 { get; set; }
 
         /// <summary>
         /// Specifies the amount of shares of the AMM instance pools that the trader
         /// wants to redeem or trade in.
         /// </summary>
-        Xrpl.Models.Common.Currency LPTokenIn { get; set; }
+        Currency LPTokenIn { get; set; }
 
         /// <summary>
         /// Specifies one of the pools assets that the trader wants to remove. 
         /// If the asset is XRP, then the Amount is a string specifying the number of drops.
         /// Otherwise it is an IssuedCurrencyAmount object.
         /// </summary>
-        Amount Amount { get; set; }
+        Currency Amount { get; set; }
 
         /// <summary>
         /// Specifies the other pool asset that the trader wants to remove.
         /// </summary>
-        Amount Amount2 { get; set; }
+        Currency Amount2 { get; set; }
 
         /// <summary>
         /// Specifies the effective-price of the token out after successful execution of
         /// the transaction.
         /// </summary>
-        Amount EPrice { get; set; }
+        Currency EPrice { get; set; }
     }
+
+    /// <inheritdoc cref="IAMMWithdraw" />
+    public class AMMWithdrawResponse : TransactionResponseCommon, IAMMWithdraw
+    {
+        #region Implementation of IAMMWithdraw
+
+        /// <inheritdoc />
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(IssuedCurrencyConverter))]
+        public IssuedCurrency Asset2 { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency LPTokenIn { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount2 { get; set; }
+        /// <inheritdoc />
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency EPrice { get; set; }
+
+        #endregion
+    }
+
     public partial class Validation
     {
 

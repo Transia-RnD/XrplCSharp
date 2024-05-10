@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 using Xrpl.Client.Json.Converters;
@@ -20,12 +21,12 @@ namespace Xrpl.Models.Ledger
         /// Specifies one of the pool assets (XRP or token) of the AMM instance.
         /// </summary>
         [JsonConverter(typeof(CurrencyConverter))]
-        public Common.Currency Asset { get; set; }
+        public Currency Asset { get; set; }
         /// <summary>
         /// Specifies the other pool asset of the AMM instance.
         /// </summary>
         [JsonConverter(typeof(CurrencyConverter))]
-        public Common.Currency Asset2 { get; set; }
+        public Currency Asset2 { get; set; }
         /// <summary>
         /// Details of the current owner of the auction slot.
         /// </summary>
@@ -36,7 +37,7 @@ namespace Xrpl.Models.Ledger
         /// or redeem the tokens for a share of the AMM's assets which grows with the trading fees collected.
         /// </summary>
         [JsonConverter(typeof(CurrencyConverter))]
-        public Common.Currency LPTokenBalance { get; set; }
+        public Currency LPTokenBalance { get; set; }
         /// <summary>
         /// Specifies the fee, in basis point, to be charged to the traders for the trades
         /// executed against the AMM instance.<br/>
@@ -48,9 +49,9 @@ namespace Xrpl.Models.Ledger
         /// </summary>
         public uint TradingFee { get; set; }
         /// <summary>
-        /// Keeps a track of up to eight active votes for the instance.
+        /// A list of vote objects, representing votes on the pool's trading fee..
         /// </summary>
-        public List<IVoteEntry> VoteSlots { get; set; }
+        public List<VoteEntry> VoteSlots { get; set; }
         /// <summary>
         /// The ledger index of the current in-progress ledger, which was used when
         /// retrieving this information.
@@ -70,6 +71,7 @@ namespace Xrpl.Models.Ledger
     }
     public class AuthAccount : IAuthAccount
     {
+        [JsonProperty("account")]
         public string Account { get; set; }
     }
 
@@ -102,7 +104,7 @@ namespace Xrpl.Models.Ledger
         /// A list of at most 4 additional accounts that are authorized to trade at the discounted fee for this AMM instance.
         /// </summary>
         [JsonProperty("auth_accounts")]
-        public List<IAuthAccount> AuthAccounts { get; set; }
+        public List<AuthAccount> AuthAccounts { get; set; }
         /// <summary>
         /// The trading fee to be charged to the auction owner, in the same format as TradingFee.<br/>
         /// By default this is 0, meaning that the auction owner can trade at no fee instead of the standard fee for this AMM.
@@ -113,7 +115,7 @@ namespace Xrpl.Models.Ledger
         /// The time when this slot expires, in seconds since the Ripple Epoch.
         /// </summary>
         [JsonProperty("expiration")]
-        public uint Expiration { get; set; }
+        public DateTime? Expiration { get; set; }
         /// <summary>
         /// The amount the auction owner paid to win this slot, in LPTokens.
         /// </summary>

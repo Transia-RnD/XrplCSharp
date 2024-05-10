@@ -56,7 +56,7 @@ namespace MyApp
 
             var client = new XrplClient("wss://s.altnet.rippletest.net:51233");
 
-            client.OnConnected += async () =>
+            client.connection.OnConnected += async () =>
             {
                 Console.WriteLine("CONNECTED");
             };
@@ -85,8 +85,7 @@ namespace MyApp
             // sign and submit the transaction
             Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
             Submit response = await client.Submit(txJson, wallet);
-            Console.WriteLine(response);
-
+            Console.WriteLine(response.EngineResult);
         }
 
         static async Task WebsocketTest()
@@ -97,7 +96,7 @@ namespace MyApp
 
             var client = new XrplClient(server);
 
-            client.OnConnected += async () =>
+            client.connection.OnConnected += async () =>
             {
                 Console.WriteLine("CONNECTED");
                 var subscribe = await client.Subscribe(
@@ -110,14 +109,14 @@ namespace MyApp
                 });
             };
 
-            client.OnDisconnect += (code) =>
+            client.connection.OnDisconnect += (code) =>
             {
                 Console.WriteLine($"DISCONECTED CODE: {code}");
                 Console.WriteLine("DISCONECTED");
                 return Task.CompletedTask;
             };
 
-            client.OnError += (errorCode, errorMessage, error, data) =>
+            client.connection.OnError += (errorCode, errorMessage, error, data) =>
             {
                 Console.WriteLine(errorCode);
                 Console.WriteLine(errorMessage);
@@ -125,13 +124,13 @@ namespace MyApp
                 return Task.CompletedTask;
             };
 
-            client.OnTransaction += Response =>
+            client.connection.OnTransaction += Response =>
             {
                 Console.WriteLine(Response.Transaction.TransactionType.ToString());
                 return Task.CompletedTask;
             };
 
-            client.OnLedgerClosed += r =>
+            client.connection.OnLedgerClosed += r =>
             {
                 Console.WriteLine($"MESSAGE RECEIVED: {r}");
                 isFinished = true;
@@ -148,6 +147,121 @@ namespace MyApp
 
             await client.Disconnect();
         }
+        static async Task WebsocketChangeServerTest()
+        {
+            bool isFinished = false;
+            var server1 = "wss://s1.ripple.com/";
+            var server2 = "wss://s2.ripple.com/";
+            var server3 = "wss://xrplcluster.com/";
+
+            var client = new XrplClient(server1);
+
+            client.connection.OnConnected += async () =>
+            {
+                Console.WriteLine("CONNECTED");
+                var subscribe = await client.Subscribe(
+                new SubscribeRequest()
+                {
+                    Streams = new List<string>(new[]
+                    {
+                        "ledger",
+                    })
+                });
+            };
+
+            client.connection.OnDisconnect += (code) =>
+            {
+                Console.WriteLine($"DISCONECTED CODE: {code}");
+                return Task.CompletedTask;
+            };
+
+            client.connection.OnError += (errorCode, errorMessage, error, data) =>
+            {
+                Console.WriteLine(errorCode);
+                Console.WriteLine(errorMessage);
+                Console.WriteLine(data);
+                return Task.CompletedTask;
+            };
+
+            client.connection.OnTransaction += Response =>
+            {
+                Console.WriteLine(Response.Transaction.TransactionType.ToString());
+                return Task.CompletedTask;
+            };
+
+            client.connection.OnLedgerClosed += r =>
+            {
+                Console.WriteLine($"MESSAGE RECEIVED: {r}");
+                isFinished = true;
+                return Task.CompletedTask;
+            };
+            
+            await client.Connect();
+
+            while (!isFinished)
+            {
+                Debug.WriteLine($"WAITING: {DateTime.Now}");
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
+
+            await Task.Delay(3000);
+            isFinished = false;
+
+            await client.connection.ChangeServer(server2);
+            while (!isFinished)
+            {
+                Debug.WriteLine($"WAITING: {DateTime.Now}");
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
+            await Task.Delay(3000);
+            isFinished = false;
+
+            await client.connection.ChangeServer(server3);
+            while (!isFinished)
+            {
+                Debug.WriteLine($"WAITING: {DateTime.Now}");
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
+            await Task.Delay(3000);
+            isFinished = false;
+
+            await client.connection.ChangeServer(server1);
+            while (!isFinished)
+            {
+                Debug.WriteLine($"WAITING: {DateTime.Now}");
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
+            await Task.Delay(3000);
+            isFinished = false;
+
+            await client.connection.ChangeServer(server2);
+            while (!isFinished)
+            {
+                Debug.WriteLine($"WAITING: {DateTime.Now}");
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
+            await Task.Delay(3000);
+            isFinished = false;
+
+            await client.connection.ChangeServer(server3);
+            while (!isFinished)
+            {
+                Debug.WriteLine($"WAITING: {DateTime.Now}");
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
+            await Task.Delay(3000);
+            isFinished = false;
+
+            await client.connection.ChangeServer(server1);
+            while (!isFinished)
+            {
+                Debug.WriteLine($"WAITING: {DateTime.Now}");
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
+            await Task.Delay(3000);
+
+            await client.Disconnect();
+        }
 
         static async Task Main(string[] args)
         {
@@ -156,6 +270,7 @@ namespace MyApp
             //WalletGenerate();
             //await SubmitTestTx();
             //await WebsocketTest();
+            await WebsocketChangeServerTest();
         }
     }
 }

@@ -227,7 +227,7 @@ namespace Xrpl.BinaryCodec.Types
             var list = new BytesList();
             list.Put(HashPrefix.TransactionSig.Bytes());
             ToBytes(list, f => f.IsSigningField);
-            return list.Bytes();
+            return list.ToBytes();
         }
         /// <summary>
         /// this object to bytes array
@@ -237,7 +237,7 @@ namespace Xrpl.BinaryCodec.Types
         {
             var list = new BytesList();
             ToBytes(list, f => f.IsSerialised);
-            return list.Bytes();
+            return list.ToBytes();
         }
         /// <summary>
         /// add <see cref="AccountIdField"/> field to this object

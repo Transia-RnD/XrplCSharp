@@ -8,14 +8,13 @@ namespace Xrpl.BinaryCodec
 
         public BinaryCodecException(string message) : base(message){ }
     }
-    
     /// <summary>
     /// Thrown when JSON is not valid.
     /// </summary>
     public class InvalidJsonException : Exception
     {
         /// <inheritdoc />
-        public InvalidJsonException() 
+        public InvalidJsonException()
         {
         }
 

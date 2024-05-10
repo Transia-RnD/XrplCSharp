@@ -24,7 +24,7 @@ namespace XrplTests.Xrpl.Models
                 {"Account", "rWYkbWkCeg8dP6rXALnjgZSjjLyih5NXm"},
                 {"Asset", new Dictionary<string,dynamic>(){{"currency","XRP"}}},
                 {"Asset2", new Dictionary<string,dynamic>(){{"currency","ETH"},{"issuer", "rP9jPyP5kyvFRb6ZiRghAGw5u8SGAmU4bd" } }},
-                {"TradingFee", 12u},
+                {"TradingFee", 25u},
                 {"Sequence", 1337u},
             };
         }

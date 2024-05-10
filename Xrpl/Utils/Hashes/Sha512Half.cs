@@ -6,9 +6,15 @@ using Xrpl.BinaryCodec.Hashing;
 
 namespace Xrpl.Utils.Hashes
 {
-    public class Sha512HalfUtil
+    public static class Sha512HalfUtil
     {
-        static public string Sha512Half(string hex)
+        public const int HASH_SIZE = 64;
+        /// <summary>
+        /// Compute a sha512Half Hash of a hex string.
+        /// </summary>
+        /// <param name="hex"> Hex string to hash.</param>
+        /// <returns>Hash of hex.</returns>
+        public static string Sha512Half(this string hex)
         {
             return Sha512.Half(input: hex.FromHex()).ToHex();
         }

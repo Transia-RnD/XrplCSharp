@@ -42,15 +42,6 @@ namespace Xrpl.BinaryCodec.Binary
         }
         /// <summary> Get all bytes </summary>
         /// <returns>Bytes</returns>
-        public byte[] Bytes()
-        {
-            var n = BytesLength();
-            var bytes = new byte[n];
-            AddBytes(bytes, 0);
-            return bytes;
-        }
-        /// <summary> Get all bytes </summary>
-        /// <returns>Bytes</returns>
         public byte[] ToBytes()
         {
             var n = BytesLength();

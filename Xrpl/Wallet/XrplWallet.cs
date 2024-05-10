@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 using System.Collections.Generic;
 
@@ -6,6 +7,7 @@ using Xrpl.AddressCodec;
 using Xrpl.BinaryCodec;
 using Xrpl.Client.Exceptions;
 using Xrpl.Keypairs;
+using Xrpl.Models.Transactions;
 using Xrpl.Utils.Hashes;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/Wallet/index.ts
@@ -45,7 +47,7 @@ namespace Xrpl.Wallet
         {
             this.PublicKey = publicKey;
             this.PrivateKey = privateKey;
-            this.ClassicAddress = masterAddress != null ? masterAddress : XrplKeypairs.DeriveAddress(publicKey);
+            this.ClassicAddress = masterAddress ?? XrplKeypairs.DeriveAddress(publicKey);
             this.Seed = seed;
         }
 
@@ -78,10 +80,22 @@ namespace Xrpl.Wallet
         /// <returns>A Wallet derived from an entropy.</returns>
         public static XrplWallet FromEntropy(byte[] entropy, string? masterAddress = null, string? algorithm = null)
         {
-            string falgorithm = algorithm != null ? algorithm : XrplWallet.DEFAULT_ALGORITHM;
+            string falgorithm = algorithm ?? XrplWallet.DEFAULT_ALGORITHM;
             string seed = XrplKeypairs.GenerateSeed(entropy, falgorithm);
             return XrplWallet.DeriveWallet(seed, masterAddress, falgorithm);
         }
+
+        /// <summary>
+        /// Creates a Wallet from xumm numbers.
+        /// </summary>
+        /// <returns>A Wallet from xumm numbers.</returns>
+        public static XrplWallet FromXummNumbers(string[] numbers)
+        {
+            byte[] entropy = XummExtension.EntropyFromXummNumbers(numbers);
+            return FromEntropy(entropy);
+        }
+
+
 
         /// <summary>
         /// Derive a Wallet from a seed.
@@ -132,6 +146,18 @@ namespace Xrpl.Wallet
             //this.checkTxSerialization(serialized, tx);
             return new SignatureResult(serialized, HashLedger.HashSignedTx(serialized));
         }
+        /// <summary>
+        /// Signs a transaction offline.
+        /// </summary>
+        /// <param name="tx">A transaction to be signed offline.</param>
+        /// <param name="multisign">Specify true/false to use multisign or actual address (classic/x-address) to make multisign tx request.</param>
+        /// <param name="signingFor"></param>
+        /// <returns>A Wallet derived from the seed.</returns>
+        public SignatureResult Sign(ITransactionCommon tx, bool multisign = false, string? signingFor = null)
+        {
+            Dictionary<string, dynamic> txJson = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(tx.ToJson());
+            return Sign(txJson, multisign, signingFor);
+        }
 
         /// <summary>
         /// Verifies a signed transaction offline.
@@ -156,6 +182,14 @@ namespace Xrpl.Wallet
             string encoded = XrplBinaryCodec.EncodeForSigning(transaction);
             return XrplKeypairs.Sign(AddressCodec.Utils.FromHexToBytes(encoded), privateKey);
         }
-
+        /// <summary>
+        /// Creates a Wallet from xumm numbers.
+        /// </summary>
+        /// <returns>A Wallet from xumm numbers.</returns>
+        public static XrplWallet FromXummNumbers(string[] numbers, string algorithm = "secp256k1")
+        {
+            byte[] entropy = XummExtension.EntropyFromXummNumbers(numbers);
+            return FromEntropy(entropy,null, algorithm);
+        }
     }
 }

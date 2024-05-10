@@ -54,7 +54,24 @@ namespace Xrpl.Models.Ledger
         /// This account can only receive funds from transactions it sends, and from preauthorized accounts.<br/>
         /// (It has DepositAuth enabled.)
         /// </summary>
-        lsfDepositAuth = 16777216
+        lsfDepositAuth = 16777216,
+        /// <summary>
+        /// This account blocks incoming trust lines. (Requires the DisallowIncoming amendment .)
+        /// </summary>
+        lsfDisallowIncomingTrustline = 536870912,
+        /// <summary>
+        /// This account blocks incoming Payment Channels. (Requires the DisallowIncoming amendment .)
+        /// </summary>
+        lsfDisallowIncomingPayChan = 268435456,
+        /// <summary>
+        /// This account blocks incoming NFTokenOffers. (Requires the DisallowIncoming amendment .)
+        /// </summary>
+        lsfDisallowIncomingNFTokenOffer = 67108864,
+        /// <summary>
+        /// This account blocks incoming Checks. (Requires the DisallowIncoming amendment .)
+        /// </summary>
+        lsfDisallowIncomingCheck = 134217728,
+
     }
     /// <summary>
     /// The AccountRoot object type describes a single account, its settings, and XRP balance.
@@ -141,7 +158,7 @@ namespace Xrpl.Models.Ledger
         /// <summary>
         /// (Optional) Another account that is authorized to mint non-fungible tokens  on behalf of this account.
         /// </summary>
-        public uint? NFTokenMinter { get; set; }
+        public string? NFTokenMinter { get; set; }
         /// <summary>
         /// (Optional) How many Tickets this account owns in the ledger.
         /// This is updated automatically to ensure that the account stays within the hard limit of 250 Tickets at a time.

@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using Xrpl.BinaryCodec.Enums;
 
 //todo not found doc
 

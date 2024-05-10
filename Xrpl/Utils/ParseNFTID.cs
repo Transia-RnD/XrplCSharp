@@ -1,5 +1,4 @@
 using System;
-using System.Reflection.Emit;
 using Xrpl.AddressCodec;
 using Xrpl.BinaryCodec.Util;
 using Xrpl.Client.Exceptions;
@@ -33,12 +32,12 @@ namespace Xrpl.Utils
         /// <param name="taxon"> The scrambled or unscrambled taxon (The XOR is both the encoding and decoding). </param>
         /// <param name="tokenSeq"> The account sequence when the token was minted. Used as a psuedorandom seed. </param>
         /// <returns> The opposite taxon. If the taxon was scrambled it becomes unscrambled, and vice versa.</returns>
-        public static UInt32 UnscrambleTaxon(UInt32 taxon, UInt32 tokenSeq)
+        public static uint UnscrambleTaxon(uint taxon, uint tokenSeq)
         {
-            return (UInt32)((taxon ^ (384160001 * tokenSeq + 2459)) % 4294967296);
+            return (uint)((taxon ^ (384160001 * tokenSeq + 2459)) % 4294967296);
         }
 
-        public static NFTokenIDData GetNFTokenIDData(string nftokenID)
+        public static NFTokenIDData ParseNFTokenID(this string nftokenID)
         {
             const int expectedLength = 64;
             if (nftokenID.Length != expectedLength)
@@ -47,13 +46,13 @@ namespace Xrpl.Utils
                                         $", but expected a token with length ${expectedLength}");
             }
 
-            UInt32 flags = Convert.ToUInt32(nftokenID.Substring(0, 4), 16);
-            UInt32 transferFee = Convert.ToUInt32(nftokenID.Substring(4, 4), 16);
+            uint flags = Convert.ToUInt32(nftokenID.Substring(0, 4), 16);
+            uint transferFee = Convert.ToUInt32(nftokenID.Substring(4, 4), 16);
             string scrambledTaxon = nftokenID.Substring(48, 8);
-            UInt32 sequence = Convert.ToUInt32(nftokenID.Substring(56, 8), 16);
-            UInt32 taxon = UnscrambleTaxon(Convert.ToUInt32(scrambledTaxon, 16), sequence);
+            uint sequence = Convert.ToUInt32(nftokenID.Substring(56, 8), 16);
+            uint taxon = UnscrambleTaxon(Convert.ToUInt32(scrambledTaxon, 16), sequence);
 
-            string issuer = XrplCodec.EncodeAccountID(AddressCodec.Utils.FromHexToBytes(nftokenID.Substring(8, 40)));
+            string issuer = XrplCodec.EncodeAccountID(nftokenID.Substring(8, 40).FromHexToBytes());
                         
             return new NFTokenIDData(nftokenID, flags, transferFee, issuer, taxon, sequence);
         }

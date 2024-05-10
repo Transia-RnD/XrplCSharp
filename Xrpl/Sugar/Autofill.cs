@@ -1,42 +1,36 @@
-﻿using System;
-using System.Linq;
+﻿using Newtonsoft.Json;
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Numerics;
 using System.Threading.Tasks;
+
 using Xrpl.AddressCodec;
+using Xrpl.Client;
+using Xrpl.Client.Exceptions;
 using Xrpl.Models.Common;
 using Xrpl.Models.Ledger;
 using Xrpl.Models.Methods;
-using System.Numerics;
-using static Xrpl.AddressCodec.XrplAddressCodec;
-using System.Collections.Generic;
-using Xrpl.Client;
-using Xrpl.Client.Exceptions;
 using Xrpl.Utils;
-using System.Globalization;
-using Newtonsoft.Json.Linq;
-using Org.BouncyCastle.Math.EC.Multiplier;
-using Xrpl.BinaryCodec.Types;
-using System.IO;
-using System.Diagnostics;
-using Newtonsoft.Json;
-using Org.BouncyCastle.Asn1.Ocsp;
-using Xrpl.BinaryCodec.Enums;
-using Org.BouncyCastle.Utilities;
-using System.Security.Principal;
+
+using static Xrpl.AddressCodec.XrplAddressCodec;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/sugar/autofill.ts
 
 namespace Xrpl.Sugar
 {
-    public class AutofillSugar
+    public class AddressNTag
+    {
+        public string ClassicAddress { get; set; }
+        public int? Tag { get; set; }
+    }
+
+    public static class AutofillSugar
     {
 
-        static readonly int LEDGER_OFFSET = 20;
+        const int LEDGER_OFFSET = 20;
 
-        public class AddressNTag
-        {
-            public string ClassicAddress { get; set; }
-            public int? Tag { get; set; }
-        }
 
         /// <summary>
         /// Autofills fields in a transaction. This will set `Sequence`, `Fee`,
@@ -48,31 +42,32 @@ namespace Xrpl.Sugar
         /// <param name="transaction">A {@link Transaction} in JSON format</param>
         /// <param name="signersCount">The expected number of signers for this transaction. Only used for multisigned transactions.</param>
         // <returns>The autofilled transaction.</returns>
-        public static async Task<Dictionary<string, dynamic>> Autofill(IXrplClient client, Dictionary<string, dynamic> transaction, int? signersCount)
+        public static async Task<Dictionary<string, dynamic>> Autofill(this IXrplClient client, Dictionary<string, dynamic> transaction, int? signersCount)
         {
 
             Dictionary<string, dynamic> tx = transaction;
 
-            SetValidAddresses(tx);
+            tx.SetValidAddresses();
 
             //Flags.SetTransactionFlagsToNumber(tx);
             List<Task> promises = new List<Task>();
             bool hasTT = tx.TryGetValue("TransactionType", out var tt);
             if (!tx.ContainsKey("Sequence"))
             {
-                promises.Add(SetNextValidSequenceNumber(client, tx));
+                promises.Add(client.SetNextValidSequenceNumber(tx));
             }
             if (!tx.ContainsKey("Fee"))
             {
-                promises.Add(CalculateFeePerTransactionType(client, tx, signersCount ?? 0));
+                promises.Add(client.CalculateFeePerTransactionType(tx, signersCount ?? 0));
             }
             if (!tx.ContainsKey("LastLedgerSequence"))
             {
-                promises.Add(SetLatestValidatedLedgerSequence(client, tx));
+                promises.Add(client.SetLatestValidatedLedgerSequence(tx));
             }
             if (tt == "AccountDelete")
             {
-                promises.Add(CheckAccountDeleteBlockers(client, tx));
+                //todo error here
+                //promises.Add(client.CheckAccountDeleteBlockers(tx));
             }
             await Task.WhenAll(promises);
             string jsonData = JsonConvert.SerializeObject(tx);
@@ -80,24 +75,24 @@ namespace Xrpl.Sugar
         }
 
 
-        public static void SetValidAddresses(Dictionary<string, dynamic> tx)
+        public static void SetValidAddresses(this Dictionary<string, dynamic> tx)
         {
-            ValidateAccountAddress(tx, "Account", "SourceTag");
+            tx.ValidateAccountAddress("Account", "SourceTag");
             if (tx.ContainsKey("Destination"))
             {
-                ValidateAccountAddress(tx, "Destination", "DestinationTag");
+                tx.ValidateAccountAddress("Destination", "DestinationTag");
             }
 
             // DepositPreauth:
-            ConvertToClassicAddress(tx, "Authorize");
-            ConvertToClassicAddress(tx, "Unauthorize");
+            tx.ConvertToClassicAddress("Authorize");
+            tx.ConvertToClassicAddress("Unauthorize");
             // EscrowCancel, EscrowFinish:
-            ConvertToClassicAddress(tx, "Owner");
+            tx.ConvertToClassicAddress("Owner");
             // SetRegularKey:
-            ConvertToClassicAddress(tx, "RegularKey");
+            tx.ConvertToClassicAddress("RegularKey");
         }
 
-        public static void ValidateAccountAddress(Dictionary<string, dynamic> tx, string accountField, string tagField)
+        public static void ValidateAccountAddress(this Dictionary<string, dynamic> tx, string accountField, string tagField)
         {
             // if X-address is given, convert it to classic address
             var ainfo = tx.TryGetValue(accountField, out var aField);
@@ -119,7 +114,7 @@ namespace Xrpl.Sugar
             }
         }
 
-        public static AddressNTag GetClassicAccountAndTag(string account, int? expectedTag)
+        public static AddressNTag GetClassicAccountAndTag(this string account, int? expectedTag)
         {
             if (XrplAddressCodec.IsValidXAddress(account))
             {
@@ -133,20 +128,20 @@ namespace Xrpl.Sugar
             return new AddressNTag { ClassicAddress = account, Tag = expectedTag };
         }
 
-        public static void ConvertToClassicAddress(Dictionary<string, dynamic> tx, string fieldName)
+        public static void ConvertToClassicAddress(this Dictionary<string, dynamic> tx, string fieldName)
         {
             if (tx.ContainsKey(fieldName))
             {
                 string account = (string)tx[fieldName];
                 if (account is string)
                 {
-                    AddressNTag addressntag = GetClassicAccountAndTag(account, null);
+                    AddressNTag addressntag = account.GetClassicAccountAndTag(null);
                     tx[fieldName] = addressntag.ClassicAddress;
                 }
             }
         }
 
-        public static async Task SetNextValidSequenceNumber(IXrplClient client, Dictionary<string, dynamic> tx)
+        public static async Task SetNextValidSequenceNumber(this IXrplClient client, Dictionary<string, dynamic> tx)
         {
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Current);
             AccountInfoRequest request = new AccountInfoRequest((string)tx["Account"]) { LedgerIndex = index };
@@ -154,7 +149,7 @@ namespace Xrpl.Sugar
             tx.TryAdd("Sequence", data.AccountData.Sequence);
         }
 
-        public static async Task<BigInteger> FetchAccountDeleteFee(IXrplClient client)
+        public static async Task<BigInteger> FetchAccountDeleteFee(this IXrplClient client)
         {
             ServerStateRequest request = new ServerStateRequest();
             ServerState data = await client.ServerState(request);
@@ -167,9 +162,9 @@ namespace Xrpl.Sugar
             return BigInteger.Parse(fee.ToString());
         }
 
-        public static async Task CalculateFeePerTransactionType(IXrplClient client, Dictionary<string, dynamic> tx, int signersCount = 0)
+        public static async Task CalculateFeePerTransactionType(this IXrplClient client, Dictionary<string, dynamic> tx, int signersCount = 0)
         {
-            var netFeeXRP = await GetFeeXrpSugar.GetFeeXrp(client);
+            var netFeeXRP = await client.GetFeeXrp();
             var netFeeDrops = XrpConversion.XrpToDrops(netFeeXRP);
             var baseFee = BigInteger.Parse(netFeeDrops, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent);
 
@@ -209,13 +204,13 @@ namespace Xrpl.Sugar
             return (double.Parse(value)! * multiplier).ToString();
         }
 
-        public static async Task SetLatestValidatedLedgerSequence(IXrplClient client, Dictionary<string, dynamic> tx)
+        public static async Task SetLatestValidatedLedgerSequence(this IXrplClient client, Dictionary<string, dynamic> tx)
         {
             uint ledgerSequence = await client.GetLedgerIndex();
             tx.TryAdd("LastLedgerSequence", ledgerSequence + LEDGER_OFFSET);
         }
 
-        public static async Task CheckAccountDeleteBlockers(IXrplClient client, Dictionary<string, dynamic> tx)
+        public static async Task CheckAccountDeleteBlockers(this IXrplClient client, Dictionary<string, dynamic> tx)
         {
             LedgerIndex index = new LedgerIndex(LedgerIndexType.Validated);
             AccountObjectsRequest request = new AccountObjectsRequest((string)tx["Account"])

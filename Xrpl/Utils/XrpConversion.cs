@@ -94,7 +94,13 @@ namespace Xrpl.Utils
             * decimal point followed by zeros, e.g. '1.00'.
             * Important: specify base BASE_10 to avoid exponential notation, e.g. '1e-7'.
             */
-            string drops = BigInteger.Parse(dropsToConvert, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent).ToRadixString(BASE_TEN);
+            string drops = BigInteger.Parse(dropsToConvert, NumberStyles.AllowLeadingSign
+                    | (NumberStyles.AllowLeadingSign & NumberStyles.AllowDecimalPoint)
+                    | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
+                    | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                    | (NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                    | NumberStyles.AllowExponent
+                    | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture).ToRadixString(BASE_TEN);
             // check that the value is valid and actually a number
             if (!(dropsToConvert is string) && drops != null)
             {
@@ -122,7 +128,13 @@ namespace Xrpl.Utils
             //}
 
             // TODO: SHOULD BE BASE 10
-            return ((decimal)BigInteger.Parse(dropsToConvert, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent) / (decimal)new BigInteger(DROPS_PER_XRP)).ToString();
+            return ((decimal)BigInteger.Parse(dropsToConvert, NumberStyles.AllowLeadingSign
+                                                              | (NumberStyles.AllowLeadingSign & NumberStyles.AllowDecimalPoint)
+                                                              | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
+                                                              | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                                              | (NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                                              | NumberStyles.AllowExponent
+                                                              | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture) / (decimal)new BigInteger(DROPS_PER_XRP)).ToString();
             //return ((decimal)BigInteger.Parse(dropsToConvert, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture) / (decimal)new BigInteger(DROPS_PER_XRP)).ToString("F"+BASE_TEN).TrimEnd('0');
         }
 
@@ -145,7 +157,13 @@ namespace Xrpl.Utils
         {
             // Important: specify base BASE_TEN to avoid exponential notation, e.g. '1e-7'.
             // TODO: SHOULD BE BASE 10
-            string xrp = decimal.Parse(xrpToConvert, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent).ToString();
+            string xrp = decimal.Parse(xrpToConvert, NumberStyles.AllowLeadingSign
+                                                     | (NumberStyles.AllowLeadingSign & NumberStyles.AllowDecimalPoint)
+                                                     | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
+                                                     | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                                     | (NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                                     | NumberStyles.AllowExponent
+                                                     | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture).ToString();
             // check that the value is valid and actually a number
             if (!(xrpToConvert is string) && xrp != null)
             {
@@ -165,7 +183,13 @@ namespace Xrpl.Utils
                 throw new ValidationException($"xrpToDrops: value '{xrp}' has too many decimal places.");
             }
             // TODO: SHOULD BE BASE 10
-            return new BigInteger(decimal.Parse(xrpToConvert, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent) * (decimal)new BigInteger(DROPS_PER_XRP)).ToString();
+            return new BigInteger(decimal.Parse(xrpToConvert, NumberStyles.AllowLeadingSign
+                                                              | (NumberStyles.AllowLeadingSign & NumberStyles.AllowDecimalPoint)
+                                                              | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
+                                                              | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                                              | (NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
+                                                              | NumberStyles.AllowExponent
+                                                              | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture) * (decimal)new BigInteger(DROPS_PER_XRP)).ToString();
         }
     }
 }

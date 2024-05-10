@@ -56,6 +56,21 @@ namespace Xrpl.Models
         TicketCreate,
         /// <summary>Add or modify a trust line.</summary>
         TrustSet,
+        /// <summary>
+        /// An EnableAmendment pseudo-transaction marks a change in the status of a proposed amendment when it:<br/>
+        /// * Gains supermajority approval from validators.<br/>
+        /// * Loses supermajority approval.<br/>
+        /// * Is enabled on the XRP Ledger protocol.
+        /// </summary>
+        EnableAmendment,
+        /// <summary>
+        /// A SetFee pseudo-transaction marks a change in transaction cost or reserve requirements as a result of Fee Voting.
+        /// </summary>
+        SetFee,
+        /// <summary>
+        /// A UNLModify pseudo-transaction marks a change to the Negative UNL, indicating that a trusted validator has gone offline or come back online.
+        /// </summary>
+        UNLModify,
         /// <summary> AMMBid is used for submitting a vote for the trading fee of an AMM Instance. </summary>
         AMMBid,
         /// <summary>
@@ -81,7 +96,14 @@ namespace Xrpl.Models
         /// of LPTokenIn.
         /// </summary>
         AMMWithdraw,
-
+        /// <summary>
+        /// The Clawback transaction is used by the token issuer to claw back issued tokens from a holder.
+        /// </summary>
+        Clawback,
+        /// <summary>
+        /// Unknown tx Type.
+        /// </summary>
+        Unknown,
     }
     /// <summary>
     /// Each ledger version's state data is a set of ledger objects, sometimes called ledger entries,

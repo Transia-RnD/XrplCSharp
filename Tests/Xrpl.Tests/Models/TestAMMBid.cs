@@ -131,13 +131,74 @@ namespace XrplTests.Xrpl.Models
                 },
             };
             await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(bid), "AMMBid: invalid ClearFlag - no ERROR");
+
+            //throws w/ AuthAccounts must be an AuthAccount array
+            bid["AuthAccounts"] = 1234;
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(bid), "AMMBid: AuthAccounts must be an AuthAccount array");
+
+            bid["AuthAccounts"] = new List<Dictionary<string, dynamic>>()
+            {
+                new Dictionary<string,dynamic>()
+                {
+                    {"AuthAccount",null}
+                }, new Dictionary<string,dynamic>()
+                {
+                    {"AuthAccount",new Dictionary<string,dynamic>()
+                    {
+                        { "Account", "rfpFv97Dwu89FTyUwPjtpZBbuZxTqqgTmH" }
+                    }}
+                }, new Dictionary<string,dynamic>()
+                {
+                    {"AuthAccount",new Dictionary<string,dynamic>()
+                    {
+                        { "Account", "rzzYHPGb8Pa64oqxCzmuffm122bitq3Vb" }
+                    }}
+                }, new Dictionary<string,dynamic>()
+                {
+                    {"AuthAccount",new Dictionary<string,dynamic>()
+                    {
+                        { "Account", "rhwxHxaHok86fe4LykBom1jSJ3RYQJs1h4" }
+                    }}
+                }
+            };
+
+            //throws w/ invalid AuthAccounts when AuthAccount is undefined
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(bid), "AMMBid: invalid AuthAccounts");
+            //throws w/ invalid AuthAccounts when AuthAccount is not an object
+            bid["AuthAccounts"] = new List<Dictionary<string, dynamic>>()
+            {
+                new Dictionary<string,dynamic>()
+                {
+                    {"AuthAccount",1234}
+                }, new Dictionary<string,dynamic>()
+                {
+                    {"AuthAccount",new Dictionary<string,dynamic>()
+                    {
+                        { "Account", "rfpFv97Dwu89FTyUwPjtpZBbuZxTqqgTmH" }
+                    }}
+                }, new Dictionary<string,dynamic>()
+                {
+                    {"AuthAccount",new Dictionary<string,dynamic>()
+                    {
+                        { "Account", "rzzYHPGb8Pa64oqxCzmuffm122bitq3Vb" }
+                    }}
+                }, new Dictionary<string,dynamic>()
+                {
+                    {"AuthAccount",new Dictionary<string,dynamic>()
+                    {
+                        { "Account", "rhwxHxaHok86fe4LykBom1jSJ3RYQJs1h4" }
+                    }}
+                }
+            };
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(bid), "AMMBid: invalid AuthAccounts");
+            // throws w/ invalid AuthAccounts when AuthAccount.Account is not a string
             bid["AuthAccounts"] = new List<Dictionary<string, dynamic>>()
             {
                 new Dictionary<string,dynamic>()
                 {
                     {"AuthAccount",new Dictionary<string,dynamic>()
                     {
-                        { "Account", "rNZdsTBP5tH1M6GHC6bTreHAp6ouP8iZSh" }
+                        { "Account", 1234 }
                     }}
                 }, new Dictionary<string,dynamic>()
                 {
@@ -159,6 +220,38 @@ namespace XrplTests.Xrpl.Models
                     }}
                 }
             };
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(bid), "AMMBid: invalid AuthAccounts");
+            //throws w/ AuthAccounts must not include sender's address
+            bid["AuthAccounts"] = new List<Dictionary<string, dynamic>>()
+            {
+                new Dictionary<string,dynamic>()
+                {
+                    {"AuthAccount",new Dictionary<string,dynamic>()
+                    {
+                        { "Account", bid["Account"] }
+                    }}
+                }, new Dictionary<string,dynamic>()
+                {
+                    {"AuthAccount",new Dictionary<string,dynamic>()
+                    {
+                        { "Account", "rfpFv97Dwu89FTyUwPjtpZBbuZxTqqgTmH" }
+                    }}
+                }, new Dictionary<string,dynamic>()
+                {
+                    {"AuthAccount",new Dictionary<string,dynamic>()
+                    {
+                        { "Account", "rzzYHPGb8Pa64oqxCzmuffm122bitq3Vb" }
+                    }}
+                }, new Dictionary<string,dynamic>()
+                {
+                    {"AuthAccount",new Dictionary<string,dynamic>()
+                    {
+                        { "Account", "rhwxHxaHok86fe4LykBom1jSJ3RYQJs1h4" }
+                    }}
+                }
+            };
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => Validation.Validate(bid), "AMMBid: AuthAccounts must not include sender's address");
+
         }
     }
 }

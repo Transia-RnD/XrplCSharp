@@ -86,13 +86,14 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly TransactionTypeField TransactionType = new TransactionTypeField(nameof(TransactionType), 2);
         public static readonly Uint16Field SignerWeight = new Uint16Field(nameof(SignerWeight), 3);
         public static readonly Uint16Field TransferFee = new Uint16Field(nameof(TransferFee), 4);
-        public static readonly Uint16Field TradingFee = new Uint16Field(nameof(TradingFee), 4);
+        public static readonly Uint16Field TradingFee = new Uint16Field(nameof(TradingFee), 4); 
         public static readonly Uint16Field Version = new Uint16Field(nameof(Version), 16);
         public static readonly Uint16Field HookStateChangeCount = new Uint16Field(nameof(HookStateChangeCount), 17);
         public static readonly Uint16Field HookStateEmitCount = new Uint16Field(nameof(HookStateEmitCount), 18);
         public static readonly Uint16Field HookStateExecutionIndex = new Uint16Field(nameof(HookStateExecutionIndex), 19);
         public static readonly Uint16Field HookApiVersion = new Uint16Field(nameof(HookApiVersion), 20);
 
+        public static readonly Uint32Field NetworkID = new Uint32Field(nameof(NetworkID), 1);
         public static readonly Uint32Field Flags = new Uint32Field(nameof(Flags), 2);
         public static readonly Uint32Field SourceTag = new Uint32Field(nameof(SourceTag), 3);
         public static readonly Uint32Field Sequence = new Uint32Field(nameof(Sequence), 4);
@@ -214,7 +215,7 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly AmountField DeliverMin = new AmountField(nameof(DeliverMin), 10);
         public static readonly AmountField Amount2 = new AmountField(nameof(Amount2), 11);
         public static readonly AmountField BidMin = new AmountField(nameof(BidMin), 12);
-        public static readonly AmountField BidMax = new AmountField(nameof(BidMax), 13);
+        public static readonly AmountField BidMax = new AmountField(nameof(BidMax), 13); 
         public static readonly AmountField MinimumOffer = new AmountField(nameof(MinimumOffer), 16);
         public static readonly AmountField RippleEscrow = new AmountField(nameof(RippleEscrow), 17);
         public static readonly AmountField DeliveredAmount = new AmountField(nameof(DeliveredAmount), 18);
@@ -314,7 +315,6 @@ namespace Xrpl.BinaryCodec.Enums
         public static readonly StArrayField HookParameters = new StArrayField(nameof(HookParameters), 19);
         public static readonly StArrayField HookGrants = new StArrayField(nameof(HookGrants), 19);
         public static readonly StArrayField AuthAccounts = new StArrayField(nameof(AuthAccounts), 26);
-
         public static readonly Field Generic = new Field(nameof(Generic), 0, FieldType.Unknown, isSigningField: false);
         public static readonly Field Invalid = new Field(nameof(Invalid), -1, FieldType.Unknown, isSigningField: false);
         
