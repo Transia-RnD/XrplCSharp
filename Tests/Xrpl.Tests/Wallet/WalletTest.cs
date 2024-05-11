@@ -729,7 +729,7 @@ namespace Xrpl.Tests.Wallet.Tests.XAddress
         private static string publicKey = "030E58CDD076E798C84755590AAF6237CA8FAE821070A59F648B517A30DC6F589D";
         private static string privateKey = "00141BA006D3363D2FB2785E8DF4E44D3A49908780CB4FB51F6D217C08C021429F";
         private XrplWallet wallet = new XrplWallet(publicKey, privateKey);
-        private int tag = 1337;
+        private uint tag = 1337;
         private string mainnetXAddress = "X7gJ5YK8abHf2eTPWPFHAAot8Knck11QGqmQ7a6a3Z8PJvk";
         private string testnetXAddress = "T7bq3e7kxYq9pwDz8UZhqAZoEkcRGTXSNr5immvcj3DYRaV";
 
