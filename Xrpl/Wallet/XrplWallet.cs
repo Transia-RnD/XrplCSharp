@@ -172,7 +172,7 @@ namespace Xrpl.Wallet
             return XrplKeypairs.Verify(messageHex.FromHex(), signature, this.PublicKey);
         }
 
-        public string GetXAddress(int tag, bool isTestnet = false)
+        public string GetXAddress(uint tag, bool isTestnet = false)
         {
             return XrplAddressCodec.ClassicAddressToXAddress(this.ClassicAddress, tag, isTestnet);
         }

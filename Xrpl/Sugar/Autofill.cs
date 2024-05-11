@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Xrpl.Sugar
     public class AddressNTag
     {
         public string ClassicAddress { get; set; }
-        public int? Tag { get; set; }
+        public uint? Tag { get; set; }
     }
 
     public static class AutofillSugar
@@ -114,7 +115,7 @@ namespace Xrpl.Sugar
             }
         }
 
-        public static AddressNTag GetClassicAccountAndTag(this string account, int? expectedTag)
+        public static AddressNTag GetClassicAccountAndTag(this string account, uint? expectedTag)
         {
             if (XrplAddressCodec.IsValidXAddress(account))
             {

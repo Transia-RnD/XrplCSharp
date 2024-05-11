@@ -3,11 +3,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
 using System.Collections.Generic;
+using System.Diagnostics;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/index.test.js
 
 namespace Xrpl.AddressCodec.Tests
 {
+    using static Xrpl.AddressCodec.XrplAddressCodec;
     using static XrplAddressCodec;
 
     [TestClass]
@@ -27,7 +29,7 @@ namespace Xrpl.AddressCodec.Tests
             {
                 var testCase = testCases[i];
                 string classicAddress = testCase[0];
-                int? tag = testCase[1] is bool && testCase[1] == false ? null : (int)testCase[1];
+                uint? tag = testCase[1] is bool && testCase[1] == false ? null : (uint)testCase[1];
                 string xAddress = testCase[2];
                 Assert.AreEqual(xAddress, ClassicAddressToXAddress(classicAddress, tag, false));
                 CodecAddress myClassicAddress = XAddressToClassicAddress(xAddress);
@@ -43,7 +45,7 @@ namespace Xrpl.AddressCodec.Tests
             {
                 var testCase = testCases[i];
                 string classicAddress = testCase[0];
-                int? tag = testCase[1] is bool && testCase[1] == false ? null : (int)testCase[1];
+                uint? tag = testCase[1] is bool && testCase[1] == false ? null : (uint)testCase[1];
                 string xAddress = testCase[3];
                 Assert.AreEqual(xAddress, ClassicAddressToXAddress(classicAddress, tag, true));
                 CodecAddress myClassicAddress = XAddressToClassicAddress(xAddress);
@@ -78,7 +80,7 @@ namespace Xrpl.AddressCodec.Tests
         public void ConvertTagFalse()
         {
             string classicAddress = "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59";
-            int? tag = null;
+            uint? tag = null;
             string xAddress = "X7AcgcsBL6XDcUb289X4mJ8djcdyKaB5hJDWMArnXr61cqZ";
             bool isTestAddress = false;
             Assert.AreEqual(xAddress, ClassicAddressToXAddress(classicAddress, tag, isTestAddress));

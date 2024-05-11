@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using System.Linq;
 //using Xrpl.KeypairsLib;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/ripple-address-codec/src/index.ts
@@ -18,14 +20,14 @@ namespace Xrpl.AddressCodec
         public class CodecAddress
         {
             public string ClassicAddress { get; set; }
-            public int? Tag { get; set; }
+            public uint? Tag { get; set; }
             public bool Test { get; set; }
         }
 
         public class CodecAccountID
         {
             public byte[] AccountID { get; set; }
-            public int? Tag { get; set; }
+            public uint? Tag { get; set; }
             public bool Test { get; set; }
         }
 
@@ -49,7 +51,7 @@ namespace Xrpl.AddressCodec
         /// <returns>The X-Address representation of the data.</returns>
         /// <throws>XRPLAddressCodecException: If the classic address does not have enough bytes
         /// or the tag is invalid.</throws>
-        public static string ClassicAddressToXAddress(string classicAddress, int? tag, bool isTest)
+        public static string ClassicAddressToXAddress(string classicAddress, uint? tag, bool isTest)
         {
             byte[] accountId = XrplCodec.DecodeAccountID(accountId: classicAddress);
             return EncodeXAddress(accountId, tag, isTest);
@@ -62,7 +64,7 @@ namespace Xrpl.AddressCodec
         /// <param name="isTest"></param>
         /// <returns></returns>
         /// <exception cref="AddressCodecException">Account ID must be 20 bytes</exception>
-        public static string EncodeXAddress(byte[] accountId, int? tag, bool isTest)
+        public static string EncodeXAddress(byte[] accountId, uint? tag, bool isTest)
         {
             if (accountId.Length != 20)
             {
@@ -73,7 +75,7 @@ namespace Xrpl.AddressCodec
             {
                 throw new AddressCodecException("Invalid tag");
             }
-            int theTag = tag ?? 0;
+            uint theTag = tag ?? 0;
             int flags = tag == null ? 0x00 : 0x01;
             byte[] prefix = isTest ? PREFIX_BYTES_TEST : PREFIX_BYTES_MAIN;
             byte[] postbytes = {
@@ -116,7 +118,7 @@ namespace Xrpl.AddressCodec
             byte[] decoded = B58.Decode(xAddress);
             bool isTest = IsTestAddress(decoded);
             byte[] accountId = CopyOfRange(decoded, 2, 22);
-            int? tag = TagFromBuffer(decoded);
+            uint? tag = TagFromBuffer(decoded);
             return new CodecAccountID { AccountID = accountId, Tag = tag, Test = isTest };
         }
 
@@ -146,24 +148,28 @@ namespace Xrpl.AddressCodec
         /// <param buffer="bytes[]"></param>
         /// <returns>The destination tag extracted from the suffix of the X-Address.</returns>
         /// <throws>XRPLAddressCodecException: If the address is unsupported.</throws>
-        public static int? TagFromBuffer(byte[] buf)
+        public static uint? TagFromBuffer(byte[] buf)
         {
-            byte flag = buf[22];
+            var flag = buf[22];
             if (flag >= 2)
             {
-                // No support for 64-bit tags at this time
                 throw new AddressCodecException("Unsupported X-address");
             }
             if (flag == 1)
             {
                 // Little-endian to big-endian
-                return buf[23] + buf[24] * 0x100 + buf[25] * 0x10000 + buf[26] * 0x1000000;
+                return (uint?)(buf[23] + buf[24] * 0x100 + buf[25] * 0x10000 + buf[26] * 0x1000000);
             }
-            //assert.strictEqual(flag, 0, 'flag must be zero to indicate no tag')
-            //assert.ok(
-            //  Buffer.from('0000000000000000', 'hex').equals(buf.slice(23, 23 + 8)),
-            //'remaining bytes must be zero',
-            //)
+            if (flag != 0)
+            {
+                throw new AddressCodecException("flag must be zero to indicate no tag");
+            }
+            var remainingBytes = new byte[8];
+            Array.Copy(buf, 23, remainingBytes, 0, 8);
+            if (!Enumerable.SequenceEqual(remainingBytes, new byte[8]))
+            {
+                throw new AddressCodecException("remaining bytes must be zero");
+            }
             return null;
         }
 
