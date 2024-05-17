@@ -9,6 +9,7 @@ using Xrpl.Client.Exceptions;
 using Xrpl.Keypairs;
 using Xrpl.Models.Transactions;
 using Xrpl.Utils.Hashes;
+using NBitcoin;
 
 // https://github.com/XRPLF/xrpl.js/blob/main/packages/xrpl/src/Wallet/index.ts
 
@@ -95,7 +96,48 @@ namespace Xrpl.Wallet
             return FromEntropy(entropy);
         }
 
+        public static XrplWallet FromMnemonic(string mnemonic, string? masterAddress = null, string? derivationPath = null, string? encoding = null, string ? algorithm = null)
+        {
 
+            if (encoding == "rfc1751")
+            {
+                return FromRFC1751Mnemonic(mnemonic, algorithm);
+            }
+
+            if (!IsValidBip39Mnemonic(mnemonic))
+            {
+                throw new ValidationException("Unable to parse the given mnemonic using bip39 encoding");
+            }
+
+            var masterNode = new Mnemonic(mnemonic).DeriveExtKey();
+            //var masterNode = new ExtKey(seed);
+            var node = masterNode.Derive(new KeyPath(derivationPath ?? "m/44'/144'/0'/0/0"));
+
+            var publicKey = node.PrivateKey.PubKey.ToHex().ToUpper();
+            var privateKey = node.PrivateKey.ToHex().ToUpper();
+            return new XrplWallet(publicKey, privateKey, masterAddress);
+        }
+
+        private static XrplWallet FromRFC1751Mnemonic(string mnemonic, string? masterAddress = null, string? algorithm = null)
+        {
+            var seed = RFC1751.RFC1751MnemonicToKey(mnemonic);
+            var encodeAlgorithm = algorithm == "ed25519" ? "ed25519" : "secp256k1";
+            var encodedSeed = XrplCodec.EncodeSeed(seed, encodeAlgorithm);
+            return FromSeed(encodedSeed, masterAddress, algorithm);
+        }
+
+        private static bool IsValidBip39Mnemonic(string mnemonic)
+        {
+            try
+            {
+                var mnemo = new Mnemonic(mnemonic);
+                return mnemo.IsValidChecksum;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// Derive a Wallet from a seed.
