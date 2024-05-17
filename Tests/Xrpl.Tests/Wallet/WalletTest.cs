@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NBitcoin;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xrpl.BinaryCodec;
@@ -127,6 +128,64 @@ namespace Xrpl.Tests.Wallet.Tests.Seed
         }
 
         [TestMethod]
+        public void TestSECPRFC1751Seed()
+        {
+            string mnemonic = "CAB BETH HANK BIRD MEND SIGN GILD ANY KERN HYDE CHAT STUB";
+            string expectedSeed = "snVB4iTWYqsWZaj1hkvAy1QzqNbAg";
+
+            XrplWallet wallet = XrplWallet.FromMnemonic(mnemonic, null, null, "rfc1751", "secp256k1");
+
+            Assert.AreEqual(wallet.Seed, expectedSeed);
+        }
+
+        [TestMethod]
+        public void TestEDPRFC1751Seed()
+        {
+            string mnemonic = "CAB BETH HANK BIRD MEND SIGN GILD ANY KERN HYDE CHAT STUB";
+            string expectedSeed = "sEdVaw4m9W3H3ou3VnyvDwvPAP5BEz1";
+
+            XrplWallet wallet = XrplWallet.FromMnemonic(mnemonic, null, null, "rfc1751", "ed25519");
+
+            Assert.AreEqual(wallet.Seed, expectedSeed);
+        }
+
+        // This needs to throw an error
+        [TestMethod]
+        public void TestThrowsRFC1751B39Seed()
+        {
+            string mnemonic = "CAB BETH HANK BIRD MEND SIGN GILD ANY KERN HYDE CHAT STUB";
+            string expectedSeed = "sEdVaw4m9W3H3ou3VnyvDwvPAP5BEz1";
+
+            XrplWallet wallet = XrplWallet.FromMnemonic(mnemonic, null, null, "bip39", "ed25519");
+
+            Assert.AreEqual(wallet.Seed, expectedSeed);
+        }
+
+        // This needs to throw an error
+        [TestMethod]
+        public void TestThrowsB39Seed()
+        {
+            string mnemonic = "draw attack antique swing base employ blur above palace lucky glide clap pen use illegal";
+            string expectedSeed = "sEdVaw4m9W3H3ou3VnyvDwvPAP5BEz1";
+
+            XrplWallet wallet = XrplWallet.FromMnemonic(mnemonic, null, null, "rfc1751", "ed25519");
+
+            Assert.AreEqual(wallet.Seed, expectedSeed);
+        }
+
+        [TestMethod]
+        public void TestEDPRFC1751SeedLower()
+        {
+            string mnemonic = "cab beth hank bird mend sign gild any kern hyde chat stub";
+            string expectedSeed = "sEdVaw4m9W3H3ou3VnyvDwvPAP5BEz1";
+
+            XrplWallet wallet = XrplWallet.FromMnemonic(mnemonic, null, null, "rfc1751", "secp256k1");
+
+            Assert.AreEqual(wallet.Seed, expectedSeed);
+        }
+
+
+        [TestMethod]
         public void TestRegularKeypairSeed()
         {
             string masterAddress = "rUAi7pipxGpYfPNg3LtPcf2ApiS8aw9A93";
@@ -144,6 +203,53 @@ namespace Xrpl.Tests.Wallet.Tests.Seed
         }
     }
 }
+
+namespace Xrpl.Tests.Wallet.Tests.Mnemonic
+{
+    [TestClass]
+    public class TestUMnemonic
+    {
+
+        private string mnemonic = "assault rare scout seed design extend noble drink talk control guitar quote";
+        private string publicKey = "035953FCD81D001CF634EB44A87940F3F98ADF2483D09C914BAED0539BE50F385D";
+        private string privateKey = "0013FC461CA5799F1357C8130AF703CBA7E9C28E072C6CA8F7DEF8601CDE98F394";
+
+        [TestMethod]
+        public void TestDefaultDerivationPath()
+        {
+            XrplWallet wallet = XrplWallet.FromMnemonic(mnemonic, null, null, null, "secp256k1");
+            Assert.AreEqual(wallet.PublicKey, publicKey);
+            Assert.AreEqual(wallet.PrivateKey, privateKey);
+        }
+
+        [TestMethod]
+        public void TestInputDerivationPath()
+        {
+            string derivationPath = "m/44'/144'/0'/0/0";
+            XrplWallet wallet = XrplWallet.FromMnemonic(mnemonic, null, derivationPath, null, "secp256k1");
+            Assert.AreEqual(wallet.PublicKey, publicKey);
+            Assert.AreEqual(wallet.PrivateKey, privateKey);
+        }
+
+        [TestMethod]
+        public void TestRegularKeypairSeed()
+        {
+            string masterAddress = "rUAi7pipxGpYfPNg3LtPcf2ApiS8aw9A93";
+            string mnemonic = "I IRE BOND BOW TRIO LAID SEAT GOAL HEN IBIS IBIS DARE";
+            rKeypair regularKeyPair = new rKeypair
+            {
+                PublicKey = "0330E7FC9D56BB25D6893BA3F317AE5BCF33B3291BD63DB32654A313222F7FD020",
+                PrivateKey = "001ACAAEDECE405B2A958212629E16F2EB46B153EEE94CDD350FDEFF52795525B7",
+            };
+            XrplWallet wallet = XrplWallet.FromMnemonic(mnemonic, masterAddress, null, "rfc1751", "secp256k1");
+
+            Assert.AreEqual(wallet.PublicKey, regularKeyPair.PublicKey);
+            Assert.AreEqual(wallet.PrivateKey, regularKeyPair.PrivateKey);
+            Assert.AreEqual(wallet.ClassicAddress, masterAddress);
+        }
+    }
+}
+
 namespace Xrpl.Tests.Wallet.Tests.Entropy
 {
     [TestClass]

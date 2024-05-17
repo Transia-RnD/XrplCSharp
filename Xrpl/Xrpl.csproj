@@ -26,6 +26,7 @@
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
     <PackageReference Include="Chaos.NaCl.Standard" Version="1.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="NBitcoin" Version="7.0.36" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Base\Xrpl.BinaryCodec\Xrpl.BinaryCodec.csproj" />
