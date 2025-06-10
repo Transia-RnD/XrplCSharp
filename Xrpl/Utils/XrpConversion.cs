@@ -155,41 +155,30 @@ namespace Xrpl.Utils
         /// <returns>Amount in drops.</returns>
         public static string XrpToDrops(string xrpToConvert)
         {
-            // Important: specify base BASE_TEN to avoid exponential notation, e.g. '1e-7'.
-            // TODO: SHOULD BE BASE 10
-            string xrp = decimal.Parse(xrpToConvert, NumberStyles.AllowLeadingSign
-                                                     | (NumberStyles.AllowLeadingSign & NumberStyles.AllowDecimalPoint)
-                                                     | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
-                                                     | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
-                                                     | (NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
-                                                     | NumberStyles.AllowExponent
-                                                     | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture).ToString();
-            // check that the value is valid and actually a number
-            if (!(xrpToConvert is string) && xrp != null)
-            {
-                throw new ValidationException($"xrpToConvert: invalid value '{xrpToConvert}', should be a BigInteger or string - encoded number.");
-            }
+            // Parse with base 10; supports signs, decimals, and scientific notation.
+            decimal xrpValue = decimal.Parse(xrpToConvert, NumberStyles.Float, CultureInfo.InvariantCulture);
 
-            // drops are only whole units
+            // Round to 6 decimal places as required by XRP spec
+            xrpValue = Math.Round(xrpValue, MAX_FRACTION_LENGTH, MidpointRounding.AwayFromZero);
 
+            // Convert to string to inspect decimal structure
+            string xrp = xrpValue.ToString(CultureInfo.InvariantCulture);
+
+            // Validate structure
             string[] components = xrp.TrimEnd('0').Split('.');
             if (components.Length > 2)
             {
-                throw new ValidationException("xrpToDrops: failed sanity check - value '${xrp}' has too many decimal points.");
+                throw new ValidationException($"xrpToDrops: failed sanity check - value '{xrp}' has too many decimal points.");
             }
+
             string fraction = components.Length > 1 && components[1] != null ? components[1] : "0";
             if (fraction.Length > MAX_FRACTION_LENGTH)
             {
                 throw new ValidationException($"xrpToDrops: value '{xrp}' has too many decimal places.");
             }
-            // TODO: SHOULD BE BASE 10
-            return new BigInteger(decimal.Parse(xrpToConvert, NumberStyles.AllowLeadingSign
-                                                              | (NumberStyles.AllowLeadingSign & NumberStyles.AllowDecimalPoint)
-                                                              | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent)
-                                                              | (NumberStyles.AllowLeadingSign & NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
-                                                              | (NumberStyles.AllowExponent & NumberStyles.AllowDecimalPoint)
-                                                              | NumberStyles.AllowExponent
-                                                              | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture) * (decimal)new BigInteger(DROPS_PER_XRP)).ToString();
+
+            // Convert XRP to drops, avoiding casts or changing DROPS_PER_XRP
+            return new BigInteger(xrpValue * (decimal)new BigInteger(DROPS_PER_XRP)).ToString(CultureInfo.InvariantCulture);
         }
     }
 }
